@@ -131,6 +131,7 @@ namespace FlowState.Runtime.Systems
             _jumpFeature.Initialize();
             _momentumLandingFeature.Initialize();
             _normalLandingFeature.Initialize();
+            _playerControllerSystem.StopMovement();
 
             if (_runtimeData != null)
             {

@@ -15,7 +15,9 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _runtimeDataSystem;
         private MonoBehaviour _playerInputSystem;
         private MonoBehaviour _playerMovementSystem;
+        private MonoBehaviour _stageSystem;
         private MonoBehaviour _cameraFollow;
+        private Rigidbody _playerRigidbody;
         private GameObject _stageHud;
         private GameObject _resultPanel;
 
@@ -46,9 +48,15 @@ namespace FlowState.Tests.PlayMode
             _playerMovementSystem = FindRequiredBehaviour(
                 "PlayerMovementSystem",
                 "PlayerMovementSystem");
+            _stageSystem = FindRequiredBehaviour(
+                "StageSystem",
+                "StageSystem");
             _cameraFollow = FindRequiredBehaviour(
                 "CameraRig",
                 "CameraFollow");
+            _playerRigidbody = FindSceneGameObject("Player")
+                .GetComponent<Rigidbody>();
+            Assert.That(_playerRigidbody, Is.Not.Null);
             _stageHud = FindSceneGameObject("StageHUD");
             _resultPanel = FindSceneGameObject("ResultPanel");
         }
@@ -57,6 +65,7 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator EndGame_ClearsRuntimeAndStopsPhase2Systems()
         {
             AssertPlayingState();
+            _playerRigidbody.linearVelocity = new Vector3(8.0f, 4.0f, 0.0f);
 
             InvokePublicMethod(_gameSystem, "EndGame");
             yield return null;
@@ -80,8 +89,16 @@ namespace FlowState.Tests.PlayMode
                     "IsRunning"),
                 Is.False);
             Assert.That(
+                (bool)GetPropertyValue(_stageSystem, "IsPlaying"),
+                Is.False);
+            Assert.That(
+                (bool)GetPropertyValue(_stageSystem, "HasEnded"),
+                Is.True);
+            Assert.That(
                 (bool)GetPropertyValue(_cameraFollow, "IsFollowing"),
                 Is.False);
+            Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
+            Assert.That(_playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(_stageHud.activeSelf, Is.False);
             Assert.That(_resultPanel.activeSelf, Is.True);
         }
@@ -119,6 +136,12 @@ namespace FlowState.Tests.PlayMode
                     _playerMovementSystem,
                     "IsRunning"),
                 Is.True);
+            Assert.That(
+                (bool)GetPropertyValue(_stageSystem, "IsPlaying"),
+                Is.True);
+            Assert.That(
+                (bool)GetPropertyValue(_stageSystem, "HasEnded"),
+                Is.False);
             Assert.That(
                 (bool)GetPropertyValue(_cameraFollow, "IsFollowing"),
                 Is.True);

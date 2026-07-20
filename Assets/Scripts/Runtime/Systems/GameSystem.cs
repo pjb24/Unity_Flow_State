@@ -12,6 +12,7 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private PlayerMovementSystem _playerMovementSystem;
         [SerializeField] private PlayerControllerSystem _playerControllerSystem;
         [SerializeField] private CollisionSystem _collisionSystem;
+        [SerializeField] private StageSystem _stageSystem;
         [SerializeField] private CameraSystem _cameraSystem;
         [SerializeField] private CameraFollow _cameraFollow;
 
@@ -25,6 +26,15 @@ namespace FlowState.Runtime.Systems
             StartGame();
         }
 
+        private void OnDisable()
+        {
+            if (_stageSystem != null)
+            {
+                _stageSystem.RemoveStageEndedListener(HandleStageEnded);
+            }
+        }
+
+        [ContextMenu("Start Game")]
         public void StartGame()
         {
             if (!HasRequiredSystems())
@@ -49,6 +59,7 @@ namespace FlowState.Runtime.Systems
 
             if (!_playerControllerSystem.Initialize() ||
                 !_collisionSystem.Initialize() ||
+                !_stageSystem.Initialize() ||
                 !_playerMovementSystem.Initialize() ||
                 !_cameraSystem.Initialize())
             {
@@ -60,6 +71,14 @@ namespace FlowState.Runtime.Systems
 
             SetGameState(E_GameState.Ready);
             SetUIState(E_UIState.StageHud);
+
+            _stageSystem.AddStageEndedListener(HandleStageEnded);
+
+            if (!_stageSystem.StartStage())
+            {
+                AbortGameStart();
+                return;
+            }
 
             _playerInputSystem.EnablePlayerActionMap();
             _cameraFollow.StartFollowing();
@@ -92,6 +111,7 @@ namespace FlowState.Runtime.Systems
             SetGameState(E_GameState.Ending);
             SetUIState(E_UIState.Result);
 
+            _stageSystem.StopStage();
             _playerInputSystem.DisablePlayerActionMap();
             _cameraFollow.StopFollowing();
             _playerMovementSystem.StopMovement();
@@ -144,6 +164,12 @@ namespace FlowState.Runtime.Systems
                 hasRequiredSystems = false;
             }
 
+            if (_stageSystem == null)
+            {
+                Debug.LogError("[GameSystem] StageSystem is not assigned.");
+                hasRequiredSystems = false;
+            }
+
             if (_cameraSystem == null)
             {
                 Debug.LogError("[GameSystem] CameraSystem is not assigned.");
@@ -161,6 +187,7 @@ namespace FlowState.Runtime.Systems
 
         private void AbortGameStart()
         {
+            _stageSystem.StopStage();
             _playerInputSystem.DisablePlayerActionMap();
             _cameraFollow.StopFollowing();
             _playerMovementSystem.StopMovement();
@@ -169,6 +196,16 @@ namespace FlowState.Runtime.Systems
             _currentGameState = E_GameState.None;
 
             Debug.LogError("[GameSystem] Game start was aborted because initialization failed.");
+        }
+
+        private void HandleStageEnded()
+        {
+            if (_currentGameState != E_GameState.Playing)
+            {
+                return;
+            }
+
+            EndGame();
         }
 
         private void SetGameState(E_GameState gameState)

@@ -11,7 +11,7 @@ namespace FlowState.Tests.PlayMode
     public class PlayerJumpIntegrationTests
     {
         private const string SceneName = "SampleScene";
-        private const float ExpectedStartHeight = 1.0f;
+        private const float ExpectedStartHeight = 1.5f;
         private const float ExpectedJumpHeight = 3.0f;
         private const float HeightTolerance = 0.25f;
         private const float LandingTolerance = 0.03f;

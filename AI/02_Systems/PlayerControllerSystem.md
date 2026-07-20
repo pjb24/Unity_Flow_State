@@ -20,6 +20,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - PlayerMovementSystem이 계산한 이동 결과를 Rigidbody에 적용한다.
 - Player GameObject의 실제 위치와 물리 상태를 Unity 엔진에 반영한다.
 - Player GameObject의 현재 상태를 필요한 System에 제공한다.
+- 플레이 시작 시 Player를 Stage 시작 위치로 이동하고 물리 상태를 초기화한다.
 
 ---
 
@@ -57,6 +58,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 | 입력 | 출처 |
 |------|------|
 | 플레이어 이동 결과 | PlayerMovementSystem |
+| Player 시작 위치 | Stage Object |
 
 ---
 
@@ -80,6 +82,8 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - Rigidbody를 이용한 이동 결과 적용
 - Player Transform 상태 제공
 - Player 물리 상태 제공
+- Player 시작 위치 적용
+- Player 물리 상태 초기화
 
 ---
 
@@ -116,6 +120,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - Feature 규칙을 정의하지 않는다.
 - PlayerMovementSystem이 계산한 이동 결과만 적용한다.
 - Player GameObject 제어만 담당한다.
+- 플레이 시작 위치가 준비되어야 한다.
 
 ---
 
