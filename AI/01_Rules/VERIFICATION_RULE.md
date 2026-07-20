@@ -28,6 +28,97 @@
 
 관련 문서와 구현이 일치하는지 함께 확인한다.
 
+자동화할 수 있는 검증은 Unity Test Runner를 우선 사용한다.
+
+자동화된 Test와 수동 확인의 책임을 구분한다.
+
+---
+
+# Test Runner 검증 원칙
+
+Unity 프로젝트에서 자동화할 수 있는 검증은 Phase와 관계없이 Unity Test Runner를 사용한다.
+
+검증 순서는 아래 기준을 따른다.
+
+1. 문서와 코드의 정적 검사를 수행한다.
+2. Unity Script Compile Error와 Warning을 확인한다.
+3. 계산식과 독립적인 상태 규칙을 Edit Mode Test로 검증한다.
+4. Scene, System 실행 순서, 입력, 물리, 충돌, 카메라 연동을 Play Mode Test로 검증한다.
+5. 화면 표현, 조작감, 연출처럼 자동 판정이 적절하지 않은 항목만 수동으로 확인한다.
+
+기능 추가, 동작 변경, 버그 수정 시 변경된 책임을 검증하는 Test를 함께 추가한다.
+
+공통 구조를 변경한 경우 직접 변경한 Test뿐 아니라 영향받는 기존 Test 전체를 다시 실행한다.
+
+Test가 실제 생산 코드와 실제 설정을 사용하도록 구성한다.
+
+계산식을 Test 코드에 별도로 다시 구현하여 같은 오류를 반복하지 않는다.
+
+---
+
+# Edit Mode Test 적용 기준
+
+아래 대상은 가능한 경우 Edit Mode Test로 검증한다.
+
+- 수치 계산식
+- 입력값 제한과 결과값 제한
+- 상태 전환 조건
+- Feature의 성공과 실패 조건
+- 경계값과 예외값
+- 동일 요청의 중복 처리 방지
+- 초기화와 상태 초기화
+
+Edit Mode Test는 외부 Scene과 프레임 실행에 불필요하게 의존하지 않는다.
+
+---
+
+# Play Mode Test 적용 기준
+
+아래 대상은 가능한 경우 Play Mode Test로 검증한다.
+
+- 실제 Scene의 Component와 Inspector 참조
+- GameSystem과 여러 System의 실행 순서
+- FixedUpdate와 Rigidbody 물리 결과
+- 입력부터 최종 결과까지의 통합 흐름
+- Collision과 Trigger 판정
+- Camera와 Follow Target 연동
+- 게임 시작, 종료, 재시작 흐름
+- Scene 전환과 OnDestroy 자원 정리
+
+Play Mode Test는 실제 생산 Scene이나 생산 구성과 같은 조건을 사용한다.
+
+Test가 Scene을 로드하거나 입력 장치를 생성한 경우 종료 시 활성 상태, Callback, 생성 객체를 정리한다.
+
+---
+
+# 수동 검증 적용 기준
+
+아래 대상은 자동 판정이 적절하지 않거나 Test Runner로 충분히 표현할 수 없는 경우에만 수동으로 확인한다.
+
+- 조작감
+- 시각적 떨림과 순간 이동
+- 카메라 구도
+- 연출의 자연스러움
+- 최종 화면 구성
+
+수치, 상태값, 실행 횟수처럼 자동 판정할 수 있는 항목을 관찰만으로 완료 처리하지 않는다.
+
+---
+
+# Test 결과 판정 기준
+
+관련 Edit Mode Test와 Play Mode Test가 모두 통과해야 정상으로 판단한다.
+
+Test 실패, Compile Error, 예상하지 않은 Error 또는 Warning이 있으면 검증 실패로 판단한다.
+
+Test 실패 시 Test 이름, 실패 메시지, Stack Trace를 검증 근거로 기록한다.
+
+실패 원인을 수정한 뒤 관련 Test 전체를 다시 실행한다.
+
+요구사항상 반드시 발생해야 하는 로그가 아닌 경우 `LogAssert.Expect`로 실패를 숨기지 않는다.
+
+Test를 실행하지 않은 상태를 성공으로 기록하지 않는다.
+
 ---
 
 # 검증 대상 선정 기준

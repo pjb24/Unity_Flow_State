@@ -1,0 +1,14 @@
+{
+  "name": "FlowState.EditModeTests",
+  "rootNamespace": "FlowState.Tests.EditMode",
+  "references": [
+    "FlowState.Runtime.Core",
+    "FlowState.Runtime.Features"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

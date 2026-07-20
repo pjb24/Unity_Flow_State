@@ -18,6 +18,8 @@ MomentumLanding
 
 - Momentum Landing Window는 관성 착지를 입력할 수 있는 판정 시간이다.
 - Momentum Landing Window는 착지 직전에만 활성화된다.
+- Momentum Landing Window는 플레이어가 공중 상태이고 CollisionSystem이 착지 후보 지면까지의 유효한 거리를 제공할 때 활성화 여부를 판정한다.
+- 착지 후보 지면의 탐지와 실제 지면 접촉은 서로 다른 상태로 취급한다.
 - 플레이어는 Momentum Landing Window 동안 관성 착지 입력을 수행할 수 있다.
 - Momentum Landing Window 동안 입력이 수행되면 관성 착지를 수행한다.
 - 관성 착지가 수행되면 플레이어의 이동 흐름은 유지된다.
@@ -84,6 +86,7 @@ MomentumLanding
 - 하나의 착지에 대해 한 번만 판정한다.
 - 관성 착지 실패 시 반드시 일반 착지를 수행한다.
 - 관성 착지는 항상 점프 이후에만 수행한다.
+- 실제 지면 접촉 전에는 관성 착지를 완료하지 않는다.
 
 ---
 

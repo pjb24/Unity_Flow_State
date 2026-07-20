@@ -1,0 +1,10 @@
+{
+  "name": "FlowState.PlayModeTests",
+  "rootNamespace": "FlowState.Tests.PlayMode",
+  "references": [
+    "FlowState.Runtime.Core"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}
