@@ -58,6 +58,22 @@ UIManagementSystem은 현재 UI State를 기준으로 UI를 활성화하거나 �
 
 ---
 
+# Result Data 반영
+
+UIManagementSystem은 ResultSystem이 제공한 Result Data를 Result UI에 반영한다.
+
+일반 Stage의 클리어 시간은 초 단위로 소수점 셋째 자리까지 표시한다.
+
+표시 형식은 아래와 같다.
+
+```text
+Clear Time: 12.345 s
+```
+
+UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
+
+---
+
 # 시작 조건
 
 - GameSystem이 System 초기화를 요청한다.

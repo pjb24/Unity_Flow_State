@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -40,6 +41,12 @@ namespace FlowState.Tests.PlayMode
             MonoBehaviour stageSystem = FindRequiredBehaviour(
                 "StageSystem",
                 "StageSystem");
+            MonoBehaviour resultSystem = FindRequiredBehaviour(
+                "ResultSystem",
+                "ResultSystem");
+            MonoBehaviour clearTimeText = FindRequiredBehaviour(
+                "Clear Time Text",
+                "TextMeshProUGUI");
             GameObject stageHud = FindSceneGameObject("StageHUD");
             GameObject resultPanel = FindSceneGameObject("ResultPanel");
             int clearCount = 0;
@@ -53,6 +60,8 @@ namespace FlowState.Tests.PlayMode
                 stageSystem,
                 "AddStageEndedListener",
                 () => endCount++);
+
+            yield return new WaitForSeconds(0.02f);
 
             player.transform.position = goal.transform.position;
             playerRigidbody.linearVelocity = new Vector3(8.0f, 4.0f, 0.0f);
@@ -72,6 +81,22 @@ namespace FlowState.Tests.PlayMode
                 Is.True);
             Assert.That(clearCount, Is.EqualTo(1));
             Assert.That(endCount, Is.EqualTo(1));
+            Assert.That(
+                GetProperty<bool>(resultSystem, "HasResultData"),
+                Is.True);
+            object resultData =
+                GetProperty<object>(resultSystem, "CurrentResultData");
+            Assert.That(resultData, Is.Not.Null);
+            Assert.That(
+                GetObjectProperty<double>(resultData, "ClearTime"),
+                Is.GreaterThan(0.0));
+            string resultText =
+                GetProperty<string>(clearTimeText, "text");
+            Assert.That(
+                Regex.IsMatch(
+                    resultText,
+                    @"^Clear Time: \d+\.\d{3} s$"),
+                Is.True);
             Assert.That(
                 GetProperty<object>(gameSystem, "CurrentGameState").ToString(),
                 Is.EqualTo("Ended"));
@@ -94,6 +119,9 @@ namespace FlowState.Tests.PlayMode
             MonoBehaviour stageSystem = FindRequiredBehaviour(
                 "StageSystem",
                 "StageSystem");
+            MonoBehaviour resultSystem = FindRequiredBehaviour(
+                "ResultSystem",
+                "ResultSystem");
 
             player.transform.position = goal.transform.position;
             Physics.SyncTransforms();
@@ -115,6 +143,9 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
             Assert.That(
                 GetProperty<bool>(stageSystem, "HasEnded"),
+                Is.False);
+            Assert.That(
+                GetProperty<bool>(resultSystem, "HasResultData"),
                 Is.False);
             Assert.That(
                 player.transform.position,
@@ -184,6 +215,18 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(property, Is.Not.Null);
             return (T)property.GetValue(targetBehaviour);
+        }
+
+        private T GetObjectProperty<T>(
+            object target,
+            string propertyName)
+        {
+            PropertyInfo property = target.GetType().GetProperty(
+                propertyName,
+                BindingFlags.Instance | BindingFlags.Public);
+
+            Assert.That(property, Is.Not.Null);
+            return (T)property.GetValue(target);
         }
 
         private void InvokePublicMethod(

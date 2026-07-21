@@ -1,4 +1,6 @@
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
+using TMPro;
 using UnityEngine;
 
 namespace FlowState.Runtime.Systems
@@ -7,6 +9,7 @@ namespace FlowState.Runtime.Systems
     {
         [SerializeField] private GameObject _stageHud;
         [SerializeField] private GameObject _resultPanel;
+        [SerializeField] private TMP_Text _clearTimeText;
 
         private E_UIState _currentUIState;
 
@@ -25,6 +28,26 @@ namespace FlowState.Runtime.Systems
             ApplyUIState();
 
             Debug.Log($"[UIManagementSystem] UI State changed to {_currentUIState}.");
+        }
+
+        public bool SetResultData(ResultData resultData)
+        {
+            if (resultData == null)
+            {
+                Debug.LogError("[UIManagementSystem] Result Data is null.");
+                return false;
+            }
+
+            if (_clearTimeText == null)
+            {
+                Debug.LogError(
+                    "[UIManagementSystem] Clear Time Text is not assigned.");
+                return false;
+            }
+
+            _clearTimeText.text =
+                ResultTextFormatter.FormatClearTime(resultData.ClearTime);
+            return true;
         }
 
         private void ApplyUIState()

@@ -13,6 +13,8 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private PlayerControllerSystem _playerControllerSystem;
         [SerializeField] private CollisionSystem _collisionSystem;
         [SerializeField] private StageSystem _stageSystem;
+        [SerializeField] private TimerSystem _timerSystem;
+        [SerializeField] private ResultSystem _resultSystem;
         [SerializeField] private CameraSystem _cameraSystem;
         [SerializeField] private CameraFollow _cameraFollow;
 
@@ -55,6 +57,7 @@ namespace FlowState.Runtime.Systems
             _runtimeData.PlayerMovementRuntimeData.Initialize();
 
             _uiManagementSystem.Initialize();
+            _resultSystem.Initialize();
             SetUIState(E_UIState.None);
 
             if (!_playerControllerSystem.Initialize() ||
@@ -75,6 +78,13 @@ namespace FlowState.Runtime.Systems
             _stageSystem.AddStageEndedListener(HandleStageEnded);
 
             if (!_stageSystem.StartStage())
+            {
+                AbortGameStart();
+                return;
+            }
+
+            if (!_timerSystem.CreateTimer(E_TimerKey.PlayTimer) ||
+                !_timerSystem.StartTimer(E_TimerKey.PlayTimer))
             {
                 AbortGameStart();
                 return;
@@ -111,10 +121,12 @@ namespace FlowState.Runtime.Systems
             SetGameState(E_GameState.Ending);
             SetUIState(E_UIState.Result);
 
+            StopPlayTimer();
             _stageSystem.StopStage();
             _playerInputSystem.DisablePlayerActionMap();
             _cameraFollow.StopFollowing();
             _playerMovementSystem.StopMovement();
+            RemovePlayTimer();
 
             _runtimeDataSystem.ClearRuntimeData();
             _runtimeData = null;
@@ -170,6 +182,18 @@ namespace FlowState.Runtime.Systems
                 hasRequiredSystems = false;
             }
 
+            if (_timerSystem == null)
+            {
+                Debug.LogError("[GameSystem] TimerSystem is not assigned.");
+                hasRequiredSystems = false;
+            }
+
+            if (_resultSystem == null)
+            {
+                Debug.LogError("[GameSystem] ResultSystem is not assigned.");
+                hasRequiredSystems = false;
+            }
+
             if (_cameraSystem == null)
             {
                 Debug.LogError("[GameSystem] CameraSystem is not assigned.");
@@ -191,6 +215,7 @@ namespace FlowState.Runtime.Systems
             _playerInputSystem.DisablePlayerActionMap();
             _cameraFollow.StopFollowing();
             _playerMovementSystem.StopMovement();
+            RemovePlayTimer();
             _runtimeDataSystem.ClearRuntimeData();
             _runtimeData = null;
             _currentGameState = E_GameState.None;
@@ -205,7 +230,43 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
+            StopPlayTimer();
+
+            if (_stageSystem.IsCleared)
+            {
+                if (_resultSystem.CreateResultData(
+                        true,
+                        _timerSystem.GetElapsedTime(E_TimerKey.PlayTimer)))
+                {
+                    _uiManagementSystem.SetResultData(
+                        _resultSystem.CurrentResultData);
+                }
+            }
+
             EndGame();
+        }
+
+        private void StopPlayTimer()
+        {
+            if (!_timerSystem.HasTimer(E_TimerKey.PlayTimer) ||
+                !_timerSystem.TryGetTimerState(
+                    E_TimerKey.PlayTimer,
+                    out E_TimerState timerState) ||
+                timerState == E_TimerState.Stopped)
+            {
+                return;
+            }
+
+            _timerSystem.StopTimer(E_TimerKey.PlayTimer);
+        }
+
+        private void RemovePlayTimer()
+        {
+            if (_timerSystem != null &&
+                _timerSystem.HasTimer(E_TimerKey.PlayTimer))
+            {
+                _timerSystem.RemoveTimer(E_TimerKey.PlayTimer);
+            }
         }
 
         private void SetGameState(E_GameState gameState)
