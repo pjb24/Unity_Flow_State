@@ -126,20 +126,19 @@ Flow State
 ### 구현 대상
 
 - UIInputSystem
-- ScoreRecord Feature
+- ResultMenu Feature
 - UI 마무리
 - 플레이 테스트
-- 밸런스 조정
 
 ### 완료 조건
 
 - 게임 시작부터 결과 화면까지 플레이 가능하다.
 - 치명적인 오류 없이 반복 플레이가 가능하다.
-- 핵심 재미를 검증할 수 있다.
+- 핵심 플레이 흐름을 검증할 수 있다.
 
 ### 상태
 
-대기
+완료
 
 ---
 
@@ -153,13 +152,29 @@ Flow State
 
 ## 다음 작업
 
-Phase 5
-
-프로토타입 완성 및 플레이 검증
+후속 작업 선정
 
 ---
 
 ## 보류된 작업
+
+ScoreRecord
+
+보류 이유
+
+- ScoreRecord는 InfiniteMode 전용 Feature이다.
+- InfiniteMode와 함께 프로토타입 검증 이후 구현한다.
+
+---
+
+GamePause
+
+보류 이유
+
+- 1차 프로토타입은 Stage 플레이와 결과 화면의 반복 플레이 검증에 집중한다.
+- 일시정지는 프로토타입 검증 이후 구현한다.
+
+---
 
 LeaderBoard
 
@@ -182,6 +197,15 @@ SaveSystem
 보류 이유
 
 - 핵심 플레이 검증 이후 구현한다.
+
+---
+
+밸런스 조정
+
+보류 이유
+
+- Phase 5 완료 범위에 포함하지 않는다.
+- 프로토타입 기능 검증 이후 별도 작업으로 수행한다.
 
 ---
 
@@ -208,6 +232,12 @@ Phase 3
 Phase 4
 
 게임 플레이 결과 처리
+
+---
+
+Phase 5
+
+프로토타입 완성 및 플레이 검증
 
 ---
 
@@ -261,11 +291,9 @@ TimeRecord
 
 UIInputSystem
 
-ScoreRecord
+ResultMenu
 
 플레이 테스트
-
-밸런스 조정
 
 ---
 
@@ -324,4 +352,4 @@ ScoreRecord
 - CameraFollow
 - Stage
 - TimeRecord
-- ScoreRecord
+- ResultMenu

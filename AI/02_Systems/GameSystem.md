@@ -26,6 +26,9 @@ System 간의 실행 흐름을 연결한다.
 - 현재 게임 상태에 따라 사용할 Action Map을 결정한다.
 - PlayerInputSystem에 Player Action Map 활성화 또는 비활성화를 요청한다.
 - UIInputSystem에 UI Action Map 활성화 또는 비활성화를 요청한다.
+- UIInputSystem이 제공한 UI 입력 상태를 현재 게임 상태에 따라 해석한다.
+- UIManagementSystem에 UI 선택 상태 변경을 요청한다.
+- 선택된 UI 항목에 해당하는 게임 실행 흐름을 시작한다.
 - RuntimeDataSystem에 Runtime Data 생성 및 제거를 요청한다.
 - 필요한 System의 초기화를 요청한다.
 - StageSystem에 Stage 시작을 요청한다.
@@ -82,8 +85,8 @@ UI Action Map은 UIInputSystem이 관리한다.
 |------|------|
 | 게임 실행 | Unity |
 | Stage 종료 이벤트 | StageSystem |
-| 일시정지 요청 | UIInputSystem |
-| 재개 요청 | UIInputSystem |
+| 현재 UI 입력 상태 | UIInputSystem |
+| 현재 선택된 UI 항목 | UIManagementSystem |
 
 ---
 
@@ -98,6 +101,9 @@ UI Action Map은 UIInputSystem이 관리한다.
 | Player Action Map 비활성화 요청 | PlayerInputSystem |
 | UI Action Map 활성화 요청 | UIInputSystem |
 | UI Action Map 비활성화 요청 | UIInputSystem |
+| UI 선택 상태 변경 요청 | UIManagementSystem |
+| Stage 재시작 요청 | 관련 System |
+| Application 종료 요청 | Unity |
 | 게임 종료 절차 시작 | ResultSystem |
 | 게임 종료 절차 시작 | UIManagementSystem |
 | Runtime Data 제거 요청 | RuntimeDataSystem |
@@ -114,6 +120,8 @@ UI Action Map은 UIInputSystem이 관리한다.
 - Action Map 사용 여부 결정
 - 게임 전체 실행 순서 관리
 - System 간 실행 흐름 연결
+- 현재 게임 상태에 따른 UI 입력 의미 판단
+- 선택된 UI 항목에 해당하는 실행 흐름 시작
 
 ## 담당하지 않는 범위
 
@@ -121,6 +129,7 @@ UI Action Map은 UIInputSystem이 관리한다.
 - UI Action Map 직접 관리
 - 플레이어 입력 수집
 - UI 입력 수집
+- UI 선택 상태 직접 관리
 - 플레이어 이동
 - 점프 처리
 - 관성 착지 처리
@@ -152,6 +161,8 @@ UI Action Map은 UIInputSystem이 관리한다.
 - Action Map을 직접 활성화하거나 비활성화하지 않는다.
 - 어떤 Action Map을 사용할지만 결정한다.
 - Action Map 상태 변경은 담당 InputSystem에 요청한다.
+- UI 입력은 현재 게임 상태에서 허용된 실행 흐름으로만 해석한다.
+- UI 선택 상태 변경과 조회는 UIManagementSystem을 사용한다.
 - Stage 종료 여부는 StageSystem이 전달한 종료 이벤트만 사용한다.
 - 게임 종료 절차의 실행 순서만 관리한다.
 

@@ -104,6 +104,12 @@ namespace FlowState.Tests.PlayMode
             Assert.That(resultPanel.activeSelf, Is.True);
             Assert.That(playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
+
+            yield return new WaitForSeconds(0.1f);
+
+            Assert.That(
+                GetProperty<string>(clearTimeText, "text"),
+                Is.EqualTo(resultText));
         }
 
         [UnityTest]

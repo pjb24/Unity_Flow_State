@@ -12,7 +12,7 @@ UI 입력을 수집한다.
 
 UI Action Map을 관리한다.
 
-수집한 UI 입력 상태를 필요한 System에 제공한다.
+수집한 UI 입력 상태를 GameSystem에 제공한다.
 
 UI 입력 장치와 UI System 사이의 연결을 담당한다.
 
@@ -25,7 +25,7 @@ UI 입력 장치와 UI System 사이의 연결을 담당한다.
 - GameSystem의 요청에 따라 UI Action Map을 비활성화한다.
 - UI 입력을 수집한다.
 - UI 입력 상태를 관리한다.
-- UI 입력 상태를 필요한 System에 전달한다.
+- UI 입력 상태를 GameSystem에 전달한다.
 - UI 입력 장치의 변경을 추상화한다.
 
 ---
@@ -92,7 +92,7 @@ UI Action Map은 Player Action Map과 독립적으로 관리한다.
 
 | 출력 | 대상 |
 |------|------|
-| 현재 UI 입력 상태 | UIManagementSystem |
+| 현재 UI 입력 상태 | GameSystem |
 
 ---
 
@@ -139,6 +139,7 @@ UI Action Map은 Player Action Map과 독립적으로 관리한다.
 - GameSystem의 요청에 따라서만 UI Action Map의 상태를 변경한다.
 - 플레이 중 입력을 관리하지 않는다.
 - 입력의 의미를 판단하지 않는다.
+- UI 입력으로 수행할 동작을 결정하지 않는다.
 - UI 동작 규칙을 정의하지 않는다.
 - Feature 규칙을 정의하지 않는다.
 - 입력 상태만 관리한다.

@@ -21,6 +21,8 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - UI State를 변경한다.
 - 현재 활성 UI를 관리한다.
 - UI State를 Unity UI에 반영한다.
+- 현재 UI 선택 상태를 관리한다.
+- GameSystem의 요청에 따라 UI 선택 상태를 변경한다.
 
 ---
 
@@ -55,6 +57,18 @@ UI State는 현재 활성화되어야 하는 UI 구성을 의미한다.
 UI State의 변경 시점은 GameSystem 또는 관련 System이 결정한다.
 
 UIManagementSystem은 현재 UI State를 기준으로 UI를 활성화하거나 비활성화한다.
+
+---
+
+# UI 선택 상태
+
+UI 선택 상태는 현재 UI State에서 선택된 UI 항목을 의미한다.
+
+UIManagementSystem은 GameSystem의 요청에 따라 UI 선택 상태를 변경한다.
+
+UIManagementSystem은 현재 선택된 UI 항목을 GameSystem에 제공한다.
+
+UIManagementSystem은 선택된 항목이 수행할 게임 동작을 결정하지 않는다.
 
 ---
 
@@ -111,12 +125,19 @@ UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 
 ---
 
+## UI 선택 상태
+
+- 현재 선택된 UI 항목
+- UI 선택 표시 상태
+
+---
+
 # 입력
 
 | 입력 | 출처 |
 |------|------|
 | UI State 변경 요청 | GameSystem |
-| UI 입력 상태 | UIInputSystem |
+| UI 선택 상태 변경 요청 | GameSystem |
 | 결과 데이터 | ResultSystem |
 
 ---
@@ -127,6 +148,7 @@ UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 |------|------|
 | UI State 반영 | Unity UI |
 | 현재 UI State | GameSystem |
+| 현재 선택된 UI 항목 | GameSystem |
 
 ---
 
@@ -141,6 +163,9 @@ UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 - UI 비활성화
 - UI 표시 상태 관리
 - UI State 반영
+- UI 선택 상태 관리
+- UI 선택 상태 변경
+- UI 선택 표시 반영
 
 ---
 
@@ -148,6 +173,8 @@ UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 
 - UI State 변경 시점 결정
 - UI 입력 수집
+- UI 입력 의미 판단
+- 선택된 UI 항목의 게임 동작 결정
 - 게임 상태 관리
 - 플레이어 이동
 - 결과 데이터 생성
@@ -169,6 +196,7 @@ UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 - UI 동작 규칙을 정의하지 않는다.
 - 게임 상태를 결정하지 않는다.
 - UI 입력을 직접 처리하지 않는다.
+- 선택된 UI 항목이 수행할 게임 동작을 결정하지 않는다.
 - 결과 데이터를 생성하지 않는다.
 - UI State 변경 요청을 받은 경우에만 UI State를 변경한다.
 - UI Configuration과 UI State를 구분하여 관리한다.

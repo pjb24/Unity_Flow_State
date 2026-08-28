@@ -14,6 +14,7 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _gameSystem;
         private MonoBehaviour _runtimeDataSystem;
         private MonoBehaviour _playerInputSystem;
+        private MonoBehaviour _uiInputSystem;
         private MonoBehaviour _playerMovementSystem;
         private MonoBehaviour _stageSystem;
         private MonoBehaviour _cameraFollow;
@@ -45,6 +46,9 @@ namespace FlowState.Tests.PlayMode
             _playerInputSystem = FindRequiredBehaviour(
                 "PlayerInputSystem",
                 "PlayerInputSystem");
+            _uiInputSystem = FindRequiredBehaviour(
+                "UIInputSystem",
+                "UIInputSystem");
             _playerMovementSystem = FindRequiredBehaviour(
                 "PlayerMovementSystem",
                 "PlayerMovementSystem");
@@ -85,6 +89,11 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
             Assert.That(
                 (bool)GetPropertyValue(
+                    _uiInputSystem,
+                    "IsUIActionMapEnabled"),
+                Is.True);
+            Assert.That(
+                (bool)GetPropertyValue(
                     _playerMovementSystem,
                     "IsRunning"),
                 Is.False);
@@ -116,6 +125,62 @@ namespace FlowState.Tests.PlayMode
             AssertPlayingState();
         }
 
+        [UnityTest]
+        public IEnumerator PlayingState_DisablesUIInputAndKeepsStateEmpty()
+        {
+            AssertPlayingState();
+
+            object inputState = InvokePublicMethod(
+                _uiInputSystem,
+                "GetInputState");
+
+            Assert.That(
+                GetObjectProperty<Vector2>(
+                    inputState,
+                    "NavigateInput"),
+                Is.EqualTo(Vector2.zero));
+            Assert.That(
+                GetObjectProperty<bool>(
+                    inputState,
+                    "IsPointChanged"),
+                Is.False);
+            Assert.That(
+                GetObjectProperty<bool>(
+                    inputState,
+                    "IsSubmitPressed"),
+                Is.False);
+            Assert.That(
+                GetObjectProperty<bool>(
+                    inputState,
+                    "IsCancelPressed"),
+                Is.False);
+            Assert.That(
+                GetObjectProperty<bool>(
+                    inputState,
+                    "IsClickPressed"),
+                Is.False);
+
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator PlayingState_IgnoresForcedUITransientInput()
+        {
+            AssertPlayingState();
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            SetPrivateField(_uiInputSystem, "_isCancelPressed", true);
+            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
+
+            yield return null;
+
+            AssertPlayingState();
+            Assert.That(
+                GetObjectProperty<bool>(
+                    InvokePublicMethod(_uiInputSystem, "GetInputState"),
+                    "IsSubmitPressed"),
+                Is.True);
+        }
+
         private void AssertPlayingState()
         {
             Assert.That(
@@ -131,6 +196,11 @@ namespace FlowState.Tests.PlayMode
                     _playerInputSystem,
                     "IsPlayerActionMapEnabled"),
                 Is.True);
+            Assert.That(
+                (bool)GetPropertyValue(
+                    _uiInputSystem,
+                    "IsUIActionMapEnabled"),
+                Is.False);
             Assert.That(
                 (bool)GetPropertyValue(
                     _playerMovementSystem,
@@ -200,7 +270,19 @@ namespace FlowState.Tests.PlayMode
             return property.GetValue(targetBehaviour);
         }
 
-        private void InvokePublicMethod(
+        private T GetObjectProperty<T>(
+            object target,
+            string propertyName)
+        {
+            PropertyInfo property = target.GetType().GetProperty(
+                propertyName,
+                BindingFlags.Instance | BindingFlags.Public);
+
+            Assert.That(property, Is.Not.Null);
+            return (T)property.GetValue(target);
+        }
+
+        private object InvokePublicMethod(
             MonoBehaviour targetBehaviour,
             string methodName)
         {
@@ -209,7 +291,20 @@ namespace FlowState.Tests.PlayMode
                 BindingFlags.Instance | BindingFlags.Public);
 
             Assert.That(method, Is.Not.Null);
-            method.Invoke(targetBehaviour, null);
+            return method.Invoke(targetBehaviour, null);
+        }
+
+        private void SetPrivateField(
+            MonoBehaviour targetBehaviour,
+            string fieldName,
+            object value)
+        {
+            FieldInfo field = targetBehaviour.GetType().GetField(
+                fieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.That(field, Is.Not.Null);
+            field.SetValue(targetBehaviour, value);
         }
     }
 }

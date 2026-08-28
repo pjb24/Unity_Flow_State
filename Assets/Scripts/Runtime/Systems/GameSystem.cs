@@ -9,6 +9,7 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private RuntimeDataSystem _runtimeDataSystem;
         [SerializeField] private UIManagementSystem _uiManagementSystem;
         [SerializeField] private PlayerInputSystem _playerInputSystem;
+        [SerializeField] private UIInputSystem _uiInputSystem;
         [SerializeField] private PlayerMovementSystem _playerMovementSystem;
         [SerializeField] private PlayerControllerSystem _playerControllerSystem;
         [SerializeField] private CollisionSystem _collisionSystem;
@@ -26,6 +27,41 @@ namespace FlowState.Runtime.Systems
         private void Start()
         {
             StartGame();
+        }
+
+        private void Update()
+        {
+            if (_currentGameState != E_GameState.Ended)
+            {
+                return;
+            }
+
+            UIInputState inputState = _uiInputSystem.GetInputState();
+            bool isPointerOverResultMenu = false;
+
+            if (inputState.IsPointChanged || inputState.IsClickPressed)
+            {
+                isPointerOverResultMenu =
+                    _uiManagementSystem.TrySetResultMenuSelectionAtPointer(
+                        inputState.PointerPosition);
+            }
+
+            if (Mathf.Abs(inputState.NavigateInput.y) >= 0.5f)
+            {
+                _uiManagementSystem.MoveResultMenuSelection(
+                    inputState.NavigateInput.y);
+            }
+
+            bool shouldExecuteSelection = inputState.IsSubmitPressed ||
+                                          (inputState.IsClickPressed &&
+                                           isPointerOverResultMenu);
+
+            _uiInputSystem.ConsumeTransientInput();
+
+            if (shouldExecuteSelection)
+            {
+                ExecuteResultMenuSelection();
+            }
         }
 
         private void OnDisable()
@@ -71,6 +107,8 @@ namespace FlowState.Runtime.Systems
             }
 
             _playerInputSystem.Initialize();
+            _uiInputSystem.Initialize();
+            _uiInputSystem.DisableUIActionMap();
 
             SetGameState(E_GameState.Ready);
             SetUIState(E_UIState.StageHud);
@@ -124,6 +162,7 @@ namespace FlowState.Runtime.Systems
             StopPlayTimer();
             _stageSystem.StopStage();
             _playerInputSystem.DisablePlayerActionMap();
+            _uiInputSystem.EnableUIActionMap();
             _cameraFollow.StopFollowing();
             _playerMovementSystem.StopMovement();
             RemovePlayTimer();
@@ -155,6 +194,12 @@ namespace FlowState.Runtime.Systems
             if (_playerInputSystem == null)
             {
                 Debug.LogError("[GameSystem] PlayerInputSystem is not assigned.");
+                hasRequiredSystems = false;
+            }
+
+            if (_uiInputSystem == null)
+            {
+                Debug.LogError("[GameSystem] UIInputSystem is not assigned.");
                 hasRequiredSystems = false;
             }
 
@@ -213,6 +258,7 @@ namespace FlowState.Runtime.Systems
         {
             _stageSystem.StopStage();
             _playerInputSystem.DisablePlayerActionMap();
+            _uiInputSystem.DisableUIActionMap();
             _cameraFollow.StopFollowing();
             _playerMovementSystem.StopMovement();
             RemovePlayTimer();
@@ -258,6 +304,20 @@ namespace FlowState.Runtime.Systems
             }
 
             _timerSystem.StopTimer(E_TimerKey.PlayTimer);
+        }
+
+        private void ExecuteResultMenuSelection()
+        {
+            switch (_uiManagementSystem.CurrentResultMenuSelection)
+            {
+                case E_ResultMenuSelection.Retry:
+                    StartGame();
+                    break;
+
+                case E_ResultMenuSelection.Quit:
+                    Application.Quit();
+                    break;
+            }
         }
 
         private void RemovePlayTimer()
