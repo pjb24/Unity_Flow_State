@@ -19,6 +19,7 @@ Stage 종료 시점을 판단하고 Stage 종료 이벤트를 발생시킨다.
 # 시스템 책임
 
 - Stage를 시작한다.
+- 전달받은 게임 Mode에 해당하는 Stage Object 상태를 활성화한다.
 - Stage 진행 상태를 관리한다.
 - Stage Object 상태를 관리한다.
 - Stage 종료 시점을 판단한다.
@@ -57,6 +58,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 # 관리 대상
 
 - 현재 Stage
+- 현재 Stage의 게임 Mode
 - Stage 진행 상태
 - Stage Object 상태
 
@@ -67,6 +69,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 | 입력 | 출처 |
 |------|------|
 | Stage 시작 요청 | GameSystem |
+| 현재 게임 Mode | GameSystem |
 | Stage Object 상태 | Stage Object |
 | Stage Object 이벤트 | Stage Object |
 
@@ -88,6 +91,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 ## 담당 범위
 
 - Stage 시작
+- 게임 Mode별 Stage Object 상태 활성화
 - Stage 진행 상태 관리
 - Stage Object 상태 관리
 - Stage 종료 시점 판단
@@ -122,6 +126,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 - 게임 전체 흐름을 관리하지 않는다.
 - Stage Object를 직접 제어하지 않는다.
 - Stage Object의 종류를 관리하지 않는다.
+- 게임 Mode를 결정하지 않는다.
 - Stage Object가 전달한 상태와 이벤트만 사용한다.
 - Stage 종료 조건을 정의하지 않는다.
 - Stage 종료 시점만 판단한다.

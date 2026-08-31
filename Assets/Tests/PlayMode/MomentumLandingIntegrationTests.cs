@@ -30,6 +30,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
 

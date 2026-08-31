@@ -45,7 +45,7 @@ InfiniteMode의 기본 플레이 흐름을 구축한다.
 
 ### 상태
 
-대기
+완료
 
 ---
 
@@ -152,9 +152,9 @@ Prototype 2의 Mode별 UI와 전체 반복 플레이 흐름을 완성한다.
 
 ## 다음 작업
 
-Prototype 2 Phase 1
+Prototype 2 Phase 2
 
-InfiniteMode 기본 플레이 흐름 구축
+InfiniteMode 이동 거리와 Score 기록
 
 ---
 
@@ -219,7 +219,16 @@ InfiniteMode 기본 플레이 흐름 구축
 
 ## 완료된 단계
 
-없음
+### Prototype 2 Phase 1
+
+- InfiniteMode 기본 상태 흐름
+- InfiniteMode 전용 Map Pattern 1개
+- InfiniteMode 시작, 종료와 Retry
+- Stage Mode 회귀 검증
+- Unity Script Compilation 성공
+- Edit Mode Test `68 Passed, 0 Failed`
+- Play Mode Test `60 Passed, 0 Failed`
+- 최종 수동 검증 완료
 
 ---
 

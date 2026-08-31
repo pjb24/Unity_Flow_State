@@ -1,0 +1,127 @@
+using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
+using UnityEngine;
+
+namespace FlowState.Runtime.Systems
+{
+    public class InfiniteModeSystem : MonoBehaviour
+    {
+        [SerializeField] private RuntimeDataSystem _runtimeDataSystem;
+        [SerializeField] private StageSystem _stageSystem;
+        [SerializeField] private Transform _player;
+        [SerializeField] private float _fallThresholdY = -3.0f;
+        [SerializeField] private float _minimumHorizontalSpeed = 5.0f;
+        [SerializeField] private float _startGraceDuration = 1.0f;
+        [SerializeField] private float _belowSpeedGraceDuration = 0.5f;
+
+        private readonly InfiniteModeState _state = new InfiniteModeState();
+
+        private PlayerMovementRuntimeData _movementRuntimeData;
+        private bool _isInitialized;
+
+        public bool IsPlaying => _state.IsPlaying;
+
+        public bool HasEnded => _state.HasEnded;
+
+        private void FixedUpdate()
+        {
+            if (!_isInitialized ||
+                !_state.IsPlaying ||
+                _state.GameMode != E_GameMode.Infinite)
+            {
+                return;
+            }
+
+            ProcessProgress(Time.fixedDeltaTime);
+            ProcessFallThreshold();
+        }
+
+        public bool Initialize(E_GameMode gameMode)
+        {
+            _isInitialized = false;
+            _movementRuntimeData = null;
+
+            if (!HasRequiredReferences())
+            {
+                return false;
+            }
+
+            GameRuntimeData runtimeData = _runtimeDataSystem.GetRuntimeData();
+
+            if (runtimeData == null ||
+                runtimeData.PlayerMovementRuntimeData == null)
+            {
+                Debug.LogError(
+                    "[InfiniteModeSystem] Player Movement Runtime Data does not exist.");
+                return false;
+            }
+
+            if (!_state.Initialize(
+                    _minimumHorizontalSpeed,
+                    _startGraceDuration,
+                    _belowSpeedGraceDuration) ||
+                !_state.SetGameMode(gameMode))
+            {
+                Debug.LogError(
+                    "[InfiniteModeSystem] Infinite Mode settings are invalid.");
+                return false;
+            }
+
+            _movementRuntimeData = runtimeData.PlayerMovementRuntimeData;
+
+            if (!_state.Start())
+            {
+                _movementRuntimeData = null;
+                return false;
+            }
+
+            _isInitialized = true;
+            return true;
+        }
+
+        public void Stop()
+        {
+            _state.Reset();
+            _movementRuntimeData = null;
+            _isInitialized = false;
+        }
+
+        private void ProcessProgress(float deltaTime)
+        {
+            if (_movementRuntimeData == null)
+            {
+                return;
+            }
+
+            if (_state.UpdateProgress(
+                    _movementRuntimeData.CurrentHorizontalSpeed,
+                    deltaTime))
+            {
+                _stageSystem.TryEndInfiniteStage();
+            }
+        }
+
+        private void ProcessFallThreshold()
+        {
+            if (_player.position.y <= _fallThresholdY &&
+                _state.NotifyFallThresholdReached())
+            {
+                _stageSystem.TryEndInfiniteStage();
+            }
+        }
+
+        private bool HasRequiredReferences()
+        {
+            if (_runtimeDataSystem == null ||
+                _stageSystem == null ||
+                _player == null)
+            {
+                Debug.LogError(
+                    "[InfiniteModeSystem] Required reference is missing.");
+                return false;
+            }
+
+            return true;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using FlowState.Runtime.Core;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -51,6 +52,106 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.False);
             Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+        }
+
+        [Test]
+        public void Initialize_StageModeWithoutGoal_IsRejected()
+        {
+            SetPrivateField(_stageSystem, "_stageGoal", null);
+            LogAssert.Expect(
+                LogType.Error,
+                "[StageSystem] Stage Goal is not assigned for Stage Mode.");
+
+            bool didInitialize = InvokeBoolMethod(
+                _stageSystem,
+                "Initialize",
+                E_GameMode.Stage);
+
+            Assert.That(didInitialize, Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsInitialized"), Is.False);
+        }
+
+        [Test]
+        public void Initialize_InfiniteModeWithoutGoal_PreparesStage()
+        {
+            SetPrivateField(_stageSystem, "_stageGoal", null);
+
+            bool didInitialize = InvokeBoolMethod(
+                _stageSystem,
+                "Initialize",
+                E_GameMode.Infinite);
+
+            Assert.That(didInitialize, Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "IsInitialized"), Is.True);
+            Assert.That(GetEnumProperty<E_GameMode>(
+                _stageSystem,
+                "CurrentGameMode"), Is.EqualTo(E_GameMode.Infinite));
+        }
+
+        [Test]
+        public void Initialize_StageModeWithRoots_ActivatesOnlyStageRoot()
+        {
+            GameObject stageRoot = new GameObject("StageSystemTests.StageRoot");
+            GameObject infiniteRoot =
+                new GameObject("StageSystemTests.InfiniteRoot");
+
+            try
+            {
+                stageRoot.SetActive(false);
+                infiniteRoot.SetActive(true);
+                SetPrivateField(_stageSystem, "_stageModeRoot", stageRoot);
+                SetPrivateField(
+                    _stageSystem,
+                    "_infiniteModeRoot",
+                    infiniteRoot);
+
+                bool didInitialize = InvokeBoolMethod(
+                    _stageSystem,
+                    "Initialize",
+                    E_GameMode.Stage);
+
+                Assert.That(didInitialize, Is.True);
+                Assert.That(stageRoot.activeSelf, Is.True);
+                Assert.That(infiniteRoot.activeSelf, Is.False);
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(stageRoot);
+                UnityEngine.Object.DestroyImmediate(infiniteRoot);
+            }
+        }
+
+        [Test]
+        public void Initialize_InfiniteModeWithRoots_ActivatesOnlyInfiniteRoot()
+        {
+            GameObject stageRoot = new GameObject("StageSystemTests.StageRoot");
+            GameObject infiniteRoot =
+                new GameObject("StageSystemTests.InfiniteRoot");
+
+            try
+            {
+                stageRoot.SetActive(true);
+                infiniteRoot.SetActive(false);
+                SetPrivateField(_stageSystem, "_stageModeRoot", stageRoot);
+                SetPrivateField(
+                    _stageSystem,
+                    "_infiniteModeRoot",
+                    infiniteRoot);
+
+                bool didInitialize = InvokeBoolMethod(
+                    _stageSystem,
+                    "Initialize",
+                    E_GameMode.Infinite);
+
+                Assert.That(didInitialize, Is.True);
+                Assert.That(stageRoot.activeSelf, Is.False);
+                Assert.That(infiniteRoot.activeSelf, Is.True);
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(stageRoot);
+                UnityEngine.Object.DestroyImmediate(infiniteRoot);
+            }
         }
 
         [Test]
@@ -141,6 +242,101 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
         }
 
+        [UnityTest]
+        public IEnumerator GoalReached_InfiniteMode_DoesNotEndStage()
+        {
+            InvokeBoolMethod(
+                _stageSystem,
+                "Initialize",
+                E_GameMode.Infinite);
+            InvokeBoolMethod(_stageSystem, "StartStage");
+
+            InvokeTriggerEnter(_stageGoal, _playerCollider);
+            yield return null;
+
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+        }
+
+        [Test]
+        public void TryEndInfiniteStage_BeforeStart_IsRejected()
+        {
+            InvokeBoolMethod(
+                _stageSystem,
+                "Initialize",
+                E_GameMode.Infinite);
+
+            bool didEnd = InvokeBoolMethod(
+                _stageSystem,
+                "TryEndInfiniteStage");
+
+            Assert.That(didEnd, Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+        }
+
+        [Test]
+        public void TryEndInfiniteStage_StageMode_IsRejected()
+        {
+            InvokeBoolMethod(_stageSystem, "Initialize");
+            InvokeBoolMethod(_stageSystem, "StartStage");
+
+            bool didEnd = InvokeBoolMethod(
+                _stageSystem,
+                "TryEndInfiniteStage");
+
+            Assert.That(didEnd, Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+        }
+
+        [Test]
+        public void TryEndInfiniteStage_PlayingStage_EndsOnce()
+        {
+            InvokeBoolMethod(
+                _stageSystem,
+                "Initialize",
+                E_GameMode.Infinite);
+            InvokeBoolMethod(_stageSystem, "StartStage");
+            int endCount = 0;
+            AddListener(
+                _stageSystem,
+                "AddStageEndedListener",
+                () => endCount++);
+
+            bool didEnd = InvokeBoolMethod(
+                _stageSystem,
+                "TryEndInfiniteStage");
+            bool didEndAgain = InvokeBoolMethod(
+                _stageSystem,
+                "TryEndInfiniteStage");
+
+            Assert.That(didEnd, Is.True);
+            Assert.That(didEndAgain, Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
+            Assert.That(endCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void StartStage_AfterInfiniteEnd_ResetsStageState()
+        {
+            InvokeBoolMethod(
+                _stageSystem,
+                "Initialize",
+                E_GameMode.Infinite);
+            InvokeBoolMethod(_stageSystem, "StartStage");
+            InvokeBoolMethod(_stageSystem, "TryEndInfiniteStage");
+
+            bool didRestart = InvokeBoolMethod(_stageSystem, "StartStage");
+
+            Assert.That(didRestart, Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+        }
+
         private MonoBehaviour AddComponentByName(
             GameObject gameObject,
             string typeName)
@@ -155,9 +351,13 @@ namespace FlowState.Tests.PlayMode
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 Type type = assembly.GetType(
-                    $"FlowState.Runtime.Systems.{typeName}") ??
-                    assembly.GetType(
+                    $"FlowState.Runtime.Systems.{typeName}");
+
+                if (type == null)
+                {
+                    type = assembly.GetType(
                         $"FlowState.Runtime.Features.{typeName}");
+                }
 
                 if (type != null &&
                     typeof(MonoBehaviour).IsAssignableFrom(type))
@@ -184,9 +384,10 @@ namespace FlowState.Tests.PlayMode
 
         private bool InvokeBoolMethod(
             MonoBehaviour target,
-            string methodName)
+            string methodName,
+            params object[] arguments)
         {
-            return (bool)InvokeMethod(target, methodName);
+            return (bool)InvokeMethod(target, methodName, arguments);
         }
 
         private object InvokeMethod(
@@ -194,10 +395,20 @@ namespace FlowState.Tests.PlayMode
             string methodName,
             params object[] arguments)
         {
-            MethodInfo method = target.GetType().GetMethod(
-                methodName,
-                BindingFlags.Instance | BindingFlags.Public |
-                BindingFlags.NonPublic);
+            MethodInfo method = null;
+
+            foreach (MethodInfo candidate in target.GetType().GetMethods(
+                         BindingFlags.Instance |
+                         BindingFlags.Public |
+                         BindingFlags.NonPublic))
+            {
+                if (candidate.Name == methodName &&
+                    candidate.GetParameters().Length == arguments.Length)
+                {
+                    method = candidate;
+                    break;
+                }
+            }
 
             Assert.That(method, Is.Not.Null);
             return method.Invoke(target, arguments);
@@ -213,6 +424,18 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(property, Is.Not.Null);
             return (bool)property.GetValue(target);
+        }
+
+        private T GetEnumProperty<T>(
+            MonoBehaviour target,
+            string propertyName)
+        {
+            PropertyInfo property = target.GetType().GetProperty(
+                propertyName,
+                BindingFlags.Instance | BindingFlags.Public);
+
+            Assert.That(property, Is.Not.Null);
+            return (T)property.GetValue(target);
         }
 
         private void AddListener(

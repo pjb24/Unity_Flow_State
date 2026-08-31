@@ -14,6 +14,8 @@ GameSystem
 
 System 간의 실행 흐름을 연결한다.
 
+현재 게임 Mode를 결정하고 관리한다.
+
 현재 게임 상태에 따라 사용할 입력 Action Map을 결정한다.
 
 ---
@@ -22,6 +24,9 @@ System 간의 실행 흐름을 연결한다.
 
 - 게임 시작을 관리한다.
 - 게임 종료를 관리한다.
+- 선택된 게임 Mode를 관리한다.
+- 게임 시작 시 선택된 게임 Mode를 RuntimeDataSystem과 StageSystem에 전달한다.
+- Retry 시 종료된 Stage Play와 같은 게임 Mode로 새로운 게임 실행 흐름을 시작한다.
 - 현재 게임 상태를 관리한다.
 - 현재 게임 상태에 따라 사용할 Action Map을 결정한다.
 - PlayerInputSystem에 Player Action Map 활성화 또는 비활성화를 요청한다.
@@ -31,6 +36,7 @@ System 간의 실행 흐름을 연결한다.
 - 선택된 UI 항목에 해당하는 게임 실행 흐름을 시작한다.
 - RuntimeDataSystem에 Runtime Data 생성 및 제거를 요청한다.
 - 필요한 System의 초기화를 요청한다.
+- InfiniteModeSystem에 선택된 게임 Mode와 진행 초기화를 요청한다.
 - StageSystem에 Stage 시작을 요청한다.
 - StageSystem의 Stage 종료 이벤트를 수신한다.
 - Stage 종료 이벤트를 기준으로 게임 종료 절차를 시작한다.
@@ -75,6 +81,7 @@ UI Action Map은 UIInputSystem이 관리한다.
 - 게임 시작 상태
 - 게임 종료 상태
 - 현재 게임 상태
+- 선택된 게임 Mode
 - 현재 입력 상태 정책
 
 ---
@@ -84,6 +91,7 @@ UI Action Map은 UIInputSystem이 관리한다.
 | 입력 | 출처 |
 |------|------|
 | 게임 실행 | Unity |
+| 시작 게임 Mode 설정 | Unity Inspector |
 | Stage 종료 이벤트 | StageSystem |
 | 현재 UI 입력 상태 | UIInputSystem |
 | 현재 선택된 UI 항목 | UIManagementSystem |
@@ -95,8 +103,9 @@ UI Action Map은 UIInputSystem이 관리한다.
 | 출력 | 대상 |
 |------|------|
 | Runtime Data 생성 요청 | RuntimeDataSystem |
+| 현재 게임 Mode | RuntimeDataSystem |
 | System 초기화 요청 | 관련 System |
-| Stage 시작 요청 | StageSystem |
+| 현재 게임 Mode와 Stage 시작 요청 | StageSystem |
 | Player Action Map 활성화 요청 | PlayerInputSystem |
 | Player Action Map 비활성화 요청 | PlayerInputSystem |
 | UI Action Map 활성화 요청 | UIInputSystem |
@@ -117,6 +126,8 @@ UI Action Map은 UIInputSystem이 관리한다.
 - 게임 시작 관리
 - 게임 종료 관리
 - 현재 게임 상태 관리
+- 선택된 게임 Mode 관리
+- Retry에서 게임 Mode 유지
 - Action Map 사용 여부 결정
 - 게임 전체 실행 순서 관리
 - System 간 실행 흐름 연결
@@ -139,6 +150,7 @@ UI Action Map은 UIInputSystem이 관리한다.
 - 결과 데이터 생성
 - UI 표시
 - Runtime Data 관리
+- 게임 Mode별 Feature 규칙 정의
 
 ---
 
@@ -150,12 +162,16 @@ UI Action Map은 UIInputSystem이 관리한다.
 - UIManagementSystem
 - PlayerInputSystem
 - UIInputSystem
+- InfiniteModeSystem
 
 ---
 
 # 제약 사항
 
 - Feature의 규칙을 수행하지 않는다.
+- 기본 게임 Mode는 Stage Mode를 사용한다.
+- 게임 시작 시 선택된 게임 Mode를 Runtime Data에 반영한다.
+- Retry 시 선택된 게임 Mode를 유지하고 이전 Stage Play의 Runtime 상태는 유지하지 않는다.
 - 다른 System의 내부 상태를 직접 변경하지 않는다.
 - Runtime Data를 직접 생성하거나 제거하지 않는다.
 - Action Map을 직접 활성화하거나 비활성화하지 않는다.

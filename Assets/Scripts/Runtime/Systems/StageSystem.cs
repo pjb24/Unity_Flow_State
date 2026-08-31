@@ -1,4 +1,5 @@
 using System;
+using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using UnityEngine;
 
@@ -7,17 +8,22 @@ namespace FlowState.Runtime.Systems
     public class StageSystem : MonoBehaviour
     {
         [SerializeField] private StageGoal _stageGoal;
+        [SerializeField] private GameObject _stageModeRoot;
+        [SerializeField] private GameObject _infiniteModeRoot;
 
         private event Action StageStarted;
         private event Action StageCleared;
         private event Action StageEnded;
 
+        private E_GameMode _currentGameMode;
         private bool _isInitialized;
         private bool _isPlaying;
         private bool _isCleared;
         private bool _hasEnded;
 
         public bool IsInitialized => _isInitialized;
+
+        public E_GameMode CurrentGameMode => _currentGameMode;
 
         public bool IsPlaying => _isPlaying;
 
@@ -35,20 +41,38 @@ namespace FlowState.Runtime.Systems
 
         public bool Initialize()
         {
-            if (_stageGoal == null)
+            return Initialize(E_GameMode.Stage);
+        }
+
+        public bool Initialize(E_GameMode gameMode)
+        {
+            if (_stageGoal != null)
             {
-                _isInitialized = false;
-                Debug.LogError("[StageSystem] Stage Goal is not assigned.");
+                _stageGoal.RemoveListener(HandleGoalReached);
+            }
+
+            _isInitialized = false;
+
+            if (gameMode != E_GameMode.Stage &&
+                gameMode != E_GameMode.Infinite)
+            {
+                Debug.LogError("[StageSystem] Game Mode is invalid.");
                 return false;
             }
 
-            if (!_stageGoal.Initialize())
+            _currentGameMode = gameMode;
+
+            if (!ApplyModeRootState())
             {
-                _isInitialized = false;
                 return false;
             }
 
-            _stageGoal.AddListener(HandleGoalReached);
+            if (_currentGameMode == E_GameMode.Stage &&
+                !InitializeStageGoal())
+            {
+                return false;
+            }
+
             ResetStageState();
             _isInitialized = true;
             return true;
@@ -69,9 +93,19 @@ namespace FlowState.Runtime.Systems
             }
 
             ResetStageState();
-            _stageGoal.ResetGoal();
+
+            if (_currentGameMode == E_GameMode.Stage)
+            {
+                _stageGoal.ResetGoal();
+            }
+
             _isPlaying = true;
-            StageStarted?.Invoke();
+
+            if (StageStarted != null)
+            {
+                StageStarted();
+            }
+
             return true;
         }
 
@@ -83,6 +117,20 @@ namespace FlowState.Runtime.Systems
             }
 
             EndStage();
+        }
+
+        public bool TryEndInfiniteStage()
+        {
+            if (!_isInitialized ||
+                _currentGameMode != E_GameMode.Infinite ||
+                !_isPlaying ||
+                _hasEnded)
+            {
+                return false;
+            }
+
+            EndStage();
+            return true;
         }
 
         public void AddStageStartedListener(Action listener)
@@ -120,13 +168,21 @@ namespace FlowState.Runtime.Systems
 
         private void HandleGoalReached()
         {
-            if (!_isPlaying || _isCleared || _hasEnded)
+            if (_currentGameMode != E_GameMode.Stage ||
+                !_isPlaying ||
+                _isCleared ||
+                _hasEnded)
             {
                 return;
             }
 
             _isCleared = true;
-            StageCleared?.Invoke();
+
+            if (StageCleared != null)
+            {
+                StageCleared();
+            }
+
             EndStage();
         }
 
@@ -139,7 +195,11 @@ namespace FlowState.Runtime.Systems
 
             _isPlaying = false;
             _hasEnded = true;
-            StageEnded?.Invoke();
+
+            if (StageEnded != null)
+            {
+                StageEnded();
+            }
         }
 
         private void ResetStageState()
@@ -147,6 +207,56 @@ namespace FlowState.Runtime.Systems
             _isPlaying = false;
             _isCleared = false;
             _hasEnded = false;
+        }
+
+        private bool InitializeStageGoal()
+        {
+            if (_stageGoal == null)
+            {
+                Debug.LogError(
+                    "[StageSystem] Stage Goal is not assigned for Stage Mode.");
+                return false;
+            }
+
+            if (!_stageGoal.Initialize())
+            {
+                return false;
+            }
+
+            _stageGoal.AddListener(HandleGoalReached);
+            return true;
+        }
+
+        private bool ApplyModeRootState()
+        {
+            if (_stageModeRoot == null && _infiniteModeRoot == null)
+            {
+                return true;
+            }
+
+            if (_stageModeRoot == null || _infiniteModeRoot == null)
+            {
+                Debug.LogError(
+                    "[StageSystem] Both Mode Roots must be assigned together.");
+                return false;
+            }
+
+            bool isStageMode = _currentGameMode == E_GameMode.Stage;
+            _stageModeRoot.SetActive(isStageMode);
+
+            if (isStageMode)
+            {
+                _infiniteModeRoot.SetActive(false);
+                return true;
+            }
+
+            if (_infiniteModeRoot.activeSelf)
+            {
+                _infiniteModeRoot.SetActive(false);
+            }
+
+            _infiniteModeRoot.SetActive(true);
+            return true;
         }
     }
 }

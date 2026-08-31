@@ -8,7 +8,7 @@ ResultMenu
 
 ## 목적
 
-일반 Stage의 결과 화면에서 다음 실행 흐름을 키보드와 마우스로 선택할 수 있도록 한다.
+Stage Mode와 InfiniteMode의 결과 화면에서 다음 실행 흐름을 키보드와 마우스로 선택할 수 있도록 한다.
 
 반복 플레이와 Application 종료를 결과 화면에서 수행할 수 있도록 한다.
 
@@ -16,12 +16,12 @@ ResultMenu
 
 # 기능 규칙
 
-- ResultMenu는 일반 Stage 결과 화면에서만 활성화한다.
+- ResultMenu는 Stage Mode와 InfiniteMode의 결과 화면에서 활성화한다.
 - ResultMenu에는 Retry와 Quit 항목이 존재한다.
 - ResultMenu가 활성화되면 Retry를 기본 선택 항목으로 사용한다.
 - Navigate 입력은 Retry와 Quit 사이의 선택을 변경한다.
 - Submit 입력은 현재 선택된 항목을 한 번 실행한다.
-- Retry가 실행되면 새로운 Stage Play를 시작한다.
+- Retry가 실행되면 종료된 Stage Play와 같은 게임 Mode로 새로운 Stage Play를 시작한다.
 - Quit이 실행되면 Application 종료를 요청한다.
 - Cancel 입력은 ResultMenu에서 동작을 수행하지 않는다.
 - Point 입력은 마우스 포인터가 가리키는 Retry 또는 Quit을 선택한다.
@@ -34,8 +34,8 @@ ResultMenu
 
 다음 조건을 모두 만족하는 경우 ResultMenu를 시작한다.
 
-- 일반 Stage Play가 종료되었다.
-- 결과 데이터가 확정되었다.
+- Stage Mode 또는 InfiniteMode의 Stage Play가 종료되었다.
+- Stage Mode에서는 결과 데이터가 확정되었다.
 - Result UI State가 활성화되었다.
 
 ---
@@ -55,7 +55,7 @@ ResultMenu
 
 # 수행 결과
 
-- Retry 실행 시 이전 Stage Play의 Runtime 상태를 사용하지 않는 새로운 Stage Play가 시작된다.
+- Retry 실행 시 이전 Stage Play의 Runtime 상태를 사용하지 않는 같은 게임 Mode의 새로운 Stage Play가 시작된다.
 - Quit 실행 시 Application 종료가 요청된다.
 
 ---
@@ -83,8 +83,9 @@ ResultMenu
 - Phase 5 완료 검증의 필수 입력 장치는 키보드와 마우스이다.
 - 게임패드 동작은 Phase 5 완료 조건에 포함하지 않는다.
 - ResultMenu는 GamePause를 수행하지 않는다.
-- ResultMenu는 InfiniteMode, ScoreRecord, Leaderboard 또는 저장 기능을 수행하지 않는다.
+- ResultMenu는 ScoreRecord, Leaderboard 또는 저장 기능을 수행하지 않는다.
 - Retry는 이전 플레이의 Timer, Result Data와 입력 상태를 새로운 플레이에 유지하지 않는다.
+- InfiniteMode에서 ScoreRecord가 구현되기 전에는 `Run Ended` 종료 안내만 표시한다.
 
 ---
 
@@ -96,7 +97,9 @@ ResultMenu
 - 키보드 Cancel 입력이 Retry 또는 Quit을 실행하지 않는지 확인한다.
 - 마우스 Point 입력으로 Retry와 Quit을 선택할 수 있는지 확인한다.
 - 마우스 Click 입력으로 Retry와 Quit이 각각 한 번만 실행되는지 확인한다.
-- Retry 실행 후 새로운 Stage Play가 이전 Runtime 상태 없이 시작되는지 확인한다.
+- Stage Mode와 InfiniteMode에서 ResultMenu가 활성화되는지 확인한다.
+- Retry 실행 후 같은 게임 Mode의 새로운 Stage Play가 이전 Runtime 상태 없이 시작되는지 확인한다.
+- ScoreRecord가 구현되기 전 InfiniteMode ResultMenu에 `Run Ended`가 표시되는지 확인한다.
 - Quit 실행 시 Application 종료가 요청되는지 Build에서 확인한다.
 - Stage Play 진행 중 ResultMenu 입력이 처리되지 않는지 확인한다.
 - StageHUD와 ResultMenu가 동시에 표시되지 않는지 확인한다.

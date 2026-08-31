@@ -6,6 +6,7 @@ namespace FlowState.Runtime.Systems
 {
     public class GameSystem : MonoBehaviour
     {
+        [SerializeField] private E_GameMode _selectedGameMode = E_GameMode.Stage;
         [SerializeField] private RuntimeDataSystem _runtimeDataSystem;
         [SerializeField] private UIManagementSystem _uiManagementSystem;
         [SerializeField] private PlayerInputSystem _playerInputSystem;
@@ -14,6 +15,7 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private PlayerControllerSystem _playerControllerSystem;
         [SerializeField] private CollisionSystem _collisionSystem;
         [SerializeField] private StageSystem _stageSystem;
+        [SerializeField] private InfiniteModeSystem _infiniteModeSystem;
         [SerializeField] private TimerSystem _timerSystem;
         [SerializeField] private ResultSystem _resultSystem;
         [SerializeField] private CameraSystem _cameraSystem;
@@ -88,7 +90,8 @@ namespace FlowState.Runtime.Systems
 
             SetGameState(E_GameState.Initializing);
 
-            _runtimeData = _runtimeDataSystem.CreateRuntimeData();
+            _runtimeData = _runtimeDataSystem.CreateRuntimeData(
+                _selectedGameMode);
             _runtimeData.SetGameState(_currentGameState);
             _runtimeData.PlayerMovementRuntimeData.Initialize();
 
@@ -98,8 +101,9 @@ namespace FlowState.Runtime.Systems
 
             if (!_playerControllerSystem.Initialize() ||
                 !_collisionSystem.Initialize() ||
-                !_stageSystem.Initialize() ||
+                !_stageSystem.Initialize(_selectedGameMode) ||
                 !_playerMovementSystem.Initialize() ||
+                !_infiniteModeSystem.Initialize(_selectedGameMode) ||
                 !_cameraSystem.Initialize())
             {
                 AbortGameStart();
@@ -164,6 +168,7 @@ namespace FlowState.Runtime.Systems
             _playerInputSystem.DisablePlayerActionMap();
             _uiInputSystem.EnableUIActionMap();
             _cameraFollow.StopFollowing();
+            _infiniteModeSystem.Stop();
             _playerMovementSystem.StopMovement();
             RemovePlayTimer();
 
@@ -233,6 +238,12 @@ namespace FlowState.Runtime.Systems
                 hasRequiredSystems = false;
             }
 
+            if (_infiniteModeSystem == null)
+            {
+                Debug.LogError("[GameSystem] InfiniteModeSystem is not assigned.");
+                hasRequiredSystems = false;
+            }
+
             if (_resultSystem == null)
             {
                 Debug.LogError("[GameSystem] ResultSystem is not assigned.");
@@ -260,6 +271,7 @@ namespace FlowState.Runtime.Systems
             _playerInputSystem.DisablePlayerActionMap();
             _uiInputSystem.DisableUIActionMap();
             _cameraFollow.StopFollowing();
+            _infiniteModeSystem.Stop();
             _playerMovementSystem.StopMovement();
             RemovePlayTimer();
             _runtimeDataSystem.ClearRuntimeData();
@@ -332,14 +344,22 @@ namespace FlowState.Runtime.Systems
         private void SetGameState(E_GameState gameState)
         {
             _currentGameState = gameState;
-            _runtimeData?.SetGameState(gameState);
+
+            if (_runtimeData != null)
+            {
+                _runtimeData.SetGameState(gameState);
+            }
 
             Debug.Log($"[GameSystem] Game State changed to {_currentGameState}.");
         }
 
         private void SetUIState(E_UIState uiState)
         {
-            _runtimeData?.SetUIState(uiState);
+            if (_runtimeData != null)
+            {
+                _runtimeData.SetUIState(uiState);
+            }
+
             _uiManagementSystem.SetUIState(uiState);
         }
     }

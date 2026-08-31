@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection;
+using FlowState.Runtime.Core;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,6 +31,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
             yield return new WaitForFixedUpdate();
             yield return new WaitForEndOfFrame();
 

@@ -18,7 +18,9 @@ InfiniteMode
 
 - InfiniteMode는 Goal을 사용하지 않는다.
 - InfiniteMode는 Stage Play가 시작되면 수행한다.
-- 플레이어는 Stage를 계속 진행할 수 있다.
+- InfiniteMode는 하나의 Map Pattern 종류를 반복하여 Stage를 계속 진행한다.
+- Map Pattern은 Player가 현재 이용 중인 지형을 잃지 않도록 다음 진행 구간을 먼저 제공한다.
+- Player가 접촉 중이거나 아직 완전히 지나가지 않은 Map Pattern은 재배치하지 않는다.
 - 플레이어의 점수는 프로젝트에서 정의한 점수 규칙에 따라 증가한다.
 - 플레이어는 진행 지속 조건을 유지하는 동안 InfiniteMode를 계속 수행한다.
 - 플레이어가 진행 지속 조건을 잃으면 InfiniteMode를 종료한다.
@@ -29,8 +31,13 @@ InfiniteMode
 
 플레이어는 아래 조건을 모두 만족하는 동안 진행을 계속할 수 있다.
 
-- 플레이어가 프로젝트 설정 값으로 정의한 최소 이동 속도 이상을 유지한다.
-- 플레이어가 Stage 밖으로 이탈하지 않았다.
+- 시작 유예 시간이 지난 후 수평 진행축 이동 속도의 절댓값이 프로젝트 설정 값으로 정의한 최소 이동 속도 이상으로 유지된다.
+- 최소 이동 속도 미만인 상태가 프로젝트 설정 값으로 정의한 연속 유예 시간보다 짧다.
+- 플레이어의 Y 위치가 프로젝트 설정으로 정의한 추락 임계값보다 높다.
+
+시작 유예 시간은 최소 이동 속도 판정에만 적용한다.
+
+추락 판정은 InfiniteMode Stage Play가 시작되면 즉시 적용한다.
 
 ---
 
@@ -49,8 +56,8 @@ InfiniteMode
 
 아래 조건 중 하나를 만족하면 InfiniteMode를 종료한다.
 
-- 플레이어가 프로젝트 설정 값으로 정의한 최소 이동 속도 미만이 되었다.
-- 플레이어가 Stage 밖으로 이탈하였다.
+- 시작 유예 시간이 지난 후 수평 진행축 이동 속도의 절댓값이 최소 이동 속도 미만인 상태로 연속 유예 시간 이상 유지되었다.
+- 플레이어의 Y 위치가 프로젝트 설정으로 정의한 추락 임계값 이하가 되었다.
 
 ## 강제 종료
 
@@ -61,7 +68,9 @@ InfiniteMode
 # 수행 결과
 
 - InfiniteMode Stage Play가 종료된다.
-- 최종 점수가 확정된다.
+- ResultMenu가 활성화된다.
+- ScoreRecord가 구현되기 전에는 `Run Ended` 종료 안내만 표시한다.
+- ScoreRecord가 구현되면 최종 점수가 확정된다.
 
 ---
 
@@ -70,12 +79,14 @@ InfiniteMode
 - 일반 Stage에서는 InfiniteMode를 수행하지 않는다.
 - Stage Play가 진행 중이 아니면 수행하지 않는다.
 - 게임이 종료된 이후에는 수행하지 않는다.
+- 시작 유예 시간 동안에도 추락 판정은 중단하지 않는다.
 
 ---
 
 # 관련 System
 
 - StageSystem
+- InfiniteModeSystem
 - PlayerMovementSystem
 - ResultSystem
 
@@ -85,8 +96,11 @@ InfiniteMode
 
 - InfiniteMode는 Goal을 사용하지 않는다.
 - InfiniteMode는 하나의 Stage Play 동안만 수행한다.
+- InfiniteMode는 하나의 Map Pattern 종류만 반복한다.
 - InfiniteMode는 진행 지속 조건을 만족하는 동안 계속 수행한다.
 - 최소 이동 속도는 프로젝트 설정 값으로 정의한다.
+- 최소 이동 속도 판정에는 수평 진행축 이동 속도의 절댓값을 사용한다.
+- 시작 유예 시간과 최소 이동 속도 미만 연속 유예 시간은 프로젝트 설정 값으로 정의한다.
 - 점수는 프로젝트에서 정의한 점수 규칙에 따라 증가한다.
 - InfiniteMode 종료 후에는 Stage Play가 종료된다.
 - 점수 기록은 ScoreRecord Feature에서 수행한다.
@@ -97,12 +111,18 @@ InfiniteMode
 
 - InfiniteMode Stage 선택 시 InfiniteMode가 시작되는지 확인한다.
 - InfiniteMode 동안 Goal이 사용되지 않는지 확인한다.
+- 하나의 Map Pattern 종류를 반복하여 Stage를 계속 진행할 수 있는지 확인한다.
+- Player가 접촉 중이거나 아직 완전히 지나가지 않은 Map Pattern이 재배치되지 않는지 확인한다.
 - 프로젝트에서 정의한 점수 규칙에 따라 점수가 증가하는지 확인한다.
-- 프로젝트 설정 값으로 정의한 최소 이동 속도 이상을 유지하는 동안 Stage Play가 계속 진행되는지 확인한다.
-- 프로젝트 설정 값으로 정의한 최소 이동 속도 미만이 되면 InfiniteMode가 종료되는지 확인한다.
-- 플레이어가 Stage 밖으로 이탈하면 InfiniteMode가 종료되는지 확인한다.
+- 수평 진행축 이동 속도의 절댓값이 최소 이동 속도 이상인 동안 Stage Play가 계속 진행되는지 확인한다.
+- 최소 이동 속도 미만인 상태가 연속 유예 시간보다 짧으면 Stage Play가 계속 진행되는지 확인한다.
+- 시작 유예 시간이 지난 후 최소 이동 속도 미만인 상태가 연속 유예 시간 이상 유지되면 InfiniteMode가 종료되는지 확인한다.
+- 시작 유예 시간 동안에는 최소 이동 속도로 인해 종료되지 않는지 확인한다.
+- 시작 유예 시간 동안 추락 임계값 이하가 되면 InfiniteMode가 종료되는지 확인한다.
+- 플레이어의 X 위치와 관계없이 Y 위치가 추락 임계값 이하가 되면 InfiniteMode가 종료되는지 확인한다.
 - 최소 이동 속도 설정 값을 변경하면 종료 기준이 함께 변경되는지 확인한다.
-- InfiniteMode 종료 후 최종 점수가 확정되는지 확인한다.
+- InfiniteMode 종료 후 ResultMenu에 `Run Ended`가 표시되는지 확인한다.
+- ScoreRecord가 구현된 경우 InfiniteMode 종료 후 최종 점수가 확정되는지 확인한다.
 - 일반 Stage에서는 InfiniteMode가 수행되지 않는지 확인한다.
 
 ---

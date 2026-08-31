@@ -2,7 +2,8 @@
   "name": "FlowState.PlayModeTests",
   "rootNamespace": "FlowState.Tests.PlayMode",
   "references": [
-    "FlowState.Runtime.Core"
+    "FlowState.Runtime.Core",
+    "FlowState.Runtime.Features"
   ],
   "optionalUnityReferences": [
     "TestAssemblies"

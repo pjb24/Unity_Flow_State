@@ -13,6 +13,11 @@ namespace FlowState.Runtime.Systems
 
         public GameRuntimeData CreateRuntimeData()
         {
+            return CreateRuntimeData(E_GameMode.Stage);
+        }
+
+        public GameRuntimeData CreateRuntimeData(E_GameMode gameMode)
+        {
             if (HasRuntimeData)
             {
                 Debug.Log("[RuntimeDataSystem] Runtime Data already exists.");
@@ -20,7 +25,7 @@ namespace FlowState.Runtime.Systems
             }
 
             _runtimeData = new GameRuntimeData();
-            _runtimeData.Initialize();
+            _runtimeData.Initialize(gameMode);
 
             Debug.Log("[RuntimeDataSystem] Runtime Data created.");
 

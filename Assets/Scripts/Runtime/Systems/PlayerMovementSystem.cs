@@ -52,7 +52,6 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private float _airAcceleration = 25.0f;
         [SerializeField] private float _maximumHorizontalSpeed = 14.0f;
         [SerializeField] private float _gravityAcceleration = 25.0f;
-
         private PlayerMovementRuntimeData _runtimeData;
         private E_PlayerMovementState _movementState;
         private bool _isRunning;
@@ -99,6 +98,7 @@ namespace FlowState.Runtime.Systems
             }
 
             _runtimeData = gameRuntimeData.PlayerMovementRuntimeData;
+
             _jumpFeature.Initialize();
             _momentumLandingFeature.Initialize();
             _normalLandingFeature.Initialize();
@@ -127,7 +127,6 @@ namespace FlowState.Runtime.Systems
             _isJumpSequenceActive = false;
             _hasJumpLeftGround = false;
             _isLastLandingMomentum = false;
-
             _jumpFeature.Initialize();
             _momentumLandingFeature.Initialize();
             _normalLandingFeature.Initialize();
@@ -155,11 +154,14 @@ namespace FlowState.Runtime.Systems
             PlayerInputState inputState = _playerInputSystem.GetInputState();
 
             _collisionSystem.RefreshCollisionState();
+            Vector3 currentVelocity = _playerControllerSystem.GetVelocity();
+            PlayerCollisionState collisionState =
+                _collisionSystem.GetCollisionState();
 
             return new MovementStepInput(
                 inputState,
-                _collisionSystem.GetCollisionState(),
-                _playerControllerSystem.GetVelocity());
+                collisionState,
+                currentVelocity);
         }
 
         private PlayerMovementResult CalculateMovementResult(
@@ -222,11 +224,14 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            if (!stepInput.CollisionState.IsGrounded)
+            if (stepInput.CollisionState.IsGrounded)
             {
-                calculation.VerticalSpeed -=
-                    Mathf.Max(0.0f, _gravityAcceleration) * deltaTime;
+                calculation.VerticalSpeed = 0.0f;
+                return;
             }
+
+            calculation.VerticalSpeed -=
+                Mathf.Max(0.0f, _gravityAcceleration) * deltaTime;
         }
 
         private void UpdateAirborneProgress(
