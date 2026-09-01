@@ -11,6 +11,7 @@ namespace FlowState.Tests.PlayMode
         private const float MinimumHorizontalSpeed = 5.0f;
         private const float BelowSpeedGraceDuration = 0.5f;
         private const float FallThresholdY = -3.0f;
+        private const float ScorePerUnit = 10.0f;
 
         private GameObject _playerObject;
         private GameObject _systemsObject;
@@ -64,6 +65,10 @@ namespace FlowState.Tests.PlayMode
                 _infiniteModeSystem,
                 "_belowSpeedGraceDuration",
                 BelowSpeedGraceDuration);
+            SetPrivateField(
+                _infiniteModeSystem,
+                "_scorePerUnit",
+                ScorePerUnit);
 
             _runtimeData = (GameRuntimeData)InvokeMethod(
                 _runtimeDataSystem,
@@ -87,6 +92,101 @@ namespace FlowState.Tests.PlayMode
         {
             UnityEngine.Object.DestroyImmediate(_systemsObject);
             UnityEngine.Object.DestroyImmediate(_playerObject);
+        }
+
+        [Test]
+        public void Initialize_InfiniteRun_CreatesZeroProgressRuntimeData()
+        {
+            Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Not.Null);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentDistance,
+                Is.Zero);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentScore,
+                Is.Zero);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.IsFinalized,
+                Is.False);
+        }
+
+        [Test]
+        public void ProcessRunMetrics_PlayerWorldX_UpdatesDistanceAndScore()
+        {
+            _playerObject.transform.position = new Vector3(12.5f, 0.0f, 0.0f);
+
+            bool didProcess = InvokeBoolMethod(
+                _infiniteModeSystem,
+                "ProcessRunMetrics");
+
+            Assert.That(didProcess, Is.True);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentDistance,
+                Is.EqualTo(12.5f));
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentScore,
+                Is.EqualTo(125));
+        }
+
+        [Test]
+        public void ProcessRunMetrics_BackwardMovement_KeepsMaximumProgress()
+        {
+            _playerObject.transform.position = new Vector3(12.5f, 0.0f, 0.0f);
+            InvokeMethod(_infiniteModeSystem, "ProcessRunMetrics");
+
+            _playerObject.transform.position = new Vector3(5.0f, 0.0f, 0.0f);
+            bool didProcess = InvokeBoolMethod(
+                _infiniteModeSystem,
+                "ProcessRunMetrics");
+
+            Assert.That(didProcess, Is.True);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentDistance,
+                Is.EqualTo(12.5f));
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentScore,
+                Is.EqualTo(125));
+        }
+
+        [Test]
+        public void ProcessRunMetrics_LargeWorldX_WorksWithoutPatternData()
+        {
+            _playerObject.transform.position = new Vector3(10000.0f, 0.0f, 0.0f);
+
+            bool didProcess = InvokeBoolMethod(
+                _infiniteModeSystem,
+                "ProcessRunMetrics");
+
+            Assert.That(didProcess, Is.True);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentDistance,
+                Is.EqualTo(10000.0f));
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentScore,
+                Is.EqualTo(100000));
+        }
+
+        [Test]
+        public void Initialize_StageMode_DoesNotCreateOrUpdateInfiniteProgress()
+        {
+            InvokeMethod(_infiniteModeSystem, "Stop");
+            InvokeMethod(_runtimeDataSystem, "ClearRuntimeData");
+            _runtimeData = (GameRuntimeData)InvokeMethod(
+                _runtimeDataSystem,
+                "CreateRuntimeData",
+                E_GameMode.Stage);
+
+            bool didInitialize = InvokeBoolMethod(
+                _infiniteModeSystem,
+                "Initialize",
+                E_GameMode.Stage);
+            _playerObject.transform.position = new Vector3(100.0f, 0.0f, 0.0f);
+            bool didProcess = InvokeBoolMethod(
+                _infiniteModeSystem,
+                "ProcessRunMetrics");
+
+            Assert.That(didInitialize, Is.True);
+            Assert.That(didProcess, Is.False);
+            Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Null);
         }
 
         [Test]
@@ -127,6 +227,9 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
             Assert.That(endCount, Is.EqualTo(1));
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.IsFinalized,
+                Is.True);
         }
 
         [Test]
@@ -141,6 +244,9 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_infiniteModeSystem, "HasEnded"), Is.True);
             Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.IsFinalized,
+                Is.True);
         }
 
         [Test]

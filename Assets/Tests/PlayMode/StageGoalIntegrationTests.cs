@@ -90,6 +90,15 @@ namespace FlowState.Tests.PlayMode
                 GetProperty<object>(resultSystem, "CurrentResultData");
             Assert.That(resultData, Is.Not.Null);
             Assert.That(
+                GetObjectProperty<object>(resultData, "GameMode").ToString(),
+                Is.EqualTo("Stage"));
+            Assert.That(
+                GetObjectProperty<bool>(resultData, "HasStageResult"),
+                Is.True);
+            Assert.That(
+                GetObjectProperty<bool>(resultData, "HasInfiniteModeResult"),
+                Is.False);
+            Assert.That(
                 GetObjectProperty<double>(resultData, "ClearTime"),
                 Is.GreaterThan(0.0));
             string resultText =

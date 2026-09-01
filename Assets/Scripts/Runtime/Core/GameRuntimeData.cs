@@ -6,6 +6,7 @@ namespace FlowState.Runtime.Core
         private E_GameMode _gameMode;
         private E_UIState _uiState;
         private PlayerMovementRuntimeData _playerMovementRuntimeData;
+        private InfiniteModeRuntimeData _infiniteModeRuntimeData;
         private bool _isCreated;
 
         public E_GameState GameState => _gameState;
@@ -16,6 +17,9 @@ namespace FlowState.Runtime.Core
 
         public PlayerMovementRuntimeData PlayerMovementRuntimeData =>
             _playerMovementRuntimeData;
+
+        public InfiniteModeRuntimeData InfiniteModeRuntimeData =>
+            _infiniteModeRuntimeData;
 
         public bool IsCreated => _isCreated;
 
@@ -31,6 +35,17 @@ namespace FlowState.Runtime.Core
             _uiState = E_UIState.None;
             _playerMovementRuntimeData = new PlayerMovementRuntimeData();
             _playerMovementRuntimeData.Initialize();
+
+            if (_gameMode == E_GameMode.Infinite)
+            {
+                _infiniteModeRuntimeData = new InfiniteModeRuntimeData();
+                _infiniteModeRuntimeData.Initialize();
+            }
+            else
+            {
+                _infiniteModeRuntimeData = null;
+            }
+
             _isCreated = true;
         }
 
@@ -60,6 +75,13 @@ namespace FlowState.Runtime.Core
             _gameMode = E_GameMode.Stage;
             _uiState = E_UIState.None;
             _playerMovementRuntimeData = null;
+
+            if (_infiniteModeRuntimeData != null)
+            {
+                _infiniteModeRuntimeData.Clear();
+                _infiniteModeRuntimeData = null;
+            }
+
             _isCreated = false;
         }
     }

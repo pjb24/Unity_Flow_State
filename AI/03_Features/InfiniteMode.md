@@ -27,6 +27,33 @@ InfiniteMode
 
 ---
 
+# 이동 거리 규칙
+
+- 이동 거리는 Run 시작 시점의 Player World X를 원점으로 사용한다.
+- 이동 거리는 원점부터 Player가 도달한 최대 World X까지의 전진 거리로 계산한다.
+- Player가 뒤로 이동해도 이미 기록된 이동 거리는 감소하지 않는다.
+- 점프 중 수평 이동과 공중 이동을 이동 거리에 포함한다.
+- Map Pattern의 위치, 통과 개수와 재배치 횟수는 이동 거리 계산에 사용하지 않는다.
+- 이동 거리는 내부에서 `float`으로 관리하고 계산 과정에서 반올림하지 않는다.
+- 이동 거리는 InfiniteMode Playing 상태의 물리 갱신마다 갱신한다.
+- InfiniteMode 종료 요청 직전에 최종 이동 거리를 확정한다.
+- 최종 확정된 이동 거리는 해당 Run이 종료될 때까지 변경하지 않는다.
+
+---
+
+# Score 규칙
+
+- Score는 이동 거리에 Score 환산 비율을 곱한 값을 내림하여 계산한다.
+- Score 환산 비율의 Prototype 2 초기값은 World X 거리 1당 10점이다.
+- Score 환산 비율은 하나의 설정 값으로 관리한다.
+- Score는 `int`로 관리한다.
+- Score의 최솟값은 `0`, 최댓값은 `int.MaxValue`이다.
+- 이동 거리 외의 진행 지표는 Score 계산에 사용하지 않는다.
+- 최종 Score는 InfiniteMode 종료 요청 직전에 최종 이동 거리를 기준으로 확정한다.
+- 최종 확정된 Score는 해당 Run이 종료될 때까지 변경하지 않는다.
+
+---
+
 # 진행 지속 조건
 
 플레이어는 아래 조건을 모두 만족하는 동안 진행을 계속할 수 있다.
@@ -69,8 +96,9 @@ InfiniteMode
 
 - InfiniteMode Stage Play가 종료된다.
 - ResultMenu가 활성화된다.
-- ScoreRecord가 구현되기 전에는 `Run Ended` 종료 안내만 표시한다.
-- ScoreRecord가 구현되면 최종 점수가 확정된다.
+- 최종 이동 거리와 최종 Score가 확정된다.
+- Phase 2에서는 최종 이동 거리와 최종 Score를 Result Data로 생성하고 화면에 표시하지 않는다.
+- 최종 이동 거리와 최종 Score의 화면 표시는 Phase 4에서 수행한다.
 
 ---
 
@@ -104,6 +132,7 @@ InfiniteMode
 - 점수는 프로젝트에서 정의한 점수 규칙에 따라 증가한다.
 - InfiniteMode 종료 후에는 Stage Play가 종료된다.
 - 점수 기록은 ScoreRecord Feature에서 수행한다.
+- Retry 시 이전 Run의 이동 거리, Score와 최종 확정 상태를 유지하지 않는다.
 
 ---
 
@@ -114,6 +143,11 @@ InfiniteMode
 - 하나의 Map Pattern 종류를 반복하여 Stage를 계속 진행할 수 있는지 확인한다.
 - Player가 접촉 중이거나 아직 완전히 지나가지 않은 Map Pattern이 재배치되지 않는지 확인한다.
 - 프로젝트에서 정의한 점수 규칙에 따라 점수가 증가하는지 확인한다.
+- 이동 거리가 Run 시작 시점의 Player World X부터 최대 전진 거리로 계산되는지 확인한다.
+- Player가 뒤로 이동해도 이동 거리와 Score가 감소하지 않는지 확인한다.
+- 점프 중 수평 이동과 공중 이동이 이동 거리에 포함되는지 확인한다.
+- Map Pattern의 위치, 통과 개수와 재배치 횟수가 이동 거리와 Score에 반영되지 않는지 확인한다.
+- 이동 거리 1당 10점의 비율과 내림 규칙으로 Score가 계산되는지 확인한다.
 - 수평 진행축 이동 속도의 절댓값이 최소 이동 속도 이상인 동안 Stage Play가 계속 진행되는지 확인한다.
 - 최소 이동 속도 미만인 상태가 연속 유예 시간보다 짧으면 Stage Play가 계속 진행되는지 확인한다.
 - 시작 유예 시간이 지난 후 최소 이동 속도 미만인 상태가 연속 유예 시간 이상 유지되면 InfiniteMode가 종료되는지 확인한다.
@@ -121,8 +155,9 @@ InfiniteMode
 - 시작 유예 시간 동안 추락 임계값 이하가 되면 InfiniteMode가 종료되는지 확인한다.
 - 플레이어의 X 위치와 관계없이 Y 위치가 추락 임계값 이하가 되면 InfiniteMode가 종료되는지 확인한다.
 - 최소 이동 속도 설정 값을 변경하면 종료 기준이 함께 변경되는지 확인한다.
-- InfiniteMode 종료 후 ResultMenu에 `Run Ended`가 표시되는지 확인한다.
-- ScoreRecord가 구현된 경우 InfiniteMode 종료 후 최종 점수가 확정되는지 확인한다.
+- InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score가 한 번 확정되는지 확인한다.
+- Phase 2에서는 최종 이동 거리와 최종 Score가 Result Data로 생성되고 화면 표시는 추가되지 않는지 확인한다.
+- Retry 후 이전 Run의 이동 거리, Score와 최종 확정 상태가 남지 않는지 확인한다.
 - 일반 Stage에서는 InfiniteMode가 수행되지 않는지 확인한다.
 
 ---

@@ -21,6 +21,7 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _playerMovementSystem;
         private MonoBehaviour _stageSystem;
         private MonoBehaviour _infiniteModeSystem;
+        private MonoBehaviour _timerSystem;
         private MonoBehaviour _resultSystem;
         private MonoBehaviour _cameraFollow;
         private StageGoal _stageGoal;
@@ -67,6 +68,9 @@ namespace FlowState.Tests.PlayMode
             _infiniteModeSystem = FindRequiredBehaviour(
                 "InfiniteModeSystem",
                 "InfiniteModeSystem");
+            _timerSystem = FindRequiredBehaviour(
+                "TimerSystem",
+                "TimerSystem");
             _resultSystem = FindRequiredBehaviour(
                 "ResultSystem",
                 "ResultSystem");
@@ -106,6 +110,18 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator InfiniteStart_DoesNotCreatePlayTimer()
+        {
+            bool hasPlayTimer = (bool)InvokePublicMethod(
+                _timerSystem,
+                "HasTimer",
+                E_TimerKey.PlayTimer);
+
+            Assert.That(hasPlayTimer, Is.False);
+            yield return null;
+        }
+
+        [UnityTest]
         public IEnumerator InfiniteStart_GoalAndPattern_DoNotEndRun()
         {
             AssertInfinitePlayingState();
@@ -128,7 +144,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator BelowMinimumSpeed_EndsWithoutStageClearOrResultData()
+        public IEnumerator BelowMinimumSpeed_CreatesInfiniteResultData()
         {
             InvokePublicMethod(_gameSystem, "EndGame");
             yield return null;
@@ -139,6 +155,7 @@ namespace FlowState.Tests.PlayMode
             yield return null;
 
             AssertInfiniteEndedState();
+            AssertInfiniteResultData();
         }
 
         [UnityTest]
@@ -154,6 +171,35 @@ namespace FlowState.Tests.PlayMode
             yield return null;
 
             AssertInfiniteEndedState();
+            ResultData resultData = AssertInfiniteResultData();
+            Assert.That(
+                resultData.FinalDistance,
+                Is.EqualTo(
+                    Mathf.Max(
+                        0.0f,
+                        10000.0f - _startPoint.transform.position.x)));
+            Assert.That(resultData.FinalScore, Is.GreaterThan(0));
+        }
+
+        [UnityTest]
+        public IEnumerator SequentialEndRequests_KeepSingleInfiniteResultData()
+        {
+            _player.transform.position = new Vector3(
+                10000.0f,
+                FallThresholdY - 0.01f,
+                0.0f);
+            InvokePrivateMethod(
+                _infiniteModeSystem,
+                "ProcessFallThreshold");
+            ResultData firstResultData = AssertInfiniteResultData();
+
+            InvokePrivateMethod(
+                _infiniteModeSystem,
+                "ProcessFallThreshold");
+            yield return null;
+
+            ResultData secondResultData = AssertInfiniteResultData();
+            Assert.That(secondResultData, Is.SameAs(firstResultData));
         }
 
         [Test]
@@ -205,10 +251,12 @@ namespace FlowState.Tests.PlayMode
             Vector3 secondPatternPosition =
                 FindSceneGameObject("Pattern_1").transform.position;
 
+            ResultData previousResultData = null;
+
             for (int retryIndex = 0; retryIndex < 2; retryIndex++)
             {
                 _player.transform.position = new Vector3(
-                    10000.0f,
+                    10000.0f + retryIndex * 1000.0f,
                     FallThresholdY - 0.01f,
                     0.0f);
                 InvokePrivateMethod(
@@ -217,6 +265,17 @@ namespace FlowState.Tests.PlayMode
                 yield return null;
 
                 AssertInfiniteEndedState();
+                ResultData currentResultData = AssertInfiniteResultData();
+
+                if (previousResultData != null)
+                {
+                    Assert.That(currentResultData, Is.Not.SameAs(previousResultData));
+                    Assert.That(
+                        currentResultData.FinalDistance,
+                        Is.Not.EqualTo(previousResultData.FinalDistance));
+                }
+
+                previousResultData = currentResultData;
                 SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
                 yield return null;
                 yield return new WaitForFixedUpdate();
@@ -225,6 +284,15 @@ namespace FlowState.Tests.PlayMode
                 Assert.That(
                     GetRuntimeData().GameMode,
                     Is.EqualTo(E_GameMode.Infinite));
+                Assert.That(
+                    GetRuntimeData().InfiniteModeRuntimeData.CurrentDistance,
+                    Is.Zero);
+                Assert.That(
+                    GetRuntimeData().InfiniteModeRuntimeData.CurrentScore,
+                    Is.Zero);
+                Assert.That(
+                    GetRuntimeData().InfiniteModeRuntimeData.IsFinalized,
+                    Is.False);
                 Assert.That(
                     _player.transform.position,
                     Is.EqualTo(_startPoint.transform.position));
@@ -283,7 +351,24 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_cameraFollow, "IsFollowing"), Is.False);
             Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(_playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
-            Assert.That(GetBoolProperty(_resultSystem, "HasResultData"), Is.False);
+            Assert.That(GetBoolProperty(_resultSystem, "HasResultData"), Is.True);
+        }
+
+        private ResultData AssertInfiniteResultData()
+        {
+            ResultData resultData = (ResultData)GetProperty(
+                _resultSystem,
+                "CurrentResultData");
+
+            Assert.That(resultData, Is.Not.Null);
+            Assert.That(resultData.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(resultData.HasInfiniteModeResult, Is.True);
+            Assert.That(resultData.HasStageResult, Is.False);
+            Assert.That(resultData.IsStageCleared, Is.False);
+            Assert.That(resultData.ClearTime, Is.Zero);
+            Assert.That(resultData.FinalDistance, Is.GreaterThanOrEqualTo(0.0f));
+            Assert.That(resultData.FinalScore, Is.GreaterThanOrEqualTo(0));
+            return resultData;
         }
 
         private void SetInfiniteTiming(

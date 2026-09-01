@@ -13,10 +13,16 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private float _minimumHorizontalSpeed = 5.0f;
         [SerializeField] private float _startGraceDuration = 1.0f;
         [SerializeField] private float _belowSpeedGraceDuration = 0.5f;
+        [SerializeField] private float _scorePerUnit = 10.0f;
 
         private readonly InfiniteModeState _state = new InfiniteModeState();
+        private readonly InfiniteDistanceState _distanceState =
+            new InfiniteDistanceState();
+        private readonly ScoreCalculator _scoreCalculator =
+            new ScoreCalculator();
 
         private PlayerMovementRuntimeData _movementRuntimeData;
+        private InfiniteModeRuntimeData _infiniteModeRuntimeData;
         private bool _isInitialized;
 
         public bool IsPlaying => _state.IsPlaying;
@@ -32,6 +38,7 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
+            ProcessRunMetrics();
             ProcessProgress(Time.fixedDeltaTime);
             ProcessFallThreshold();
         }
@@ -40,6 +47,7 @@ namespace FlowState.Runtime.Systems
         {
             _isInitialized = false;
             _movementRuntimeData = null;
+            ResetRunMetrics();
 
             if (!HasRequiredReferences())
             {
@@ -67,11 +75,20 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
+            if (gameMode == E_GameMode.Infinite &&
+                !InitializeRunMetrics(runtimeData))
+            {
+                Debug.LogError(
+                    "[InfiniteModeSystem] Infinite Mode run metrics could not be initialized.");
+                return false;
+            }
+
             _movementRuntimeData = runtimeData.PlayerMovementRuntimeData;
 
             if (!_state.Start())
             {
                 _movementRuntimeData = null;
+                ResetRunMetrics();
                 return false;
             }
 
@@ -83,7 +100,20 @@ namespace FlowState.Runtime.Systems
         {
             _state.Reset();
             _movementRuntimeData = null;
+            ResetRunMetrics();
             _isInitialized = false;
+        }
+
+        private bool ProcessRunMetrics()
+        {
+            if (!_isInitialized ||
+                !_state.IsPlaying ||
+                _state.GameMode != E_GameMode.Infinite)
+            {
+                return false;
+            }
+
+            return UpdateRunMetrics();
         }
 
         private void ProcessProgress(float deltaTime)
@@ -97,6 +127,7 @@ namespace FlowState.Runtime.Systems
                     _movementRuntimeData.CurrentHorizontalSpeed,
                     deltaTime))
             {
+                FinalizeRunMetrics();
                 _stageSystem.TryEndInfiniteStage();
             }
         }
@@ -106,8 +137,62 @@ namespace FlowState.Runtime.Systems
             if (_player.position.y <= _fallThresholdY &&
                 _state.NotifyFallThresholdReached())
             {
+                FinalizeRunMetrics();
                 _stageSystem.TryEndInfiniteStage();
             }
+        }
+
+        private bool InitializeRunMetrics(GameRuntimeData runtimeData)
+        {
+            if (runtimeData.InfiniteModeRuntimeData == null ||
+                !_distanceState.Initialize(_player.position.x) ||
+                !_scoreCalculator.Initialize(_scorePerUnit) ||
+                !_scoreCalculator.TryCalculate(0.0f, out int initialScore) ||
+                !runtimeData.InfiniteModeRuntimeData.TryUpdate(
+                    0.0f,
+                    initialScore))
+            {
+                ResetRunMetrics();
+                return false;
+            }
+
+            _infiniteModeRuntimeData = runtimeData.InfiniteModeRuntimeData;
+            return true;
+        }
+
+        private bool UpdateRunMetrics()
+        {
+            if (_infiniteModeRuntimeData == null ||
+                !_distanceState.TryUpdate(_player.position.x) ||
+                !_scoreCalculator.TryCalculate(
+                    _distanceState.CurrentDistance,
+                    out int currentScore) ||
+                !_infiniteModeRuntimeData.TryUpdate(
+                    _distanceState.CurrentDistance,
+                    currentScore))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private void FinalizeRunMetrics()
+        {
+            if (!UpdateRunMetrics() ||
+                !_distanceState.TryFinalize() ||
+                !_infiniteModeRuntimeData.TryFinalize())
+            {
+                Debug.LogError(
+                    "[InfiniteModeSystem] Infinite Mode run metrics could not be finalized.");
+            }
+        }
+
+        private void ResetRunMetrics()
+        {
+            _distanceState.Reset();
+            _scoreCalculator.Reset();
+            _infiniteModeRuntimeData = null;
         }
 
         private bool HasRequiredReferences()

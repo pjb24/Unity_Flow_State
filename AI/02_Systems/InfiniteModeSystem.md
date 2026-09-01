@@ -22,8 +22,11 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - Player Movement Runtime Data의 현재 수평 속도를 사용한다.
 - Player Y 위치가 설정된 추락 임계값 이하인지 확인한다.
 - InfiniteMode 진행 지속 조건을 평가한다.
+- InfiniteMode Playing 상태에서 Player World X를 이동 거리 규칙에 전달한다.
+- 현재 이동 거리와 현재 Score를 Runtime Data에 반영한다.
+- InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score의 확정을 요청한다.
 - 종료 조건 충족 시 StageSystem에 종료를 요청한다.
-- Retry 시 이전 Run의 진행 상태를 초기화한다.
+- Retry 시 이전 Run의 진행 상태, 이동 거리, Score와 최종 확정 상태를 초기화한다.
 
 ---
 
@@ -54,6 +57,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 |------|------|
 | 현재 수평 이동 속도 | Player Movement Runtime Data |
 | Player Y 위치 | Player Transform |
+| Player World X | Player Transform |
 | 현재 게임 Mode | GameSystem |
 
 ---
@@ -63,6 +67,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 | 출력 | 대상 |
 |------|------|
 | InfiniteMode Stage 종료 요청 | StageSystem |
+| 현재 이동 거리와 현재 Score | Runtime Data |
 
 ---
 
@@ -73,6 +78,9 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - InfiniteMode 진행 상태 관리
 - InfiniteMode 설정 관리
 - 이동 결과와 추락 임계값의 규칙 평가 연결
+- Player 위치와 이동 거리 규칙의 연결
+- 현재 이동 거리와 현재 Score의 Runtime Data 반영
+- 종료 요청 전 최종 이동 거리와 최종 Score 확정 요청
 - InfiniteMode Stage 종료 요청
 
 ## 담당하지 않는 범위
@@ -84,7 +92,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - 게임 전체 종료 흐름
 - Result Data 생성
 - UI 표시
-- Score 또는 이동 거리 계산
+- 이동 거리 또는 Score 계산 규칙 정의
 
 ---
 
@@ -104,7 +112,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - 추락 판정은 Player의 X 위치와 관계없이 Y 임계값으로 수행한다.
 - Stage 종료는 StageSystem에 요청한다.
 - 정상 프레임마다 로그를 출력하지 않는다.
-- Phase 1에서는 Score와 이동 거리 Result Data를 생성하지 않는다.
+- 이동 거리와 Score 계산 규칙을 직접 구현하지 않는다.
+- Result Data를 생성하지 않는다.
 
 ---
 

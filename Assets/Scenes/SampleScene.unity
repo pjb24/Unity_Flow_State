@@ -239,6 +239,7 @@ MonoBehaviour:
   _minimumHorizontalSpeed: 2
   _startGraceDuration: 1
   _belowSpeedGraceDuration: 0.5
+  _scorePerUnit: 10
 --- !u!1 &121742470
 GameObject:
   m_ObjectHideFlags: 0

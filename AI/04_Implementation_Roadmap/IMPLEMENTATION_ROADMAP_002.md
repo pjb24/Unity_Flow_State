@@ -75,7 +75,7 @@ InfiniteMode의 이동 거리와 Score를 기록한다.
 
 ### 상태
 
-대기
+완료
 
 ---
 
@@ -146,15 +146,17 @@ Prototype 2의 Mode별 UI와 전체 반복 플레이 흐름을 완성한다.
 
 ## 진행 중인 작업
 
-없음
+Prototype 2 Phase 2 완료
+
+InfiniteMode 이동 거리와 Score 기록
 
 ---
 
 ## 다음 작업
 
-Prototype 2 Phase 2
+Prototype 2 Phase 3 Step 1
 
-InfiniteMode 이동 거리와 Score 기록
+GamePause 미정 규칙 확정
 
 ---
 

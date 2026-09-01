@@ -125,8 +125,9 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            if (!_timerSystem.CreateTimer(E_TimerKey.PlayTimer) ||
-                !_timerSystem.StartTimer(E_TimerKey.PlayTimer))
+            if (_selectedGameMode == E_GameMode.Stage &&
+                (!_timerSystem.CreateTimer(E_TimerKey.PlayTimer) ||
+                 !_timerSystem.StartTimer(E_TimerKey.PlayTimer)))
             {
                 AbortGameStart();
                 return;
@@ -290,9 +291,10 @@ namespace FlowState.Runtime.Systems
 
             StopPlayTimer();
 
-            if (_stageSystem.IsCleared)
+            if (_runtimeData.GameMode == E_GameMode.Stage)
             {
-                if (_resultSystem.CreateResultData(
+                if (_stageSystem.IsCleared &&
+                    _resultSystem.CreateResultData(
                         true,
                         _timerSystem.GetElapsedTime(E_TimerKey.PlayTimer)))
                 {
@@ -300,8 +302,32 @@ namespace FlowState.Runtime.Systems
                         _resultSystem.CurrentResultData);
                 }
             }
+            else if (_runtimeData.GameMode == E_GameMode.Infinite)
+            {
+                CreateInfiniteResultData();
+            }
 
             EndGame();
+        }
+
+        private void CreateInfiniteResultData()
+        {
+            InfiniteModeRuntimeData infiniteModeRuntimeData =
+                _runtimeData.InfiniteModeRuntimeData;
+
+            if (infiniteModeRuntimeData == null)
+            {
+                Debug.LogError(
+                    "[GameSystem] Infinite Mode Runtime Data does not exist.");
+                return;
+            }
+
+            _resultSystem.CreateInfiniteResultData(
+                _runtimeData.GameMode,
+                _stageSystem.HasEnded,
+                infiniteModeRuntimeData.IsFinalized,
+                infiniteModeRuntimeData.CurrentDistance,
+                infiniteModeRuntimeData.CurrentScore);
         }
 
         private void StopPlayTimer()
