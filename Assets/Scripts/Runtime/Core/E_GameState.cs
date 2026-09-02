@@ -6,6 +6,7 @@ namespace FlowState.Runtime.Core
         Initializing,
         Ready,
         Playing,
+        Paused,
         Ending,
         Ended
     }

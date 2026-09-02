@@ -10,8 +10,15 @@ namespace FlowState.Runtime.Systems
 
         private float _currentHorizontalAcceleration;
         private bool _isInitialized;
+        private bool _isPaused;
+        private Vector3 _pausedLinearVelocity;
+        private Vector3 _pausedAngularVelocity;
+        private float _pausedHorizontalAcceleration;
+        private RigidbodyConstraints _pausedConstraints;
 
         public bool IsInitialized => _isInitialized;
+
+        public bool IsPaused => _isPaused;
 
         public Vector3 CurrentVelocity =>
             _playerRigidbody == null
@@ -37,6 +44,7 @@ namespace FlowState.Runtime.Systems
                 RigidbodyConstraints.FreezeRotation;
             ResetToStartPoint();
             _currentHorizontalAcceleration = 0.0f;
+            _isPaused = false;
             _isInitialized = true;
 
             return true;
@@ -44,7 +52,7 @@ namespace FlowState.Runtime.Systems
 
         public Vector3 GetVelocity()
         {
-            if (!_isInitialized)
+            if (!_isInitialized || _isPaused)
             {
                 return Vector3.zero;
             }
@@ -64,9 +72,13 @@ namespace FlowState.Runtime.Systems
 
         public void ApplyMovement(in PlayerMovementResult movementResult)
         {
-            if (!_isInitialized)
+            if (!_isInitialized || _isPaused)
             {
-                Debug.LogError("[PlayerControllerSystem] System is not initialized.");
+                if (!_isInitialized)
+                {
+                    Debug.LogError("[PlayerControllerSystem] System is not initialized.");
+                }
+
                 return;
             }
 
@@ -89,9 +101,48 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
+            if (_isPaused)
+            {
+                _playerRigidbody.constraints = _pausedConstraints;
+                _isPaused = false;
+            }
+
             _playerRigidbody.linearVelocity = Vector3.zero;
             _playerRigidbody.angularVelocity = Vector3.zero;
             _currentHorizontalAcceleration = 0.0f;
+        }
+
+        public bool PausePhysics()
+        {
+            if (!_isInitialized || _isPaused)
+            {
+                return false;
+            }
+
+            _pausedLinearVelocity = _playerRigidbody.linearVelocity;
+            _pausedAngularVelocity = _playerRigidbody.angularVelocity;
+            _pausedHorizontalAcceleration = _currentHorizontalAcceleration;
+            _pausedConstraints = _playerRigidbody.constraints;
+            _playerRigidbody.linearVelocity = Vector3.zero;
+            _playerRigidbody.angularVelocity = Vector3.zero;
+            _playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            _isPaused = true;
+            return true;
+        }
+
+        public bool ResumePhysics()
+        {
+            if (!_isInitialized || !_isPaused)
+            {
+                return false;
+            }
+
+            _playerRigidbody.constraints = _pausedConstraints;
+            _playerRigidbody.linearVelocity = _pausedLinearVelocity;
+            _playerRigidbody.angularVelocity = _pausedAngularVelocity;
+            _currentHorizontalAcceleration = _pausedHorizontalAcceleration;
+            _isPaused = false;
+            return true;
         }
 
         private void ResetToStartPoint()

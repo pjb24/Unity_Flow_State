@@ -4,6 +4,7 @@ namespace FlowState.Runtime.Core
     {
         None,
         StageHud,
+        Pause,
         Result
     }
 }

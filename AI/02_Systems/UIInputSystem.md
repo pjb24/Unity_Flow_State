@@ -27,6 +27,7 @@ UI 입력 장치와 UI System 사이의 연결을 담당한다.
 - UI 입력 상태를 관리한다.
 - UI 입력 상태를 GameSystem에 전달한다.
 - UI 입력 장치의 변경을 추상화한다.
+- 상태 전환 시 transient UI 입력을 초기화한다.
 
 ---
 
@@ -41,6 +42,10 @@ UI Action Map의 활성 여부는 GameSystem이 결정한다.
 UIInputSystem은 GameSystem의 요청에 따라 UI Action Map의 상태만 변경한다.
 
 UI Action Map은 Player Action Map과 독립적으로 관리한다.
+
+UI Action Map은 Playing, Paused와 Ended 상태에서 활성화될 수 있다.
+
+UIInputSystem은 현재 게임 상태에 따른 UI 입력의 의미를 판단하지 않는다.
 
 ---
 
@@ -73,6 +78,7 @@ UI Action Map은 Player Action Map과 독립적으로 관리한다.
 - UI 이동 입력
 - UI 확인 입력
 - UI 취소 입력
+- UI transient 입력
 
 ---
 
@@ -143,6 +149,8 @@ UI Action Map은 Player Action Map과 독립적으로 관리한다.
 - UI 동작 규칙을 정의하지 않는다.
 - Feature 규칙을 정의하지 않는다.
 - 입력 상태만 관리한다.
+- Pause 요청과 Resume 요청의 의미는 판단하지 않는다.
+- GameSystem이 요청한 시점에 transient UI 입력을 초기화한다.
 - 입력 장치에 의존하는 처리는 이 System 내부에서만 관리한다.
 - 입력 데이터는 Runtime에서만 사용한다.
 

@@ -70,7 +70,7 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator ResultMenu_PointerSelectsRetryAndQuit()
         {
-            GameObject quitButton = FindSceneGameObject("QuitButton");
+            GameObject quitButton = FindResultMenuButton("QuitButton");
             Vector2 quitPosition = RectTransformUtility.WorldToScreenPoint(
                 null,
                 quitButton.transform.position);
@@ -84,7 +84,7 @@ namespace FlowState.Tests.PlayMode
             AssertCurrentSelection("Quit");
             AssertSelectedGameObject("QuitButton");
 
-            GameObject retryButton = FindSceneGameObject("RetryButton");
+            GameObject retryButton = FindResultMenuButton("RetryButton");
             Vector2 retryPosition = RectTransformUtility.WorldToScreenPoint(
                 null,
                 retryButton.transform.position);
@@ -131,7 +131,7 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator ResultMenu_MouseClickRetry_StartsNewStageOnce()
         {
-            GameObject retryButton = FindSceneGameObject("RetryButton");
+            GameObject retryButton = FindResultMenuButton("RetryButton");
             Vector2 retryPosition = RectTransformUtility.WorldToScreenPoint(
                 null,
                 retryButton.transform.position);
@@ -208,6 +208,23 @@ namespace FlowState.Tests.PlayMode
             }
 
             Assert.Fail($"{gameObjectName} was not found in the loaded Scene.");
+            return null;
+        }
+
+        private GameObject FindResultMenuButton(string buttonName)
+        {
+            GameObject resultPanel = FindSceneGameObject("ResultPanel");
+
+            foreach (Transform child in
+                     resultPanel.GetComponentsInChildren<Transform>(true))
+            {
+                if (child.name == buttonName)
+                {
+                    return child.gameObject;
+                }
+            }
+
+            Assert.Fail($"{buttonName} was not found under ResultPanel.");
             return null;
         }
 

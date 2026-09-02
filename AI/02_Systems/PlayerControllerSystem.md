@@ -21,6 +21,8 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - Player GameObject의 실제 위치와 물리 상태를 Unity 엔진에 반영한다.
 - Player GameObject의 현재 상태를 필요한 System에 제공한다.
 - 플레이 시작 시 Player를 Stage 시작 위치로 이동하고 물리 상태를 초기화한다.
+- GameSystem의 요청에 따라 Player Rigidbody의 물리 진행을 일시 중단하고 재개한다.
+- 일시 중단 직전의 Rigidbody 속도와 물리 상태를 보존하고 재개 시 복원한다.
 
 ---
 
@@ -50,6 +52,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - Player GameObject
 - Player Transform
 - Player Rigidbody
+- 일시 중단 직전의 Player 물리 상태
 
 ---
 
@@ -59,6 +62,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 |------|------|
 | 플레이어 이동 결과 | PlayerMovementSystem |
 | Player 시작 위치 | Stage Object |
+| Player 물리 중단 및 재개 요청 | GameSystem |
 
 ---
 
@@ -84,6 +88,8 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - Player 물리 상태 제공
 - Player 시작 위치 적용
 - Player 물리 상태 초기화
+- Player 물리 진행 중단 및 재개
+- 일시 중단 직전 물리 상태 보존 및 복원
 
 ---
 
@@ -121,6 +127,9 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - PlayerMovementSystem이 계산한 이동 결과만 적용한다.
 - Player GameObject 제어만 담당한다.
 - 플레이 시작 위치가 준비되어야 한다.
+- 일시 중단 동안 Player 위치가 물리 작용으로 변경되지 않아야 한다.
+- 일시 중단은 저장된 속도와 물리 상태를 중복 요청으로 덮어쓰지 않는다.
+- 재개는 일시 중단 직전의 속도와 물리 상태를 복원한다.
 
 ---
 

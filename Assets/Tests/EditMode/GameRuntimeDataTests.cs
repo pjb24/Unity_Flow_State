@@ -67,6 +67,72 @@ namespace FlowState.Tests.EditMode
             Assert.That(_runtimeData.IsCreated, Is.False);
         }
 
+        [Test]
+        public void SetGameState_Paused_PreservesStageMovementRuntimeData()
+        {
+            _runtimeData.Initialize(E_GameMode.Stage);
+            PlayerMovementRuntimeData movementData =
+                _runtimeData.PlayerMovementRuntimeData;
+            movementData.UpdateState(
+                E_PlayerMovementState.Airborne,
+                8.0f,
+                4.0f,
+                false,
+                true,
+                true);
+            _runtimeData.SetGameState(E_GameState.Playing);
+
+            _runtimeData.SetGameState(E_GameState.Paused);
+
+            Assert.That(_runtimeData.GameState, Is.EqualTo(E_GameState.Paused));
+            Assert.That(
+                _runtimeData.PlayerMovementRuntimeData,
+                Is.SameAs(movementData));
+            Assert.That(
+                movementData.CurrentMovementState,
+                Is.EqualTo(E_PlayerMovementState.Airborne));
+            Assert.That(movementData.CurrentHorizontalSpeed, Is.EqualTo(8.0f));
+            Assert.That(movementData.CurrentVerticalSpeed, Is.EqualTo(4.0f));
+            Assert.That(movementData.IsGrounded, Is.False);
+            Assert.That(movementData.IsMomentumLandingWindowActive, Is.True);
+            Assert.That(movementData.IsLastLandingMomentum, Is.True);
+        }
+
+        [Test]
+        public void SetGameState_Paused_PreservesInfiniteRunRuntimeData()
+        {
+            _runtimeData.Initialize(E_GameMode.Infinite);
+            InfiniteModeRuntimeData infiniteData =
+                _runtimeData.InfiniteModeRuntimeData;
+            Assert.That(infiniteData.TryUpdate(12.5f, 125), Is.True);
+            _runtimeData.SetGameState(E_GameState.Playing);
+
+            _runtimeData.SetGameState(E_GameState.Paused);
+
+            Assert.That(_runtimeData.GameState, Is.EqualTo(E_GameState.Paused));
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData,
+                Is.SameAs(infiniteData));
+            Assert.That(infiniteData.CurrentDistance, Is.EqualTo(12.5f));
+            Assert.That(infiniteData.CurrentScore, Is.EqualTo(125));
+            Assert.That(infiniteData.IsFinalized, Is.False);
+        }
+
+        [Test]
+        public void Clear_PausedData_RemovesPauseAndRunRuntimeData()
+        {
+            _runtimeData.Initialize(E_GameMode.Infinite);
+            _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.5f, 125);
+            _runtimeData.SetGameState(E_GameState.Paused);
+
+            _runtimeData.Clear();
+
+            Assert.That(_runtimeData.GameState, Is.EqualTo(E_GameState.None));
+            Assert.That(_runtimeData.PlayerMovementRuntimeData, Is.Null);
+            Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Null);
+            Assert.That(_runtimeData.IsCreated, Is.False);
+        }
+
         [TestCase(E_GameMode.Stage)]
         [TestCase(E_GameMode.Infinite)]
         public void Initialize_AfterClear_CreatesNewRunWithRequestedMode(

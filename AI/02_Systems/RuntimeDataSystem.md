@@ -44,7 +44,7 @@ RuntimeDataSystem은 각 System의 내부 상태를 소유하지 않는다.
 - 현재 Player Runtime ID
 - 현재 플레이 세션 ID
 - 현재 입력 가능 상태
-- 현재 Pause 여부
+- 현재 게임 상태
 - 현재 Result Data 참조
 
 ---

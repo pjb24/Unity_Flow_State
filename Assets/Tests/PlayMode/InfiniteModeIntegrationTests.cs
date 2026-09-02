@@ -324,7 +324,7 @@ namespace FlowState.Tests.PlayMode
                 Is.True);
             Assert.That(
                 GetBoolProperty(_uiInputSystem, "IsUIActionMapEnabled"),
-                Is.False);
+                Is.True);
             Assert.That(
                 GetBoolProperty(_playerMovementSystem, "IsRunning"),
                 Is.True);

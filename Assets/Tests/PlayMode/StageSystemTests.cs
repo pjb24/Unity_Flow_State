@@ -337,6 +337,29 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
         }
 
+        [Test]
+        public void PauseStage_PlayingStage_BlocksGoalUntilResume()
+        {
+            Assert.That(InvokeBoolMethod(_stageSystem, "Initialize"), Is.True);
+            Assert.That(InvokeBoolMethod(_stageSystem, "StartStage"), Is.True);
+
+            Assert.That(InvokeBoolMethod(_stageSystem, "PauseStage"), Is.True);
+            InvokeMethod(_stageSystem, "HandleGoalReached");
+
+            Assert.That(GetBoolProperty(_stageSystem, "IsPaused"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+
+            Assert.That(InvokeBoolMethod(_stageSystem, "ResumeStage"), Is.True);
+            InvokeMethod(_stageSystem, "HandleGoalReached");
+
+            Assert.That(GetBoolProperty(_stageSystem, "IsPaused"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
+        }
+
         private MonoBehaviour AddComponentByName(
             GameObject gameObject,
             string typeName)

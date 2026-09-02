@@ -24,14 +24,18 @@ namespace FlowState.Runtime.Systems
         private PlayerMovementRuntimeData _movementRuntimeData;
         private InfiniteModeRuntimeData _infiniteModeRuntimeData;
         private bool _isInitialized;
+        private bool _isPaused;
 
         public bool IsPlaying => _state.IsPlaying;
 
         public bool HasEnded => _state.HasEnded;
 
+        public bool IsPaused => _isPaused;
+
         private void FixedUpdate()
         {
             if (!_isInitialized ||
+                _isPaused ||
                 !_state.IsPlaying ||
                 _state.GameMode != E_GameMode.Infinite)
             {
@@ -46,6 +50,7 @@ namespace FlowState.Runtime.Systems
         public bool Initialize(E_GameMode gameMode)
         {
             _isInitialized = false;
+            _isPaused = false;
             _movementRuntimeData = null;
             ResetRunMetrics();
 
@@ -102,11 +107,41 @@ namespace FlowState.Runtime.Systems
             _movementRuntimeData = null;
             ResetRunMetrics();
             _isInitialized = false;
+            _isPaused = false;
+        }
+
+        public bool Pause()
+        {
+            if (!_isInitialized ||
+                _isPaused ||
+                !_state.IsPlaying ||
+                _state.GameMode != E_GameMode.Infinite)
+            {
+                return false;
+            }
+
+            _isPaused = true;
+            return true;
+        }
+
+        public bool Resume()
+        {
+            if (!_isInitialized ||
+                !_isPaused ||
+                !_state.IsPlaying ||
+                _state.GameMode != E_GameMode.Infinite)
+            {
+                return false;
+            }
+
+            _isPaused = false;
+            return true;
         }
 
         private bool ProcessRunMetrics()
         {
             if (!_isInitialized ||
+                _isPaused ||
                 !_state.IsPlaying ||
                 _state.GameMode != E_GameMode.Infinite)
             {

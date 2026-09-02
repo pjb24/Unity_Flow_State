@@ -10,17 +10,27 @@ namespace FlowState.Runtime.Systems
     {
         [SerializeField] private GameObject _stageHud;
         [SerializeField] private GameObject _resultPanel;
+        [SerializeField] private GameObject _pausePanel;
         [SerializeField] private TMP_Text _clearTimeText;
         [SerializeField] private Button _retryButton;
         [SerializeField] private Button _quitButton;
+        [SerializeField] private Button _pauseResumeButton;
+        [SerializeField] private Button _pauseRetryButton;
+        [SerializeField] private Button _pauseQuitButton;
 
         private E_UIState _currentUIState;
         private E_ResultMenuSelection _currentResultMenuSelection;
+        private readonly PauseMenuState _pauseMenuState = new PauseMenuState();
 
         public E_UIState CurrentUIState => _currentUIState;
 
         public E_ResultMenuSelection CurrentResultMenuSelection =>
             _currentResultMenuSelection;
+
+        public E_PauseMenuSelection CurrentPauseMenuSelection =>
+            _pauseMenuState.CurrentSelection;
+
+        public bool IsPauseMenuActive => _pauseMenuState.IsActive;
 
         public void Initialize()
         {
@@ -33,6 +43,7 @@ namespace FlowState.Runtime.Systems
         {
             _currentUIState = uiState;
             ApplyUIState();
+            UpdatePauseMenuState(uiState);
 
             if (_currentUIState == E_UIState.Result)
             {
@@ -40,6 +51,73 @@ namespace FlowState.Runtime.Systems
             }
 
             Debug.Log($"[UIManagementSystem] UI State changed to {_currentUIState}.");
+        }
+
+        public bool MovePauseMenuSelection(float verticalInput)
+        {
+            if (_currentUIState != E_UIState.Pause ||
+                !_pauseMenuState.TryMove(verticalInput))
+            {
+                return false;
+            }
+
+            return ApplyPauseMenuSelection();
+        }
+
+        public bool TrySetPauseMenuSelectionAtPointer(
+            Vector2 pointerPosition)
+        {
+            if (_currentUIState != E_UIState.Pause || _pausePanel == null)
+            {
+                return false;
+            }
+
+            if (IsPointerOverButton(pointerPosition, _pauseResumeButton))
+            {
+                return SetPauseMenuSelection(E_PauseMenuSelection.Resume);
+            }
+
+            if (IsPointerOverButton(pointerPosition, _pauseRetryButton))
+            {
+                return SetPauseMenuSelection(E_PauseMenuSelection.Retry);
+            }
+
+            if (IsPointerOverButton(pointerPosition, _pauseQuitButton))
+            {
+                return SetPauseMenuSelection(E_PauseMenuSelection.Quit);
+            }
+
+            return false;
+        }
+
+        public bool TrySubmitPauseMenuSelection(
+            out E_PauseMenuSelection selection)
+        {
+            selection = _pauseMenuState.CurrentSelection;
+            return _currentUIState == E_UIState.Pause &&
+                   _pauseMenuState.TrySubmit(out selection);
+        }
+
+        public bool TryCancelPauseMenu(
+            out E_PauseMenuSelection selection)
+        {
+            selection = E_PauseMenuSelection.Resume;
+            return _currentUIState == E_UIState.Pause &&
+                   _pauseMenuState.TryCancel(out selection);
+        }
+
+        public bool TryClickPauseMenuSelection(
+            Vector2 pointerPosition,
+            out E_PauseMenuSelection executedSelection)
+        {
+            executedSelection = _pauseMenuState.CurrentSelection;
+
+            if (!TrySetPauseMenuSelectionAtPointer(pointerPosition))
+            {
+                return false;
+            }
+
+            return _pauseMenuState.TrySubmit(out executedSelection);
         }
 
         public bool SetResultData(ResultData resultData)
@@ -110,6 +188,55 @@ namespace FlowState.Runtime.Systems
         {
             SetUIActive(_stageHud, _currentUIState == E_UIState.StageHud, nameof(_stageHud));
             SetUIActive(_resultPanel, _currentUIState == E_UIState.Result, nameof(_resultPanel));
+            SetUIActive(_pausePanel, _currentUIState == E_UIState.Pause, nameof(_pausePanel));
+        }
+
+        private void UpdatePauseMenuState(E_UIState uiState)
+        {
+            if (uiState == E_UIState.Pause)
+            {
+                _pauseMenuState.Activate();
+                ApplyPauseMenuSelection();
+                return;
+            }
+
+            _pauseMenuState.Deactivate();
+        }
+
+        private bool SetPauseMenuSelection(E_PauseMenuSelection selection)
+        {
+            return _pauseMenuState.TrySelectAtPointer(selection) &&
+                   ApplyPauseMenuSelection();
+        }
+
+        private bool ApplyPauseMenuSelection()
+        {
+            Button selectedButton = null;
+
+            switch (_pauseMenuState.CurrentSelection)
+            {
+                case E_PauseMenuSelection.Resume:
+                    selectedButton = _pauseResumeButton;
+                    break;
+
+                case E_PauseMenuSelection.Retry:
+                    selectedButton = _pauseRetryButton;
+                    break;
+
+                case E_PauseMenuSelection.Quit:
+                    selectedButton = _pauseQuitButton;
+                    break;
+            }
+
+            if (selectedButton == null)
+            {
+                Debug.LogError(
+                    $"[UIManagementSystem] Pause {_pauseMenuState.CurrentSelection} Button is not assigned.");
+                return false;
+            }
+
+            selectedButton.Select();
+            return true;
         }
 
         private bool SetResultMenuSelection(

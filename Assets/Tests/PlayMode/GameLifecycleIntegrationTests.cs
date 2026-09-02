@@ -128,7 +128,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator PlayingState_DisablesUIInputAndKeepsStateEmpty()
+        public IEnumerator PlayingState_EnablesUIInputAndKeepsStateEmpty()
         {
             AssertPlayingState();
 
@@ -166,11 +166,10 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator PlayingState_IgnoresForcedUITransientInput()
+        public IEnumerator PlayingState_ConsumesUnusedUITransientInput()
         {
             AssertPlayingState();
             SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
-            SetPrivateField(_uiInputSystem, "_isCancelPressed", true);
             SetPrivateField(_uiInputSystem, "_isClickPressed", true);
 
             yield return null;
@@ -180,7 +179,62 @@ namespace FlowState.Tests.PlayMode
                 GetObjectProperty<bool>(
                     InvokePublicMethod(_uiInputSystem, "GetInputState"),
                     "IsSubmitPressed"),
+                Is.False);
+            Assert.That(
+                GetObjectProperty<bool>(
+                    InvokePublicMethod(_uiInputSystem, "GetInputState"),
+                    "IsClickPressed"),
+                Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator CancelInput_PlayingState_PausesOnceAndSwitchesActionMaps()
+        {
+            AssertPlayingState();
+            SetPrivateField(_uiInputSystem, "_isCancelPressed", true);
+
+            yield return null;
+
+            AssertPausedInputState();
+            Assert.That(
+                GetObjectProperty<bool>(
+                    InvokePublicMethod(_uiInputSystem, "GetInputState"),
+                    "IsCancelPressed"),
+                Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator CancelInput_PausedState_ResumesAndRestoresActionMaps()
+        {
+            Assert.That(
+                (bool)InvokePublicMethod(_gameSystem, "PauseGame"),
                 Is.True);
+            AssertPausedInputState();
+            SetPrivateField(_uiInputSystem, "_isCancelPressed", true);
+
+            yield return null;
+
+            AssertPlayingState();
+            Assert.That(
+                GetObjectProperty<bool>(
+                    InvokePublicMethod(_uiInputSystem, "GetInputState"),
+                    "IsCancelPressed"),
+                Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator PauseGame_DuplicateRequest_IsRejectedWithoutMutation()
+        {
+            Assert.That(
+                (bool)InvokePublicMethod(_gameSystem, "PauseGame"),
+                Is.True);
+
+            bool duplicateResult =
+                (bool)InvokePublicMethod(_gameSystem, "PauseGame");
+
+            Assert.That(duplicateResult, Is.False);
+            AssertPausedInputState();
+            yield return null;
         }
 
         private void AssertPlayingState()
@@ -202,7 +256,7 @@ namespace FlowState.Tests.PlayMode
                 (bool)GetPropertyValue(
                     _uiInputSystem,
                     "IsUIActionMapEnabled"),
-                Is.False);
+                Is.True);
             Assert.That(
                 (bool)GetPropertyValue(
                     _playerMovementSystem,
@@ -219,6 +273,35 @@ namespace FlowState.Tests.PlayMode
                 Is.True);
             Assert.That(_stageHud.activeSelf, Is.True);
             Assert.That(_resultPanel.activeSelf, Is.False);
+        }
+
+        private void AssertPausedInputState()
+        {
+            Assert.That(
+                GetPropertyValue(_gameSystem, "CurrentGameState").ToString(),
+                Is.EqualTo("Paused"));
+            Assert.That(
+                (bool)GetPropertyValue(
+                    _runtimeDataSystem,
+                    "HasRuntimeData"),
+                Is.True);
+            Assert.That(
+                (bool)GetPropertyValue(
+                    _playerInputSystem,
+                    "IsPlayerActionMapEnabled"),
+                Is.False);
+            Assert.That(
+                (bool)GetPropertyValue(
+                    _uiInputSystem,
+                    "IsUIActionMapEnabled"),
+                Is.True);
+
+            object runtimeData = GetPropertyValue(
+                _runtimeDataSystem,
+                "RuntimeData");
+            Assert.That(
+                GetObjectProperty<object>(runtimeData, "GameState").ToString(),
+                Is.EqualTo("Paused"));
         }
 
         private GameObject FindSceneGameObject(string gameObjectName)

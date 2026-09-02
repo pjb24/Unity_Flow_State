@@ -55,15 +55,18 @@ namespace FlowState.Runtime.Systems
         private PlayerMovementRuntimeData _runtimeData;
         private E_PlayerMovementState _movementState;
         private bool _isRunning;
+        private bool _isPaused;
         private bool _isJumpSequenceActive;
         private bool _hasJumpLeftGround;
         private bool _isLastLandingMomentum;
 
         public bool IsRunning => _isRunning;
 
+        public bool IsPaused => _isPaused;
+
         private void FixedUpdate()
         {
-            if (!_isRunning)
+            if (!_isRunning || _isPaused)
             {
                 return;
             }
@@ -111,6 +114,7 @@ namespace FlowState.Runtime.Systems
             _isJumpSequenceActive = false;
             _hasJumpLeftGround = false;
             _isLastLandingMomentum = false;
+            _isPaused = false;
             _isRunning = true;
 
             UpdateRuntimeData(
@@ -123,6 +127,7 @@ namespace FlowState.Runtime.Systems
         public void StopMovement()
         {
             _isRunning = false;
+            _isPaused = false;
             _movementState = E_PlayerMovementState.None;
             _isJumpSequenceActive = false;
             _hasJumpLeftGround = false;
@@ -136,6 +141,28 @@ namespace FlowState.Runtime.Systems
             {
                 _runtimeData.Initialize();
             }
+        }
+
+        public bool PauseMovement()
+        {
+            if (!_isRunning || _isPaused)
+            {
+                return false;
+            }
+
+            _isPaused = true;
+            return true;
+        }
+
+        public bool ResumeMovement()
+        {
+            if (!_isRunning || !_isPaused)
+            {
+                return false;
+            }
+
+            _isPaused = false;
+            return true;
         }
 
         private void ProcessMovementStep(float deltaTime)

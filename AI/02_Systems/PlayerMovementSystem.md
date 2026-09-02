@@ -25,6 +25,8 @@ PlayerMovementSystem
 - 점프 초기 수직 속도 계산에 사용할 중력 가속도를 Jump Feature에 제공한다.
 - 이동 결과를 생성한다.
 - 충돌 상태를 반영하여 이동 결과를 보정한다.
+- GameSystem의 요청에 따라 이동 계산을 일시 중단하고 재개한다.
+- 일시 중단 동안 현재 이동 상태를 보존한다.
 
 ---
 
@@ -55,6 +57,7 @@ PlayerMovementSystem
 - 현재 수직 속도
 - 중력 가속도 설정
 - 현재 이동 결과
+- 이동 계산의 일시 중단 상태
 
 ---
 
@@ -64,6 +67,7 @@ PlayerMovementSystem
 |------|------|
 | 플레이 입력 상태 | PlayerInputSystem |
 | 충돌 상태 | CollisionSystem |
+| 이동 계산 중단 및 재개 요청 | GameSystem |
 
 ---
 
@@ -86,6 +90,8 @@ PlayerMovementSystem
 - 중력 가속도 설정 관리
 - 충돌 상태를 반영한 이동 결과 보정
 - 이동 결과 제공
+- 이동 계산 중단 및 재개
+- 일시 중단 중 이동 상태 보존
 
 ---
 
@@ -127,6 +133,8 @@ PlayerMovementSystem
 - 중력 가속도 설정은 PlayerMovementSystem에서만 소유한다.
 - Jump Feature가 초기 수직 속도를 계산할 때 PlayerMovementSystem의 중력 가속도를 전달한다.
 - Jump Feature 또는 다른 System에 별도의 중력 가속도 설정을 중복하여 두지 않는다.
+- 일시 중단은 현재 이동 상태와 Player Movement Runtime Data를 초기화하지 않는다.
+- 플레이 종료와 Retry에 사용하는 이동 종료 처리를 일시 중단 처리에 사용하지 않는다.
 
 ---
 

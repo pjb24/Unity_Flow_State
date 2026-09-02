@@ -27,6 +27,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score의 확정을 요청한다.
 - 종료 조건 충족 시 StageSystem에 종료를 요청한다.
 - Retry 시 이전 Run의 진행 상태, 이동 거리, Score와 최종 확정 상태를 초기화한다.
+- GameSystem의 요청에 따라 InfiniteMode 진행 판정을 일시 중단하고 재개한다.
+- 일시 중단 동안 진행 상태, 이동 거리, Score와 최종 확정 상태를 보존한다.
 
 ---
 
@@ -59,6 +61,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 | Player Y 위치 | Player Transform |
 | Player World X | Player Transform |
 | 현재 게임 Mode | GameSystem |
+| InfiniteMode 진행 중단 및 재개 요청 | GameSystem |
 
 ---
 
@@ -82,6 +85,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - 현재 이동 거리와 현재 Score의 Runtime Data 반영
 - 종료 요청 전 최종 이동 거리와 최종 Score 확정 요청
 - InfiniteMode Stage 종료 요청
+- InfiniteMode 진행 판정 중단 및 재개
 
 ## 담당하지 않는 범위
 
@@ -114,6 +118,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - 정상 프레임마다 로그를 출력하지 않는다.
 - 이동 거리와 Score 계산 규칙을 직접 구현하지 않는다.
 - Result Data를 생성하지 않는다.
+- 일시 중단 동안 이동 거리, Score, 저속 진행 시간과 추락 종료 판정을 갱신하지 않는다.
+- 재개 시 일시 중단 이전의 Run 기록과 진행 상태를 유지한다.
 
 ---
 

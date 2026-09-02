@@ -110,6 +110,58 @@ namespace FlowState.Tests.PlayMode
         }
 
         [Test]
+        public void Pause_InfiniteRun_StopsMetricsAndEndChecksUntilResume()
+        {
+            _runtimeData.PlayerMovementRuntimeData.UpdateState(
+                E_PlayerMovementState.Grounded,
+                MinimumHorizontalSpeed,
+                0.0f,
+                true,
+                false,
+                false);
+            _playerObject.transform.position = new Vector3(10.0f, 0.0f, 0.0f);
+            InvokeMethod(_infiniteModeSystem, "FixedUpdate");
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentDistance,
+                Is.EqualTo(10.0f));
+
+            Assert.That(
+                InvokeBoolMethod(_infiniteModeSystem, "Pause"),
+                Is.True);
+            _playerObject.transform.position =
+                new Vector3(100.0f, FallThresholdY - 1.0f, 0.0f);
+
+            for (int i = 0; i < 40; i++)
+            {
+                InvokeMethod(_infiniteModeSystem, "FixedUpdate");
+            }
+
+            Assert.That(GetBoolProperty(_infiniteModeSystem, "IsPaused"), Is.True);
+            Assert.That(GetBoolProperty(_infiniteModeSystem, "HasEnded"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentDistance,
+                Is.EqualTo(10.0f));
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentScore,
+                Is.EqualTo(100));
+
+            _playerObject.transform.position = new Vector3(20.0f, 0.0f, 0.0f);
+            Assert.That(
+                InvokeBoolMethod(_infiniteModeSystem, "Resume"),
+                Is.True);
+            InvokeMethod(_infiniteModeSystem, "FixedUpdate");
+
+            Assert.That(GetBoolProperty(_infiniteModeSystem, "IsPaused"), Is.False);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentDistance,
+                Is.EqualTo(20.0f));
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.CurrentScore,
+                Is.EqualTo(200));
+        }
+
+        [Test]
         public void ProcessRunMetrics_PlayerWorldX_UpdatesDistanceAndScore()
         {
             _playerObject.transform.position = new Vector3(12.5f, 0.0f, 0.0f);

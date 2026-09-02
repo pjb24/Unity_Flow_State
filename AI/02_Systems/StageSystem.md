@@ -22,6 +22,7 @@ Stage 종료 시점을 판단하고 Stage 종료 이벤트를 발생시킨다.
 - 전달받은 게임 Mode에 해당하는 Stage Object 상태를 활성화한다.
 - Stage 진행 상태를 관리한다.
 - Stage Object 상태를 관리한다.
+- GameSystem의 요청에 따라 Stage 진행 판정을 일시 중단하고 재개한다.
 - Stage 종료 시점을 판단한다.
 - Stage 종료 이벤트를 발생시킨다.
 
@@ -61,6 +62,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 - 현재 Stage의 게임 Mode
 - Stage 진행 상태
 - Stage Object 상태
+- Stage 진행의 일시 중단 상태
 
 ---
 
@@ -72,6 +74,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 | 현재 게임 Mode | GameSystem |
 | Stage Object 상태 | Stage Object |
 | Stage Object 이벤트 | Stage Object |
+| Stage 진행 중단 및 재개 요청 | GameSystem |
 
 ---
 
@@ -96,6 +99,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 - Stage Object 상태 관리
 - Stage 종료 시점 판단
 - Stage 종료 이벤트 발생
+- Stage 진행 판정 중단 및 재개
 
 ---
 
@@ -135,6 +139,8 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 - UI를 직접 제어하지 않는다.
 - Feature 규칙을 정의하지 않는다.
 - Stage 종료 시에는 반드시 Stage 종료 이벤트를 발생시킨다.
+- 일시 중단 중에는 Stage Object의 종료 요청을 확정하지 않는다.
+- 재개 시 일시 중단 이전의 Stage 진행 상태를 유지한다.
 
 ---
 

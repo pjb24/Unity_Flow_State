@@ -141,6 +141,8 @@ Player Action Map은 UI Action Map과 독립적으로 관리한다.
 - 입력 상태만 관리한다.
 - 입력 장치에 의존하는 처리는 이 System 내부에서만 관리한다.
 - 입력 데이터는 Runtime에서만 사용한다.
+- Pause 상태에서는 GameSystem의 요청에 따라 Player Action Map을 비활성화한다.
+- Player Action Map이 비활성화될 때 남아 있는 transient 플레이 입력을 초기화한다.
 
 ---
 

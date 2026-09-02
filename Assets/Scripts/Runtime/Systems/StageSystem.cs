@@ -20,6 +20,7 @@ namespace FlowState.Runtime.Systems
         private bool _isPlaying;
         private bool _isCleared;
         private bool _hasEnded;
+        private bool _isPaused;
 
         public bool IsInitialized => _isInitialized;
 
@@ -30,6 +31,8 @@ namespace FlowState.Runtime.Systems
         public bool IsCleared => _isCleared;
 
         public bool HasEnded => _hasEnded;
+
+        public bool IsPaused => _isPaused;
 
         private void OnDestroy()
         {
@@ -119,11 +122,34 @@ namespace FlowState.Runtime.Systems
             EndStage();
         }
 
+        public bool PauseStage()
+        {
+            if (!_isInitialized || !_isPlaying || _hasEnded || _isPaused)
+            {
+                return false;
+            }
+
+            _isPaused = true;
+            return true;
+        }
+
+        public bool ResumeStage()
+        {
+            if (!_isInitialized || !_isPlaying || _hasEnded || !_isPaused)
+            {
+                return false;
+            }
+
+            _isPaused = false;
+            return true;
+        }
+
         public bool TryEndInfiniteStage()
         {
             if (!_isInitialized ||
                 _currentGameMode != E_GameMode.Infinite ||
                 !_isPlaying ||
+                _isPaused ||
                 _hasEnded)
             {
                 return false;
@@ -170,6 +196,7 @@ namespace FlowState.Runtime.Systems
         {
             if (_currentGameMode != E_GameMode.Stage ||
                 !_isPlaying ||
+                _isPaused ||
                 _isCleared ||
                 _hasEnded)
             {
@@ -194,6 +221,7 @@ namespace FlowState.Runtime.Systems
             }
 
             _isPlaying = false;
+            _isPaused = false;
             _hasEnded = true;
 
             if (StageEnded != null)
@@ -207,6 +235,7 @@ namespace FlowState.Runtime.Systems
             _isPlaying = false;
             _isCleared = false;
             _hasEnded = false;
+            _isPaused = false;
         }
 
         private bool InitializeStageGoal()
