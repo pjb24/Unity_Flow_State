@@ -53,12 +53,14 @@ namespace FlowState.Tests.PlayMode
                 GetPrivateField<Button>(uiManagementSystem, "_pauseQuitButton"),
                 Is.EqualTo(quitButton));
 
+            InvokeSetGameState(uiManagementSystem, E_GameState.Paused);
             InvokeSetUIState(uiManagementSystem, E_UIState.Pause);
             Assert.That(pausePanel.activeSelf, Is.True);
             Assert.That(EventSystem.current, Is.Not.Null);
             Assert.That(EventSystem.current.currentSelectedGameObject,
                 Is.EqualTo(resumeButton.gameObject));
 
+            InvokeSetGameState(uiManagementSystem, E_GameState.Playing);
             InvokeSetUIState(uiManagementSystem, E_UIState.StageHud);
             Assert.That(pausePanel.activeSelf, Is.False);
         }
@@ -122,6 +124,17 @@ namespace FlowState.Tests.PlayMode
         {
             MethodInfo method = target.GetType().GetMethod(
                 "SetUIState",
+                BindingFlags.Instance | BindingFlags.Public);
+            Assert.That(method, Is.Not.Null);
+            method.Invoke(target, new object[] { state });
+        }
+
+        private void InvokeSetGameState(
+            MonoBehaviour target,
+            E_GameState state)
+        {
+            MethodInfo method = target.GetType().GetMethod(
+                "SetGameState",
                 BindingFlags.Instance | BindingFlags.Public);
             Assert.That(method, Is.Not.Null);
             method.Invoke(target, new object[] { state });

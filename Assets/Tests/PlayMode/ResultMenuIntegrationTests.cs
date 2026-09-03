@@ -16,6 +16,7 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _gameSystem;
         private MonoBehaviour _uiInputSystem;
         private MonoBehaviour _uiManagementSystem;
+        private MonoBehaviour _runtimeDataSystem;
 
         [UnitySetUp]
         public IEnumerator SetUp()
@@ -39,6 +40,9 @@ namespace FlowState.Tests.PlayMode
             _uiManagementSystem = FindRequiredBehaviour(
                 "UIManagementSystem",
                 "UIManagementSystem");
+            _runtimeDataSystem = FindRequiredBehaviour(
+                "RuntimeDataSystem",
+                "RuntimeDataSystem");
 
             InvokePublicMethod(_gameSystem, "EndGame");
             yield return null;
@@ -148,6 +152,113 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 GetInputStateProperty<bool>("IsClickPressed"),
                 Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator InfiniteResult_KeyboardSubmitRetry_StartsInfiniteRun()
+        {
+            RestartEndedInMode(E_GameMode.Infinite);
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+
+            yield return null;
+
+            AssertGameState("Playing");
+            AssertRuntimeMode(E_GameMode.Infinite);
+            Assert.That(
+                GetInputStateProperty<bool>("IsSubmitPressed"),
+                Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator InfiniteResult_MouseClickRetry_StartsInfiniteRun()
+        {
+            RestartEndedInMode(E_GameMode.Infinite);
+            GameObject retryButton = FindResultMenuButton("RetryButton");
+            Vector2 retryPosition = RectTransformUtility.WorldToScreenPoint(
+                null,
+                retryButton.transform.position);
+            SetPrivateField(_uiInputSystem, "_pointerPosition", retryPosition);
+            SetPrivateField(_uiInputSystem, "_isPointChanged", true);
+            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
+
+            yield return null;
+
+            AssertGameState("Playing");
+            AssertRuntimeMode(E_GameMode.Infinite);
+            Assert.That(
+                GetInputStateProperty<bool>("IsClickPressed"),
+                Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator ResultClickAndSubmit_RetryExecutesOnlyOnce()
+        {
+            GameObject retryButton = FindResultMenuButton("RetryButton");
+            Vector2 retryPosition = RectTransformUtility.WorldToScreenPoint(
+                null,
+                retryButton.transform.position);
+            SetPrivateField(_uiInputSystem, "_pointerPosition", retryPosition);
+            SetPrivateField(_uiInputSystem, "_isPointChanged", true);
+            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+
+            yield return null;
+
+            object restartedRuntimeData = GetPropertyValue(
+                _runtimeDataSystem,
+                "RuntimeData");
+            AssertGameState("Playing");
+
+            yield return null;
+
+            AssertGameState("Playing");
+            Assert.That(
+                GetPropertyValue(_runtimeDataSystem, "RuntimeData"),
+                Is.SameAs(restartedRuntimeData));
+            Assert.That(
+                GetInputStateProperty<bool>("IsClickPressed"),
+                Is.False);
+            Assert.That(
+                GetInputStateProperty<bool>("IsSubmitPressed"),
+                Is.False);
+        }
+
+        private void RestartEndedInMode(E_GameMode gameMode)
+        {
+            ProductionSceneGameModeTestUtility.RestartInMode(gameMode);
+            _gameSystem = FindRequiredBehaviour("GameSystem", "GameSystem");
+            _uiInputSystem = FindRequiredBehaviour(
+                "UIInputSystem",
+                "UIInputSystem");
+            _uiManagementSystem = FindRequiredBehaviour(
+                "UIManagementSystem",
+                "UIManagementSystem");
+            _runtimeDataSystem = FindRequiredBehaviour(
+                "RuntimeDataSystem",
+                "RuntimeDataSystem");
+            InvokePublicMethod(_gameSystem, "EndGame");
+        }
+
+        private void AssertRuntimeMode(E_GameMode expectedMode)
+        {
+            object runtimeData = GetPropertyValue(
+                _runtimeDataSystem,
+                "RuntimeData");
+            Assert.That(runtimeData, Is.Not.Null);
+            Assert.That(
+                GetObjectPropertyValue(runtimeData, "GameMode"),
+                Is.EqualTo(expectedMode));
+        }
+
+        private object GetObjectPropertyValue(
+            object target,
+            string propertyName)
+        {
+            PropertyInfo property = target.GetType().GetProperty(
+                propertyName,
+                BindingFlags.Instance | BindingFlags.Public);
+            Assert.That(property, Is.Not.Null);
+            return property.GetValue(target);
         }
 
         private void AssertCurrentSelection(string expectedSelection)

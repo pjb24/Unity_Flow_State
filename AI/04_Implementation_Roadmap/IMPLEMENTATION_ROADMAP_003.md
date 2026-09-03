@@ -45,7 +45,7 @@ Stage Mode와 InfiniteMode에 Score Collectible을 배치하여 점프 시점, �
 
 ### 상태
 
-대기
+진행 중
 
 ---
 
@@ -156,15 +156,19 @@ Mode별 Score와 UI를 통합하고 Prototype 3의 전체 플레이 흐름을 �
 
 ## 진행 중인 작업
 
-없음
+Prototype 3 Phase 1
+
+벽 충돌과 낙하 동작 안정화 실행 절차 작성 완료
+
+`20260903_02_Phase1ManualSteps.md` 순서로 수행
 
 ---
 
 ## 다음 작업
 
-Prototype 3 Phase 1
+Prototype 3 Phase 1 Step 1
 
-벽 충돌과 낙하 동작 안정화
+Wall 접촉과 낙하 동작 규칙 확정
 
 ---
 

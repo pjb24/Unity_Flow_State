@@ -21,6 +21,8 @@ GamePause
 - Playing 상태의 Pause 입력은 GamePause를 시작한다.
 - Pause 상태의 동일한 입력은 Resume 요청으로 해석한다.
 - GamePause가 시작되면 Stage Play를 일시 중단한다.
+- GamePause 동안 현재 게임 Mode의 HUD와 PausePanel을 함께 표시한다.
+- GamePause 동안 HUD는 Pause 직전의 마지막 표시값을 유지한다.
 - GamePause 동안에는 플레이어를 조작할 수 없다.
 - GamePause 동안에는 Stage Play가 진행되지 않는다.
 - GamePause 동안에는 Stage Mode의 PlayTimer가 증가하지 않는다.
@@ -101,8 +103,10 @@ GamePause
 - GamePause 종료 후에는 일시정지 이전의 Stage Play를 이어서 진행한다.
 - GamePause는 전역 시간 배율을 변경하지 않는다.
 - Pause 요청이 Stage 종료와 동시에 발생하면 확정된 Stage 종료를 우선한다.
-- Phase 3의 PausePanel은 기능 검증에 필요한 최소 화면만 제공한다.
-- PausePanel의 최종 레이아웃, 아트와 애니메이션은 Phase 4에서 수행한다.
+- PausePanel에는 식별 가능한 `Pause` 제목과 세로로 배치된 Resume, Retry와 Quit을 표시한다.
+- PausePanel의 Text, 배경과 선택 상태는 최소한의 가독성을 제공해야 한다.
+- PausePanel의 Button은 서로 겹치거나 화면 밖으로 벗어나지 않아야 한다.
+- 신규 상용 아트와 애니메이션은 현재 범위에 포함하지 않는다.
 
 ---
 
@@ -113,6 +117,7 @@ GamePause
 - GamePause 동안 Stage Play가 진행되지 않는지 확인한다.
 - GamePause 동안 클리어 시간이 증가하지 않는지 확인한다.
 - GamePause 동안 InfiniteMode의 이동 거리, Score와 종료 판정이 진행되지 않는지 확인한다.
+- GamePause 동안 현재 Mode의 HUD와 PausePanel이 함께 표시되고 HUD 값이 변경되지 않는지 확인한다.
 - GamePause 종료 후 Stage Play가 중단된 시점부터 이어서 진행되는지 확인한다.
 - GamePause 종료 후 Player 위치, 속도와 이동 상태가 보존되는지 확인한다.
 - PausePanel에서 Keyboard와 Mouse로 Resume, Retry와 Quit을 각각 한 번만 수행하는지 확인한다.

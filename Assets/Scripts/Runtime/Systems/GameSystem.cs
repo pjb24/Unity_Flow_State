@@ -83,7 +83,7 @@ namespace FlowState.Runtime.Systems
             _runtimeData.SetGameState(CurrentGameState);
             _runtimeData.PlayerMovementRuntimeData.Initialize();
 
-            _uiManagementSystem.Initialize();
+            _uiManagementSystem.Initialize(_runtimeData);
             _resultSystem.Initialize();
             SetUIState(E_UIState.None);
 
@@ -482,6 +482,8 @@ namespace FlowState.Runtime.Systems
             _runtimeDataSystem.ClearRuntimeData();
             _runtimeData = null;
             _gameState.Reset();
+            _uiManagementSystem.SetGameState(E_GameState.None);
+            SetUIState(E_UIState.None);
 
             Debug.LogError("[GameSystem] Game start was aborted because initialization failed.");
         }
@@ -527,12 +529,16 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            _resultSystem.CreateInfiniteResultData(
-                _runtimeData.GameMode,
-                _stageSystem.HasEnded,
-                infiniteModeRuntimeData.IsFinalized,
-                infiniteModeRuntimeData.CurrentDistance,
-                infiniteModeRuntimeData.CurrentScore);
+            if (_resultSystem.CreateInfiniteResultData(
+                    _runtimeData.GameMode,
+                    _stageSystem.HasEnded,
+                    infiniteModeRuntimeData.IsFinalized,
+                    infiniteModeRuntimeData.CurrentDistance,
+                    infiniteModeRuntimeData.CurrentScore))
+            {
+                _uiManagementSystem.SetResultData(
+                    _resultSystem.CurrentResultData);
+            }
         }
 
         private void StopPlayTimer()
@@ -609,6 +615,8 @@ namespace FlowState.Runtime.Systems
             {
                 _runtimeData.SetGameState(gameState);
             }
+
+            _uiManagementSystem.SetGameState(gameState);
 
             Debug.Log($"[GameSystem] Game State changed to {CurrentGameState}.");
             return true;

@@ -144,6 +144,62 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
         }
 
+        [UnityTest]
+        public IEnumerator InfiniteHud_Cancel_OpensPausePanel()
+        {
+            RestartInMode(E_GameMode.Infinite);
+            SetPrivateField(_uiInputSystem, "_isCancelPressed", true);
+
+            yield return null;
+
+            AssertState(E_GameState.Paused, E_UIState.Pause);
+            Assert.That(GetInputStateBool("IsCancelPressed"), Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator PlayingCancelAndSubmit_ConsumesSubmitAtPauseBoundary()
+        {
+            object runtimeData = GetRuntimeData();
+            SetPrivateField(_uiInputSystem, "_isCancelPressed", true);
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+
+            yield return null;
+            yield return null;
+
+            AssertState(E_GameState.Paused, E_UIState.Pause);
+            Assert.That(GetRuntimeData(), Is.SameAs(runtimeData));
+            Assert.That(GetInputStateBool("IsCancelPressed"), Is.False);
+            Assert.That(GetInputStateBool("IsSubmitPressed"), Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator PauseClickAndSubmit_RetryExecutesOnlyOnce()
+        {
+            object previousRuntimeData = GetRuntimeData();
+            Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
+            yield return null;
+
+            Button retryButton = FindPauseButton("RetryButton");
+            Vector2 pointerPosition = GetButtonScreenPosition(retryButton);
+            SetPrivateField(_uiInputSystem, "_pointerPosition", pointerPosition);
+            SetPrivateField(_uiInputSystem, "_isPointChanged", true);
+            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+
+            yield return null;
+
+            object restartedRuntimeData = GetRuntimeData();
+            AssertState(E_GameState.Playing, E_UIState.StageHud);
+            Assert.That(restartedRuntimeData, Is.Not.SameAs(previousRuntimeData));
+
+            yield return null;
+
+            AssertState(E_GameState.Playing, E_UIState.StageHud);
+            Assert.That(GetRuntimeData(), Is.SameAs(restartedRuntimeData));
+            Assert.That(GetInputStateBool("IsClickPressed"), Is.False);
+            Assert.That(GetInputStateBool("IsSubmitPressed"), Is.False);
+        }
+
         private void RestartInMode(E_GameMode mode)
         {
             ProductionSceneGameModeTestUtility.RestartInMode(mode);
@@ -177,6 +233,18 @@ namespace FlowState.Tests.PlayMode
 
             Assert.Fail($"{buttonName} was not found under PausePanel.");
             return null;
+        }
+
+        private Vector2 GetButtonScreenPosition(Button button)
+        {
+            Canvas canvas = button.GetComponentInParent<Canvas>();
+            Camera eventCamera = canvas != null &&
+                                 canvas.renderMode != RenderMode.ScreenSpaceOverlay
+                ? canvas.worldCamera
+                : null;
+            return RectTransformUtility.WorldToScreenPoint(
+                eventCamera,
+                button.transform.position);
         }
 
         private void AssertState(E_GameState gameState, E_UIState uiState)

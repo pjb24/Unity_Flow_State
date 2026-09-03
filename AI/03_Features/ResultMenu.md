@@ -26,7 +26,9 @@ Stage Mode와 InfiniteMode의 결과 화면에서 다음 실행 흐름을 키보
 - Cancel 입력은 ResultMenu에서 동작을 수행하지 않는다.
 - Point 입력은 마우스 포인터가 가리키는 Retry 또는 Quit을 선택한다.
 - Click 입력은 마우스 포인터가 가리키는 Retry 또는 Quit을 한 번 실행한다.
-- StageHUD와 ResultMenu는 동시에 표시하지 않는다.
+- ResultMenu는 현재 게임 Mode의 HUD와 함께 표시한다.
+- Stage Mode에서는 StageHUD와 Stage Result Content를 표시한다.
+- InfiniteMode에서는 InfiniteHUD와 InfiniteMode Result Content를 표시한다.
 
 ---
 
@@ -85,7 +87,8 @@ Stage Mode와 InfiniteMode의 결과 화면에서 다음 실행 흐름을 키보
 - ResultMenu는 GamePause를 수행하지 않는다.
 - ResultMenu는 ScoreRecord, Leaderboard 또는 저장 기능을 수행하지 않는다.
 - Retry는 이전 플레이의 Timer, Result Data와 입력 상태를 새로운 플레이에 유지하지 않는다.
-- InfiniteMode에서 ScoreRecord가 구현되기 전에는 `Run Ended` 종료 안내만 표시한다.
+- ResultPanel은 현재 Mode의 HUD보다 앞에 표시한다.
+- Stage Result Content와 InfiniteMode Result Content를 동시에 표시하지 않는다.
 
 ---
 
@@ -99,10 +102,11 @@ Stage Mode와 InfiniteMode의 결과 화면에서 다음 실행 흐름을 키보
 - 마우스 Click 입력으로 Retry와 Quit이 각각 한 번만 실행되는지 확인한다.
 - Stage Mode와 InfiniteMode에서 ResultMenu가 활성화되는지 확인한다.
 - Retry 실행 후 같은 게임 Mode의 새로운 Stage Play가 이전 Runtime 상태 없이 시작되는지 확인한다.
-- ScoreRecord가 구현되기 전 InfiniteMode ResultMenu에 `Run Ended`가 표시되는지 확인한다.
+- Stage Mode Result에서 StageHUD와 Stage Result Content가 함께 표시되는지 확인한다.
+- InfiniteMode Result에서 InfiniteHUD와 최종 거리 및 최종 Score가 함께 표시되는지 확인한다.
 - Quit 실행 시 Application 종료가 요청되는지 Build에서 확인한다.
 - Stage Play 진행 중 ResultMenu 입력이 처리되지 않는지 확인한다.
-- StageHUD와 ResultMenu가 동시에 표시되지 않는지 확인한다.
+- 현재 Mode가 아닌 HUD와 Result Content가 표시되지 않는지 확인한다.
 
 ---
 

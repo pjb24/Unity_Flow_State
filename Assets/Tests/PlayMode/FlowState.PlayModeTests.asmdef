@@ -3,7 +3,8 @@
   "rootNamespace": "FlowState.Tests.PlayMode",
   "references": [
     "FlowState.Runtime.Core",
-    "FlowState.Runtime.Features"
+    "FlowState.Runtime.Features",
+    "Unity.TextMeshPro"
   ],
   "optionalUnityReferences": [
     "TestAssemblies"

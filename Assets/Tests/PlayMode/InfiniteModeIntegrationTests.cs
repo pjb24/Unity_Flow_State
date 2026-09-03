@@ -3,6 +3,7 @@ using System.Reflection;
 using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -23,6 +24,7 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _infiniteModeSystem;
         private MonoBehaviour _timerSystem;
         private MonoBehaviour _resultSystem;
+        private MonoBehaviour _uiManagementSystem;
         private MonoBehaviour _cameraFollow;
         private StageGoal _stageGoal;
         private InfiniteMapPattern _mapPattern;
@@ -33,6 +35,8 @@ namespace FlowState.Tests.PlayMode
         private GameObject _infiniteModeRoot;
         private Rigidbody _playerRigidbody;
         private Collider _playerCollider;
+        private TMP_Text _finalDistanceText;
+        private TMP_Text _finalScoreText;
 
         [UnitySetUp]
         public IEnumerator SetUp()
@@ -74,6 +78,9 @@ namespace FlowState.Tests.PlayMode
             _resultSystem = FindRequiredBehaviour(
                 "ResultSystem",
                 "ResultSystem");
+            _uiManagementSystem = FindRequiredBehaviour(
+                "UIManagementSystem",
+                "UIManagementSystem");
             _cameraFollow = FindRequiredBehaviour(
                 "CameraRig",
                 "CameraFollow");
@@ -89,6 +96,20 @@ namespace FlowState.Tests.PlayMode
             _infiniteModeRoot = FindSceneGameObject("InfiniteModeRoot");
             _playerRigidbody = _player.GetComponent<Rigidbody>();
             _playerCollider = _player.GetComponent<Collider>();
+            _finalDistanceText = new GameObject(
+                "InfiniteModeIntegrationTests.FinalDistanceText")
+                .AddComponent<TextMeshProUGUI>();
+            _finalScoreText = new GameObject(
+                "InfiniteModeIntegrationTests.FinalScoreText")
+                .AddComponent<TextMeshProUGUI>();
+            SetPrivateField(
+                _uiManagementSystem,
+                "_finalDistanceText",
+                _finalDistanceText);
+            SetPrivateField(
+                _uiManagementSystem,
+                "_finalScoreText",
+                _finalScoreText);
 
             Assert.That(_stageGoal, Is.Not.Null);
             Assert.That(_mapPattern, Is.Not.Null);
@@ -368,6 +389,16 @@ namespace FlowState.Tests.PlayMode
             Assert.That(resultData.ClearTime, Is.Zero);
             Assert.That(resultData.FinalDistance, Is.GreaterThanOrEqualTo(0.0f));
             Assert.That(resultData.FinalScore, Is.GreaterThanOrEqualTo(0));
+            Assert.That(
+                _finalDistanceText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatFinalDistance(
+                        resultData.FinalDistance)));
+            Assert.That(
+                _finalScoreText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatFinalScore(
+                        resultData.FinalScore)));
             return resultData;
         }
 

@@ -9,9 +9,16 @@ namespace FlowState.Runtime.Systems
     public class UIManagementSystem : MonoBehaviour
     {
         [SerializeField] private GameObject _stageHud;
+        [SerializeField] private GameObject _infiniteHud;
         [SerializeField] private GameObject _resultPanel;
         [SerializeField] private GameObject _pausePanel;
+        [SerializeField] private GameObject _stageResultContent;
+        [SerializeField] private GameObject _infiniteResultContent;
         [SerializeField] private TMP_Text _clearTimeText;
+        [SerializeField] private TMP_Text _distanceText;
+        [SerializeField] private TMP_Text _scoreText;
+        [SerializeField] private TMP_Text _finalDistanceText;
+        [SerializeField] private TMP_Text _finalScoreText;
         [SerializeField] private Button _retryButton;
         [SerializeField] private Button _quitButton;
         [SerializeField] private Button _pauseResumeButton;
@@ -19,8 +26,20 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private Button _pauseQuitButton;
 
         private E_UIState _currentUIState;
+        private E_GameMode _currentGameMode;
+        private E_GameState _currentGameState;
         private E_ResultMenuSelection _currentResultMenuSelection;
         private readonly PauseMenuState _pauseMenuState = new PauseMenuState();
+        private readonly UIVisibilityState _visibilityState =
+            new UIVisibilityState();
+        private GameRuntimeData _runtimeData;
+        private double _lastDisplayedDistance;
+        private int _lastDisplayedScore;
+        private bool _hasDisplayedDistance;
+        private bool _hasDisplayedScore;
+        private bool _lastDistanceWasValid;
+        private bool _lastScoreWasValid;
+        private bool _isInitialized;
 
         public E_UIState CurrentUIState => _currentUIState;
 
@@ -32,11 +51,50 @@ namespace FlowState.Runtime.Systems
 
         public bool IsPauseMenuActive => _pauseMenuState.IsActive;
 
-        public void Initialize()
+        private void Update()
         {
+            if (!_isInitialized ||
+                _currentGameMode != E_GameMode.Infinite ||
+                _currentGameState != E_GameState.Playing)
+            {
+                return;
+            }
+
+            UpdateInfiniteHud();
+        }
+
+        public void Initialize(GameRuntimeData runtimeData)
+        {
+            _runtimeData = runtimeData;
+
+            if (_runtimeData == null)
+            {
+                _isInitialized = false;
+                Debug.LogError(
+                    "[UIManagementSystem] Runtime Data is null.");
+                return;
+            }
+
+            _currentGameMode = _runtimeData.GameMode;
+            _currentResultMenuSelection = E_ResultMenuSelection.Retry;
+            _pauseMenuState.Deactivate();
+            _visibilityState.Reset();
+            ResetInfiniteHudDisplay();
+            ResetResultDisplay();
+            _isInitialized = true;
             SetUIState(E_UIState.None);
 
             Debug.Log("[UIManagementSystem] Initialized.");
+        }
+
+        public void SetGameState(E_GameState gameState)
+        {
+            _currentGameState = gameState;
+
+            if (_isInitialized)
+            {
+                ApplyUIState();
+            }
         }
 
         public void SetUIState(E_UIState uiState)
@@ -128,16 +186,44 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
-            if (_clearTimeText == null)
+            if (ResultTextFormatter.TryFormatStageResult(
+                    resultData,
+                    out string clearTimeText))
             {
-                Debug.LogError(
-                    "[UIManagementSystem] Clear Time Text is not assigned.");
-                return false;
+                if (_clearTimeText == null)
+                {
+                    Debug.LogError(
+                        "[UIManagementSystem] Clear Time Text is not assigned.");
+                    return false;
+                }
+
+                _clearTimeText.text = clearTimeText;
+                SetTextIfChanged(_finalDistanceText, string.Empty);
+                SetTextIfChanged(_finalScoreText, string.Empty);
+                return true;
             }
 
-            _clearTimeText.text =
-                ResultTextFormatter.FormatClearTime(resultData.ClearTime);
-            return true;
+            if (ResultTextFormatter.TryFormatInfiniteResult(
+                    resultData,
+                    out string finalDistanceText,
+                    out string finalScoreText))
+            {
+                if (_finalDistanceText == null || _finalScoreText == null)
+                {
+                    Debug.LogError(
+                        "[UIManagementSystem] Infinite Result Text is not assigned.");
+                    return false;
+                }
+
+                SetTextIfChanged(_clearTimeText, string.Empty);
+                _finalDistanceText.text = finalDistanceText;
+                _finalScoreText.text = finalScoreText;
+                return true;
+            }
+
+            Debug.LogError(
+                "[UIManagementSystem] Result Data contract is invalid.");
+            return false;
         }
 
         public bool MoveResultMenuSelection(float verticalInput)
@@ -186,9 +272,128 @@ namespace FlowState.Runtime.Systems
 
         private void ApplyUIState()
         {
-            SetUIActive(_stageHud, _currentUIState == E_UIState.StageHud, nameof(_stageHud));
-            SetUIActive(_resultPanel, _currentUIState == E_UIState.Result, nameof(_resultPanel));
-            SetUIActive(_pausePanel, _currentUIState == E_UIState.Pause, nameof(_pausePanel));
+            if (!_visibilityState.Apply(
+                    _currentGameMode,
+                    _currentGameState,
+                    _currentUIState))
+            {
+                Debug.LogError(
+                    "[UIManagementSystem] UI visibility state is invalid.");
+            }
+
+            SetUIActive(
+                _stageHud,
+                _visibilityState.IsStageHudVisible,
+                nameof(_stageHud));
+            SetUIActive(
+                _infiniteHud,
+                _visibilityState.IsInfiniteHudVisible,
+                nameof(_infiniteHud));
+            SetUIActive(
+                _resultPanel,
+                _visibilityState.IsResultPanelVisible,
+                nameof(_resultPanel));
+            SetUIActive(
+                _pausePanel,
+                _visibilityState.IsPausePanelVisible,
+                nameof(_pausePanel));
+            SetUIActive(
+                _stageResultContent,
+                _visibilityState.IsStageResultContentVisible,
+                nameof(_stageResultContent));
+            SetUIActive(
+                _infiniteResultContent,
+                _visibilityState.IsInfiniteResultContentVisible,
+                nameof(_infiniteResultContent));
+        }
+
+        private void UpdateInfiniteHud()
+        {
+            InfiniteModeRuntimeData infiniteModeRuntimeData =
+                _runtimeData.InfiniteModeRuntimeData;
+
+            if (!_runtimeData.IsCreated ||
+                infiniteModeRuntimeData == null ||
+                !infiniteModeRuntimeData.IsInitialized)
+            {
+                UpdateDistanceText(-1.0f);
+                UpdateScoreText(-1);
+                return;
+            }
+
+            UpdateDistanceText(infiniteModeRuntimeData.CurrentDistance);
+            UpdateScoreText(infiniteModeRuntimeData.CurrentScore);
+        }
+
+        private void UpdateDistanceText(float distance)
+        {
+            bool isValid = ResultTextFormatter.TryGetDisplayDistance(
+                distance,
+                out double displayDistance);
+
+            if (_hasDisplayedDistance &&
+                _lastDistanceWasValid == isValid &&
+                (!isValid || _lastDisplayedDistance == displayDistance))
+            {
+                return;
+            }
+
+            SetTextIfChanged(
+                _distanceText,
+                ResultTextFormatter.FormatCurrentDistance(distance));
+            _lastDisplayedDistance = displayDistance;
+            _lastDistanceWasValid = isValid;
+            _hasDisplayedDistance = true;
+        }
+
+        private void UpdateScoreText(int score)
+        {
+            bool isValid = score >= 0;
+
+            if (_hasDisplayedScore &&
+                _lastScoreWasValid == isValid &&
+                (!isValid || _lastDisplayedScore == score))
+            {
+                return;
+            }
+
+            SetTextIfChanged(
+                _scoreText,
+                ResultTextFormatter.FormatCurrentScore(score));
+            _lastDisplayedScore = score;
+            _lastScoreWasValid = isValid;
+            _hasDisplayedScore = true;
+        }
+
+        private void ResetInfiniteHudDisplay()
+        {
+            _lastDisplayedDistance = 0.0;
+            _lastDisplayedScore = 0;
+            _hasDisplayedDistance = false;
+            _hasDisplayedScore = false;
+            _lastDistanceWasValid = false;
+            _lastScoreWasValid = false;
+            SetTextIfChanged(
+                _distanceText,
+                ResultTextFormatter.FormatCurrentDistance(-1.0f));
+            SetTextIfChanged(
+                _scoreText,
+                ResultTextFormatter.FormatCurrentScore(-1));
+        }
+
+        private void ResetResultDisplay()
+        {
+            SetTextIfChanged(_clearTimeText, string.Empty);
+            SetTextIfChanged(_finalDistanceText, string.Empty);
+            SetTextIfChanged(_finalScoreText, string.Empty);
+        }
+
+        private void SetTextIfChanged(TMP_Text targetText, string value)
+        {
+            if (targetText != null && targetText.text != value)
+            {
+                targetText.text = value;
+            }
         }
 
         private void UpdatePauseMenuState(E_UIState uiState)

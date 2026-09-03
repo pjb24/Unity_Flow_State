@@ -110,7 +110,7 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
             Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(_playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
-            Assert.That(_stageHud.activeSelf, Is.False);
+            Assert.That(_stageHud.activeSelf, Is.True);
             Assert.That(_resultPanel.activeSelf, Is.True);
         }
 

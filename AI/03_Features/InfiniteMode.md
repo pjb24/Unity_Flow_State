@@ -97,8 +97,12 @@ InfiniteMode
 - InfiniteMode Stage Play가 종료된다.
 - ResultMenu가 활성화된다.
 - 최종 이동 거리와 최종 Score가 확정된다.
-- Phase 2에서는 최종 이동 거리와 최종 Score를 Result Data로 생성하고 화면에 표시하지 않는다.
-- 최종 이동 거리와 최종 Score의 화면 표시는 Phase 4에서 수행한다.
+- Playing 동안 현재 이동 거리와 현재 Score가 InfiniteHUD에 표시된다.
+- Ending에서는 InfiniteHUD가 사라지지 않고 마지막 표시값을 유지한다.
+- Result와 Ended에서는 InfiniteHUD를 유지하고 최종 이동 거리와 최종 Score를 ResultPanel에 표시한다.
+- HUD는 `Distance: 12`, `Score: 123` 형식을 사용한다.
+- Result는 `Final Distance: 12`, `Final Score: 123` 형식을 사용한다.
+- 표시 거리는 원본 값을 변경하지 않고 소수점 없이 내림 처리한다.
 
 ---
 
@@ -156,7 +160,10 @@ InfiniteMode
 - 플레이어의 X 위치와 관계없이 Y 위치가 추락 임계값 이하가 되면 InfiniteMode가 종료되는지 확인한다.
 - 최소 이동 속도 설정 값을 변경하면 종료 기준이 함께 변경되는지 확인한다.
 - InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score가 한 번 확정되는지 확인한다.
-- Phase 2에서는 최종 이동 거리와 최종 Score가 Result Data로 생성되고 화면 표시는 추가되지 않는지 확인한다.
+- 현재 이동 거리와 현재 Score가 InfiniteHUD에 표시되는지 확인한다.
+- Ending에서 InfiniteHUD가 사라지거나 초기화되지 않는지 확인한다.
+- Result와 Ended에서 InfiniteHUD와 InfiniteMode Result가 함께 표시되는지 확인한다.
+- HUD와 Result의 거리가 원본 데이터를 변경하지 않고 소수점 없이 내림 표시되는지 확인한다.
 - Retry 후 이전 Run의 이동 거리, Score와 최종 확정 상태가 남지 않는지 확인한다.
 - 일반 Stage에서는 InfiniteMode가 수행되지 않는지 확인한다.
 

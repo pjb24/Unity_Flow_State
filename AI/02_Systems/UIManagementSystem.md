@@ -24,6 +24,9 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - 현재 UI 선택 상태를 관리한다.
 - GameSystem의 요청에 따라 UI 선택 상태를 변경한다.
 - Pause UI State와 PausePanel 선택 상태를 관리한다.
+- 현재 게임 Mode와 게임 상태에 맞는 HUD, PausePanel, ResultPanel과 Result Content의 표시 조합을 관리한다.
+- InfiniteMode Runtime Data의 현재 거리와 현재 Score를 InfiniteHUD에 표시한다.
+- Result Data의 최종 거리와 최종 Score를 InfiniteMode Result Content에 표시한다.
 
 ---
 
@@ -94,6 +97,57 @@ Clear Time: 12.345 s
 
 UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 
+InfiniteMode의 최종 이동 거리와 최종 Score는 아래 형식으로 표시한다.
+
+```text
+Final Distance: 12
+Final Score: 123
+```
+
+거리는 소수점 없이 내림 처리하여 표시한다.
+
+표시를 위한 내림은 원본 Result Data를 변경하지 않는다.
+
+최종 Score는 Result Data의 `int` 값을 다시 계산하지 않고 그대로 표시한다.
+
+---
+
+# InfiniteMode HUD 반영
+
+InfiniteMode의 현재 이동 거리와 현재 Score는 아래 형식으로 표시한다.
+
+```text
+Distance: 12
+Score: 123
+```
+
+거리는 소수점 없이 내림 처리하여 표시한다.
+
+표시를 위한 내림은 원본 Runtime Data를 변경하지 않는다.
+
+현재 Score는 Runtime Data의 `int` 값을 다시 계산하지 않고 그대로 표시한다.
+
+Runtime Data가 없거나 초기화되지 않은 경우와 유효하지 않은 값은 `--`로 표시한다.
+
+InfiniteMode Playing 동안 표시 대상 값을 화면 프레임마다 확인하되 실제 표시값이 변경된 경우에만 Text를 갱신한다.
+
+Pause, Ending, Result와 Ended에서는 마지막 HUD 표시값을 유지한다.
+
+---
+
+# Mode와 상태별 표시 조합
+
+- Initializing과 Ready에서는 HUD, PausePanel과 ResultPanel을 표시하지 않는다.
+- Stage Mode Playing에서는 StageHUD만 표시한다.
+- InfiniteMode Playing에서는 InfiniteHUD만 표시한다.
+- Paused에서는 현재 Mode의 HUD와 PausePanel을 함께 표시한다.
+- Ending에서는 현재 Mode의 HUD를 유지한다.
+- Result와 Ended에서는 현재 Mode의 HUD와 ResultPanel을 함께 표시한다.
+- Stage Result에서는 StageResultContent만 표시한다.
+- InfiniteMode Result에서는 InfiniteResultContent만 표시한다.
+- PausePanel과 ResultPanel은 현재 Mode의 HUD보다 앞에 표시한다.
+- 현재 Mode가 아닌 HUD와 Result Content는 표시하지 않는다.
+
 ---
 
 # 시작 조건
@@ -148,6 +202,8 @@ UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 | UI State 변경 요청 | GameSystem |
 | UI 선택 상태 변경 요청 | GameSystem |
 | 결과 데이터 | ResultSystem |
+| 현재 게임 Mode와 상태 | GameSystem |
+| InfiniteMode 현재 이동 거리와 현재 Score | Runtime Data |
 
 ---
 
@@ -176,6 +232,8 @@ UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 - UI 선택 상태 변경
 - UI 선택 표시 반영
 - PausePanel 선택 상태 관리 및 표시 반영
+- Mode와 상태별 UI 표시 조합 관리
+- InfiniteMode HUD와 Result Text 표시
 
 ---
 
@@ -209,9 +267,11 @@ UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
 - 선택된 UI 항목이 수행할 게임 동작을 결정하지 않는다.
 - PausePanel과 ResultMenu의 선택 상태를 공유하지 않는다.
 - 결과 데이터를 생성하지 않는다.
+- InfiniteMode 이동 거리와 Score를 계산하지 않는다.
 - UI State 변경 요청을 받은 경우에만 UI State를 변경한다.
 - UI Configuration과 UI State를 구분하여 관리한다.
 - UI State를 기반으로 Unity UI를 갱신한다.
+- UI 표시를 위한 거리 내림은 Runtime Data와 Result Data의 원본 값을 변경하지 않는다.
 
 ---
 

@@ -47,7 +47,7 @@ namespace FlowState.Tests.PlayMode
                 "ResultSystem",
                 "ResultSystem");
             MonoBehaviour clearTimeText = FindRequiredBehaviour(
-                "Clear Time Text",
+                "ClearTimeText",
                 "TextMeshProUGUI");
             GameObject stageHud = FindSceneGameObject("StageHUD");
             GameObject resultPanel = FindSceneGameObject("ResultPanel");
@@ -111,7 +111,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 GetProperty<object>(gameSystem, "CurrentGameState").ToString(),
                 Is.EqualTo("Ended"));
-            Assert.That(stageHud.activeSelf, Is.False);
+            Assert.That(stageHud.activeSelf, Is.True);
             Assert.That(resultPanel.activeSelf, Is.True);
             Assert.That(playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
