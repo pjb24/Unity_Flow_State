@@ -206,6 +206,7 @@ namespace FlowState.Runtime.Systems
             UpdateAirborneProgress(stepInput.CollisionState);
             UpdateMomentumLanding(stepInput, deltaTime, calculation.VerticalSpeed);
             ResolveLanding(stepInput.CollisionState, ref calculation);
+            ConstrainWallMovement(stepInput.CollisionState, ref calculation);
 
             return CreateMovementResult(calculation);
         }
@@ -251,14 +252,11 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            if (stepInput.CollisionState.IsGrounded)
-            {
-                calculation.VerticalSpeed = 0.0f;
-                return;
-            }
-
-            calculation.VerticalSpeed -=
-                Mathf.Max(0.0f, _gravityAcceleration) * deltaTime;
+            calculation.VerticalSpeed = PlayerMovementMath.CalculateVerticalSpeed(
+                calculation.VerticalSpeed,
+                stepInput.CollisionState.IsGrounded,
+                _gravityAcceleration,
+                deltaTime);
         }
 
         private void UpdateAirborneProgress(
@@ -323,6 +321,24 @@ namespace FlowState.Runtime.Systems
             _hasJumpLeftGround = false;
             _isLastLandingMomentum = calculation.IsMomentumLanding;
             _jumpFeature.CompleteLanding();
+        }
+
+        private void ConstrainWallMovement(
+            in PlayerCollisionState collisionState,
+            ref MovementCalculation calculation)
+        {
+            Vector3 velocity = new Vector3(
+                calculation.HorizontalSpeed,
+                calculation.VerticalSpeed,
+                0.0f);
+            Vector3 constrainedVelocity =
+                PlayerMovementMath.ConstrainVelocityByWalls(
+                    velocity,
+                    collisionState.IsGrounded,
+                    collisionState.WallContacts);
+
+            calculation.HorizontalSpeed = constrainedVelocity.x;
+            calculation.VerticalSpeed = constrainedVelocity.y;
         }
 
         private PlayerMovementResult CreateMovementResult(

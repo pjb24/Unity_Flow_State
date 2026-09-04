@@ -76,6 +76,31 @@ namespace FlowState.Tests.PlayMode
             Assert.That(goalVisual.GetComponent<Collider>(), Is.Null);
         }
 
+        [Test]
+        public void PlayerCollider_UsesZeroFrictionMaterial()
+        {
+            Collider playerCollider = FindSceneGameObject("Player")
+                .GetComponent<Collider>();
+
+            Assert.That(playerCollider, Is.Not.Null);
+            Assert.That(playerCollider.sharedMaterial, Is.Not.Null);
+            Assert.That(
+                playerCollider.sharedMaterial.name,
+                Is.EqualTo("PlayerZeroFriction"));
+            Assert.That(
+                playerCollider.sharedMaterial.dynamicFriction,
+                Is.EqualTo(0.0f));
+            Assert.That(
+                playerCollider.sharedMaterial.staticFriction,
+                Is.EqualTo(0.0f));
+            Assert.That(
+                playerCollider.sharedMaterial.frictionCombine,
+                Is.EqualTo(PhysicsMaterialCombine.Minimum));
+            Assert.That(
+                playerCollider.sharedMaterial.bounciness,
+                Is.EqualTo(0.0f));
+        }
+
         [UnityTest]
         public IEnumerator StageTerrainSurfaces_ProvideActualGroundContact()
         {

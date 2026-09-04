@@ -82,10 +82,11 @@ namespace FlowState.Tests.PlayMode
             SetPrivateField(_uiInputSystem, "_isPointChanged", true);
             SetPrivateField(_uiInputSystem, "_isClickPressed", true);
 
-            yield return null;
+            InvokeNonPublic(_gameSystem, "ProcessPausedInput");
 
             AssertState(E_GameState.Playing, E_UIState.StageHud);
             Assert.That(GetRuntimeData(), Is.Not.SameAs(previousRuntimeData));
+            yield return null;
         }
 
         [UnityTest]
@@ -186,7 +187,7 @@ namespace FlowState.Tests.PlayMode
             SetPrivateField(_uiInputSystem, "_isClickPressed", true);
             SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
 
-            yield return null;
+            InvokeNonPublic(_gameSystem, "ProcessPausedInput");
 
             object restartedRuntimeData = GetRuntimeData();
             AssertState(E_GameState.Playing, E_UIState.StageHud);
@@ -309,6 +310,15 @@ namespace FlowState.Tests.PlayMode
                 BindingFlags.Instance | BindingFlags.Public);
             Assert.That(method, Is.Not.Null);
             return method.Invoke(target, null);
+        }
+
+        private void InvokeNonPublic(MonoBehaviour target, string methodName)
+        {
+            MethodInfo method = target.GetType().GetMethod(
+                methodName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(method, Is.Not.Null);
+            method.Invoke(target, null);
         }
 
         private T GetProperty<T>(MonoBehaviour target, string propertyName)

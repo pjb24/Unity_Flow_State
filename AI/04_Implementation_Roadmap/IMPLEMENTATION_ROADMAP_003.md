@@ -45,7 +45,7 @@ Stage Mode와 InfiniteMode에 Score Collectible을 배치하여 점프 시점, �
 
 ### 상태
 
-진행 중
+완료
 
 ---
 
@@ -166,9 +166,9 @@ Prototype 3 Phase 1
 
 ## 다음 작업
 
-Prototype 3 Phase 1 Step 1
+Prototype 3 Phase 2
 
-Wall 접촉과 낙하 동작 규칙 확정
+Phase 2 Step 1 자동 이동과 InfiniteMode 미정 규칙 확정
 
 ---
 

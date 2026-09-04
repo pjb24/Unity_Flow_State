@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FlowState.Runtime.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,6 +8,32 @@ namespace FlowState.Runtime.Systems
     public class CollisionSystem : MonoBehaviour
     {
         private const int GroundHitBufferSize = 16;
+        private const int ContactBufferSize = 16;
+
+        private readonly struct ColliderWallContacts
+        {
+            public bool HasLeftWall { get; }
+
+            public Vector3 LeftWallNormal { get; }
+
+            public bool HasRightWall { get; }
+
+            public Vector3 RightWallNormal { get; }
+
+            public bool HasWallContact => HasLeftWall || HasRightWall;
+
+            public ColliderWallContacts(
+                bool hasLeftWall,
+                Vector3 leftWallNormal,
+                bool hasRightWall,
+                Vector3 rightWallNormal)
+            {
+                HasLeftWall = hasLeftWall;
+                LeftWallNormal = leftWallNormal;
+                HasRightWall = hasRightWall;
+                RightWallNormal = rightWallNormal;
+            }
+        }
 
         [SerializeField] private Collider _playerCollider;
         [SerializeField] private Transform _groundCheck;
@@ -22,13 +49,45 @@ namespace FlowState.Runtime.Systems
         private readonly RaycastHit[] _groundPredictionHits =
             new RaycastHit[GroundHitBufferSize];
 
+        private readonly ContactPoint[] _contactBuffer =
+            new ContactPoint[ContactBufferSize];
+
+        private readonly Dictionary<Collider, ColliderWallContacts>
+            _wallContactsByCollider =
+                new Dictionary<Collider, ColliderWallContacts>();
+
         private PlayerCollisionState _collisionState;
         private bool _isInitialized;
 
         public bool IsInitialized => _isInitialized;
 
+        private void OnDisable()
+        {
+            _wallContactsByCollider.Clear();
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            UpdateWallContacts(collision);
+        }
+
+        private void OnCollisionStay(Collision collision)
+        {
+            UpdateWallContacts(collision);
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.collider != null)
+            {
+                _wallContactsByCollider.Remove(collision.collider);
+            }
+        }
+
         public bool Initialize()
         {
+            _wallContactsByCollider.Clear();
+
             if (!HasRequiredReferences())
             {
                 _isInitialized = false;
@@ -55,6 +114,7 @@ namespace FlowState.Runtime.Systems
             float predictionDistance = Mathf.Max(
                 groundedDistance,
                 _groundPredictionDistance);
+            PlayerWallContactState wallContacts = CreateWallContactState();
 
             int groundedHitCount = Physics.SphereCastNonAlloc(
                 _groundCheck.position,
@@ -87,13 +147,14 @@ namespace FlowState.Runtime.Systems
                     isGrounded,
                     predictionHit.distance,
                     predictionHit.point,
-                    predictionHit.normal);
+                    predictionHit.normal,
+                    wallContacts);
                 return;
             }
 
             if (!isGrounded)
             {
-                _collisionState = CreateNoGroundState();
+                _collisionState = CreateNoGroundState(wallContacts);
                 return;
             }
 
@@ -101,7 +162,8 @@ namespace FlowState.Runtime.Systems
                 true,
                 groundedHit.distance,
                 groundedHit.point,
-                groundedHit.normal);
+                groundedHit.normal,
+                wallContacts);
         }
 
         public PlayerCollisionState GetCollisionState()
@@ -150,6 +212,11 @@ namespace FlowState.Runtime.Systems
                     continue;
                 }
 
+                if (!PlayerSurfaceMath.IsGroundSurface(hit.normal))
+                {
+                    continue;
+                }
+
                 if (hit.distance >= closestDistance)
                 {
                     continue;
@@ -175,11 +242,108 @@ namespace FlowState.Runtime.Systems
 
         private PlayerCollisionState CreateNoGroundState()
         {
+            return CreateNoGroundState(default);
+        }
+
+        private PlayerCollisionState CreateNoGroundState(
+            in PlayerWallContactState wallContacts)
+        {
             return new PlayerCollisionState(
                 false,
                 float.PositiveInfinity,
                 Vector3.zero,
-                Vector3.up);
+                Vector3.up,
+                wallContacts);
+        }
+
+        private void UpdateWallContacts(Collision collision)
+        {
+            Collider otherCollider = collision.collider;
+
+            if (!_isInitialized ||
+                otherCollider == null ||
+                IsPlayerCollider(otherCollider))
+            {
+                return;
+            }
+
+            int contactCount = collision.GetContacts(_contactBuffer);
+            bool hasLeftWall = false;
+            Vector3 leftWallNormal = Vector3.zero;
+            bool hasRightWall = false;
+            Vector3 rightWallNormal = Vector3.zero;
+
+            for (int index = 0; index < contactCount; index++)
+            {
+                Vector3 normal = _contactBuffer[index].normal;
+
+                if (!PlayerSurfaceMath.IsWallSurface(normal))
+                {
+                    continue;
+                }
+
+                if (normal.x > Mathf.Epsilon &&
+                    (!hasLeftWall || normal.x > leftWallNormal.x))
+                {
+                    hasLeftWall = true;
+                    leftWallNormal = normal;
+                }
+
+                if (normal.x < -Mathf.Epsilon &&
+                    (!hasRightWall || normal.x < rightWallNormal.x))
+                {
+                    hasRightWall = true;
+                    rightWallNormal = normal;
+                }
+            }
+
+            ColliderWallContacts wallContacts = new ColliderWallContacts(
+                hasLeftWall,
+                leftWallNormal,
+                hasRightWall,
+                rightWallNormal);
+
+            if (wallContacts.HasWallContact)
+            {
+                _wallContactsByCollider[otherCollider] = wallContacts;
+                return;
+            }
+
+            _wallContactsByCollider.Remove(otherCollider);
+        }
+
+        private PlayerWallContactState CreateWallContactState()
+        {
+            bool hasLeftWall = false;
+            Vector3 leftWallNormal = Vector3.zero;
+            bool hasRightWall = false;
+            Vector3 rightWallNormal = Vector3.zero;
+
+            foreach (ColliderWallContacts contacts in
+                     _wallContactsByCollider.Values)
+            {
+                if (contacts.HasLeftWall &&
+                    (!hasLeftWall ||
+                     contacts.LeftWallNormal.x > leftWallNormal.x))
+                {
+                    hasLeftWall = true;
+                    leftWallNormal = contacts.LeftWallNormal;
+                }
+
+                if (contacts.HasRightWall &&
+                    (!hasRightWall ||
+                     contacts.RightWallNormal.x < rightWallNormal.x))
+                {
+                    hasRightWall = true;
+                    rightWallNormal = contacts.RightWallNormal;
+                }
+            }
+
+            return new PlayerWallContactState(
+                hasLeftWall,
+                leftWallNormal,
+                hasRightWall,
+                rightWallNormal);
         }
     }
 }

@@ -25,6 +25,8 @@ PlayerMovementSystem
 - 점프 초기 수직 속도 계산에 사용할 중력 가속도를 Jump Feature에 제공한다.
 - 이동 결과를 생성한다.
 - 충돌 상태를 반영하여 이동 결과를 보정한다.
+- 공중 Wall 접촉 중 Wall 안쪽으로 향하는 수평 속도만 제한한다.
+- Wall 접촉 중 수직 속도와 중력 계산을 유지한다.
 - GameSystem의 요청에 따라 이동 계산을 일시 중단하고 재개한다.
 - 일시 중단 동안 현재 이동 상태를 보존한다.
 
@@ -129,6 +131,9 @@ PlayerMovementSystem
 - Transform을 직접 갱신하지 않는다.
 - Feature 규칙을 정의하지 않는다.
 - 이동 계산에 필요한 입력과 충돌 상태만 사용한다.
+- Wall과 평행하거나 Wall에서 멀어지는 수평 이동은 유지한다.
+- Wall 접촉을 이유로 수직 속도, 중력 누적 또는 전체 이동 결과를 초기화하지 않는다.
+- Ground와 Wall이 동시에 접촉하면 Ground 이동을 우선하고 수평 속도를 유지한다.
 - 계산 결과는 Runtime에서만 사용한다.
 - 중력 가속도 설정은 PlayerMovementSystem에서만 소유한다.
 - Jump Feature가 초기 수직 속도를 계산할 때 PlayerMovementSystem의 중력 가속도를 전달한다.
