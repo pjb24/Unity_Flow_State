@@ -169,7 +169,7 @@ namespace FlowState.Tests.EditMode
 
         private PlayerInputState CreateMomentumInput()
         {
-            return new PlayerInputState(0.0f, false, true);
+            return new PlayerInputState(false, true);
         }
     }
 }

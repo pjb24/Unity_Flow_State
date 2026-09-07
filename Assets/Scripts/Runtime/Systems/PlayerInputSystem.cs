@@ -8,13 +8,22 @@ namespace FlowState.Runtime.Systems
     public class PlayerInputSystem : MonoBehaviour
     {
         private InputSystem_Actions _inputActions;
-        private Vector2 _moveInput;
         private bool _isJumpPressed;
         private bool _isMomentumLandingPressed;
         private bool _isInitialized;
 
         public bool IsPlayerActionMapEnabled =>
             _inputActions != null && _inputActions.Player.enabled;
+
+        public bool IsMoveActionEnabled =>
+            _inputActions != null && _inputActions.Player.Move.enabled;
+
+        public bool IsJumpActionEnabled =>
+            _inputActions != null && _inputActions.Player.Jump.enabled;
+
+        public bool IsMomentumLandingActionEnabled =>
+            _inputActions != null &&
+            _inputActions.Player.MomentumLanding.enabled;
 
         private void OnDestroy()
         {
@@ -53,6 +62,7 @@ namespace FlowState.Runtime.Systems
 
             ResetInputState();
             _inputActions.Player.Enable();
+            _inputActions.Player.Move.Disable();
         }
 
         public void DisablePlayerActionMap()
@@ -69,7 +79,6 @@ namespace FlowState.Runtime.Systems
         public PlayerInputState GetInputState()
         {
             return new PlayerInputState(
-                _moveInput.x,
                 _isJumpPressed,
                 _isMomentumLandingPressed);
         }
@@ -82,35 +91,20 @@ namespace FlowState.Runtime.Systems
 
         private void RegisterCallbacks()
         {
-            _inputActions.Player.Move.performed += OnMovePerformed;
-            _inputActions.Player.Move.canceled += OnMoveCanceled;
             _inputActions.Player.Jump.performed += OnJumpPerformed;
             _inputActions.Player.MomentumLanding.performed += OnMomentumLandingPerformed;
         }
 
         private void UnregisterCallbacks()
         {
-            _inputActions.Player.Move.performed -= OnMovePerformed;
-            _inputActions.Player.Move.canceled -= OnMoveCanceled;
             _inputActions.Player.Jump.performed -= OnJumpPerformed;
             _inputActions.Player.MomentumLanding.performed -= OnMomentumLandingPerformed;
         }
 
         private void ResetInputState()
         {
-            _moveInput = Vector2.zero;
             _isJumpPressed = false;
             _isMomentumLandingPressed = false;
-        }
-
-        private void OnMovePerformed(InputAction.CallbackContext context)
-        {
-            _moveInput = context.ReadValue<Vector2>();
-        }
-
-        private void OnMoveCanceled(InputAction.CallbackContext context)
-        {
-            _moveInput = Vector2.zero;
         }
 
         private void OnJumpPerformed(InputAction.CallbackContext context)

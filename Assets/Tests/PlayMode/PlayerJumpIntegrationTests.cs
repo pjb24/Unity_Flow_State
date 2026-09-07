@@ -22,6 +22,7 @@ namespace FlowState.Tests.PlayMode
         private Rigidbody _playerRigidbody;
         private MonoBehaviour _playerInputSystem;
         private MonoBehaviour _playerMovementSystem;
+        private GameObject _jumpGround;
 
         [UnitySetUp]
         public IEnumerator SetUp()
@@ -52,6 +53,28 @@ namespace FlowState.Tests.PlayMode
             _playerMovementSystem = FindRequiredBehaviour(
                 "PlayerMovementSystem",
                 "PlayerMovementSystem");
+
+            // A level runway keeps gravity comparisons independent of stage obstacles.
+            _jumpGround = new GameObject("PlayerJumpIntegrationTests.Ground");
+            _jumpGround.layer = 6;
+            _jumpGround.transform.position = new Vector3(20000.0f, 0.0f, 0.0f);
+            _jumpGround.AddComponent<BoxCollider>().size = new Vector3(200.0f, 1.0f, 4.0f);
+            _playerRigidbody.position = new Vector3(20000.0f, ExpectedStartHeight, 0.0f);
+            _playerRigidbody.linearVelocity = Vector3.zero;
+            Physics.SyncTransforms();
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            if (_jumpGround != null)
+            {
+                UnityEngine.Object.DestroyImmediate(_jumpGround);
+            }
+
+            yield return null;
         }
 
         [UnityTest]

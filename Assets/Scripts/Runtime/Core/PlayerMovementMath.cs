@@ -50,6 +50,37 @@ namespace FlowState.Runtime.Core
             return Mathf.Clamp(speed, -maximumSpeed, maximumSpeed);
         }
 
+        public static float CalculateAutoHorizontalSpeed(
+            float currentSpeed,
+            bool isGrounded,
+            float deltaTime,
+            float moveSpeed,
+            float groundAcceleration,
+            float airAcceleration,
+            float maximumHorizontalSpeed)
+        {
+            float maximumSpeed = SanitizeNonNegative(maximumHorizontalSpeed);
+
+            if (float.IsNaN(currentSpeed) || float.IsInfinity(currentSpeed))
+            {
+                currentSpeed = 0.0f;
+            }
+
+            currentSpeed = Mathf.Clamp(currentSpeed, -maximumSpeed, maximumSpeed);
+            float baseSpeed = Mathf.Min(SanitizeNonNegative(moveSpeed), maximumSpeed);
+
+            // Momentum gained from landing must survive the next automatic movement step.
+            float targetSpeed = Mathf.Max(baseSpeed, currentSpeed);
+            float acceleration = SanitizeNonNegative(
+                isGrounded ? groundAcceleration : airAcceleration);
+            float speed = Mathf.MoveTowards(
+                currentSpeed,
+                targetSpeed,
+                acceleration * SanitizeNonNegative(deltaTime));
+
+            return Mathf.Clamp(speed, -maximumSpeed, maximumSpeed);
+        }
+
         public static float CalculateSignedHorizontalAcceleration(
             float previousSpeed,
             float currentSpeed,
@@ -97,6 +128,16 @@ namespace FlowState.Runtime.Core
             }
 
             return velocity;
+        }
+
+        private static float SanitizeNonNegative(float value)
+        {
+            if (float.IsNaN(value) || float.IsInfinity(value))
+            {
+                return 0.0f;
+            }
+
+            return Mathf.Max(0.0f, value);
         }
     }
 }

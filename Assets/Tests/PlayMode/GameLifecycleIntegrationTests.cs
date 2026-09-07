@@ -253,6 +253,17 @@ namespace FlowState.Tests.PlayMode
                     "IsPlayerActionMapEnabled"),
                 Is.True);
             Assert.That(
+                (bool)GetPropertyValue(_playerInputSystem, "IsMoveActionEnabled"),
+                Is.False);
+            Assert.That(
+                (bool)GetPropertyValue(_playerInputSystem, "IsJumpActionEnabled"),
+                Is.True);
+            Assert.That(
+                (bool)GetPropertyValue(
+                    _playerInputSystem,
+                    "IsMomentumLandingActionEnabled"),
+                Is.True);
+            Assert.That(
                 (bool)GetPropertyValue(
                     _uiInputSystem,
                     "IsUIActionMapEnabled"),
@@ -289,6 +300,17 @@ namespace FlowState.Tests.PlayMode
                 (bool)GetPropertyValue(
                     _playerInputSystem,
                     "IsPlayerActionMapEnabled"),
+                Is.False);
+            Assert.That(
+                (bool)GetPropertyValue(_playerInputSystem, "IsMoveActionEnabled"),
+                Is.False);
+            Assert.That(
+                (bool)GetPropertyValue(_playerInputSystem, "IsJumpActionEnabled"),
+                Is.False);
+            Assert.That(
+                (bool)GetPropertyValue(
+                    _playerInputSystem,
+                    "IsMomentumLandingActionEnabled"),
                 Is.False);
             Assert.That(
                 (bool)GetPropertyValue(

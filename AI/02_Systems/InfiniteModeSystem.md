@@ -19,10 +19,12 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 # 시스템 책임
 
 - InfiniteMode 진행 상태를 초기화하고 종료한다.
-- Player Movement Runtime Data의 현재 수평 속도를 사용한다.
+- Player Rigidbody의 실제 양의 X 속도를 사용한다.
+- CollisionSystem의 Wall 접촉 결과를 진행 지속 조건에 전달한다.
 - Player Y 위치가 설정된 추락 임계값 이하인지 확인한다.
 - InfiniteMode 진행 지속 조건을 평가한다.
 - InfiniteMode Playing 상태에서 Player World X를 이동 거리 규칙에 전달한다.
+- 시작 원점, 이동 거리 및 추락 판정의 위치는 Player Rigidbody의 물리 위치를 사용한다.
 - 현재 이동 거리와 현재 Score를 Runtime Data에 반영한다.
 - InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score의 확정을 요청한다.
 - 종료 조건 충족 시 StageSystem에 종료를 요청한다.
@@ -37,6 +39,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - GameSystem이 선택된 게임 Mode와 함께 초기화를 요청한다.
 - Player Movement Runtime Data가 생성되었다.
 - StageSystem이 초기화되었다.
+- Player 참조 대상에 Rigidbody가 존재한다.
+- CollisionSystem 참조가 존재한다.
 
 ---
 
@@ -57,9 +61,10 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 
 | 입력 | 출처 |
 |------|------|
-| 현재 수평 이동 속도 | Player Movement Runtime Data |
-| Player Y 위치 | Player Transform |
-| Player World X | Player Transform |
+| 실제 양의 X 이동 속도 | Player Rigidbody |
+| Wall 접촉 상태 | CollisionSystem |
+| Player Y 위치 | Player Rigidbody의 물리 위치 |
+| Player World X | Player Rigidbody의 물리 위치 |
 | 현재 게임 Mode | GameSystem |
 | InfiniteMode 진행 중단 및 재개 요청 | GameSystem |
 
@@ -112,7 +117,9 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 # 제약 사항
 
 - PlayerMovementSystem의 이동 계산을 변경하지 않는다.
-- Player Movement Runtime Data가 제공하는 수평 속도를 사용한다.
+- 진행 속도는 `max(0, Rigidbody.linearVelocity.x)`를 사용한다.
+- Wall 접촉은 CollisionSystem 결과를 사용하고 별도 물리 판정을 만들지 않는다.
+- 위치 판정은 보간된 표시 Transform 대신 Rigidbody.position을 사용한다. Rigidbody 위치나 속도를 직접 변경하지 않는다.
 - 추락 판정은 Player의 X 위치와 관계없이 Y 임계값으로 수행한다.
 - Stage 종료는 StageSystem에 요청한다.
 - 정상 프레임마다 로그를 출력하지 않는다.

@@ -53,6 +53,7 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private float _maximumHorizontalSpeed = 14.0f;
         [SerializeField] private float _gravityAcceleration = 25.0f;
         private PlayerMovementRuntimeData _runtimeData;
+        private GameRuntimeData _gameRuntimeData;
         private E_PlayerMovementState _movementState;
         private bool _isRunning;
         private bool _isPaused;
@@ -66,7 +67,9 @@ namespace FlowState.Runtime.Systems
 
         private void FixedUpdate()
         {
-            if (!_isRunning || _isPaused)
+            if (!_isRunning || _isPaused ||
+                _gameRuntimeData == null || !_gameRuntimeData.IsCreated ||
+                _gameRuntimeData.GameState != E_GameState.Playing)
             {
                 return;
             }
@@ -100,6 +103,12 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
+            if (_isRunning && _gameRuntimeData == gameRuntimeData)
+            {
+                return true;
+            }
+
+            _gameRuntimeData = gameRuntimeData;
             _runtimeData = gameRuntimeData.PlayerMovementRuntimeData;
 
             _jumpFeature.Initialize();
@@ -141,6 +150,9 @@ namespace FlowState.Runtime.Systems
             {
                 _runtimeData.Initialize();
             }
+
+            _runtimeData = null;
+            _gameRuntimeData = null;
         }
 
         public bool PauseMovement()
@@ -217,9 +229,8 @@ namespace FlowState.Runtime.Systems
         {
             return new MovementCalculation
             {
-                HorizontalSpeed = PlayerMovementMath.CalculateHorizontalSpeed(
+                HorizontalSpeed = PlayerMovementMath.CalculateAutoHorizontalSpeed(
                     stepInput.CurrentVelocity.x,
-                    stepInput.InputState.HorizontalInput,
                     stepInput.CollisionState.IsGrounded,
                     deltaTime,
                     _moveSpeed,

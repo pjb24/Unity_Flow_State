@@ -58,7 +58,6 @@ namespace FlowState.Tests.PlayMode
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
             Assert.That(GetMovementData().IsGrounded, Is.True);
-            SetMoveInput(Vector2.right);
             SetPrivateField(_playerInputSystem, "_isJumpPressed", true);
             yield return new WaitForFixedUpdate();
         }
@@ -126,6 +125,8 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetMovementData().IsLastLandingMomentum, Is.False);
 
             yield return MoveAwayFromWall();
+            yield return new WaitForFixedUpdate();
+            Assert.That(_playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
 
             SetPrivateField(_playerInputSystem, "_isJumpPressed", true);
 
@@ -265,7 +266,6 @@ namespace FlowState.Tests.PlayMode
             yield return new WaitForFixedUpdate();
             Assert.That(GetMovementData().IsGrounded, Is.True);
 
-            SetMoveInput(Vector2.right);
             SetPrivateField(_playerInputSystem, "_isJumpPressed", true);
 
             bool didContactWallInAir = false;
@@ -310,7 +310,6 @@ namespace FlowState.Tests.PlayMode
             PrepareInfiniteRunAtFixture();
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
-            SetMoveInput(Vector2.right);
             SetPrivateField(_playerInputSystem, "_isJumpPressed", true);
 
             bool didContactWallInAir = false;
@@ -336,7 +335,6 @@ namespace FlowState.Tests.PlayMode
             int maximumScore = infiniteData.CurrentScore;
             Assert.That(maximumDistance, Is.GreaterThan(0.0f));
 
-            SetMoveInput(Vector2.left);
             _playerRigidbody.position += Vector3.left * 2.0f;
             _playerRigidbody.linearVelocity = Vector3.zero;
             Physics.SyncTransforms();
@@ -359,8 +357,6 @@ namespace FlowState.Tests.PlayMode
 
         private IEnumerator MoveAwayFromWall()
         {
-            SetMoveInput(Vector2.left);
-
             for (int step = 0; step < MaximumFixedSteps; step++)
             {
                 yield return new WaitForFixedUpdate();
@@ -398,8 +394,8 @@ namespace FlowState.Tests.PlayMode
                 new Vector3(20.0f, 1.0f, 4.0f));
             CreateBox(
                 "RightWall",
-                new Vector3(1.1f, 4.0f, 0.0f),
-                new Vector3(1.0f, 6.0f, 4.0f));
+                new Vector3(2.5f, 5.0f, 0.0f),
+                new Vector3(1.0f, 4.0f, 4.0f));
             Physics.SyncTransforms();
         }
 
@@ -421,11 +417,6 @@ namespace FlowState.Tests.PlayMode
             _playerRigidbody.angularVelocity = Vector3.zero;
             Physics.SyncTransforms();
             Invoke(_collisionSystem, "RefreshCollisionState");
-        }
-
-        private void SetMoveInput(Vector2 moveInput)
-        {
-            SetPrivateField(_playerInputSystem, "_moveInput", moveInput);
         }
 
         private PlayerCollisionState GetCollisionState()

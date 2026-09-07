@@ -6,7 +6,7 @@ namespace FlowState.Tests.EditMode
 {
     public class InfiniteModeStateTests
     {
-        private const float MinimumHorizontalSpeed = 5.0f;
+        private const float MinimumHorizontalSpeed = 2.0f;
         private const float StartGraceDuration = 1.0f;
         private const float BelowSpeedGraceDuration = 0.5f;
 
@@ -49,13 +49,13 @@ namespace FlowState.Tests.EditMode
             Assert.That(_state.GameMode, Is.EqualTo(E_GameMode.Infinite));
         }
 
-        [TestCase(4.999f, true)]
-        [TestCase(5.0f, false)]
-        [TestCase(5.001f, false)]
-        [TestCase(-4.999f, true)]
-        [TestCase(-5.0f, false)]
-        [TestCase(-5.001f, false)]
-        public void UpdateProgress_HorizontalSpeedBoundary_UsesAbsoluteValue(
+        [TestCase(1.999f, true)]
+        [TestCase(2.0f, false)]
+        [TestCase(2.001f, false)]
+        [TestCase(-1.999f, true)]
+        [TestCase(-2.0f, true)]
+        [TestCase(-2.001f, true)]
+        public void UpdateProgress_HorizontalSpeedBoundary_UsesPositiveVelocity(
             float horizontalSpeed,
             bool expectedEnd)
         {
@@ -107,6 +107,53 @@ namespace FlowState.Tests.EditMode
 
             Assert.That(didEnd, Is.False);
             Assert.That(_state.IsPlaying, Is.True);
+        }
+
+        [Test]
+        public void UpdateProgress_WallContact_ConsumesWallGraceBeforeBelowSpeedGrace()
+        {
+            InitializeAndStart(E_GameMode.Infinite, 0.0f);
+
+            Assert.That(_state.UpdateProgress(0.0f, true, 1.0f), Is.False);
+            Assert.That(_state.UpdateProgress(
+                0.0f, true, BelowSpeedGraceDuration - 0.001f), Is.False);
+            Assert.That(_state.UpdateProgress(0.0f, true, 0.001f), Is.True);
+        }
+
+        [Test]
+        public void UpdateProgress_WallContactToggle_DoesNotResetUsedWallGrace()
+        {
+            InitializeAndStart(E_GameMode.Infinite, 0.0f);
+
+            Assert.That(_state.UpdateProgress(0.0f, true, 0.75f), Is.False);
+            Assert.That(_state.UpdateProgress(0.0f, false, 0.1f), Is.False);
+            Assert.That(_state.UpdateProgress(0.0f, true, 0.25f), Is.False);
+            Assert.That(_state.UpdateProgress(0.0f, false, 0.4f), Is.True);
+        }
+
+        [Test]
+        public void UpdateProgress_ActualSpeedRecovery_ResetsBothGraceStates()
+        {
+            InitializeAndStart(E_GameMode.Infinite, 0.0f);
+            _state.UpdateProgress(0.0f, true, 0.9f);
+            _state.UpdateProgress(0.0f, false, 0.4f);
+
+            Assert.That(_state.UpdateProgress(
+                MinimumHorizontalSpeed, false, 0.01f), Is.False);
+            Assert.That(_state.UpdateProgress(0.0f, true, 1.0f), Is.False);
+            Assert.That(_state.UpdateProgress(
+                0.0f, false, BelowSpeedGraceDuration - 0.001f), Is.False);
+        }
+
+        [Test]
+        public void UpdateProgress_StartGrace_DoesNotConsumeWallGrace()
+        {
+            InitializeAndStart(E_GameMode.Infinite);
+
+            Assert.That(_state.UpdateProgress(0.0f, true, StartGraceDuration), Is.False);
+            Assert.That(_state.UpdateProgress(0.0f, true, 1.0f), Is.False);
+            Assert.That(_state.UpdateProgress(
+                0.0f, false, BelowSpeedGraceDuration), Is.True);
         }
 
         [Test]

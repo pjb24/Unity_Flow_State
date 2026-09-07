@@ -8,11 +8,13 @@ namespace FlowState.Runtime.Systems
     {
         [SerializeField] private RuntimeDataSystem _runtimeDataSystem;
         [SerializeField] private StageSystem _stageSystem;
+        [SerializeField] private CollisionSystem _collisionSystem;
         [SerializeField] private Transform _player;
         [SerializeField] private float _fallThresholdY = -3.0f;
-        [SerializeField] private float _minimumHorizontalSpeed = 5.0f;
+        [SerializeField] private float _minimumHorizontalSpeed = 2.0f;
         [SerializeField] private float _startGraceDuration = 1.0f;
         [SerializeField] private float _belowSpeedGraceDuration = 0.5f;
+        [SerializeField] private float _wallSpeedGraceDuration = 1.0f;
         [SerializeField] private float _scorePerUnit = 10.0f;
 
         private readonly InfiniteModeState _state = new InfiniteModeState();
@@ -23,6 +25,7 @@ namespace FlowState.Runtime.Systems
 
         private PlayerMovementRuntimeData _movementRuntimeData;
         private InfiniteModeRuntimeData _infiniteModeRuntimeData;
+        private Rigidbody _playerRigidbody;
         private bool _isInitialized;
         private bool _isPaused;
 
@@ -72,7 +75,8 @@ namespace FlowState.Runtime.Systems
             if (!_state.Initialize(
                     _minimumHorizontalSpeed,
                     _startGraceDuration,
-                    _belowSpeedGraceDuration) ||
+                    _belowSpeedGraceDuration,
+                    _wallSpeedGraceDuration) ||
                 !_state.SetGameMode(gameMode))
             {
                 Debug.LogError(
@@ -159,7 +163,8 @@ namespace FlowState.Runtime.Systems
             }
 
             if (_state.UpdateProgress(
-                    _movementRuntimeData.CurrentHorizontalSpeed,
+                    Mathf.Max(0.0f, _playerRigidbody.linearVelocity.x),
+                    _collisionSystem.GetCollisionState().WallContacts.HasWallContact,
                     deltaTime))
             {
                 FinalizeRunMetrics();
@@ -169,7 +174,7 @@ namespace FlowState.Runtime.Systems
 
         private void ProcessFallThreshold()
         {
-            if (_player.position.y <= _fallThresholdY &&
+            if (_playerRigidbody.position.y <= _fallThresholdY &&
                 _state.NotifyFallThresholdReached())
             {
                 FinalizeRunMetrics();
@@ -180,7 +185,7 @@ namespace FlowState.Runtime.Systems
         private bool InitializeRunMetrics(GameRuntimeData runtimeData)
         {
             if (runtimeData.InfiniteModeRuntimeData == null ||
-                !_distanceState.Initialize(_player.position.x) ||
+                !_distanceState.Initialize(_playerRigidbody.position.x) ||
                 !_scoreCalculator.Initialize(_scorePerUnit) ||
                 !_scoreCalculator.TryCalculate(0.0f, out int initialScore) ||
                 !runtimeData.InfiniteModeRuntimeData.TryUpdate(
@@ -198,7 +203,7 @@ namespace FlowState.Runtime.Systems
         private bool UpdateRunMetrics()
         {
             if (_infiniteModeRuntimeData == null ||
-                !_distanceState.TryUpdate(_player.position.x) ||
+                !_distanceState.TryUpdate(_playerRigidbody.position.x) ||
                 !_scoreCalculator.TryCalculate(
                     _distanceState.CurrentDistance,
                     out int currentScore) ||
@@ -234,10 +239,18 @@ namespace FlowState.Runtime.Systems
         {
             if (_runtimeDataSystem == null ||
                 _stageSystem == null ||
+                _collisionSystem == null ||
                 _player == null)
             {
                 Debug.LogError(
                     "[InfiniteModeSystem] Required reference is missing.");
+                return false;
+            }
+
+            if (!_player.TryGetComponent(out _playerRigidbody))
+            {
+                Debug.LogError(
+                    "[InfiniteModeSystem] Player Rigidbody does not exist.");
                 return false;
             }
 

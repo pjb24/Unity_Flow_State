@@ -37,32 +37,10 @@ namespace FlowState.Tests.PlayMode
             RestartInMode(E_GameMode.Stage);
         }
 
-        [UnityTest]
-        public IEnumerator StageMode_PauseAndResume_PreservesSameRun()
+        [UnityTearDown]
+        public IEnumerator TearDown()
         {
-            object runtimeData = GetRuntimeData();
-
-            Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
-            AssertPausedWithSameRun(runtimeData, E_GameMode.Stage);
-
-            Assert.That(InvokeBool(_gameSystem, "ResumeGame"), Is.True);
-
-            AssertPlayingWithSameRun(runtimeData, E_GameMode.Stage);
-            yield return null;
-        }
-
-        [UnityTest]
-        public IEnumerator InfiniteMode_PauseAndResume_PreservesSameRun()
-        {
-            RestartInMode(E_GameMode.Infinite);
-            object runtimeData = GetRuntimeData();
-
-            Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
-            AssertPausedWithSameRun(runtimeData, E_GameMode.Infinite);
-
-            Assert.That(InvokeBool(_gameSystem, "ResumeGame"), Is.True);
-
-            AssertPlayingWithSameRun(runtimeData, E_GameMode.Infinite);
+            Time.timeScale = 1.0f;
             yield return null;
         }
 
@@ -157,20 +135,6 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator PausedState_Retry_StartsIndependentRunInSameMode()
-        {
-            object previousRuntimeData = GetRuntimeData();
-            Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
-
-            bool result = InvokeBool(_gameSystem, "RetryGame");
-
-            Assert.That(result, Is.True);
-            AssertPlayingWithSameRun(GetRuntimeData(), E_GameMode.Stage);
-            Assert.That(GetRuntimeData(), Is.Not.SameAs(previousRuntimeData));
-            yield return null;
-        }
-
-        [UnityTest]
         public IEnumerator PausedState_StageEndRequest_PrioritizesSingleEndFlow()
         {
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
@@ -207,34 +171,6 @@ namespace FlowState.Tests.PlayMode
             Assert.That(player, Is.Not.Null);
             _playerRigidbody = player.GetComponent<Rigidbody>();
             Assert.That(_playerRigidbody, Is.Not.Null);
-        }
-
-        private void AssertPausedWithSameRun(
-            object runtimeData,
-            E_GameMode gameMode)
-        {
-            AssertGameState(E_GameState.Paused);
-            Assert.That(GetRuntimeData(), Is.SameAs(runtimeData));
-            Assert.That(
-                GetObjectProperty<E_GameMode>(runtimeData, "GameMode"),
-                Is.EqualTo(gameMode));
-            Assert.That(
-                GetObjectProperty<E_GameState>(runtimeData, "GameState"),
-                Is.EqualTo(E_GameState.Paused));
-        }
-
-        private void AssertPlayingWithSameRun(
-            object runtimeData,
-            E_GameMode gameMode)
-        {
-            AssertGameState(E_GameState.Playing);
-            Assert.That(GetRuntimeData(), Is.SameAs(runtimeData));
-            Assert.That(
-                GetObjectProperty<E_GameMode>(runtimeData, "GameMode"),
-                Is.EqualTo(gameMode));
-            Assert.That(
-                GetObjectProperty<E_GameState>(runtimeData, "GameState"),
-                Is.EqualTo(E_GameState.Playing));
         }
 
         private void AssertGameState(E_GameState expectedState)

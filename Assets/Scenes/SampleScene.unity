@@ -336,11 +336,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.InfiniteModeSystem
   _runtimeDataSystem: {fileID: 383414368}
   _stageSystem: {fileID: 1671477403}
+  _collisionSystem: {fileID: 2089254632}
   _player: {fileID: 2089254631}
   _fallThresholdY: -3
   _minimumHorizontalSpeed: 2
   _startGraceDuration: 1
   _belowSpeedGraceDuration: 0.5
+  _wallSpeedGraceDuration: 1
   _scorePerUnit: 10
 --- !u!1 &121742470
 GameObject:
@@ -3463,7 +3465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07e8a330b3c9404ebfc2b522e7aec32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSystem
-  _selectedGameMode: 0
+  _selectedGameMode: 1
   _runtimeDataSystem: {fileID: 383414368}
   _uiManagementSystem: {fileID: 1961406790}
   _playerInputSystem: {fileID: 1769325111}

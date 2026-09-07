@@ -14,7 +14,7 @@ AI, 사용자
 
 ## 작업 상태
 
-작업 절차 작성 완료
+완료
 
 ---
 
@@ -86,7 +86,7 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 
 ## Step 1. 자동 이동과 InfiniteMode의 미정 규칙을 확정한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료** (20260905 사용자 권장안 채택)
 
 ### 결정 항목
 
@@ -101,18 +101,52 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 9. 자동 이동 중 InfiniteMode 최소 속도 미달 종료 조건의 의미
 10. Player Move Action 제거 또는 비활성화 범위와 Gamepad 영향
 
-### 권장 기본 원칙
+### 확정 규칙
 
-- 자동 이동 방향은 World X 양의 방향으로 고정한다.
-- 목표 속도와 가속도는 PlayerMovementSystem이 소유하고 두 Mode에 같은 규칙을 적용한다.
-- Run 시작은 기존 Ground 가속을 사용하고 Jump 및 공중에서는 기존 Air 가속으로 목표 속도를 회복한다.
-- Jump와 Landing 입력은 수평 자동 이동을 중단하지 않는다.
-- 공중 Wall 접촉 중에는 Phase 1 규칙에 따라 Wall 안쪽 X 속도를 0으로 제한하고, 접촉이 사라진 다음 물리 단계부터 자동 가속을 재개한다.
-- Ground와 Wall이 함께 검출되면 Ground 이동 우선 규칙을 유지한다.
-- Pause는 계산과 Rigidbody 적용을 중단하고 Resume은 같은 Run의 자동 이동 상태를 이어간다.
-- Retry와 새 Run은 이전 속도 누적이나 Wall 상태 없이 자동 이동을 새로 시작한다.
-- InfiniteMode의 최소 속도 종료는 Wall 접촉으로 강제 제한된 시간만으로 즉시 종료되지 않도록 자동 이동 계약과 함께 재정의한다.
-- Player Move 입력은 플레이에 전달하지 않되 UI Navigate Action과 UI Action Map은 변경하지 않는다.
+20260905 사용자가 채팅으로 제시된 권장안 `1A, 2A, 3A, 4A, 5A, 6A, 7A, 8A, 9A+9C, 10A`를 채택했다.
+
+아래는 Phase 2 구현에 적용할 확정 계약이다. Runtime, Test, Asset 및 Scene에 구현된 상태를 의미하지 않는다. 현재 System 및 Feature 문서와의 차이는 해당 구현 Step에서 함께 반영한다.
+
+| 항목 | 확정 내용 |
+|------|----------|
+| 1. 속도 및 소유 위치 | PlayerMovementSystem의 기존 설정을 사용한다. 기본 목표 속도는 `8`, 최대 수평 속도는 `14`이며 Stage와 InfiniteMode에 공통 적용한다. 별도 공통 설정 Asset은 추가하지 않는다. |
+| 2. Run 시작 | 자동 방향은 World +X로 고정한다. Playing 시작 시 수평 속도 `0`에서 기본 목표 속도까지 가속한다. |
+| 3. Ground 및 Air 가속 | 기존 Ground 가속도 `50`, Air 가속도 `25`를 유지하고 같은 계산 경로에서 접지 상태에 따라 선택한다. |
+| 4. Jump 및 Landing | Jump와 Normal Landing은 수평 속도를 별도로 초기화하지 않는다. 기본 속도 `8` 미만에서는 자동 회복하고, 관성 착지로 얻은 우측 초과 속도는 최대 `14`까지 보존한다. Momentum Landing은 기존 배율 `1.15`를 유지한다. 자동 가속 자체로 기본 목표 속도를 초과하지 않는다. |
+| 5. Wall 복구 | 공중에서 Wall 안쪽 X 속도만 `0`으로 제한하고 수직 속도와 중력 낙하는 유지한다. 충돌 상태 갱신에서 접촉 해제가 확인된 첫 물리 단계부터 현재 속도로 가속한다. 충돌 전 속도를 저장하여 복원하거나 추가 대기 단계를 두지 않는다. |
+| 6. Ground 우선 | Ground와 Wall이 동시에 검출되면 기존 Ground 이동 계산을 우선한다. 실제 장애물 충돌은 Rigidbody가 처리하며 추가 벽 높이 및 접촉 위치 분류는 도입하지 않는다. |
+| 7. Pause 및 Resume | 속도, Jump 및 Landing 진행 상태와 종료 유예 시간을 보존한다. Pause 중 이동 계산, 물리 진행과 관련 Timer를 중단하고 Resume에서 같은 Run 상태를 이어간다. 입력 잔류는 기존 규칙대로 정리한다. |
+| 8. Retry 및 새 Run | 새 Runtime Data를 생성한다. 속도, 착지 입력, 이전 Wall 상태와 종료 유예 시간을 초기화하고 새 시작 위치에서 충돌 상태를 다시 판정한다. 수평 속도 `0`에서 자동 가속을 시작한다. |
+| 9. InfiniteMode 종료 | 물리 결과를 반영한 실제 X 속도의 우측 성분 `max(0, vx)`를 측정한다. 최소 속도 `2`, 시작 유예 `1초`, 일반 저속 유예 `0.5초`, 공중 Wall 제한 추가 유예 예산 `1초`를 적용한다. 상세 시간 계약은 아래에 정의한다. |
+| 10. Player Move 제거 | Runtime의 Move 입력 상태, Callback과 이동 계산 의존성을 제거한다. Input Action Asset의 Move 정의는 보존하고 Player Action Map을 활성화할 때마다 Move만 비활성화한다. Keyboard 및 Gamepad Move는 플레이에 영향을 주지 않는다. Jump, Momentum Landing, UI Navigate와 UI Action Map은 유지한다. 생성 Wrapper는 직접 편집하지 않는다. |
+
+위 수치는 Phase 2 초기 구현 기준으로 확정했으며 최종 밸런스 검증 결과가 아니다.
+
+### InfiniteMode 유예 시간 계약
+
+- 시작 유예 `1초` 동안 최소 속도 종료를 판정하지 않고 일반 저속 시간 및 Wall 추가 예산을 소비하지 않는다.
+- 시작 유예 종료 후 실제 우측 속도가 최소 속도 `2` 미만이면 저속 상태로 처리한다. 음의 X 속도는 전진으로 인정하지 않는다.
+- 저속 상태에서 공중 Wall 제한이 적용되는 동안 남은 추가 예산을 먼저 소비하고 일반 저속 시간 누적은 보류한다.
+- 추가 예산이 소진되면 Wall 접촉 중에도 일반 저속 시간을 누적한다. 한 물리 단계에서 예산이 소진되면 남은 시간만 일반 저속 시간에 반영한다.
+- 공중 Wall 제한이 없는 저속 상태에서는 일반 저속 시간을 누적한다. 기존에 누적한 저속 시간은 Wall 접촉으로 초기화하지 않는다.
+- 일반 저속 시간이 `0.5초` 이상이면 종료한다.
+- Wall 해제 및 재접촉만으로 추가 예산을 복원하지 않는다. 실제 우측 속도가 최소 속도 이상으로 회복되면 일반 저속 시간을 `0`으로, 추가 예산을 `1초`로 초기화한다.
+- Pause 중 시작 유예, 일반 저속 시간과 추가 예산은 진행하지 않는다. Retry 및 새 Run에서 모두 초기화한다.
+- 추락 임계값 종료는 시작 유예 및 Wall 추가 유예와 관계없이 즉시 적용한다.
+- Wall 제한 여부는 CollisionSystem의 결과와 Phase 1 제한 규칙을 사용한다. InfiniteModeSystem이 별도로 물리 충돌을 판정하지 않는다.
+- 실제 물리 결과 속도의 측정 시점과 전달 경로는 Step 2에서 조사한다. 목표 속도나 Rigidbody 적용 전 이동 계산 결과를 실제 물리 결과로 대체하지 않는다.
+- 거리와 Score 계산 규칙은 유지한다.
+
+### 결정 근거 및 구현 시 대조 사항
+
+- 기존 PlayerMovementSystem 설정과 Ground/Air 계산을 재사용하여 두 Mode의 계산 중복을 방지한다.
+- 기본 속도와 최대 속도를 구분하여 Momentum Landing의 속도 보상을 유지한다.
+- Phase 1의 공중 Wall 제한, 중력 낙하와 Ground 우선 규칙을 보존한다.
+- Pause 상태 보존과 새 Run 초기화를 구분하여 Run 간 상태 잔류를 방지한다.
+- 실제 우측 속도와 유한한 Wall 추가 예산으로 지상 막힘, 후진 및 반복 Wall 접촉에 의한 잘못된 진행 지속을 방지한다.
+- SampleScene의 최소 속도는 `2`이나 InfiniteModeSystem 코드 기본값은 `5`이다. 구현 시 확정 기준 `2`와 대조한다.
+- 현재 InfiniteMode는 이동 계산 결과가 저장된 Runtime Data와 속도 절댓값을 사용한다. 실제 물리 결과의 우측 속도를 사용하는 계약으로 변경해야 한다.
+- 기존 System 및 Feature 문서는 현재 구현 정의를 유지한다. Step 3~7 구현 시 자동 이동 책임, 입력 범위와 InfiniteMode 종료 규칙을 함께 갱신한다.
 
 ### AI 정적 검증
 
@@ -127,13 +161,24 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 
 ### 완료 조건
 
-- [ ] 자동 이동의 속도, 가속, 시작과 복구 규칙이 확정되었다.
-- [ ] Pause, Retry와 InfiniteMode 종료 규칙이 확정되었다.
-- [ ] Player 입력 제거 범위와 UI 입력 보존 범위가 확정되었다.
+- [x] 자동 이동의 속도, 가속, 시작과 복구 규칙이 확정되었다.
+- [x] Pause, Retry와 InfiniteMode 종료 규칙이 확정되었다.
+- [x] Player 입력 제거 범위와 UI 입력 보존 범위가 확정되었다.
 
 ## Step 2. 현재 입력부터 Rigidbody까지의 경로를 정적으로 조사한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료** (20260905 정적 조사)
+
+### 수행 결과
+
+- 상세 근거: [Phase2Step2Investigation](20260905_01_Phase2Step2Investigation.md)
+- 입력 수집 → 충돌/현재 속도 수집 → 수평 계산 → Jump/중력 → Landing → Wall 제한 → Rigidbody 적용 → Runtime Data 갱신 경로와 책임을 확인했다.
+- 자동 이동 설정과 상태는 PlayerMovementSystem에서 소유하고, InfiniteMode 유예 상태는 InfiniteModeState에서 확장한다.
+- Input Action Asset과 생성 Wrapper의 JSON이 일치하고 Player Move/UI Navigate가 독립적으로 정의되어 있다. 입력 Asset 변경 없이 Runtime에서 Move만 비활성화할 수 있다.
+- InfiniteMode의 현재 속도는 물리 결과가 아닌 이동 계산 결과이다. 측정/적용 순서를 명시하고 실제 속도 관측을 검증할 후속 변경 지점을 기록했다.
+- 기존 Test의 private Move 상태 주입, 속도 절댓값 계약, Infinite 유예 완화와 실제 장치 Test 누락을 분리했다.
+- 관련 Scene Serialized Reference와 재질 참조를 읽기 전용으로 확인했다. 새 Wall 예산 Field 등은 구현 및 실패 Test 이후 조건부 변경 후보로 남겼다.
+- 사용자 수동 작업은 없다. Runtime, Scene과 Asset을 변경하지 않았고 Unity Compile, Test Runner 및 Build를 실행하지 않았다.
 
 ### AI 작업
 
@@ -160,13 +205,23 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 
 ### 완료 조건
 
-- [ ] 입력부터 Rigidbody까지의 전체 경로와 책임이 확인되었다.
-- [ ] Test 우선 변경 지점과 재사용할 기존 Test가 확정되었다.
-- [ ] Scene 및 Input Action Asset 변경 필요 후보가 분리되었다.
+- [x] 입력부터 Rigidbody까지의 전체 경로와 책임이 확인되었다.
+- [x] Test 우선 변경 지점과 재사용할 기존 Test가 확정되었다.
+- [x] Scene 및 Input Action Asset 변경 필요 후보가 분리되었다.
 
 ## Step 3. 자동 수평 이동 계산을 Unit Test 우선으로 구현한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — 사용자 Compile 및 전체 Edit Mode 281개 통과 확인**
+
+### 수행 결과
+
+- 상세 기록 및 사용자 실행 절차: [Phase2Step3AutoMovementMath](20260905_02_Phase2Step3AutoMovementMath.md)
+- PlayerMovementMathTests에 자동 계산 Test 35개 case를 먼저 추가한 뒤 CalculateAutoHorizontalSpeed를 구현했다. Unity Test Runner는 실행하지 않았다.
+- 기본 속도 회복, 관성 초과 속도 보존, Ground/Air 가속, 비유한 값/음수 설정 방어 및 기존 Wall 제한과의 조합을 Test로 작성했다.
+- 기존 수학 함수와 기존 Math Test 21개 case를 보존했다. 생산 PlayerMovementSystem 연결은 Step 4에서 수행한다.
+- 사용자 검증 대상은 PlayerMovementMathTests 56, JumpFeatureTests 5, MomentumLandingFeatureTests 9, NormalLandingFeatureTests 2로 정적 집계 총 72개 case이다. 실행 성공 수가 아니다.
+- 사용자 보고: Unity Script Compilation 성공, 전체 Edit Mode `281 Passed, 0 Failed, Total 281`. Compile 및 Test 관련 예상하지 않은 Error/Warning 없음.
+- 사용자 채팅 보고를 근거로 완료 처리했다. AI는 Test Runner 및 Build를 실행하지 않았다. Step 3의 추가 수동 작업은 없다.
 
 ### Test 우선 항목
 
@@ -201,13 +256,24 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 
 ### 완료 조건
 
-- [ ] 자동 이동 순수 계산 Test가 통과한다.
-- [ ] Wall, Ground, Jump와 Landing 계산 회귀가 통과한다.
-- [ ] Unity Script Compilation에 예상하지 않은 Error와 Warning이 없다.
+- [x] 자동 이동 순수 계산 Test가 통과한다.
+- [x] Wall, Ground, Jump와 Landing 계산 회귀가 통과한다.
+- [x] Unity Script Compilation에 예상하지 않은 Error와 Warning이 없다.
 
 ## Step 4. PlayerMovementSystem에 Mode 공통 자동 이동 상태를 구현한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — 사용자 Compile, Edit Mode 281개 및 Play Mode 141개 통과 확인**
+
+### 수행 결과
+
+- 상세 기록: [Phase2Step4AutoMovementIntegration](20260905_03_Phase2Step4AutoMovementIntegration.md)
+- PlayerMovementSystem이 두 Mode에서 CalculateAutoHorizontalSpeed를 사용하며 Playing 상태에서만 계산한다.
+- 같은 Run의 중복 Initialize는 Jump/Landing/Pause를 보존하고, 종료 시 Run/이동 데이터 참조를 해제한다.
+- 신규 AutoMovementIntegrationTests 14개 case와 기존 Jump/Landing/Wall/Camera/Retry Test 전제 변경을 작성했다. 기존 회귀 기대값의 삭제나 허용 오차 완화로 대응하지 않았다.
+- Scene은 변경하지 않았다. Test 실행 시 생성되는 임시 지형만 자동 이동 조건에 맞게 조정했다.
+- 사용자 Play Mode 1개 실패(거리 기대 10000/실제 9999.9834) 보고 후 Infinite 원점/거리/추락 판정을 Rigidbody.position으로 통일했다. 상세: [InfinitePhysicsPositionFix](20260905_04_Phase2Step4InfinitePhysicsPositionFix.md).
+- 사용자 재검증 결과 Unity Script Compilation, 전체 Edit Mode 281개 및 전체 Play Mode 141개가 모두 성공했다. Compile과 Test 관련 예상하지 않은 Error/Warning도 없었다.
+- AI는 Test Runner 및 Build를 실행하지 않았다. 입력 Action 비활성화는 Step 5, InfiniteMode 실제 속도 및 Wall 추가 유예는 Step 7 범위로 유지한다.
 
 ### Test 우선 항목
 
@@ -238,13 +304,15 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 
 ### 완료 조건
 
-- [ ] 두 Mode가 같은 자동 이동 경로를 사용한다.
-- [ ] Jump, Landing과 Wall 회귀 Test가 통과한다.
-- [ ] 종료 상태에서 자동 이동이 적용되지 않는다.
+- [x] 두 Mode가 같은 자동 이동 경로를 사용한다.
+- [x] Jump, Landing과 Wall 회귀 Test가 통과한다.
+- [x] 종료 상태에서 자동 이동이 적용되지 않는다.
+
+사용자가 전체 Play Mode Test 141개 성공과 예상하지 않은 Error/Warning 부재를 확인했으므로 위 완료 조건을 충족했다.
 
 ## Step 5. Player 좌우 입력을 제거하고 UI Navigate를 보존한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — 사용자 Compile, Edit Mode 281개 및 Play Mode 141개 통과 확인**
 
 ### Test 우선 항목
 
@@ -270,6 +338,16 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 - Input Action Asset 변경이 필요한 경우 Player Move와 UI Navigate의 Binding ID 및 Action Map을 대조한다.
 - 제거된 Player Move 참조가 Runtime, Test와 문서에 남지 않는지 검색한다.
 
+### 수행 결과
+
+- 상세 기록: [Phase2Step5PlayerMoveRemoval](20260907_01_Phase2Step5PlayerMoveRemoval.md)
+- PlayerInputState에서 HorizontalInput을 제거하고 Jump와 Momentum Landing transient 상태만 유지했다.
+- PlayerInputSystem에서 Move 상태와 performed/canceled Callback을 제거했다.
+- Player Action Map을 활성화할 때마다 Move Action을 비활성화한다. Jump와 Momentum Landing Action은 활성 상태를 유지한다.
+- GameLifecycleIntegrationTests의 Playing, Pause 및 Resume 경계에서 Move, Jump와 Momentum Landing Action 상태를 검증하도록 갱신했다.
+- Input Action Asset, 생성 Wrapper, UIInputSystem 및 Scene은 변경하지 않았다.
+- 사용자 검증 결과 Unity Script Compilation, 전체 Edit Mode 281개 및 전체 Play Mode 141개가 모두 성공했다. Compile과 Test 관련 예상하지 않은 Error/Warning도 없었다.
+
 ### 사용자 수동 작업
 
 - Unity Script Compilation과 지정된 입력 Play Mode Test를 실행한다.
@@ -277,13 +355,15 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 
 ### 완료 조건
 
-- [ ] Player 좌우 입력이 플레이에 영향을 주지 않는다.
-- [ ] Jump와 Momentum Landing 입력이 유지된다.
-- [ ] UI Navigate와 Action Map 전환 회귀가 통과한다.
+- [x] Player 좌우 입력이 플레이에 영향을 주지 않는다.
+- [x] Jump와 Momentum Landing 입력이 유지된다.
+- [x] UI Navigate와 Action Map 전환 회귀가 통과한다.
+
+사용자가 전체 Play Mode Test 141개 성공과 예상하지 않은 Error/Warning 부재를 확인했으므로 위 완료 조건을 충족했다.
 
 ## Step 6. Pause, Resume, Result와 Retry 자동 이동 회귀를 구현한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — SetUp 수정 후 사용자 Compile 및 Play Mode 144개 통과 확인**
 
 ### Test 우선 항목
 
@@ -302,19 +382,32 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 - Retry가 새 Runtime Data와 새 자동 이동 상태를 생성하는지 확인한다.
 - UI Retry의 Keyboard 및 Mouse 단일 실행 기대값을 유지한다.
 
+### 수행 결과
+
+- 상세 기록: [Phase2Step6LifecycleRegression](20260907_02_Phase2Step6LifecycleRegression.md)
+- Stage Pause 동안 Player 위치, Rigidbody 정지와 PlayTimer 고정을 검증하고 Resume 시 같은 Runtime과 속도 복구 및 transient 입력 제거를 확인하는 Test를 추가했다.
+- InfiniteMode Pause 동안 Player 위치, 거리와 Score 고정을 검증하고 Resume 후 같은 Run의 자동 이동과 거리 갱신 복구를 확인하는 Test를 추가했다.
+- Stage에서 Pause Retry를 두 번 반복하여 매 Run의 Runtime Data, 수평 속도, 가속도와 Landing 결과가 독립적으로 초기화되고 자동 이동이 다시 시작되는지 검증하는 Test를 추가했다.
+- 기존 Ended/Result 정지, Wall 상태 초기화, Infinite Retry 및 Keyboard/Mouse UI 단일 실행 Test를 보존했다.
+- 생산 Runtime, Input Action Asset, 생성 Wrapper 및 Scene은 변경하지 않았다.
+- 최초 Play Mode 실행에서 AutoMovementIntegrationTests 17개가 공통 SetUp 실패했다. 존재하지 않는 `PlayerControllerSystem` GameObject를 조회한 Test 오류였으며, 실제 Component가 있는 `Player` Object를 조회하도록 수정했다. 상세: [Step6SetupFix](20260907_03_Phase2Step6SetupFix.md).
+- SetUp 수정 후 사용자가 Unity Script Compilation과 전체 Play Mode 144개 성공 및 예상하지 않은 Error/Warning 부재를 확인했다. Step 6은 Edit Mode 대상과 생산 코드를 변경하지 않았으므로 직전 전체 Edit Mode 281개 성공 결과를 유지한다.
+
 ### 사용자 수동 작업
 
 - Unity Script Compilation과 지정된 Play Mode Test를 실행한다.
 
 ### 완료 조건
 
-- [ ] Pause, Resume과 Result 이동 상태가 자동 판정된다.
-- [ ] Retry 및 연속 Run 독립성 Test가 통과한다.
-- [ ] 기존 UI 입력 회귀가 통과한다.
+- [x] Pause, Resume과 Result 이동 상태가 자동 판정된다.
+- [x] Retry 및 연속 Run 독립성 Test가 통과한다.
+- [x] 기존 UI 입력 회귀가 통과한다.
+
+사용자가 수정 후 전체 Play Mode Test 144개 성공과 예상하지 않은 Error/Warning 부재를 확인했으므로 위 완료 조건을 충족했다.
 
 ## Step 7. InfiniteMode 진행 지속 조건을 자동 이동에 맞게 검증한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — Scene 설정 및 사용자 Compile/Edit Mode 285개/Play Mode 146개 통과 확인**
 
 ### Test 우선 항목
 
@@ -340,19 +433,33 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 - Wall, Pause와 시작 유예 시간이 서로의 Timer를 잘못 누적하지 않는지 확인한다.
 - Stage Mode에 InfiniteMode 전용 상태가 영향을 주지 않는지 확인한다.
 
+### 수행 결과
+
+- 상세 기록: [Phase2Step7InfiniteProgress](20260907_04_Phase2Step7InfiniteProgress.md)
+- 진행 속도를 `max(0, Rigidbody.linearVelocity.x)`로 변경했다.
+- 시작 유예 1초, 최소 속도 2, 저속 유예 0.5초와 Run당 Wall 추가 유예 1초 계약을 구현했다.
+- Wall 추가 유예는 접촉 토글로 복구하지 않고 실제 속도 회복 시 저속 누적과 함께 초기화한다.
+- 거리, Score 및 추락 종료 규칙은 변경하지 않았다.
+- InfiniteModeSystem이 CollisionSystem의 기존 Wall 접촉 결과를 사용하도록 참조를 추가했다.
+- 최초 Edit Mode 실행에서 최소 속도 2와 이전 경계 데이터 4.999가 불일치하여 1개가 실패했다. 경계 TestCase를 1.999, 2.0, 2.001 기준으로 수정했으며 생산 코드는 변경하지 않았다.
+- SampleScene의 CollisionSystem 참조와 최소 속도/유예 Field가 지정 값으로 저장됐음을 정적으로 확인했다.
+- 사용자가 Unity Script Compilation, 전체 Edit Mode 285개 및 전체 Play Mode 146개 성공과 예상하지 않은 Error/Warning 부재를 확인했다.
+
 ### 사용자 수동 작업
 
 - Unity Script Compilation과 지정된 Edit Mode 및 Play Mode Test를 실행한다.
 
 ### 완료 조건
 
-- [ ] InfiniteMode가 자동 이동 중 정상적으로 지속된다.
-- [ ] Wall 접촉이 잘못된 종료 또는 무한 유예를 만들지 않는다.
-- [ ] 추락, 기록과 Retry 회귀가 통과한다.
+- [x] InfiniteMode가 자동 이동 중 정상적으로 지속된다.
+- [x] Wall 접촉이 잘못된 종료 또는 무한 유예를 만들지 않는다.
+- [x] 추락, 기록과 Retry 회귀가 통과한다.
+
+사용자가 전체 Edit Mode 285개와 Play Mode 146개 성공 및 예상하지 않은 Error/Warning 부재를 확인했으므로 위 완료 조건을 충족했다.
 
 ## Step 8. Camera와 Phase 1 충돌 동작을 통합 회귀로 검증한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — 사용자 Compile, Edit Mode 285개 및 Play Mode 147개 통과 확인**
 
 ### Test 우선 항목
 
@@ -371,19 +478,33 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 - Phase 1의 `PlayerZeroFriction`, Collider와 Wall 분류 설정이 유지되는지 확인한다.
 - 기존 Camera, Collision, Jump, Landing과 Mode Integration Test 기대값을 유지하는지 확인한다.
 
+### 수행 결과
+
+- 상세 기록: [Phase2Step8CameraCollisionRegression](20260907_05_Phase2Step8CameraCollisionRegression.md)
+- 실제 SampleScene에서 Pause 동안 Player와 Follow Target 위치 고정 및 추적 상태 보존을 검증하는 Camera Test를 추가했다.
+- Resume 후 자동 이동 Player X를 Follow Target이 다시 추적하고, Pause Retry 후에도 추적이 활성화되어 Player X와 일치하는지 검증한다.
+- 기존 자동 이동 Camera X 추적, Jump 중 고정 Y/Z와 Orthographic 설정 Test를 보존했다.
+- 기존 Wall 낙하, 모서리/지형 접촉, Wall 이탈 후 Landing, Stage Goal 및 Infinite 추락 종료 Test를 보존했다.
+- Camera 생산 코드, 충돌 설정과 Scene을 AI가 변경하지 않았다.
+- 최초 Play Mode 실행에서 Pause 위치의 Vector3 정확 비교가 표시 자릿수 이하 차이로 실패했다. 기존 Camera 검증과 같은 0.05 거리 허용 기준으로 수정했으며 물리 위치 정지는 Step 6 Test의 정확 비교를 유지한다.
+- 같은 Vector3 실패가 다시 보고됐지만 현재 157줄은 거리 비교이며 정확 비교 코드는 남아 있지 않았다. 수정 전 Test Assembly가 실행된 결과로 판정하여 현재 Script의 Reimport 및 Compile 후 재실행을 대기한다.
+- 현재 Script 재컴파일 후 사용자가 전체 Edit Mode 285개와 Play Mode 147개 성공 및 예상하지 않은 Error/Warning 부재를 확인했다.
+
 ### 사용자 수동 작업
 
 - Unity Script Compilation과 지정된 Play Mode Test를 실행한다.
 
 ### 완료 조건
 
-- [ ] Camera가 자동 이동 Player를 정상 추적한다.
-- [ ] Phase 1 벽, 모서리, 낙하와 Landing 회귀가 통과한다.
-- [ ] Mode별 기존 종료 흐름이 유지된다.
+- [x] Camera가 자동 이동 Player를 정상 추적한다.
+- [x] Phase 1 벽, 모서리, 낙하와 Landing 회귀가 통과한다.
+- [x] Mode별 기존 종료 흐름이 유지된다.
+
+사용자가 전체 Play Mode Test 147개 성공과 예상하지 않은 Error/Warning 부재를 확인했으므로 위 완료 조건을 충족했다.
 
 ## Step 9. 생산 Asset과 Scene 변경 필요성을 정적 검사와 Test로 판정한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — Asset/Wrapper/Scene 정적 검사 완료, 추가 변경 불필요**
 
 ### AI 작업
 
@@ -399,14 +520,26 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 - 저장 후 Asset 또는 Scene을 다시 열어 참조와 값 유지를 확인한다.
 - Missing Script, Missing Reference, Binding 손실과 의도하지 않은 Scene 변경이 없는지 확인한다.
 
+### 수행 결과
+
+- 상세 기록: [Phase2Step9AssetSceneAudit](20260907_06_Phase2Step9AssetSceneAudit.md)
+- Player Move, Jump, Momentum Landing과 UI Navigate를 포함한 대상 Action 및 Binding ID가 생성 Wrapper에 모두 존재함을 확인했다.
+- Input Action Asset과 생성 Wrapper는 Step 5 방식대로 보존하며 추가 변경하지 않는다.
+- SampleScene의 PlayerInputSystem, PlayerMovementSystem, Rigidbody, Camera 및 InfiniteMode 참조가 실제 Component로 해석됨을 확인했다.
+- PlayerZeroFriction과 Ground Layer 설정이 유지됨을 확인했다.
+- Step 7에서 필요했던 CollisionSystem 참조와 최소 속도/유예 값은 사용자 Scene 설정 후 저장된 상태다.
+- 추가 Asset 또는 Scene 변경과 사용자 작업은 필요하지 않다.
+
 ### 완료 조건
 
-- [ ] Input Action Asset 및 Scene 변경 필요 여부가 근거로 확정되었다.
-- [ ] 필요한 경우에만 사용자 작업 명세가 Field 단위로 작성되었다.
+- [x] Input Action Asset 및 Scene 변경 필요 여부가 근거로 확정되었다.
+- [x] 필요한 경우에만 사용자 작업 명세가 Field 단위로 작성되었다.
+
+Step 7의 필수 Scene Field 작업은 Field 단위 절차로 완료됐고, Step 9 검사에서 추가 변경이 불필요함을 확인했다.
 
 ## Step 10. 전체 정적 검증과 자동 회귀 Test를 수행한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — 전체 정적 검증 및 직전 전체 자동 회귀 결과 확인**
 
 ### AI 정적 검증
 
@@ -428,20 +561,44 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 5. Passed, Failed와 전체 Test 수를 기록한다.
 6. Test 실행 중 예상하지 않은 Error와 Warning이 없는지 확인한다.
 
+### 수행 결과
+
+- 상세 기록: [Phase2Step10Verification](20260907_07_Phase2Step10Verification.md)
+- 전체 `.meta` 171개의 GUID 중복이 없고 신규 Script의 `.meta` 누락이 없음을 확인했다.
+- Test Ignore, Assert.Pass, 조건부 플랫폼 제외, 중복 Test 메서드와 제거된 Move 입력 상태가 없음을 확인했다.
+- UI Navigate Callback과 Player Move Runtime 비활성화 경로가 유지됨을 확인했다.
+- Serialized Reference, Input Action/Wrapper ID, Scene fileID, PlayerZeroFriction과 Ground Layer 설정을 확인했다.
+- 반복 FixedUpdate 경로에 정상 프레임 Log, LINQ 또는 컬렉션 할당이 추가되지 않았음을 확인했다.
+- Phase 3 Collectible/Score 통합 생산 코드가 포함되지 않았음을 확인했다.
+- Package manifest/lock과 Build Scene 목록이 변경되지 않았고 SampleScene이 활성 Build Scene임을 확인했다.
+- 정적 Test 수는 Edit Mode 285개, Play Mode 147개다.
+- Step 8 전체 검증 이후 Runtime, Test, Asset과 Scene 변경이 없으므로 사용자 Compile/Edit Mode 285개/Play Mode 147개 성공 결과를 Step 10 근거로 적용했다.
+
 ### 완료 조건
 
-- [ ] 전체 정적 검증이 통과한다.
-- [ ] 전체 Edit Mode와 Play Mode Test가 통과한다.
-- [ ] 예상하지 않은 Error와 Warning이 없다.
+- [x] 전체 정적 검증이 통과한다.
+- [x] 전체 Edit Mode와 Play Mode Test가 통과한다.
+- [x] 예상하지 않은 Error와 Warning이 없다.
+
+직전 전체 자동 회귀 이후 검증 대상을 변경하지 않았으므로 중복 Test 실행 없이 위 완료 조건을 충족했다.
 
 ## Step 11. 사용자가 Build와 최소 화면을 검증하고 AI가 완료 근거를 정리한다
 
-- 진행 상태: **대기**
+- 진행 상태: **완료 — 사용자 Build 및 최소 화면 검증 통과 확인**
 
 ### Build 전 AI 정적 확인
 
 - 활성 Build Scene, Windows Standalone 설정과 Asset 참조를 확인한다.
 - 자동 Test로 판정한 속도 수치, 상태, Frame과 입력 무시 여부를 수동 체크리스트에서 제외한다.
+
+### Build 전 AI 정적 확인 결과
+
+- `EditorBuildSettings`의 유일한 활성 Build Scene은 `Assets/Scenes/SampleScene.unity`이다.
+- 활성 Scene GUID `99c9720ab356a0642a771bea13969a05`가 `SampleScene.unity.meta`와 일치한다.
+- Step 9에서 확인한 주요 System 및 Asset 참조에 누락이 없고, 이후 해당 검증 대상을 변경하지 않았다.
+- `git diff --check`가 통과했다. 출력된 LF/CRLF 안내는 오류가 아니다.
+- 마지막 전체 검증 결과인 Script Compilation 성공, Edit Mode 285개 성공, Play Mode 147개 성공을 적용한다.
+- Build와 실제 Player 화면 확인은 사용자의 Windows Standalone 검증 결과를 적용했다.
 
 ### 사용자 Build 및 최소 화면 검증
 
@@ -461,6 +618,18 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 - 사용자는 자동 이동 방향, 조작감, Camera 추적, 눈에 띄는 떨림과 화면 이탈만 확인한다.
 - 빠른 입력, 정밀 타이밍과 반복 횟수를 요구하지 않는다.
 
+### 사용자 Build 및 최소 화면 검증 결과
+
+- Windows Standalone Development Build가 성공했다.
+- Build와 Player에서 예상하지 않은 Error와 Warning이 없었다.
+- Stage Mode에서 입력 없이 Player가 오른쪽으로 이동했다.
+- Stage Mode에서 Jump와 Momentum Landing 입력이 정상적으로 동작했다.
+- Pause 중 게임이 정지하고 Resume 후 게임이 재개되었다.
+- Retry 후 Stage가 정상적으로 다시 시작되었다.
+- InfiniteMode에서 입력 없이 오른쪽으로 이동하고 Jump가 정상적으로 동작했다.
+- InfiniteMode에서 Wall 접촉 후 Player가 정상적으로 바닥으로 떨어졌다.
+- Camera가 Player를 정상적으로 추적했으며, 아래로 추락한 Player를 따라가지 않는 기존 정상 동작도 유지되었다.
+
 ### Build 검증 후 AI 작업
 
 - 최종 정적 검증, Compile, Test 수, Build와 최소 화면 결과를 기록한다.
@@ -470,10 +639,10 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 
 ### 완료 조건
 
-- [ ] Build와 최소 화면 검증 결과가 기록되어 있다.
-- [ ] 정적 검증, Compile, 전체 Test와 Build가 통과한다.
-- [ ] Phase 2 범위 밖 기능이 포함되지 않았다.
-- [ ] Roadmap 상태와 실제 완료 상태가 일치한다.
+- [x] Build와 최소 화면 검증 결과가 기록되어 있다.
+- [x] 정적 검증, Compile, 전체 Test와 Build가 통과한다.
+- [x] Phase 2 범위 밖 기능이 포함되지 않았다.
+- [x] Roadmap 상태와 실제 완료 상태가 일치한다.
 
 ---
 
@@ -534,6 +703,10 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 
 - `AI/90_Tasks/Prototype_3/20260903_02_Phase1ManualSteps.md`
 - `AI/90_Tasks/Prototype_3/20260904_01_Phase1VerificationResult.md`
+- `AI/90_Tasks/Prototype_3/20260905_01_Phase2Step2Investigation.md`
+- `AI/90_Tasks/Prototype_3/20260905_02_Phase2Step3AutoMovementMath.md`
+- `AI/90_Tasks/Prototype_3/20260905_03_Phase2Step4AutoMovementIntegration.md`
+- `AI/90_Tasks/Prototype_3/20260905_04_Phase2Step4InfinitePhysicsPositionFix.md`
 
 ---
 
@@ -565,13 +738,16 @@ Prototype 3 Phase 2의 Player 수평 자동 이동과 입력 단순화를 구현
 - Camera 추적과 Phase 1 충돌 회귀를 별도 통합 검증 범위로 배치했다.
 - Asset과 Scene 변경은 정적 검사 및 실패 Test로 필요성이 확인된 경우에만 수행하도록 제한했다.
 - 사용자의 실제 수동 작업을 규칙 결정, Unity Compile/Test Runner, 조건부 Editor 설정, Build와 최소 화면 확인으로 제한했다.
-- Phase 2 구현은 아직 수행하지 않았다.
+- Phase 2 Step 1~11을 모두 완료했다.
+- 정적 검증, Script Compilation, Edit Mode 285개, Play Mode 147개와 Windows Standalone Development Build가 통과했다.
+- Stage Mode와 InfiniteMode의 자동 이동, 핵심 입력, Pause, Resume, Retry, Wall 낙하와 Camera 추적을 실제 Player에서 확인했다.
+- Phase 2 범위의 미해결 사항은 없다.
 
 ---
 
 # 후속 작업
 
-Step 1에서 자동 이동과 InfiniteMode의 미정 규칙을 확정한다.
+Prototype 3 Phase 3의 Score Collectible 실행 계획을 작성한다.
 
 ---
 

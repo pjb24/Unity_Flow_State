@@ -182,12 +182,11 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator PlayerFallsAtLargeX_EndsAndStopsPlaySystems()
         {
-            _player.transform.position = new Vector3(
+            _playerRigidbody.position = new Vector3(
                 10000.0f,
                 FallThresholdY - 0.01f,
                 0.0f);
             _playerRigidbody.linearVelocity = Vector3.zero;
-            Physics.SyncTransforms();
             yield return new WaitForFixedUpdate();
             yield return null;
 
@@ -205,7 +204,7 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator SequentialEndRequests_KeepSingleInfiniteResultData()
         {
-            _player.transform.position = new Vector3(
+            _playerRigidbody.position = new Vector3(
                 10000.0f,
                 FallThresholdY - 0.01f,
                 0.0f);
@@ -276,7 +275,7 @@ namespace FlowState.Tests.PlayMode
 
             for (int retryIndex = 0; retryIndex < 2; retryIndex++)
             {
-                _player.transform.position = new Vector3(
+                _playerRigidbody.position = new Vector3(
                     10000.0f + retryIndex * 1000.0f,
                     FallThresholdY - 0.01f,
                     0.0f);
@@ -298,8 +297,8 @@ namespace FlowState.Tests.PlayMode
 
                 previousResultData = currentResultData;
                 SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
-                yield return null;
-                yield return new WaitForFixedUpdate();
+                // Inspect reset before automatic movement advances the new run.
+                InvokePrivateMethod(_gameSystem, "ProcessResultMenuInput");
 
                 AssertInfinitePlayingState();
                 Assert.That(
@@ -315,7 +314,7 @@ namespace FlowState.Tests.PlayMode
                     GetRuntimeData().InfiniteModeRuntimeData.IsFinalized,
                     Is.False);
                 Assert.That(
-                    _player.transform.position,
+                    _playerRigidbody.position,
                     Is.EqualTo(_startPoint.transform.position));
                 Assert.That(
                     _playerRigidbody.linearVelocity,
@@ -330,6 +329,68 @@ namespace FlowState.Tests.PlayMode
                 Assert.That(
                     GetBoolProperty(_resultSystem, "HasResultData"),
                     Is.False);
+                yield return new WaitForFixedUpdate();
+                Assert.That(_playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator RestartAfterMovement_InterpolatedBody_UsesPhysicsOriginAndDistance()
+        {
+            yield return VerifyPhysicsPositionAfterRestart(RigidbodyInterpolation.Interpolate);
+        }
+
+        [UnityTest]
+        public IEnumerator RestartAfterMovement_NonInterpolatedBody_UsesPhysicsOriginAndDistance()
+        {
+            yield return VerifyPhysicsPositionAfterRestart(RigidbodyInterpolation.None);
+        }
+
+        private IEnumerator VerifyPhysicsPositionAfterRestart(RigidbodyInterpolation interpolation)
+        {
+            RigidbodyInterpolation previousInterpolation = _playerRigidbody.interpolation;
+
+            try
+            {
+                _playerRigidbody.interpolation = interpolation;
+                for (int step = 0; step < 5; step++)
+                {
+                    yield return new WaitForFixedUpdate();
+                }
+
+                yield return null;
+                Assert.That(_playerRigidbody.position.x,
+                    Is.GreaterThan(_startPoint.transform.position.x));
+                InvokePublicMethod(_gameSystem, "EndGame");
+                InvokePublicMethod(_gameSystem, "StartGame");
+
+                FieldInfo distanceField = _infiniteModeSystem.GetType().GetField(
+                    "_distanceState", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That(distanceField, Is.Not.Null);
+                InfiniteDistanceState distanceState =
+                    (InfiniteDistanceState)distanceField.GetValue(_infiniteModeSystem);
+                float originX = _startPoint.transform.position.x;
+                Assert.That(_playerRigidbody.position.x, Is.EqualTo(originX));
+                Assert.That(distanceState.OriginWorldX, Is.EqualTo(originX));
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDistance, Is.Zero);
+
+                // Read gameplay metrics before a rendered Transform update can mask the source.
+                _playerRigidbody.position = new Vector3(originX + 10.0f, 1.5f, 0.0f);
+                InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDistance,
+                    Is.EqualTo(10.0f));
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentScore, Is.EqualTo(100));
+
+                _playerRigidbody.position = new Vector3(originX + 10000.0f, FallThresholdY - 0.01f, 0.0f);
+                InvokePrivateMethod(_infiniteModeSystem, "ProcessFallThreshold");
+                AssertInfiniteEndedState();
+                ResultData result = AssertInfiniteResultData();
+                Assert.That(result.FinalDistance, Is.EqualTo(10000.0f));
+                Assert.That(result.FinalScore, Is.EqualTo(100000));
+            }
+            finally
+            {
+                _playerRigidbody.interpolation = previousInterpolation;
             }
         }
 

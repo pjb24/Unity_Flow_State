@@ -20,7 +20,14 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 - Stage Mode와 InfiniteMode를 서로 다른 게임 Mode로 구분한다.
 - 기본 게임 Mode는 Stage Mode이다.
 - Stage Play가 시작되면 플레이어는 선택한 Stage를 진행할 수 있다.
-- Stage Play 진행 중 플레이어는 이동과 점프를 수행할 수 있다.
+- Stage Mode와 InfiniteMode는 Playing 시작 시 수평 속도 0에서 World +X 방향으로 자동 가속한다.
+- 두 Mode의 기본 목표 속도는 8, 최대 수평 속도는 14이며 Ground 가속도 50과 Air 가속도 25를 사용한다.
+- 기본 속도 미만이면 자동 회복하고 관성 착지로 얻은 기본 속도 초과의 우측 속도는 최대 속도 안에서 보존한다.
+- 플레이어는 자동 이동 중 Jump와 Momentum Landing을 입력할 수 있다. Player 좌우 입력은 수평 이동 계산에 영향을 주지 않는다.
+- Jump와 Normal Landing은 수평 자동 이동을 별도로 초기화하지 않는다.
+- 공중 Wall 접촉은 Wall 안쪽 수평 속도만 제한한다. 접촉 해제가 확인된 첫 물리 단계부터 자동 가속을 재개한다.
+- Ground와 Wall이 함께 검출되면 Ground 이동 계산을 우선하며 실제 장애물 충돌은 유지한다.
+- Playing 외 상태에서는 자동 이동 계산을 수행하지 않는다.
 - 점프는 Momentum Landing 또는 Normal Landing으로 연결된다.
 - 일반 Stage Play는 플레이어가 Stage의 Goal에 도달하면 종료된다.
 - InfiniteMode Stage Play는 Goal을 사용하지 않는다.
@@ -91,6 +98,9 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 
 - Stage Mode 또는 InfiniteMode 선택 후 해당 Mode의 Stage Play가 정상적으로 시작되는지 확인한다.
 - Stage Play 진행 중 플레이어가 정상적으로 이동할 수 있는지 확인한다.
+- 두 Mode에서 Move 입력 없이 우측 가속이 시작되고 Jump 및 Landing 후에도 이어지는지 확인한다.
+- 중복 시작/초기화 요청이 같은 Run의 이동 및 Jump 상태를 변경하지 않는지 확인한다.
+- 종료 후 여러 물리 단계가 지나도 자동 이동이 재개되지 않는지 확인한다.
 - 점프가 Momentum Landing 또는 Normal Landing으로 정상 연결되는지 확인한다.
 - 일반 Stage Play에서 Stage의 Goal에 도달하면 종료되는지 확인한다.
 - InfiniteMode Stage Play에서 진행 지속 조건을 잃으면 종료되는지 확인한다.

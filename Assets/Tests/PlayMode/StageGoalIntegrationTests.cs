@@ -146,6 +146,8 @@ namespace FlowState.Tests.PlayMode
             yield return null;
 
             InvokePublicMethod(gameSystem, "StartGame");
+            Assert.That(playerRigidbody.position, Is.EqualTo(startPoint.transform.position));
+            Assert.That(playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             yield return null;
             yield return new WaitForFixedUpdate();
 
@@ -164,10 +166,8 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 GetProperty<bool>(resultSystem, "HasResultData"),
                 Is.False);
-            Assert.That(
-                player.transform.position,
-                Is.EqualTo(startPoint.transform.position));
-            Assert.That(playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
+            Assert.That(playerRigidbody.position.x, Is.GreaterThan(startPoint.transform.position.x));
+            Assert.That(playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
         }
 
         private GameObject FindSceneGameObject(string gameObjectName)

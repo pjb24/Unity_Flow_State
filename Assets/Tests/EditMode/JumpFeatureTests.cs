@@ -118,7 +118,7 @@ namespace FlowState.Tests.EditMode
 
         private PlayerInputState CreateJumpInput()
         {
-            return new PlayerInputState(0.0f, true, false);
+            return new PlayerInputState(true, false);
         }
     }
 }

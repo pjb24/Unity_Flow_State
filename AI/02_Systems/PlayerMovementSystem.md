@@ -10,7 +10,7 @@ PlayerMovementSystem
 
 플레이어 이동 결과를 계산한다.
 
-플레이 입력 상태와 충돌 상태를 이용하여 플레이어의 이동 방향과 이동 속도를 계산한다.
+공통 자동 이동 설정과 충돌 상태로 수평 이동을 계산하고, 플레이 입력으로 Jump와 Landing을 처리한다.
 
 계산된 이동 결과를 필요한 System에 제공한다.
 
@@ -19,6 +19,7 @@ PlayerMovementSystem
 # 시스템 책임
 
 - 플레이어 이동 방향을 계산한다.
+- Stage Mode와 InfiniteMode의 공통 자동 수평 이동 계산 및 설정을 소유한다.
 - 플레이어 이동 속도를 계산한다.
 - 플레이어 수직 속도를 계산한다.
 - 플레이어 이동에 사용하는 중력 가속도 설정을 관리한다.
@@ -60,6 +61,7 @@ PlayerMovementSystem
 - 중력 가속도 설정
 - 현재 이동 결과
 - 이동 계산의 일시 중단 상태
+- 현재 Run의 Game Runtime Data 참조
 
 ---
 
@@ -69,6 +71,7 @@ PlayerMovementSystem
 |------|------|
 | 플레이 입력 상태 | PlayerInputSystem |
 | 충돌 상태 | CollisionSystem |
+| 현재 Run의 게임 상태 | Game Runtime Data |
 | 이동 계산 중단 및 재개 요청 | GameSystem |
 
 ---
@@ -126,6 +129,10 @@ PlayerMovementSystem
 # 제약 사항
 
 - 입력을 직접 수집하지 않는다.
+- 수평 이동 계산은 Player Move 입력에 의존하지 않는다.
+- 이동 계산은 유효한 현재 Run의 Playing 상태에서만 수행한다.
+- 같은 Run에서 실행 중인 System의 중복 초기화는 Jump, Landing 및 Pause 상태를 유지한다.
+- 종료 시 현재 Run과 이동 Runtime Data 참조를 해제한다.
 - 충돌을 직접 판정하지 않는다.
 - Player GameObject를 직접 제어하지 않는다.
 - Transform을 직접 갱신하지 않는다.

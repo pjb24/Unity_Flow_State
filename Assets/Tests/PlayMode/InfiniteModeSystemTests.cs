@@ -3,20 +3,23 @@ using System.Reflection;
 using FlowState.Runtime.Core;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace FlowState.Tests.PlayMode
 {
     public class InfiniteModeSystemTests
     {
-        private const float MinimumHorizontalSpeed = 5.0f;
+        private const float MinimumHorizontalSpeed = 2.0f;
         private const float BelowSpeedGraceDuration = 0.5f;
         private const float FallThresholdY = -3.0f;
         private const float ScorePerUnit = 10.0f;
 
         private GameObject _playerObject;
+        private Rigidbody _playerRigidbody;
         private GameObject _systemsObject;
         private MonoBehaviour _runtimeDataSystem;
         private MonoBehaviour _stageSystem;
+        private MonoBehaviour _collisionSystem;
         private MonoBehaviour _infiniteModeSystem;
         private GameRuntimeData _runtimeData;
 
@@ -24,7 +27,9 @@ namespace FlowState.Tests.PlayMode
         public void SetUp()
         {
             _playerObject = new GameObject("InfiniteModeSystemTests.Player");
-            _playerObject.transform.position = Vector3.zero;
+            _playerRigidbody = _playerObject.AddComponent<Rigidbody>();
+            _playerRigidbody.useGravity = false;
+            _playerRigidbody.position = Vector3.zero;
 
             _systemsObject = new GameObject("InfiniteModeSystemTests.Systems");
             _runtimeDataSystem = AddComponentByName(
@@ -33,6 +38,9 @@ namespace FlowState.Tests.PlayMode
             _stageSystem = AddComponentByName(
                 _systemsObject,
                 "StageSystem");
+            _collisionSystem = AddComponentByName(
+                _systemsObject,
+                "CollisionSystem");
             _infiniteModeSystem = AddComponentByName(
                 _systemsObject,
                 "InfiniteModeSystem");
@@ -45,6 +53,10 @@ namespace FlowState.Tests.PlayMode
                 _infiniteModeSystem,
                 "_stageSystem",
                 _stageSystem);
+            SetPrivateField(
+                _infiniteModeSystem,
+                "_collisionSystem",
+                _collisionSystem);
             SetPrivateField(
                 _infiniteModeSystem,
                 "_player",
@@ -95,6 +107,19 @@ namespace FlowState.Tests.PlayMode
         }
 
         [Test]
+        public void Initialize_PlayerWithoutRigidbody_IsRejected()
+        {
+            InvokeMethod(_infiniteModeSystem, "Stop");
+            UnityEngine.Object.DestroyImmediate(_playerRigidbody);
+            LogAssert.Expect(LogType.Error,
+                "[InfiniteModeSystem] Player Rigidbody does not exist.");
+
+            Assert.That(InvokeBoolMethod(
+                _infiniteModeSystem, "Initialize", E_GameMode.Infinite), Is.False);
+            Assert.That(GetBoolProperty(_infiniteModeSystem, "IsPlaying"), Is.False);
+        }
+
+        [Test]
         public void Initialize_InfiniteRun_CreatesZeroProgressRuntimeData()
         {
             Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Not.Null);
@@ -119,7 +144,7 @@ namespace FlowState.Tests.PlayMode
                 true,
                 false,
                 false);
-            _playerObject.transform.position = new Vector3(10.0f, 0.0f, 0.0f);
+            _playerRigidbody.position = new Vector3(10.0f, 0.0f, 0.0f);
             InvokeMethod(_infiniteModeSystem, "FixedUpdate");
             Assert.That(
                 _runtimeData.InfiniteModeRuntimeData.CurrentDistance,
@@ -128,7 +153,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 InvokeBoolMethod(_infiniteModeSystem, "Pause"),
                 Is.True);
-            _playerObject.transform.position =
+            _playerRigidbody.position =
                 new Vector3(100.0f, FallThresholdY - 1.0f, 0.0f);
 
             for (int i = 0; i < 40; i++)
@@ -146,7 +171,7 @@ namespace FlowState.Tests.PlayMode
                 _runtimeData.InfiniteModeRuntimeData.CurrentScore,
                 Is.EqualTo(100));
 
-            _playerObject.transform.position = new Vector3(20.0f, 0.0f, 0.0f);
+            _playerRigidbody.position = new Vector3(20.0f, 0.0f, 0.0f);
             Assert.That(
                 InvokeBoolMethod(_infiniteModeSystem, "Resume"),
                 Is.True);
@@ -164,7 +189,7 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void ProcessRunMetrics_PlayerWorldX_UpdatesDistanceAndScore()
         {
-            _playerObject.transform.position = new Vector3(12.5f, 0.0f, 0.0f);
+            _playerRigidbody.position = new Vector3(12.5f, 0.0f, 0.0f);
 
             bool didProcess = InvokeBoolMethod(
                 _infiniteModeSystem,
@@ -182,10 +207,10 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void ProcessRunMetrics_BackwardMovement_KeepsMaximumProgress()
         {
-            _playerObject.transform.position = new Vector3(12.5f, 0.0f, 0.0f);
+            _playerRigidbody.position = new Vector3(12.5f, 0.0f, 0.0f);
             InvokeMethod(_infiniteModeSystem, "ProcessRunMetrics");
 
-            _playerObject.transform.position = new Vector3(5.0f, 0.0f, 0.0f);
+            _playerRigidbody.position = new Vector3(5.0f, 0.0f, 0.0f);
             bool didProcess = InvokeBoolMethod(
                 _infiniteModeSystem,
                 "ProcessRunMetrics");
@@ -202,7 +227,7 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void ProcessRunMetrics_LargeWorldX_WorksWithoutPatternData()
         {
-            _playerObject.transform.position = new Vector3(10000.0f, 0.0f, 0.0f);
+            _playerRigidbody.position = new Vector3(10000.0f, 0.0f, 0.0f);
 
             bool didProcess = InvokeBoolMethod(
                 _infiniteModeSystem,
@@ -231,7 +256,7 @@ namespace FlowState.Tests.PlayMode
                 _infiniteModeSystem,
                 "Initialize",
                 E_GameMode.Stage);
-            _playerObject.transform.position = new Vector3(100.0f, 0.0f, 0.0f);
+            _playerRigidbody.position = new Vector3(100.0f, 0.0f, 0.0f);
             bool didProcess = InvokeBoolMethod(
                 _infiniteModeSystem,
                 "ProcessRunMetrics");
@@ -254,6 +279,47 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_infiniteModeSystem, "IsPlaying"), Is.True);
             Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+        }
+
+        [Test]
+        public void Progress_RuntimeSpeedHighButPhysicsStopped_EndsInfiniteStage()
+        {
+            _runtimeData.PlayerMovementRuntimeData.UpdateState(
+                E_PlayerMovementState.Grounded,
+                MinimumHorizontalSpeed,
+                0.0f,
+                true,
+                false,
+                false);
+            _playerRigidbody.linearVelocity = Vector3.zero;
+
+            InvokeMethod(
+                _infiniteModeSystem,
+                "ProcessProgress",
+                BelowSpeedGraceDuration);
+
+            Assert.That(GetBoolProperty(_infiniteModeSystem, "HasEnded"), Is.True);
+        }
+
+        [Test]
+        public void Progress_RuntimeSpeedZeroButPhysicsMovesForward_KeepsPlaying()
+        {
+            _runtimeData.PlayerMovementRuntimeData.UpdateState(
+                E_PlayerMovementState.Grounded,
+                0.0f,
+                0.0f,
+                true,
+                false,
+                false);
+            _playerRigidbody.linearVelocity =
+                new Vector3(MinimumHorizontalSpeed, 0.0f, 0.0f);
+
+            InvokeMethod(
+                _infiniteModeSystem,
+                "ProcessProgress",
+                BelowSpeedGraceDuration);
+
+            Assert.That(GetBoolProperty(_infiniteModeSystem, "IsPlaying"), Is.True);
         }
 
         [Test]
@@ -287,7 +353,7 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void FallThreshold_PlayerAtLargeXAndBelowThreshold_EndsWithoutClear()
         {
-            _playerObject.transform.position = new Vector3(
+            _playerRigidbody.position = new Vector3(
                 10000.0f,
                 FallThresholdY - 0.001f,
                 0.0f);
@@ -304,7 +370,7 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void FallThreshold_PlayerAboveThreshold_DoesNotEndInfiniteStage()
         {
-            _playerObject.transform.position = new Vector3(
+            _playerRigidbody.position = new Vector3(
                 10000.0f,
                 FallThresholdY + 0.001f,
                 0.0f);
@@ -324,7 +390,7 @@ namespace FlowState.Tests.PlayMode
                 () => endCount++);
             SetHorizontalSpeed(0.0f);
 
-            _playerObject.transform.position = new Vector3(
+            _playerRigidbody.position = new Vector3(
                 10000.0f,
                 FallThresholdY,
                 0.0f);
@@ -339,6 +405,8 @@ namespace FlowState.Tests.PlayMode
 
         private void SetHorizontalSpeed(float horizontalSpeed)
         {
+            _playerRigidbody.linearVelocity =
+                new Vector3(horizontalSpeed, 0.0f, 0.0f);
             _runtimeData.PlayerMovementRuntimeData.UpdateState(
                 E_PlayerMovementState.Grounded,
                 horizontalSpeed,

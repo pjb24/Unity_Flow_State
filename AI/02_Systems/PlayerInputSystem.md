@@ -23,7 +23,8 @@ Player Action Map을 관리한다.
 - Player Action Map을 관리한다.
 - GameSystem의 요청에 따라 Player Action Map을 활성화한다.
 - GameSystem의 요청에 따라 Player Action Map을 비활성화한다.
-- 플레이 중 입력을 수집한다.
+- Player Action Map 활성화 시 Move Action을 비활성화한다.
+- 플레이 중 Jump와 Momentum Landing 입력을 수집한다.
 - 플레이 중 입력 상태를 관리한다.
 - 플레이 중 입력 상태를 필요한 System에 전달한다.
 - 플레이 입력 장치의 변경을 추상화한다.
@@ -38,7 +39,9 @@ PlayerInputSystem은 Player Action Map의 활성 상태를 관리한다.
 
 Player Action Map의 활성 여부는 GameSystem이 결정한다.
 
-PlayerInputSystem은 GameSystem의 요청에 따라 Player Action Map의 상태만 변경한다.
+PlayerInputSystem은 GameSystem의 요청에 따라 Player Action Map의 상태를 변경한다.
+
+Player Action Map이 활성화될 때 Move Action은 비활성화하고 Jump와 Momentum Landing Action은 활성 상태로 유지한다.
 
 Player Action Map은 UI Action Map과 독립적으로 관리한다.
 
@@ -69,8 +72,8 @@ Player Action Map은 UI Action Map과 독립적으로 관리한다.
 - Player Action Map
 - Player Action Map 활성 상태
 - 현재 프레임의 플레이 입력 상태
-- 이동 입력
 - 점프 입력
+- Momentum Landing 입력
 
 ---
 
@@ -103,6 +106,7 @@ Player Action Map은 UI Action Map과 독립적으로 관리한다.
 - 플레이 중 입력 상태 관리
 - 플레이 중 입력 상태 제공
 - 플레이 입력 장치 추상화
+- Move Action 비활성 상태 유지
 
 ---
 
@@ -143,6 +147,9 @@ Player Action Map은 UI Action Map과 독립적으로 관리한다.
 - 입력 데이터는 Runtime에서만 사용한다.
 - Pause 상태에서는 GameSystem의 요청에 따라 Player Action Map을 비활성화한다.
 - Player Action Map이 비활성화될 때 남아 있는 transient 플레이 입력을 초기화한다.
+- Player Action Map을 활성화할 때마다 Move Action을 비활성화한다.
+- Move Action의 Keyboard와 Gamepad Binding은 플레이 입력 상태에 반영하지 않는다.
+- Jump와 Momentum Landing Action은 Player Action Map 활성 상태를 따른다.
 
 ---
 

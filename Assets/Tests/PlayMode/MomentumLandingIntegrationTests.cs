@@ -91,6 +91,10 @@ namespace FlowState.Tests.PlayMode
             Assert.That(landingHorizontalSpeed, Is.GreaterThan(8.0f));
             Assert.That(landingHorizontalSpeed, Is.LessThanOrEqualTo(14.0f));
             Assert.That(_playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
+
+            yield return new WaitForFixedUpdate();
+            Assert.That(_runtimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
+                Is.EqualTo(landingHorizontalSpeed).Within(0.001f));
         }
 
         [UnityTest]
@@ -121,6 +125,9 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 _runtimeData.PlayerMovementRuntimeData.IsLastLandingMomentum,
                 Is.False);
+            yield return new WaitForFixedUpdate();
+            Assert.That(_runtimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
+                Is.EqualTo(8.0f).Within(0.001f));
         }
 
         [UnityTest]
@@ -156,8 +163,6 @@ namespace FlowState.Tests.PlayMode
 
         private IEnumerator ReachGroundMoveSpeed()
         {
-            SetPrivateField(_playerInputSystem, "_moveInput", Vector2.right);
-
             for (int step = 0; step < 60; step++)
             {
                 yield return new WaitForFixedUpdate();

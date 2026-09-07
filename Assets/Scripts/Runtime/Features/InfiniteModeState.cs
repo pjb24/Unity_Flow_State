@@ -9,8 +9,10 @@ namespace FlowState.Runtime.Features
         private float _minimumHorizontalSpeed;
         private float _startGraceDuration;
         private float _belowSpeedGraceDuration;
+        private float _wallSpeedGraceDuration;
         private float _playDuration;
         private float _belowSpeedDuration;
+        private float _wallSpeedGraceUsedDuration;
         private int _lastPatternBoundaryId;
         private bool _isInitialized;
         private bool _isPlaying;
@@ -28,9 +30,23 @@ namespace FlowState.Runtime.Features
             float startGraceDuration,
             float belowSpeedGraceDuration)
         {
+            return Initialize(
+                minimumHorizontalSpeed,
+                startGraceDuration,
+                belowSpeedGraceDuration,
+                1.0f);
+        }
+
+        public bool Initialize(
+            float minimumHorizontalSpeed,
+            float startGraceDuration,
+            float belowSpeedGraceDuration,
+            float wallSpeedGraceDuration)
+        {
             if (minimumHorizontalSpeed < 0.0f ||
                 startGraceDuration < 0.0f ||
-                belowSpeedGraceDuration < 0.0f)
+                belowSpeedGraceDuration < 0.0f ||
+                wallSpeedGraceDuration < 0.0f)
             {
                 return false;
             }
@@ -38,6 +54,7 @@ namespace FlowState.Runtime.Features
             _minimumHorizontalSpeed = minimumHorizontalSpeed;
             _startGraceDuration = startGraceDuration;
             _belowSpeedGraceDuration = belowSpeedGraceDuration;
+            _wallSpeedGraceDuration = wallSpeedGraceDuration;
             _gameMode = E_GameMode.Stage;
             _isInitialized = true;
             ResetRunState();
@@ -72,7 +89,17 @@ namespace FlowState.Runtime.Features
             ResetRunState();
         }
 
-        public bool UpdateProgress(float horizontalSpeed, float deltaTime)
+        public bool UpdateProgress(
+            float horizontalSpeed,
+            float deltaTime)
+        {
+            return UpdateProgress(horizontalSpeed, false, deltaTime);
+        }
+
+        public bool UpdateProgress(
+            float horizontalSpeed,
+            bool hasWallContact,
+            float deltaTime)
         {
             if (!CanProcessInfiniteMode() || deltaTime < 0.0f)
             {
@@ -86,10 +113,26 @@ namespace FlowState.Runtime.Features
                 return false;
             }
 
-            if (Math.Abs(horizontalSpeed) >= _minimumHorizontalSpeed)
+            if (Math.Max(0.0f, horizontalSpeed) >= _minimumHorizontalSpeed)
             {
                 _belowSpeedDuration = 0.0f;
+                _wallSpeedGraceUsedDuration = 0.0f;
                 return false;
+            }
+
+            if (hasWallContact &&
+                _wallSpeedGraceUsedDuration < _wallSpeedGraceDuration)
+            {
+                float remainingWallGrace =
+                    _wallSpeedGraceDuration - _wallSpeedGraceUsedDuration;
+                float wallGraceDelta = Math.Min(activeDeltaTime, remainingWallGrace);
+                _wallSpeedGraceUsedDuration += wallGraceDelta;
+                activeDeltaTime -= wallGraceDelta;
+
+                if (activeDeltaTime <= 0.0f)
+                {
+                    return false;
+                }
             }
 
             _belowSpeedDuration += activeDeltaTime;
@@ -177,6 +220,7 @@ namespace FlowState.Runtime.Features
         {
             _playDuration = 0.0f;
             _belowSpeedDuration = 0.0f;
+            _wallSpeedGraceUsedDuration = 0.0f;
             _lastPatternBoundaryId = 0;
             _isPlaying = false;
             _hasEnded = false;

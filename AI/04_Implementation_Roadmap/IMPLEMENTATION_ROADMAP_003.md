@@ -80,7 +80,7 @@ Player의 수평 이동을 자동화하고 핵심 조작을 Jump와 Momentum Lan
 
 ### 상태
 
-대기
+완료
 
 ---
 
@@ -156,19 +156,15 @@ Mode별 Score와 UI를 통합하고 Prototype 3의 전체 플레이 흐름을 �
 
 ## 진행 중인 작업
 
-Prototype 3 Phase 1
-
-벽 충돌과 낙하 동작 안정화 실행 절차 작성 완료
-
-`20260903_02_Phase1ManualSteps.md` 순서로 수행
+없음
 
 ---
 
 ## 다음 작업
 
-Prototype 3 Phase 2
+Prototype 3 Phase 3
 
-Phase 2 Step 1 자동 이동과 InfiniteMode 미정 규칙 확정
+`20260907_09_Phase3ManualSteps.md` Step 1 기준선 검증
 
 ---
 
@@ -232,7 +228,9 @@ Phase 2 Step 1 자동 이동과 InfiniteMode 미정 규칙 확정
 
 ## 완료된 단계
 
-없음
+Prototype 3 Phase 1
+
+Prototype 3 Phase 2
 
 ---
 
