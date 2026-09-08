@@ -55,7 +55,7 @@ Prototype 3 Phase 4의 Mode별 Score와 UI 통합, Stage Mode 추락 처리 및 
 # 조사 내용
 
 - `IMPLEMENTATION_ROADMAP_003.md` Phase 4는 Mode별 Score, HUD, Result, Pause, Retry와 전체 회귀를 대상으로 한다.
-- `20260828_05_Prototype4Roadmap.md`는 Map Pattern 확장과 진행도 기반 난이도를 Prototype 4로 분리한다. Phase 4에서는 Pattern 종류, 선택 규칙과 난이도를 확장하지 않는다.
+- `20260828_04_Prototype3Roadmap.md`는 Prototype 3를 벽 충돌 안정화, 자동 이동, Score Collectible, Mode별 Score 및 UI 통합의 네 Phase로 구분한다. Map Pattern 확장, 난이도 증가와 밸런스 검증은 후속 범위로 분리되어 있다.
 - Stage Mode 추락은 Stage 전체 플레이 흐름과 실패 Result 및 Retry에 영향을 주므로 Prototype 3 Phase 4에서 함께 처리할 수 있다.
 - Stage 추락은 InfiniteMode 거리 진행 규칙을 사용하지 않는다. Stage Mode에서만 Y 임계값을 평가하고 기존 Stage 종료 이벤트와 Result 생성 흐름을 재사용한다.
 - 정확한 Score 값, 합산, 포화, Pause 고정, Result 확정과 Retry 초기화는 정적 검사와 Test로 판정할 수 있다.
@@ -375,7 +375,7 @@ Score 계산, 포화, Result 확정, Pause 고정, Retry 초기화, Stage 추락
 # 검증 내용
 
 - Prototype 3 Phase 4 Roadmap의 목표와 완료 조건을 10개 실행 Step으로 배치했다.
-- `20260828_05_Prototype4Roadmap.md`를 참조하여 Prototype 4의 Pattern 및 Difficulty 확장을 제외했다.
+- `20260828_04_Prototype3Roadmap.md`를 참조하여 Phase 4의 Mode별 Score 및 UI 통합 범위와 후속 Pattern, Difficulty 및 밸런스 범위를 구분했다.
 - Stage Mode 추락 문제를 Phase 4의 종료, Result 및 Retry 범위에 포함했다.
 - 수치, 상태, 경계, 중복 실행과 생명주기는 Edit Mode 및 Play Mode Test가 담당하도록 했다.
 - Scene 저장과 최종 화면 가독성 외의 자동 판정 항목을 사용자 작업에서 제외했다.
@@ -415,7 +415,6 @@ Step 1에서 Phase 4 계약과 현재 UI 및 Result 구조를 조사한다.
 - `AI/03_Features/StagePlay.md`
 - `AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_003.md`
 - `AI/90_Tasks/Prototype_3/20260909_01_Phase3VerificationResult.md`
-- `AI/90_Tasks/Prototype_4/20260828_05_Prototype4Roadmap.md`
 - `AI/99_Templates/GENERAL_TASK_TEMPLATE.md`
 
 ---
