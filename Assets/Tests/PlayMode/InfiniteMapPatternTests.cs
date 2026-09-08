@@ -1,4 +1,5 @@
 using System.Reflection;
+using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using NUnit.Framework;
 using UnityEngine;
@@ -26,6 +27,10 @@ namespace FlowState.Tests.PlayMode
         private InfinitePatternBoundary _firstBoundary;
         private InfinitePatternBoundary _secondBoundary;
         private InfiniteMapPattern _mapPattern;
+        private Rigidbody _playerRigidbody;
+        private GameRuntimeData _runtimeData;
+        private ScoreCollectible _firstCollectible;
+        private ScoreCollectible _secondCollectible;
 
         [SetUp]
         public void SetUp()
@@ -34,6 +39,9 @@ namespace FlowState.Tests.PlayMode
             _playerObject = new GameObject("InfiniteMapPatternTests.Player");
             _otherObject = new GameObject("InfiniteMapPatternTests.Other");
             _playerCollider = _playerObject.AddComponent<CapsuleCollider>();
+            _playerRigidbody = _playerObject.AddComponent<Rigidbody>();
+            _playerRigidbody.useGravity = false;
+            _playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
             _otherCollider = _otherObject.AddComponent<BoxCollider>();
 
             _firstPattern = CreatePattern(
@@ -55,6 +63,9 @@ namespace FlowState.Tests.PlayMode
             ConfigureBoundary(_firstBoundary, FirstBoundaryId);
             ConfigureBoundary(_secondBoundary, SecondBoundaryId);
             ConfigureMapPattern();
+            _runtimeData = new GameRuntimeData();
+            _runtimeData.Initialize(E_GameMode.Infinite);
+            _runtimeData.SetGameState(E_GameState.Playing);
         }
 
         [TearDown]
@@ -63,6 +74,7 @@ namespace FlowState.Tests.PlayMode
             Object.DestroyImmediate(_rootObject);
             Object.DestroyImmediate(_playerObject);
             Object.DestroyImmediate(_otherObject);
+            _runtimeData.Clear();
         }
 
         [Test]
@@ -168,6 +180,49 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_mapPattern.AdvanceCount, Is.Zero);
         }
 
+        [Test]
+        public void Collectibles_InDifferentPatternsWithSameLocalId_AreIndependent()
+        {
+            ConfigurePatternCollectibles();
+
+            Assert.That(TryCollect(_firstCollectible), Is.True);
+            Assert.That(_runtimeData.CollectibleRuntimeData.CurrentScore, Is.EqualTo(10));
+            Assert.That(_secondCollectible.IsCollected, Is.False);
+            Assert.That(TryCollect(_secondCollectible), Is.True);
+            Assert.That(_runtimeData.CollectibleRuntimeData.CurrentScore, Is.EqualTo(20));
+        }
+
+        [Test]
+        public void TryAdvance_ReusedPattern_RestoresOnlyItsCollectibles()
+        {
+            ConfigurePatternCollectibles();
+            Assert.That(TryCollect(_firstCollectible), Is.True);
+            Assert.That(_secondCollectible.IsCollected, Is.False);
+
+            Assert.That(_mapPattern.TryAdvance(SecondBoundaryId), Is.True);
+
+            Assert.That(_firstCollectible.IsCollected, Is.False);
+            Assert.That(_secondCollectible.IsCollected, Is.False);
+            Assert.That(
+                _runtimeData.CollectibleRuntimeData.RegisteredCount,
+                Is.EqualTo(2));
+            Assert.That(TryCollect(_firstCollectible), Is.True);
+            Assert.That(_runtimeData.CollectibleRuntimeData.CurrentScore, Is.EqualTo(20));
+        }
+
+        [Test]
+        public void Boundary_CollectibleTrigger_DoesNotAdvancePattern()
+        {
+            ConfigurePatternCollectibles();
+            Collider collectibleTrigger =
+                _firstCollectible.GetComponent<Collider>();
+
+            InvokeTriggerEnter(_secondBoundary, collectibleTrigger);
+
+            Assert.That(_secondBoundary.IsTriggered, Is.False);
+            Assert.That(_mapPattern.AdvanceCount, Is.Zero);
+        }
+
         private Transform CreatePattern(
             string patternName,
             Vector3 position,
@@ -240,6 +295,47 @@ namespace FlowState.Tests.PlayMode
                 "_secondEndAnchor",
                 _secondEndAnchor);
             SetPrivateField(_mapPattern, "_secondBoundary", _secondBoundary);
+        }
+
+        private void ConfigurePatternCollectibles()
+        {
+            _firstCollectible = CreateCollectible(_firstPattern, "coin");
+            _secondCollectible = CreateCollectible(_secondPattern, "coin");
+            Assert.That(_mapPattern.Initialize(), Is.True);
+            Assert.That(
+                _mapPattern.ConfigureCollectibles(
+                    _runtimeData,
+                    _playerRigidbody),
+                Is.True);
+        }
+
+        private ScoreCollectible CreateCollectible(
+            Transform parent,
+            string collectibleId)
+        {
+            GameObject collectibleObject =
+                GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            collectibleObject.transform.SetParent(parent, false);
+            collectibleObject.transform.localPosition = new Vector3(2.0f, 2.0f, 0.0f);
+            Collider trigger = collectibleObject.GetComponent<Collider>();
+            trigger.isTrigger = true;
+            ScoreCollectible collectible =
+                collectibleObject.AddComponent<ScoreCollectible>();
+            SetPrivateField(collectible, "_collectibleId", collectibleId);
+            SetPrivateField(collectible, "_triggerCollider", trigger);
+            SetPrivateField(
+                collectible,
+                "_visual",
+                collectibleObject.GetComponent<Renderer>());
+            SetPrivateField(collectible, "_playerLayers", (LayerMask)1);
+            return collectible;
+        }
+
+        private bool TryCollect(ScoreCollectible collectible)
+        {
+            _playerRigidbody.transform.position = collectible.transform.position;
+            Physics.SyncTransforms();
+            return collectible.TryCollectOverlappingPlayer();
         }
 
         private void SetPrivateField(

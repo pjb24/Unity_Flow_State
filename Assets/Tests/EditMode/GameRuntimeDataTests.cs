@@ -1,4 +1,5 @@
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
 using NUnit.Framework;
 
 namespace FlowState.Tests.EditMode
@@ -195,6 +196,76 @@ namespace FlowState.Tests.EditMode
             Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Stage));
             Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Null);
             Assert.That(_runtimeData.IsCreated, Is.True);
+        }
+
+        [TestCase(E_GameMode.Stage)]
+        [TestCase(E_GameMode.Infinite)]
+        public void CollectibleData_PauseAndClear_PreservesThenInvalidatesRun(
+            E_GameMode gameMode)
+        {
+            _runtimeData.Initialize(gameMode);
+            CollectibleRuntimeData data = _runtimeData.CollectibleRuntimeData;
+            Assert.That(data, Is.Not.Null);
+            Assert.That(data.IsInitialized, Is.True);
+            data.TryCreateScope(out long scope);
+            data.TryRegister(scope, "coin");
+            data.TryCollect(scope, "coin");
+
+            _runtimeData.SetGameState(E_GameState.Paused);
+            Assert.That(_runtimeData.CollectibleRuntimeData, Is.SameAs(data));
+            Assert.That(data.CurrentScore, Is.EqualTo(10));
+            _runtimeData.Clear();
+            Assert.That(_runtimeData.CollectibleRuntimeData, Is.Null);
+            Assert.That(data.IsInitialized, Is.False);
+            Assert.That(data.TryCollect(scope, "coin"), Is.False);
+        }
+
+        [TestCase(E_GameMode.Stage, E_GameMode.Infinite)]
+        [TestCase(E_GameMode.Infinite, E_GameMode.Stage)]
+        [TestCase(E_GameMode.Stage, E_GameMode.Stage)]
+        [TestCase(E_GameMode.Infinite, E_GameMode.Infinite)]
+        public void Initialize_NewRun_ReplacesAndInvalidatesCollectibleData(
+            E_GameMode previousMode, E_GameMode nextMode)
+        {
+            _runtimeData.Initialize(previousMode);
+            CollectibleRuntimeData previous = _runtimeData.CollectibleRuntimeData;
+            previous.TryCreateScope(out long scope);
+            previous.TryRegister(scope, "coin");
+            previous.TryCollect(scope, "coin");
+
+            _runtimeData.Initialize(nextMode);
+
+            CollectibleRuntimeData current = _runtimeData.CollectibleRuntimeData;
+            Assert.That(current, Is.Not.SameAs(previous));
+            Assert.That(current.CurrentScore, Is.Zero);
+            Assert.That(current.RegisteredCount, Is.Zero);
+            Assert.That(previous.IsInitialized, Is.False);
+            Assert.That(previous.TryRegister(scope, "late"), Is.False);
+        }
+
+        [Test]
+        public void CollectibleScore_DoesNotChangeInfiniteDistanceOrFinalResult()
+        {
+            _runtimeData.Initialize(E_GameMode.Infinite);
+            InfiniteModeRuntimeData infinite = _runtimeData.InfiniteModeRuntimeData;
+            Assert.That(infinite.TryUpdate(12.5f, 125), Is.True);
+            CollectibleRuntimeData data = _runtimeData.CollectibleRuntimeData;
+            data.TryCreateScope(out long scope);
+            data.TryRegister(scope, "coin");
+            Assert.That(data.TryCollect(scope, "coin"), Is.True);
+            Assert.That(infinite.CurrentDistance, Is.EqualTo(12.5f));
+            Assert.That(infinite.CurrentScore, Is.EqualTo(125));
+            Assert.That(infinite.TryFinalize(), Is.True);
+
+            ScoreRecord record = new ScoreRecord();
+            Assert.That(record.TryRecord(
+                E_GameMode.Infinite,
+                true,
+                infinite.IsFinalized,
+                infinite.CurrentDistance,
+                infinite.CurrentScore), Is.True);
+            Assert.That(record.ResultData.FinalScore, Is.EqualTo(125));
+            Assert.That(data.CurrentScore, Is.EqualTo(10));
         }
     }
 }

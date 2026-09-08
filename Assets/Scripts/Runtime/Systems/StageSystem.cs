@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using UnityEngine;
@@ -21,6 +22,12 @@ namespace FlowState.Runtime.Systems
         private bool _isCleared;
         private bool _hasEnded;
         private bool _isPaused;
+        private GameRuntimeData _runtimeData;
+        private Rigidbody _playerRigidbody;
+        private long _collectibleScopeId;
+        private readonly List<ScoreCollectible> _collectibles =
+            new List<ScoreCollectible>();
+        private InfiniteMapPattern _infiniteMapPattern;
 
         public bool IsInitialized => _isInitialized;
 
@@ -36,6 +43,8 @@ namespace FlowState.Runtime.Systems
 
         private void OnDestroy()
         {
+            ReleaseCollectibles();
+
             if (_stageGoal != null)
             {
                 _stageGoal.RemoveListener(HandleGoalReached);
@@ -49,6 +58,8 @@ namespace FlowState.Runtime.Systems
 
         public bool Initialize(E_GameMode gameMode)
         {
+            ReleaseCollectibles();
+
             if (_stageGoal != null)
             {
                 _stageGoal.RemoveListener(HandleGoalReached);
@@ -81,6 +92,23 @@ namespace FlowState.Runtime.Systems
             return true;
         }
 
+        public bool ConfigureCollectibles(
+            GameRuntimeData runtimeData,
+            Rigidbody playerRigidbody)
+        {
+            if (!_isInitialized || runtimeData == null ||
+                !runtimeData.IsCreated ||
+                runtimeData.CollectibleRuntimeData == null ||
+                playerRigidbody == null)
+            {
+                return false;
+            }
+
+            _runtimeData = runtimeData;
+            _playerRigidbody = playerRigidbody;
+            return true;
+        }
+
         public bool StartStage()
         {
             if (!_isInitialized)
@@ -102,6 +130,11 @@ namespace FlowState.Runtime.Systems
                 _stageGoal.ResetGoal();
             }
 
+            if (!BindCollectibles())
+            {
+                return false;
+            }
+
             _isPlaying = true;
 
             if (StageStarted != null)
@@ -116,6 +149,7 @@ namespace FlowState.Runtime.Systems
         {
             if (!_isPlaying)
             {
+                ReleaseCollectibles();
                 return;
             }
 
@@ -142,6 +176,25 @@ namespace FlowState.Runtime.Systems
 
             _isPaused = false;
             return true;
+        }
+
+        public void RecheckCollectibleOverlaps()
+        {
+            if (_infiniteMapPattern != null)
+            {
+                _infiniteMapPattern.RecheckCollectibleOverlaps();
+                return;
+            }
+
+            for (int i = 0; i < _collectibles.Count; i++)
+            {
+                ScoreCollectible collectible = _collectibles[i];
+
+                if (collectible != null)
+                {
+                    collectible.TryCollectOverlappingPlayer();
+                }
+            }
         }
 
         public bool TryEndInfiniteStage()
@@ -223,6 +276,7 @@ namespace FlowState.Runtime.Systems
             _isPlaying = false;
             _isPaused = false;
             _hasEnded = true;
+            ReleaseCollectibles();
 
             if (StageEnded != null)
             {
@@ -286,6 +340,108 @@ namespace FlowState.Runtime.Systems
 
             _infiniteModeRoot.SetActive(true);
             return true;
+        }
+
+        private bool BindCollectibles()
+        {
+            UnbindCollectibles();
+
+            GameObject activeRoot = _currentGameMode == E_GameMode.Stage
+                ? _stageModeRoot
+                : _infiniteModeRoot;
+
+            if (activeRoot == null)
+            {
+                return true;
+            }
+
+            if (_runtimeData == null || _playerRigidbody == null ||
+                !_runtimeData.IsCreated)
+            {
+                Debug.LogError(
+                    "[StageSystem] Collectible run could not be prepared.");
+                return false;
+            }
+
+            if (_currentGameMode == E_GameMode.Infinite)
+            {
+                _infiniteMapPattern =
+                    activeRoot.GetComponentInChildren<InfiniteMapPattern>();
+
+                if (_infiniteMapPattern == null ||
+                    !_infiniteMapPattern.ConfigureCollectibles(
+                        _runtimeData,
+                        _playerRigidbody))
+                {
+                    Debug.LogError(
+                        "[StageSystem] Infinite Pattern Collectibles could not be prepared.");
+                    _infiniteMapPattern = null;
+                    return false;
+                }
+
+                return true;
+            }
+
+            if (!_runtimeData.CollectibleRuntimeData.TryCreateScope(
+                    out _collectibleScopeId))
+            {
+                Debug.LogError(
+                    "[StageSystem] Collectible run could not be prepared.");
+                return false;
+            }
+
+            activeRoot.GetComponentsInChildren(false, _collectibles);
+
+            for (int i = 0; i < _collectibles.Count; i++)
+            {
+                if (!_collectibles[i].Bind(
+                        _runtimeData,
+                        _playerRigidbody,
+                        _collectibleScopeId))
+                {
+                    Debug.LogError(
+                        "[StageSystem] Collectible could not be bound.");
+                    ReleaseCollectibles();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void ReleaseCollectibles()
+        {
+            if (_infiniteMapPattern != null)
+            {
+                _infiniteMapPattern.UnbindCollectibles();
+                _infiniteMapPattern = null;
+            }
+
+            UnbindCollectibles();
+            _runtimeData = null;
+            _playerRigidbody = null;
+        }
+
+        private void UnbindCollectibles()
+        {
+            for (int i = 0; i < _collectibles.Count; i++)
+            {
+                if (_collectibles[i] != null)
+                {
+                    _collectibles[i].Unbind();
+                }
+            }
+
+            _collectibles.Clear();
+
+            if (_collectibleScopeId != 0 && _runtimeData != null &&
+                _runtimeData.CollectibleRuntimeData != null)
+            {
+                _runtimeData.CollectibleRuntimeData.TryReleaseScope(
+                    _collectibleScopeId);
+            }
+
+            _collectibleScopeId = 0;
         }
     }
 }

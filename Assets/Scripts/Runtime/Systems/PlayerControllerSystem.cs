@@ -28,6 +28,8 @@ namespace FlowState.Runtime.Systems
         public float CurrentHorizontalAcceleration =>
             _currentHorizontalAcceleration;
 
+        public Rigidbody PlayerRigidbody => _playerRigidbody;
+
         public bool Initialize()
         {
             if (_playerRigidbody == null || _startPoint == null)

@@ -47,6 +47,15 @@ RuntimeDataSystem은 각 System의 내부 상태를 소유하지 않는다.
 - 현재 게임 상태
 - 현재 Result Data 참조
 
+## Collectible Runtime Data 소유
+
+- `GameRuntimeData` 아래에서 현재 Run의 공통 Collectible 획득 상태와 Collectible Score를 소유한다.
+- Stage Mode와 InfiniteMode는 이 공통 소유 위치를 사용한다.
+- Scene Object는 Run의 획득 상태와 Score의 최종 소유자가 아니다.
+- 기존 InfiniteMode 거리 Score의 소유 경계는 유지한다.
+- Mode 공통 데이터는 `CollectibleRuntimeData`로 분리하며 Scene Component 참조를 소유하지 않는다. Stage Object의 연결과 해제는 StageSystem의 준비 및 종료 책임으로 구분한다.
+- 획득, 초기화 및 Pattern 복구 동작 규칙은 `../03_Features/ScoreCollectible.md`에서 관리한다.
+
 ---
 
 # 시작 조건

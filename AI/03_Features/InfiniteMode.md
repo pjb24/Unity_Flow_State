@@ -44,6 +44,8 @@ InfiniteMode
 
 # Score 규칙
 
+이 절의 Score는 기존 이동 거리 기반 Score를 의미한다. Collectible 획득 점수 규칙은 `ScoreCollectible.md`에서 관리한다. Prototype 3 Phase 3에서는 두 점수를 분리하며 기존 HUD와 Result의 Score는 거리 Score를 유지한다. Total Score 계산 및 표시는 Phase 4에서 통합한다.
+
 - Score는 이동 거리에 Score 환산 비율을 곱한 값을 내림하여 계산한다.
 - Score 환산 비율의 Prototype 2 초기값은 World X 거리 1당 10점이다.
 - Score 환산 비율은 하나의 설정 값으로 관리한다.

@@ -90,6 +90,9 @@ namespace FlowState.Runtime.Systems
             if (!_playerControllerSystem.Initialize() ||
                 !_collisionSystem.Initialize() ||
                 !_stageSystem.Initialize(_selectedGameMode) ||
+                !_stageSystem.ConfigureCollectibles(
+                    _runtimeData,
+                    _playerControllerSystem.PlayerRigidbody) ||
                 !_playerMovementSystem.Initialize() ||
                 !_infiniteModeSystem.Initialize(_selectedGameMode) ||
                 !_cameraSystem.Initialize())
@@ -173,6 +176,7 @@ namespace FlowState.Runtime.Systems
             _playerInputSystem.EnablePlayerActionMap();
             _uiInputSystem.EnableUIActionMap();
             SetUIState(E_UIState.StageHud);
+            _stageSystem.RecheckCollectibleOverlaps();
             return true;
         }
 

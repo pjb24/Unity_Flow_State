@@ -113,7 +113,7 @@ Score Collectible로 점프 시점과 이동 경로를 안내한다.
 
 ### 상태
 
-대기
+완료
 
 ---
 
@@ -144,7 +144,7 @@ Mode별 Score와 UI를 통합하고 Prototype 3의 전체 플레이 흐름을 �
 - Retry 시 이전 Run의 Distance, Collectible과 Score 상태가 남지 않는다.
 - Keyboard와 Mouse로 기존 Pause 및 Result UI를 조작할 수 있다.
 - Stage Mode와 InfiniteMode를 치명적인 오류 없이 반복 플레이할 수 있다.
-- Compile, 관련 Test와 Build 검증이 통과한다.
+- Compile과 관련 Test 검증이 통과한다.
 
 ### 상태
 
@@ -162,9 +162,9 @@ Mode별 Score와 UI를 통합하고 Prototype 3의 전체 플레이 흐름을 �
 
 ## 다음 작업
 
-Prototype 3 Phase 3
+Prototype 3 Phase 4
 
-`20260907_09_Phase3ManualSteps.md` Step 1 기준선 검증
+`20260909_02_Phase4ManualSteps.md` Step 1 Phase 4 계약과 현재 UI 및 Result 구조 조사
 
 ---
 
@@ -232,6 +232,8 @@ Prototype 3 Phase 1
 
 Prototype 3 Phase 2
 
+Prototype 3 Phase 3
+
 ---
 
 # 구현 우선순위
@@ -291,7 +293,7 @@ Pause, Result와 Retry 검증
 - InfiniteMode에서 Distance Score, Collectible Score와 Total Score를 확인할 수 있다.
 - Pause, Result와 Retry에서 이동 및 Score 상태가 올바르게 유지되거나 초기화된다.
 - Stage Mode와 InfiniteMode의 기존 완료 및 반복 플레이 흐름에 회귀가 없다.
-- 치명적인 오류 없이 Compile, Test, Build와 반복 플레이 검증을 통과한다.
+- 치명적인 오류 없이 Compile, Test와 반복 플레이 검증을 통과한다.
 
 ---
 

@@ -23,6 +23,8 @@ InfiniteMode Stage Play의 최종 이동 거리와 최종 Score를 기록으로 
 - ScoreRecord가 하나의 Run에서 기록 완료 상태를 소유하고 중복 기록 요청을 거부한다.
 - InfiniteMode Stage Play가 종료되지 않은 경우 ScoreRecord를 수행하지 않는다.
 - ScoreRecord는 일반 Stage의 클리어 시간을 기록하지 않는다.
+- Prototype 3 Phase 3에서 최종 Score는 기존 InfiniteMode 거리 Score를 유지한다. Collectible Score를 합산하거나 기존 Result 계약을 변경하지 않는다.
+- Collectible 규칙은 `ScoreCollectible.md`에서 관리하며 Collectible Score 및 Total Score의 Result 통합은 Phase 4에서 수행한다.
 
 ---
 

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using FlowState.Runtime.Core;
 using UnityEngine;
 
 namespace FlowState.Runtime.Features
@@ -24,6 +26,14 @@ namespace FlowState.Runtime.Features
         private int _advanceCount;
         private bool _hasInitialTransforms;
         private bool _isInitialized;
+        private GameRuntimeData _runtimeData;
+        private Rigidbody _playerRigidbody;
+        private readonly List<ScoreCollectible> _firstCollectibles =
+            new List<ScoreCollectible>();
+        private readonly List<ScoreCollectible> _secondCollectibles =
+            new List<ScoreCollectible>();
+        private long _firstCollectibleScopeId;
+        private long _secondCollectibleScopeId;
 
         public bool IsInitialized => _isInitialized;
 
@@ -35,6 +45,11 @@ namespace FlowState.Runtime.Features
             {
                 Initialize();
             }
+        }
+
+        private void OnDisable()
+        {
+            UnbindCollectibles();
         }
 
         private void Start()
@@ -92,7 +107,62 @@ namespace FlowState.Runtime.Features
             _secondBoundary.ResetBoundary();
             _trailingPatternIndex = FirstPatternIndex;
             _advanceCount = 0;
+
+            if (_runtimeData != null)
+            {
+                ReleasePatternCollectibles(FirstPatternIndex);
+                ReleasePatternCollectibles(SecondPatternIndex);
+
+                if (!BindPatternCollectibles(FirstPatternIndex) ||
+                    !BindPatternCollectibles(SecondPatternIndex))
+                {
+                    UnbindCollectibles();
+                    return false;
+                }
+            }
+
             return true;
+        }
+
+        public bool ConfigureCollectibles(
+            GameRuntimeData runtimeData,
+            Rigidbody playerRigidbody)
+        {
+            UnbindCollectibles();
+
+            if (!_isInitialized || runtimeData == null ||
+                !runtimeData.IsCreated ||
+                runtimeData.CollectibleRuntimeData == null ||
+                playerRigidbody == null)
+            {
+                return false;
+            }
+
+            _runtimeData = runtimeData;
+            _playerRigidbody = playerRigidbody;
+
+            if (!BindPatternCollectibles(FirstPatternIndex) ||
+                !BindPatternCollectibles(SecondPatternIndex))
+            {
+                UnbindCollectibles();
+                return false;
+            }
+
+            return true;
+        }
+
+        public void UnbindCollectibles()
+        {
+            ReleasePatternCollectibles(FirstPatternIndex);
+            ReleasePatternCollectibles(SecondPatternIndex);
+            _runtimeData = null;
+            _playerRigidbody = null;
+        }
+
+        public void RecheckCollectibleOverlaps()
+        {
+            RecheckCollectibles(_firstCollectibles);
+            RecheckCollectibles(_secondCollectibles);
         }
 
         public bool TryAdvance(int boundaryId)
@@ -109,7 +179,18 @@ namespace FlowState.Runtime.Features
                 return false;
             }
 
+            int patternToReuse = _trailingPatternIndex;
+            ReleasePatternCollectibles(patternToReuse);
             MoveTrailingPatternAfterFront();
+
+            if (_runtimeData != null &&
+                !BindPatternCollectibles(patternToReuse))
+            {
+                Debug.LogError(
+                    "[InfiniteMapPattern] Reused Pattern Collectibles could not be bound.");
+                return false;
+            }
+
             _trailingPatternIndex = frontPatternIndex;
             _advanceCount++;
             return true;
@@ -198,6 +279,94 @@ namespace FlowState.Runtime.Features
                 frontEndAnchor.position - patternStartAnchor.position;
             pattern.position += positionOffset;
             Physics.SyncTransforms();
+        }
+
+        private bool BindPatternCollectibles(int patternIndex)
+        {
+            Transform pattern = patternIndex == FirstPatternIndex
+                ? _firstPattern
+                : _secondPattern;
+            List<ScoreCollectible> collectibles = patternIndex == FirstPatternIndex
+                ? _firstCollectibles
+                : _secondCollectibles;
+
+            if (!_runtimeData.CollectibleRuntimeData.TryCreateScope(
+                    out long scopeId))
+            {
+                return false;
+            }
+
+            pattern.GetComponentsInChildren(false, collectibles);
+
+            for (int i = 0; i < collectibles.Count; i++)
+            {
+                if (!collectibles[i].Bind(
+                        _runtimeData,
+                        _playerRigidbody,
+                        scopeId))
+                {
+                    ReleaseCollectibles(collectibles, scopeId);
+                    return false;
+                }
+            }
+
+            SetScopeId(patternIndex, scopeId);
+            return true;
+        }
+
+        private void ReleasePatternCollectibles(int patternIndex)
+        {
+            List<ScoreCollectible> collectibles = patternIndex == FirstPatternIndex
+                ? _firstCollectibles
+                : _secondCollectibles;
+            long scopeId = patternIndex == FirstPatternIndex
+                ? _firstCollectibleScopeId
+                : _secondCollectibleScopeId;
+            ReleaseCollectibles(collectibles, scopeId);
+            SetScopeId(patternIndex, 0);
+        }
+
+        private void ReleaseCollectibles(
+            List<ScoreCollectible> collectibles,
+            long scopeId)
+        {
+            for (int i = 0; i < collectibles.Count; i++)
+            {
+                if (collectibles[i] != null)
+                {
+                    collectibles[i].Unbind();
+                }
+            }
+
+            collectibles.Clear();
+
+            if (scopeId != 0 && _runtimeData != null &&
+                _runtimeData.CollectibleRuntimeData != null)
+            {
+                _runtimeData.CollectibleRuntimeData.TryReleaseScope(scopeId);
+            }
+        }
+
+        private void SetScopeId(int patternIndex, long scopeId)
+        {
+            if (patternIndex == FirstPatternIndex)
+            {
+                _firstCollectibleScopeId = scopeId;
+                return;
+            }
+
+            _secondCollectibleScopeId = scopeId;
+        }
+
+        private void RecheckCollectibles(List<ScoreCollectible> collectibles)
+        {
+            for (int i = 0; i < collectibles.Count; i++)
+            {
+                if (collectibles[i] != null)
+                {
+                    collectibles[i].TryCollectOverlappingPlayer();
+                }
+            }
         }
     }
 }
