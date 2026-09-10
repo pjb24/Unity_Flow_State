@@ -18,9 +18,13 @@ namespace FlowState.Tests.PlayMode
             new List<GameObject>();
 
         private MonoBehaviour _uiManagementSystem;
+        private TMP_Text _resultStatusText;
         private TMP_Text _clearTimeText;
+        private TMP_Text _stageResultCollectibleScoreText;
         private TMP_Text _finalDistanceText;
         private TMP_Text _finalScoreText;
+        private TMP_Text _infiniteResultCollectibleScoreText;
+        private TMP_Text _infiniteResultTotalScoreText;
 
         [SetUp]
         public void SetUp()
@@ -46,14 +50,31 @@ namespace FlowState.Tests.PlayMode
                 "_infiniteResultContent",
                 CreateObject("InfiniteResultContent"));
 
+            _resultStatusText = CreateText("ResultStatusText");
             _clearTimeText = CreateText("ClearTimeText");
+            _stageResultCollectibleScoreText = CreateText(
+                "StageResultCollectibleScoreText");
             _finalDistanceText = CreateText("FinalDistanceText");
             _finalScoreText = CreateText("FinalScoreText");
+            _infiniteResultCollectibleScoreText = CreateText(
+                "InfiniteResultCollectibleScoreText");
+            _infiniteResultTotalScoreText = CreateText(
+                "InfiniteResultTotalScoreText");
+            SetPrivateField("_resultStatusText", _resultStatusText);
             SetPrivateField("_clearTimeText", _clearTimeText);
+            SetPrivateField(
+                "_stageResultCollectibleScoreText",
+                _stageResultCollectibleScoreText);
             SetPrivateField("_distanceText", CreateText("DistanceText"));
             SetPrivateField("_scoreText", CreateText("ScoreText"));
             SetPrivateField("_finalDistanceText", _finalDistanceText);
             SetPrivateField("_finalScoreText", _finalScoreText);
+            SetPrivateField(
+                "_infiniteResultCollectibleScoreText",
+                _infiniteResultCollectibleScoreText);
+            SetPrivateField(
+                "_infiniteResultTotalScoreText",
+                _infiniteResultTotalScoreText);
             SetPrivateField("_retryButton", CreateButton("RetryButton"));
             SetPrivateField("_quitButton", CreateButton("QuitButton"));
             SetPrivateField("_pauseResumeButton", CreateButton("ResumeButton"));
@@ -76,73 +97,128 @@ namespace FlowState.Tests.PlayMode
         }
 
         [Test]
-        public void StageResult_DisplaysOnlyClearTime()
+        public void StageResult_DisplaysOnlyStageResultFields()
         {
             Initialize(E_GameMode.Stage);
 
-            bool didSetResult = SetResultData(new ResultData(true, 12.3456));
+            bool didSetResult = SetResultData(new ResultData(
+                E_StageResultType.Cleared,
+                12.3456,
+                30));
 
             Assert.That(didSetResult, Is.True);
+            Assert.That(_resultStatusText.text, Is.EqualTo("Result: Stage Clear"));
             Assert.That(_clearTimeText.text, Is.EqualTo("Clear Time: 12.346 s"));
+            Assert.That(
+                _stageResultCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 30"));
             Assert.That(_finalDistanceText.text, Is.Empty);
             Assert.That(_finalScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultCollectibleScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultTotalScoreText.text, Is.Empty);
         }
 
         [Test]
-        public void InfiniteResult_DisplaysOnlyFinalDistanceAndScore()
+        public void FellStageResult_DisplaysFailureStatusAndRunTime()
+        {
+            Initialize(E_GameMode.Stage);
+
+            bool didSetResult = SetResultData(new ResultData(
+                E_StageResultType.Fell,
+                8.25,
+                20));
+
+            Assert.That(didSetResult, Is.True);
+            Assert.That(_resultStatusText.text, Is.EqualTo("Result: Stage Failed"));
+            Assert.That(_clearTimeText.text, Is.EqualTo("Run Time: 8.250 s"));
+            Assert.That(
+                _stageResultCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 20"));
+        }
+
+        [Test]
+        public void InfiniteResult_DisplaysOnlyInfiniteResultFields()
         {
             Initialize(E_GameMode.Infinite);
 
-            bool didSetResult = SetResultData(new ResultData(12.999f, 129));
+            bool didSetResult = SetResultData(
+                new ResultData(12.999f, 129, 30, 159));
 
             Assert.That(didSetResult, Is.True);
+            Assert.That(_resultStatusText.text, Is.Empty);
             Assert.That(_clearTimeText.text, Is.Empty);
+            Assert.That(_stageResultCollectibleScoreText.text, Is.Empty);
             Assert.That(
                 _finalDistanceText.text,
                 Is.EqualTo("Final Distance: 12"));
-            Assert.That(_finalScoreText.text, Is.EqualTo("Final Score: 129"));
+            Assert.That(_finalScoreText.text, Is.EqualTo("Distance Score: 129"));
+            Assert.That(
+                _infiniteResultCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 30"));
+            Assert.That(
+                _infiniteResultTotalScoreText.text,
+                Is.EqualTo("Total Score: 159"));
         }
 
         [Test]
         public void Initialize_AfterResult_ClearsPreviousResultText()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(new ResultData(12.999f, 129));
+            SetResultData(new ResultData(12.999f, 129, 30, 159));
 
             Initialize(E_GameMode.Infinite);
 
             Assert.That(_clearTimeText.text, Is.Empty);
+            Assert.That(_resultStatusText.text, Is.Empty);
+            Assert.That(_stageResultCollectibleScoreText.text, Is.Empty);
             Assert.That(_finalDistanceText.text, Is.Empty);
             Assert.That(_finalScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultCollectibleScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultTotalScoreText.text, Is.Empty);
         }
 
         [Test]
         public void ConsecutiveInfiniteRuns_DisplayIndependentResults()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(new ResultData(12.999f, 129));
+            SetResultData(new ResultData(12.999f, 129, 30, 159));
 
             Initialize(E_GameMode.Infinite);
-            SetResultData(new ResultData(20.999f, 209));
+            SetResultData(new ResultData(20.999f, 209, 40, 249));
 
             Assert.That(
                 _finalDistanceText.text,
                 Is.EqualTo("Final Distance: 20"));
-            Assert.That(_finalScoreText.text, Is.EqualTo("Final Score: 209"));
+            Assert.That(_finalScoreText.text, Is.EqualTo("Distance Score: 209"));
+            Assert.That(
+                _infiniteResultCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 40"));
+            Assert.That(
+                _infiniteResultTotalScoreText.text,
+                Is.EqualTo("Total Score: 249"));
         }
 
         [Test]
         public void StageRunAfterInfiniteRun_DoesNotKeepInfiniteResultText()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(new ResultData(12.999f, 129));
+            SetResultData(new ResultData(12.999f, 129, 30, 159));
 
             Initialize(E_GameMode.Stage);
-            SetResultData(new ResultData(true, 5.25));
+            SetResultData(new ResultData(
+                E_StageResultType.Cleared,
+                5.25,
+                30));
 
+            Assert.That(_resultStatusText.text, Is.EqualTo("Result: Stage Clear"));
             Assert.That(_clearTimeText.text, Is.EqualTo("Clear Time: 5.250 s"));
+            Assert.That(
+                _stageResultCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 30"));
             Assert.That(_finalDistanceText.text, Is.Empty);
             Assert.That(_finalScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultCollectibleScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultTotalScoreText.text, Is.Empty);
         }
 
         [UnityTest]

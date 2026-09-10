@@ -34,7 +34,11 @@ namespace FlowState.Tests.EditMode
         public void CreateStageThenInfiniteResult_SecondModeIsRejected()
         {
             Assert.That(
-                InvokeBool("CreateResultData", true, 12.5),
+                InvokeBool(
+                    "CreateStageResultData",
+                    E_StageResultType.Cleared,
+                    12.5,
+                    30),
                 Is.True);
             LogAssert.Expect(
                 LogType.Warning,
@@ -46,7 +50,8 @@ namespace FlowState.Tests.EditMode
                 true,
                 true,
                 100.0f,
-                1000);
+                1000,
+                30);
 
             Assert.That(didCreateInfinite, Is.False);
             Assert.That(GetResultData().GameMode, Is.EqualTo(E_GameMode.Stage));
@@ -62,16 +67,18 @@ namespace FlowState.Tests.EditMode
                     true,
                     true,
                     100.0f,
-                    1000),
+                    1000,
+                    30),
                 Is.True);
             LogAssert.Expect(
                 LogType.Warning,
                 "[ResultSystem] Result Data was not created.");
 
             bool didCreateStage = InvokeBool(
-                "CreateResultData",
-                true,
-                12.5);
+                "CreateStageResultData",
+                E_StageResultType.Cleared,
+                12.5,
+                30);
 
             Assert.That(didCreateStage, Is.False);
             Assert.That(
@@ -89,7 +96,8 @@ namespace FlowState.Tests.EditMode
                     true,
                     true,
                     100.0f,
-                    1000),
+                    1000,
+                    30),
                 Is.True);
 
             Invoke("Initialize");
@@ -97,8 +105,55 @@ namespace FlowState.Tests.EditMode
             Assert.That(GetBoolProperty("HasResultData"), Is.False);
             Assert.That(GetProperty("CurrentResultData"), Is.Null);
             Assert.That(
-                InvokeBool("CreateResultData", true, 12.5),
+                InvokeBool(
+                    "CreateStageResultData",
+                    E_StageResultType.Cleared,
+                    12.5,
+                    30),
                 Is.True);
+        }
+
+        [TestCase(0)]
+        [TestCase(30)]
+        [TestCase(100)]
+        public void CreateStageResult_PreservesNonePartialAndFullCollectibleScore(
+            int collectibleScore)
+        {
+            bool didCreate = InvokeBool(
+                "CreateStageResultData",
+                E_StageResultType.Cleared,
+                12.5,
+                collectibleScore);
+
+            Assert.That(didCreate, Is.True);
+            ResultData resultData = GetResultData();
+            Assert.That(resultData.GameMode, Is.EqualTo(E_GameMode.Stage));
+            Assert.That(resultData.CollectibleScore, Is.EqualTo(collectibleScore));
+        }
+
+        [TestCase(0)]
+        [TestCase(30)]
+        [TestCase(200)]
+        public void CreateInfiniteResult_PreservesNonePartialAndFullCollectibleScore(
+            int collectibleScore)
+        {
+            const int distanceScore = 1000;
+            bool didCreate = InvokeBool(
+                "CreateInfiniteResultData",
+                E_GameMode.Infinite,
+                true,
+                true,
+                100.0f,
+                distanceScore,
+                collectibleScore);
+
+            Assert.That(didCreate, Is.True);
+            ResultData resultData = GetResultData();
+            Assert.That(resultData.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(resultData.CollectibleScore, Is.EqualTo(collectibleScore));
+            Assert.That(
+                resultData.TotalScore,
+                Is.EqualTo(distanceScore + collectibleScore));
         }
 
         private Type FindType(string fullName)

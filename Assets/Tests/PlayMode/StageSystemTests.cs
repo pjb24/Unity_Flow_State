@@ -360,6 +360,151 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
         }
 
+        [TestCase(-2.999f, false)]
+        [TestCase(-3.0f, true)]
+        [TestCase(-3.001f, true)]
+        public void FallThreshold_UsesInclusiveRigidbodyPositionBoundary(
+            float playerY,
+            bool shouldRequestFall)
+        {
+            PrepareStageFallCheck(playerY);
+
+            InvokeMethod(_stageSystem, "FixedUpdate");
+
+            Assert.That(
+                GetBoolProperty(_stageSystem, "HasPendingFall"),
+                Is.EqualTo(shouldRequestFall));
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+
+            InvokeMethod(_stageSystem, "FixedUpdate");
+
+            Assert.That(
+                GetBoolProperty(_stageSystem, "HasEnded"),
+                Is.EqualTo(shouldRequestFall));
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
+        }
+
+        [Test]
+        public void FallThreshold_PausedStage_WaitsUntilResume()
+        {
+            PrepareStageFallCheck(-3.0f);
+            Assert.That(InvokeBoolMethod(_stageSystem, "PauseStage"), Is.True);
+
+            InvokeMethod(_stageSystem, "FixedUpdate");
+            InvokeMethod(_stageSystem, "FixedUpdate");
+
+            Assert.That(GetBoolProperty(_stageSystem, "HasPendingFall"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+
+            Assert.That(InvokeBoolMethod(_stageSystem, "ResumeStage"), Is.True);
+            InvokeMethod(_stageSystem, "FixedUpdate");
+            InvokeMethod(_stageSystem, "FixedUpdate");
+
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
+        }
+
+        [Test]
+        public void GoalReached_AfterFallRequestBeforeConfirmation_ClearsStage()
+        {
+            PrepareStageFallCheck(-3.0f);
+            int endCount = 0;
+            AddListener(
+                _stageSystem,
+                "AddStageEndedListener",
+                () => endCount++);
+
+            InvokeMethod(_stageSystem, "FixedUpdate");
+            InvokeMethod(_stageSystem, "HandleGoalReached");
+            InvokeMethod(_stageSystem, "FixedUpdate");
+
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
+            Assert.That(
+                GetBoolProperty(_stageSystem, "HasPendingFall"),
+                Is.False);
+            Assert.That(endCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void FallThreshold_InfiniteMode_DoesNotEndStage()
+        {
+            PrepareStageFallCheck(-3.0f, E_GameMode.Infinite);
+
+            InvokeMethod(_stageSystem, "FixedUpdate");
+            InvokeMethod(_stageSystem, "FixedUpdate");
+
+            Assert.That(GetBoolProperty(_stageSystem, "HasPendingFall"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+        }
+
+        [Test]
+        public void Retry_AfterFall_ResetsFallAndClearState()
+        {
+            PrepareStageFallCheck(-3.0f);
+            InvokeMethod(_stageSystem, "FixedUpdate");
+            InvokeMethod(_stageSystem, "FixedUpdate");
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
+
+            PrepareStageFallCheck(1.5f);
+            InvokeMethod(_stageSystem, "FixedUpdate");
+
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasPendingFall"), Is.False);
+        }
+
+        [TestCase(float.NaN)]
+        [TestCase(float.PositiveInfinity)]
+        [TestCase(float.NegativeInfinity)]
+        public void Initialize_InvalidFallThreshold_IsRejected(float threshold)
+        {
+            SetPrivateField(_stageSystem, "_fallThresholdY", threshold);
+            LogAssert.Expect(
+                LogType.Error,
+                "[StageSystem] Fall Threshold Y is invalid.");
+
+            bool didInitialize = InvokeBoolMethod(
+                _stageSystem,
+                "Initialize",
+                E_GameMode.Stage);
+
+            Assert.That(didInitialize, Is.False);
+        }
+
+        private void PrepareStageFallCheck(
+            float playerY,
+            E_GameMode gameMode = E_GameMode.Stage)
+        {
+            Rigidbody playerRigidbody =
+                _playerObject.GetComponent<Rigidbody>();
+
+            if (playerRigidbody == null)
+            {
+                playerRigidbody = _playerObject.AddComponent<Rigidbody>();
+                playerRigidbody.useGravity = false;
+            }
+
+            playerRigidbody.position = new Vector3(0.0f, playerY, 0.0f);
+            GameRuntimeData runtimeData = new GameRuntimeData();
+            runtimeData.Initialize(gameMode);
+
+            Assert.That(
+                InvokeBoolMethod(_stageSystem, "Initialize", gameMode),
+                Is.True);
+            Assert.That(
+                InvokeBoolMethod(
+                    _stageSystem,
+                    "ConfigureCollectibles",
+                    runtimeData,
+                    playerRigidbody),
+                Is.True);
+            Assert.That(
+                InvokeBoolMethod(_stageSystem, "StartStage"),
+                Is.True);
+        }
+
         private MonoBehaviour AddComponentByName(
             GameObject gameObject,
             string typeName)

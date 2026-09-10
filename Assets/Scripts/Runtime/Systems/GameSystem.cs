@@ -504,10 +504,14 @@ namespace FlowState.Runtime.Systems
 
             if (_runtimeData.GameMode == E_GameMode.Stage)
             {
-                if (_stageSystem.IsCleared &&
-                    _resultSystem.CreateResultData(
-                        true,
-                        _timerSystem.GetElapsedTime(E_TimerKey.PlayTimer)))
+                E_StageResultType stageResultType = _stageSystem.IsCleared
+                    ? E_StageResultType.Cleared
+                    : E_StageResultType.Fell;
+
+                if (_resultSystem.CreateStageResultData(
+                        stageResultType,
+                        _timerSystem.GetElapsedTime(E_TimerKey.PlayTimer),
+                        _runtimeData.CollectibleRuntimeData.CurrentScore))
                 {
                     _uiManagementSystem.SetResultData(
                         _resultSystem.CurrentResultData);
@@ -538,7 +542,8 @@ namespace FlowState.Runtime.Systems
                     _stageSystem.HasEnded,
                     infiniteModeRuntimeData.IsFinalized,
                     infiniteModeRuntimeData.CurrentDistance,
-                    infiniteModeRuntimeData.CurrentScore))
+                    infiniteModeRuntimeData.CurrentScore,
+                    _runtimeData.CollectibleRuntimeData.CurrentScore))
             {
                 _uiManagementSystem.SetResultData(
                     _resultSystem.CurrentResultData);

@@ -29,6 +29,8 @@ Stage Mode와 InfiniteMode의 결과 화면에서 다음 실행 흐름을 키보
 - ResultMenu는 현재 게임 Mode의 HUD와 함께 표시한다.
 - Stage Mode에서는 StageHUD와 Stage Result Content를 표시한다.
 - InfiniteMode에서는 InfiniteHUD와 InfiniteMode Result Content를 표시한다.
+- Stage Result Content는 성공 또는 실패 Status, Clear Time 또는 Run Time과 Collectible Score를 표시한다.
+- InfiniteMode Result Content는 Final Distance, Distance Score, Collectible Score와 Total Score를 표시한다.
 
 ---
 
@@ -103,7 +105,7 @@ Stage Mode와 InfiniteMode의 결과 화면에서 다음 실행 흐름을 키보
 - Stage Mode와 InfiniteMode에서 ResultMenu가 활성화되는지 확인한다.
 - Retry 실행 후 같은 게임 Mode의 새로운 Stage Play가 이전 Runtime 상태 없이 시작되는지 확인한다.
 - Stage Mode Result에서 StageHUD와 Stage Result Content가 함께 표시되는지 확인한다.
-- InfiniteMode Result에서 InfiniteHUD와 최종 거리 및 최종 Score가 함께 표시되는지 확인한다.
+- InfiniteMode Result에서 InfiniteHUD, Final Distance, Distance Score, Collectible Score와 Total Score가 함께 표시되는지 확인한다.
 - Quit 실행 시 Application 종료가 요청되는지 Build에서 확인한다.
 - Stage Play 진행 중 ResultMenu 입력이 처리되지 않는지 확인한다.
 - 현재 Mode가 아닌 HUD와 Result Content가 표시되지 않는지 확인한다.

@@ -68,9 +68,10 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 |------|------|
 | Stage 종료 이벤트 | StageSystem |
 | Stage 결과 정보 | StageSystem |
-| 클리어 시간 | TimerSystem |
+| Stage 결과 원인과 경과 시간 | StageSystem, TimerSystem |
+| 현재 Collectible Score | Runtime Data |
 | 현재 게임 Mode | Runtime Data |
-| InfiniteMode 최종 이동 거리와 최종 Score | Runtime Data |
+| InfiniteMode 최종 이동 거리와 Distance Score | Runtime Data |
 
 ---
 
@@ -102,7 +103,8 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 - Result Data 평가
 - 게임 진행 관리
 - Feature 규칙 정의
-- 이동 거리와 Score 계산
+- 이동 거리와 Distance 및 Collectible Score 계산
+- Total Score 포화 합산
 
 ---
 

@@ -30,6 +30,8 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 - Playing 외 상태에서는 자동 이동 계산을 수행하지 않는다.
 - 점프는 Momentum Landing 또는 Normal Landing으로 연결된다.
 - 일반 Stage Play는 플레이어가 Stage의 Goal에 도달하면 종료된다.
+- 일반 Stage Play는 Player Rigidbody의 Y 위치가 추락 임계값 이하가 되면 추락 실패로 종료된다.
+- Goal 도달과 추락 요청이 같은 물리 구간에 발생하면 Goal 성공을 우선한다.
 - InfiniteMode Stage Play는 Goal을 사용하지 않는다.
 - InfiniteMode Stage Play는 플레이어가 진행 지속 조건을 잃으면 종료된다.
 
@@ -49,6 +51,7 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 ## 정상 종료
 
 - 일반 Stage Play에서 플레이어가 Stage의 Goal에 도달하였다.
+- 일반 Stage Play에서 플레이어가 추락 임계값 이하에 도달하였다.
 - InfiniteMode Stage Play에서 플레이어가 진행 지속 조건을 잃었다.
 
 ## 강제 종료
@@ -68,6 +71,7 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 - Stage Play가 시작되지 않은 상태에서는 Stage를 진행하지 않는다.
 - Stage Play가 종료된 이후에는 Stage를 계속 진행하지 않는다.
 - 게임 진행이 중단된 상태에서는 Stage Play를 진행하지 않는다.
+- Pause 중에는 추락 판정을 수행하지 않고 Resume 후 다시 평가한다.
 
 ---
 
@@ -86,6 +90,7 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 
 - Stage Play가 진행 중인 동안에는 동일한 Stage를 다시 시작할 수 없다.
 - 하나의 Stage Play는 하나의 종료 결과만 가진다.
+- 추락 임계값은 Player Rigidbody의 물리 위치 Y가 설정값 이하인지 판정한다.
 - Stage Play 종료 이후에는 다시 진행 상태로 돌아갈 수 없다.
 - Retry를 실행하면 종료된 Stage Play와 같은 게임 Mode로 새로운 Stage Play를 시작한다.
 - Retry로 시작한 Stage Play는 이전 Stage Play의 Runtime 상태를 유지하지 않는다.
@@ -103,6 +108,9 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 - 종료 후 여러 물리 단계가 지나도 자동 이동이 재개되지 않는지 확인한다.
 - 점프가 Momentum Landing 또는 Normal Landing으로 정상 연결되는지 확인한다.
 - 일반 Stage Play에서 Stage의 Goal에 도달하면 종료되는지 확인한다.
+- 일반 Stage에서 추락 임계값 직전, 동일 값과 직후의 경계가 올바르게 판정되는지 확인한다.
+- Goal과 추락 요청이 같은 물리 구간에 발생하면 Goal 성공 하나만 확정되는지 확인한다.
+- Pause 중에는 추락하지 않고 Resume 후 다시 평가하는지 확인한다.
 - InfiniteMode Stage Play에서 진행 지속 조건을 잃으면 종료되는지 확인한다.
 - Stage Play 종료 이후 Retry를 실행하면 같은 게임 Mode로 새로운 Stage Play를 시작하는지 확인한다.
 - Retry로 시작한 Stage Play에 이전 Stage Play의 Runtime 상태가 남지 않는지 확인한다.

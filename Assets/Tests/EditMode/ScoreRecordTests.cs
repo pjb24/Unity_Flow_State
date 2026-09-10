@@ -7,7 +7,8 @@ namespace FlowState.Tests.EditMode
     public class ScoreRecordTests
     {
         private const float FinalDistance = 123.45f;
-        private const int FinalScore = 1234;
+        private const int DistanceScore = 1234;
+        private const int CollectibleScore = 30;
 
         private ScoreRecord _scoreRecord;
 
@@ -35,7 +36,13 @@ namespace FlowState.Tests.EditMode
             Assert.That(_scoreRecord.ResultData.HasInfiniteModeResult, Is.True);
             Assert.That(_scoreRecord.ResultData.HasStageResult, Is.False);
             Assert.That(_scoreRecord.ResultData.FinalDistance, Is.EqualTo(FinalDistance));
-            Assert.That(_scoreRecord.ResultData.FinalScore, Is.EqualTo(FinalScore));
+            Assert.That(
+                _scoreRecord.ResultData.DistanceScore,
+                Is.EqualTo(DistanceScore));
+            Assert.That(
+                _scoreRecord.ResultData.CollectibleScore,
+                Is.EqualTo(CollectibleScore));
+            Assert.That(_scoreRecord.ResultData.TotalScore, Is.EqualTo(1264));
         }
 
         [Test]
@@ -46,7 +53,8 @@ namespace FlowState.Tests.EditMode
                 false,
                 true,
                 FinalDistance,
-                FinalScore);
+                DistanceScore,
+                CollectibleScore);
 
             Assert.That(didRecord, Is.False);
             Assert.That(_scoreRecord.HasRecord, Is.False);
@@ -60,7 +68,8 @@ namespace FlowState.Tests.EditMode
                 true,
                 false,
                 FinalDistance,
-                FinalScore);
+                DistanceScore,
+                CollectibleScore);
 
             Assert.That(didRecord, Is.False);
             Assert.That(_scoreRecord.HasRecord, Is.False);
@@ -74,7 +83,8 @@ namespace FlowState.Tests.EditMode
                 true,
                 true,
                 FinalDistance,
-                FinalScore);
+                DistanceScore,
+                CollectibleScore);
 
             Assert.That(didRecord, Is.False);
             Assert.That(_scoreRecord.HasRecord, Is.False);
@@ -91,24 +101,121 @@ namespace FlowState.Tests.EditMode
                 true,
                 true,
                 finalDistance,
-                FinalScore);
+                DistanceScore,
+                CollectibleScore);
 
             Assert.That(didRecord, Is.False);
             Assert.That(_scoreRecord.HasRecord, Is.False);
         }
 
         [Test]
-        public void TryRecord_NegativeFinalScore_IsRejected()
+        public void TryRecord_NegativeDistanceScore_IsRejected()
         {
             bool didRecord = _scoreRecord.TryRecord(
                 E_GameMode.Infinite,
                 true,
                 true,
                 FinalDistance,
+                -1,
+                CollectibleScore);
+
+            Assert.That(didRecord, Is.False);
+            Assert.That(_scoreRecord.HasRecord, Is.False);
+        }
+
+        [Test]
+        public void TryRecord_NegativeCollectibleScore_IsRejected()
+        {
+            bool didRecord = _scoreRecord.TryRecord(
+                E_GameMode.Infinite,
+                true,
+                true,
+                FinalDistance,
+                DistanceScore,
                 -1);
 
             Assert.That(didRecord, Is.False);
             Assert.That(_scoreRecord.HasRecord, Is.False);
+        }
+
+        [Test]
+        public void TryRecord_ZeroScores_RecordsZeroTotalScore()
+        {
+            bool didRecord = _scoreRecord.TryRecord(
+                E_GameMode.Infinite,
+                true,
+                true,
+                0.0f,
+                0,
+                0);
+
+            Assert.That(didRecord, Is.True);
+            Assert.That(_scoreRecord.ResultData.TotalScore, Is.Zero);
+        }
+
+        [Test]
+        public void TryRecord_TotalAtMaximum_RecordsExactMaximum()
+        {
+            bool didRecord = _scoreRecord.TryRecord(
+                E_GameMode.Infinite,
+                true,
+                true,
+                FinalDistance,
+                int.MaxValue - 10,
+                10);
+
+            Assert.That(didRecord, Is.True);
+            Assert.That(
+                _scoreRecord.ResultData.TotalScore,
+                Is.EqualTo(int.MaxValue));
+        }
+
+        [Test]
+        public void TryRecord_TotalAboveMaximum_SaturatesAtMaximum()
+        {
+            bool didRecord = _scoreRecord.TryRecord(
+                E_GameMode.Infinite,
+                true,
+                true,
+                FinalDistance,
+                int.MaxValue,
+                1);
+
+            Assert.That(didRecord, Is.True);
+            Assert.That(
+                _scoreRecord.ResultData.TotalScore,
+                Is.EqualTo(int.MaxValue));
+        }
+
+        [TestCase(100, 20, 120)]
+        [TestCase(int.MaxValue, 1, int.MaxValue)]
+        public void TryCalculateTotalScore_ValidScores_ReturnsSaturatedSum(
+            int distanceScore,
+            int collectibleScore,
+            int expectedTotalScore)
+        {
+            bool didCalculate = ScoreRecord.TryCalculateTotalScore(
+                distanceScore,
+                collectibleScore,
+                out int totalScore);
+
+            Assert.That(didCalculate, Is.True);
+            Assert.That(totalScore, Is.EqualTo(expectedTotalScore));
+        }
+
+        [TestCase(-1, 0)]
+        [TestCase(0, -1)]
+        public void TryCalculateTotalScore_NegativeScore_IsRejected(
+            int distanceScore,
+            int collectibleScore)
+        {
+            bool didCalculate = ScoreRecord.TryCalculateTotalScore(
+                distanceScore,
+                collectibleScore,
+                out int totalScore);
+
+            Assert.That(didCalculate, Is.False);
+            Assert.That(totalScore, Is.Zero);
         }
 
         [Test]
@@ -121,11 +228,18 @@ namespace FlowState.Tests.EditMode
                 true,
                 true,
                 200.0f,
-                2000);
+                2000,
+                20);
 
             Assert.That(didRecordAgain, Is.False);
             Assert.That(_scoreRecord.ResultData.FinalDistance, Is.EqualTo(FinalDistance));
-            Assert.That(_scoreRecord.ResultData.FinalScore, Is.EqualTo(FinalScore));
+            Assert.That(
+                _scoreRecord.ResultData.DistanceScore,
+                Is.EqualTo(DistanceScore));
+            Assert.That(
+                _scoreRecord.ResultData.CollectibleScore,
+                Is.EqualTo(CollectibleScore));
+            Assert.That(_scoreRecord.ResultData.TotalScore, Is.EqualTo(1264));
         }
 
         [Test]
@@ -139,12 +253,15 @@ namespace FlowState.Tests.EditMode
                 true,
                 true,
                 200.0f,
-                2000);
+                2000,
+                20);
 
             Assert.That(didRecordNextRun, Is.True);
             Assert.That(_scoreRecord.HasRecord, Is.True);
             Assert.That(_scoreRecord.ResultData.FinalDistance, Is.EqualTo(200.0f));
-            Assert.That(_scoreRecord.ResultData.FinalScore, Is.EqualTo(2000));
+            Assert.That(_scoreRecord.ResultData.DistanceScore, Is.EqualTo(2000));
+            Assert.That(_scoreRecord.ResultData.CollectibleScore, Is.EqualTo(20));
+            Assert.That(_scoreRecord.ResultData.TotalScore, Is.EqualTo(2020));
         }
 
         private bool TryRecord()
@@ -154,7 +271,8 @@ namespace FlowState.Tests.EditMode
                 true,
                 true,
                 FinalDistance,
-                FinalScore);
+                DistanceScore,
+                CollectibleScore);
         }
     }
 }

@@ -47,7 +47,7 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 
 ### 상태
 
-대기
+진행 중
 
 ---
 
@@ -151,7 +151,9 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 
 ## 진행 중인 작업
 
-없음
+Prototype 4 Phase 1
+
+`20260910_02_Phase1ManualSteps.md` 실행 준비 완료
 
 ---
 
@@ -159,7 +161,7 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 
 Prototype 4 Phase 1
 
-Map Pattern 확장과 난이도 증가 기준 확정
+`20260910_02_Phase1ManualSteps.md` Step 1 기존 Pattern 구조와 미정 계약 조사
 
 ---
 

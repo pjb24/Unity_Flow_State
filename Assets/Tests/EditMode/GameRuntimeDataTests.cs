@@ -263,8 +263,11 @@ namespace FlowState.Tests.EditMode
                 true,
                 infinite.IsFinalized,
                 infinite.CurrentDistance,
-                infinite.CurrentScore), Is.True);
-            Assert.That(record.ResultData.FinalScore, Is.EqualTo(125));
+                infinite.CurrentScore,
+                data.CurrentScore), Is.True);
+            Assert.That(record.ResultData.DistanceScore, Is.EqualTo(125));
+            Assert.That(record.ResultData.CollectibleScore, Is.EqualTo(10));
+            Assert.That(record.ResultData.TotalScore, Is.EqualTo(135));
             Assert.That(data.CurrentScore, Is.EqualTo(10));
         }
     }

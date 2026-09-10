@@ -99,7 +99,7 @@ namespace FlowState.Tests.PlayMode
                 GetObjectProperty<bool>(resultData, "HasInfiniteModeResult"),
                 Is.False);
             Assert.That(
-                GetObjectProperty<double>(resultData, "ClearTime"),
+                GetObjectProperty<double>(resultData, "ElapsedTime"),
                 Is.GreaterThan(0.0));
             string resultText =
                 GetProperty<string>(clearTimeText, "text");

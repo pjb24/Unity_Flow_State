@@ -11,6 +11,7 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private StageGoal _stageGoal;
         [SerializeField] private GameObject _stageModeRoot;
         [SerializeField] private GameObject _infiniteModeRoot;
+        [SerializeField] private float _fallThresholdY = -3.0f;
 
         private event Action StageStarted;
         private event Action StageCleared;
@@ -22,6 +23,7 @@ namespace FlowState.Runtime.Systems
         private bool _isCleared;
         private bool _hasEnded;
         private bool _isPaused;
+        private bool _hasPendingFall;
         private GameRuntimeData _runtimeData;
         private Rigidbody _playerRigidbody;
         private long _collectibleScopeId;
@@ -40,6 +42,32 @@ namespace FlowState.Runtime.Systems
         public bool HasEnded => _hasEnded;
 
         public bool IsPaused => _isPaused;
+
+        public bool HasPendingFall => _hasPendingFall;
+
+        private void FixedUpdate()
+        {
+            if (!_isInitialized ||
+                _currentGameMode != E_GameMode.Stage ||
+                !_isPlaying ||
+                _isPaused ||
+                _hasEnded ||
+                _playerRigidbody == null)
+            {
+                return;
+            }
+
+            if (_hasPendingFall)
+            {
+                EndStage();
+                return;
+            }
+
+            if (_playerRigidbody.position.y <= _fallThresholdY)
+            {
+                _hasPendingFall = true;
+            }
+        }
 
         private void OnDestroy()
         {
@@ -75,6 +103,15 @@ namespace FlowState.Runtime.Systems
             }
 
             _currentGameMode = gameMode;
+
+            if (_currentGameMode == E_GameMode.Stage &&
+                (float.IsNaN(_fallThresholdY) ||
+                 float.IsInfinity(_fallThresholdY)))
+            {
+                Debug.LogError(
+                    "[StageSystem] Fall Threshold Y is invalid.");
+                return false;
+            }
 
             if (!ApplyModeRootState())
             {
@@ -276,6 +313,7 @@ namespace FlowState.Runtime.Systems
             _isPlaying = false;
             _isPaused = false;
             _hasEnded = true;
+            _hasPendingFall = false;
             ReleaseCollectibles();
 
             if (StageEnded != null)
@@ -290,6 +328,7 @@ namespace FlowState.Runtime.Systems
             _isCleared = false;
             _hasEnded = false;
             _isPaused = false;
+            _hasPendingFall = false;
         }
 
         private bool InitializeStageGoal()

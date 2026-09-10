@@ -10,14 +10,26 @@ namespace FlowState.Runtime.Features
 
         public ResultData ResultData => _resultData;
 
-        public bool TryRecord(bool isStageCleared, double clearTime)
+        public bool TryRecord(
+            E_StageResultType stageResultType,
+            double elapsedTime,
+            int collectibleScore)
         {
-            if (!isStageCleared || HasRecord)
+            if ((stageResultType != E_StageResultType.Cleared &&
+                 stageResultType != E_StageResultType.Fell) ||
+                double.IsNaN(elapsedTime) ||
+                double.IsInfinity(elapsedTime) ||
+                elapsedTime < 0.0 ||
+                collectibleScore < 0 ||
+                HasRecord)
             {
                 return false;
             }
 
-            _resultData = new ResultData(true, clearTime);
+            _resultData = new ResultData(
+                stageResultType,
+                elapsedTime,
+                collectibleScore);
             return true;
         }
 

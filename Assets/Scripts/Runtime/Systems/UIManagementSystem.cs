@@ -14,11 +14,18 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private GameObject _pausePanel;
         [SerializeField] private GameObject _stageResultContent;
         [SerializeField] private GameObject _infiniteResultContent;
+        [SerializeField] private TMP_Text _stageCollectibleScoreText;
+        [SerializeField] private TMP_Text _resultStatusText;
         [SerializeField] private TMP_Text _clearTimeText;
+        [SerializeField] private TMP_Text _stageResultCollectibleScoreText;
         [SerializeField] private TMP_Text _distanceText;
         [SerializeField] private TMP_Text _scoreText;
+        [SerializeField] private TMP_Text _infiniteCollectibleScoreText;
+        [SerializeField] private TMP_Text _infiniteTotalScoreText;
         [SerializeField] private TMP_Text _finalDistanceText;
         [SerializeField] private TMP_Text _finalScoreText;
+        [SerializeField] private TMP_Text _infiniteResultCollectibleScoreText;
+        [SerializeField] private TMP_Text _infiniteResultTotalScoreText;
         [SerializeField] private Button _retryButton;
         [SerializeField] private Button _quitButton;
         [SerializeField] private Button _pauseResumeButton;
@@ -35,10 +42,16 @@ namespace FlowState.Runtime.Systems
         private GameRuntimeData _runtimeData;
         private double _lastDisplayedDistance;
         private int _lastDisplayedScore;
+        private int _lastDisplayedCollectibleScore;
+        private int _lastDisplayedTotalScore;
         private bool _hasDisplayedDistance;
         private bool _hasDisplayedScore;
+        private bool _hasDisplayedCollectibleScore;
+        private bool _hasDisplayedTotalScore;
         private bool _lastDistanceWasValid;
         private bool _lastScoreWasValid;
+        private bool _lastCollectibleScoreWasValid;
+        private bool _lastTotalScoreWasValid;
         private bool _isInitialized;
 
         public E_UIState CurrentUIState => _currentUIState;
@@ -53,14 +66,19 @@ namespace FlowState.Runtime.Systems
 
         private void Update()
         {
-            if (!_isInitialized ||
-                _currentGameMode != E_GameMode.Infinite ||
-                _currentGameState != E_GameState.Playing)
+            if (!_isInitialized || _currentGameState != E_GameState.Playing)
             {
                 return;
             }
 
-            UpdateInfiniteHud();
+            if (_currentGameMode == E_GameMode.Stage)
+            {
+                UpdateStageHud();
+            }
+            else if (_currentGameMode == E_GameMode.Infinite)
+            {
+                UpdateInfiniteHud();
+            }
         }
 
         public void Initialize(GameRuntimeData runtimeData)
@@ -79,7 +97,7 @@ namespace FlowState.Runtime.Systems
             _currentResultMenuSelection = E_ResultMenuSelection.Retry;
             _pauseMenuState.Deactivate();
             _visibilityState.Reset();
-            ResetInfiniteHudDisplay();
+            ResetHudDisplay();
             ResetResultDisplay();
             _isInitialized = true;
             SetUIState(E_UIState.None);
@@ -188,36 +206,59 @@ namespace FlowState.Runtime.Systems
 
             if (ResultTextFormatter.TryFormatStageResult(
                     resultData,
-                    out string clearTimeText))
+                    out string resultStatusText,
+                    out string elapsedTimeText,
+                    out string stageCollectibleScoreText))
             {
-                if (_clearTimeText == null)
+                if (_resultStatusText == null ||
+                    _clearTimeText == null ||
+                    _stageResultCollectibleScoreText == null)
                 {
                     Debug.LogError(
-                        "[UIManagementSystem] Clear Time Text is not assigned.");
+                        "[UIManagementSystem] Stage Result Text is not assigned.");
                     return false;
                 }
 
-                _clearTimeText.text = clearTimeText;
+                _resultStatusText.text = resultStatusText;
+                _clearTimeText.text = elapsedTimeText;
+                _stageResultCollectibleScoreText.text =
+                    stageCollectibleScoreText;
                 SetTextIfChanged(_finalDistanceText, string.Empty);
                 SetTextIfChanged(_finalScoreText, string.Empty);
+                SetTextIfChanged(
+                    _infiniteResultCollectibleScoreText,
+                    string.Empty);
+                SetTextIfChanged(_infiniteResultTotalScoreText, string.Empty);
                 return true;
             }
 
             if (ResultTextFormatter.TryFormatInfiniteResult(
                     resultData,
                     out string finalDistanceText,
-                    out string finalScoreText))
+                    out string distanceScoreText,
+                    out string infiniteCollectibleScoreText,
+                    out string totalScoreText))
             {
-                if (_finalDistanceText == null || _finalScoreText == null)
+                if (_finalDistanceText == null ||
+                    _finalScoreText == null ||
+                    _infiniteResultCollectibleScoreText == null ||
+                    _infiniteResultTotalScoreText == null)
                 {
                     Debug.LogError(
                         "[UIManagementSystem] Infinite Result Text is not assigned.");
                     return false;
                 }
 
+                SetTextIfChanged(_resultStatusText, string.Empty);
                 SetTextIfChanged(_clearTimeText, string.Empty);
+                SetTextIfChanged(
+                    _stageResultCollectibleScoreText,
+                    string.Empty);
                 _finalDistanceText.text = finalDistanceText;
-                _finalScoreText.text = finalScoreText;
+                _finalScoreText.text = distanceScoreText;
+                _infiniteResultCollectibleScoreText.text =
+                    infiniteCollectibleScoreText;
+                _infiniteResultTotalScoreText.text = totalScoreText;
                 return true;
             }
 
@@ -311,18 +352,50 @@ namespace FlowState.Runtime.Systems
         {
             InfiniteModeRuntimeData infiniteModeRuntimeData =
                 _runtimeData.InfiniteModeRuntimeData;
+            CollectibleRuntimeData collectibleRuntimeData =
+                _runtimeData.CollectibleRuntimeData;
 
             if (!_runtimeData.IsCreated ||
                 infiniteModeRuntimeData == null ||
-                !infiniteModeRuntimeData.IsInitialized)
+                !infiniteModeRuntimeData.IsInitialized ||
+                collectibleRuntimeData == null ||
+                !collectibleRuntimeData.IsInitialized)
             {
                 UpdateDistanceText(-1.0f);
                 UpdateScoreText(-1);
+                UpdateCollectibleScoreText(
+                    _infiniteCollectibleScoreText,
+                    -1);
+                UpdateTotalScoreText(-1);
                 return;
             }
 
             UpdateDistanceText(infiniteModeRuntimeData.CurrentDistance);
             UpdateScoreText(infiniteModeRuntimeData.CurrentScore);
+            UpdateCollectibleScoreText(
+                _infiniteCollectibleScoreText,
+                collectibleRuntimeData.CurrentScore);
+
+            ScoreRecord.TryCalculateTotalScore(
+                infiniteModeRuntimeData.CurrentScore,
+                collectibleRuntimeData.CurrentScore,
+                out int totalScore);
+            UpdateTotalScoreText(totalScore);
+        }
+
+        private void UpdateStageHud()
+        {
+            CollectibleRuntimeData collectibleRuntimeData =
+                _runtimeData.CollectibleRuntimeData;
+
+            int collectibleScore = _runtimeData.IsCreated &&
+                                   collectibleRuntimeData != null &&
+                                   collectibleRuntimeData.IsInitialized
+                ? collectibleRuntimeData.CurrentScore
+                : -1;
+            UpdateCollectibleScoreText(
+                _stageCollectibleScoreText,
+                collectibleScore);
         }
 
         private void UpdateDistanceText(float distance)
@@ -359,33 +432,96 @@ namespace FlowState.Runtime.Systems
 
             SetTextIfChanged(
                 _scoreText,
-                ResultTextFormatter.FormatCurrentScore(score));
+                ResultTextFormatter.FormatDistanceScore(score));
             _lastDisplayedScore = score;
             _lastScoreWasValid = isValid;
             _hasDisplayedScore = true;
         }
 
-        private void ResetInfiniteHudDisplay()
+        private void UpdateCollectibleScoreText(
+            TMP_Text targetText,
+            int collectibleScore)
+        {
+            bool isValid = collectibleScore >= 0;
+
+            if (_hasDisplayedCollectibleScore &&
+                _lastCollectibleScoreWasValid == isValid &&
+                (!isValid ||
+                 _lastDisplayedCollectibleScore == collectibleScore))
+            {
+                return;
+            }
+
+            SetTextIfChanged(
+                targetText,
+                ResultTextFormatter.FormatCollectibleScore(
+                    collectibleScore));
+            _lastDisplayedCollectibleScore = collectibleScore;
+            _lastCollectibleScoreWasValid = isValid;
+            _hasDisplayedCollectibleScore = true;
+        }
+
+        private void UpdateTotalScoreText(int totalScore)
+        {
+            bool isValid = totalScore >= 0;
+
+            if (_hasDisplayedTotalScore &&
+                _lastTotalScoreWasValid == isValid &&
+                (!isValid || _lastDisplayedTotalScore == totalScore))
+            {
+                return;
+            }
+
+            SetTextIfChanged(
+                _infiniteTotalScoreText,
+                ResultTextFormatter.FormatTotalScore(totalScore));
+            _lastDisplayedTotalScore = totalScore;
+            _lastTotalScoreWasValid = isValid;
+            _hasDisplayedTotalScore = true;
+        }
+
+        private void ResetHudDisplay()
         {
             _lastDisplayedDistance = 0.0;
             _lastDisplayedScore = 0;
+            _lastDisplayedCollectibleScore = 0;
+            _lastDisplayedTotalScore = 0;
             _hasDisplayedDistance = false;
             _hasDisplayedScore = false;
+            _hasDisplayedCollectibleScore = false;
+            _hasDisplayedTotalScore = false;
             _lastDistanceWasValid = false;
             _lastScoreWasValid = false;
+            _lastCollectibleScoreWasValid = false;
+            _lastTotalScoreWasValid = false;
             SetTextIfChanged(
                 _distanceText,
                 ResultTextFormatter.FormatCurrentDistance(-1.0f));
             SetTextIfChanged(
                 _scoreText,
-                ResultTextFormatter.FormatCurrentScore(-1));
+                ResultTextFormatter.FormatDistanceScore(-1));
+            SetTextIfChanged(
+                _stageCollectibleScoreText,
+                ResultTextFormatter.FormatCollectibleScore(-1));
+            SetTextIfChanged(
+                _infiniteCollectibleScoreText,
+                ResultTextFormatter.FormatCollectibleScore(-1));
+            SetTextIfChanged(
+                _infiniteTotalScoreText,
+                ResultTextFormatter.FormatTotalScore(-1));
         }
 
         private void ResetResultDisplay()
         {
+            SetTextIfChanged(_resultStatusText, string.Empty);
             SetTextIfChanged(_clearTimeText, string.Empty);
+            SetTextIfChanged(_stageResultCollectibleScoreText, string.Empty);
             SetTextIfChanged(_finalDistanceText, string.Empty);
             SetTextIfChanged(_finalScoreText, string.Empty);
+            SetTextIfChanged(
+                _infiniteResultCollectibleScoreText,
+                string.Empty);
+            SetTextIfChanged(_infiniteResultTotalScoreText, string.Empty);
         }
 
         private void SetTextIfChanged(TMP_Text targetText, string value)

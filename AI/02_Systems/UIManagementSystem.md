@@ -25,8 +25,9 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - GameSystem의 요청에 따라 UI 선택 상태를 변경한다.
 - Pause UI State와 PausePanel 선택 상태를 관리한다.
 - 현재 게임 Mode와 게임 상태에 맞는 HUD, PausePanel, ResultPanel과 Result Content의 표시 조합을 관리한다.
-- InfiniteMode Runtime Data의 현재 거리와 현재 Score를 InfiniteHUD에 표시한다.
-- Result Data의 최종 거리와 최종 Score를 InfiniteMode Result Content에 표시한다.
+- Stage Mode Runtime Data의 Collectible Score를 StageHUD에 표시한다.
+- InfiniteMode Runtime Data의 현재 거리, Distance Score, Collectible Score와 Total Score를 InfiniteHUD에 표시한다.
+- Result Data의 Mode별 Result Status, 경과 시간, 최종 거리와 Score를 해당 Result Content에 표시한다.
 
 ---
 
@@ -87,45 +88,59 @@ PausePanel 선택 상태는 ResultMenu 선택 상태와 독립적으로 관리�
 
 UIManagementSystem은 ResultSystem이 제공한 Result Data를 Result UI에 반영한다.
 
-일반 Stage의 클리어 시간은 초 단위로 소수점 셋째 자리까지 표시한다.
+일반 Stage의 성공은 Result Status, Clear Time과 Collectible Score를 표시한다.
+
+추락 실패는 Result Status, Run Time과 Collectible Score를 표시한다.
+
+경과 시간은 초 단위로 소수점 셋째 자리까지 표시한다.
 
 표시 형식은 아래와 같다.
 
 ```text
+Result: Stage Clear
 Clear Time: 12.345 s
+Collectible Score: 30
+
+Result: Stage Failed
+Run Time: 8.250 s
+Collectible Score: 20
 ```
 
-UIManagementSystem은 클리어 시간을 다시 계산하지 않는다.
+UIManagementSystem은 경과 시간을 다시 계산하지 않는다.
 
-InfiniteMode의 최종 이동 거리와 최종 Score는 아래 형식으로 표시한다.
+InfiniteMode의 최종 이동 거리와 Mode별 Score는 아래 형식으로 표시한다.
 
 ```text
 Final Distance: 12
-Final Score: 123
+Distance Score: 120
+Collectible Score: 30
+Total Score: 150
 ```
 
 거리는 소수점 없이 내림 처리하여 표시한다.
 
 표시를 위한 내림은 원본 Result Data를 변경하지 않는다.
 
-최종 Score는 Result Data의 `int` 값을 다시 계산하지 않고 그대로 표시한다.
+각 Score는 Result Data의 `int` 값을 다시 계산하지 않고 그대로 표시한다.
 
 ---
 
 # InfiniteMode HUD 반영
 
-InfiniteMode의 현재 이동 거리와 현재 Score는 아래 형식으로 표시한다.
+InfiniteMode의 현재 이동 거리와 Mode별 Score는 아래 형식으로 표시한다.
 
 ```text
 Distance: 12
-Score: 123
+Distance Score: 120
+Collectible Score: 30
+Total Score: 150
 ```
 
 거리는 소수점 없이 내림 처리하여 표시한다.
 
 표시를 위한 내림은 원본 Runtime Data를 변경하지 않는다.
 
-현재 Score는 Runtime Data의 `int` 값을 다시 계산하지 않고 그대로 표시한다.
+각 Score는 Runtime Data의 `int` 값을 다시 계산하지 않고 그대로 표시한다.
 
 Runtime Data가 없거나 초기화되지 않은 경우와 유효하지 않은 값은 `--`로 표시한다.
 
@@ -203,7 +218,8 @@ Pause, Ending, Result와 Ended에서는 마지막 HUD 표시값을 유지한다.
 | UI 선택 상태 변경 요청 | GameSystem |
 | 결과 데이터 | ResultSystem |
 | 현재 게임 Mode와 상태 | GameSystem |
-| InfiniteMode 현재 이동 거리와 현재 Score | Runtime Data |
+| Stage Mode 현재 Collectible Score | Runtime Data |
+| InfiniteMode 현재 이동 거리와 Mode별 Score | Runtime Data |
 
 ---
 
@@ -233,7 +249,7 @@ Pause, Ending, Result와 Ended에서는 마지막 HUD 표시값을 유지한다.
 - UI 선택 표시 반영
 - PausePanel 선택 상태 관리 및 표시 반영
 - Mode와 상태별 UI 표시 조합 관리
-- InfiniteMode HUD와 Result Text 표시
+- Stage Mode와 InfiniteMode HUD 및 Result Text 표시
 
 ---
 
@@ -267,7 +283,7 @@ Pause, Ending, Result와 Ended에서는 마지막 HUD 표시값을 유지한다.
 - 선택된 UI 항목이 수행할 게임 동작을 결정하지 않는다.
 - PausePanel과 ResultMenu의 선택 상태를 공유하지 않는다.
 - 결과 데이터를 생성하지 않는다.
-- InfiniteMode 이동 거리와 Score를 계산하지 않는다.
+- 이동 거리와 Score를 계산하지 않는다.
 - UI State 변경 요청을 받은 경우에만 UI State를 변경한다.
 - UI Configuration과 UI State를 구분하여 관리한다.
 - UI State를 기반으로 Unity UI를 갱신한다.

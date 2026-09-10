@@ -21,6 +21,9 @@ namespace FlowState.Tests.PlayMode
         private GameRuntimeData _runtimeData;
         private TMP_Text _distanceText;
         private TMP_Text _scoreText;
+        private TMP_Text _stageCollectibleScoreText;
+        private TMP_Text _infiniteCollectibleScoreText;
+        private TMP_Text _infiniteTotalScoreText;
         private GameObject _stageHud;
         private GameObject _infiniteHud;
 
@@ -48,6 +51,15 @@ namespace FlowState.Tests.PlayMode
 
             _distanceText = CreateText("DistanceText", _infiniteHud.transform);
             _scoreText = CreateText("ScoreText", _infiniteHud.transform);
+            _stageCollectibleScoreText = CreateText(
+                "StageCollectibleScoreText",
+                _stageHud.transform);
+            _infiniteCollectibleScoreText = CreateText(
+                "InfiniteCollectibleScoreText",
+                _infiniteHud.transform);
+            _infiniteTotalScoreText = CreateText(
+                "InfiniteTotalScoreText",
+                _infiniteHud.transform);
 
             SetPrivateField("_stageHud", _stageHud);
             SetPrivateField("_infiniteHud", _infiniteHud);
@@ -57,6 +69,15 @@ namespace FlowState.Tests.PlayMode
             SetPrivateField("_infiniteResultContent", infiniteResultContent);
             SetPrivateField("_distanceText", _distanceText);
             SetPrivateField("_scoreText", _scoreText);
+            SetPrivateField(
+                "_stageCollectibleScoreText",
+                _stageCollectibleScoreText);
+            SetPrivateField(
+                "_infiniteCollectibleScoreText",
+                _infiniteCollectibleScoreText);
+            SetPrivateField(
+                "_infiniteTotalScoreText",
+                _infiniteTotalScoreText);
             SetPrivateField("_retryButton", CreateButton("ResultRetryButton"));
             SetPrivateField("_quitButton", CreateButton("ResultQuitButton"));
             SetPrivateField("_pauseResumeButton", CreateButton("ResumeButton"));
@@ -88,7 +109,13 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_infiniteHud.activeSelf, Is.True);
             Assert.That(_stageHud.activeSelf, Is.False);
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 0"));
-            Assert.That(_scoreText.text, Is.EqualTo("Score: 0"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 0"));
+            Assert.That(
+                _infiniteCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 0"));
+            Assert.That(
+                _infiniteTotalScoreText.text,
+                Is.EqualTo("Total Score: 0"));
         }
 
         [UnityTest]
@@ -98,11 +125,18 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129),
                 Is.True);
+            AwardCollectible("coin-1");
 
             yield return null;
 
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 12"));
-            Assert.That(_scoreText.text, Is.EqualTo("Score: 129"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 129"));
+            Assert.That(
+                _infiniteCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 10"));
+            Assert.That(
+                _infiniteTotalScoreText.text,
+                Is.EqualTo("Total Score: 139"));
         }
 
         [UnityTest]
@@ -120,7 +154,7 @@ namespace FlowState.Tests.PlayMode
             yield return null;
 
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 12"));
-            Assert.That(_scoreText.text, Is.EqualTo("Score: 129"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 129"));
         }
 
         [UnityTest]
@@ -128,22 +162,36 @@ namespace FlowState.Tests.PlayMode
         {
             StartRun(E_GameMode.Infinite);
             _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129);
+            AwardCollectible("coin-before-pause");
             yield return null;
 
             SetGameState(E_GameState.Paused);
             SetUIState(E_UIState.Pause);
             _runtimeData.InfiniteModeRuntimeData.TryUpdate(20.999f, 209);
+            AwardCollectible("coin-during-pause");
             yield return null;
 
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 12"));
-            Assert.That(_scoreText.text, Is.EqualTo("Score: 129"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 129"));
+            Assert.That(
+                _infiniteCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 10"));
+            Assert.That(
+                _infiniteTotalScoreText.text,
+                Is.EqualTo("Total Score: 139"));
 
             SetGameState(E_GameState.Playing);
             SetUIState(E_UIState.StageHud);
             yield return null;
 
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 20"));
-            Assert.That(_scoreText.text, Is.EqualTo("Score: 209"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 209"));
+            Assert.That(
+                _infiniteCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 20"));
+            Assert.That(
+                _infiniteTotalScoreText.text,
+                Is.EqualTo("Total Score: 229"));
         }
 
         [UnityTest]
@@ -151,6 +199,7 @@ namespace FlowState.Tests.PlayMode
         {
             StartRun(E_GameMode.Infinite);
             _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129);
+            AwardCollectible("coin-before-end");
             yield return null;
 
             SetGameState(E_GameState.Ending);
@@ -161,7 +210,13 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(_infiniteHud.activeSelf, Is.True);
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 12"));
-            Assert.That(_scoreText.text, Is.EqualTo("Score: 129"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 129"));
+            Assert.That(
+                _infiniteCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 10"));
+            Assert.That(
+                _infiniteTotalScoreText.text,
+                Is.EqualTo("Total Score: 139"));
         }
 
         [UnityTest]
@@ -174,7 +229,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_stageHud.activeSelf, Is.True);
             Assert.That(_infiniteHud.activeSelf, Is.False);
             Assert.That(_distanceText.text, Is.EqualTo("Distance: --"));
-            Assert.That(_scoreText.text, Is.EqualTo("Score: --"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: --"));
         }
 
         [UnityTest]
@@ -182,6 +237,7 @@ namespace FlowState.Tests.PlayMode
         {
             StartRun(E_GameMode.Infinite);
             _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129);
+            AwardCollectible("coin-before-retry");
             yield return null;
 
             SetGameState(E_GameState.Ending);
@@ -193,7 +249,28 @@ namespace FlowState.Tests.PlayMode
             yield return null;
 
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 0"));
-            Assert.That(_scoreText.text, Is.EqualTo("Score: 0"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 0"));
+            Assert.That(
+                _infiniteCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 0"));
+            Assert.That(
+                _infiniteTotalScoreText.text,
+                Is.EqualTo("Total Score: 0"));
+        }
+
+        [UnityTest]
+        public IEnumerator StageRun_DisplaysOnlyCurrentCollectibleScore()
+        {
+            StartRun(E_GameMode.Stage);
+            AwardCollectible("stage-coin");
+
+            yield return null;
+
+            Assert.That(
+                _stageCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 10"));
+            Assert.That(_distanceText.text, Is.EqualTo("Distance: --"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: --"));
         }
 
         private void StartRun(E_GameMode gameMode)
@@ -212,6 +289,21 @@ namespace FlowState.Tests.PlayMode
         {
             _runtimeData.SetGameState(gameState);
             InvokePublicMethod("SetGameState", gameState);
+        }
+
+        private void AwardCollectible(string collectibleId)
+        {
+            CollectibleRuntimeData collectibleRuntimeData =
+                _runtimeData.CollectibleRuntimeData;
+            Assert.That(
+                collectibleRuntimeData.TryCreateScope(out long scopeId),
+                Is.True);
+            Assert.That(
+                collectibleRuntimeData.TryRegister(scopeId, collectibleId),
+                Is.True);
+            Assert.That(
+                collectibleRuntimeData.TryCollect(scopeId, collectibleId),
+                Is.True);
         }
 
         private void SetUIState(E_UIState uiState)

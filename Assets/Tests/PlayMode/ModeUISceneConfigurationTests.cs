@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Reflection;
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
@@ -35,7 +36,14 @@ namespace FlowState.Tests.PlayMode
             GameObject resultPanel = FindDirectChild(uiRoot, "ResultPanel");
             GameObject pausePanel = FindDirectChild(uiRoot, "PausePanel");
 
-            RequireDirectCanvas(stageHud);
+            GameObject stageCanvas = RequireDirectCanvas(stageHud);
+            Image stageHudBackground = FindDirectComponent<Image>(
+                stageCanvas,
+                "Image");
+            TMP_Text stageCollectibleScoreText =
+                FindDirectComponent<TMP_Text>(
+                    stageHudBackground.gameObject,
+                    "StageCollectibleScoreText");
             GameObject infiniteCanvas = RequireDirectCanvas(infiniteHud);
             Image infiniteHudBackground = FindDirectComponent<Image>(
                 infiniteCanvas,
@@ -46,6 +54,13 @@ namespace FlowState.Tests.PlayMode
             TMP_Text scoreText = FindDirectComponent<TMP_Text>(
                 infiniteHudBackground.gameObject,
                 "ScoreText");
+            TMP_Text infiniteCollectibleScoreText =
+                FindDirectComponent<TMP_Text>(
+                    infiniteHudBackground.gameObject,
+                    "InfiniteCollectibleScoreText");
+            TMP_Text infiniteTotalScoreText = FindDirectComponent<TMP_Text>(
+                infiniteHudBackground.gameObject,
+                "InfiniteTotalScoreText");
 
             GameObject resultCanvas = RequireDirectCanvas(resultPanel);
             GameObject resultContainer = FindDirectChild(resultCanvas, "Panel");
@@ -58,6 +73,14 @@ namespace FlowState.Tests.PlayMode
             TMP_Text clearTimeText = FindUniqueDescendantComponent<TMP_Text>(
                 stageResultContent,
                 "ClearTimeText");
+            TMP_Text resultStatusText =
+                FindUniqueDescendantComponent<TMP_Text>(
+                    stageResultContent,
+                    "StageResultStatusText");
+            TMP_Text stageResultCollectibleScoreText =
+                FindUniqueDescendantComponent<TMP_Text>(
+                    stageResultContent,
+                    "StageResultCollectibleScoreText");
             Image infiniteResultBackground = FindDirectComponent<Image>(
                 infiniteResultContent,
                 "Infinite Result Image");
@@ -67,6 +90,14 @@ namespace FlowState.Tests.PlayMode
             TMP_Text finalScoreText = FindDirectComponent<TMP_Text>(
                 infiniteResultBackground.gameObject,
                 "FinalScoreText");
+            TMP_Text infiniteResultCollectibleScoreText =
+                FindDirectComponent<TMP_Text>(
+                    infiniteResultBackground.gameObject,
+                    "InfiniteResultCollectibleScoreText");
+            TMP_Text infiniteResultTotalScoreText =
+                FindDirectComponent<TMP_Text>(
+                    infiniteResultBackground.gameObject,
+                    "InfiniteResultTotalScoreText");
             Button resultRetryButton = FindDirectComponent<Button>(
                 resultContainer,
                 "RetryButton");
@@ -115,8 +146,20 @@ namespace FlowState.Tests.PlayMode
                 infiniteResultContent);
             AssertSerializedReference(
                 uiManagementSystem,
+                "_stageCollectibleScoreText",
+                stageCollectibleScoreText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_resultStatusText",
+                resultStatusText);
+            AssertSerializedReference(
+                uiManagementSystem,
                 "_clearTimeText",
                 clearTimeText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_stageResultCollectibleScoreText",
+                stageResultCollectibleScoreText);
             AssertSerializedReference(
                 uiManagementSystem,
                 "_distanceText",
@@ -127,12 +170,28 @@ namespace FlowState.Tests.PlayMode
                 scoreText);
             AssertSerializedReference(
                 uiManagementSystem,
+                "_infiniteCollectibleScoreText",
+                infiniteCollectibleScoreText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_infiniteTotalScoreText",
+                infiniteTotalScoreText);
+            AssertSerializedReference(
+                uiManagementSystem,
                 "_finalDistanceText",
                 finalDistanceText);
             AssertSerializedReference(
                 uiManagementSystem,
                 "_finalScoreText",
                 finalScoreText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_infiniteResultCollectibleScoreText",
+                infiniteResultCollectibleScoreText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_infiniteResultTotalScoreText",
+                infiniteResultTotalScoreText);
             AssertSerializedReference(
                 uiManagementSystem,
                 "_retryButton",
@@ -158,6 +217,158 @@ namespace FlowState.Tests.PlayMode
             Assert.That(eventSystems, Has.Length.EqualTo(1));
         }
 
+        [UnityTest]
+        public IEnumerator ModeUI_MapsPlayingPauseAndResultContent()
+        {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(
+                SceneName,
+                LoadSceneMode.Single);
+
+            while (!loadOperation.isDone)
+            {
+                yield return null;
+            }
+
+            yield return null;
+
+            MonoBehaviour uiManagementSystem = FindRequiredBehaviour(
+                "UIManagementSystem",
+                "UIManagementSystem");
+            GameObject stageHud = FindUniqueSceneObject("StageHUD");
+            GameObject infiniteHud = FindUniqueSceneObject("InfiniteHUD");
+            GameObject resultPanel = FindUniqueSceneObject("ResultPanel");
+            GameObject pausePanel = FindUniqueSceneObject("PausePanel");
+            GameObject stageResultContent =
+                FindUniqueSceneObject("StageResultContent");
+            GameObject infiniteResultContent =
+                FindUniqueSceneObject("InfiniteResultContent");
+
+            GameRuntimeData stageRuntimeData = new GameRuntimeData();
+            stageRuntimeData.Initialize(E_GameMode.Stage);
+            InvokePublicMethod(
+                uiManagementSystem,
+                "Initialize",
+                stageRuntimeData);
+            SetUIState(
+                uiManagementSystem,
+                E_GameState.Playing,
+                E_UIState.StageHud);
+            AssertVisibility(
+                stageHud,
+                infiniteHud,
+                resultPanel,
+                pausePanel,
+                true,
+                false,
+                false,
+                false);
+
+            SetUIState(
+                uiManagementSystem,
+                E_GameState.Paused,
+                E_UIState.Pause);
+            AssertVisibility(
+                stageHud,
+                infiniteHud,
+                resultPanel,
+                pausePanel,
+                true,
+                false,
+                false,
+                true);
+
+            ResultData stageResultData = new ResultData(
+                E_StageResultType.Cleared,
+                12.345,
+                30);
+            Assert.That(
+                (bool)InvokePublicMethod(
+                    uiManagementSystem,
+                    "SetResultData",
+                    stageResultData),
+                Is.True);
+            SetUIState(
+                uiManagementSystem,
+                E_GameState.Ended,
+                E_UIState.Result);
+            AssertVisibility(
+                stageHud,
+                infiniteHud,
+                resultPanel,
+                pausePanel,
+                true,
+                false,
+                true,
+                false);
+            Assert.That(stageResultContent.activeSelf, Is.True);
+            Assert.That(infiniteResultContent.activeSelf, Is.False);
+            AssertStageResultText(uiManagementSystem, stageResultData);
+
+            GameRuntimeData infiniteRuntimeData = new GameRuntimeData();
+            infiniteRuntimeData.Initialize(E_GameMode.Infinite);
+            InvokePublicMethod(
+                uiManagementSystem,
+                "Initialize",
+                infiniteRuntimeData);
+            SetUIState(
+                uiManagementSystem,
+                E_GameState.Playing,
+                E_UIState.StageHud);
+            AssertVisibility(
+                stageHud,
+                infiniteHud,
+                resultPanel,
+                pausePanel,
+                false,
+                true,
+                false,
+                false);
+
+            SetUIState(
+                uiManagementSystem,
+                E_GameState.Paused,
+                E_UIState.Pause);
+            AssertVisibility(
+                stageHud,
+                infiniteHud,
+                resultPanel,
+                pausePanel,
+                false,
+                true,
+                false,
+                true);
+
+            ResultData infiniteResultData = new ResultData(
+                12.9f,
+                120,
+                30,
+                150);
+            Assert.That(
+                (bool)InvokePublicMethod(
+                    uiManagementSystem,
+                    "SetResultData",
+                    infiniteResultData),
+                Is.True);
+            SetUIState(
+                uiManagementSystem,
+                E_GameState.Ended,
+                E_UIState.Result);
+            AssertVisibility(
+                stageHud,
+                infiniteHud,
+                resultPanel,
+                pausePanel,
+                false,
+                true,
+                true,
+                false);
+            Assert.That(stageResultContent.activeSelf, Is.False);
+            Assert.That(infiniteResultContent.activeSelf, Is.True);
+            AssertInfiniteResultText(
+                uiManagementSystem,
+                infiniteResultData);
+        }
+
         private GameObject RequireDirectCanvas(GameObject parent)
         {
             GameObject canvasObject = FindDirectChild(parent, "Canvas");
@@ -167,6 +378,132 @@ namespace FlowState.Tests.PlayMode
                 canvasObject.GetComponent<GraphicRaycaster>(),
                 Is.Not.Null);
             return canvasObject;
+        }
+
+        private void SetUIState(
+            MonoBehaviour uiManagementSystem,
+            E_GameState gameState,
+            E_UIState uiState)
+        {
+            InvokePublicMethod(
+                uiManagementSystem,
+                "SetGameState",
+                gameState);
+            InvokePublicMethod(
+                uiManagementSystem,
+                "SetUIState",
+                uiState);
+        }
+
+        private void AssertVisibility(
+            GameObject stageHud,
+            GameObject infiniteHud,
+            GameObject resultPanel,
+            GameObject pausePanel,
+            bool isStageHudVisible,
+            bool isInfiniteHudVisible,
+            bool isResultPanelVisible,
+            bool isPausePanelVisible)
+        {
+            Assert.That(stageHud.activeSelf, Is.EqualTo(isStageHudVisible));
+            Assert.That(
+                infiniteHud.activeSelf,
+                Is.EqualTo(isInfiniteHudVisible));
+            Assert.That(
+                resultPanel.activeSelf,
+                Is.EqualTo(isResultPanelVisible));
+            Assert.That(
+                pausePanel.activeSelf,
+                Is.EqualTo(isPausePanelVisible));
+        }
+
+        private void AssertStageResultText(
+            MonoBehaviour uiManagementSystem,
+            ResultData resultData)
+        {
+            Assert.That(
+                ResultTextFormatter.TryFormatStageResult(
+                    resultData,
+                    out string expectedStatus,
+                    out string expectedElapsedTime,
+                    out string expectedCollectibleScore),
+                Is.True);
+            Assert.That(
+                GetSerializedText(uiManagementSystem, "_resultStatusText"),
+                Is.EqualTo(expectedStatus));
+            Assert.That(
+                GetSerializedText(uiManagementSystem, "_clearTimeText"),
+                Is.EqualTo(expectedElapsedTime));
+            Assert.That(
+                GetSerializedText(
+                    uiManagementSystem,
+                    "_stageResultCollectibleScoreText"),
+                Is.EqualTo(expectedCollectibleScore));
+        }
+
+        private void AssertInfiniteResultText(
+            MonoBehaviour uiManagementSystem,
+            ResultData resultData)
+        {
+            Assert.That(
+                ResultTextFormatter.TryFormatInfiniteResult(
+                    resultData,
+                    out string expectedDistance,
+                    out string expectedDistanceScore,
+                    out string expectedCollectibleScore,
+                    out string expectedTotalScore),
+                Is.True);
+            Assert.That(
+                GetSerializedText(uiManagementSystem, "_finalDistanceText"),
+                Is.EqualTo(expectedDistance));
+            Assert.That(
+                GetSerializedText(uiManagementSystem, "_finalScoreText"),
+                Is.EqualTo(expectedDistanceScore));
+            Assert.That(
+                GetSerializedText(
+                    uiManagementSystem,
+                    "_infiniteResultCollectibleScoreText"),
+                Is.EqualTo(expectedCollectibleScore));
+            Assert.That(
+                GetSerializedText(
+                    uiManagementSystem,
+                    "_infiniteResultTotalScoreText"),
+                Is.EqualTo(expectedTotalScore));
+        }
+
+        private string GetSerializedText(
+            MonoBehaviour uiManagementSystem,
+            string fieldName)
+        {
+            FieldInfo field = uiManagementSystem.GetType().GetField(
+                fieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            TMP_Text text = (TMP_Text)field.GetValue(uiManagementSystem);
+            Assert.That(text, Is.Not.Null);
+            return text.text;
+        }
+
+        private object InvokePublicMethod(
+            MonoBehaviour target,
+            string methodName,
+            params object[] arguments)
+        {
+            MethodInfo method = null;
+
+            foreach (MethodInfo candidate in target.GetType().GetMethods(
+                         BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (candidate.Name == methodName &&
+                    candidate.GetParameters().Length == arguments.Length)
+                {
+                    method = candidate;
+                    break;
+                }
+            }
+
+            Assert.That(method, Is.Not.Null);
+            return method.Invoke(target, arguments);
         }
 
         private GameObject FindUniqueSceneObject(string objectName)

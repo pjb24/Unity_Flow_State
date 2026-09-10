@@ -25,6 +25,8 @@ Stage 종료 시점을 판단하고 Stage 종료 이벤트를 발생시킨다.
 - GameSystem의 요청에 따라 Stage 진행 판정을 일시 중단하고 재개한다.
 - Stage 종료 시점을 판단한다.
 - Stage 종료 이벤트를 발생시킨다.
+- Stage Mode Playing 중 Player Rigidbody의 Y 위치로 추락 임계값 도달을 판단한다.
+- 추락 요청을 다음 물리 구간에 확정하여 같은 물리 구간의 Goal 도달을 먼저 반영한다.
 
 ---
 
@@ -75,6 +77,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 | Stage Object 상태 | Stage Object |
 | Stage Object 이벤트 | Stage Object |
 | Stage 진행 중단 및 재개 요청 | GameSystem |
+| Player Rigidbody 물리 위치 | PlayerControllerSystem |
 
 ---
 
@@ -100,6 +103,7 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 - Stage 종료 시점 판단
 - Stage 종료 이벤트 발생
 - Stage 진행 판정 중단 및 재개
+- Stage Mode 추락 임계값 판정과 종료 요청 보류 상태 관리
 
 ---
 
@@ -141,6 +145,10 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 - Stage 종료 시에는 반드시 Stage 종료 이벤트를 발생시킨다.
 - 일시 중단 중에는 Stage Object의 종료 요청을 확정하지 않는다.
 - 재개 시 일시 중단 이전의 Stage 진행 상태를 유지한다.
+- Stage Mode 추락 임계값은 Player Rigidbody의 Y 위치가 설정값 이하인지 판정한다.
+- Pause, Result와 Ended 상태에서는 추락 판정을 수행하지 않는다.
+- Goal 도달과 추락 요청이 같은 물리 구간에 발생하면 Goal 도달을 우선한다.
+- InfiniteMode 추락 판정은 InfiniteModeSystem이 담당한다.
 
 ---
 

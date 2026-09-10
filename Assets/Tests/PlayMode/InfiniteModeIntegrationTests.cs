@@ -37,6 +37,8 @@ namespace FlowState.Tests.PlayMode
         private Collider _playerCollider;
         private TMP_Text _finalDistanceText;
         private TMP_Text _finalScoreText;
+        private TMP_Text _infiniteResultCollectibleScoreText;
+        private TMP_Text _infiniteResultTotalScoreText;
 
         [UnitySetUp]
         public IEnumerator SetUp()
@@ -102,6 +104,12 @@ namespace FlowState.Tests.PlayMode
             _finalScoreText = new GameObject(
                 "InfiniteModeIntegrationTests.FinalScoreText")
                 .AddComponent<TextMeshProUGUI>();
+            _infiniteResultCollectibleScoreText = new GameObject(
+                "InfiniteModeIntegrationTests.CollectibleScoreText")
+                .AddComponent<TextMeshProUGUI>();
+            _infiniteResultTotalScoreText = new GameObject(
+                "InfiniteModeIntegrationTests.TotalScoreText")
+                .AddComponent<TextMeshProUGUI>();
             SetPrivateField(
                 _uiManagementSystem,
                 "_finalDistanceText",
@@ -110,6 +118,14 @@ namespace FlowState.Tests.PlayMode
                 _uiManagementSystem,
                 "_finalScoreText",
                 _finalScoreText);
+            SetPrivateField(
+                _uiManagementSystem,
+                "_infiniteResultCollectibleScoreText",
+                _infiniteResultCollectibleScoreText);
+            SetPrivateField(
+                _uiManagementSystem,
+                "_infiniteResultTotalScoreText",
+                _infiniteResultTotalScoreText);
 
             Assert.That(_stageGoal, Is.Not.Null);
             Assert.That(_mapPattern, Is.Not.Null);
@@ -198,7 +214,11 @@ namespace FlowState.Tests.PlayMode
                     Mathf.Max(
                         0.0f,
                         10000.0f - _startPoint.transform.position.x)));
-            Assert.That(resultData.FinalScore, Is.GreaterThan(0));
+            Assert.That(resultData.DistanceScore, Is.GreaterThan(0));
+            Assert.That(
+                resultData.TotalScore,
+                Is.EqualTo(
+                    resultData.DistanceScore + resultData.CollectibleScore));
         }
 
         [UnityTest]
@@ -386,7 +406,8 @@ namespace FlowState.Tests.PlayMode
                 AssertInfiniteEndedState();
                 ResultData result = AssertInfiniteResultData();
                 Assert.That(result.FinalDistance, Is.EqualTo(10000.0f));
-                Assert.That(result.FinalScore, Is.EqualTo(100000));
+                Assert.That(result.DistanceScore, Is.EqualTo(100000));
+                Assert.That(result.TotalScore, Is.EqualTo(100000));
             }
             finally
             {
@@ -446,10 +467,14 @@ namespace FlowState.Tests.PlayMode
             Assert.That(resultData.GameMode, Is.EqualTo(E_GameMode.Infinite));
             Assert.That(resultData.HasInfiniteModeResult, Is.True);
             Assert.That(resultData.HasStageResult, Is.False);
-            Assert.That(resultData.IsStageCleared, Is.False);
-            Assert.That(resultData.ClearTime, Is.Zero);
+            Assert.That(
+                resultData.StageResultType,
+                Is.EqualTo(E_StageResultType.None));
+            Assert.That(resultData.ElapsedTime, Is.Zero);
             Assert.That(resultData.FinalDistance, Is.GreaterThanOrEqualTo(0.0f));
-            Assert.That(resultData.FinalScore, Is.GreaterThanOrEqualTo(0));
+            Assert.That(resultData.DistanceScore, Is.GreaterThanOrEqualTo(0));
+            Assert.That(resultData.CollectibleScore, Is.GreaterThanOrEqualTo(0));
+            Assert.That(resultData.TotalScore, Is.GreaterThanOrEqualTo(0));
             Assert.That(
                 _finalDistanceText.text,
                 Is.EqualTo(
@@ -458,8 +483,18 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 _finalScoreText.text,
                 Is.EqualTo(
-                    ResultTextFormatter.FormatFinalScore(
-                        resultData.FinalScore)));
+                    ResultTextFormatter.FormatDistanceScore(
+                        resultData.DistanceScore)));
+            Assert.That(
+                _infiniteResultCollectibleScoreText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatCollectibleScore(
+                        resultData.CollectibleScore)));
+            Assert.That(
+                _infiniteResultTotalScoreText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatTotalScore(
+                        resultData.TotalScore)));
             return resultData;
         }
 

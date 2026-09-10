@@ -22,10 +22,16 @@ namespace FlowState.Runtime.Systems
             _currentResultData = null;
         }
 
-        public bool CreateResultData(bool isStageCleared, double clearTime)
+        public bool CreateStageResultData(
+            E_StageResultType stageResultType,
+            double elapsedTime,
+            int collectibleScore)
         {
             if (HasResultData ||
-                !_timeRecord.TryRecord(isStageCleared, clearTime))
+                !_timeRecord.TryRecord(
+                    stageResultType,
+                    elapsedTime,
+                    collectibleScore))
             {
                 Debug.LogWarning(
                     "[ResultSystem] Result Data was not created.");
@@ -41,7 +47,8 @@ namespace FlowState.Runtime.Systems
             bool hasStageEnded,
             bool isFinalized,
             float finalDistance,
-            int finalScore)
+            int distanceScore,
+            int collectibleScore)
         {
             if (HasResultData ||
                 !_scoreRecord.TryRecord(
@@ -49,7 +56,8 @@ namespace FlowState.Runtime.Systems
                     hasStageEnded,
                     isFinalized,
                     finalDistance,
-                    finalScore))
+                    distanceScore,
+                    collectibleScore))
             {
                 Debug.LogWarning(
                     "[ResultSystem] Infinite Result Data was not created.");

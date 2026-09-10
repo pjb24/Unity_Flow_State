@@ -1,27 +1,45 @@
 namespace FlowState.Runtime.Core
 {
+    public enum E_StageResultType
+    {
+        None = 0,
+        Cleared = 1,
+        Fell = 2
+    }
+
     public class ResultData
     {
-        public ResultData(bool isStageCleared, double clearTime)
+        public ResultData(
+            E_StageResultType stageResultType,
+            double elapsedTime,
+            int collectibleScore)
         {
             GameMode = E_GameMode.Stage;
             HasStageResult = true;
             HasInfiniteModeResult = false;
-            IsStageCleared = isStageCleared;
-            ClearTime = clearTime;
+            StageResultType = stageResultType;
+            ElapsedTime = elapsedTime;
             FinalDistance = 0.0f;
-            FinalScore = 0;
+            DistanceScore = 0;
+            CollectibleScore = collectibleScore;
+            TotalScore = 0;
         }
 
-        public ResultData(float finalDistance, int finalScore)
+        public ResultData(
+            float finalDistance,
+            int distanceScore,
+            int collectibleScore,
+            int totalScore)
         {
             GameMode = E_GameMode.Infinite;
             HasStageResult = false;
             HasInfiniteModeResult = true;
-            IsStageCleared = false;
-            ClearTime = 0.0;
+            StageResultType = E_StageResultType.None;
+            ElapsedTime = 0.0;
             FinalDistance = finalDistance;
-            FinalScore = finalScore;
+            DistanceScore = distanceScore;
+            CollectibleScore = collectibleScore;
+            TotalScore = totalScore;
         }
 
         public E_GameMode GameMode { get; }
@@ -30,12 +48,16 @@ namespace FlowState.Runtime.Core
 
         public bool HasInfiniteModeResult { get; }
 
-        public bool IsStageCleared { get; }
+        public E_StageResultType StageResultType { get; }
 
-        public double ClearTime { get; }
+        public double ElapsedTime { get; }
 
         public float FinalDistance { get; }
 
-        public int FinalScore { get; }
+        public int DistanceScore { get; }
+
+        public int CollectibleScore { get; }
+
+        public int TotalScore { get; }
     }
 }
