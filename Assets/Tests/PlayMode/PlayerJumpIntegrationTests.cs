@@ -23,6 +23,7 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _playerInputSystem;
         private MonoBehaviour _playerMovementSystem;
         private GameObject _jumpGround;
+        private GameObject _gapLandingGround;
 
         [UnitySetUp]
         public IEnumerator SetUp()
@@ -72,6 +73,11 @@ namespace FlowState.Tests.PlayMode
             if (_jumpGround != null)
             {
                 UnityEngine.Object.DestroyImmediate(_jumpGround);
+            }
+
+            if (_gapLandingGround != null)
+            {
+                UnityEngine.Object.DestroyImmediate(_gapLandingGround);
             }
 
             yield return null;
@@ -167,6 +173,109 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(velocityAfterInput, Is.LessThan(0.0f));
             Assert.That(velocityAfterInput, Is.LessThan(velocityBeforeInput));
+        }
+
+        [UnityTest]
+        public IEnumerator Jump_BoundaryGapAtBaseSpeed_LandsOnNextGround()
+        {
+            yield return TraverseBoundaryGap(8.0f, 2.0f);
+        }
+
+        [UnityTest]
+        public IEnumerator Jump_BoundaryGapAtMaximumSpeed_LandsOnNextGround()
+        {
+            yield return TraverseBoundaryGap(14.0f, 3.0f);
+        }
+
+        private IEnumerator TraverseBoundaryGap(
+            float horizontalSpeed,
+            float takeoffDistance)
+        {
+            const float boundaryX = 20000.0f;
+            const float gapWidth = 4.0f;
+            const float groundHeight = 0.5f;
+            const float landingLength = 8.0f;
+            const float playerRadius = 0.5f;
+
+            UnityEngine.Object.DestroyImmediate(_jumpGround);
+            _jumpGround = CreateGround(
+                "PlayerJumpIntegrationTests.TakeoffGround",
+                new Vector3(boundaryX - 5.0f, 0.0f, 0.0f),
+                new Vector3(10.0f, 1.0f, 4.0f));
+            _gapLandingGround = CreateGround(
+                "PlayerJumpIntegrationTests.LandingGround",
+                new Vector3(
+                    boundaryX + gapWidth + landingLength * 0.5f,
+                    0.0f,
+                    0.0f),
+                new Vector3(landingLength, 1.0f, 4.0f));
+            _playerRigidbody.position = new Vector3(
+                boundaryX - takeoffDistance,
+                ExpectedStartHeight,
+                0.0f);
+            _playerRigidbody.linearVelocity = Vector3.zero;
+            Physics.SyncTransforms();
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
+
+            _playerRigidbody.position = new Vector3(
+                boundaryX - takeoffDistance,
+                ExpectedStartHeight,
+                0.0f);
+            _playerRigidbody.linearVelocity = new Vector3(
+                horizontalSpeed,
+                0.0f,
+                0.0f);
+            Physics.SyncTransforms();
+            TriggerJump();
+
+            bool hasLeftGround = false;
+            bool hasLanded = false;
+
+            for (int step = 0; step < MaximumFixedSteps; step++)
+            {
+                yield return new WaitForFixedUpdate();
+
+                if (_playerRigidbody.position.y >
+                    ExpectedStartHeight + 0.1f)
+                {
+                    hasLeftGround = true;
+                }
+
+                if (hasLeftGround &&
+                    _playerRigidbody.position.x >=
+                    boundaryX + gapWidth + playerRadius &&
+                    Mathf.Abs(
+                        _playerRigidbody.position.y -
+                        ExpectedStartHeight) <= LandingTolerance &&
+                    Mathf.Abs(_playerRigidbody.linearVelocity.y) <= 0.1f)
+                {
+                    hasLanded = true;
+                    break;
+                }
+            }
+
+            Assert.That(hasLeftGround, Is.True);
+            Assert.That(hasLanded, Is.True);
+            Assert.That(
+                _playerRigidbody.position.x,
+                Is.LessThanOrEqualTo(
+                    boundaryX + gapWidth + landingLength - playerRadius));
+            Assert.That(
+                _playerRigidbody.position.y,
+                Is.EqualTo(groundHeight + 1.0f).Within(LandingTolerance));
+        }
+
+        private GameObject CreateGround(
+            string name,
+            Vector3 position,
+            Vector3 size)
+        {
+            GameObject ground = new GameObject(name);
+            ground.layer = 6;
+            ground.transform.position = position;
+            ground.AddComponent<BoxCollider>().size = size;
+            return ground;
         }
 
         private IEnumerator MeasureJump(

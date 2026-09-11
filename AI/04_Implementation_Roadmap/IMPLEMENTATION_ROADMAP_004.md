@@ -45,9 +45,15 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 - 진행도에 따라 사용할 Pattern의 선택 기준이 확정되어 있다.
 - Pattern 개수, 등장 조건과 난이도 수치를 추측하지 않고 문서로 확인할 수 있다.
 
+### 검증 책임
+
+- 문서와 코드의 Pattern ID, 개수, 길이, 연결 수치, Difficulty 경계와 반복 제한을 정적으로 대조한다.
+- 연결 및 통과 계산, Difficulty 전환, 후보 선택, 반복·대체·Pause·Result·초기화 계약은 Edit Mode Unit Test로 검증한다.
+- 생산 Scene 제작과 실제 Rigidbody 통과는 이 Phase에서 검증하지 않는다.
+
 ### 상태
 
-진행 중
+완료
 
 ---
 
@@ -76,6 +82,11 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 - 각 Pattern을 자동 이동, Jump와 Momentum Landing으로 통과할 수 있다.
 - 벽이나 모서리에서 Player가 지속적으로 고정되지 않는다.
 - 통과할 수 없는 Pattern 또는 연결 조합이 선택되지 않는다.
+
+### 검증 책임
+
+- 생산 Scene의 Pattern Anchor, Ground와 Platform Collider, Layer, Boundary 및 Pattern 참조를 정적으로 검사한다.
+- 네 Pattern과 16개 연결 조합의 자동 이동, Jump, 착지, Wall 접촉 해제와 낙하 방지를 Play Mode Test로 검증한다.
 
 ### 상태
 
@@ -109,6 +120,11 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 - Pattern 통과 개수는 Score 계산에 사용되지 않는다.
 - Player 이동 수치를 변경하지 않고 Pattern 선택과 조합으로 난이도가 변화한다.
 
+### 검증 책임
+
+- Difficulty와 Pattern 선택 상태 연결, 허용 후보, 반복 및 대체 규칙과 Run별 초기화는 Edit Mode Test로 검증한다.
+- 생산 InfiniteMode 진행 구조의 Pattern 요청, Pause, Resume, Result와 Retry 연동은 Play Mode Test로 검증한다.
+
 ### 상태
 
 대기
@@ -141,6 +157,12 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 - Stage Mode의 기존 자동 이동, Collectible, Clear Time과 Score에 회귀가 없다.
 - 치명적인 오류 없이 Compile, 관련 Test, Build와 반복 플레이 검증을 통과한다.
 
+### 검증 책임
+
+- Pattern별 Collectible 경로, Pattern 전환 후 Score 유지, Difficulty 및 Pattern UI와 전체 InfiniteMode 흐름을 Play Mode Test로 검증한다.
+- Stage Mode의 자동 이동, Collectible, Clear Time과 Score 회귀를 전체 관련 Test로 검증한다.
+- UI 가독성, 화면 구성과 반복 플레이의 체감 항목만 수동으로 확인한다.
+
 ### 상태
 
 대기
@@ -151,17 +173,17 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 
 ## 진행 중인 작업
 
-Prototype 4 Phase 1
+Prototype 4 Phase 2 작업 준비
 
-`20260910_02_Phase1ManualSteps.md` 실행 준비 완료
+`20260911_02_Phase2ManualSteps.md` 작성 완료
 
 ---
 
 ## 다음 작업
 
-Prototype 4 Phase 1
+Prototype 4 Phase 2
 
-`20260910_02_Phase1ManualSteps.md` Step 1 기존 Pattern 구조와 미정 계약 조사
+`20260911_02_Phase2ManualSteps.md` Step 1 Pattern Authoring 구조 조사 및 결정
 
 ---
 
@@ -226,7 +248,7 @@ Prototype 4 Phase 1
 
 ## 완료된 단계
 
-없음
+- Prototype 4 Phase 1: Map Pattern 공통 조건, 목록, 통과 판정, Difficulty 및 Pattern 선택 계약 확정
 
 ---
 
