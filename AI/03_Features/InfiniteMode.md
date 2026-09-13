@@ -19,7 +19,7 @@ InfiniteMode
 - InfiniteMode는 Goal을 사용하지 않는다.
 - InfiniteMode는 Stage Play가 시작되면 수행한다.
 - InfiniteMode는 `Flat`, `SingleRise`, `LegacySteps`, `InternalGap` 네 종류의 Map Pattern을 사용한다.
-- 첫 Pattern은 `Flat`을 사용하고 이후 Pattern은 현재 Difficulty의 허용 후보에서 선택한다.
+- 첫 두 재사용 Slot은 `Flat`으로 시작한다. 이후 Pattern의 Difficulty 기반 자동 선택은 Phase 3에서 연결하며, Phase 2 진행 구조는 요청 ID와 명시적 Pattern ID를 받는다.
 - Map Pattern은 Player가 현재 이용 중인 지형을 잃지 않도록 다음 진행 구간을 먼저 제공한다.
 - Player가 접촉 중이거나 아직 완전히 지나가지 않은 Map Pattern은 재배치하지 않는다.
 - 플레이어의 점수는 프로젝트에서 정의한 점수 규칙에 따라 증가한다.
@@ -42,6 +42,31 @@ InfiniteMode
 모든 Pattern의 StartAnchor와 EndAnchor 사이 X 길이는 `44`이다.
 
 모든 Pattern은 새로운 장애물, 이동 Platform 또는 별도의 특수 이동 규칙을 요구하지 않는다.
+
+## Phase 2 생산 Pattern 구성
+
+- 생산 Scene은 `Assets/Scenes/SampleScene.unity`이다. `World/InfiniteModeRoot/InfiniteMapPattern` 아래 `Slot_0`(Local X `0`)과 `Slot_1`(Local X `44`)이 있고, 각 Slot은 빈 `ContentRoot`와 실제 `AdvanceBoundary` Trigger를 소유한다.
+- `Assets/Prefabs/InfinitePatterns/`의 `InfinitePattern_Flat.prefab`, `InfinitePattern_SingleRise.prefab`, `InfinitePattern_LegacySteps.prefab`, `InfinitePattern_InternalGap.prefab`은 서로 독립적인 네 Pattern 원본이다. 각 원본은 `InfinitePatternAuthoring`과 `GeometryRoot`, `StartAnchor`, `EndAnchor`, `AdvanceBoundaryPoint`, 빈 `CollectibleRoot`를 소유한다.
+- 실행 중 각 Slot은 네 Pattern 인스턴스를 한 번 생성·캐시하고 현재 Pattern 하나만 활성화한다. 진행 중 교체에는 캐시를 재사용하며 Run 중 반복 생성·파괴하지 않는다.
+- 모든 Prefab Root·GeometryRoot·CollectibleRoot의 Local Position과 Rotation은 `(0, 0, 0)`, Scale은 `(1, 1, 1)`이다. StartAnchor는 `(-22, 0, 0)`, EndAnchor는 `(22, 0, 0)`이며 두 Anchor의 Rotation은 `(0, 0, 0)`이다.
+- 아래 지형 위치는 Pattern Root 기준 Local 값이다. 각 지형 오브젝트는 `Ground` Layer(6), Scale `(1, 1, 1)`의 비 Trigger BoxCollider를 갖는다. Center는 `(0, 0, 0)`, Physics Material은 `None`이다. 자식 `Visual`은 Collider 없이 같은 크기의 Cube Mesh를 표시한다.
+
+| Pattern | GeometryRoot 자식 | Local Position | BoxCollider Size |
+|---|---|---|---|
+| `Flat` | `Ground_0` | `(0, 0, 0)` | `(40, 1, 4)` |
+| `SingleRise` | `Ground_0` | `(-14, 0, 0)` | `(12, 1, 4)` |
+| `SingleRise` | `Platform_0` | `(1, 1, 0)` | `(14, 1, 4)` |
+| `SingleRise` | `Ground_1` | `(15, 0, 0)` | `(10, 1, 4)` |
+| `LegacySteps` | `Ground_0` | `(-16, 0, 0)` | `(8, 1, 4)` |
+| `LegacySteps` | `Platform_0` | `(-6, 1, 0)` | `(8, 1, 4)` |
+| `LegacySteps` | `Platform_1` | `(4, 1, 0)` | `(8, 1, 4)` |
+| `LegacySteps` | `Ground_1` | `(15, 0, 0)` | `(10, 1, 4)` |
+| `InternalGap` | `Ground_0` | `(-11.5, 0, 0)` | `(17, 1, 4)` |
+| `InternalGap` | `Ground_1` | `(11.5, 0, 0)` | `(17, 1, 4)` |
+
+- `AdvanceBoundaryPoint` Local Position은 `Flat` `(-4, 5.5, 0)`, `SingleRise` `(0, 5.5, 0)`, `LegacySteps` `(2, 5.5, 0)`, `InternalGap` `(4, 5.5, 0)`이다. Slot의 실제 Boundary는 활성 Pattern의 Point에 정렬되므로 위치가 Pattern마다 달라진다.
+- 실제 Boundary BoxCollider는 각 Slot의 `ContentRoot` 밖에 있으며 Size `(1, 10, 4)`, Center `(0, 0, 0)`, Is Trigger `true`이다. Slot ID와 Boundary ID는 각각 `0` 또는 `1`이며 두 Boundary와 Map Pattern은 Scene Root `Player`의 CapsuleCollider를 참조한다.
+- Phase 2의 네 `CollectibleRoot`는 비어 있다. Pattern 전환·Retry의 Collectible Scope 생성·해제 계약은 유지하지만, Pattern별 Collectible 안내 경로와 점수 적용은 Phase 4에서 구성한다.
 
 ## Pattern별 계약
 
@@ -117,6 +142,8 @@ InfiniteMode
 
 ## Difficulty 전환
 
+아래 Difficulty·후보 선택 규칙은 확정된 Phase 3 연동 계약이다. Phase 2의 생산 진행 구조는 자동 선택이나 난수·반복 제한을 실행하지 않는다.
+
 | Difficulty | 최대 전진 거리 | 허용 Pattern |
 |---|---|---|
 | D1 | `0` 이상 `220` 미만 | `Flat`, `SingleRise` |
@@ -148,8 +175,7 @@ InfiniteMode
 
 ## Run 초기화
 
-- 첫 Pattern은 `Flat`이며 Pattern 선택 이력에 포함한다.
-- 첫 Pattern 다음부터 D1 후보 선택 규칙을 적용한다.
+- Phase 2의 두 재사용 Slot은 `Flat`으로 시작한다. Phase 3은 Run의 첫 `Flat`을 Pattern 선택 이력에 포함하고, 다음 Pattern부터 D1 후보 선택 규칙을 적용한다.
 - Retry와 새 Run은 각각 새로운 난수 Seed를 사용한다.
 - Retry와 새 Run에서 진행도, Difficulty, 선택 이력, 연속 반복 횟수와 중복 진행 요청 상태를 초기화한다.
 - Pattern 배치, Boundary와 Pattern별 Collectible Scope를 초기화한다.

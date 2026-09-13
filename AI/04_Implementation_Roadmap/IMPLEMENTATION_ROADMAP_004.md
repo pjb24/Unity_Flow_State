@@ -73,24 +73,27 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 - Pattern별 자동 이동 검증
 - Pattern별 벽 충돌과 낙하 검증
 
+생산 Scene은 `Assets/Scenes/SampleScene.unity`의 `World/InfiniteModeRoot/InfiniteMapPattern` 아래 두 재사용 Slot을 사용한다. 네 독립 Pattern Prefab은 `Assets/Prefabs/InfinitePatterns/`에 있으며 각 Slot은 네 인스턴스를 캐시하고 활성 Pattern 하나만 표시한다. Pattern 원본은 지형·Anchor·Pattern별 Boundary Point·빈 Collectible Root를, Slot은 실제 Boundary Trigger와 진행 ID를 소유한다. Phase 2는 명시적 요청 ID와 Pattern ID만 처리하고 Difficulty 선택은 수행하지 않는다.
+
 ### 완료 조건
 
 - 확정된 모든 Map Pattern이 InfiniteMode에서 생성된다.
 - 이전 Pattern의 종료점과 다음 Pattern의 시작점이 정상적으로 연결된다.
 - Pattern 연결 지점에서 Player, Camera와 Collision 흐름이 끊기지 않는다.
 - 사용이 끝난 Pattern이 InfiniteMode 진행을 방해하지 않는다.
-- 각 Pattern을 자동 이동, Jump와 Momentum Landing으로 통과할 수 있다.
+- 각 Pattern을 자동 이동과 일반 Jump로 통과할 수 있다. Momentum Landing을 필수 통과 조건으로 요구하지 않는다.
 - 벽이나 모서리에서 Player가 지속적으로 고정되지 않는다.
-- 통과할 수 없는 Pattern 또는 연결 조합이 선택되지 않는다.
+- 명시적 요청에서도 연결할 수 없는 Pattern 조합이 배치되지 않는다. Difficulty 기반 후보 선택은 Phase 3에서 연결한다.
 
 ### 검증 책임
 
 - 생산 Scene의 Pattern Anchor, Ground와 Platform Collider, Layer, Boundary 및 Pattern 참조를 정적으로 검사한다.
 - 네 Pattern과 16개 연결 조합의 자동 이동, Jump, 착지, Wall 접촉 해제와 낙하 방지를 Play Mode Test로 검증한다.
+- Pattern 교체·Retry에서 Collectible Scope 생성·해제·재연결을 검증한다. Pattern별 Collectible 배치와 안내 경로는 Phase 4에서 검증한다.
 
 ### 상태
 
-대기
+완료 (Build 제외) — 생산 Scene·Prefab, 전체 정적 검사, Edit Mode `477`개와 Play Mode `207`개 Test를 검증했다. 네 Prefab은 시각적으로 구분되며 지정된 `Flat → Flat` Boundary Test에서 눈에 띄는 화면 변화는 없었다. 서로 다른 Pattern의 실제 화면 전환과 일반 플레이 자동 선택은 Phase 3에서 확인한다. 사용자 결정에 따라 이번 Phase에서 Unity Build는 수행하지 않고 미검증으로 기록한다.
 
 ---
 
@@ -108,6 +111,8 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 - Pattern 반복 제한
 - 이전 Pattern과 다음 Pattern의 연결 가능 여부
 - Run별 Pattern 선택 상태 초기화
+
+Phase 2가 제공한 `InfiniteMapPattern.TryRequestNextPattern(requestId, patternId)`에 선택된 Pattern ID를 전달한다. Difficulty, 난수, 반복 제한과 대체 후보 결정은 Phase 3이 소유한다.
 
 ### 완료 조건
 
@@ -173,17 +178,15 @@ Map Pattern 확장과 난이도 증가 기준을 확정한다.
 
 ## 진행 중인 작업
 
-Prototype 4 Phase 2 작업 준비
+Prototype 4 Phase 3 준비
 
-`20260911_02_Phase2ManualSteps.md` 작성 완료
+`20260911_02_Phase2ManualSteps.md` Step 1~12 완료. Unity Build는 이번 Phase에서 제외했고, 서로 다른 Pattern의 일반 플레이 전환은 Phase 3에서 검증한다.
 
 ---
 
 ## 다음 작업
 
-Prototype 4 Phase 2
-
-`20260911_02_Phase2ManualSteps.md` Step 1 Pattern Authoring 구조 조사 및 결정
+Prototype 4 Phase 3 진행도·Difficulty·Pattern 자동 선택 연결
 
 ---
 

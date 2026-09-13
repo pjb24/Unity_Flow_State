@@ -14,7 +14,6 @@ namespace FlowState.Tests.PlayMode
         private const string SceneName = "SampleScene";
         private const string CollectibleName = "StageCollectible_Jump01_03";
         private const int StageCollectibleCount = 10;
-        private const int InfiniteCollectibleCount = 20;
 
         private MonoBehaviour _gameSystem;
         private MonoBehaviour _runtimeDataSystem;
@@ -141,7 +140,8 @@ namespace FlowState.Tests.PlayMode
             Assert.That(infiniteData.CurrentScore, Is.Zero);
             Assert.That(
                 infiniteData.RegisteredCount,
-                Is.EqualTo(InfiniteCollectibleCount));
+                Is.Zero);
+            Assert.That(infiniteData.ActiveScopeCount, Is.EqualTo(2));
             Assert.That(_collectible.IsBound, Is.False);
             Assert.That(_collectible.gameObject.activeInHierarchy, Is.False);
         }

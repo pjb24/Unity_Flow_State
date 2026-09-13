@@ -289,6 +289,8 @@ Field를 Inspector에 노출해야 하는 경우 `public` 대신 `[SerializeFiel
 
 반복적으로 GC Allocation이 발생하는 구조를 지양한다.
 
+LINQ를 사용하지 않는다. 컬렉션 조회와 변환은 명시적인 반복문으로 작성한다.
+
 ---
 
 # 금지 사항
@@ -302,6 +304,8 @@ Field를 Inspector에 노출해야 하는 경우 `public` 대신 `[SerializeFiel
 주석 처리된 코드를 유지하지 않는다.
 
 경고를 무시한 채 코드를 작성하지 않는다.
+
+`System.Linq`와 LINQ 확장 메서드 및 쿼리 구문을 사용하지 않는다.
 
 Null 확인을 nullable `?`, null 조건부 `?.` 또는 null 병합 `??` 문법으로 새로 구현하지 않는다.
 

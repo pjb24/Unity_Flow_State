@@ -90,7 +90,7 @@ namespace FlowState.Tests.PlayMode
                 .GetComponent<StageGoal>();
             _mapPattern = FindSceneGameObject("InfiniteMapPattern")
                 .GetComponent<InfiniteMapPattern>();
-            _secondBoundary = FindSceneGameObject("Pattern_1")
+            _secondBoundary = FindSceneGameObject("Slot_1")
                 .GetComponentInChildren<InfinitePatternBoundary>(true);
             _player = FindSceneGameObject("Player");
             _startPoint = FindSceneGameObject("StartPoint");
@@ -162,6 +162,11 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator InfiniteStart_GoalAndPattern_DoNotEndRun()
         {
             AssertInfinitePlayingState();
+
+            Assert.That(_mapPattern.TryRequestNextPattern(
+                1, InfinitePatternCatalogFactory.FlatId), Is.True);
+            _playerRigidbody.position = new Vector3(24.0f, 1.5f, 0.0f);
+            Physics.SyncTransforms();
 
             InvokePrivateMethod(
                 _stageGoal,
@@ -245,24 +250,21 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void PatternGroundConnections_ProvideJumpGap()
         {
-            Transform firstPattern = FindSceneGameObject("Pattern_0").transform;
-            Transform secondPattern = FindSceneGameObject("Pattern_1").transform;
-            Transform firstEndAnchor = firstPattern.Find("EndAnchor");
-            Transform secondStartAnchor = secondPattern.Find("StartAnchor");
-            Transform firstGroundTransform = firstPattern.Find("Terrain/Ground");
-            Transform secondGroundTransform = secondPattern.Find("Terrain/Ground");
-
-            Assert.That(firstEndAnchor, Is.Not.Null);
-            Assert.That(secondStartAnchor, Is.Not.Null);
-            Assert.That(firstGroundTransform, Is.Not.Null);
-            Assert.That(secondGroundTransform, Is.Not.Null);
-
-            BoxCollider firstGround =
-                firstGroundTransform.GetComponent<BoxCollider>();
-            BoxCollider secondGround =
-                secondGroundTransform.GetComponent<BoxCollider>();
-            Assert.That(firstGround, Is.Not.Null);
-            Assert.That(secondGround, Is.Not.Null);
+            InfinitePatternSlot firstSlot = FindSceneGameObject("Slot_0")
+                .GetComponent<InfinitePatternSlot>();
+            InfinitePatternSlot secondSlot = FindSceneGameObject("Slot_1")
+                .GetComponent<InfinitePatternSlot>();
+            Assert.That(firstSlot.TryGetCurrentPattern(
+                out InfinitePatternAuthoring firstPattern), Is.True);
+            Assert.That(secondSlot.TryGetCurrentPattern(
+                out InfinitePatternAuthoring secondPattern), Is.True);
+            Transform firstEndAnchor = firstPattern.EndAnchor;
+            Transform secondStartAnchor = secondPattern.StartAnchor;
+            Assert.That(firstPattern.TryGetTerrainCollider(
+                firstPattern.TerrainColliderCount - 1,
+                out Collider firstGround), Is.True);
+            Assert.That(secondPattern.TryGetTerrainCollider(
+                0, out Collider secondGround), Is.True);
 
             float groundGap =
                 secondGround.bounds.min.x - firstGround.bounds.max.x;
@@ -287,9 +289,9 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator ResultMenuRetry_Twice_RestoresIndependentInfiniteRuns()
         {
             Vector3 firstPatternPosition =
-                FindSceneGameObject("Pattern_0").transform.position;
+                FindSceneGameObject("Slot_0").transform.position;
             Vector3 secondPatternPosition =
-                FindSceneGameObject("Pattern_1").transform.position;
+                FindSceneGameObject("Slot_1").transform.position;
 
             ResultData previousResultData = null;
 
@@ -341,10 +343,10 @@ namespace FlowState.Tests.PlayMode
                     Is.EqualTo(Vector3.zero));
                 Assert.That(_mapPattern.AdvanceCount, Is.Zero);
                 Assert.That(
-                    FindSceneGameObject("Pattern_0").transform.position,
+                    FindSceneGameObject("Slot_0").transform.position,
                     Is.EqualTo(firstPatternPosition));
                 Assert.That(
-                    FindSceneGameObject("Pattern_1").transform.position,
+                    FindSceneGameObject("Slot_1").transform.position,
                     Is.EqualTo(secondPatternPosition));
                 Assert.That(
                     GetBoolProperty(_resultSystem, "HasResultData"),

@@ -13,6 +13,8 @@ namespace FlowState.Runtime.Features
 
         public int BoundaryId => _boundaryId;
 
+        public Collider PlayerCollider => _playerCollider;
+
         public bool IsTriggered => _isTriggered;
 
         public bool Initialize()
