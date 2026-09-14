@@ -77,6 +77,8 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_player, Is.Not.Null);
             Assert.That(_playerCollider, Is.Not.Null);
             Assert.That(_cameraTarget, Is.Not.Null);
+            Assert.That(_map.ResetPatterns(), Is.True);
+            SetField(_infiniteMode, "_hasPendingPatternRequest", true);
         }
 
         [UnityTearDown]

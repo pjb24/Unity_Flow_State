@@ -19,7 +19,7 @@ InfiniteMode
 - InfiniteMode는 Goal을 사용하지 않는다.
 - InfiniteMode는 Stage Play가 시작되면 수행한다.
 - InfiniteMode는 `Flat`, `SingleRise`, `LegacySteps`, `InternalGap` 네 종류의 Map Pattern을 사용한다.
-- 첫 두 재사용 Slot은 `Flat`으로 시작한다. 이후 Pattern의 Difficulty 기반 자동 선택은 Phase 3에서 연결하며, Phase 2 진행 구조는 요청 ID와 명시적 Pattern ID를 받는다.
+- 첫 두 재사용 Slot은 `Flat`으로 시작한다. 이후 Pattern은 현재 Difficulty와 선택 규칙에 따라 자동 선택하고, 진행 구조에는 요청 ID와 선택한 Pattern ID를 전달한다.
 - Map Pattern은 Player가 현재 이용 중인 지형을 잃지 않도록 다음 진행 구간을 먼저 제공한다.
 - Player가 접촉 중이거나 아직 완전히 지나가지 않은 Map Pattern은 재배치하지 않는다.
 - 플레이어의 점수는 프로젝트에서 정의한 점수 규칙에 따라 증가한다.

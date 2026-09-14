@@ -19,6 +19,12 @@ namespace FlowState.Runtime.Features
         private bool _isPaused;
         private bool _hasEnded;
         private bool _hasRequest;
+        private string _previousPatternId;
+        private int _previousConsecutiveSelectionCount;
+        private int _previousRequestId;
+        private uint _previousRandomState;
+        private bool _previousHasRequest;
+        private bool _canRevertSelection;
 
         public string CurrentPatternId => _currentPatternId;
 
@@ -108,6 +114,7 @@ namespace FlowState.Runtime.Features
                 }
             }
 
+            uint previousRandomState = _randomState;
             InfinitePatternDefinition selectedPattern;
 
             if (_candidates.Count > 0)
@@ -123,6 +130,13 @@ namespace FlowState.Runtime.Features
                 return false;
             }
 
+            _previousPatternId = _currentPatternId;
+            _previousConsecutiveSelectionCount = _consecutiveSelectionCount;
+            _previousRequestId = _lastRequestId;
+            _previousRandomState = previousRandomState;
+            _previousHasRequest = _hasRequest;
+            _canRevertSelection = true;
+
             if (selectedPattern.Id == _currentPatternId)
             {
                 _consecutiveSelectionCount++;
@@ -136,6 +150,23 @@ namespace FlowState.Runtime.Features
             _lastRequestId = requestId;
             _hasRequest = true;
             patternId = selectedPattern.Id;
+            return true;
+        }
+
+        public bool TryRevertLastSelection(int requestId)
+        {
+            if (!_canRevertSelection || !_hasRequest ||
+                requestId != _lastRequestId)
+            {
+                return false;
+            }
+
+            _currentPatternId = _previousPatternId;
+            _consecutiveSelectionCount = _previousConsecutiveSelectionCount;
+            _lastRequestId = _previousRequestId;
+            _randomState = _previousRandomState;
+            _hasRequest = _previousHasRequest;
+            _canRevertSelection = false;
             return true;
         }
 
@@ -204,6 +235,12 @@ namespace FlowState.Runtime.Features
             _isPaused = false;
             _hasEnded = false;
             _hasRequest = false;
+            _previousPatternId = null;
+            _previousConsecutiveSelectionCount = 0;
+            _previousRequestId = 0;
+            _previousRandomState = 0u;
+            _previousHasRequest = false;
+            _canRevertSelection = false;
             _candidates.Clear();
         }
 

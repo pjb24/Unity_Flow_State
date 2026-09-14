@@ -132,7 +132,7 @@ Phase 2가 제공한 `InfiniteMapPattern.TryRequestNextPattern(requestId, patter
 
 ### 상태
 
-대기
+완료 (Build 제외) — 최대 전진 거리 기반 Difficulty와 Pattern 자동 선택·요청, 반복·연결·Retry·Pause·Result 계약을 연결했다. 생산 Scene의 결정적 `Flat → SingleRise` 전환과 Camera·지형 화면을 확인했고, 전체 Edit Mode `483`개 및 Play Mode `210`개 Test가 통과했다. 사용자 결정에 따라 Unity Build는 수행하지 않아 미검증이다.
 
 ---
 
@@ -160,7 +160,7 @@ Phase 2가 제공한 `InfiniteMapPattern.TryRequestNextPattern(requestId, patter
 - 현재 Difficulty 또는 진행 상태를 확정된 UI로 확인할 수 있다.
 - Pause, Resume, Result와 Retry가 Pattern 진행 상태를 올바르게 유지하거나 초기화한다.
 - Stage Mode의 기존 자동 이동, Collectible, Clear Time과 Score에 회귀가 없다.
-- 치명적인 오류 없이 Compile, 관련 Test, Build와 반복 플레이 검증을 통과한다.
+- 치명적인 오류 없이 Compile, 관련 Test와 반복 플레이 검증을 통과한다. Build는 Phase 4에서 수행하지 않고 미검증으로 기록한다.
 
 ### 검증 책임
 
@@ -170,7 +170,7 @@ Phase 2가 제공한 `InfiniteMapPattern.TryRequestNextPattern(requestId, patter
 
 ### 상태
 
-대기
+대기 (Build 제외)
 
 ---
 
@@ -178,15 +178,15 @@ Phase 2가 제공한 `InfiniteMapPattern.TryRequestNextPattern(requestId, patter
 
 ## 진행 중인 작업
 
-Prototype 4 Phase 3 준비
+Prototype 4 Phase 4 준비
 
-`20260911_02_Phase2ManualSteps.md` Step 1~12 완료. Unity Build는 이번 Phase에서 제외했고, 서로 다른 Pattern의 일반 플레이 전환은 Phase 3에서 검증한다.
+Prototype 4 Phase 3의 자동 Pattern 선택·진행 연결과 관련 검증을 완료했다. Unity Build는 사용자 결정에 따라 제외해 미검증으로 남겼다.
 
 ---
 
 ## 다음 작업
 
-Prototype 4 Phase 3 진행도·Difficulty·Pattern 자동 선택 연결
+Prototype 4 Phase 4 Pattern별 Collectible 안내 경로·Score·UI 통합
 
 ---
 

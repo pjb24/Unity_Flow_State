@@ -37,6 +37,31 @@ namespace FlowState.Tests.EditMode
             }
         }
 
+        [TestCase(E_InfinitePatternDifficulty.D2)]
+        [TestCase(E_InfinitePatternDifficulty.D3)]
+        public void TrySelectNext_ProductionCatalog_AlwaysSelectsAllowedPattern(
+            E_InfinitePatternDifficulty difficulty)
+        {
+            InfinitePatternSelectionState state = CreateFactoryState();
+            state.StartRun(20260914);
+
+            for (int requestId = 1; requestId <= 100; requestId++)
+            {
+                Assert.That(state.TrySelectNext(
+                    requestId,
+                    difficulty,
+                    out string selectedId), Is.True);
+                Assert.That(
+                    selectedId == InfinitePatternCatalogFactory.FlatId ||
+                    selectedId == InfinitePatternCatalogFactory.SingleRiseId ||
+                    (difficulty >= E_InfinitePatternDifficulty.D2 &&
+                     selectedId == InfinitePatternCatalogFactory.LegacyStepsId) ||
+                    (difficulty == E_InfinitePatternDifficulty.D3 &&
+                     selectedId == InfinitePatternCatalogFactory.InternalGapId),
+                    Is.True);
+            }
+        }
+
         [Test]
         public void TrySelectNext_NewDifficultyUnlocksItsPattern()
         {
@@ -101,6 +126,31 @@ namespace FlowState.Tests.EditMode
                 E_InfinitePatternDifficulty.D3,
                 out string selectedId), Is.True);
             Assert.That(selectedId, Is.EqualTo("Flat"));
+            Assert.That(state.ConsecutiveSelectionCount, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void FlatFallback_RevertedRequestRestoresRepeatCount()
+        {
+            InfinitePatternSelectionState state = CreateState(CreateCatalog(
+                CreateDefinition("Flat", E_InfinitePatternDifficulty.D1)));
+            state.StartRun(42);
+            state.TrySelectNext(1, E_InfinitePatternDifficulty.D1, out _);
+            Assert.That(state.ConsecutiveSelectionCount, Is.EqualTo(2));
+
+            Assert.That(state.TrySelectNext(
+                2,
+                E_InfinitePatternDifficulty.D1,
+                out string fallbackId), Is.True);
+            Assert.That(fallbackId, Is.EqualTo("Flat"));
+            Assert.That(state.ConsecutiveSelectionCount, Is.EqualTo(3));
+            Assert.That(state.TryRevertLastSelection(2), Is.True);
+            Assert.That(state.ConsecutiveSelectionCount, Is.EqualTo(2));
+            Assert.That(state.TrySelectNext(
+                2,
+                E_InfinitePatternDifficulty.D1,
+                out fallbackId), Is.True);
+            Assert.That(fallbackId, Is.EqualTo("Flat"));
             Assert.That(state.ConsecutiveSelectionCount, Is.EqualTo(3));
         }
 
@@ -171,6 +221,63 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
+        public void RejectedMapRequest_RevertingSelectionPreservesNextResult()
+        {
+            InfinitePatternSelectionState retried = CreateFactoryState();
+            InfinitePatternSelectionState uninterrupted = CreateFactoryState();
+            Assert.That(retried.StartRun(314159), Is.True);
+            Assert.That(uninterrupted.StartRun(314159), Is.True);
+
+            Assert.That(retried.TrySelectNext(
+                1,
+                E_InfinitePatternDifficulty.D3,
+                out _), Is.True);
+            Assert.That(retried.TryRevertLastSelection(1), Is.True);
+            Assert.That(retried.CurrentPatternId, Is.EqualTo("Flat"));
+            Assert.That(retried.ConsecutiveSelectionCount, Is.EqualTo(1));
+
+            for (int requestId = 1; requestId <= 20; requestId++)
+            {
+                Assert.That(retried.TrySelectNext(
+                    requestId,
+                    E_InfinitePatternDifficulty.D3,
+                    out string retriedId), Is.True);
+                Assert.That(uninterrupted.TrySelectNext(
+                    requestId,
+                    E_InfinitePatternDifficulty.D3,
+                    out string uninterruptedId), Is.True);
+                Assert.That(retriedId, Is.EqualTo(uninterruptedId));
+                Assert.That(
+                    retried.ConsecutiveSelectionCount,
+                    Is.EqualTo(uninterrupted.ConsecutiveSelectionCount));
+            }
+        }
+
+        [Test]
+        public void TryRevertLastSelection_OnlyMatchingLatestRequestCanRevert()
+        {
+            InfinitePatternSelectionState state = CreateFactoryState();
+            state.StartRun(19);
+            Assert.That(state.TrySelectNext(
+                1,
+                E_InfinitePatternDifficulty.D2,
+                out _), Is.True);
+            string selectedId = state.CurrentPatternId;
+            int consecutiveCount = state.ConsecutiveSelectionCount;
+
+            Assert.That(state.TryRevertLastSelection(2), Is.False);
+            Assert.That(state.CurrentPatternId, Is.EqualTo(selectedId));
+            Assert.That(state.ConsecutiveSelectionCount, Is.EqualTo(consecutiveCount));
+            Assert.That(state.TryRevertLastSelection(1), Is.True);
+            Assert.That(state.TryRevertLastSelection(1), Is.False);
+            Assert.That(state.TrySelectNext(
+                1,
+                E_InfinitePatternDifficulty.D2,
+                out string retriedId), Is.True);
+            Assert.That(retriedId, Is.EqualTo(selectedId));
+        }
+
+        [Test]
         public void TrySelectNext_DifferentRequestId_IsAcceptedAfterDuplicate()
         {
             InfinitePatternSelectionState state = CreateFactoryState();
@@ -182,6 +289,41 @@ namespace FlowState.Tests.EditMode
                 4,
                 E_InfinitePatternDifficulty.D3,
                 out _), Is.True);
+        }
+
+        [Test]
+        public void DuplicateRequest_DoesNotConsumeRandomState()
+        {
+            InfinitePatternSelectionState repeated = CreateFactoryState();
+            InfinitePatternSelectionState baseline = CreateFactoryState();
+            repeated.StartRun(731);
+            baseline.StartRun(731);
+
+            Assert.That(repeated.TrySelectNext(
+                1,
+                E_InfinitePatternDifficulty.D3,
+                out _), Is.True);
+            Assert.That(baseline.TrySelectNext(
+                1,
+                E_InfinitePatternDifficulty.D3,
+                out _), Is.True);
+            Assert.That(repeated.TrySelectNext(
+                1,
+                E_InfinitePatternDifficulty.D3,
+                out _), Is.False);
+
+            for (int requestId = 2; requestId <= 20; requestId++)
+            {
+                Assert.That(repeated.TrySelectNext(
+                    requestId,
+                    E_InfinitePatternDifficulty.D3,
+                    out string repeatedId), Is.True);
+                Assert.That(baseline.TrySelectNext(
+                    requestId,
+                    E_InfinitePatternDifficulty.D3,
+                    out string baselineId), Is.True);
+                Assert.That(repeatedId, Is.EqualTo(baselineId));
+            }
         }
 
         [Test]

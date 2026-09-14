@@ -163,8 +163,8 @@ namespace FlowState.Tests.PlayMode
         {
             AssertInfinitePlayingState();
 
-            Assert.That(_mapPattern.TryRequestNextPattern(
-                1, InfinitePatternCatalogFactory.FlatId), Is.True);
+            Assert.That(GetPrivateField<bool>(
+                _mapPattern, "_hasPendingRequest"), Is.True);
             _playerRigidbody.position = new Vector3(24.0f, 1.5f, 0.0f);
             Physics.SyncTransforms();
 
@@ -183,6 +183,186 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 GetBoolProperty(_resultSystem, "HasResultData"),
                 Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator AutomaticPatternRequest_PhysicalBoundary_AdvancesAndRequestsAgain()
+        {
+            InfinitePatternSelectionState selection = GetPrivateField<
+                InfinitePatternSelectionState>(
+                _infiniteModeSystem, "_patternSelectionState");
+            Assert.That(_mapPattern.AdvanceCount, Is.Zero);
+            Assert.That(GetPrivateField<bool>(
+                _mapPattern, "_hasPendingRequest"), Is.True);
+            Assert.That(GetPrivateField<long>(
+                _mapPattern, "_pendingRequestId"), Is.EqualTo(1));
+            Assert.That(GetPrivateField<string>(
+                _mapPattern, "_pendingPatternId"),
+                Is.EqualTo(selection.CurrentPatternId));
+            string firstSelectedId = selection.CurrentPatternId;
+
+            _playerRigidbody.position = new Vector3(38.0f, 1.5f, 0.0f);
+            _playerRigidbody.linearVelocity = Vector3.zero;
+            Physics.SyncTransforms();
+            yield return new WaitForFixedUpdate();
+            _playerRigidbody.linearVelocity = new Vector3(8.0f, 0.0f, 0.0f);
+
+            for (int step = 0; step < 40 &&
+                 _mapPattern.AdvanceCount == 0; step++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+
+            Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(1));
+            Assert.That(_secondBoundary.IsTriggered, Is.True);
+            Assert.That(_mapPattern.CurrentPatternId,
+                Is.EqualTo(firstSelectedId));
+            yield return new WaitForFixedUpdate();
+            Assert.That(GetPrivateField<bool>(
+                _mapPattern, "_hasPendingRequest"), Is.True);
+            Assert.That(GetPrivateField<long>(
+                _mapPattern, "_pendingRequestId"), Is.EqualTo(2));
+            Assert.That(_mapPattern.TryAdvance(1), Is.False);
+            Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(1));
+        }
+
+        [UnityTest]
+        public IEnumerator ControlledSeed_ProductionSelection_ActivatesDifferentPattern()
+        {
+            Assert.That(InfinitePatternCatalogFactory.TryCreate(
+                out InfinitePatternCatalog catalog), Is.True);
+            InfinitePatternSelectionState probe =
+                new InfinitePatternSelectionState();
+            Assert.That(probe.Initialize(catalog), Is.True);
+            int selectedSeed = 0;
+
+            for (int seed = 1; seed <= 32; seed++)
+            {
+                Assert.That(probe.StartRun(seed), Is.True);
+                Assert.That(probe.TrySelectNext(
+                    1,
+                    E_InfinitePatternDifficulty.D1,
+                    out string selectedId), Is.True);
+                Assert.That(probe.EndRun(), Is.True);
+
+                if (selectedId == InfinitePatternCatalogFactory.SingleRiseId)
+                {
+                    selectedSeed = seed;
+                    break;
+                }
+            }
+
+            Assert.That(selectedSeed, Is.Not.Zero);
+            InfinitePatternSelectionState selection = GetPrivateField<
+                InfinitePatternSelectionState>(
+                _infiniteModeSystem, "_patternSelectionState");
+            Assert.That(selection.EndRun(), Is.True);
+            Assert.That(selection.StartRun(selectedSeed), Is.True);
+            Assert.That(_mapPattern.ResetPatterns(), Is.True);
+            SetPrivateField(
+                _infiniteModeSystem, "_lastAcceptedPatternRequestId", 0);
+            SetPrivateField(
+                _infiniteModeSystem, "_lastObservedPatternAdvanceCount", 0);
+            SetPrivateField(
+                _infiniteModeSystem, "_hasPendingPatternRequest", false);
+            InvokePrivateMethod(
+                _infiniteModeSystem, "ProcessPatternProgression");
+            Assert.That(GetPrivateField<string>(
+                _mapPattern, "_pendingPatternId"),
+                Is.EqualTo(InfinitePatternCatalogFactory.SingleRiseId));
+
+            _playerRigidbody.position = new Vector3(38.0f, 1.5f, 0.0f);
+            _playerRigidbody.linearVelocity = Vector3.zero;
+            Physics.SyncTransforms();
+            yield return new WaitForFixedUpdate();
+            _playerRigidbody.linearVelocity = new Vector3(8.0f, 0.0f, 0.0f);
+
+            for (int step = 0; step < 40 &&
+                 _mapPattern.AdvanceCount == 0; step++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+
+            Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(1));
+            Assert.That(_mapPattern.CurrentPatternId,
+                Is.EqualTo(InfinitePatternCatalogFactory.SingleRiseId));
+
+            // Hold a view of the joined terrain for the manual visual check.
+            RigidbodyConstraints previousConstraints =
+                _playerRigidbody.constraints;
+            _playerRigidbody.position = new Vector3(73.0f, 1.5f, 0.0f);
+            _playerRigidbody.linearVelocity = Vector3.zero;
+            _playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            Physics.SyncTransforms();
+            yield return new WaitForSecondsRealtime(5.0f);
+            _playerRigidbody.constraints = previousConstraints;
+        }
+
+        [UnityTest]
+        public IEnumerator PauseResultRetry_PreservesThenResetsAutomaticSelection()
+        {
+            InfiniteDifficultyState difficulty = GetPrivateField<
+                InfiniteDifficultyState>(
+                _infiniteModeSystem, "_difficultyState");
+            InfinitePatternSelectionState selection = GetPrivateField<
+                InfinitePatternSelectionState>(
+                _infiniteModeSystem, "_patternSelectionState");
+            string selectedId = selection.CurrentPatternId;
+            int seed = GetPrivateField<int>(
+                _infiniteModeSystem, "_previousRunSeed");
+
+            Assert.That((bool)InvokePublicMethod(
+                _gameSystem, "PauseGame"), Is.True);
+            InvokePrivateMethod(
+                _infiniteModeSystem, "ProcessPatternProgression");
+            Assert.That(selection.IsPaused, Is.True);
+            Assert.That(difficulty.IsPaused, Is.True);
+            Assert.That(selection.CurrentPatternId, Is.EqualTo(selectedId));
+            Assert.That(GetPrivateField<long>(
+                _mapPattern, "_pendingRequestId"), Is.EqualTo(1));
+
+            Assert.That((bool)InvokePublicMethod(
+                _gameSystem, "ResumeGame"), Is.True);
+            Assert.That(selection.IsPaused, Is.False);
+            Assert.That(difficulty.IsPaused, Is.False);
+            Assert.That(selection.CurrentPatternId, Is.EqualTo(selectedId));
+
+            _playerRigidbody.position = new Vector3(
+                10000.0f, FallThresholdY - 0.01f, 0.0f);
+            Physics.SyncTransforms();
+            InvokePrivateMethod(
+                _infiniteModeSystem, "ProcessFallThreshold");
+            yield return null;
+            AssertInfiniteEndedState();
+            Assert.That(selection.HasEnded, Is.True);
+            Assert.That(difficulty.HasEnded, Is.True);
+            int requestIdAtResult = GetPrivateField<int>(
+                _infiniteModeSystem, "_lastAcceptedPatternRequestId");
+            InvokePrivateMethod(
+                _infiniteModeSystem, "ProcessPatternProgression");
+            Assert.That(GetPrivateField<int>(
+                _infiniteModeSystem, "_lastAcceptedPatternRequestId"),
+                Is.EqualTo(requestIdAtResult));
+
+            Assert.That((bool)InvokePublicMethod(
+                _gameSystem, "RetryGame"), Is.True);
+            AssertInfinitePlayingState();
+            Assert.That(_mapPattern.AdvanceCount, Is.Zero);
+            Assert.That(_mapPattern.CurrentPatternId, Is.EqualTo("Flat"));
+            Assert.That(_mapPattern.TrailingPatternId, Is.EqualTo("Flat"));
+            Assert.That(difficulty.CurrentDifficulty,
+                Is.EqualTo(E_InfinitePatternDifficulty.D1));
+            Assert.That(difficulty.MaximumForwardDistance, Is.Zero);
+            Assert.That(selection.CurrentPatternId, Is.EqualTo("Flat"));
+            Assert.That(selection.ConsecutiveSelectionCount, Is.EqualTo(1));
+            Assert.That(GetPrivateField<int>(
+                _infiniteModeSystem, "_lastAcceptedPatternRequestId"),
+                Is.Zero);
+            Assert.That(GetPrivateField<int>(
+                _infiniteModeSystem, "_previousRunSeed"), Is.Not.EqualTo(seed));
+            yield return new WaitForFixedUpdate();
+            Assert.That(GetPrivateField<long>(
+                _mapPattern, "_pendingRequestId"), Is.EqualTo(1));
         }
 
         [UnityTest]
@@ -622,6 +802,16 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(field, Is.Not.Null);
             field.SetValue(target, value);
+        }
+
+        private T GetPrivateField<T>(object target, string fieldName)
+        {
+            FieldInfo field = target.GetType().GetField(
+                fieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.That(field, Is.Not.Null);
+            return (T)field.GetValue(target);
         }
     }
 }

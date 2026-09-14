@@ -45,6 +45,8 @@ namespace FlowState.Runtime.Systems
 
         public bool HasPendingFall => _hasPendingFall;
 
+        public InfiniteMapPattern InfiniteMapPattern => _infiniteMapPattern;
+
         private void FixedUpdate()
         {
             if (!_isInitialized ||

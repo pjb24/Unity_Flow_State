@@ -19,7 +19,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 # 시스템 책임
 
 - InfiniteMode 진행 상태를 초기화하고 종료한다.
-- Phase 2에서는 최대 전진 거리를 이동 거리·Score 규칙에 전달한다. 이 진행도를 Difficulty와 Pattern 선택 상태에 연결하는 책임은 Phase 3에서 추가한다.
+- 최대 전진 거리를 이동 거리·Score 규칙과 Difficulty 상태에 전달한다.
 - Player Rigidbody의 실제 양의 X 속도를 사용한다.
 - CollisionSystem의 Wall 접촉 결과를 진행 지속 조건에 전달한다.
 - Player Y 위치가 설정된 추락 임계값 이하인지 확인한다.
@@ -30,15 +30,15 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - 현재 이동 거리와 현재 Score를 Runtime Data에 반영한다.
 - InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score의 확정을 요청한다.
 - 종료 조건 충족 시 StageSystem에 종료를 요청한다.
-- Retry와 새 Run 시 이전 Run의 진행 상태, 이동 거리, Score와 최종 확정 상태를 초기화한다. Difficulty·Pattern 선택 이력·난수 상태 초기화는 Phase 3에서 추가한다.
+- Retry와 새 Run 시 이전 Run의 진행 상태, 이동 거리, Score, 최종 확정 상태, Difficulty와 Pattern 선택 상태를 초기화한다.
 - GameSystem의 요청에 따라 InfiniteMode 진행 판정을 일시 중단하고 재개한다.
-- 일시 중단 동안 진행 상태, 이동 거리, Score와 최종 확정 상태를 보존한다. Phase 3에서는 Difficulty·Pattern 선택 이력·난수 상태도 보존한다.
+- 일시 중단 동안 진행 상태, 이동 거리, Score, 최종 확정 상태, Difficulty와 Pattern 선택 상태를 보존한다.
 
 ## Pattern 진행 구조와 Phase 경계
 
 - Phase 2의 Pattern 원본 검증·네 인스턴스 캐시·활성 Pattern 교체·Anchor 연결·Boundary 위치 정렬·사용이 끝난 Slot의 안전한 재사용·Collectible Scope 해제 및 재연결은 `InfiniteMapPattern`과 두 `InfinitePatternSlot`의 책임이다.
 - 현재 생산 Scene의 두 Slot은 `Flat`으로 시작한다. `InfiniteMapPattern.TryRequestNextPattern(requestId, patternId)`은 명시적 Pattern ID만 받고, 중복·역행 요청과 연결할 수 없는 Pattern을 거부한다. 앞 Slot의 Boundary가 사용이 끝난 뒤 Slot을 재배치하며 Retry에서 두 Slot과 요청 상태를 초기화한다.
-- `InfiniteModeSystem`은 Phase 2에서 Pattern ID를 자동 생성하거나 Difficulty·무작위·반복 제한을 적용하지 않는다. Phase 3에서 최대 전진 거리와 선택 상태를 연결하고 성공한 선택 ID를 위 요청 API로 전달한다.
+- `InfiniteModeSystem`은 최대 전진 거리와 선택 상태를 연결하고 성공한 선택 ID를 위 요청 API로 전달한다. 요청 거부 시 선택 상태를 되돌리고 Boundary 진행 후 다음 요청을 준비한다.
 - Pattern별 Collectible 배치·안내 경로·UI는 Phase 4 책임이다. Phase 2의 빈 Collectible Root에서도 Scope 생명주기는 유지한다.
 
 ---
@@ -74,11 +74,11 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 | Wall 접촉 상태 | CollisionSystem |
 | Player Y 위치 | Player Rigidbody의 물리 위치 |
 | Player World X | Player Rigidbody의 물리 위치 |
-| 최대 전진 거리 | InfiniteDistanceState; Phase 3 Difficulty 입력 |
+| 최대 전진 거리 | InfiniteDistanceState |
 | 현재 게임 Mode | GameSystem |
 | InfiniteMode 진행 중단 및 재개 요청 | GameSystem |
-| Pattern Catalog와 Run별 난수 Seed | Phase 3 Pattern 선택 연동 입력 |
-| Pattern 진행 요청과 요청 ID | Phase 3에서 Infinite Map Pattern 진행 구조와 연결 |
+| Pattern Catalog | InfinitePatternCatalogFactory |
+| Pattern 진행 횟수와 현재 Pattern | InfiniteMapPattern |
 
 ---
 
@@ -88,11 +88,11 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 |------|------|
 | InfiniteMode Stage 종료 요청 | StageSystem |
 | 현재 이동 거리와 현재 Score | Runtime Data |
-| 현재 Difficulty와 선택된 다음 Pattern ID | Phase 3에서 Infinite Map Pattern 진행 구조, Runtime Data |
+| 선택된 다음 Pattern ID와 요청 ID | InfiniteMapPattern |
 
 ---
 
-# Phase 3 Difficulty와 Pattern 선택 상태 생명주기 (후속 연동)
+# Phase 3 Difficulty와 Pattern 선택 상태 생명주기
 
 - InfiniteModeSystem이 최대 전진 거리, 현재 Difficulty, 현재 Pattern ID, 연속 반복 횟수, 마지막 처리 요청 ID와 난수 상태를 한 Run의 상태로 소유한다.
 - 새 Run과 Retry 시작 시 최대 전진 거리와 Difficulty를 초기화하고 새로운 Pattern 난수 Seed로 첫 `Flat`과 선택 이력을 생성한다.

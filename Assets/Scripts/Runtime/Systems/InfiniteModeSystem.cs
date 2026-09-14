@@ -1,3 +1,4 @@
+using System;
 using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using UnityEngine;
@@ -22,12 +23,21 @@ namespace FlowState.Runtime.Systems
             new InfiniteDistanceState();
         private readonly ScoreCalculator _scoreCalculator =
             new ScoreCalculator();
+        private readonly InfiniteDifficultyState _difficultyState =
+            new InfiniteDifficultyState();
+        private readonly InfinitePatternSelectionState _patternSelectionState =
+            new InfinitePatternSelectionState();
 
         private PlayerMovementRuntimeData _movementRuntimeData;
         private InfiniteModeRuntimeData _infiniteModeRuntimeData;
         private Rigidbody _playerRigidbody;
         private bool _isInitialized;
         private bool _isPaused;
+        private int _previousRunSeed;
+        private int _lastAcceptedPatternRequestId;
+        private int _lastObservedPatternAdvanceCount;
+        private bool _hasPreviousRunSeed;
+        private bool _hasPendingPatternRequest;
 
         public bool IsPlaying => _state.IsPlaying;
 
@@ -48,6 +58,7 @@ namespace FlowState.Runtime.Systems
             ProcessRunMetrics();
             ProcessProgress(Time.fixedDeltaTime);
             ProcessFallThreshold();
+            ProcessPatternProgression();
         }
 
         public bool Initialize(E_GameMode gameMode)
@@ -101,12 +112,22 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
+            if (gameMode == E_GameMode.Infinite &&
+                !InitializePatternSelection())
+            {
+                _state.Reset();
+                _movementRuntimeData = null;
+                ResetRunMetrics();
+                return false;
+            }
+
             _isInitialized = true;
             return true;
         }
 
         public void Stop()
         {
+            EndPatternSelection();
             _state.Reset();
             _movementRuntimeData = null;
             ResetRunMetrics();
@@ -125,6 +146,8 @@ namespace FlowState.Runtime.Systems
             }
 
             _isPaused = true;
+            _difficultyState.Pause();
+            _patternSelectionState.Pause();
             return true;
         }
 
@@ -139,6 +162,8 @@ namespace FlowState.Runtime.Systems
             }
 
             _isPaused = false;
+            _difficultyState.Resume();
+            _patternSelectionState.Resume();
             return true;
         }
 
@@ -168,6 +193,7 @@ namespace FlowState.Runtime.Systems
                     deltaTime))
             {
                 FinalizeRunMetrics();
+                EndPatternSelection();
                 _stageSystem.TryEndInfiniteStage();
             }
         }
@@ -178,7 +204,105 @@ namespace FlowState.Runtime.Systems
                 _state.NotifyFallThresholdReached())
             {
                 FinalizeRunMetrics();
+                EndPatternSelection();
                 _stageSystem.TryEndInfiniteStage();
+            }
+        }
+
+        private bool InitializePatternSelection()
+        {
+            if (!InfinitePatternCatalogFactory.TryCreate(
+                    out InfinitePatternCatalog catalog) ||
+                !_patternSelectionState.Initialize(catalog))
+            {
+                return false;
+            }
+
+            _difficultyState.Initialize();
+            int seed = Guid.NewGuid().GetHashCode();
+
+            if (_hasPreviousRunSeed && seed == _previousRunSeed)
+            {
+                seed = unchecked(seed + 1);
+            }
+
+            if (!_difficultyState.StartRun() ||
+                !_patternSelectionState.StartRun(seed))
+            {
+                return false;
+            }
+
+            _previousRunSeed = seed;
+            _hasPreviousRunSeed = true;
+            _lastAcceptedPatternRequestId = 0;
+            _lastObservedPatternAdvanceCount = 0;
+            _hasPendingPatternRequest = false;
+            return true;
+        }
+
+        private void ProcessPatternProgression()
+        {
+            if (!_state.IsPlaying || !_stageSystem.IsPlaying ||
+                !_difficultyState.IsRunning ||
+                !_patternSelectionState.IsRunning)
+            {
+                return;
+            }
+
+            if (!_difficultyState.TryUpdate(_distanceState.CurrentDistance))
+            {
+                return;
+            }
+
+            InfiniteMapPattern mapPattern = _stageSystem.InfiniteMapPattern;
+
+            if (mapPattern == null || !mapPattern.IsInitialized)
+            {
+                return;
+            }
+
+            if (mapPattern.AdvanceCount != _lastObservedPatternAdvanceCount)
+            {
+                _lastObservedPatternAdvanceCount = mapPattern.AdvanceCount;
+                _hasPendingPatternRequest = false;
+            }
+
+            if (_hasPendingPatternRequest ||
+                _lastAcceptedPatternRequestId == int.MaxValue)
+            {
+                return;
+            }
+
+            int requestId = _lastAcceptedPatternRequestId + 1;
+
+            if (!_patternSelectionState.TrySelectNext(
+                    requestId,
+                    _difficultyState.CurrentDifficulty,
+                    out string patternId))
+            {
+                return;
+            }
+
+            if (!mapPattern.TryRequestNextPattern(requestId, patternId))
+            {
+                _patternSelectionState.TryRevertLastSelection(requestId);
+                return;
+            }
+
+            _lastAcceptedPatternRequestId = requestId;
+            _hasPendingPatternRequest = true;
+        }
+
+        private void EndPatternSelection()
+        {
+            if (_difficultyState.IsRunning)
+            {
+                _difficultyState.EndRun();
+            }
+
+            if (_patternSelectionState.IsRunning)
+            {
+                _patternSelectionState.EndRun();
             }
         }
 

@@ -14,7 +14,7 @@ AI, 사용자
 
 ## 작업 상태
 
-계획 작성 완료 · 구현 대기
+Step 1~7 완료 (Build 제외)
 
 ---
 
@@ -69,8 +69,8 @@ Phase 2의 명시적 Pattern 요청 구조에 진행도·Difficulty·Pattern 자
 
 ### 완료 조건
 
-- [ ] 생산 연결 경로와 Scene·Prefab 수동 편집 필요 여부가 명확하다.
-- [ ] 미정 정책을 임의의 Inspector 설정이나 수동 플레이 결과로 대신하지 않는다.
+- [x] 생산 연결 경로와 Scene·Prefab 수동 편집 필요 여부가 명확하다.
+- [x] 미정 정책을 임의의 Inspector 설정이나 수동 플레이 결과로 대신하지 않는다.
 
 ## Step 2. Difficulty와 Pattern 선택 상태를 생산 Run에 연결한다
 
@@ -87,8 +87,8 @@ Phase 2의 명시적 Pattern 요청 구조에 진행도·Difficulty·Pattern 자
 
 ### 완료 조건
 
-- [ ] 일반 플레이의 진행 경로에서 선택된 Pattern ID가 요청 API에 도달한다.
-- [ ] Script Compilation 성공과 예상하지 않은 Error·Warning 부재가 확인된다.
+- [x] 일반 플레이의 진행 경로에서 선택된 Pattern ID가 요청 API에 도달한다. 코드 경로를 정적으로 확인했으며 실제 실행 검증은 Step 4 대상이다.
+- [x] Script Compilation 성공과 예상하지 않은 Error·Warning 부재가 확인된다.
 
 ## Step 3. Difficulty·선택 규칙을 Edit Mode Unit Test로 검증한다
 
@@ -105,8 +105,8 @@ Phase 2의 명시적 Pattern 요청 구조에 진행도·Difficulty·Pattern 자
 
 ### 완료 조건
 
-- [ ] 관련 Edit Mode Test가 모두 통과한다.
-- [ ] 실패 또는 예상하지 않은 Error·Warning은 수정·재검증 전까지 완료로 처리하지 않는다.
+- [x] 관련 Edit Mode Test가 모두 통과한다. 사용자가 전체 Edit Mode Test 483개 시도·483개 성공을 보고했다.
+- [x] 실패 또는 예상하지 않은 Error·Warning은 수정·재검증 전까지 완료로 처리하지 않는다. 보고된 실패와 예상하지 않은 Error·Warning은 없다.
 
 ## Step 4. 생산 Scene의 Pattern 진행·생명주기를 Play Mode Test로 검증한다
 
@@ -124,8 +124,8 @@ Phase 2의 명시적 Pattern 요청 구조에 진행도·Difficulty·Pattern 자
 
 ### 완료 조건
 
-- [ ] 생산 Scene의 자동 요청부터 물리 진행까지 관련 Play Mode Test가 통과한다.
-- [ ] Pause·Result·Retry 및 영향받는 기존 기능의 회귀 Test가 통과한다.
+- [x] 생산 Scene의 자동 요청부터 물리 진행까지 관련 Play Mode Test가 통과한다. 사용자가 전체 Play Mode Test 210개 시도·210개 성공을 보고했다.
+- [x] Pause·Result·Retry 및 영향받는 기존 기능의 회귀 Test가 통과한다. 전체 Play Mode Test에서 실패와 예상하지 않은 Error·Warning이 보고되지 않았다.
 
 ## Step 5. 필요한 경우에만 Scene·Prefab 직렬화 참조를 편집한다
 
@@ -141,8 +141,8 @@ Phase 2의 명시적 Pattern 요청 구조에 진행도·Difficulty·Pattern 자
 
 ### 완료 조건
 
-- [ ] 필요했던 직렬화 참조가 정적으로 확인되고 관련 Test가 다시 통과한다. 편집이 필요 없었다면 그 근거를 기록한다.
-- [ ] 무관한 Scene, Package, Input Action, ProjectSettings 변경이 없다.
+- [x] 편집이 필요 없었다. 생산 Scene의 기존 System·Map Pattern·두 Slot·네 Prefab·Player Collider·Boundary 참조가 YAML·`.meta` GUID 검사에서 유효했고, 사용자가 전체 Play Mode Test 210개 성공을 보고했다.
+- [x] 무관한 Scene, Package, Input Action, ProjectSettings 변경이 없다.
 
 ## Step 6. 전체 회귀와 최소 화면 확인을 수행한다
 
@@ -160,9 +160,9 @@ Phase 2의 명시적 Pattern 요청 구조에 진행도·Difficulty·Pattern 자
 
 ### 완료 조건
 
-- [ ] 정적 검사, Compile, 관련 및 전체 Test 결과가 기록된다.
-- [ ] 자동 판정이 적절하지 않은 화면 항목만 수동으로 확인된다.
-- [ ] Build 수행 여부와 그에 따른 검증 범위가 명확히 기록된다.
+- [x] 정적 검사, Compile, 관련 및 전체 Test 결과가 기록된다.
+- [x] 자동 판정이 적절하지 않은 화면 항목만 수동으로 확인된다. Camera 이상, 지형 겹침, 빈 화면과 부자연스러운 전환 표현이 없다는 사용자 결과를 받았다.
+- [x] Build 수행 여부와 그에 따른 검증 범위가 명확히 기록된다. 사용자 결정으로 Build를 제외했고 미검증으로 남긴다.
 
 ## Step 7. 결과와 Phase 경계를 기록한다
 
@@ -178,8 +178,8 @@ Phase 2의 명시적 Pattern 요청 구조에 진행도·Difficulty·Pattern 자
 
 ### 완료 조건
 
-- [ ] 확인하지 않은 기능을 통과로 기록하지 않는다.
-- [ ] Phase 3 상태와 검증 기록 및 Roadmap이 일치한다.
+- [x] 확인하지 않은 기능을 통과로 기록하지 않는다. Build는 제외·미검증으로 기록하고 Phase 4 범위는 완료 판정에서 제외했다.
+- [x] Phase 3 상태와 검증 기록 및 Roadmap이 일치한다. `20260914_02_Phase3VerificationResult.md`와 Roadmap에 완료 (Build 제외)를 기록했다.
 
 ---
 
@@ -201,16 +201,65 @@ Phase 2의 명시적 Pattern 요청 구조에 진행도·Difficulty·Pattern 자
 
 # 검증 내용
 
-- 이 문서는 구현 결과가 아니라 실행 계획이다. 작성 시점에는 Phase 3 Runtime 변경, Unity Script Compilation, Test Runner, Build 또는 수동 화면 확인을 수행하지 않았다.
+- 이 문서는 실행 계획과 Step별 결과를 함께 기록한다. 계획 작성 시점에는 Phase 3 Runtime 변경이나 검증을 수행하지 않았으며, 이후 실제 결과는 아래 Step별 기록과 별도 검증 결과 문서에 남겼다.
 - 각 Step 완료 시 실제 확인 결과를 기록하고, 실패는 이름·메시지·Stack Trace와 함께 남긴다.
 
 # 검증 결과
 
-- 계획 문서 작성 완료. Phase 3 구현·검증은 아직 시작하지 않았다.
+- Step 1~7 완료. Phase 3 검증 결과는 `20260914_02_Phase3VerificationResult.md`에 기록했다. Unity Build는 사용자 결정으로 제외·미검증이다.
+
+## Step 1 정적 조사 결과 (20260914)
+
+- Step 1의 두 완료 조건을 정적 조사로 충족했다. 수동 편집은 현재 필요하지 않다. 아래 연결 세부 사항의 결정은 Step 2 구현 전에 필요하며, Step 1 완료가 해당 정책의 확정을 뜻하지는 않는다.
+- `GameSystem`은 Stage와 Collectible을 준비한 뒤 `InfiniteModeSystem.Initialize()`를 호출하고, Pause·Resume·Result·Retry에서도 이 System을 경유한다. `InfiniteModeSystem.FixedUpdate()`는 최대 전진 거리와 Score를 갱신하지만 Difficulty·Pattern 선택 상태 및 `TryRequestNextPattern()` 호출은 아직 없다.
+- 생산 Scene의 `GameSystem → InfiniteModeSystem`, `InfiniteModeSystem → RuntimeDataSystem/StageSystem/CollisionSystem/Player`, `StageSystem → InfiniteModeRoot`, `InfiniteMapPattern → 두 Slot/네 Prefab/Player Collider`, 두 Boundary → `InfiniteMapPattern`/Player Collider 참조를 YAML·스크립트 `.meta`·Prefab `.meta` GUID로 대조했다. 현재 직렬화 구성에서 누락된 Phase 3 필수 참조는 발견하지 못했다. 코드에서 기존 InfiniteModeRoot의 `InfiniteMapPattern`을 찾는 방식으로 연결할 수 있으므로 현 단계에 Scene·Prefab 수동 편집은 필요하지 않다.
+- `InfiniteMapPattern`은 요청 하나만 대기시키며, 후행 Slot의 이전 Pattern을 Player가 완전히 지난 뒤 앞 Slot Boundary에서 요청을 소비한다. 성공 시 `AdvanceCount`가 증가하고 요청 ID를 기록하며, Retry 초기화에서 두 Slot을 `Flat`으로 되돌리고 요청 상태를 지운다. Phase 1 선택 상태는 첫 `Flat` 하나를 이력으로 시작한다. 두 물리 Slot이 모두 `Flat`인 사실을 선택 이력 두 번으로 계산하면 문서 계약과 어긋난다.
+- Phase 3 구현 전 결정이 필요한 연결 세부 사항: 새 Run Seed의 생성 방식, 요청 ID의 생성·증가 시점, 각 Boundary 전에 요청을 준비할 시점, `TryRequestNextPattern()` 거부 시 선택 상태와 난수 상태의 보존 방식. 이 사항은 현재 코드나 문서에서 구체적으로 확정되지 않았고 Unity Inspector 값 또는 수동 플레이로 판정할 수 없다.
+- 이 조사는 정적 확인만 수행했다. Unity Script Compilation, Test Runner, Build 및 화면 확인은 수행하지 않았다.
+
+## Step 2 구현 기록 (20260914)
+
+- `InfiniteModeSystem`이 Run마다 Catalog·Difficulty·선택 상태를 준비하고, 최대 전진 거리로 Difficulty를 갱신하도록 연결했다. 두 Slot은 물리적으로 `Flat`으로 시작하지만 선택 이력은 계약대로 첫 `Flat` 한 번만 포함한다.
+- `StageSystem`이 이미 찾은 생산 `InfiniteMapPattern` 참조를 재사용한다. Run 시작 후 첫 물리 갱신에서 다음 Pattern을 요청하고, 성공한 Boundary 진행을 감지한 뒤 새 요청 ID로 다음 Pattern을 준비한다. 요청이 거부되면 선택 이력과 난수 상태를 되돌려 같은 요청을 다시 시도한다.
+- 새 Run·Retry는 이전 Run과 다른 Seed를 사용하며 요청 ID와 진행 관찰 상태를 초기화한다. Pause·Resume은 선택 상태를 보존하고 Result·Stop은 선택을 끝낸다. Player 이동 수치와 Scene·Prefab 직렬화 파일은 변경하지 않았다.
+- 변경 Runtime의 LINQ 부재와 `git diff --check`를 정적으로 확인했다. 사용자가 Unity Script Compilation 성공 및 예상하지 않은 Error·Warning 부재를 보고했다. Step 2 완료 조건을 충족했다. Unity Build와 Test Runner는 실행하지 않았다.
+
+## Step 3 Edit Mode Test 준비 기록 (20260914)
+
+- 기존 `InfiniteDifficultyStateTests`는 D1/D2/D3 양쪽 경계, 여러 경계 건너뛰기, 역행·음수·NaN·무한대, Pause·Result·새 Run 초기화를 이미 검증한다. 기존 `InfinitePatternSelectionStateTests`는 D1 후보, 연결 제외, 반복 제한, `Flat` 대체와 불가능 설정 거부, Seed 재현성 및 생명주기를 검증한다.
+- 생산 `InfinitePatternSelectionState`를 직접 사용하는 Test를 추가해 D2·D3 허용 후보의 다수 요청 불변식, 요청 거부 후 선택 이력·반복 횟수·난수 상태 복구, 중복 요청 후 난수 상태 보존, `Flat` 대체 요청의 복구를 검증한다. 특정 무작위 Pattern 하나를 기대값으로 고정하지 않는다.
+- 관련 Unity Test Runner 요청 범위는 Edit Mode의 `InfiniteDistanceStateTests`, `InfiniteDifficultyStateTests`, `InfinitePatternCatalogTests`, `InfinitePatternSelectionStateTests` 네 클래스다. 사용자가 Unity Script Compilation 성공 및 예상하지 않은 Error·Warning 부재, 전체 Edit Mode Test 483개 시도·483개 성공 및 예상하지 않은 Error·Warning 부재를 보고했다. 관련 Test를 포함하는 전체 결과로 Step 3 완료 조건을 충족했다. Build, Play Mode Test와 Scene 편집은 수행하지 않았다.
+
+## Step 4 Play Mode Test 준비 기록 (20260914)
+
+- 생산 `SampleScene`을 여는 `InfiniteModeIntegrationTests`에 자동 요청의 첫 대기 상태, 실제 물리 Boundary 통과 후 단일 진행과 다음 요청, 생산 선택 상태에 제어된 Seed를 넣어 `Flat → SingleRise` 전환, Pause·Resume 보존과 Result·Retry 초기화 Test를 추가했다.
+- 기존 `InfinitePatternConnectionIntegrationTests`의 명시적 요청 검증은 Run 자동 요청과 충돌하지 않도록 Test 시작에서 Pattern을 초기화하고 자동 요청의 추가 생성을 억제한다. 16개 연결·물리 통과·Collectible Scope 검증은 그대로 유지한다.
+- 변경 Test의 LINQ 부재와 `git diff --check`를 정적으로 확인했다. 사용자 실행 요청 범위는 Play Mode의 `InfiniteModeIntegrationTests`, `InfinitePatternConnectionIntegrationTests`, `CollectibleLifecycleIntegrationTests`, `InfiniteCollectibleLayoutIntegrationTests` 네 클래스다. 사용자가 Unity Script Compilation 성공 및 예상하지 않은 Error·Warning 부재, 전체 Play Mode Test 210개 시도·210개 성공 및 예상하지 않은 Error·Warning 부재를 보고했다. 관련 Test를 포함하는 전체 결과로 Step 4 완료 조건을 충족했다. AI는 Test Runner와 Build를 실행하거나 Scene을 편집하지 않았다.
+
+## Step 5 Scene·Prefab 편집 필요성 판정 (20260914)
+
+- `SampleScene.unity`의 `GameSystem → InfiniteModeSystem`, `InfiniteModeSystem → RuntimeDataSystem/StageSystem/CollisionSystem/Player`, `StageSystem → InfiniteModeRoot`, `InfiniteMapPattern → Slot 0/1·네 Pattern Prefab·Player Collider`, 두 Boundary → `InfiniteMapPattern` 참조와 ID를 다시 대조했다. 네 Prefab GUID는 각 `.meta`와 일치한다.
+- Step 2는 기존 참조를 코드로 재사용하며 새로운 직렬화 필드나 Component를 추가하지 않았다. Step 4 생산 Scene을 포함한 전체 Play Mode Test 210개가 통과했다는 사용자 결과도 받았다. 누락된 직렬화 참조의 증거가 없어 Scene·Prefab 편집 및 사용자 수동 작업은 필요하지 않다.
+- `git diff --name-only`에서 Scene·Prefab·Package·Input Action·ProjectSettings 변경이 없음을 확인했다. AI는 Scene을 편집하지 않았고 Unity Build와 Test Runner를 실행하지 않았다.
+
+## Step 6 정적 검사와 수동 확인 준비 (20260914)
+
+- 변경 파일은 Runtime 3개, Edit Mode Test 1개, Play Mode Test 2개와 관련 System·Feature·Task 문서다. Scene·Prefab·Package·Input Action·ProjectSettings 변경은 없다. 변경 Runtime·Test의 LINQ 부재, Difficulty 경계 `220/440`, 반복 한도 `2`, 생산 요청 API 연결 및 `git diff --check`를 정적으로 확인했다.
+- 사용자가 앞 단계에서 Unity Script Compilation 성공, 전체 Edit Mode 483개 성공, 전체 Play Mode 210개 성공 및 예상하지 않은 Error·Warning 부재를 보고했다. Step 6 화면 확인 경로를 제공하기 위해 Play Mode Test의 시각 관찰 시간을 추가했으므로 이 최종 변경 후 Script Compilation과 Play Mode 전체 재실행 결과가 필요하다. Edit Mode 관련 코드와 Runtime은 그 결과 이후 변경하지 않았으므로 앞선 전체 Edit Mode 결과를 재사용한다.
+- `InfiniteModeIntegrationTests.ControlledSeed_ProductionSelection_ActivatesDifferentPattern`은 생산 선택 상태에 결정적 Seed를 제공하고 실제 물리 Boundary로 `Flat → SingleRise`를 활성화한다. 이후 Test 전용 Player 위치 이동을 거쳐 연결 지형을 5초간 표시한다. 수동 관찰은 Test 준비를 위한 순간 이동을 제외하고, 실제 Boundary 진행 중 Camera의 튐·떨림과 안정된 화면의 지형 겹침·빈 공간·연출만 대상으로 한다. Pattern 순서와 Difficulty·반복 횟수는 Test 판정에 맡긴다.
+- AI는 Build와 Unity Test Runner를 실행하지 않는다. 최종 결과는 아래 사용자 검증 결과에 기록한다.
+
+### Step 6 사용자 검증 결과
+
+- Unity Script Compilation 성공, 예상하지 않은 Error·Warning 없음.
+- 전체 Edit Mode Test 483개 시도·483개 성공, 예상하지 않은 Error·Warning 없음.
+- 전체 Play Mode Test 210개 시도·210개 성공, 예상하지 않은 Error·Warning 없음. 화면 관찰 시간을 추가한 최종 Test 코드의 결과다.
+- 결정적 `Flat → SingleRise` 화면 Test에서 사용자는 Camera 이상, 지형 겹침, 빈 화면과 부자연스러운 전환 표현이 모두 없다고 보고했다.
+- 사용자가 이번 Phase에서 Build를 수행하지 않기로 결정했다. Build는 제외·미검증이며 성공으로 기록하지 않는다.
 
 # 후속 작업
 
-- Step 1에서 연결 지점과 미정 정책을 확인한 후 순서대로 수행한다.
+- Prototype 4 Phase 4에서 Pattern별 Collectible 안내 경로, Score·UI 통합과 전체 회귀를 진행한다. Build 검증은 별도 시점에 수행한다.
 
 # 관련 문서
 

@@ -4398,7 +4398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07e8a330b3c9404ebfc2b522e7aec32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSystem
-  _selectedGameMode: 0
+  _selectedGameMode: 1
   _runtimeDataSystem: {fileID: 383414368}
   _uiManagementSystem: {fileID: 1961406790}
   _playerInputSystem: {fileID: 1769325111}
