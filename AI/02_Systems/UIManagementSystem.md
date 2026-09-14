@@ -27,6 +27,7 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - 현재 게임 Mode와 게임 상태에 맞는 HUD, PausePanel, ResultPanel과 Result Content의 표시 조합을 관리한다.
 - Stage Mode Runtime Data의 Collectible Score를 StageHUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 거리, Distance Score, Collectible Score와 Total Score를 InfiniteHUD에 표시한다.
+- InfiniteMode Runtime Data의 현재 Difficulty Level을 개발 환경의 InfiniteHUD 별도 행에 표시한다. 일반 빌드에서는 이 행을 숨긴다.
 - Result Data의 Mode별 Result Status, 경과 시간, 최종 거리와 Score를 해당 Result Content에 표시한다.
 
 ---
@@ -134,6 +135,7 @@ Distance: 12
 Distance Score: 120
 Collectible Score: 30
 Total Score: 150
+Difficulty: D2
 ```
 
 거리는 소수점 없이 내림 처리하여 표시한다.
@@ -147,6 +149,8 @@ Runtime Data가 없거나 초기화되지 않은 경우와 유효하지 않은 �
 InfiniteMode Playing 동안 표시 대상 값을 화면 프레임마다 확인하되 실제 표시값이 변경된 경우에만 Text를 갱신한다.
 
 Pause, Ending, Result와 Ended에서는 마지막 HUD 표시값을 유지한다.
+
+Difficulty 행은 Unity Editor와 Development Build에서 개발 표시 설정이 켜진 경우에만 활성화한다. 일반 빌드에서는 표시하지 않는다. Retry·새 Run에서는 D1으로 초기화한다.
 
 ---
 
@@ -220,6 +224,7 @@ Pause, Ending, Result와 Ended에서는 마지막 HUD 표시값을 유지한다.
 | 현재 게임 Mode와 상태 | GameSystem |
 | Stage Mode 현재 Collectible Score | Runtime Data |
 | InfiniteMode 현재 이동 거리와 Mode별 Score | Runtime Data |
+| InfiniteMode 현재 Difficulty Level | Runtime Data |
 
 ---
 

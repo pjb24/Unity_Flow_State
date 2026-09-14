@@ -24,6 +24,7 @@ namespace FlowState.Tests.PlayMode
         private TMP_Text _stageCollectibleScoreText;
         private TMP_Text _infiniteCollectibleScoreText;
         private TMP_Text _infiniteTotalScoreText;
+        private TMP_Text _infiniteDifficultyText;
         private GameObject _stageHud;
         private GameObject _infiniteHud;
 
@@ -60,6 +61,9 @@ namespace FlowState.Tests.PlayMode
             _infiniteTotalScoreText = CreateText(
                 "InfiniteTotalScoreText",
                 _infiniteHud.transform);
+            _infiniteDifficultyText = CreateText(
+                "InfiniteDifficultyText",
+                _infiniteHud.transform);
 
             SetPrivateField("_stageHud", _stageHud);
             SetPrivateField("_infiniteHud", _infiniteHud);
@@ -78,6 +82,7 @@ namespace FlowState.Tests.PlayMode
             SetPrivateField(
                 "_infiniteTotalScoreText",
                 _infiniteTotalScoreText);
+            SetPrivateField("_infiniteDifficultyText", _infiniteDifficultyText);
             SetPrivateField("_retryButton", CreateButton("ResultRetryButton"));
             SetPrivateField("_quitButton", CreateButton("ResultQuitButton"));
             SetPrivateField("_pauseResumeButton", CreateButton("ResumeButton"));
@@ -116,6 +121,56 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 _infiniteTotalScoreText.text,
                 Is.EqualTo("Total Score: 0"));
+            Assert.That(_infiniteDifficultyText.text,
+                Is.EqualTo("Difficulty: D1"));
+        }
+
+        [UnityTest]
+        public IEnumerator Difficulty_AdvancesAndPauseResultRetainLastValue()
+        {
+            StartRun(E_GameMode.Infinite);
+            _runtimeData.InfiniteModeRuntimeData.TryUpdateDifficultyLevel(2);
+            yield return null;
+            Assert.That(_infiniteDifficultyText.text,
+                Is.EqualTo("Difficulty: D2"));
+
+            SetGameState(E_GameState.Paused);
+            SetUIState(E_UIState.Pause);
+            _runtimeData.InfiniteModeRuntimeData.TryUpdateDifficultyLevel(3);
+            yield return null;
+            Assert.That(_infiniteDifficultyText.text,
+                Is.EqualTo("Difficulty: D2"));
+
+            SetGameState(E_GameState.Playing);
+            SetUIState(E_UIState.StageHud);
+            yield return null;
+            Assert.That(_infiniteDifficultyText.text,
+                Is.EqualTo("Difficulty: D3"));
+
+            SetGameState(E_GameState.Ending);
+            SetUIState(E_UIState.Result);
+            _runtimeData.InfiniteModeRuntimeData.Clear();
+            SetGameState(E_GameState.Ended);
+            yield return null;
+            Assert.That(_infiniteDifficultyText.text,
+                Is.EqualTo("Difficulty: D3"));
+
+            StartRun(E_GameMode.Infinite);
+            yield return null;
+            Assert.That(_infiniteDifficultyText.text,
+                Is.EqualTo("Difficulty: D1"));
+        }
+
+        [UnityTest]
+        public IEnumerator Difficulty_DevelopmentToggleHidesText()
+        {
+            SetPrivateField("_showDifficultyInDevelopment", false);
+            StartRun(E_GameMode.Infinite);
+            yield return null;
+
+            Assert.That(_infiniteDifficultyText.gameObject.activeSelf,
+                Is.False);
+            Assert.That(_distanceText.text, Is.EqualTo("Distance: 0"));
         }
 
         [UnityTest]

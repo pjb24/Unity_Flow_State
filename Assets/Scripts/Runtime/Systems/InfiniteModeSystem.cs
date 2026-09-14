@@ -254,6 +254,12 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
+            if (!_infiniteModeRuntimeData.TryUpdateDifficultyLevel(
+                    (int)_difficultyState.CurrentDifficulty))
+            {
+                return;
+            }
+
             InfiniteMapPattern mapPattern = _stageSystem.InfiniteMapPattern;
 
             if (mapPattern == null || !mapPattern.IsInitialized)

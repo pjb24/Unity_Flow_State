@@ -407,6 +407,46 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator CollectedCoin_AfterPatternAdvance_ReachesResultScores()
+        {
+            InfinitePatternSlot first = FindSceneGameObject("Slot_0")
+                .GetComponent<InfinitePatternSlot>();
+            Assert.That(first.TryGetCurrentPattern(
+                out InfinitePatternAuthoring pattern), Is.True);
+            ScoreCollectible coin = pattern.CollectibleRoot
+                .Find("entry-land-01").GetComponent<ScoreCollectible>();
+            _playerRigidbody.position = coin.transform.position;
+            Physics.SyncTransforms();
+            yield return new WaitForFixedUpdate();
+            Assert.That(coin.IsCollected, Is.True);
+            Assert.That(GetRuntimeData().CollectibleRuntimeData.CurrentScore,
+                Is.EqualTo(10));
+
+            _playerRigidbody.position = new Vector3(24.0f, 1.5f, 0.0f);
+            Physics.SyncTransforms();
+            InvokePrivateMethod(
+                _secondBoundary, "OnTriggerEnter", _playerCollider);
+            Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(1));
+            Assert.That(GetRuntimeData().CollectibleRuntimeData.CurrentScore,
+                Is.EqualTo(10));
+
+            _playerRigidbody.position = new Vector3(
+                1000.0f, FallThresholdY - 0.01f, 0.0f);
+            _playerRigidbody.linearVelocity = Vector3.zero;
+            yield return new WaitForFixedUpdate();
+            yield return null;
+
+            ResultData result = AssertInfiniteResultData();
+            Assert.That(result.CollectibleScore, Is.EqualTo(10));
+            Assert.That(result.TotalScore,
+                Is.EqualTo(result.DistanceScore + 10));
+            Assert.That(_infiniteResultCollectibleScoreText.text,
+                Is.EqualTo("Collectible Score: 10"));
+            Assert.That(_infiniteResultTotalScoreText.text,
+                Is.EqualTo("Total Score: " + result.TotalScore));
+        }
+
+        [UnityTest]
         public IEnumerator SequentialEndRequests_KeepSingleInfiniteResultData()
         {
             _playerRigidbody.position = new Vector3(

@@ -46,7 +46,7 @@ InfiniteMode
 ## Phase 2 생산 Pattern 구성
 
 - 생산 Scene은 `Assets/Scenes/SampleScene.unity`이다. `World/InfiniteModeRoot/InfiniteMapPattern` 아래 `Slot_0`(Local X `0`)과 `Slot_1`(Local X `44`)이 있고, 각 Slot은 빈 `ContentRoot`와 실제 `AdvanceBoundary` Trigger를 소유한다.
-- `Assets/Prefabs/InfinitePatterns/`의 `InfinitePattern_Flat.prefab`, `InfinitePattern_SingleRise.prefab`, `InfinitePattern_LegacySteps.prefab`, `InfinitePattern_InternalGap.prefab`은 서로 독립적인 네 Pattern 원본이다. 각 원본은 `InfinitePatternAuthoring`과 `GeometryRoot`, `StartAnchor`, `EndAnchor`, `AdvanceBoundaryPoint`, 빈 `CollectibleRoot`를 소유한다.
+- `Assets/Prefabs/InfinitePatterns/`의 `InfinitePattern_Flat.prefab`, `InfinitePattern_SingleRise.prefab`, `InfinitePattern_LegacySteps.prefab`, `InfinitePattern_InternalGap.prefab`은 서로 독립적인 네 Pattern 원본이다. 각 원본은 `InfinitePatternAuthoring`과 `GeometryRoot`, `StartAnchor`, `EndAnchor`, `AdvanceBoundaryPoint`, `CollectibleRoot`를 소유한다.
 - 실행 중 각 Slot은 네 Pattern 인스턴스를 한 번 생성·캐시하고 현재 Pattern 하나만 활성화한다. 진행 중 교체에는 캐시를 재사용하며 Run 중 반복 생성·파괴하지 않는다.
 - 모든 Prefab Root·GeometryRoot·CollectibleRoot의 Local Position과 Rotation은 `(0, 0, 0)`, Scale은 `(1, 1, 1)`이다. StartAnchor는 `(-22, 0, 0)`, EndAnchor는 `(22, 0, 0)`이며 두 Anchor의 Rotation은 `(0, 0, 0)`이다.
 - 아래 지형 위치는 Pattern Root 기준 Local 값이다. 각 지형 오브젝트는 `Ground` Layer(6), Scale `(1, 1, 1)`의 비 Trigger BoxCollider를 갖는다. Center는 `(0, 0, 0)`, Physics Material은 `None`이다. 자식 `Visual`은 Collider 없이 같은 크기의 Cube Mesh를 표시한다.
@@ -66,7 +66,7 @@ InfiniteMode
 
 - `AdvanceBoundaryPoint` Local Position은 `Flat` `(-4, 5.5, 0)`, `SingleRise` `(0, 5.5, 0)`, `LegacySteps` `(2, 5.5, 0)`, `InternalGap` `(4, 5.5, 0)`이다. Slot의 실제 Boundary는 활성 Pattern의 Point에 정렬되므로 위치가 Pattern마다 달라진다.
 - 실제 Boundary BoxCollider는 각 Slot의 `ContentRoot` 밖에 있으며 Size `(1, 10, 4)`, Center `(0, 0, 0)`, Is Trigger `true`이다. Slot ID와 Boundary ID는 각각 `0` 또는 `1`이며 두 Boundary와 Map Pattern은 Scene Root `Player`의 CapsuleCollider를 참조한다.
-- Phase 2의 네 `CollectibleRoot`는 비어 있다. Pattern 전환·Retry의 Collectible Scope 생성·해제 계약은 유지하지만, Pattern별 Collectible 안내 경로와 점수 적용은 Phase 4에서 구성한다.
+- Phase 4에서는 네 `CollectibleRoot`에 각각 `Flat` 5개, `SingleRise` 15개, `LegacySteps` 20개, `InternalGap` 10개의 Collectible을 배치했다. 정확한 ID·좌표와 소유 경계는 `20260914_03_Phase4ManualSteps.md`의 Step 2 배치표에 따른다. Pattern 전환·Retry의 Collectible Scope 생성·해제·재연결 계약을 유지한다.
 
 ## Pattern별 계약
 
@@ -234,7 +234,7 @@ InfiniteMode
 
 # Score 규칙
 
-이 절의 Score는 기존 이동 거리 기반 Score를 의미한다. Collectible 획득 점수 규칙은 `ScoreCollectible.md`에서 관리한다. Prototype 3 Phase 3에서는 두 점수를 분리하며 기존 HUD와 Result의 Score는 거리 Score를 유지한다. Total Score 계산 및 표시는 Phase 4에서 통합한다.
+이 절의 Score는 기존 이동 거리 기반 Distance Score를 의미한다. Collectible 획득 점수 규칙은 `ScoreCollectible.md`에서 관리한다. HUD와 Result에서는 Distance Score와 Collectible Score를 분리하고 Total Score를 함께 표시한다.
 
 - Score는 이동 거리에 Score 환산 비율을 곱한 값을 내림하여 계산한다.
 - Score 환산 비율의 Prototype 2 초기값은 World X 거리 1당 10점이다.
@@ -299,8 +299,10 @@ Wall 접촉이 끊겼다가 다시 시작되어도 사용한 Wall 추가 유예�
 - Playing 동안 현재 이동 거리와 현재 Score가 InfiniteHUD에 표시된다.
 - Ending에서는 InfiniteHUD가 사라지지 않고 마지막 표시값을 유지한다.
 - Result와 Ended에서는 InfiniteHUD를 유지하고 최종 이동 거리와 최종 Score를 ResultPanel에 표시한다.
-- HUD는 `Distance: 12`, `Score: 123` 형식을 사용한다.
-- Result는 `Final Distance: 12`, `Final Score: 123` 형식을 사용한다.
+- HUD는 `Distance: 12`, `Distance Score: 123`, `Collectible Score: 30`, `Total Score: 153` 형식을 사용한다.
+- Result는 `Final Distance: 12`, `Distance Score: 123`, `Collectible Score: 30`, `Total Score: 153` 형식을 사용한다.
+- 개발 환경의 InfiniteHUD에는 별도 행으로 `Difficulty: D1`, `Difficulty: D2` 또는 `Difficulty: D3`를 표시한다. 일반 플레이어용 빌드에서는 Difficulty를 표시하지 않는다.
+- 개발 환경에서 Pause와 Result에는 마지막 Difficulty 표시를 유지하고 Retry·새 Run에서는 D1으로 초기화한다.
 - 표시 거리는 원본 값을 변경하지 않고 소수점 없이 내림 처리한다.
 
 ---

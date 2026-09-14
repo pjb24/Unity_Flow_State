@@ -24,6 +24,7 @@ InfiniteMode Stage Play의 최종 이동 거리와 Mode별 Score를 기록으로
 - InfiniteMode Stage Play가 종료되지 않은 경우 ScoreRecord를 수행하지 않는다.
 - ScoreRecord는 일반 Stage의 클리어 시간을 기록하지 않는다.
 - Total Score는 `Distance Score + Collectible Score`로 계산하고 `int.MaxValue`에서 포화한다.
+- Pattern 전환과 재사용은 현재 Run의 Distance Score 및 Collectible Score를 초기화하지 않는다.
 - 음수 Distance Score와 음수 Collectible Score는 기록하지 않는다.
 
 ---
@@ -91,6 +92,7 @@ InfiniteMode Stage Play의 최종 이동 거리와 Mode별 Score를 기록으로
 - InfiniteMode Stage 선택 후 Stage Play 종료 시 ScoreRecord가 수행되는지 확인한다.
 - InfiniteMode Stage Play 종료 후 Distance Score와 Collectible Score가 기록으로 정상 확정되는지 확인한다.
 - Total Score가 두 Score의 합으로 계산되고 `int.MaxValue`에서 포화하는지 확인한다.
+- Collectible 획득 후 Pattern 전환과 Run 종료를 거쳐 Result Data와 UI에 두 Score 및 Total Score가 유지되는지 확인한다.
 - InfiniteMode Stage Play 종료 후 Mode, 최종 이동 거리와 Mode별 Score가 Result Data로 확정되는지 확인한다.
 - 하나의 Stage Play에서 두 번 이상 수행되지 않는지 확인한다.
 - InfiniteMode Stage Play가 종료되지 않으면 ScoreRecord가 수행되지 않는지 확인한다.

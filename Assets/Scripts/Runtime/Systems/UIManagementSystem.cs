@@ -22,6 +22,8 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _infiniteCollectibleScoreText;
         [SerializeField] private TMP_Text _infiniteTotalScoreText;
+        [SerializeField] private TMP_Text _infiniteDifficultyText;
+        [SerializeField] private bool _showDifficultyInDevelopment = true;
         [SerializeField] private TMP_Text _finalDistanceText;
         [SerializeField] private TMP_Text _finalScoreText;
         [SerializeField] private TMP_Text _infiniteResultCollectibleScoreText;
@@ -98,6 +100,7 @@ namespace FlowState.Runtime.Systems
             _pauseMenuState.Deactivate();
             _visibilityState.Reset();
             ResetHudDisplay();
+            ConfigureDifficultyVisibility();
             ResetResultDisplay();
             _isInitialized = true;
             SetUIState(E_UIState.None);
@@ -367,6 +370,7 @@ namespace FlowState.Runtime.Systems
                     _infiniteCollectibleScoreText,
                     -1);
                 UpdateTotalScoreText(-1);
+                UpdateDifficultyText(E_InfinitePatternDifficulty.None);
                 return;
             }
 
@@ -381,6 +385,39 @@ namespace FlowState.Runtime.Systems
                 collectibleRuntimeData.CurrentScore,
                 out int totalScore);
             UpdateTotalScoreText(totalScore);
+            UpdateDifficultyText((E_InfinitePatternDifficulty)
+                infiniteModeRuntimeData.CurrentDifficultyLevel);
+        }
+
+        private void ConfigureDifficultyVisibility()
+        {
+            if (_infiniteDifficultyText == null)
+            {
+                return;
+            }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            _infiniteDifficultyText.gameObject.SetActive(
+                _showDifficultyInDevelopment);
+#else
+            _infiniteDifficultyText.gameObject.SetActive(false);
+#endif
+        }
+
+        private void UpdateDifficultyText(
+            E_InfinitePatternDifficulty difficulty)
+        {
+            if (_infiniteDifficultyText == null)
+            {
+                return;
+            }
+
+            string value = difficulty == E_InfinitePatternDifficulty.D1 ||
+                           difficulty == E_InfinitePatternDifficulty.D2 ||
+                           difficulty == E_InfinitePatternDifficulty.D3
+                ? $"Difficulty: {difficulty}"
+                : "Difficulty: --";
+            SetTextIfChanged(_infiniteDifficultyText, value);
         }
 
         private void UpdateStageHud()
@@ -509,6 +546,7 @@ namespace FlowState.Runtime.Systems
             SetTextIfChanged(
                 _infiniteTotalScoreText,
                 ResultTextFormatter.FormatTotalScore(-1));
+            UpdateDifficultyText(E_InfinitePatternDifficulty.None);
         }
 
         private void ResetResultDisplay()

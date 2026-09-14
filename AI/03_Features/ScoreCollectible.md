@@ -17,8 +17,7 @@ Stage Mode와 InfiniteMode에서 Collectible로 점프 시작, 공중 이동 경
 - 두 Mode의 모든 Collectible은 동일하게 개당 10점을 제공한다.
 - 개당 점수는 공통 설정 한 곳에서 관리한다. 10점은 Prototype 3 기능 검증용 초기값이며 최종 밸런스 값은 아니다.
 - Collectible Score는 InfiniteMode의 기존 거리 Score와 독립적으로 누적한다.
-- Prototype 3 Phase 3에서는 Total Score를 계산하거나 기존 Score 및 Result 값을 합산 값으로 대체하지 않는다.
-- HUD, Result의 Collectible Score 표시와 Total Score 계산·표시 통합은 Phase 4에서 수행한다.
+- HUD와 Result는 Collectible Score를 Distance Score와 별도로 표시하고, 두 점수의 합을 Total Score로 표시한다.
 - 개당 점수 설정은 양의 int만 허용하며 0과 음수 설정은 거부한다. 정수 설정이므로 NaN/Infinity는 입력 대상이 아니다.
 - 누적 Collectible Score는 기존 거리 Score와 동일하게 `int.MaxValue`에서 포화한다. 상한에 도달해도 유효한 Collectible은 획득 처리하고 중복 요청을 거부한다.
 
@@ -55,7 +54,7 @@ Stage Mode와 InfiniteMode에서 Collectible로 점프 시작, 공중 이동 경
 
 - 유효한 점프 구간마다 도약 전 1개, 공중 경로 3개, 착지 부근 1개의 5개 묶음을 초기 배치 후보로 사용한다.
 - 짧거나 낮은 점프는 도달 가능성 검증에 따라 개수와 간격을 조정한다.
-- Stage 전체 및 Pattern별 총개수와 좌표는 유효한 점프 구간 조사 후 확정한다.
+- Stage에는 10개를 유지한다. Infinite Pattern에는 `Flat` 5개, `SingleRise` 15개, `LegacySteps` 20개, `InternalGap` 10개를 배치한다. 각 ID·좌표는 `20260914_03_Phase4ManualSteps.md`의 Step 2 배치표에 따른다.
 - 도약 전 안내는 Player가 인지하고 점프할 여유가 있는 위치를 후보로 삼는다.
 - Collectible을 놓쳐도 감점이나 실패가 발생하지 않으며 획득 개수는 Stage Clear 조건에 포함하지 않는다.
 - 놓친 Stage Collectible은 Run 종료까지 유지한다. Infinite Collectible은 해당 Pattern 재사용 시 정리한다.
@@ -105,7 +104,7 @@ Stage Mode와 InfiniteMode에서 Collectible로 점프 시작, 공중 이동 경
 
 - Runtime Data만 사용한다.
 - Player 판정은 현재 Run에 등록된 Rigidbody와 접촉 Collider의 소유 관계를 사용한다. 같은 Layer라는 이유만으로 획득을 허용하지 않는다.
-- 배치 좌표와 총개수는 아직 확정되지 않았다. 도달 가능성은 자동 검증하고 안내성과 가독성은 화면으로 확인한다.
+- 확정된 배치의 도달 가능성은 자동 검증하고 안내성과 가독성은 화면으로 확인한다.
 - 최종 밸런스, Combo, Score 배율, 희귀 Collectible과 우회 고득점 경로는 범위에 포함하지 않는다.
 
 ---
@@ -119,4 +118,4 @@ Stage Mode와 InfiniteMode에서 Collectible로 점프 시작, 공중 이동 경
 - Pattern별 식별 독립성, 재배치 후 복구, 이전 구간 요청 거부와 기록 정리를 검증한다.
 - Renderer 및 Collider의 획득 후 비활성화와 복구를 검증한다.
 - 안내 경로의 도달 가능성과 모두 놓친 경우의 진행 지속을 검증한다.
-- Phase 4의 Total Score와 UI 통합이 조기 포함되지 않았는지 확인한다.
+- HUD와 Result에 Collectible Score와 Total Score가 표시되고 Pattern 전환 후에도 누적 점수가 유지되는지 확인한다.

@@ -148,7 +148,7 @@ Phase 2가 제공한 `InfiniteMapPattern.TryRequestNextPattern(requestId, patter
 - Pattern 연결 구간의 Collectible 경로
 - 점프 시작 시점, 공중 이동 경로와 착지 지점 안내
 - Distance Score와 Collectible Score 유지
-- Difficulty 및 Pattern 상태 UI
+- Difficulty 개발자 HUD 표시 (일반 플레이어용 빌드에서는 숨김)
 - InfiniteMode 전체 회귀 검증
 
 ### 완료 조건
@@ -170,7 +170,7 @@ Phase 2가 제공한 `InfiniteMapPattern.TryRequestNextPattern(requestId, patter
 
 ### 상태
 
-대기 (Build 제외)
+완료 — 네 Pattern에 Collectible `5/15/20/10`개를 배치하고 Pattern 전환·재사용·획득·Score·Pause·Result·Retry를 검증했다. 개발 환경의 Difficulty HUD를 연결하고 일반 빌드에서는 숨긴다. Unity Script Compilation 성공, 전체 Edit Mode `490`개와 Play Mode `219`개 Test 통과, 결정적 화면 확인 정상(사용자 보고). 이후 사용자가 Unity Editor에서 직접 수행한 Build도 성공했다. AI는 Build를 수행하지 않았다.
 
 ---
 
@@ -178,15 +178,15 @@ Phase 2가 제공한 `InfiniteMapPattern.TryRequestNextPattern(requestId, patter
 
 ## 진행 중인 작업
 
-Prototype 4 Phase 4 준비
+Prototype 4 완료
 
-Prototype 4 Phase 3의 자동 Pattern 선택·진행 연결과 관련 검증을 완료했다. Unity Build는 사용자 결정에 따라 제외해 미검증으로 남겼다.
+Prototype 4 Phase 1–4의 구현·정적 검사·Unity Script Compilation·자동 Test·최소 화면 확인을 완료했다. 사용자가 Unity Editor에서 직접 수행한 Build도 성공했다. Phase 4의 `git diff --check`는 Scene에 Unity가 직렬화한 빈 `m_Name: ` 행의 trailing whitespace 한 건을 제외하고 통과했다. Build의 Error·Warning 세부 내역은 별도로 보고받지 않았다.
 
 ---
 
 ## 다음 작업
 
-Prototype 4 Phase 4 Pattern별 Collectible 안내 경로·Score·UI 통합
+Build의 Error·Warning 세부 내역이 전달되면 검증 기록에 추가한다.
 
 ---
 
@@ -252,6 +252,10 @@ Prototype 4 Phase 4 Pattern별 Collectible 안내 경로·Score·UI 통합
 ## 완료된 단계
 
 - Prototype 4 Phase 1: Map Pattern 공통 조건, 목록, 통과 판정, Difficulty 및 Pattern 선택 계약 확정
+- Prototype 4 Phase 2: 생산 Pattern·연결·물리 통과 검증 완료 (Build 제외)
+- Prototype 4 Phase 3: Difficulty·자동 선택·진행 생명주기 검증 완료 (Build 제외)
+- Prototype 4 Phase 4: Collectible 안내·Score·개발자 Difficulty UI·전체 회귀 검증 완료 (Build 제외)
+- Prototype 4 전체: 사용자 Unity Editor Build 성공을 포함한 완료 기준 충족
 
 ---
 

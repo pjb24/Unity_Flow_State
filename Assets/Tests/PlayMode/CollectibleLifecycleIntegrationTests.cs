@@ -126,7 +126,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator ModeSwitch_CreatesEmptyIndependentInfiniteRun()
+        public IEnumerator ModeSwitch_CreatesPopulatedIndependentInfiniteRun()
         {
             CollectibleRuntimeData stageData = CurrentCollectibleData;
 
@@ -140,7 +140,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(infiniteData.CurrentScore, Is.Zero);
             Assert.That(
                 infiniteData.RegisteredCount,
-                Is.Zero);
+                Is.EqualTo(2 * 5));
             Assert.That(infiniteData.ActiveScopeCount, Is.EqualTo(2));
             Assert.That(_collectible.IsBound, Is.False);
             Assert.That(_collectible.gameObject.activeInHierarchy, Is.False);

@@ -4,12 +4,15 @@ namespace FlowState.Runtime.Core
     {
         private float _currentDistance;
         private int _currentScore;
+        private int _currentDifficultyLevel;
         private bool _isInitialized;
         private bool _isFinalized;
 
         public float CurrentDistance => _currentDistance;
 
         public int CurrentScore => _currentScore;
+
+        public int CurrentDifficultyLevel => _currentDifficultyLevel;
 
         public bool IsInitialized => _isInitialized;
 
@@ -19,6 +22,7 @@ namespace FlowState.Runtime.Core
         {
             _currentDistance = 0.0f;
             _currentScore = 0;
+            _currentDifficultyLevel = 1;
             _isInitialized = true;
             _isFinalized = false;
         }
@@ -52,10 +56,25 @@ namespace FlowState.Runtime.Core
             return true;
         }
 
+        public bool TryUpdateDifficultyLevel(int difficultyLevel)
+        {
+            if (!_isInitialized ||
+                _isFinalized ||
+                difficultyLevel < _currentDifficultyLevel ||
+                difficultyLevel > 3)
+            {
+                return false;
+            }
+
+            _currentDifficultyLevel = difficultyLevel;
+            return true;
+        }
+
         public void Clear()
         {
             _currentDistance = 0.0f;
             _currentScore = 0;
+            _currentDifficultyLevel = 0;
             _isInitialized = false;
             _isFinalized = false;
         }

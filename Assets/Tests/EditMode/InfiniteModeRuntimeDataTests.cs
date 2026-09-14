@@ -18,6 +18,7 @@ namespace FlowState.Tests.EditMode
         {
             Assert.That(_runtimeData.CurrentDistance, Is.Zero);
             Assert.That(_runtimeData.CurrentScore, Is.Zero);
+            Assert.That(_runtimeData.CurrentDifficultyLevel, Is.Zero);
             Assert.That(_runtimeData.IsInitialized, Is.False);
             Assert.That(_runtimeData.IsFinalized, Is.False);
         }
@@ -29,6 +30,7 @@ namespace FlowState.Tests.EditMode
 
             Assert.That(_runtimeData.CurrentDistance, Is.Zero);
             Assert.That(_runtimeData.CurrentScore, Is.Zero);
+            Assert.That(_runtimeData.CurrentDifficultyLevel, Is.EqualTo(1));
             Assert.That(_runtimeData.IsInitialized, Is.True);
             Assert.That(_runtimeData.IsFinalized, Is.False);
         }
@@ -103,6 +105,37 @@ namespace FlowState.Tests.EditMode
             Assert.That(_runtimeData.IsFinalized, Is.True);
             Assert.That(_runtimeData.CurrentDistance, Is.EqualTo(10.0f));
             Assert.That(_runtimeData.CurrentScore, Is.EqualTo(100));
+        }
+
+        [Test]
+        public void TryUpdateDifficultyLevel_AdvancesAndPreservesFinalValue()
+        {
+            _runtimeData.Initialize();
+
+            Assert.That(_runtimeData.TryUpdateDifficultyLevel(2), Is.True);
+            Assert.That(_runtimeData.TryUpdateDifficultyLevel(3), Is.True);
+            Assert.That(_runtimeData.TryUpdateDifficultyLevel(2), Is.False);
+
+            _runtimeData.TryFinalize();
+            Assert.That(_runtimeData.TryUpdateDifficultyLevel(3), Is.False);
+            Assert.That(_runtimeData.CurrentDifficultyLevel, Is.EqualTo(3));
+
+            _runtimeData.Clear();
+            Assert.That(_runtimeData.CurrentDifficultyLevel, Is.Zero);
+            _runtimeData.Initialize();
+            Assert.That(_runtimeData.CurrentDifficultyLevel, Is.EqualTo(1));
+        }
+
+        [TestCase(0)]
+        [TestCase(4)]
+        public void TryUpdateDifficultyLevel_InvalidValue_IsRejected(
+            int difficultyLevel)
+        {
+            _runtimeData.Initialize();
+
+            Assert.That(_runtimeData.TryUpdateDifficultyLevel(difficultyLevel),
+                Is.False);
+            Assert.That(_runtimeData.CurrentDifficultyLevel, Is.EqualTo(1));
         }
 
         [Test]

@@ -144,6 +144,9 @@ namespace FlowState.Tests.PlayMode
             GameRuntimeData runtimeData = GetRuntimeData();
             Assert.That(runtimeData.CollectibleRuntimeData.ActiveScopeCount,
                 Is.EqualTo(2));
+            Assert.That(runtimeData.CollectibleRuntimeData.RegisteredCount,
+                Is.EqualTo(2 * GetPatternCollectibleCount(
+                    InfinitePatternCatalogFactory.FlatId)));
 
             for (int index = 0; index < 8; index++)
             {
@@ -176,7 +179,10 @@ namespace FlowState.Tests.PlayMode
                 Assert.That(runtimeData.CollectibleRuntimeData.ActiveScopeCount,
                     Is.EqualTo(2));
                 Assert.That(runtimeData.CollectibleRuntimeData.RegisteredCount,
-                    Is.Zero);
+                    Is.EqualTo(GetPatternCollectibleCount(
+                                   front.CurrentPatternId) +
+                               GetPatternCollectibleCount(
+                                   reused.CurrentPatternId)));
             }
 
             Assert.That(_map.ResetPatterns(), Is.True);
@@ -191,6 +197,9 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_second.AdvanceBoundary.IsTriggered, Is.False);
             Assert.That(runtimeData.CollectibleRuntimeData.ActiveScopeCount,
                 Is.EqualTo(2));
+            Assert.That(runtimeData.CollectibleRuntimeData.RegisteredCount,
+                Is.EqualTo(2 * GetPatternCollectibleCount(
+                    InfinitePatternCatalogFactory.FlatId)));
             yield return null;
         }
 
@@ -378,6 +387,13 @@ namespace FlowState.Tests.PlayMode
                 name, BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.That(field, Is.Not.Null);
             return (float)field.GetValue(target);
+        }
+
+        private static int GetPatternCollectibleCount(string patternId)
+        {
+            Assert.That(InfiniteCollectibleLayout.TryGetCount(
+                patternId, out int count), Is.True);
+            return count;
         }
 
         private static void SetField(
