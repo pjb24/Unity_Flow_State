@@ -27,6 +27,7 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - 현재 게임 Mode와 게임 상태에 맞는 HUD, PausePanel, ResultPanel과 Result Content의 표시 조합을 관리한다.
 - Stage Mode Runtime Data의 Collectible Score를 StageHUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 거리, Distance Score, Collectible Score와 Total Score를 InfiniteHUD에 표시한다.
+- InfiniteMode Runtime Data의 현재 Momentum 배율과 남은 유지 시간 비율을 기존 InfiniteHUD와 분리된 우측 하단 Momentum HUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 Difficulty Level을 개발 환경의 InfiniteHUD 별도 행에 표시한다. 일반 빌드에서는 이 행을 숨긴다.
 - Result Data의 Mode별 Result Status, 경과 시간, 최종 거리와 Score를 해당 Result Content에 표시한다.
 
@@ -152,6 +153,10 @@ Pause, Ending, Result와 Ended에서는 마지막 HUD 표시값을 유지한다.
 
 Difficulty 행은 Unity Editor와 Development Build에서 개발 표시 설정이 켜진 경우에만 활성화한다. 일반 빌드에서는 표시하지 않는다. Retry·새 Run에서는 D1으로 초기화한다.
 
+Momentum HUD는 기존 InfiniteHUD와 분리하여 화면 우측 하단에 표시한다. 현재 배율은 숫자로 표시하고, 남은 유지 시간은 단계별 전체 유지 시간에 대한 비율을 Bar로 표시한다. Bar 색상은 남은 비율에 따른 Gradient를 사용한다.
+
+Playing에서는 Runtime Data가 제공한 배율과 남은 비율을 표시한다. Paused, Ending, Result와 Ended에서는 마지막 표시 상태를 유지하며, Retry와 새 Run에서는 기본 배율과 비활성 Bar 상태로 초기화한다. UIManagementSystem은 배율 단계, 유지 시간 또는 Gradient의 색상 규칙을 계산하지 않는다.
+
 ---
 
 # Mode와 상태별 표시 조합
@@ -224,6 +229,7 @@ Difficulty 행은 Unity Editor와 Development Build에서 개발 표시 설정�
 | 현재 게임 Mode와 상태 | GameSystem |
 | Stage Mode 현재 Collectible Score | Runtime Data |
 | InfiniteMode 현재 이동 거리와 Mode별 Score | Runtime Data |
+| InfiniteMode 현재 Momentum 배율과 남은 유지 시간 비율 | Runtime Data |
 | InfiniteMode 현재 Difficulty Level | Runtime Data |
 
 ---
@@ -254,7 +260,7 @@ Difficulty 행은 Unity Editor와 Development Build에서 개발 표시 설정�
 - UI 선택 표시 반영
 - PausePanel 선택 상태 관리 및 표시 반영
 - Mode와 상태별 UI 표시 조합 관리
-- Stage Mode와 InfiniteMode HUD 및 Result Text 표시
+- Stage Mode·InfiniteMode HUD, 우측 하단 Momentum HUD 및 Result Text 표시
 
 ---
 

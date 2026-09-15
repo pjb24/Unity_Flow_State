@@ -23,6 +23,10 @@ namespace FlowState.Runtime.Core
             DistanceScore = 0;
             CollectibleScore = collectibleScore;
             TotalScore = 0;
+            ScoringVersion = global::FlowState.Runtime.Core.ScoringVersion.None;
+            BaseDistanceScore = 0;
+            MomentumBonus = 0;
+            MaximumMomentumMultiplier = 1.0;
         }
 
         public ResultData(
@@ -40,6 +44,35 @@ namespace FlowState.Runtime.Core
             DistanceScore = distanceScore;
             CollectibleScore = collectibleScore;
             TotalScore = totalScore;
+            ScoringVersion = global::FlowState.Runtime.Core.ScoringVersion.LegacyDistanceScore;
+            BaseDistanceScore = distanceScore;
+            MomentumBonus = 0;
+            MaximumMomentumMultiplier = 1.0;
+        }
+
+        public ResultData(
+            int scoringVersion,
+            float finalDistance,
+            int baseDistanceScore,
+            int momentumBonus,
+            int distanceScore,
+            int collectibleScore,
+            int totalScore,
+            double maximumMomentumMultiplier)
+        {
+            GameMode = E_GameMode.Infinite;
+            HasStageResult = false;
+            HasInfiniteModeResult = true;
+            StageResultType = E_StageResultType.None;
+            ElapsedTime = 0.0;
+            ScoringVersion = scoringVersion;
+            FinalDistance = finalDistance;
+            BaseDistanceScore = baseDistanceScore;
+            MomentumBonus = momentumBonus;
+            DistanceScore = distanceScore;
+            CollectibleScore = collectibleScore;
+            TotalScore = totalScore;
+            MaximumMomentumMultiplier = maximumMomentumMultiplier;
         }
 
         public E_GameMode GameMode { get; }
@@ -59,5 +92,13 @@ namespace FlowState.Runtime.Core
         public int CollectibleScore { get; }
 
         public int TotalScore { get; }
+
+        public int ScoringVersion { get; }
+
+        public int BaseDistanceScore { get; }
+
+        public int MomentumBonus { get; }
+
+        public double MaximumMomentumMultiplier { get; }
     }
 }

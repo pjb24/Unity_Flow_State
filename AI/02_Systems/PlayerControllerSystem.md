@@ -23,6 +23,8 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - 플레이 시작 시 Player를 Stage 시작 위치로 이동하고 물리 상태를 초기화한다.
 - GameSystem의 요청에 따라 Player Rigidbody의 물리 진행을 일시 중단하고 재개한다.
 - 일시 중단 직전의 Rigidbody 속도와 물리 상태를 보존하고 재개 시 복원한다.
+- InfiniteModeSystem의 유효한 World Rebase 요청에 따라 Player Rigidbody 위치에 X Offset을 적용한다.
+- World Rebase 중 Player Rigidbody의 속도, 회전, 각속도와 Constraints를 보존한다.
 
 ---
 
@@ -63,6 +65,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 | 플레이어 이동 결과 | PlayerMovementSystem |
 | Player 시작 위치 | Stage Object |
 | Player 물리 중단 및 재개 요청 | GameSystem |
+| Player World Rebase Offset | InfiniteModeSystem |
 
 ---
 
@@ -90,6 +93,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - Player 물리 상태 초기화
 - Player 물리 진행 중단 및 재개
 - 일시 중단 직전 물리 상태 보존 및 복원
+- World Rebase Player Rigidbody 위치 적용과 물리 상태 보존
 
 ---
 
@@ -104,6 +108,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - UI 처리
 - 게임 전체 흐름 관리
 - Camera 제어
+- World Rebase 필요 여부와 Offset 계산
 
 ---
 
@@ -113,6 +118,7 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - PlayerMovementSystem
 - CollisionSystem
 - CameraSystem
+- InfiniteModeSystem
 
 ---
 
@@ -130,6 +136,8 @@ Player GameObject의 물리 상태를 Unity Rigidbody와 연결한다.
 - 일시 중단 동안 Player 위치가 물리 작용으로 변경되지 않아야 한다.
 - 일시 중단은 저장된 속도와 물리 상태를 중복 요청으로 덮어쓰지 않는다.
 - 재개는 일시 중단 직전의 속도와 물리 상태를 복원한다.
+- World Rebase 요청은 유효한 InfiniteMode Playing 상태에서만 적용한다.
+- World Rebase는 X 위치만 변경하고 Rigidbody 속도, 회전, 각속도와 Constraints를 변경하지 않는다.
 
 ---
 

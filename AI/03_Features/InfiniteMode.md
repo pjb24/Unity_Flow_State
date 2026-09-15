@@ -219,31 +219,154 @@ InfiniteMode
 
 # 이동 거리 규칙
 
-- 이동 거리는 Run 시작 시점의 Player World X를 원점으로 사용한다.
-- 시작 원점과 진행 위치는 같은 물리 위치 기준을 사용하며 표시 보간 위치를 거리 또는 추락 판정에 사용하지 않는다.
-- 이동 거리는 원점부터 Player가 도달한 최대 World X까지의 전진 거리로 계산한다.
+- 이동 거리 계산에는 Player World X가 아니라 Rebase Offset을 포함한 누적 논리 위치를 사용한다.
+- World 위치와 누적 논리 위치는 서로 다른 값으로 관리한다.
+- 누적 논리 위치와 누적 Rebase Offset은 `double`, Unity Transform과 Rigidbody의 World 위치는 `float`으로 관리한다.
+- Run 시작 Player의 논리 위치를 Run 원점으로 사용한다.
+- 시작 원점과 진행 위치는 Player Rigidbody의 물리 위치를 기준으로 하며 표시 보간 위치를 거리 또는 추락 판정에 사용하지 않는다.
+- 현재 논리 X는 `Player Rigidbody World X + 누적 Rebase Offset`으로 계산한다.
+- 현재 전진 거리는 `max(0, 현재 논리 X - Run 시작 논리 X)`로 계산한다.
+- 이동 거리는 현재 Run에서 기록한 현재 전진 거리의 최댓값이다.
 - Player가 뒤로 이동해도 이미 기록된 이동 거리는 감소하지 않는다.
 - 점프 중 수평 이동과 공중 이동을 이동 거리에 포함한다.
 - Map Pattern의 위치, 통과 개수와 재배치 횟수는 이동 거리 계산에 사용하지 않는다.
-- 이동 거리는 내부에서 `float`으로 관리하고 계산 과정에서 반올림하지 않는다.
+- Rebase 횟수는 이동 거리 계산에 사용하지 않는다.
+- 이동 거리는 내부에서 `double`로 관리하고 계산 과정에서 반올림하지 않는다.
 - 이동 거리는 InfiniteMode Playing 상태의 물리 갱신마다 갱신한다.
 - InfiniteMode 종료 요청 직전에 최종 이동 거리를 확정한다.
 - 최종 확정된 이동 거리는 해당 Run이 종료될 때까지 변경하지 않는다.
+- HUD와 Result의 표시 거리는 원본 `double` 값을 변경하지 않고 소수점 없이 내림 처리한다.
+
+---
+
+# World Rebase 규칙
+
+## 실행 수치와 조건
+
+- World Rebase 임계값과 기본 이동 Offset은 모두 `880`이다.
+- `880`은 Pattern 길이 `44`의 `20`배이다.
+- Player Rigidbody World X가 `880` 이상이면 World Rebase를 실행한다.
+- 임계값과 정확히 같은 위치에서도 Rebase를 실행한다.
+- Player World X가 임계값의 여러 배이면 필요한 `880` 배수 Offset을 한 번에 계산하여 Player World X를 `880` 미만으로 이동한다.
+- 음수, `NaN`, 무한대와 Offset 곱셈 범위를 넘는 입력은 거부하고 현재 상태를 유지한다.
+- World Rebase는 유효한 InfiniteMode Playing 상태에서만 실행한다.
+- Pause, Result, Ended, Stage Mode와 이미 Rebase를 실행 중인 상태에서는 실행하지 않는다.
+
+## 실행 순서
+
+1. Rebase 전 Player Rigidbody World X를 읽는다.
+2. 해당 위치까지 누적 논리 거리와 Score 증가분을 반영한다.
+3. 임계값과 이동할 `880` 배수를 계산한다.
+4. 모든 Rebase 대상을 같은 음의 X Offset으로 이동한다.
+5. 누적 Rebase Offset에 이동한 양의 Offset을 더한다.
+6. 모든 이동이 끝난 뒤 Physics Transform을 한 번 동기화한다.
+7. Cinemachine에 Target Warp를 통지한다.
+8. 동일한 누적 논리 거리로 Difficulty와 Pattern 진행을 처리한다.
+9. 추락과 Run 종료 조건을 처리한다.
+
+- Rebase 전후 현재 논리 X, 최대 전진 거리, Score와 Difficulty 입력은 동일하다.
+- Rebase 프레임의 이동 거리 증가분은 누락하거나 중복하지 않는다.
+
+## 이동 대상
+
+함께 이동하는 대상은 다음과 같다.
+
+- Player Rigidbody
+- `World/InfiniteModeRoot`
+- InfiniteMapPattern과 두 Pattern Slot
+- 활성 Pattern, Anchor와 Collider
+- 각 Slot의 AdvanceBoundary
+- Pattern 자식 Collectible
+- CameraRig, Camera Follow Target과 Camera 계층
+
+이동하지 않는 대상은 다음과 같다.
+
+- GameSystem과 Runtime System 오브젝트
+- Runtime Data와 순수 상태 객체
+- UI Canvas, InfiniteHUD와 Momentum HUD
+- EventSystem
+- Stage Mode 전용 지형, Goal과 시작점
+- Pattern Catalog
+- 위치 이동이 필요 없는 전역 조명
+
+- 기존 Scene Root 구조를 유지하고 새로운 공통 World Root를 도입하지 않는다.
+- Player Rigidbody, InfiniteModeRoot와 CameraRig를 명시적인 Rebase 대상으로 관리한다.
+- 새 InfiniteMode 공간 오브젝트가 추가되면 위 세 대상 중 올바른 계층에 포함하거나 명시적 Rebase 대상으로 등록해야 한다.
+
+## Pattern과 Collectible 상태
+
+- Rebase는 Pattern 진행 또는 Slot 재사용으로 취급하지 않는다.
+- 두 Slot의 상대 간격 `44`, Anchor 연결과 Collider 상대 위치를 유지한다.
+- 현재 Pattern ID, 다음 요청 ID, 선택 난수 상태, AdvanceCount와 Boundary Trigger 상태를 변경하지 않는다.
+- Rebase 중에는 Pattern 진행 요청을 처리하지 않는다.
+- Collectible의 Scope ID, Local ID, 획득 상태와 누적 Score를 보존한다.
+- Rebase를 이유로 Collectible Scope를 해제하거나 다시 생성하지 않는다.
+- Rebase 횟수는 Difficulty, Pattern 선택, Score 또는 Collectible 보상에 사용하지 않는다.
+
+## Physics와 Camera
+
+- Player Rigidbody, InfiniteModeRoot와 CameraRig에 동일한 X Offset을 적용한다.
+- Player Rigidbody의 선형 속도, 수직 속도, 회전, 각속도와 Constraints를 보존한다.
+- 모든 대상 이동이 끝난 뒤 `Physics.SyncTransforms()`를 한 번만 수행한다.
+- Rebase 자체로 Ground, Wall, Boundary 또는 Collectible 상태를 초기화하지 않는다.
+- Camera Follow 상태, Orthographic Size, 고정 Y/Z와 Player 상대 위치를 유지한다.
+- Cinemachine Target Warp 통지로 이전 World 위치를 향한 Damping 이동을 방지한다.
+- Rebase 이후 다음 LateUpdate에서도 Follow Target X와 Player X가 일치해야 한다.
+- Retry와 새 Run은 누적 Rebase Offset, 논리 거리와 Rebase 실행 상태를 초기화한다.
 
 ---
 
 # Score 규칙
 
-이 절의 Score는 기존 이동 거리 기반 Distance Score를 의미한다. Collectible 획득 점수 규칙은 `ScoreCollectible.md`에서 관리한다. HUD와 Result에서는 Distance Score와 Collectible Score를 분리하고 Total Score를 함께 표시한다.
+이 절의 Score는 Base Distance Score, Momentum Bonus, Distance Score, Collectible Score와 Total Score로 구성한다. Momentum Landing의 배율 단계와 유지 규칙은 `MomentumLanding.md`, Collectible 획득 점수 규칙은 `ScoreCollectible.md`에서 관리한다.
 
-- Score는 이동 거리에 Score 환산 비율을 곱한 값을 내림하여 계산한다.
+- 현재 Momentum Score 규칙의 Scoring Version은 양의 정수 `2`이다.
+- 기존 Momentum Bonus가 없는 Distance Score 규칙은 Scoring Version `1`로 구분한다.
+- `0`은 Scoring Version이 유효하지 않거나 적용되지 않음을 의미한다.
+- 새 InfiniteMode Run은 단일 불변 Scoring 규칙 정의의 현재 Version `2`를 Runtime Data에 복사하여 고정한다.
+- 한 Run의 Playing, Pause, Resume와 Result 전체에서 Scoring Version을 변경하지 않는다.
+- Retry와 새 Run은 새 Runtime Data에 현재 Scoring Version을 다시 설정한다.
+- Stage Mode에는 Scoring Version을 적용하지 않고 값 `0`을 사용한다.
+- Base Distance Score는 누적 논리 이동 거리에 Score 환산 비율을 곱한 값을 내림하여 계산한다.
 - Score 환산 비율의 Prototype 2 초기값은 World X 거리 1당 10점이다.
 - Score 환산 비율은 하나의 설정 값으로 관리한다.
-- Score는 `int`로 관리한다.
-- Score의 최솟값은 `0`, 최댓값은 `int.MaxValue`이다.
-- 이동 거리 외의 진행 지표는 Score 계산에 사용하지 않는다.
-- 최종 Score는 InfiniteMode 종료 요청 직전에 최종 이동 거리를 기준으로 확정한다.
-- 최종 확정된 Score는 해당 Run이 종료될 때까지 변경하지 않는다.
+- Momentum 배율은 성공 착지 이후 발생한 Base Distance Score 증가 구간에만 적용한다.
+- Momentum Bonus는 각 배율 구간의 이동 거리 증가분, Score 환산 비율과 `(현재 배율 - 1.00)`을 곱한 값을 정밀 누적하여 계산한다.
+- Momentum Bonus는 프레임별로 내림하지 않고 정밀값을 누적한 뒤 Runtime Data, HUD와 Result의 정수 값으로 변환할 때 내림한다.
+- Distance Score는 Base Distance Score와 Momentum Bonus의 합이다.
+- Collectible Score에는 Momentum 배율을 적용하지 않는다.
+- Total Score는 Distance Score와 Collectible Score의 합이다.
+- Base Distance Score, Momentum Bonus, Distance Score, Collectible Score와 Total Score는 각각 최솟값 `0`, 최댓값 `int.MaxValue`에서 포화한다.
+- Difficulty, Pattern 통과 개수, Pattern 재배치 횟수와 Rebase 횟수는 Score 계산에 사용하지 않는다.
+- 최종 Score 구성 요소는 InfiniteMode 종료 요청 직전에 최종 누적 논리 이동 거리를 기준으로 확정한다.
+- 최종 확정된 Score 구성 요소는 해당 Run이 종료될 때까지 변경하지 않는다.
+- Runtime Data, Score 계산 상태와 Result 요청의 Scoring Version이 다르면 계산 또는 기록 요청을 거부하고 현재 상태를 유지한다.
+- 지원하지 않는 Scoring Version, Run 중 Version 변경과 서로 다른 Version의 Score 구성 요소 결합을 거부한다.
+- Scoring Version은 일반 플레이 HUD에 표시하지 않는다.
+
+## Scoring Version 증가 기준
+
+- 같은 플레이의 최종 Score가 달라질 수 있는 규칙 변경은 Scoring Version을 증가시킨다.
+- 거리당 기본 점수, Momentum 배율 단계·상한·유지 시간·초기화·적용 시점, Bonus 누적·내림, Collectible 점수, Score 구성과 포화 규칙 변경은 Version 증가 대상이다.
+- 최종 Score 결과를 변경하는 버그 수정은 Version 증가 대상이다.
+- UI 위치·색상·문구, Score 결과를 바꾸지 않는 성능 개선, 논리 거리를 보존하는 World Rebase, Camera 연출, Test와 문서만의 변경은 Version을 증가시키지 않는다.
+
+---
+
+# Momentum HUD 규칙
+
+- Momentum HUD는 기존 InfiniteHUD와 분리하여 화면 우측 하단에 표시한다.
+- Momentum HUD는 현재 배율과 배율 유지 시간 Bar를 표시한다.
+- 배율은 `x1.00`, `x1.25`와 같이 소수점 둘째 자리까지 고정하여 표시한다.
+- 유지 시간은 숫자가 아닌 Bar의 Fill 비율로 표시한다.
+- Fill 비율은 `남은 유지 시간 / 현재 배율의 전체 유지 시간`으로 계산하고 `0` 이상 `1` 이하로 제한한다.
+- 배율이 `1.00x`이면 배율은 표시하고 유지 시간 Bar는 빈 상태로 표시한다.
+- Momentum Landing 성공 시 새 배율을 먼저 적용한 뒤 Bar를 가득 찬 상태로 갱신한다.
+- Bar 색상은 Fill 비율에 따라 청록색, 초록색, 노란색, 주황색, 빨간색 순서의 연속 Gradient로 표시한다.
+- Gradient 기준점은 Fill 비율 `1.00` 청록색, `0.60` 초록색, `0.30` 노란색, `0.10` 주황색, `0.00` 빨간색이다.
+- 남은 시간은 색상뿐 아니라 Bar 길이로도 판별할 수 있어야 한다.
+- Pause와 Result에서는 Bar 감소를 중단하고 마지막 표시 상태를 유지한다.
+- Retry와 새 Run에서는 배율 `x1.00`과 빈 Bar로 초기화한다.
 
 ---
 
@@ -295,12 +418,13 @@ Wall 접촉이 끊겼다가 다시 시작되어도 사용한 Wall 추가 유예�
 
 - InfiniteMode Stage Play가 종료된다.
 - ResultMenu가 활성화된다.
-- 최종 이동 거리와 최종 Score가 확정된다.
-- Playing 동안 현재 이동 거리와 현재 Score가 InfiniteHUD에 표시된다.
+- 최종 이동 거리와 최종 Score 구성 요소가 확정된다.
+- Playing 동안 현재 이동 거리와 현재 Score 구성 요소가 InfiniteHUD에 표시된다.
+- Playing 동안 현재 Momentum 배율과 유지 시간 Bar가 우측 하단의 독립된 Momentum HUD에 표시된다.
 - Ending에서는 InfiniteHUD가 사라지지 않고 마지막 표시값을 유지한다.
 - Result와 Ended에서는 InfiniteHUD를 유지하고 최종 이동 거리와 최종 Score를 ResultPanel에 표시한다.
-- HUD는 `Distance: 12`, `Distance Score: 123`, `Collectible Score: 30`, `Total Score: 153` 형식을 사용한다.
-- Result는 `Final Distance: 12`, `Distance Score: 123`, `Collectible Score: 30`, `Total Score: 153` 형식을 사용한다.
+- HUD는 `Distance: 12`, `Base Distance Score: 120`, `Momentum Bonus: 3`, `Collectible Score: 30`, `Total Score: 153` 형식을 사용한다.
+- Result는 `Final Distance: 12`, `Base Distance Score: 120`, `Momentum Bonus: 3`, `Collectible Score: 30`, `Total Score: 153`, `Max Multiplier: x1.25` 형식을 사용한다.
 - 개발 환경의 InfiniteHUD에는 별도 행으로 `Difficulty: D1`, `Difficulty: D2` 또는 `Difficulty: D3`를 표시한다. 일반 플레이어용 빌드에서는 Difficulty를 표시하지 않는다.
 - 개발 환경에서 Pause와 Result에는 마지막 Difficulty 표시를 유지하고 Retry·새 Run에서는 D1으로 초기화한다.
 - 표시 거리는 원본 값을 변경하지 않고 소수점 없이 내림 처리한다.
@@ -322,6 +446,8 @@ Wall 접촉이 끊겼다가 다시 시작되어도 사용한 Wall 추가 유예�
 - InfiniteModeSystem
 - PlayerMovementSystem
 - ResultSystem
+- PlayerControllerSystem
+- CameraSystem
 
 ---
 
@@ -334,10 +460,12 @@ Wall 접촉이 끊겼다가 다시 시작되어도 사용한 Wall 추가 유예�
 - 최소 이동 속도는 프로젝트 설정 값으로 정의한다.
 - 최소 이동 속도 판정에는 실제 양의 X 이동 속도를 사용한다.
 - 시작 유예 시간과 최소 이동 속도 미만 연속 유예 시간은 프로젝트 설정 값으로 정의한다.
-- 점수는 프로젝트에서 정의한 점수 규칙에 따라 증가한다.
+- 점수는 프로젝트에서 정의한 Score 구성과 Momentum 배율 규칙에 따라 증가한다.
 - InfiniteMode 종료 후에는 Stage Play가 종료된다.
 - 점수 기록은 ScoreRecord Feature에서 수행한다.
 - Retry 시 이전 Run의 이동 거리, Score와 최종 확정 상태를 유지하지 않는다.
+- Stage Mode에서는 World Rebase를 실행하지 않는다.
+- Stage Mode에는 Scoring Version을 적용하지 않는다.
 
 ---
 
@@ -348,11 +476,20 @@ Wall 접촉이 끊겼다가 다시 시작되어도 사용한 Wall 추가 유예�
 - Difficulty와 연결 및 반복 규칙에 따라 네 종류의 Map Pattern을 선택하며 Stage를 계속 진행할 수 있는지 확인한다.
 - Player가 접촉 중이거나 아직 완전히 지나가지 않은 Map Pattern이 재배치되지 않는지 확인한다.
 - 프로젝트에서 정의한 점수 규칙에 따라 점수가 증가하는지 확인한다.
-- 이동 거리가 Run 시작 시점의 Player World X부터 최대 전진 거리로 계산되는지 확인한다.
+- 이동 거리가 Run 시작 논리 X부터 최대 전진 거리로 계산되는지 확인한다.
 - Player가 뒤로 이동해도 이동 거리와 Score가 감소하지 않는지 확인한다.
 - 점프 중 수평 이동과 공중 이동이 이동 거리에 포함되는지 확인한다.
 - Map Pattern의 위치, 통과 개수와 재배치 횟수가 이동 거리와 Score에 반영되지 않는지 확인한다.
-- 이동 거리 1당 10점의 비율과 내림 규칙으로 Score가 계산되는지 확인한다.
+- Rebase 경계 직전, 경계와 직후 및 여러 배의 World X에서 올바른 Offset을 계산하는지 확인한다.
+- 여러 번 Rebase해도 논리 거리, Score와 Difficulty 입력이 감소하거나 중복되지 않는지 확인한다.
+- Rebase 전후 Player, Pattern, Boundary, Collectible과 Camera의 상대 위치가 유지되는지 확인한다.
+- Rebase가 Pattern 선택, Boundary 상태와 Collectible Scope 및 획득 Score를 변경하지 않는지 확인한다.
+- 이동 거리 1당 10점의 비율과 내림 규칙으로 Base Distance Score가 계산되는지 확인한다.
+- Momentum 배율이 성공 이후의 이동 거리 증가분에만 적용되고 Collectible Score에는 적용되지 않는지 확인한다.
+- 정밀 Momentum Bonus 누적 결과가 프레임 분할과 관계없이 같고 정수 변환 시에만 내림 처리되는지 확인한다.
+- 각 Score 구성 요소와 합계가 `int.MaxValue`에서 포화하는지 확인한다.
+- InfiniteMode 새 Run이 Scoring Version `2`를 사용하고 Pause, Resume와 Result에서 유지하는지 확인한다.
+- Stage Mode가 Scoring Version `0`을 사용하고 Version 불일치 계산 요청을 거부하는지 확인한다.
 - 수평 진행축 이동 속도의 절댓값이 최소 이동 속도 이상인 동안 Stage Play가 계속 진행되는지 확인한다.
 - 최소 이동 속도 미만인 상태가 연속 유예 시간보다 짧으면 Stage Play가 계속 진행되는지 확인한다.
 - 시작 유예 시간이 지난 후 최소 이동 속도 미만인 상태가 연속 유예 시간 이상 유지되면 InfiniteMode가 종료되는지 확인한다.
@@ -362,6 +499,8 @@ Wall 접촉이 끊겼다가 다시 시작되어도 사용한 Wall 추가 유예�
 - 최소 이동 속도 설정 값을 변경하면 종료 기준이 함께 변경되는지 확인한다.
 - InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score가 한 번 확정되는지 확인한다.
 - 현재 이동 거리와 현재 Score가 InfiniteHUD에 표시되는지 확인한다.
+- 현재 배율과 유지 시간 Gradient Bar가 우측 하단의 독립된 Momentum HUD에 표시되는지 확인한다.
+- 배율별 Fill 비율, Gradient 기준점과 Pause·Result·Retry 표시 상태가 규칙과 일치하는지 확인한다.
 - Ending에서 InfiniteHUD가 사라지거나 초기화되지 않는지 확인한다.
 - Result와 Ended에서 InfiniteHUD와 InfiniteMode Result가 함께 표시되는지 확인한다.
 - HUD와 Result의 거리가 원본 데이터를 변경하지 않고 소수점 없이 내림 표시되는지 확인한다.

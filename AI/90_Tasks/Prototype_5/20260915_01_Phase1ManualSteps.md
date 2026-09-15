@@ -14,7 +14,7 @@ AI, 사용자
 
 ## 작업 상태
 
-계획 작성 완료 · 실행 대기
+완료 — Step 7 Unity Script Compilation 및 전체 Edit Mode Test 검증 통과
 
 ---
 
@@ -76,9 +76,9 @@ Momentum Landing의 속도 증가 효과를 Score 배율로 전환하기 위한 
 
 ### 완료 조건
 
-- [ ] Momentum Landing에서 Score Result까지의 변경 영향 경로가 확인됐다.
-- [ ] Rebase 대상과 World 좌표 의존 코드·Test가 확인됐다.
-- [ ] 사용자 결정이 필요한 항목과 정적으로 확정 가능한 항목이 분리됐다.
+- [x] Momentum Landing에서 Score Result까지의 변경 영향 경로가 확인됐다.
+- [x] Rebase 대상과 World 좌표 의존 코드·Test가 확인됐다.
+- [x] 사용자 결정이 필요한 항목과 정적으로 확정 가능한 항목이 분리됐다.
 
 ---
 
@@ -102,10 +102,10 @@ Momentum Landing의 속도 증가 효과를 Score 배율로 전환하기 위한 
 
 ### 완료 조건
 
-- [ ] Momentum Landing이 이동 속도를 증가시키지 않는다고 확정됐다.
-- [ ] 배율 단계·상한·적용 대상·초기화 조건이 확정됐다.
-- [ ] Pause·Result·Retry와 HUD·Result 표시 계약이 확정됐다.
-- [ ] Base Distance Score, Momentum Bonus, Collectible Score와 Total Score 관계가 확정됐다.
+- [x] Momentum Landing이 이동 속도를 증가시키지 않는다고 확정됐다.
+- [x] 배율 단계·상한·적용 대상·초기화 조건이 확정됐다.
+- [x] Pause·Result·Retry와 HUD·Result 표시 계약이 확정됐다.
+- [x] Base Distance Score, Momentum Bonus, Collectible Score와 Total Score 관계가 확정됐다.
 
 ---
 
@@ -129,10 +129,10 @@ Momentum Landing의 속도 증가 효과를 Score 배율로 전환하기 위한 
 
 ### 완료 조건
 
-- [ ] Rebase 임계값·Offset·실행 시점이 확정됐다.
-- [ ] 함께 이동할 대상과 이동하지 않을 대상이 명확하다.
-- [ ] 누적 논리 거리와 현재 World X의 관계가 수식으로 정의됐다.
-- [ ] Distance·Difficulty·Score·Pattern·Collectible·Camera의 Rebase 전후 계약이 확정됐다.
+- [x] Rebase 임계값·Offset·실행 시점이 확정됐다.
+- [x] 함께 이동할 대상과 이동하지 않을 대상이 명확하다.
+- [x] 누적 논리 거리와 현재 World X의 관계가 수식으로 정의됐다.
+- [x] Distance·Difficulty·Score·Pattern·Collectible·Camera의 Rebase 전후 계약이 확정됐다.
 
 ---
 
@@ -150,9 +150,9 @@ Momentum Landing의 속도 증가 효과를 Score 배율로 전환하기 위한 
 
 ### 완료 조건
 
-- [ ] 현재와 새 Score 규칙을 구분할 Scoring Version이 확정됐다.
-- [ ] Version이 Run과 Result에서 유지되는 범위가 명확하다.
-- [ ] 저장·서버 연동은 Roadmap 7 책임으로 분리됐다.
+- [x] 현재와 새 Score 규칙을 구분할 Scoring Version이 확정됐다.
+- [x] Version이 Run과 Result에서 유지되는 범위가 명확하다.
+- [x] 저장·서버 연동은 Roadmap 7 책임으로 분리됐다.
 
 ---
 
@@ -179,10 +179,10 @@ Momentum Landing의 속도 증가 효과를 Score 배율로 전환하기 위한 
 
 ### 완료 조건
 
-- [ ] 확정된 모든 수치 경계와 상태 규칙에 Unit Test가 존재한다.
-- [ ] Test가 Scene과 프레임 실행 없이 결정적으로 수행 가능하다.
-- [ ] 생산 연결을 구현하지 않고도 Phase 1 계약을 코드로 확인할 수 있다.
-- [ ] 정적 검사와 `git diff --check`가 통과한다.
+- [x] 확정된 모든 수치 경계와 상태 규칙에 Unit Test가 존재한다.
+- [x] Test가 Scene과 프레임 실행 없이 결정적으로 수행 가능하다.
+- [x] 생산 연결을 구현하지 않고도 Phase 1 계약을 코드로 확인할 수 있다.
+- [x] 정적 검사와 `git diff --check`가 통과한다.
 
 ---
 
@@ -201,9 +201,9 @@ Momentum Landing의 속도 증가 효과를 Score 배율로 전환하기 위한 
 
 ### 완료 조건
 
-- [ ] Feature·System 문서와 순수 상태·계산 코드가 일치한다.
-- [ ] Roadmap Phase 1과 후속 Phase 경계가 명확하다.
-- [ ] 확인하지 않은 생산 연동이나 수동 체감을 통과로 기록하지 않는다.
+- [x] Feature·System 문서와 순수 상태·계산 코드가 일치한다.
+- [x] Roadmap Phase 1과 후속 Phase 경계가 명확하다.
+- [x] 확인하지 않은 생산 연동이나 수동 체감을 통과로 기록하지 않는다.
 
 ---
 
@@ -225,14 +225,34 @@ Momentum Landing의 속도 증가 효과를 Score 배율로 전환하기 위한 
 5. 각 실행의 Tests Run·Passed·Failed 수와 예상하지 않은 Error·Warning 여부를 전달한다.
 6. 실패가 있으면 Test 이름, 실패 메시지와 Stack Trace를 함께 전달한다.
 
+### 지정된 새 Edit Mode Unit Test
+
+- `FlowState.Tests.EditMode.MomentumScoreStateTests` — 예상 `22` cases
+- `FlowState.Tests.EditMode.InfiniteScoreStateTests` — 예상 `14` cases
+- `FlowState.Tests.EditMode.WorldRebaseStateTests` — 예상 `24` cases
+- `FlowState.Tests.EditMode.ScoringVersionTests` — 예상 `9` cases
+
+합계 예상 `69` cases이다.
+
+### 지정된 Edit Mode 회귀 Test
+
+- `FlowState.Tests.EditMode.InfiniteModeRuntimeDataTests` — 예상 `19` cases
+- `FlowState.Tests.EditMode.GameRuntimeDataTests` — 예상 `18` cases
+- `FlowState.Tests.EditMode.ResultDataTests` — 예상 `2` cases
+- `FlowState.Tests.EditMode.ScoreRecordTests` — 예상 `20` cases
+- `FlowState.Tests.EditMode.ResultSystemTests` — 예상 `9` cases
+- `FlowState.Tests.EditMode.ResultTextFormatterTests` — 예상 `35` cases
+
+합계 예상 `103` cases이다. 예상 수는 정적 Attribute 집계값이며 실제 Unity Test Runner의 Tests Run 수를 최종 근거로 사용한다.
+
 Phase 1에는 생산 Scene·Physics·Camera 연결 변경이 없으므로 Play Mode Test, 화면 확인과 Build는 수행하지 않는다. 정적 검사나 Unit Test로 판정할 항목을 수동 플레이로 확인하지 않는다.
 
 ### 완료 조건
 
-- [ ] Unity Script Compilation이 성공했다.
-- [ ] 지정된 새 Unit Test와 영향받는 Edit Mode 회귀 Test가 모두 통과했다.
-- [ ] 예상하지 않은 Error·Warning이 없다.
-- [ ] 미검증인 생산 연동·Play Mode·화면·Build 범위가 결과에 명시됐다.
+- [x] Unity Script Compilation이 성공했다.
+- [x] 지정된 새 Unit Test와 영향받는 Edit Mode 회귀 Test가 모두 통과했다.
+- [x] 예상하지 않은 Error·Warning이 없다.
+- [x] 미검증인 생산 연동·Play Mode·화면·Build 범위가 결과에 명시됐다.
 
 ---
 
@@ -259,7 +279,7 @@ Inspector 값 조사, Scene·Prefab 편집, 수치 계산, World X 이동 반복
 
 # 검증 내용
 
-- 이 문서는 실행 계획이다. 작성 시점에는 Prototype 5 Phase 1의 정책 결정, Runtime 변경, Unit Test 작성 또는 Unity 검증을 수행하지 않았다.
+- Step 1–6의 정책 결정, 순수 Runtime 모델·Unit Test 작성과 계약 정합성 점검을 완료했다. Unity 검증은 아직 수행하지 않았다.
 - 정적 검사 → Script Compilation → Edit Mode Unit Test 순서로 검증한다.
 - Play Mode, 생산 Scene·Physics·Camera, 화면·조작감과 Build는 후속 Phase 책임으로 남긴다.
 
@@ -267,13 +287,25 @@ Inspector 값 조사, Scene·Prefab 편집, 수치 계산, World X 이동 반복
 
 # 검증 결과
 
-- 수동 작업 및 검증 계획 작성 완료. Phase 1 실행은 아직 시작하지 않았다.
+- 수동 작업 및 검증 계획 작성 완료.
+- Step 1 정적 조사 완료. 조사 결과는 `20260915_02_Phase1Step1Investigation.md`에 기록했다.
+- Step 2 Momentum Landing Score 정책 확정 완료. 결정 결과는 `20260915_03_Phase1Step2MomentumScorePolicy.md`에 기록했다.
+- Step 3 World Rebase와 누적 논리 거리 정책 확정 완료. 결정 결과는 `20260915_04_Phase1Step3WorldRebasePolicy.md`에 기록했다.
+- Step 4 Scoring Version과 호환 정책 확정 완료. 결정 결과는 `20260915_05_Phase1Step4ScoringVersionPolicy.md`에 기록했다.
+- Step 5 순수 상태·계산 코드와 Edit Mode Unit Test 작성 완료. 결과는 `20260916_01_Phase1Step5PureModels.md`에 기록했다.
+- Step 6 Feature·System 계약과 Roadmap Phase 경계 정합성 점검 완료. 결과는 `20260916_02_Phase1Step6ContractAlignment.md`에 기록했다.
+- Step 7 정적 검증과 Test 영향 분석 완료. 새 Unit Test `4`개 Class, 예상 `69` cases와 기존 회귀 Test `6`개 Class, 예상 `103` cases를 지정했다.
+- `.asmdef` 참조, 새 Script·Test의 `.meta`, GUID 중복과 변경 파일 공백 오류를 정적으로 확인했다.
+- 사용자 확인 결과 Unity Script Compilation이 성공했고 예상하지 않은 Error·Warning이 없었다.
+- 사용자가 전체 Edit Mode Test `559`개를 실행했으며 `559`개 모두 성공했고 예상하지 않은 Error·Warning이 없었다. 전체 실행 결과가 지정된 새 Test와 회귀 Test 범위를 포함한다.
+- Step 7 및 Phase 1 검증 완료. 결과는 `20260916_03_Phase1VerificationResult.md`에 기록했다.
+- 생산 Momentum·Score·UI 연결, World Rebase 연결, Scene·Physics·Camera, Play Mode·화면과 Build는 Phase 1 미검증 범위다.
 
 ---
 
 # 후속 작업
 
-- Step 1의 정적 조사부터 수행하고, 확인된 미정 정책을 Step 2–4에서 사용자와 확정한다.
+- Roadmap 5 Phase 2에서 Momentum Landing의 속도 효과 제거와 Score·Runtime Data·UI 생산 연결을 수행한다.
 
 ---
 

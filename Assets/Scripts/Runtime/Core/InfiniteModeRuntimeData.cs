@@ -5,6 +5,7 @@ namespace FlowState.Runtime.Core
         private float _currentDistance;
         private int _currentScore;
         private int _currentDifficultyLevel;
+        private int _scoringVersion;
         private bool _isInitialized;
         private bool _isFinalized;
 
@@ -14,17 +15,34 @@ namespace FlowState.Runtime.Core
 
         public int CurrentDifficultyLevel => _currentDifficultyLevel;
 
+        public int ScoringVersion => _scoringVersion;
+
         public bool IsInitialized => _isInitialized;
 
         public bool IsFinalized => _isFinalized;
 
         public void Initialize()
         {
+            Initialize(
+                global::FlowState.Runtime.Core.ScoringVersion.LegacyDistanceScore);
+        }
+
+        public bool Initialize(int scoringVersion)
+        {
+            if (_isInitialized ||
+                !global::FlowState.Runtime.Core.ScoringVersion.IsSupported(
+                    scoringVersion))
+            {
+                return false;
+            }
+
             _currentDistance = 0.0f;
             _currentScore = 0;
             _currentDifficultyLevel = 1;
+            _scoringVersion = scoringVersion;
             _isInitialized = true;
             _isFinalized = false;
+            return true;
         }
 
         public bool TryUpdate(float distance, int score)
@@ -75,6 +93,7 @@ namespace FlowState.Runtime.Core
             _currentDistance = 0.0f;
             _currentScore = 0;
             _currentDifficultyLevel = 0;
+            _scoringVersion = global::FlowState.Runtime.Core.ScoringVersion.None;
             _isInitialized = false;
             _isFinalized = false;
         }

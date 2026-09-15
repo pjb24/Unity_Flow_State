@@ -24,6 +24,8 @@ Camera 상태 변경 결과를 Cinemachine Camera에 반영한다.
 - Camera 위치를 갱신한다.
 - Camera 추적 대상을 관리한다.
 - Camera 결과를 Cinemachine Camera에 반영한다.
+- InfiniteMode World Rebase 요청에 따라 CameraRig와 Follow Target을 Player와 같은 Offset으로 이동한다.
+- World Rebase 시 Cinemachine에 Target Warp를 통지한다.
 
 ---
 
@@ -90,6 +92,7 @@ Camera 상태는 런타임 중 변경될 수 있는 값이다.
 |------|------|
 | Camera 제어 요청 | Camera 사용자 |
 | Player 위치 또는 Transform | PlayerControllerSystem |
+| InfiniteMode World Rebase Offset | InfiniteModeSystem |
 
 ---
 
@@ -99,6 +102,7 @@ Camera 상태는 런타임 중 변경될 수 있는 값이다.
 |------|------|
 | Cinemachine Camera 상태 변경 | Unity Cinemachine |
 | Camera 상태 | Camera 사용자 |
+| World Rebase Camera 보정 결과 | InfiniteModeSystem |
 
 ---
 
@@ -131,6 +135,7 @@ CameraSystem은 Camera 사용자가 요청한 Camera 상태만 관리한다.
 - Camera Follow 대상 관리
 - Camera Look At 대상 관리
 - Camera 상태 변경 반영
+- World Rebase CameraRig 이동과 Cinemachine Target Warp 통지
 
 ---
 
@@ -145,6 +150,7 @@ CameraSystem은 Camera 사용자가 요청한 Camera 상태만 관리한다.
 - Cut Scene 규칙
 - Replay 규칙
 - 게임 전체 흐름 관리
+- World Rebase 필요 여부와 Offset 계산
 - Feature 규칙 정의
 
 ---
@@ -153,6 +159,7 @@ CameraSystem은 Camera 사용자가 요청한 Camera 상태만 관리한다.
 
 - GameSystem
 - PlayerControllerSystem
+- InfiniteModeSystem
 
 ---
 
@@ -166,6 +173,8 @@ CameraSystem은 Camera 사용자가 요청한 Camera 상태만 관리한다.
 - Camera 설정과 Camera 상태를 구분하여 관리한다.
 - 프로젝트에서는 3D 오소그래픽 횡스크롤 Camera를 사용한다.
 - Camera 상태 변경 요청은 Cinemachine Camera에 반영 가능한 값만 사용한다.
+- World Rebase에서는 Follow 상태, Orthographic Size, 고정 Y/Z와 Player 상대 위치를 유지한다.
+- World Rebase Offset을 Camera Damping 이동으로 처리하지 않는다.
 
 ---
 

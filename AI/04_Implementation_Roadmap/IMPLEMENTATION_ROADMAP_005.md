@@ -58,7 +58,7 @@ Momentum Landing Score 배율과 World Rebase의 계약을 확정한다.
 
 ### 상태
 
-대기
+완료 — Unity Script Compilation 및 전체 Edit Mode Test 559개 통과
 
 ---
 
@@ -74,7 +74,7 @@ Momentum Landing을 속도 효과에서 Score 배율 효과로 전환한다.
 - Momentum 배율 상태와 Runtime Data
 - 이동 거리 증가분 기반 Score 계산
 - Base Distance Score와 Momentum Bonus 분리
-- InfiniteHUD의 현재 배율 표시
+- 기존 InfiniteHUD와 분리된 우측 하단 Momentum HUD의 현재 배율과 단계별 유지 시간 Gradient Bar
 - Result Data와 Result UI의 Momentum Score 정보
 - Pause·Resume·Result·Retry 생명주기 연동
 
@@ -180,13 +180,13 @@ InfiniteMode에 누적 논리 거리와 World Rebase를 적용한다.
 
 ## 다음 작업
 
-Phase 1 Momentum Landing Score 배율과 World Rebase 계약 확정
+Phase 2 Momentum Landing Score 전환과 UI 생산 연결
 
 ---
 
 ## 보류된 작업
 
-- 최종 배율·Rebase 임계값·Score 밸런스 조정은 기능 검증 후 수행한다.
+- 확정된 초기 배율·유지 시간·Rebase 임계값·Score 값의 후속 밸런스 조정은 기능 검증 후 수행하며, Score 결과가 달라지면 Scoring Version을 증가시킨다.
 - 추가 Pattern과 Collectible 보상 확장은 좌표·Score 기반 안정화 후 수행한다.
 - 기록 저장과 Leaderboard는 Scoring Version이 확정되는 Roadmap 7에서 수행한다.
 
@@ -195,6 +195,7 @@ Phase 1 Momentum Landing Score 배율과 World Rebase 계약 확정
 ## 완료된 단계
 
 - Prototype 4: Pattern 확장, Difficulty, Collectible 안내와 Score·UI 통합
+- Prototype 5 Phase 1: Momentum Landing Score·Scoring Version·World Rebase 계약과 순수 모델 확정, 전체 Edit Mode Test `559`개 통과
 
 ---
 
@@ -228,6 +229,7 @@ Phase 1 Momentum Landing Score 배율과 World Rebase 계약 확정
 - `AI/03_Features/MomentumLanding.md`
 - `AI/03_Features/InfiniteMode.md`
 - `AI/03_Features/ScoreRecord.md`
+- `AI/90_Tasks/Prototype_5/20260916_04_Phase2ManualSteps.md`
 - `AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_004.md`
 
 ---
@@ -237,4 +239,3 @@ Phase 1 Momentum Landing Score 배율과 World Rebase 계약 확정
 - 5차 프로토타입의 현재 구현 계획과 순서를 작성했다.
 - 구현 방법과 작업 기록을 포함하지 않았다.
 - 확정할 규칙과 구현·검증 단계를 분리했다.
-

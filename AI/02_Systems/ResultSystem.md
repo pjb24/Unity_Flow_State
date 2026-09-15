@@ -22,6 +22,7 @@ Stage 종료 결과를 기반으로 Result Data를 생성한다.
 - 현재 게임 Mode에 맞는 Record Feature만 수행한다.
 - 일반 Stage에서는 TimeRecord를 사용한다.
 - InfiniteMode에서는 ScoreRecord를 사용한다.
+- InfiniteMode Result Data에 Run의 Scoring Version을 전달한다.
 
 ---
 
@@ -71,7 +72,8 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 | Stage 결과 원인과 경과 시간 | StageSystem, TimerSystem |
 | 현재 Collectible Score | Runtime Data |
 | 현재 게임 Mode | Runtime Data |
-| InfiniteMode 최종 이동 거리와 Distance Score | Runtime Data |
+| InfiniteMode 최종 이동 거리, Score 구성 요소와 최고 Momentum 배율 | Runtime Data |
+| InfiniteMode Scoring Version | Runtime Data |
 
 ---
 
@@ -91,6 +93,7 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 - Result Data 관리
 - Result Data 제공
 - Mode에 맞는 Record Feature 연결
+- Runtime Data의 Scoring Version을 InfiniteMode Result 생성 요청에 전달
 
 ---
 
@@ -105,6 +108,7 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 - Feature 규칙 정의
 - 이동 거리와 Distance 및 Collectible Score 계산
 - Total Score 포화 합산
+- Scoring Version 규칙 정의와 변경 판단
 
 ---
 
@@ -127,6 +131,7 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 - Feature 규칙을 정의하지 않는다.
 - 하나의 Stage 종료에서 TimeRecord와 ScoreRecord를 동시에 수행하지 않는다.
 - 초기화 시 이전 Run의 Result Data와 Record 완료 상태를 제거한다.
+- InfiniteMode Runtime Data와 Result 요청의 Scoring Version이 다르면 Result Data를 생성하지 않는다.
 
 ---
 

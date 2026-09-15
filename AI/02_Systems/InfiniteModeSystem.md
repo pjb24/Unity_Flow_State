@@ -20,6 +20,9 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 
 - InfiniteMode 진행 상태를 초기화하고 종료한다.
 - 최대 전진 거리를 이동 거리·Score 규칙과 Difficulty 상태에 전달한다.
+- Player Rigidbody의 물리 X와 누적 Rebase Offset을 논리 거리 상태에 전달한다.
+- InfiniteMode Playing 상태에서 World Rebase 필요 여부와 이동 Offset 계산을 조정한다.
+- Rebase 전 진행 거리 반영, 대상 이동 요청, Physics 동기화와 Camera 보정 요청의 실행 순서를 조정한다.
 - Player Rigidbody의 실제 양의 X 속도를 사용한다.
 - CollisionSystem의 Wall 접촉 결과를 진행 지속 조건에 전달한다.
 - Player Y 위치가 설정된 추락 임계값 이하인지 확인한다.
@@ -74,6 +77,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 | Wall 접촉 상태 | CollisionSystem |
 | Player Y 위치 | Player Rigidbody의 물리 위치 |
 | Player World X | Player Rigidbody의 물리 위치 |
+| 누적 Rebase Offset과 Rebase 실행 상태 | World Rebase 상태 |
 | 최대 전진 거리 | InfiniteDistanceState |
 | 현재 게임 Mode | GameSystem |
 | InfiniteMode 진행 중단 및 재개 요청 | GameSystem |
@@ -89,6 +93,9 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 | InfiniteMode Stage 종료 요청 | StageSystem |
 | 현재 이동 거리와 현재 Score | Runtime Data |
 | 선택된 다음 Pattern ID와 요청 ID | InfiniteMapPattern |
+| Player Rebase 요청 | PlayerControllerSystem |
+| Pattern과 Boundary Rebase 요청 | InfiniteMapPattern |
+| Camera Rebase 및 Target Warp 요청 | CameraSystem |
 
 ---
 
@@ -113,6 +120,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - InfiniteMode 설정 관리
 - 이동 결과와 추락 임계값의 규칙 평가 연결
 - Player 위치와 이동 거리 규칙의 연결
+- 누적 논리 거리와 World Rebase 상태의 생명주기 관리
+- Rebase 대상 System 요청과 원자적 실행 순서 조정
 - Phase 3 최대 전진 거리와 Difficulty 전환 규칙의 연결
 - 현재 이동 거리와 현재 Score의 Runtime Data 반영
 - 종료 요청 전 최종 이동 거리와 최종 Score 확정 요청
@@ -128,6 +137,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - 게임 전체 종료 흐름
 - Result Data 생성
 - UI 표시
+- Camera 위치 이동과 Cinemachine Warp 직접 처리
 - 이동 거리 또는 Score 계산 규칙 정의
 - Difficulty 전환, Pattern 후보, 반복과 대체 후보 규칙 정의
 - Pattern 지형 제작과 배치
@@ -140,6 +150,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - PlayerMovementSystem
 - RuntimeDataSystem
 - StageSystem
+- PlayerControllerSystem
+- CameraSystem
 
 ---
 
@@ -148,7 +160,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - PlayerMovementSystem의 이동 계산을 변경하지 않는다.
 - 진행 속도는 `max(0, Rigidbody.linearVelocity.x)`를 사용한다.
 - Wall 접촉은 CollisionSystem 결과를 사용하고 별도 물리 판정을 만들지 않는다.
-- 위치 판정은 보간된 표시 Transform 대신 Rigidbody.position을 사용한다. Rigidbody 위치나 속도를 직접 변경하지 않는다.
+- 위치 판정은 보간된 표시 Transform 대신 Rigidbody.position을 사용한다. Rigidbody 위치나 속도를 직접 변경하지 않고 PlayerControllerSystem에 Rebase를 요청한다.
 - 추락 판정은 Player의 X 위치와 관계없이 Y 임계값으로 수행한다.
 - Stage 종료는 StageSystem에 요청한다.
 - 정상 프레임마다 로그를 출력하지 않는다.
@@ -158,6 +170,9 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - 재개 시 일시 중단 이전의 Run 기록과 진행 상태를 유지한다.
 - Pause와 Result에서는 Difficulty 및 Pattern 선택 상태를 변경하지 않는다.
 - Pattern 선택 결과는 Distance Score, Collectible Score와 Total Score 계산에 전달하지 않는다.
+- World Rebase는 InfiniteMode Playing에서만 조정하고 Pause, Result와 Stage Mode에서는 요청하지 않는다.
+- Rebase 전후 같은 누적 논리 거리를 Difficulty와 Score에 전달한다.
+- Retry와 새 Run에서 누적 Rebase Offset과 Rebase 실행 상태를 초기화한다.
 
 ---
 
