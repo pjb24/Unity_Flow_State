@@ -128,6 +128,37 @@ namespace FlowState.Tests.EditMode
                 Is.EqualTo("Total Score: --"));
         }
 
+        [Test]
+        public void FormatCurrentScoreComponents_ReturnApprovedText()
+        {
+            Assert.That(
+                ResultTextFormatter.FormatBaseDistanceScore(100),
+                Is.EqualTo("Base Distance Score: 100"));
+            Assert.That(
+                ResultTextFormatter.FormatMomentumBonus(25),
+                Is.EqualTo("Momentum Bonus: +25"));
+            Assert.That(
+                ResultTextFormatter.FormatMaximumMomentumMultiplier(2.5),
+                Is.EqualTo("Max Momentum: x2.50"));
+        }
+
+        [Test]
+        public void FormatCurrentScoreComponents_InvalidValues_ReturnPlaceholders()
+        {
+            Assert.That(
+                ResultTextFormatter.FormatBaseDistanceScore(-1),
+                Is.EqualTo("Base Distance Score: --"));
+            Assert.That(
+                ResultTextFormatter.FormatMomentumBonus(-1),
+                Is.EqualTo("Momentum Bonus: --"));
+            Assert.That(
+                ResultTextFormatter.FormatMaximumMomentumMultiplier(double.NaN),
+                Is.EqualTo("Max Momentum: x--"));
+            Assert.That(
+                ResultTextFormatter.FormatMaximumMomentumMultiplier(3.25),
+                Is.EqualTo("Max Momentum: x--"));
+        }
+
         [TestCase(0.0f, "Final Distance: 0")]
         [TestCase(12.999f, "Final Distance: 12")]
         public void FormatFinalDistance_ValidDistance_FloorsForDisplay(
@@ -247,6 +278,52 @@ namespace FlowState.Tests.EditMode
             Assert.That(distanceScoreText, Is.EqualTo("Distance Score: 129"));
             Assert.That(collectibleScoreText, Is.EqualTo("Collectible Score: 30"));
             Assert.That(totalScoreText, Is.EqualTo("Total Score: 159"));
+        }
+
+        [Test]
+        public void TryFormatInfiniteResult_CurrentData_ReturnsCompleteScoreTexts()
+        {
+            ResultData resultData = new ResultData(
+                ScoringVersion.Current,
+                12.999f,
+                100,
+                29,
+                129,
+                30,
+                159,
+                2.5);
+
+            bool didFormat = ResultTextFormatter.TryFormatInfiniteResult(
+                resultData,
+                out string finalDistanceText,
+                out string baseDistanceScoreText,
+                out string momentumBonusText,
+                out string distanceScoreText,
+                out string collectibleScoreText,
+                out string totalScoreText,
+                out string maximumMomentumText);
+
+            Assert.That(didFormat, Is.True);
+            Assert.That(finalDistanceText, Is.EqualTo("Final Distance: 12"));
+            Assert.That(baseDistanceScoreText,
+                Is.EqualTo("Base Distance Score: 100"));
+            Assert.That(momentumBonusText, Is.EqualTo("Momentum Bonus: +29"));
+            Assert.That(distanceScoreText, Is.EqualTo("Distance Score: 129"));
+            Assert.That(collectibleScoreText,
+                Is.EqualTo("Collectible Score: 30"));
+            Assert.That(totalScoreText, Is.EqualTo("Total Score: 159"));
+            Assert.That(maximumMomentumText,
+                Is.EqualTo("Max Momentum: x2.50"));
+        }
+
+        [Test]
+        public void TryFormatInfiniteResult_CompleteContractRejectsLegacyData()
+        {
+            ResultData resultData = new ResultData(12.999f, 129, 30, 159);
+
+            Assert.That(ResultTextFormatter.TryFormatInfiniteResult(
+                resultData,
+                out _, out _, out _, out _, out _, out _, out _), Is.False);
         }
 
         [Test]

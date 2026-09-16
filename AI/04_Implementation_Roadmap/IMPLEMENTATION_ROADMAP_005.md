@@ -81,7 +81,7 @@ Momentum Landing을 속도 효과에서 Score 배율 효과로 전환한다.
 ### 완료 조건
 
 - Momentum Landing 성공 전후 Player 이동 속도 규칙이 동일하다.
-- Player가 입력을 통해 감속하거나 정지할 수 있다.
+- Stage Mode와 InfiniteMode의 기존 자동 이동 및 Move 입력 비활성 계약을 유지한다.
 - 같은 이동 거리에서도 Momentum Landing 성공에 따라 Score가 증가한다.
 - Collectible Score는 Momentum 배율의 영향을 받지 않는다.
 - Pause와 Result는 현재 배율·Score를 유지하고 Retry와 새 Run은 초기화한다.
@@ -91,11 +91,11 @@ Momentum Landing을 속도 효과에서 Score 배율 효과로 전환한다.
 
 - 배율 전환, 연속 성공, 초기화, Score 포화와 Version은 Edit Mode Test로 검증한다.
 - 실제 Momentum Landing, 일반 착지, Wall 접촉, Pause·Result·Retry와 UI 연동은 Play Mode Test로 검증한다.
-- 입력 후 감속·정지 가능성과 배율 UI 가독성만 화면으로 확인한다.
+- 불필요한 가속이 없는지와 배율 UI 가독성만 화면으로 확인한다.
 
 ### 상태
 
-대기
+완료 — Unity Script Compilation, Edit Mode `629/629`, Play Mode `221/221` 및 화면 확인 통과
 
 ---
 
@@ -211,7 +211,7 @@ Phase 2 Momentum Landing Score 전환과 UI 생산 연결
 # 완료 기준
 
 - Momentum Landing이 이동 속도가 아닌 Score 배율을 제공한다.
-- Player가 능동적으로 감속하거나 정지할 수 있다.
+- 기존 자동 이동과 Move 입력 비활성 계약이 유지된다.
 - Score 구성 요소와 Scoring Version이 명확하다.
 - InfiniteMode의 큰 World X가 주기적으로 안전하게 Rebase된다.
 - Rebase 이후에도 거리·Difficulty·Score·Pattern·Collectible 상태가 유지된다.

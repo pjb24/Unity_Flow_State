@@ -18,6 +18,12 @@ namespace FlowState.Runtime.Features
         private const string FinalDistancePlaceholder = "Final Distance: --";
         private const string DistanceScoreFormat = "Distance Score: {0}";
         private const string DistanceScorePlaceholder = "Distance Score: --";
+        private const string BaseDistanceScoreFormat = "Base Distance Score: {0}";
+        private const string BaseDistanceScorePlaceholder = "Base Distance Score: --";
+        private const string MomentumBonusFormat = "Momentum Bonus: +{0}";
+        private const string MomentumBonusPlaceholder = "Momentum Bonus: --";
+        private const string MaximumMomentumFormat = "Max Momentum: x{0:F2}";
+        private const string MaximumMomentumPlaceholder = "Max Momentum: x--";
         private const string CollectibleScoreFormat = "Collectible Score: {0}";
         private const string CollectibleScorePlaceholder = "Collectible Score: --";
         private const string TotalScoreFormat = "Total Score: {0}";
@@ -86,6 +92,36 @@ namespace FlowState.Runtime.Features
                 score,
                 DistanceScoreFormat,
                 DistanceScorePlaceholder);
+        }
+
+        public static string FormatBaseDistanceScore(int score)
+        {
+            return FormatScore(
+                score,
+                BaseDistanceScoreFormat,
+                BaseDistanceScorePlaceholder);
+        }
+
+        public static string FormatMomentumBonus(int score)
+        {
+            return FormatScore(
+                score,
+                MomentumBonusFormat,
+                MomentumBonusPlaceholder);
+        }
+
+        public static string FormatMaximumMomentumMultiplier(double multiplier)
+        {
+            if (double.IsNaN(multiplier) || double.IsInfinity(multiplier) ||
+                multiplier < 1.0 || multiplier > 3.0)
+            {
+                return MaximumMomentumPlaceholder;
+            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                MaximumMomentumFormat,
+                multiplier);
         }
 
         public static string FormatCollectibleScore(int score)
@@ -176,6 +212,46 @@ namespace FlowState.Runtime.Features
             collectibleScoreText = FormatCollectibleScore(
                 resultData.CollectibleScore);
             totalScoreText = FormatTotalScore(resultData.TotalScore);
+            return true;
+        }
+
+        public static bool TryFormatInfiniteResult(
+            ResultData resultData,
+            out string finalDistanceText,
+            out string baseDistanceScoreText,
+            out string momentumBonusText,
+            out string distanceScoreText,
+            out string collectibleScoreText,
+            out string totalScoreText,
+            out string maximumMomentumText)
+        {
+            finalDistanceText = string.Empty;
+            baseDistanceScoreText = string.Empty;
+            momentumBonusText = string.Empty;
+            distanceScoreText = string.Empty;
+            collectibleScoreText = string.Empty;
+            totalScoreText = string.Empty;
+            maximumMomentumText = string.Empty;
+
+            if (resultData == null ||
+                resultData.ScoringVersion != ScoringVersion.Current ||
+                resultData.GameMode != E_GameMode.Infinite ||
+                resultData.HasStageResult ||
+                !resultData.HasInfiniteModeResult)
+            {
+                return false;
+            }
+
+            finalDistanceText = FormatFinalDistance(resultData.FinalDistance);
+            baseDistanceScoreText = FormatBaseDistanceScore(
+                resultData.BaseDistanceScore);
+            momentumBonusText = FormatMomentumBonus(resultData.MomentumBonus);
+            distanceScoreText = FormatDistanceScore(resultData.DistanceScore);
+            collectibleScoreText = FormatCollectibleScore(
+                resultData.CollectibleScore);
+            totalScoreText = FormatTotalScore(resultData.TotalScore);
+            maximumMomentumText = FormatMaximumMomentumMultiplier(
+                resultData.MaximumMomentumMultiplier);
             return true;
         }
 

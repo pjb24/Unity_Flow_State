@@ -36,9 +36,12 @@ namespace FlowState.Tests.PlayMode
         private Rigidbody _playerRigidbody;
         private Collider _playerCollider;
         private TMP_Text _finalDistanceText;
+        private TMP_Text _infiniteResultBaseDistanceScoreText;
+        private TMP_Text _infiniteResultMomentumBonusText;
         private TMP_Text _finalScoreText;
         private TMP_Text _infiniteResultCollectibleScoreText;
         private TMP_Text _infiniteResultTotalScoreText;
+        private TMP_Text _infiniteResultMaximumMomentumText;
 
         [UnitySetUp]
         public IEnumerator SetUp()
@@ -104,11 +107,20 @@ namespace FlowState.Tests.PlayMode
             _finalScoreText = new GameObject(
                 "InfiniteModeIntegrationTests.FinalScoreText")
                 .AddComponent<TextMeshProUGUI>();
+            _infiniteResultBaseDistanceScoreText = new GameObject(
+                "InfiniteModeIntegrationTests.BaseDistanceScoreText")
+                .AddComponent<TextMeshProUGUI>();
+            _infiniteResultMomentumBonusText = new GameObject(
+                "InfiniteModeIntegrationTests.MomentumBonusText")
+                .AddComponent<TextMeshProUGUI>();
             _infiniteResultCollectibleScoreText = new GameObject(
                 "InfiniteModeIntegrationTests.CollectibleScoreText")
                 .AddComponent<TextMeshProUGUI>();
             _infiniteResultTotalScoreText = new GameObject(
                 "InfiniteModeIntegrationTests.TotalScoreText")
+                .AddComponent<TextMeshProUGUI>();
+            _infiniteResultMaximumMomentumText = new GameObject(
+                "InfiniteModeIntegrationTests.MaximumMomentumText")
                 .AddComponent<TextMeshProUGUI>();
             SetPrivateField(
                 _uiManagementSystem,
@@ -120,12 +132,24 @@ namespace FlowState.Tests.PlayMode
                 _finalScoreText);
             SetPrivateField(
                 _uiManagementSystem,
+                "_infiniteResultBaseDistanceScoreText",
+                _infiniteResultBaseDistanceScoreText);
+            SetPrivateField(
+                _uiManagementSystem,
+                "_infiniteResultMomentumBonusText",
+                _infiniteResultMomentumBonusText);
+            SetPrivateField(
+                _uiManagementSystem,
                 "_infiniteResultCollectibleScoreText",
                 _infiniteResultCollectibleScoreText);
             SetPrivateField(
                 _uiManagementSystem,
                 "_infiniteResultTotalScoreText",
                 _infiniteResultTotalScoreText);
+            SetPrivateField(
+                _uiManagementSystem,
+                "_infiniteResultMaximumMomentumText",
+                _infiniteResultMaximumMomentumText);
 
             Assert.That(_stageGoal, Is.Not.Null);
             Assert.That(_mapPattern, Is.Not.Null);
@@ -693,15 +717,33 @@ namespace FlowState.Tests.PlayMode
                 resultData.StageResultType,
                 Is.EqualTo(E_StageResultType.None));
             Assert.That(resultData.ElapsedTime, Is.Zero);
+            Assert.That(resultData.ScoringVersion,
+                Is.EqualTo(ScoringVersion.Current));
             Assert.That(resultData.FinalDistance, Is.GreaterThanOrEqualTo(0.0f));
+            Assert.That(resultData.BaseDistanceScore, Is.GreaterThanOrEqualTo(0));
+            Assert.That(resultData.MomentumBonus, Is.GreaterThanOrEqualTo(0));
             Assert.That(resultData.DistanceScore, Is.GreaterThanOrEqualTo(0));
             Assert.That(resultData.CollectibleScore, Is.GreaterThanOrEqualTo(0));
             Assert.That(resultData.TotalScore, Is.GreaterThanOrEqualTo(0));
+            Assert.That(resultData.DistanceScore,
+                Is.EqualTo(resultData.BaseDistanceScore + resultData.MomentumBonus));
+            Assert.That(resultData.TotalScore,
+                Is.EqualTo(resultData.DistanceScore + resultData.CollectibleScore));
             Assert.That(
                 _finalDistanceText.text,
                 Is.EqualTo(
                     ResultTextFormatter.FormatFinalDistance(
                         resultData.FinalDistance)));
+            Assert.That(
+                _infiniteResultBaseDistanceScoreText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatBaseDistanceScore(
+                        resultData.BaseDistanceScore)));
+            Assert.That(
+                _infiniteResultMomentumBonusText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatMomentumBonus(
+                        resultData.MomentumBonus)));
             Assert.That(
                 _finalScoreText.text,
                 Is.EqualTo(
@@ -717,6 +759,11 @@ namespace FlowState.Tests.PlayMode
                 Is.EqualTo(
                     ResultTextFormatter.FormatTotalScore(
                         resultData.TotalScore)));
+            Assert.That(
+                _infiniteResultMaximumMomentumText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatMaximumMomentumMultiplier(
+                        resultData.MaximumMomentumMultiplier)));
             return resultData;
         }
 

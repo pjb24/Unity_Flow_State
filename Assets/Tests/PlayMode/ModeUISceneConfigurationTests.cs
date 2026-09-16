@@ -33,6 +33,7 @@ namespace FlowState.Tests.PlayMode
             GameObject uiRoot = FindUniqueSceneObject("UIRoot");
             GameObject stageHud = FindDirectChild(uiRoot, "StageHUD");
             GameObject infiniteHud = FindDirectChild(uiRoot, "InfiniteHUD");
+            GameObject momentumHud = FindDirectChild(uiRoot, "MomentumHUD");
             GameObject resultPanel = FindDirectChild(uiRoot, "ResultPanel");
             GameObject pausePanel = FindDirectChild(uiRoot, "PausePanel");
 
@@ -54,6 +55,12 @@ namespace FlowState.Tests.PlayMode
             TMP_Text scoreText = FindDirectComponent<TMP_Text>(
                 infiniteHudBackground.gameObject,
                 "ScoreText");
+            TMP_Text baseDistanceScoreText = FindDirectComponent<TMP_Text>(
+                infiniteHudBackground.gameObject,
+                "BaseDistanceScoreText");
+            TMP_Text momentumBonusText = FindDirectComponent<TMP_Text>(
+                infiniteHudBackground.gameObject,
+                "MomentumBonusText");
             TMP_Text infiniteCollectibleScoreText =
                 FindDirectComponent<TMP_Text>(
                     infiniteHudBackground.gameObject,
@@ -98,6 +105,18 @@ namespace FlowState.Tests.PlayMode
                 FindDirectComponent<TMP_Text>(
                     infiniteResultBackground.gameObject,
                     "InfiniteResultTotalScoreText");
+            TMP_Text infiniteResultBaseDistanceScoreText =
+                FindDirectComponent<TMP_Text>(
+                    infiniteResultBackground.gameObject,
+                    "InfiniteResultBaseDistanceScoreText");
+            TMP_Text infiniteResultMomentumBonusText =
+                FindDirectComponent<TMP_Text>(
+                    infiniteResultBackground.gameObject,
+                    "InfiniteResultMomentumBonusText");
+            TMP_Text infiniteResultMaximumMomentumText =
+                FindDirectComponent<TMP_Text>(
+                    infiniteResultBackground.gameObject,
+                    "InfiniteResultMaximumMomentumText");
             Button resultRetryButton = FindDirectComponent<Button>(
                 resultContainer,
                 "RetryButton");
@@ -120,6 +139,30 @@ namespace FlowState.Tests.PlayMode
                 pauseContainer,
                 "QuitButton");
 
+            GameObject momentumCanvas = RequireDirectCanvas(momentumHud);
+            Image momentumMultiplierContainer = FindDirectComponent<Image>(
+                momentumCanvas,
+                "Image");
+            TMP_Text momentumMultiplierText = FindDirectComponent<TMP_Text>(
+                momentumMultiplierContainer.gameObject,
+                "MomentumMultiplierText");
+            Image momentumDurationBackground = FindDirectComponent<Image>(
+                momentumCanvas,
+                "MomentumDurationBackground");
+            Image momentumDurationFillImage = FindDirectComponent<Image>(
+                momentumDurationBackground.gameObject,
+                "MomentumDurationFill");
+            MomentumGradientEffect momentumGradientEffect =
+                momentumDurationFillImage.GetComponent<MomentumGradientEffect>();
+            Assert.That(momentumGradientEffect, Is.Not.Null);
+            Assert.That(momentumDurationFillImage.type, Is.EqualTo(Image.Type.Filled));
+            Assert.That(momentumDurationFillImage.fillMethod,
+                Is.EqualTo(Image.FillMethod.Horizontal));
+            Assert.That(momentumDurationFillImage.fillOrigin, Is.Zero);
+            Assert.That(momentumDurationFillImage.fillAmount, Is.Zero);
+            Assert.That(momentumDurationFillImage.color, Is.EqualTo(Color.white));
+            Assert.That(momentumDurationFillImage.raycastTarget, Is.False);
+
             MonoBehaviour uiManagementSystem = FindRequiredBehaviour(
                 "UIManagementSystem",
                 "UIManagementSystem");
@@ -128,6 +171,10 @@ namespace FlowState.Tests.PlayMode
                 uiManagementSystem,
                 "_infiniteHud",
                 infiniteHud);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_momentumHud",
+                momentumHud);
             AssertSerializedReference(
                 uiManagementSystem,
                 "_resultPanel",
@@ -170,6 +217,14 @@ namespace FlowState.Tests.PlayMode
                 scoreText);
             AssertSerializedReference(
                 uiManagementSystem,
+                "_baseDistanceScoreText",
+                baseDistanceScoreText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_momentumBonusText",
+                momentumBonusText);
+            AssertSerializedReference(
+                uiManagementSystem,
                 "_infiniteCollectibleScoreText",
                 infiniteCollectibleScoreText);
             AssertSerializedReference(
@@ -192,6 +247,32 @@ namespace FlowState.Tests.PlayMode
                 uiManagementSystem,
                 "_infiniteResultTotalScoreText",
                 infiniteResultTotalScoreText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_infiniteResultBaseDistanceScoreText",
+                infiniteResultBaseDistanceScoreText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_infiniteResultMomentumBonusText",
+                infiniteResultMomentumBonusText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_infiniteResultMaximumMomentumText",
+                infiniteResultMaximumMomentumText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_momentumMultiplierText",
+                momentumMultiplierText);
+            AssertSerializedReference(
+                uiManagementSystem,
+                "_momentumDurationFillImage",
+                momentumDurationFillImage);
+            Assert.That(
+                GetSerializedValue<Gradient>(
+                    uiManagementSystem,
+                    "_momentumDurationGradient"),
+                Is.Not.Null);
+            Assert.That(momentumGradientEffect.HasGradient, Is.True);
             AssertSerializedReference(
                 uiManagementSystem,
                 "_retryButton",
@@ -236,6 +317,7 @@ namespace FlowState.Tests.PlayMode
                 "UIManagementSystem");
             GameObject stageHud = FindUniqueSceneObject("StageHUD");
             GameObject infiniteHud = FindUniqueSceneObject("InfiniteHUD");
+            GameObject momentumHud = FindUniqueSceneObject("MomentumHUD");
             GameObject resultPanel = FindUniqueSceneObject("ResultPanel");
             GameObject pausePanel = FindUniqueSceneObject("PausePanel");
             GameObject stageResultContent =
@@ -262,6 +344,7 @@ namespace FlowState.Tests.PlayMode
                 false,
                 false,
                 false);
+            Assert.That(momentumHud.activeSelf, Is.False);
 
             SetUIState(
                 uiManagementSystem,
@@ -276,6 +359,7 @@ namespace FlowState.Tests.PlayMode
                 false,
                 false,
                 true);
+            Assert.That(momentumHud.activeSelf, Is.False);
 
             ResultData stageResultData = new ResultData(
                 E_StageResultType.Cleared,
@@ -300,6 +384,7 @@ namespace FlowState.Tests.PlayMode
                 false,
                 true,
                 false);
+            Assert.That(momentumHud.activeSelf, Is.False);
             Assert.That(stageResultContent.activeSelf, Is.True);
             Assert.That(infiniteResultContent.activeSelf, Is.False);
             AssertStageResultText(uiManagementSystem, stageResultData);
@@ -323,6 +408,7 @@ namespace FlowState.Tests.PlayMode
                 true,
                 false,
                 false);
+            Assert.That(momentumHud.activeSelf, Is.True);
 
             SetUIState(
                 uiManagementSystem,
@@ -337,12 +423,17 @@ namespace FlowState.Tests.PlayMode
                 true,
                 false,
                 true);
+            Assert.That(momentumHud.activeSelf, Is.True);
 
             ResultData infiniteResultData = new ResultData(
+                ScoringVersion.Current,
                 12.9f,
+                100,
+                20,
                 120,
                 30,
-                150);
+                150,
+                2.0);
             Assert.That(
                 (bool)InvokePublicMethod(
                     uiManagementSystem,
@@ -362,6 +453,7 @@ namespace FlowState.Tests.PlayMode
                 true,
                 true,
                 false);
+            Assert.That(momentumHud.activeSelf, Is.True);
             Assert.That(stageResultContent.activeSelf, Is.False);
             Assert.That(infiniteResultContent.activeSelf, Is.True);
             AssertInfiniteResultText(
@@ -449,13 +541,26 @@ namespace FlowState.Tests.PlayMode
                 ResultTextFormatter.TryFormatInfiniteResult(
                     resultData,
                     out string expectedDistance,
+                    out string expectedBaseDistanceScore,
+                    out string expectedMomentumBonus,
                     out string expectedDistanceScore,
                     out string expectedCollectibleScore,
-                    out string expectedTotalScore),
+                    out string expectedTotalScore,
+                    out string expectedMaximumMomentum),
                 Is.True);
             Assert.That(
                 GetSerializedText(uiManagementSystem, "_finalDistanceText"),
                 Is.EqualTo(expectedDistance));
+            Assert.That(
+                GetSerializedText(
+                    uiManagementSystem,
+                    "_infiniteResultBaseDistanceScoreText"),
+                Is.EqualTo(expectedBaseDistanceScore));
+            Assert.That(
+                GetSerializedText(
+                    uiManagementSystem,
+                    "_infiniteResultMomentumBonusText"),
+                Is.EqualTo(expectedMomentumBonus));
             Assert.That(
                 GetSerializedText(uiManagementSystem, "_finalScoreText"),
                 Is.EqualTo(expectedDistanceScore));
@@ -469,6 +574,11 @@ namespace FlowState.Tests.PlayMode
                     uiManagementSystem,
                     "_infiniteResultTotalScoreText"),
                 Is.EqualTo(expectedTotalScore));
+            Assert.That(
+                GetSerializedText(
+                    uiManagementSystem,
+                    "_infiniteResultMaximumMomentumText"),
+                Is.EqualTo(expectedMaximumMomentum));
         }
 
         private string GetSerializedText(
@@ -643,6 +753,17 @@ namespace FlowState.Tests.PlayMode
                 BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.That(field, Is.Not.Null);
             Assert.That(field.GetValue(target), Is.EqualTo(expected));
+        }
+
+        private T GetSerializedValue<T>(
+            MonoBehaviour target,
+            string fieldName)
+        {
+            FieldInfo field = target.GetType().GetField(
+                fieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            return (T)field.GetValue(target);
         }
     }
 }

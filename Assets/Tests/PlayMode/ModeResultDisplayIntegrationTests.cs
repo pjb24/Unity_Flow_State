@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
@@ -22,15 +23,21 @@ namespace FlowState.Tests.PlayMode
         private TMP_Text _clearTimeText;
         private TMP_Text _stageResultCollectibleScoreText;
         private TMP_Text _finalDistanceText;
+        private TMP_Text _infiniteResultBaseDistanceScoreText;
+        private TMP_Text _infiniteResultMomentumBonusText;
         private TMP_Text _finalScoreText;
         private TMP_Text _infiniteResultCollectibleScoreText;
         private TMP_Text _infiniteResultTotalScoreText;
+        private TMP_Text _infiniteResultMaximumMomentumText;
 
         [SetUp]
         public void SetUp()
         {
-            CreateObject("ModeResultTests.EventSystem")
-                .AddComponent<EventSystem>();
+            if (EventSystem.current == null)
+            {
+                CreateObject("ModeResultTests.EventSystem")
+                    .AddComponent<EventSystem>();
+            }
 
             GameObject systemObject = CreateObject(
                 "ModeResultTests.UIManagementSystem");
@@ -41,6 +48,8 @@ namespace FlowState.Tests.PlayMode
 
             SetPrivateField("_stageHud", CreateObject("StageHUD"));
             SetPrivateField("_infiniteHud", CreateObject("InfiniteHUD"));
+            GameObject momentumHud = CreateObject("MomentumHUD");
+            SetPrivateField("_momentumHud", momentumHud);
             SetPrivateField("_resultPanel", CreateObject("ResultPanel"));
             SetPrivateField("_pausePanel", CreateObject("PausePanel"));
             SetPrivateField(
@@ -55,19 +64,37 @@ namespace FlowState.Tests.PlayMode
             _stageResultCollectibleScoreText = CreateText(
                 "StageResultCollectibleScoreText");
             _finalDistanceText = CreateText("FinalDistanceText");
+            _infiniteResultBaseDistanceScoreText = CreateText(
+                "InfiniteResultBaseDistanceScoreText");
+            _infiniteResultMomentumBonusText = CreateText(
+                "InfiniteResultMomentumBonusText");
             _finalScoreText = CreateText("FinalScoreText");
             _infiniteResultCollectibleScoreText = CreateText(
                 "InfiniteResultCollectibleScoreText");
             _infiniteResultTotalScoreText = CreateText(
                 "InfiniteResultTotalScoreText");
+            _infiniteResultMaximumMomentumText = CreateText(
+                "InfiniteResultMaximumMomentumText");
             SetPrivateField("_resultStatusText", _resultStatusText);
             SetPrivateField("_clearTimeText", _clearTimeText);
             SetPrivateField(
                 "_stageResultCollectibleScoreText",
                 _stageResultCollectibleScoreText);
             SetPrivateField("_distanceText", CreateText("DistanceText"));
+            SetPrivateField(
+                "_baseDistanceScoreText",
+                CreateText("BaseDistanceScoreText"));
+            SetPrivateField(
+                "_momentumBonusText",
+                CreateText("MomentumBonusText"));
             SetPrivateField("_scoreText", CreateText("ScoreText"));
             SetPrivateField("_finalDistanceText", _finalDistanceText);
+            SetPrivateField(
+                "_infiniteResultBaseDistanceScoreText",
+                _infiniteResultBaseDistanceScoreText);
+            SetPrivateField(
+                "_infiniteResultMomentumBonusText",
+                _infiniteResultMomentumBonusText);
             SetPrivateField("_finalScoreText", _finalScoreText);
             SetPrivateField(
                 "_infiniteResultCollectibleScoreText",
@@ -75,6 +102,18 @@ namespace FlowState.Tests.PlayMode
             SetPrivateField(
                 "_infiniteResultTotalScoreText",
                 _infiniteResultTotalScoreText);
+            SetPrivateField(
+                "_infiniteResultMaximumMomentumText",
+                _infiniteResultMaximumMomentumText);
+            SetPrivateField(
+                "_momentumMultiplierText",
+                CreateText("MomentumMultiplierText"));
+            GameObject fillObject = CreateUiObject("MomentumDurationFill");
+            Image fillImage = fillObject.GetComponent<Image>();
+            SetPrivateField("_momentumDurationFillImage", fillImage);
+            SetPrivateField(
+                "_momentumDurationGradient",
+                MomentumHudPresenter.CreateApprovedGradient());
             SetPrivateField("_retryButton", CreateButton("RetryButton"));
             SetPrivateField("_quitButton", CreateButton("QuitButton"));
             SetPrivateField("_pauseResumeButton", CreateButton("ResumeButton"));
@@ -142,7 +181,7 @@ namespace FlowState.Tests.PlayMode
             Initialize(E_GameMode.Infinite);
 
             bool didSetResult = SetResultData(
-                new ResultData(12.999f, 129, 30, 159));
+                CreateInfiniteResult(12.999f, 100, 29, 30, 2.0));
 
             Assert.That(didSetResult, Is.True);
             Assert.That(_resultStatusText.text, Is.Empty);
@@ -151,6 +190,12 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 _finalDistanceText.text,
                 Is.EqualTo("Final Distance: 12"));
+            Assert.That(
+                _infiniteResultBaseDistanceScoreText.text,
+                Is.EqualTo("Base Distance Score: 100"));
+            Assert.That(
+                _infiniteResultMomentumBonusText.text,
+                Is.EqualTo("Momentum Bonus: +29"));
             Assert.That(_finalScoreText.text, Is.EqualTo("Distance Score: 129"));
             Assert.That(
                 _infiniteResultCollectibleScoreText.text,
@@ -158,13 +203,16 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 _infiniteResultTotalScoreText.text,
                 Is.EqualTo("Total Score: 159"));
+            Assert.That(
+                _infiniteResultMaximumMomentumText.text,
+                Is.EqualTo("Max Momentum: x2.00"));
         }
 
         [Test]
         public void Initialize_AfterResult_ClearsPreviousResultText()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(new ResultData(12.999f, 129, 30, 159));
+            SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0));
 
             Initialize(E_GameMode.Infinite);
 
@@ -172,19 +220,22 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_resultStatusText.text, Is.Empty);
             Assert.That(_stageResultCollectibleScoreText.text, Is.Empty);
             Assert.That(_finalDistanceText.text, Is.Empty);
+            Assert.That(_infiniteResultBaseDistanceScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultMomentumBonusText.text, Is.Empty);
             Assert.That(_finalScoreText.text, Is.Empty);
             Assert.That(_infiniteResultCollectibleScoreText.text, Is.Empty);
             Assert.That(_infiniteResultTotalScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultMaximumMomentumText.text, Is.Empty);
         }
 
         [Test]
         public void ConsecutiveInfiniteRuns_DisplayIndependentResults()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(new ResultData(12.999f, 129, 30, 159));
+            SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0));
 
             Initialize(E_GameMode.Infinite);
-            SetResultData(new ResultData(20.999f, 209, 40, 249));
+            SetResultData(CreateInfiniteResult(20.999f, 180, 29, 40, 2.5));
 
             Assert.That(
                 _finalDistanceText.text,
@@ -202,7 +253,7 @@ namespace FlowState.Tests.PlayMode
         public void StageRunAfterInfiniteRun_DoesNotKeepInfiniteResultText()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(new ResultData(12.999f, 129, 30, 159));
+            SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0));
 
             Initialize(E_GameMode.Stage);
             SetResultData(new ResultData(
@@ -216,9 +267,12 @@ namespace FlowState.Tests.PlayMode
                 _stageResultCollectibleScoreText.text,
                 Is.EqualTo("Collectible Score: 30"));
             Assert.That(_finalDistanceText.text, Is.Empty);
+            Assert.That(_infiniteResultBaseDistanceScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultMomentumBonusText.text, Is.Empty);
             Assert.That(_finalScoreText.text, Is.Empty);
             Assert.That(_infiniteResultCollectibleScoreText.text, Is.Empty);
             Assert.That(_infiniteResultTotalScoreText.text, Is.Empty);
+            Assert.That(_infiniteResultMaximumMomentumText.text, Is.Empty);
         }
 
         [UnityTest]
@@ -256,6 +310,25 @@ namespace FlowState.Tests.PlayMode
             return (bool)InvokePublicMethod("SetResultData", resultData);
         }
 
+        private ResultData CreateInfiniteResult(
+            float finalDistance,
+            int baseDistanceScore,
+            int momentumBonus,
+            int collectibleScore,
+            double maximumMomentumMultiplier)
+        {
+            int distanceScore = baseDistanceScore + momentumBonus;
+            return new ResultData(
+                ScoringVersion.Current,
+                finalDistance,
+                baseDistanceScore,
+                momentumBonus,
+                distanceScore,
+                collectibleScore,
+                distanceScore + collectibleScore,
+                maximumMomentumMultiplier);
+        }
+
         private bool MoveResultSelection(float verticalInput)
         {
             return (bool)InvokePublicMethod(
@@ -287,6 +360,18 @@ namespace FlowState.Tests.PlayMode
                 typeof(Button));
             _createdObjects.Add(buttonObject);
             return buttonObject.GetComponent<Button>();
+        }
+
+        private GameObject CreateUiObject(string objectName)
+        {
+            GameObject uiObject = new GameObject(
+                objectName,
+                typeof(RectTransform),
+                typeof(CanvasRenderer),
+                typeof(Image));
+            uiObject.AddComponent<MomentumGradientEffect>();
+            _createdObjects.Add(uiObject);
+            return uiObject;
         }
 
         private GameObject CreateObject(string objectName)

@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace FlowState.Runtime.Systems
 {
+    [DefaultExecutionOrder(0)]
     public class InfiniteModeSystem : MonoBehaviour
     {
         [SerializeField] private RuntimeDataSystem _runtimeDataSystem;
@@ -21,13 +22,16 @@ namespace FlowState.Runtime.Systems
         private readonly InfiniteModeState _state = new InfiniteModeState();
         private readonly InfiniteDistanceState _distanceState =
             new InfiniteDistanceState();
-        private readonly ScoreCalculator _scoreCalculator =
-            new ScoreCalculator();
+        private readonly InfiniteScoreState _scoreState =
+            new InfiniteScoreState();
         private readonly InfiniteDifficultyState _difficultyState =
             new InfiniteDifficultyState();
         private readonly InfinitePatternSelectionState _patternSelectionState =
             new InfinitePatternSelectionState();
+        private readonly MomentumScoreState _momentumState =
+            new MomentumScoreState();
 
+        private GameRuntimeData _gameRuntimeData;
         private PlayerMovementRuntimeData _movementRuntimeData;
         private InfiniteModeRuntimeData _infiniteModeRuntimeData;
         private Rigidbody _playerRigidbody;
@@ -38,12 +42,24 @@ namespace FlowState.Runtime.Systems
         private int _lastObservedPatternAdvanceCount;
         private bool _hasPreviousRunSeed;
         private bool _hasPendingPatternRequest;
+        private long _lastProcessedMomentumSuccessId;
 
         public bool IsPlaying => _state.IsPlaying;
 
         public bool HasEnded => _state.HasEnded;
 
         public bool IsPaused => _isPaused;
+
+        public double CurrentMomentumMultiplier => _momentumState.CurrentMultiplier;
+
+        public double MaximumMomentumMultiplier =>
+            _momentumState.MaximumReachedMultiplier;
+
+        public double MomentumRemainingDuration => _momentumState.RemainingDuration;
+
+        public double MomentumDuration => _momentumState.CurrentDuration;
+
+        public double MomentumRemainingRatio => _momentumState.RemainingRatio;
 
         private void FixedUpdate()
         {
@@ -56,6 +72,8 @@ namespace FlowState.Runtime.Systems
             }
 
             ProcessRunMetrics();
+            ProcessMomentumStep(Time.fixedDeltaTime);
+            PublishRunMetrics();
             ProcessProgress(Time.fixedDeltaTime);
             ProcessFallThreshold();
             ProcessPatternProgression();
@@ -63,9 +81,20 @@ namespace FlowState.Runtime.Systems
 
         public bool Initialize(E_GameMode gameMode)
         {
+            if (_isInitialized && _gameRuntimeData != null &&
+                _gameRuntimeData.IsCreated && _gameRuntimeData.GameMode == gameMode &&
+                _state.GameMode == gameMode && _runtimeDataSystem != null &&
+                _runtimeDataSystem.RuntimeData == _gameRuntimeData)
+            {
+                return true;
+            }
+
             _isInitialized = false;
             _isPaused = false;
             _movementRuntimeData = null;
+            _gameRuntimeData = null;
+            _momentumState.Reset();
+            _lastProcessedMomentumSuccessId = 0;
             ResetRunMetrics();
 
             if (!HasRequiredReferences())
@@ -76,10 +105,11 @@ namespace FlowState.Runtime.Systems
             GameRuntimeData runtimeData = _runtimeDataSystem.GetRuntimeData();
 
             if (runtimeData == null ||
-                runtimeData.PlayerMovementRuntimeData == null)
+                runtimeData.PlayerMovementRuntimeData == null ||
+                runtimeData.GameMode != gameMode)
             {
                 Debug.LogError(
-                    "[InfiniteModeSystem] Player Movement Runtime Data does not exist.");
+                    "[InfiniteModeSystem] Runtime Data does not match the requested game mode.");
                 return false;
             }
 
@@ -103,11 +133,21 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
+            if (gameMode == E_GameMode.Infinite &&
+                !_momentumState.StartRun(ScoringVersion.Current))
+            {
+                ResetRunMetrics();
+                return false;
+            }
+
+            _gameRuntimeData = runtimeData;
             _movementRuntimeData = runtimeData.PlayerMovementRuntimeData;
 
             if (!_state.Start())
             {
                 _movementRuntimeData = null;
+                _gameRuntimeData = null;
+                _momentumState.Reset();
                 ResetRunMetrics();
                 return false;
             }
@@ -117,6 +157,8 @@ namespace FlowState.Runtime.Systems
             {
                 _state.Reset();
                 _movementRuntimeData = null;
+                _gameRuntimeData = null;
+                _momentumState.Reset();
                 ResetRunMetrics();
                 return false;
             }
@@ -127,8 +169,10 @@ namespace FlowState.Runtime.Systems
 
         public void Stop()
         {
+            FinalizeMomentum();
             EndPatternSelection();
             _state.Reset();
+            _gameRuntimeData = null;
             _movementRuntimeData = null;
             ResetRunMetrics();
             _isInitialized = false;
@@ -141,6 +185,11 @@ namespace FlowState.Runtime.Systems
                 _isPaused ||
                 !_state.IsPlaying ||
                 _state.GameMode != E_GameMode.Infinite)
+            {
+                return false;
+            }
+
+            if (!_momentumState.Pause())
             {
                 return false;
             }
@@ -161,10 +210,55 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
+            if (!_momentumState.Resume())
+            {
+                return false;
+            }
+
             _isPaused = false;
             _difficultyState.Resume();
             _patternSelectionState.Resume();
             return true;
+        }
+
+        private bool ProcessMomentumStep(double deltaTime)
+        {
+            if (!_isInitialized || _isPaused || !_state.IsPlaying ||
+                _state.GameMode != E_GameMode.Infinite ||
+                _gameRuntimeData == null || !_gameRuntimeData.IsCreated ||
+                _gameRuntimeData.GameMode != E_GameMode.Infinite ||
+                _gameRuntimeData.GameState != E_GameState.Playing ||
+                _movementRuntimeData == null)
+            {
+                return false;
+            }
+
+            long successId = _movementRuntimeData.MomentumLandingSuccessId;
+            bool hasSuccess = successId > _lastProcessedMomentumSuccessId;
+
+            if (!_momentumState.TryStep(
+                    _momentumState.ScoringVersion,
+                    deltaTime,
+                    hasSuccess,
+                    hasSuccess ? successId : 0))
+            {
+                return false;
+            }
+
+            if (hasSuccess)
+            {
+                _lastProcessedMomentumSuccessId = successId;
+            }
+
+            return true;
+        }
+
+        private void FinalizeMomentum()
+        {
+            if (_momentumState.IsRunning && !_momentumState.IsFinalized)
+            {
+                _momentumState.FinalizeRun();
+            }
         }
 
         private bool ProcessRunMetrics()
@@ -177,7 +271,7 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
-            return UpdateRunMetrics();
+            return UpdateRunMetrics() && PublishRunMetrics();
         }
 
         private void ProcessProgress(float deltaTime)
@@ -315,12 +409,10 @@ namespace FlowState.Runtime.Systems
         private bool InitializeRunMetrics(GameRuntimeData runtimeData)
         {
             if (runtimeData.InfiniteModeRuntimeData == null ||
+                runtimeData.InfiniteModeRuntimeData.ScoringVersion !=
+                    ScoringVersion.Current ||
                 !_distanceState.Initialize(_playerRigidbody.position.x) ||
-                !_scoreCalculator.Initialize(_scorePerUnit) ||
-                !_scoreCalculator.TryCalculate(0.0f, out int initialScore) ||
-                !runtimeData.InfiniteModeRuntimeData.TryUpdate(
-                    0.0f,
-                    initialScore))
+                !_scoreState.Initialize(ScoringVersion.Current, _scorePerUnit))
             {
                 ResetRunMetrics();
                 return false;
@@ -334,12 +426,10 @@ namespace FlowState.Runtime.Systems
         {
             if (_infiniteModeRuntimeData == null ||
                 !_distanceState.TryUpdate(_playerRigidbody.position.x) ||
-                !_scoreCalculator.TryCalculate(
+                !_scoreState.TryUpdate(
+                    _infiniteModeRuntimeData.ScoringVersion,
                     _distanceState.CurrentDistance,
-                    out int currentScore) ||
-                !_infiniteModeRuntimeData.TryUpdate(
-                    _distanceState.CurrentDistance,
-                    currentScore))
+                    _momentumState.CurrentMultiplier))
             {
                 return false;
             }
@@ -347,10 +437,40 @@ namespace FlowState.Runtime.Systems
             return true;
         }
 
+        private bool PublishRunMetrics()
+        {
+            if (_infiniteModeRuntimeData == null || _gameRuntimeData == null ||
+                _gameRuntimeData.CollectibleRuntimeData == null ||
+                !_scoreState.TryCalculateTotalScore(
+                    _infiniteModeRuntimeData.ScoringVersion,
+                    _gameRuntimeData.CollectibleRuntimeData.CurrentScore,
+                    out int totalScore))
+            {
+                return false;
+            }
+
+            return _infiniteModeRuntimeData.TryUpdate(
+                _scoreState.ScoringVersion,
+                _distanceState.CurrentDistance,
+                _scoreState.BaseDistanceScore,
+                _scoreState.MomentumBonus,
+                _scoreState.DistanceScore,
+                _gameRuntimeData.CollectibleRuntimeData.CurrentScore,
+                totalScore,
+                _momentumState.CurrentMultiplier,
+                _momentumState.MaximumReachedMultiplier,
+                _momentumState.RemainingDuration,
+                _momentumState.CurrentDuration);
+        }
+
         private void FinalizeRunMetrics()
         {
             if (!UpdateRunMetrics() ||
+                !PublishRunMetrics() ||
                 !_distanceState.TryFinalize() ||
+                !_scoreState.TryFinalize(
+                    _infiniteModeRuntimeData.ScoringVersion) ||
+                !FinalizeMomentumState() ||
                 !_infiniteModeRuntimeData.TryFinalize())
             {
                 Debug.LogError(
@@ -361,8 +481,18 @@ namespace FlowState.Runtime.Systems
         private void ResetRunMetrics()
         {
             _distanceState.Reset();
-            _scoreCalculator.Reset();
+            _scoreState.Reset();
             _infiniteModeRuntimeData = null;
+        }
+
+        private bool FinalizeMomentumState()
+        {
+            if (!_momentumState.IsRunning)
+            {
+                return false;
+            }
+
+            return _momentumState.IsFinalized || _momentumState.FinalizeRun();
         }
 
         private bool HasRequiredReferences()

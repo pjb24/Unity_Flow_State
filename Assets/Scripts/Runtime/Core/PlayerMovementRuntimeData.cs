@@ -8,6 +8,7 @@ namespace FlowState.Runtime.Core
         private bool _isGrounded;
         private bool _isMomentumLandingWindowActive;
         private bool _isLastLandingMomentum;
+        private long _momentumLandingSuccessId;
 
         public E_PlayerMovementState CurrentMovementState => _currentMovementState;
 
@@ -21,6 +22,8 @@ namespace FlowState.Runtime.Core
 
         public bool IsLastLandingMomentum => _isLastLandingMomentum;
 
+        public long MomentumLandingSuccessId => _momentumLandingSuccessId;
+
         public void Initialize()
         {
             _currentMovementState = E_PlayerMovementState.None;
@@ -29,6 +32,18 @@ namespace FlowState.Runtime.Core
             _isGrounded = false;
             _isMomentumLandingWindowActive = false;
             _isLastLandingMomentum = false;
+            _momentumLandingSuccessId = 0;
+        }
+
+        public bool TryRecordMomentumLanding(long successId)
+        {
+            if (successId <= _momentumLandingSuccessId)
+            {
+                return false;
+            }
+
+            _momentumLandingSuccessId = successId;
+            return true;
         }
 
         public void UpdateState(

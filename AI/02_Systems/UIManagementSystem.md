@@ -26,7 +26,7 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - Pause UI State와 PausePanel 선택 상태를 관리한다.
 - 현재 게임 Mode와 게임 상태에 맞는 HUD, PausePanel, ResultPanel과 Result Content의 표시 조합을 관리한다.
 - Stage Mode Runtime Data의 Collectible Score를 StageHUD에 표시한다.
-- InfiniteMode Runtime Data의 현재 거리, Distance Score, Collectible Score와 Total Score를 InfiniteHUD에 표시한다.
+- InfiniteMode Runtime Data의 현재 거리, Base Distance Score, Momentum Bonus, Distance Score, Collectible Score와 Total Score를 InfiniteHUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 Momentum 배율과 남은 유지 시간 비율을 기존 InfiniteHUD와 분리된 우측 하단 Momentum HUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 Difficulty Level을 개발 환경의 InfiniteHUD 별도 행에 표시한다. 일반 빌드에서는 이 행을 숨긴다.
 - Result Data의 Mode별 Result Status, 경과 시간, 최종 거리와 Score를 해당 Result Content에 표시한다.
@@ -153,9 +153,13 @@ Pause, Ending, Result와 Ended에서는 마지막 HUD 표시값을 유지한다.
 
 Difficulty 행은 Unity Editor와 Development Build에서 개발 표시 설정이 켜진 경우에만 활성화한다. 일반 빌드에서는 표시하지 않는다. Retry·새 Run에서는 D1으로 초기화한다.
 
-Momentum HUD는 기존 InfiniteHUD와 분리하여 화면 우측 하단에 표시한다. 현재 배율은 숫자로 표시하고, 남은 유지 시간은 단계별 전체 유지 시간에 대한 비율을 Bar로 표시한다. Bar 색상은 남은 비율에 따른 Gradient를 사용한다.
+Momentum HUD는 기존 InfiniteHUD와 분리하여 화면 우측 하단에 표시한다. 현재 배율은 `x1.00` 형식으로 표시하고, 남은 유지 시간은 단계별 전체 유지 시간에 대한 `0..1` 비율을 Bar로 표시한다. Bar 자체는 Inspector의 `Momentum Duration Gradient`를 사용하는 고정 수평 Gradient이며 중간 영역은 Color Key 사이를 연속 보간한다. 시간 경과는 색 선택이 아니라 Fill 길이로만 표시한다. Runtime은 Inspector Gradient를 하드코딩 값으로 대체하지 않으며 Fill Image의 Inspector Color를 Gradient tint로 함께 적용한다.
 
 Playing에서는 Runtime Data가 제공한 배율과 남은 비율을 표시한다. Paused, Ending, Result와 Ended에서는 마지막 표시 상태를 유지하며, Retry와 새 Run에서는 기본 배율과 비활성 Bar 상태로 초기화한다. UIManagementSystem은 배율 단계, 유지 시간 또는 Gradient의 색상 규칙을 계산하지 않는다.
+
+Momentum HUD Root, 배율 Text 또는 Fill Image 참조가 누락된 경우 초기화 시 한 번 Warning을 기록하고 Momentum HUD를 비활성화한다. `MomentumGradientEffect`가 있으면 Inspector Gradient를 전달하고, 없으면 Text와 Fill 길이 갱신은 유지하되 Gradient Mesh 효과를 적용하지 않는다. 정상 플레이의 화면 갱신에서는 누락 Warning을 반복하지 않는다.
+
+Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance Score, Collectible Score, Total Score와 최고 Momentum 배율을 표시한다.
 
 ---
 

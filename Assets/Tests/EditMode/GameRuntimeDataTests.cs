@@ -36,6 +36,8 @@ namespace FlowState.Tests.EditMode
                 Is.True);
             Assert.That(_runtimeData.InfiniteModeRuntimeData.CurrentDistance, Is.Zero);
             Assert.That(_runtimeData.InfiniteModeRuntimeData.CurrentScore, Is.Zero);
+            Assert.That(_runtimeData.InfiniteModeRuntimeData.ScoringVersion,
+                Is.EqualTo(ScoringVersion.Current));
             Assert.That(_runtimeData.InfiniteModeRuntimeData.IsFinalized, Is.False);
             Assert.That(_runtimeData.IsCreated, Is.True);
         }
@@ -105,7 +107,7 @@ namespace FlowState.Tests.EditMode
             _runtimeData.Initialize(E_GameMode.Infinite);
             InfiniteModeRuntimeData infiniteData =
                 _runtimeData.InfiniteModeRuntimeData;
-            Assert.That(infiniteData.TryUpdate(12.5f, 125), Is.True);
+            Assert.That(UpdateCurrent(infiniteData, 12.5f, 125, 0), Is.True);
             _runtimeData.SetGameState(E_GameState.Playing);
 
             _runtimeData.SetGameState(E_GameState.Paused);
@@ -123,7 +125,7 @@ namespace FlowState.Tests.EditMode
         public void Clear_PausedData_RemovesPauseAndRunRuntimeData()
         {
             _runtimeData.Initialize(E_GameMode.Infinite);
-            _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.5f, 125);
+            UpdateCurrent(_runtimeData.InfiniteModeRuntimeData, 12.5f, 125, 0);
             _runtimeData.SetGameState(E_GameState.Paused);
 
             _runtimeData.Clear();
@@ -164,7 +166,7 @@ namespace FlowState.Tests.EditMode
             _runtimeData.Initialize(E_GameMode.Infinite);
             InfiniteModeRuntimeData previousInfiniteData =
                 _runtimeData.InfiniteModeRuntimeData;
-            previousInfiniteData.TryUpdate(10.0f, 100);
+            UpdateCurrent(previousInfiniteData, 10.0f, 100, 0);
             previousInfiniteData.TryFinalize();
             _runtimeData.Clear();
 
@@ -188,7 +190,7 @@ namespace FlowState.Tests.EditMode
         public void Initialize_StageAfterInfiniteClear_DoesNotCreateInfiniteData()
         {
             _runtimeData.Initialize(E_GameMode.Infinite);
-            _runtimeData.InfiniteModeRuntimeData.TryUpdate(10.0f, 100);
+            UpdateCurrent(_runtimeData.InfiniteModeRuntimeData, 10.0f, 100, 0);
             _runtimeData.Clear();
 
             _runtimeData.Initialize(E_GameMode.Stage);
@@ -248,27 +250,57 @@ namespace FlowState.Tests.EditMode
         {
             _runtimeData.Initialize(E_GameMode.Infinite);
             InfiniteModeRuntimeData infinite = _runtimeData.InfiniteModeRuntimeData;
-            Assert.That(infinite.TryUpdate(12.5f, 125), Is.True);
+            Assert.That(UpdateCurrent(infinite, 12.5f, 125, 0), Is.True);
             CollectibleRuntimeData data = _runtimeData.CollectibleRuntimeData;
             data.TryCreateScope(out long scope);
             data.TryRegister(scope, "coin");
             Assert.That(data.TryCollect(scope, "coin"), Is.True);
+            Assert.That(UpdateCurrent(infinite, 12.5f, 125, 0, 10), Is.True);
             Assert.That(infinite.CurrentDistance, Is.EqualTo(12.5f));
             Assert.That(infinite.CurrentScore, Is.EqualTo(125));
             Assert.That(infinite.TryFinalize(), Is.True);
 
             ScoreRecord record = new ScoreRecord();
             Assert.That(record.TryRecord(
+                infinite.ScoringVersion,
                 E_GameMode.Infinite,
                 true,
                 infinite.IsFinalized,
                 infinite.CurrentDistance,
+                infinite.BaseDistanceScore,
+                infinite.MomentumBonus,
                 infinite.CurrentScore,
-                data.CurrentScore), Is.True);
+                infinite.CollectibleScore,
+                infinite.MaximumMomentumMultiplier), Is.True);
             Assert.That(record.ResultData.DistanceScore, Is.EqualTo(125));
             Assert.That(record.ResultData.CollectibleScore, Is.EqualTo(10));
             Assert.That(record.ResultData.TotalScore, Is.EqualTo(135));
             Assert.That(data.CurrentScore, Is.EqualTo(10));
+        }
+
+        private static bool UpdateCurrent(
+            InfiniteModeRuntimeData data,
+            float distance,
+            int baseDistanceScore,
+            int momentumBonus,
+            int collectibleScore = 0)
+        {
+            int distanceScore = baseDistanceScore + momentumBonus;
+            int totalScore = distanceScore + collectibleScore;
+            double multiplier = momentumBonus > 0 ? 1.25 : 1.0;
+            double duration = momentumBonus > 0 ? 10.0 : 0.0;
+            return data.TryUpdate(
+                ScoringVersion.Current,
+                distance,
+                baseDistanceScore,
+                momentumBonus,
+                distanceScore,
+                collectibleScore,
+                totalScore,
+                multiplier,
+                multiplier,
+                duration,
+                duration);
         }
     }
 }

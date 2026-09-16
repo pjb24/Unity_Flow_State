@@ -6,9 +6,8 @@ namespace FlowState.Runtime.Features
     public class MomentumLandingFeature : MonoBehaviour
     {
         [SerializeField] private float _momentumLandingWindow = 0.15f;
-        [SerializeField] private float _speedMultiplier = 1.15f;
-        [SerializeField] private float _maximumHorizontalSpeed = 14.0f;
 
+        private long _successId;
         private float _remainingWindowTime;
         private bool _isJumpActive;
         private bool _isWindowActive;
@@ -18,8 +17,11 @@ namespace FlowState.Runtime.Features
 
         public bool IsWindowActive => _isWindowActive;
 
+        public long SuccessId => _successId;
+
         public void Initialize()
         {
+            _successId = 0;
             ResetState();
         }
 
@@ -94,19 +96,12 @@ namespace FlowState.Runtime.Features
             _hasLandingResolved = true;
             _isWindowActive = false;
 
-            if (!_hasBufferedInput)
+            if (!_hasBufferedInput || _successId == long.MaxValue)
             {
                 return false;
             }
 
-            float speedMultiplier = Mathf.Max(1.0f, _speedMultiplier);
-            float maximumSpeed = Mathf.Max(0.0f, _maximumHorizontalSpeed);
-            float speedMagnitude = Mathf.Min(
-                Mathf.Abs(horizontalSpeed) * speedMultiplier,
-                maximumSpeed);
-
-            resultHorizontalSpeed = Mathf.Sign(horizontalSpeed) * speedMagnitude;
-
+            _successId++;
             return true;
         }
 

@@ -156,6 +156,57 @@ namespace FlowState.Tests.EditMode
                 Is.EqualTo(distanceScore + collectibleScore));
         }
 
+        [Test]
+        public void CreateCurrentInfiniteResult_TransfersCompleteScoreContract()
+        {
+            bool didCreate = InvokeBool(
+                "CreateInfiniteResultData",
+                ScoringVersion.Current,
+                E_GameMode.Infinite,
+                true,
+                true,
+                12.5f,
+                100,
+                25,
+                125,
+                30,
+                1.5);
+
+            Assert.That(didCreate, Is.True);
+            ResultData resultData = GetResultData();
+            Assert.That(resultData.ScoringVersion, Is.EqualTo(ScoringVersion.Current));
+            Assert.That(resultData.BaseDistanceScore, Is.EqualTo(100));
+            Assert.That(resultData.MomentumBonus, Is.EqualTo(25));
+            Assert.That(resultData.DistanceScore, Is.EqualTo(125));
+            Assert.That(resultData.CollectibleScore, Is.EqualTo(30));
+            Assert.That(resultData.TotalScore, Is.EqualTo(155));
+            Assert.That(resultData.MaximumMomentumMultiplier, Is.EqualTo(1.5));
+        }
+
+        [TestCase(ScoringVersion.None)]
+        [TestCase(ScoringVersion.LegacyDistanceScore)]
+        [TestCase(3)]
+        public void CreateCurrentInfiniteResult_InvalidVersionIsRejected(int version)
+        {
+            LogAssert.Expect(
+                LogType.Warning,
+                "[ResultSystem] Infinite Result Data was not created.");
+
+            Assert.That(InvokeBool(
+                "CreateInfiniteResultData",
+                version,
+                E_GameMode.Infinite,
+                true,
+                true,
+                12.5f,
+                100,
+                25,
+                125,
+                30,
+                1.5), Is.False);
+            Assert.That(GetBoolProperty("HasResultData"), Is.False);
+        }
+
         private Type FindType(string fullName)
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -197,9 +248,18 @@ namespace FlowState.Tests.EditMode
 
         private object Invoke(string methodName, params object[] arguments)
         {
-            MethodInfo method = _resultSystem.GetType().GetMethod(
-                methodName,
+            MethodInfo method = null;
+            MethodInfo[] methods = _resultSystem.GetType().GetMethods(
                 BindingFlags.Instance | BindingFlags.Public);
+            for (int index = 0; index < methods.Length; index++)
+            {
+                if (methods[index].Name == methodName &&
+                    methods[index].GetParameters().Length == arguments.Length)
+                {
+                    method = methods[index];
+                    break;
+                }
+            }
             Assert.That(method, Is.Not.Null);
             return method.Invoke(_resultSystem, arguments);
         }

@@ -19,15 +19,24 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private TMP_Text _clearTimeText;
         [SerializeField] private TMP_Text _stageResultCollectibleScoreText;
         [SerializeField] private TMP_Text _distanceText;
+        [SerializeField] private TMP_Text _baseDistanceScoreText;
+        [SerializeField] private TMP_Text _momentumBonusText;
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _infiniteCollectibleScoreText;
         [SerializeField] private TMP_Text _infiniteTotalScoreText;
         [SerializeField] private TMP_Text _infiniteDifficultyText;
         [SerializeField] private bool _showDifficultyInDevelopment = true;
         [SerializeField] private TMP_Text _finalDistanceText;
+        [SerializeField] private TMP_Text _infiniteResultBaseDistanceScoreText;
+        [SerializeField] private TMP_Text _infiniteResultMomentumBonusText;
         [SerializeField] private TMP_Text _finalScoreText;
         [SerializeField] private TMP_Text _infiniteResultCollectibleScoreText;
         [SerializeField] private TMP_Text _infiniteResultTotalScoreText;
+        [SerializeField] private TMP_Text _infiniteResultMaximumMomentumText;
+        [SerializeField] private GameObject _momentumHud;
+        [SerializeField] private TMP_Text _momentumMultiplierText;
+        [SerializeField] private Image _momentumDurationFillImage;
+        [SerializeField] private Gradient _momentumDurationGradient;
         [SerializeField] private Button _retryButton;
         [SerializeField] private Button _quitButton;
         [SerializeField] private Button _pauseResumeButton;
@@ -54,6 +63,8 @@ namespace FlowState.Runtime.Systems
         private bool _lastScoreWasValid;
         private bool _lastCollectibleScoreWasValid;
         private bool _lastTotalScoreWasValid;
+        private bool _isMomentumHudConfigured;
+        private MomentumGradientEffect _momentumGradientEffect;
         private bool _isInitialized;
 
         public E_UIState CurrentUIState => _currentUIState;
@@ -101,6 +112,7 @@ namespace FlowState.Runtime.Systems
             _visibilityState.Reset();
             ResetHudDisplay();
             ConfigureDifficultyVisibility();
+            ConfigureMomentumHud();
             ResetResultDisplay();
             _isInitialized = true;
             SetUIState(E_UIState.None);
@@ -227,25 +239,40 @@ namespace FlowState.Runtime.Systems
                 _stageResultCollectibleScoreText.text =
                     stageCollectibleScoreText;
                 SetTextIfChanged(_finalDistanceText, string.Empty);
+                SetTextIfChanged(
+                    _infiniteResultBaseDistanceScoreText,
+                    string.Empty);
+                SetTextIfChanged(
+                    _infiniteResultMomentumBonusText,
+                    string.Empty);
                 SetTextIfChanged(_finalScoreText, string.Empty);
                 SetTextIfChanged(
                     _infiniteResultCollectibleScoreText,
                     string.Empty);
                 SetTextIfChanged(_infiniteResultTotalScoreText, string.Empty);
+                SetTextIfChanged(
+                    _infiniteResultMaximumMomentumText,
+                    string.Empty);
                 return true;
             }
 
             if (ResultTextFormatter.TryFormatInfiniteResult(
                     resultData,
                     out string finalDistanceText,
+                    out string baseDistanceScoreText,
+                    out string momentumBonusText,
                     out string distanceScoreText,
                     out string infiniteCollectibleScoreText,
-                    out string totalScoreText))
+                    out string totalScoreText,
+                    out string maximumMomentumText))
             {
                 if (_finalDistanceText == null ||
+                    _infiniteResultBaseDistanceScoreText == null ||
+                    _infiniteResultMomentumBonusText == null ||
                     _finalScoreText == null ||
                     _infiniteResultCollectibleScoreText == null ||
-                    _infiniteResultTotalScoreText == null)
+                    _infiniteResultTotalScoreText == null ||
+                    _infiniteResultMaximumMomentumText == null)
                 {
                     Debug.LogError(
                         "[UIManagementSystem] Infinite Result Text is not assigned.");
@@ -258,10 +285,14 @@ namespace FlowState.Runtime.Systems
                     _stageResultCollectibleScoreText,
                     string.Empty);
                 _finalDistanceText.text = finalDistanceText;
+                _infiniteResultBaseDistanceScoreText.text =
+                    baseDistanceScoreText;
+                _infiniteResultMomentumBonusText.text = momentumBonusText;
                 _finalScoreText.text = distanceScoreText;
                 _infiniteResultCollectibleScoreText.text =
                     infiniteCollectibleScoreText;
                 _infiniteResultTotalScoreText.text = totalScoreText;
+                _infiniteResultMaximumMomentumText.text = maximumMomentumText;
                 return true;
             }
 
@@ -333,6 +364,11 @@ namespace FlowState.Runtime.Systems
                 _infiniteHud,
                 _visibilityState.IsInfiniteHudVisible,
                 nameof(_infiniteHud));
+            if (_isMomentumHudConfigured)
+            {
+                _momentumHud.SetActive(
+                    _visibilityState.IsInfiniteHudVisible);
+            }
             SetUIActive(
                 _resultPanel,
                 _visibilityState.IsResultPanelVisible,
@@ -365,28 +401,68 @@ namespace FlowState.Runtime.Systems
                 !collectibleRuntimeData.IsInitialized)
             {
                 UpdateDistanceText(-1.0f);
+                UpdateBaseDistanceScoreText(-1);
+                UpdateMomentumBonusText(-1);
                 UpdateScoreText(-1);
                 UpdateCollectibleScoreText(
                     _infiniteCollectibleScoreText,
                     -1);
                 UpdateTotalScoreText(-1);
                 UpdateDifficultyText(E_InfinitePatternDifficulty.None);
+                UpdateMomentumHud(double.NaN, double.NaN);
                 return;
             }
 
             UpdateDistanceText(infiniteModeRuntimeData.CurrentDistance);
+            UpdateBaseDistanceScoreText(
+                infiniteModeRuntimeData.BaseDistanceScore);
+            UpdateMomentumBonusText(infiniteModeRuntimeData.MomentumBonus);
             UpdateScoreText(infiniteModeRuntimeData.CurrentScore);
             UpdateCollectibleScoreText(
                 _infiniteCollectibleScoreText,
-                collectibleRuntimeData.CurrentScore);
-
-            ScoreRecord.TryCalculateTotalScore(
-                infiniteModeRuntimeData.CurrentScore,
-                collectibleRuntimeData.CurrentScore,
-                out int totalScore);
-            UpdateTotalScoreText(totalScore);
+                infiniteModeRuntimeData.CollectibleScore);
+            UpdateTotalScoreText(infiniteModeRuntimeData.TotalScore);
             UpdateDifficultyText((E_InfinitePatternDifficulty)
                 infiniteModeRuntimeData.CurrentDifficultyLevel);
+            UpdateMomentumHud(
+                infiniteModeRuntimeData.CurrentMomentumMultiplier,
+                infiniteModeRuntimeData.MomentumRemainingRatio);
+        }
+
+        private void ConfigureMomentumHud()
+        {
+            _momentumGradientEffect = _momentumDurationFillImage != null
+                ? _momentumDurationFillImage.GetComponent<MomentumGradientEffect>()
+                : null;
+            _isMomentumHudConfigured =
+                _momentumHud != null &&
+                _momentumMultiplierText != null &&
+                _momentumDurationFillImage != null;
+
+            if (_currentGameMode == E_GameMode.Infinite &&
+                !_isMomentumHudConfigured)
+            {
+                Debug.LogWarning(
+                    "[UIManagementSystem] Required Momentum HUD references are invalid. " +
+                    $"Root={_momentumHud != null}, " +
+                    $"Text={_momentumMultiplierText != null}, " +
+                    $"Image={_momentumDurationFillImage != null}, " +
+                    "Momentum HUD is disabled.");
+            }
+
+            if (_momentumHud != null)
+            {
+                _momentumHud.SetActive(false);
+            }
+
+            if (_isMomentumHudConfigured)
+            {
+                if (_momentumGradientEffect != null)
+                {
+                    _momentumGradientEffect.SetGradient(
+                        _momentumDurationGradient);
+                }
+            }
         }
 
         private void ConfigureDifficultyVisibility()
@@ -475,6 +551,36 @@ namespace FlowState.Runtime.Systems
             _hasDisplayedScore = true;
         }
 
+        private void UpdateBaseDistanceScoreText(int score)
+        {
+            SetTextIfChanged(
+                _baseDistanceScoreText,
+                ResultTextFormatter.FormatBaseDistanceScore(score));
+        }
+
+        private void UpdateMomentumBonusText(int score)
+        {
+            SetTextIfChanged(
+                _momentumBonusText,
+                ResultTextFormatter.FormatMomentumBonus(score));
+        }
+
+        private void UpdateMomentumHud(double multiplier, double remainingRatio)
+        {
+            if (!_isMomentumHudConfigured)
+            {
+                return;
+            }
+
+            MomentumHudPresentation presentation = MomentumHudPresenter.Create(
+                multiplier,
+                remainingRatio);
+            SetTextIfChanged(
+                _momentumMultiplierText,
+                presentation.MultiplierText);
+            _momentumDurationFillImage.fillAmount = presentation.FillAmount;
+        }
+
         private void UpdateCollectibleScoreText(
             TMP_Text targetText,
             int collectibleScore)
@@ -538,6 +644,12 @@ namespace FlowState.Runtime.Systems
                 _scoreText,
                 ResultTextFormatter.FormatDistanceScore(-1));
             SetTextIfChanged(
+                _baseDistanceScoreText,
+                ResultTextFormatter.FormatBaseDistanceScore(-1));
+            SetTextIfChanged(
+                _momentumBonusText,
+                ResultTextFormatter.FormatMomentumBonus(-1));
+            SetTextIfChanged(
                 _stageCollectibleScoreText,
                 ResultTextFormatter.FormatCollectibleScore(-1));
             SetTextIfChanged(
@@ -547,6 +659,12 @@ namespace FlowState.Runtime.Systems
                 _infiniteTotalScoreText,
                 ResultTextFormatter.FormatTotalScore(-1));
             UpdateDifficultyText(E_InfinitePatternDifficulty.None);
+            MomentumHudPresentation momentum = MomentumHudPresenter.Create(1.0, 0.0);
+            SetTextIfChanged(_momentumMultiplierText, momentum.MultiplierText);
+            if (_momentumDurationFillImage != null)
+            {
+                _momentumDurationFillImage.fillAmount = momentum.FillAmount;
+            }
         }
 
         private void ResetResultDisplay()
@@ -555,11 +673,20 @@ namespace FlowState.Runtime.Systems
             SetTextIfChanged(_clearTimeText, string.Empty);
             SetTextIfChanged(_stageResultCollectibleScoreText, string.Empty);
             SetTextIfChanged(_finalDistanceText, string.Empty);
+            SetTextIfChanged(
+                _infiniteResultBaseDistanceScoreText,
+                string.Empty);
+            SetTextIfChanged(
+                _infiniteResultMomentumBonusText,
+                string.Empty);
             SetTextIfChanged(_finalScoreText, string.Empty);
             SetTextIfChanged(
                 _infiniteResultCollectibleScoreText,
                 string.Empty);
             SetTextIfChanged(_infiniteResultTotalScoreText, string.Empty);
+            SetTextIfChanged(
+                _infiniteResultMaximumMomentumText,
+                string.Empty);
         }
 
         private void SetTextIfChanged(TMP_Text targetText, string value)

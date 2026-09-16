@@ -23,6 +23,7 @@ Stage 종료 결과를 기반으로 Result Data를 생성한다.
 - 일반 Stage에서는 TimeRecord를 사용한다.
 - InfiniteMode에서는 ScoreRecord를 사용한다.
 - InfiniteMode Result Data에 Run의 Scoring Version을 전달한다.
+- Version `2` InfiniteMode Result에 Base Distance Score, Momentum Bonus, Distance Score, Collectible Score와 최고 Momentum 배율을 전달한다.
 
 ---
 
@@ -94,6 +95,7 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 - Result Data 제공
 - Mode에 맞는 Record Feature 연결
 - Runtime Data의 Scoring Version을 InfiniteMode Result 생성 요청에 전달
+- Runtime Data의 최종 Score 구성 요소와 최고 Momentum 배율을 ScoreRecord에 변경 없이 전달
 
 ---
 
@@ -132,6 +134,8 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 - 하나의 Stage 종료에서 TimeRecord와 ScoreRecord를 동시에 수행하지 않는다.
 - 초기화 시 이전 Run의 Result Data와 Record 완료 상태를 제거한다.
 - InfiniteMode Runtime Data와 Result 요청의 Scoring Version이 다르면 Result Data를 생성하지 않는다.
+- Version `2` Result 요청의 Base Distance Score, Momentum Bonus와 Distance Score 또는 Total Score 관계가 다르면 Result Data를 생성하지 않는다.
+- 기존 Version `1` Result 생성 API는 호환 경로로 유지하며 새 생산 Run에서는 사용하지 않는다.
 
 ---
 

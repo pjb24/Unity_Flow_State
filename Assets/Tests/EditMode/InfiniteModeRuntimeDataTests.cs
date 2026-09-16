@@ -192,5 +192,93 @@ namespace FlowState.Tests.EditMode
             Assert.That(_runtimeData.IsInitialized, Is.True);
             Assert.That(_runtimeData.IsFinalized, Is.False);
         }
+
+        [Test]
+        public void CurrentVersionUpdate_StoresCompleteScoreAndMomentumState()
+        {
+            Assert.That(_runtimeData.Initialize(ScoringVersion.Current), Is.True);
+
+            Assert.That(_runtimeData.TryUpdate(
+                ScoringVersion.Current, 12.5f, 125, 25, 150, 30, 180,
+                1.5, 2.0, 4.0, 9.5), Is.True);
+
+            Assert.That(_runtimeData.ScoringVersion, Is.EqualTo(ScoringVersion.Current));
+            Assert.That(_runtimeData.CurrentDistance, Is.EqualTo(12.5f));
+            Assert.That(_runtimeData.BaseDistanceScore, Is.EqualTo(125));
+            Assert.That(_runtimeData.MomentumBonus, Is.EqualTo(25));
+            Assert.That(_runtimeData.CurrentScore, Is.EqualTo(150));
+            Assert.That(_runtimeData.CollectibleScore, Is.EqualTo(30));
+            Assert.That(_runtimeData.TotalScore, Is.EqualTo(180));
+            Assert.That(_runtimeData.CurrentMomentumMultiplier, Is.EqualTo(1.5));
+            Assert.That(_runtimeData.MaximumMomentumMultiplier, Is.EqualTo(2.0));
+            Assert.That(_runtimeData.MomentumRemainingDuration, Is.EqualTo(4.0));
+            Assert.That(_runtimeData.MomentumDuration, Is.EqualTo(9.5));
+            Assert.That(_runtimeData.MomentumRemainingRatio,
+                Is.EqualTo(4.0 / 9.5).Within(0.0000001));
+        }
+
+        [TestCase(ScoringVersion.None)]
+        [TestCase(ScoringVersion.LegacyDistanceScore)]
+        [TestCase(3)]
+        public void CurrentVersionUpdate_VersionMismatchIsRejected(int version)
+        {
+            _runtimeData.Initialize(ScoringVersion.Current);
+
+            Assert.That(_runtimeData.TryUpdate(
+                version, 12.5f, 125, 25, 150, 30, 180,
+                1.5, 2.0, 4.0, 9.5), Is.False);
+            Assert.That(_runtimeData.CurrentDistance, Is.Zero);
+            Assert.That(_runtimeData.TotalScore, Is.Zero);
+        }
+
+        [Test]
+        public void CurrentVersionUpdate_InconsistentComponentsAreRejectedAtomically()
+        {
+            _runtimeData.Initialize(ScoringVersion.Current);
+
+            Assert.That(_runtimeData.TryUpdate(
+                ScoringVersion.Current, 12.5f, 125, 25, 149, 30, 179,
+                1.5, 2.0, 4.0, 9.5), Is.False);
+            Assert.That(_runtimeData.TryUpdate(
+                ScoringVersion.Current, 12.5f, 125, 25, 150, 30, 179,
+                1.5, 2.0, 4.0, 9.5), Is.False);
+            Assert.That(_runtimeData.TryUpdate(
+                ScoringVersion.Current, 12.5f, 125, 25, 150, 30, 180,
+                3.25, 3.25, 4.0, 9.5), Is.False);
+            Assert.That(_runtimeData.CurrentDistance, Is.Zero);
+            Assert.That(_runtimeData.CurrentScore, Is.Zero);
+            Assert.That(_runtimeData.TotalScore, Is.Zero);
+        }
+
+        [Test]
+        public void VersionSpecificEntryPoints_RejectTheOtherScoreContract()
+        {
+            _runtimeData.Initialize(ScoringVersion.Current);
+            Assert.That(_runtimeData.TryUpdate(10.0f, 100), Is.False);
+            _runtimeData.Clear();
+            _runtimeData.Initialize();
+            Assert.That(_runtimeData.TryUpdate(
+                ScoringVersion.Current, 10.0f, 100, 0, 100, 0, 100,
+                1.0, 1.0, 0.0, 0.0), Is.False);
+            Assert.That(_runtimeData.TryUpdate(10.0f, 100), Is.True);
+        }
+
+        [Test]
+        public void CurrentVersionUpdate_SaturatesComponentsAndRejectsPostFinalizeChange()
+        {
+            _runtimeData.Initialize(ScoringVersion.Current);
+            Assert.That(_runtimeData.TryUpdate(
+                ScoringVersion.Current, float.MaxValue,
+                int.MaxValue, int.MaxValue, int.MaxValue,
+                int.MaxValue, int.MaxValue,
+                3.0, 3.0, 6.5, 6.5), Is.True);
+            Assert.That(_runtimeData.TryFinalize(), Is.True);
+            Assert.That(_runtimeData.TryUpdate(
+                ScoringVersion.Current, float.MaxValue,
+                int.MaxValue, int.MaxValue, int.MaxValue,
+                int.MaxValue, int.MaxValue,
+                3.0, 3.0, 6.5, 6.5), Is.False);
+            Assert.That(_runtimeData.TotalScore, Is.EqualTo(int.MaxValue));
+        }
     }
 }

@@ -538,12 +538,16 @@ namespace FlowState.Runtime.Systems
             }
 
             if (_resultSystem.CreateInfiniteResultData(
+                    infiniteModeRuntimeData.ScoringVersion,
                     _runtimeData.GameMode,
                     _stageSystem.HasEnded,
                     infiniteModeRuntimeData.IsFinalized,
                     infiniteModeRuntimeData.CurrentDistance,
+                    infiniteModeRuntimeData.BaseDistanceScore,
+                    infiniteModeRuntimeData.MomentumBonus,
                     infiniteModeRuntimeData.CurrentScore,
-                    _runtimeData.CollectibleRuntimeData.CurrentScore))
+                    infiniteModeRuntimeData.CollectibleScore,
+                    infiniteModeRuntimeData.MaximumMomentumMultiplier))
             {
                 _uiManagementSystem.SetResultData(
                     _resultSystem.CurrentResultData);

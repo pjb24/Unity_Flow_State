@@ -82,9 +82,11 @@ World Rebase 생산 연결은 Phase 3 범위이며 이번 작업에 포함하지
 
 ### 완료 조건
 
-- [ ] 속도 효과 제거와 Score 생산 연결 지점이 확인됐다.
-- [ ] Runtime·Result·UI의 기존 Version `1` 경로와 Version `2` 전환 지점이 확인됐다.
-- [ ] 사용자가 추가할 Scene UI 객체와 직렬화 참조 목록이 확정됐다.
+- [x] 속도 효과 제거와 Score 생산 연결 지점이 확인됐다.
+- [x] Runtime·Result·UI의 기존 Version `1` 경로와 Version `2` 전환 지점이 확인됐다.
+- [x] 사용자가 추가할 Scene UI 객체와 직렬화 참조 목록이 확정됐다.
+
+조사 근거와 후속 연결 대상은 `20260916_05_Phase2Step1ProductionInvestigation.md`에 기록했다. 새 UI 참조의 역할·Component 목록은 확정했으며 정확한 C# 필드명은 Step 4에서 확정한다. 현재 Scene은 HUD마다 별도 Canvas를 가지므로 Step 6의 공통 HUD Canvas 가정은 해당 조사 기록의 실제 계층 기준 구성안으로 보완한다. 자동 이동과 Move 비활성화는 확정된 기존 계약으로 유지한다.
 
 ---
 
@@ -114,9 +116,13 @@ World Rebase 생산 연결은 Phase 3 범위이며 이번 작업에 포함하지
 
 ### 완료 조건
 
-- [ ] 속도 증가 코드와 생산 설정 의존성이 제거됐다.
-- [ ] 생산 Momentum 상태 생명주기가 순수 모델 계약을 사용한다.
-- [ ] 계산·상태 규칙을 수동 플레이 없이 Unit Test로 판정할 수 있다.
+- [x] 속도 증가 코드와 생산 설정 의존성이 제거됐다.
+- [x] 생산 Momentum 상태 생명주기가 순수 모델 계약을 사용한다.
+- [x] 계산·상태 규칙을 수동 플레이 없이 Unit Test로 판정할 수 있다.
+
+Step 2 코드·Test 작성 및 정적 검사를 완료했다. `MomentumProductionStateTests` 31개 사례를 추가하고 기존 착지 Test의 속도 보상 기대값을 갱신했다. 체크 표시는 구현·Test 준비를 뜻하며 Unity Compile·Test 통과 판정은 Step 5의 사용자 실행 결과를 기다린다. 상세 내용은 `20260916_06_Phase2Step2MomentumProduction.md`에 기록했다.
+
+이 단계에서는 Momentum 상태만 생산 연결했으며 거리 Score·Result는 기존 Version `1` 경로이다. 실제 배율 점수 적용과 Runtime·Result Version `2` 전환은 Step 3에서 수행한다. 기존 자동 전진과 Move 비활성화 계약을 유지한다.
 
 ---
 
@@ -146,9 +152,11 @@ World Rebase 생산 연결은 Phase 3 범위이며 이번 작업에 포함하지
 
 ### 완료 조건
 
-- [ ] 새 생산 Run이 Version `2`와 새 Score 모델을 사용한다.
-- [ ] Runtime Data와 Result Data의 구성 요소 및 합계가 일치한다.
-- [ ] Score 수치와 경계값이 Unit Test로 검증 가능하다.
+- [x] 새 생산 Run이 Version `2`와 새 Score 모델을 사용한다.
+- [x] Runtime Data와 Result Data의 구성 요소 및 합계가 일치한다.
+- [x] Score 수치와 경계값이 Unit Test로 검증 가능하다.
+
+Step 3 코드·Test 작성 및 정적 검사를 완료했다. 생산 Infinite Run을 Version `2`로 고정하고 `InfiniteScoreState`의 Base·Bonus·Distance Score와 공통 Collectible Score·Total Score를 Runtime·Result에 전달한다. 사용자가 Unity Script Compilation 성공과 전체 Edit Mode Test `610/610` 성공을 확인했으며 예상하지 않은 Error·Warning은 없었다. Step 4 변경 이후 Step 5에서 전체 회귀 검증을 다시 수행한다. 상세 내용은 `20260916_07_Phase2Step3ScoreProduction.md`에 기록했다.
 
 ---
 
@@ -170,9 +178,13 @@ World Rebase 생산 연결은 Phase 3 범위이며 이번 작업에 포함하지
 
 ### 완료 조건
 
-- [ ] UI 코드가 Scene과 독립적으로 Compile 가능한 참조 계약을 제공한다.
-- [ ] Text·Fill·Gradient·표시 상태가 Edit Mode Unit Test로 검증된다.
-- [ ] 사용자가 연결할 정확한 Inspector 필드 목록이 확정됐다.
+- [x] UI 코드가 Scene과 독립적으로 Compile 가능한 참조 계약을 제공한다.
+- [x] Text·Fill·Gradient·표시 상태가 Edit Mode Unit Test로 검증된다.
+- [x] 사용자가 연결할 정확한 Inspector 필드 목록이 확정됐다.
+
+Step 4 코드·Test 작성 및 정적 검사를 완료했다. `MomentumHudPresenter`가 배율 문자열, Fill 제한과 승인된 Gradient 기준점을 담당하고 `UIManagementSystem`은 Version `2` Runtime·Result 표시와 상태별 보존을 연결한다. Scene은 변경하지 않았으며 정확한 Inspector 연결 목록은 `20260916_08_Phase2Step4UIPresentation.md`에 기록했다. Unity Compile·Test 통과 판정은 Step 5의 사용자 실행 결과를 기다린다.
+
+최초 실패 후 Bar 전체에 고정 수평 Gradient를 적용하도록 표시 방식을 바로잡았고, 사용자가 수정된 Edit Mode `ApprovedGradient_UsesHorizontalContractKeysAndInterpolation`와 Play Mode `MomentumHud_UpdatesAndFreezesAcrossPauseAndResult`의 성공을 확인했다.
 
 ---
 
@@ -198,10 +210,14 @@ Scene 편집은 Compile과 Edit Mode Test가 통과한 뒤에만 수행한다.
 
 ### 완료 조건
 
-- [ ] 정적 검사가 통과했다.
-- [ ] Unity Script Compilation이 성공했다.
-- [ ] 지정된 Edit Mode Test가 모두 통과했다.
-- [ ] 예상하지 않은 Error·Warning이 없다.
+- [x] 정적 검사가 통과했다.
+- [x] Unity Script Compilation이 성공했다.
+- [x] 지정된 Edit Mode Test가 모두 통과했다.
+- [x] 예상하지 않은 Error·Warning이 없다.
+
+Step 5의 AI 정적 검사를 완료했다. namespace·asmdef 경계, 직렬화 필드, C#별 `.meta`, 전체 Assets GUID 중복, API Overload와 호출부, Score·Version·Momentum·UI 생명주기 계약, 구문 구조, `git diff --check` 및 Scene·Prefab·ProjectSettings 실제 diff 부재를 확인했다. 사용자 Unity 검증 대상과 결과 기록 형식은 `20260916_09_Phase2Step5StaticVerification.md`에 정리했다.
+
+사용자가 Unity Script Compilation 성공과 전체 Edit Mode Test `627/627` 성공을 확인했다. Compilation과 Edit Mode Test에서 예상하지 않은 Error·Warning은 없었다. Step 5 완료 조건을 모두 충족했다.
 
 ---
 
@@ -216,26 +232,30 @@ Scene 편집은 Compile과 Edit Mode Test가 통과한 뒤에만 수행한다.
 ### 사용자 수동 작업
 
 1. `SampleScene`을 열고 작업 전 Scene을 저장한다.
-2. HUD Canvas 아래에 기존 `InfiniteHUD`와 형제인 `MomentumHUD` Root를 생성한다.
+2. `UIRoot` 아래에 기존 `InfiniteHUD`와 형제인 `MomentumHUD` Root를 생성하고, 기존 HUD와 같은 방식으로 자식 Canvas를 둔다.
 3. `MomentumHUD`의 Anchor와 Pivot을 우측 하단으로 설정하고 화면 가장자리에서 읽을 수 있는 여백을 둔다.
 4. `MomentumHUD` 아래에 현재 배율용 TextMeshProUGUI 객체 `MomentumMultiplierText`를 생성하고 초기 문구를 `x1.00`으로 설정한다.
-5. 유지 시간 Bar 배경 Image와 자식 Fill Image `MomentumDurationFill`을 생성한다.
-6. Fill Image를 가로 방향 Filled Image로 설정하고 초기 Fill Amount를 `0`으로 설정한다. 색상은 임의 애니메이션으로 만들지 않고 Runtime Gradient가 적용되도록 기본 흰색으로 둔다.
+5. 유지 시간 Bar 배경 Image `MomentumDurationBackground`와 자식 Fill Image `MomentumDurationFill`을 생성한다.
+6. Fill Image를 가로 방향 Filled Image로 설정하고 초기 Fill Amount를 `0`으로 설정한다. 색상은 흰색으로 두고 `MomentumGradientEffect` Component를 추가한다.
 7. UIManagementSystem의 Momentum HUD Root, 배율 Text, 유지 시간 Fill Image와 Gradient 필드에 위 객체를 연결한다.
 8. Gradient Key를 Fill 비율 `1.00` 청록색, `0.60` 초록색, `0.30` 노란색, `0.10` 주황색, `0.00` 빨간색 순서로 설정한다. Unity Gradient 시간축은 `0`에서 `1` 방향이므로 Inspector에는 빨강→주황→노랑→초록→청록 순으로 배치한다.
 9. 기존 `InfiniteHUD`에 `BaseDistanceScoreText`와 `MomentumBonusText`를 추가하고 UIManagementSystem의 해당 필드에 연결한다.
-10. `InfiniteResultContent`에 `InfiniteResultBaseDistanceScoreText`, `InfiniteResultMomentumBonusText`, `InfiniteResultMaximumMultiplierText`를 추가하고 해당 필드에 연결한다.
+10. `InfiniteResultContent/Infinite Result Image`에 `InfiniteResultBaseDistanceScoreText`, `InfiniteResultMomentumBonusText`, `InfiniteResultMaximumMomentumText`를 추가하고 해당 필드에 연결한다.
 11. 기존 Distance Score, Collectible Score와 Total Score 객체를 제거하지 말고 새 항목과 겹치지 않도록 배치한다.
 12. Scene을 저장한 뒤 AI에 Scene 구성 완료 사실을 알린다.
 
 필드의 실제 이름이나 요구 Component가 Step 4 구현 결과와 다르면 AI가 제공하는 최종 체크리스트를 우선한다. 배율 단계·유지 시간·Score 수치는 Scene Inspector에 중복 입력하지 않는다.
 
+현재 Scene 계층과 수치에 맞춘 최종 객체 순서, RectTransform, Text 초기값, Image 설정, Gradient Key 및 Inspector 필드 목록은 `20260916_10_Phase2Step6SceneChecklist.md`를 따른다.
+
 ### 완료 조건
 
-- [ ] Momentum HUD가 InfiniteHUD와 별도 Root로 존재하고 우측 하단에 Anchor됐다.
-- [ ] 배율 Text, Fill Image와 Gradient 참조가 모두 연결됐다.
-- [ ] InfiniteHUD와 Infinite Result의 새 Score Text 참조가 모두 연결됐다.
-- [ ] AI의 Scene YAML 정적 검사에서 누락·중복 참조가 없다.
+- [x] Momentum HUD가 InfiniteHUD와 별도 Root로 존재하고 우측 하단에 Anchor됐다.
+- [x] 배율 Text, Fill Image와 Gradient 참조가 모두 연결됐다.
+- [x] InfiniteHUD와 Infinite Result의 새 Score Text 참조가 모두 연결됐다.
+- [x] AI의 Scene YAML 정적 검사에서 누락·중복 참조가 없다.
+
+Step 6 Scene 구성을 완료했다. 사용자가 `SampleScene`에 Score Text와 독립 Momentum HUD를 구성했고, AI가 저장된 YAML에서 객체·계층·Anchor·여백·Component·Fill·Gradient·행 순서와 신규 직렬화 참조 9개를 정적으로 확인했다. 투명한 `MomentumDurationBackground`는 자식 Fill 표시에 영향을 주지 않아 허용했다. 주황색 승인값 수정 후 사용자가 `ApprovedGradient_UsesHorizontalContractKeysAndInterpolation` 성공을 확인했다. 검사 결과는 `20260916_10_Phase2Step6SceneChecklist.md`에 기록했다.
 
 ---
 
@@ -259,10 +279,14 @@ Scene 편집은 Compile과 Edit Mode Test가 통과한 뒤에만 수행한다.
 
 ### 완료 조건
 
-- [ ] Momentum Landing 전후 속도 규칙과 입력 감속·정지가 자동 Test를 통과했다.
-- [ ] Momentum·Score·Version·Result 생명주기 통합 Test가 통과했다.
-- [ ] 생산 Scene의 HUD·Result 참조 및 표시값 Test가 통과했다.
-- [ ] 예상하지 않은 Error·Warning이 없다.
+- [x] Momentum Landing 전후 속도 규칙과 기존 자동 이동 계약이 자동 Test를 통과했다.
+- [x] Momentum·Score·Version·Result 생명주기 통합 Test가 통과했다.
+- [x] 생산 Scene의 HUD·Result 참조 및 표시값 Test가 통과했다.
+- [x] 예상하지 않은 Error·Warning이 없다.
+
+Step 7의 Play Mode Test 작성과 정적 검사를 완료했다. 생산 Scene을 사용하는 `MomentumLandingIntegrationTests`, `ModeUISceneConfigurationTests`, `InfiniteModeIntegrationTests`를 Version `2` Momentum·Score·HUD·Result 계약에 맞게 보강했다. 기존 `InfiniteHudIntegrationTests`, `WallLandingRecoveryIntegrationTests`, `AutoMovementIntegrationTests`와 함께 영향 회귀 대상으로 지정한다. Unity Test Runner 통과 전이므로 완료 조건은 체크하지 않는다. 상세 범위와 사용자 실행 대상은 `20260916_11_Phase2Step7PlayModeVerification.md`에 기록했다.
+
+사용자 최종 검증 결과 Unity Script Compilation은 예상하지 않은 Error·Warning 없이 성공했다. Edit Mode Test는 `629/629`, Play Mode Test는 `221/221` 성공했으며 두 Test 실행 모두 예상하지 않은 Error·Warning이 없었다. Momentum Landing 전후 속도 유지와 기존 자동 이동 계약을 포함한 Step 7 생산 연결 자동 검증이 완료됐다.
 
 ---
 
@@ -279,7 +303,7 @@ Scene 편집은 Compile과 Edit Mode Test가 통과한 뒤에만 수행한다.
 2. 기본 상태에서 `x1.00`과 빈 Bar가 읽기 쉬운지 확인한다.
 3. Momentum Landing 성공 후 배율 Text와 Bar 길이가 눈에 잘 보이는지 확인한다.
 4. Bar가 감소할 때 청록→초록→노랑→주황→빨강 변화가 배경과 구분되는지 확인한다.
-5. 일반 이동 입력으로 Player가 감속하거나 정지할 수 있고, Momentum Landing 때문에 체감상 갑작스러운 가속이 발생하지 않는지 확인한다.
+5. Momentum Landing 때문에 체감상 갑작스러운 가속이 발생하지 않는지 확인한다.
 6. Pause 및 Result 화면에서 HUD가 겹치거나 가려야 할 조작 요소를 가리지 않는지 확인한다.
 7. 확인 결과와 문제가 있으면 화면 상태·해상도·재현 절차를 AI에 전달한다.
 
@@ -287,9 +311,17 @@ Score 숫자 정확성, 유지 시간 초 단위, Pause 중 Timer 정지와 Retr
 
 ### 완료 조건
 
-- [ ] Momentum HUD의 위치, Bar 길이와 Gradient를 구분할 수 있다.
-- [ ] 기존 HUD·Pause·Result UI와 중요한 겹침이 없다.
-- [ ] 감속·정지 조작과 불필요한 가속 제거에 명백한 체감 문제가 없다.
+- [x] Momentum HUD의 위치, Bar 길이와 Gradient를 구분할 수 있다.
+- [x] 기존 HUD·Pause·Result UI와 중요한 겹침이 없다.
+- [x] 불필요한 가속 제거에 명백한 체감 문제가 없다.
+
+Step 8의 정적 사전 검증과 최소 화면 확인 절차 작성을 완료했다. Scene 계층·참조·Gradient·상태별 활성화와 수치 정확성은 Step 6 정적 검사 및 `629/629` Edit Mode, `221/221` Play Mode Test 결과로 판정했으며 수동 화면 확인에 중복 포함하지 않는다. 사용자가 확인할 가독성·겹침·체감 항목은 `20260916_12_Phase2Step8VisualChecklist.md`에 기록했다.
+
+`PlayerInputSystem`의 Move 비활성화와 `PlayerMovementSystem`의 자동 이동은 확정된 생산 계약이다. Step 8에서는 Momentum Landing이 이 자동 이동에 불필요한 가속을 만들지 않는지만 확인한다.
+
+최초 화면 확인에서 5개 Color Key가 Fill 감소 중 부자연스럽다는 사용자 의견을 반영해 Gradient 계약을 좌측 Red·우측 Cyan 두 Key의 연속 보간으로 단순화했다. 생산 코드와 Edit Mode Test를 갱신했으며, 사용자가 Scene의 중간 Color Key 세 개를 삭제하고 가독성을 다시 확인해야 한다.
+
+사용자가 Inspector의 Gradient 색 구성을 최종 조정하고 화면에서 적절함을 확인했다. Momentum HUD의 위치·Bar 길이·Gradient 가독성, 기존 HUD·Pause·Result UI 겹침과 불필요한 가속 부재 조건이 완료됐다.
 
 ---
 
@@ -309,9 +341,13 @@ Score 숫자 정확성, 유지 시간 초 단위, Pause 중 Timer 정지와 Retr
 
 ### 완료 조건
 
-- [ ] Compile, 지정 Edit Mode·Play Mode Test와 화면 확인 결과가 기록됐다.
-- [ ] 구현하지 않거나 검증하지 않은 Phase 3·4 범위가 구분됐다.
-- [ ] 확인되지 않은 결과를 포함하지 않고 Phase 2 완료 여부가 판정됐다.
+- [x] Compile, 지정 Edit Mode·Play Mode Test와 화면 확인 결과가 기록됐다.
+- [x] 구현하지 않거나 검증하지 않은 Phase 3·4 범위가 구분됐다.
+- [x] 확인되지 않은 결과를 포함하지 않고 Phase 2 완료 여부가 판정됐다.
+
+Step 9 문서 대조와 Roadmap 갱신을 수행했다. Phase 2 생산 연결과 화면 확인은 완료됐고, World Rebase·장시간 좌표 안정성은 Phase 3, Build와 전체 장시간 검증은 Phase 4 범위로 유지했다. 상세 결과는 `20260916_13_Phase2VerificationResult.md`에 기록했다.
+
+Inspector Gradient 직접 적용과 Image tint 반영 변경 후 사용자가 Unity Script Compilation 성공, Edit Mode `629/629`, Play Mode `221/221` 성공과 예상하지 않은 Error·Warning 부재를 확인했다. 화면 확인을 포함한 Phase 2의 모든 완료 조건이 충족되어 최종 완료로 판정했다.
 
 ---
 
@@ -322,7 +358,7 @@ Score 숫자 정확성, 유지 시간 초 단위, Pause 중 Timer 정지와 Retr
 1. Step 5: Unity Script Compilation과 Edit Mode Test 실행 및 결과 전달
 2. Step 6: `SampleScene`의 Momentum HUD·Score Text 생성, Inspector 참조 연결 및 Scene 저장
 3. Step 7: 지정된 Play Mode Test 실행 및 결과 전달
-4. Step 8: HUD 가독성·겹침과 감속·정지 체감의 최소 화면 확인
+4. Step 8: HUD 가독성·겹침과 불필요한 가속 부재의 최소 화면 확인
 
 Score 계산, 배율 단계, Timer 경계, 포화, Version, 중복 성공, Pause·Retry 상태와 표시 문자열의 정확성은 수동 작업으로 확인하지 않는다.
 
@@ -353,13 +389,20 @@ Phase 2에서는 Build를 수행하지 않는다. 대상 플랫폼 Build와 전�
 # 검증 결과
 
 - Phase 2 실행 전 계획 작성 완료.
-- 실제 구현, Scene 편집, Compile, Test Runner와 화면 검증은 아직 수행하지 않았다.
+- Step 1 생산 경로·Version 전환 지점·Scene UI 참조 정적 조사 완료. 사용자 수동 작업 없음.
+- Step 2 속도 효과 제거·Momentum 생산 상태·관련 Test 작성과 정적 검사 완료.
+- Step 3 Version `2` Score·Runtime·Result 생산 연결과 관련 Test 작성 및 정적 검사 완료.
+- Step 3 완료 시점에 사용자가 Unity Script Compilation 성공, 전체 Edit Mode Test `610/610` 성공과 예상하지 않은 Error·Warning 부재를 확인했다.
+- Step 4 HUD·Result Formatter·Momentum 표시 모델과 관련 Test 작성 및 정적 검사 완료. Scene은 변경하지 않았다.
+- Step 5 AI 정적 검사, Unity Script Compilation과 전체 Edit Mode Test `627/627` 성공 완료. 예상하지 않은 Error·Warning 없음.
+- Step 6 생산 Scene의 Score Text·독립 Momentum HUD 구성 및 Scene YAML 정적 검사 완료. Gradient 대상 Edit Mode Test 성공 확인.
+- Play Mode 전체 회귀 Test와 화면 검증은 아직 수행하지 않았다.
 
 ---
 
 # 후속 작업
 
-- Step 1부터 순서대로 수행한다.
+- Phase 2의 자동 이동 계약은 완료됐으며 Step 9에서 실제 검증 결과를 정리한다.
 - Phase 2 완료 후 Roadmap Phase 3의 World Rebase 생산 연결을 별도 Task로 계획한다.
 
 ---
@@ -380,6 +423,12 @@ Phase 2에서는 Build를 수행하지 않는다. 대상 플랫폼 Build와 전�
 
 - `AI/90_Tasks/Prototype_5/20260916_01_Phase1Step5PureModels.md`
 - `AI/90_Tasks/Prototype_5/20260916_03_Phase1VerificationResult.md`
+- `AI/90_Tasks/Prototype_5/20260916_05_Phase2Step1ProductionInvestigation.md`
+- `AI/90_Tasks/Prototype_5/20260916_06_Phase2Step2MomentumProduction.md`
+- `AI/90_Tasks/Prototype_5/20260916_07_Phase2Step3ScoreProduction.md`
+- `AI/90_Tasks/Prototype_5/20260916_08_Phase2Step4UIPresentation.md`
+- `AI/90_Tasks/Prototype_5/20260916_09_Phase2Step5StaticVerification.md`
+- `AI/90_Tasks/Prototype_5/20260916_10_Phase2Step6SceneChecklist.md`
 
 ---
 

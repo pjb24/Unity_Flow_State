@@ -67,5 +67,39 @@ namespace FlowState.Runtime.Systems
             _currentResultData = _scoreRecord.ResultData;
             return true;
         }
+
+        public bool CreateInfiniteResultData(
+            int scoringVersion,
+            E_GameMode gameMode,
+            bool hasStageEnded,
+            bool isFinalized,
+            float finalDistance,
+            int baseDistanceScore,
+            int momentumBonus,
+            int distanceScore,
+            int collectibleScore,
+            double maximumMomentumMultiplier)
+        {
+            if (HasResultData ||
+                !_scoreRecord.TryRecord(
+                    scoringVersion,
+                    gameMode,
+                    hasStageEnded,
+                    isFinalized,
+                    finalDistance,
+                    baseDistanceScore,
+                    momentumBonus,
+                    distanceScore,
+                    collectibleScore,
+                    maximumMomentumMultiplier))
+            {
+                Debug.LogWarning(
+                    "[ResultSystem] Infinite Result Data was not created.");
+                return false;
+            }
+
+            _currentResultData = _scoreRecord.ResultData;
+            return true;
+        }
     }
 }

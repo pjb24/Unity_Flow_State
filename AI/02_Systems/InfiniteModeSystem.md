@@ -19,6 +19,10 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 # 시스템 책임
 
 - InfiniteMode 진행 상태를 초기화하고 종료한다.
+- InfiniteMode의 Momentum 상태를 소유하고 실제 착지 성공 ID를 배율 규칙에 전달한다.
+- 같은 착지 성공 ID는 한 번만 반영하며, Playing에서만 Momentum 유지 시간을 진행한다.
+- Pause와 Resume에 Momentum 상태 보존·재개를 연결하고 종료 시 최종 상태를 고정한다.
+- Retry와 새 Run에서는 Momentum 상태와 처리한 성공 ID를 초기화한다.
 - 최대 전진 거리를 이동 거리·Score 규칙과 Difficulty 상태에 전달한다.
 - Player Rigidbody의 물리 X와 누적 Rebase Offset을 논리 거리 상태에 전달한다.
 - InfiniteMode Playing 상태에서 World Rebase 필요 여부와 이동 Offset 계산을 조정한다.
@@ -30,8 +34,9 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - InfiniteMode Playing 상태에서 Player World X를 이동 거리 규칙에 전달한다.
 - 이동 거리 규칙이 기록한 최대 전진 거리를 Difficulty 상태에 전달한다.
 - 시작 원점, 이동 거리 및 추락 판정의 위치는 Player Rigidbody의 물리 위치를 사용한다.
-- 현재 이동 거리와 현재 Score를 Runtime Data에 반영한다.
-- InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score의 확정을 요청한다.
+- 최대 전진 거리 증가분과 현재 Momentum 배율을 Version 2 Score 상태에 전달한다.
+- 현재 이동 거리, Base Distance Score, Momentum Bonus, Distance Score, Collectible Score, Total Score와 Momentum 표시 상태를 Runtime Data에 함께 반영한다.
+- InfiniteMode 종료 요청 직전에 같은 Version의 최종 이동 거리, Score 구성 요소와 최고 Momentum 배율의 확정을 요청한다.
 - 종료 조건 충족 시 StageSystem에 종료를 요청한다.
 - Retry와 새 Run 시 이전 Run의 진행 상태, 이동 거리, Score, 최종 확정 상태, Difficulty와 Pattern 선택 상태를 초기화한다.
 - GameSystem의 요청에 따라 InfiniteMode 진행 판정을 일시 중단하고 재개한다.
@@ -83,6 +88,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 | InfiniteMode 진행 중단 및 재개 요청 | GameSystem |
 | Pattern Catalog | InfinitePatternCatalogFactory |
 | Pattern 진행 횟수와 현재 Pattern | InfiniteMapPattern |
+| Run별 Momentum Landing 성공 ID | Player Movement Runtime Data |
+| 현재 Run의 게임 상태 | Game Runtime Data |
 
 ---
 
@@ -91,7 +98,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 | 출력 | 대상 |
 |------|------|
 | InfiniteMode Stage 종료 요청 | StageSystem |
-| 현재 이동 거리와 현재 Score | Runtime Data |
+| 현재 이동 거리, Score 구성 요소, 합계와 Momentum 표시 상태 | Runtime Data |
 | 선택된 다음 Pattern ID와 요청 ID | InfiniteMapPattern |
 | Player Rebase 요청 | PlayerControllerSystem |
 | Pattern과 Boundary Rebase 요청 | InfiniteMapPattern |
@@ -115,6 +122,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 ## 담당 범위
 
 - InfiniteMode 진행 상태 관리
+- Momentum 상태의 생산 생명주기와 착지 성공 전달 관리
 - Phase 3 Difficulty와 Pattern 선택 상태의 생명주기 관리
 - Phase 3 Pattern 선택 규칙 실행 연결
 - InfiniteMode 설정 관리
@@ -123,8 +131,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - 누적 논리 거리와 World Rebase 상태의 생명주기 관리
 - Rebase 대상 System 요청과 원자적 실행 순서 조정
 - Phase 3 최대 전진 거리와 Difficulty 전환 규칙의 연결
-- 현재 이동 거리와 현재 Score의 Runtime Data 반영
-- 종료 요청 전 최종 이동 거리와 최종 Score 확정 요청
+- 현재 이동 거리, Score 구성 요소와 Momentum 표시 상태의 Runtime Data 반영
+- 종료 요청 전 동일 Version의 최종 이동 거리·Score·최고 배율 확정 요청
 - InfiniteMode Stage 종료 요청
 - InfiniteMode 진행 판정 중단 및 재개
 
@@ -139,6 +147,7 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - UI 표시
 - Camera 위치 이동과 Cinemachine Warp 직접 처리
 - 이동 거리 또는 Score 계산 규칙 정의
+- Momentum 배율 단계·유지 시간 규칙 정의
 - Difficulty 전환, Pattern 후보, 반복과 대체 후보 규칙 정의
 - Pattern 지형 제작과 배치
 
@@ -165,8 +174,16 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 - Stage 종료는 StageSystem에 요청한다.
 - 정상 프레임마다 로그를 출력하지 않는다.
 - 이동 거리와 Score 계산 규칙을 직접 구현하지 않는다.
+- 새 생산 Infinite Run은 Scoring Version `2`만 사용하고 Runtime·Score 상태의 Version이 다르면 초기화 또는 갱신하지 않는다.
+- Base Distance Score와 Momentum Bonus는 `InfiniteScoreState`의 결과만 Runtime Data에 전달한다.
+- Collectible Score는 공통 Collectible Runtime Data에서 읽고 Momentum 배율을 적용하지 않는다.
+- 종료 확정 후 Score와 Runtime Data를 다시 갱신하지 않는다.
 - Result Data를 생성하지 않는다.
 - 일시 중단 동안 이동 거리, Score, 저속 진행 시간과 추락 종료 판정을 갱신하지 않는다.
+- Momentum 배율은 InfiniteMode Playing에서만 갱신한다. Stage Mode에서는 배율을 시작하거나 진행하지 않는다.
+- 일반 착지와 Wall 접촉을 Momentum 초기화 사유로 사용하지 않는다.
+- 종료 시 고정한 Momentum 상태는 다음 Run 초기화 전까지 보존한다.
+- 같은 Runtime Data로 실행 중인 System의 중복 초기화는 Momentum·Pause 상태와 성공 처리 이력을 보존한다.
 - 재개 시 일시 중단 이전의 Run 기록과 진행 상태를 유지한다.
 - Pause와 Result에서는 Difficulty 및 Pattern 선택 상태를 변경하지 않는다.
 - Pattern 선택 결과는 Distance Score, Collectible Score와 Total Score 계산에 전달하지 않는다.

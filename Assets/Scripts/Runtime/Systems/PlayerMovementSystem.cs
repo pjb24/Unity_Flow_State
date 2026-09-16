@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace FlowState.Runtime.Systems
 {
+    // Publish this step's landing before InfiniteMode evaluates success and expiry.
+    [DefaultExecutionOrder(-100)]
     public class PlayerMovementSystem : MonoBehaviour
     {
         private readonly struct MovementStepInput
@@ -331,6 +333,14 @@ namespace FlowState.Runtime.Systems
             _isJumpSequenceActive = false;
             _hasJumpLeftGround = false;
             _isLastLandingMomentum = calculation.IsMomentumLanding;
+            if (calculation.IsMomentumLanding &&
+                !_runtimeData.TryRecordMomentumLanding(
+                    _momentumLandingFeature.SuccessId))
+            {
+                Debug.LogError(
+                    "[PlayerMovementSystem] Momentum landing success ID was rejected.");
+            }
+
             _jumpFeature.CompleteLanding();
         }
 

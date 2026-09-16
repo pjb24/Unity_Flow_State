@@ -362,8 +362,8 @@ InfiniteMode
 - Fill 비율은 `남은 유지 시간 / 현재 배율의 전체 유지 시간`으로 계산하고 `0` 이상 `1` 이하로 제한한다.
 - 배율이 `1.00x`이면 배율은 표시하고 유지 시간 Bar는 빈 상태로 표시한다.
 - Momentum Landing 성공 시 새 배율을 먼저 적용한 뒤 Bar를 가득 찬 상태로 갱신한다.
-- Bar 색상은 Fill 비율에 따라 청록색, 초록색, 노란색, 주황색, 빨간색 순서의 연속 Gradient로 표시한다.
-- Gradient 기준점은 Fill 비율 `1.00` 청록색, `0.60` 초록색, `0.30` 노란색, `0.10` 주황색, `0.00` 빨간색이다.
+- Bar는 Inspector에서 구성한 고정 수평 Gradient를 사용하고 Color Key 사이를 연속 보간한다.
+- Fill 비율은 Bar 길이만 변경하며 시간에 따라 Gradient 자체의 색을 선택하거나 교체하지 않는다.
 - 남은 시간은 색상뿐 아니라 Bar 길이로도 판별할 수 있어야 한다.
 - Pause와 Result에서는 Bar 감소를 중단하고 마지막 표시 상태를 유지한다.
 - Retry와 새 Run에서는 배율 `x1.00`과 빈 Bar로 초기화한다.
@@ -500,7 +500,7 @@ Wall 접촉이 끊겼다가 다시 시작되어도 사용한 Wall 추가 유예�
 - InfiniteMode 종료 요청 직전에 최종 이동 거리와 최종 Score가 한 번 확정되는지 확인한다.
 - 현재 이동 거리와 현재 Score가 InfiniteHUD에 표시되는지 확인한다.
 - 현재 배율과 유지 시간 Gradient Bar가 우측 하단의 독립된 Momentum HUD에 표시되는지 확인한다.
-- 배율별 Fill 비율, Gradient 기준점과 Pause·Result·Retry 표시 상태가 규칙과 일치하는지 확인한다.
+- 배율별 Fill 비율, Inspector Gradient 적용과 Pause·Result·Retry 표시 상태가 규칙과 일치하는지 확인한다.
 - Ending에서 InfiniteHUD가 사라지거나 초기화되지 않는지 확인한다.
 - Result와 Ended에서 InfiniteHUD와 InfiniteMode Result가 함께 표시되는지 확인한다.
 - HUD와 Result의 거리가 원본 데이터를 변경하지 않고 소수점 없이 내림 표시되는지 확인한다.

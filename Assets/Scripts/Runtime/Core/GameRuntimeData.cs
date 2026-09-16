@@ -50,7 +50,8 @@ namespace FlowState.Runtime.Core
             if (_gameMode == E_GameMode.Infinite)
             {
                 _infiniteModeRuntimeData = new InfiniteModeRuntimeData();
-                _infiniteModeRuntimeData.Initialize();
+                _infiniteModeRuntimeData.Initialize(
+                    global::FlowState.Runtime.Core.ScoringVersion.Current);
             }
             else
             {

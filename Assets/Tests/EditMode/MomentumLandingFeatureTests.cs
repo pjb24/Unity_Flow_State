@@ -62,11 +62,14 @@ namespace FlowState.Tests.EditMode
             Assert.That(_feature.IsWindowActive, Is.False);
         }
 
-        [TestCase(8.0f, 9.2f)]
-        [TestCase(-8.0f, -9.2f)]
-        public void TryCompleteLanding_BufferedInput_AppliesSignedMultiplier(
-            float horizontalSpeed,
-            float expectedSpeed)
+        [TestCase(0.0f)]
+        [TestCase(8.0f)]
+        [TestCase(-8.0f)]
+        [TestCase(13.0f)]
+        [TestCase(20.0f)]
+        [TestCase(-20.0f)]
+        public void TryCompleteLanding_BufferedInput_PreservesHorizontalSpeed(
+            float horizontalSpeed)
         {
             OpenWindowAndBufferInput();
 
@@ -76,21 +79,44 @@ namespace FlowState.Tests.EditMode
                 out float resultSpeed);
 
             Assert.That(didComplete, Is.True);
-            Assert.That(resultSpeed, Is.EqualTo(expectedSpeed).Within(Tolerance));
+            Assert.That(resultSpeed, Is.EqualTo(horizontalSpeed).Within(Tolerance));
+            Assert.That(_feature.SuccessId, Is.EqualTo(1));
         }
 
         [Test]
-        public void TryCompleteLanding_ResultSpeed_DoesNotExceedMaximum()
+        public void BeginJump_PreservesSuccessIdAndNextSuccessIncrementsIt()
         {
+            OpenWindowAndBufferInput();
+            Assert.That(_feature.TryCompleteLanding(
+                CreateCollisionState(true, 0.0f), 8.0f, out _), Is.True);
+
+            _feature.BeginJump();
+            Assert.That(_feature.SuccessId, Is.EqualTo(1));
             OpenWindowAndBufferInput();
 
             bool didComplete = _feature.TryCompleteLanding(
                 CreateCollisionState(true, 0.0f),
-                13.0f,
+                8.0f,
                 out float resultSpeed);
 
             Assert.That(didComplete, Is.True);
-            Assert.That(resultSpeed, Is.EqualTo(14.0f).Within(Tolerance));
+            Assert.That(resultSpeed, Is.EqualTo(8.0f).Within(Tolerance));
+            Assert.That(_feature.SuccessId, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Initialize_AfterSuccess_ResetsSuccessIdAndWindow()
+        {
+            OpenWindowAndBufferInput();
+            Assert.That(_feature.TryCompleteLanding(
+                CreateCollisionState(true, 0.0f), 8.0f, out _), Is.True);
+
+            _feature.Initialize();
+
+            Assert.That(_feature.SuccessId, Is.Zero);
+            Assert.That(_feature.IsWindowActive, Is.False);
+            Assert.That(_feature.TryCompleteLanding(
+                CreateCollisionState(true, 0.0f), 8.0f, out _), Is.False);
         }
 
         [Test]
@@ -104,6 +130,7 @@ namespace FlowState.Tests.EditMode
                 out float resultSpeed);
 
             Assert.That(didComplete, Is.False);
+            Assert.That(_feature.SuccessId, Is.Zero);
             Assert.That(resultSpeed, Is.EqualTo(8.0f).Within(Tolerance));
         }
 
@@ -126,6 +153,7 @@ namespace FlowState.Tests.EditMode
                 out _);
 
             Assert.That(didComplete, Is.False);
+            Assert.That(_feature.SuccessId, Is.Zero);
         }
 
         [Test]
@@ -145,6 +173,7 @@ namespace FlowState.Tests.EditMode
                 out _);
 
             Assert.That(didCompleteAgain, Is.False);
+            Assert.That(_feature.SuccessId, Is.EqualTo(1));
         }
 
         private void OpenWindowAndBufferInput()

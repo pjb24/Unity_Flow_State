@@ -54,6 +54,10 @@ RuntimeDataSystem은 각 System의 내부 상태를 소유하지 않는다.
 - Scene Object는 Run의 획득 상태와 Score의 최종 소유자가 아니다.
 - 기존 InfiniteMode 거리 Score의 소유 경계는 유지한다.
 - InfiniteMode Runtime Data는 Run 시작 시 확정된 Scoring Version을 소유한다.
+- 새 생산 InfiniteMode Runtime Data는 Scoring Version `2`로 생성하며 Run 도중 변경하지 않는다.
+- InfiniteMode Runtime Data는 현재 거리, Base Distance Score, Momentum Bonus, Distance Score, Collectible Score, Total Score와 현재·최고 Momentum 배율 및 유지 시간 표시 값을 함께 보존한다.
+- Version `2` 갱신은 같은 Version의 모든 Score 구성 요소와 합계가 일치할 때만 한 번에 반영한다.
+- 무인자 InfiniteMode Runtime Data 초기화와 두 인자의 거리 Score 갱신 API는 기존 Version `1` 호환 경로로 유지한다.
 - RuntimeDataSystem은 Scoring Version 규칙을 판단하거나 변경하지 않고 생성된 Runtime Data의 값을 보존한다.
 - Mode 공통 데이터는 `CollectibleRuntimeData`로 분리하며 Scene Component 참조를 소유하지 않는다. Stage Object의 연결과 해제는 StageSystem의 준비 및 종료 책임으로 구분한다.
 - 획득, 초기화 및 Pattern 복구 동작 규칙은 `../03_Features/ScoreCollectible.md`에서 관리한다.
@@ -156,6 +160,8 @@ RuntimeDataSystem은 각 System의 내부 상태를 소유하지 않는다.
 - GameSystem의 요청에 따라 Runtime Data를 생성하거나 제거한다.
 - Runtime Data는 게임 실행 중에만 유지한다.
 - InfiniteMode Runtime Data의 Scoring Version은 Run 도중 변경하지 않는다.
+- Version `1`과 Version `2` 갱신 API를 서로 다른 Version의 Runtime Data에 적용하지 않는다.
+- 최종 확정된 InfiniteMode Runtime Data는 다음 Run 생성 전까지 변경하지 않는다.
 
 ---
 

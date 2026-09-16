@@ -25,6 +25,7 @@ PlayerMovementSystem
 - 플레이어 이동에 사용하는 중력 가속도 설정을 관리한다.
 - 점프 초기 수직 속도 계산에 사용할 중력 가속도를 Jump Feature에 제공한다.
 - 이동 결과를 생성한다.
+- 실제 Momentum Landing 성공의 Run별 ID를 Player Movement Runtime Data에 전달한다.
 - 충돌 상태를 반영하여 이동 결과를 보정한다.
 - 공중 Wall 접촉 중 Wall 안쪽으로 향하는 수평 속도만 제한한다.
 - Wall 접촉 중 수직 속도와 중력 계산을 유지한다.
@@ -82,6 +83,7 @@ PlayerMovementSystem
 |------|------|
 | 플레이어 이동 결과 | PlayerControllerSystem |
 | Player Movement Runtime Data | RuntimeDataSystem |
+| 실제 Momentum Landing 성공 ID | Player Movement Runtime Data를 통해 InfiniteModeSystem |
 
 ---
 
@@ -131,6 +133,9 @@ PlayerMovementSystem
 - 입력을 직접 수집하지 않는다.
 - 수평 이동 계산은 Player Move 입력에 의존하지 않는다.
 - 이동 계산은 유효한 현재 Run의 Playing 상태에서만 수행한다.
+- 착지 성공 결과는 같은 물리 갱신의 InfiniteMode 배율 처리 전에 제공한다.
+- 마지막 착지 종류를 유지하는 상태와 새 착지 성공 ID를 구분한다.
+- Momentum Landing 성공으로 수평 속도를 증가시키지 않으며 Score 배율은 계산하지 않는다.
 - 같은 Run에서 실행 중인 System의 중복 초기화는 Jump, Landing 및 Pause 상태를 유지한다.
 - 종료 시 현재 Run과 이동 Runtime Data 참조를 해제한다.
 - 충돌을 직접 판정하지 않는다.

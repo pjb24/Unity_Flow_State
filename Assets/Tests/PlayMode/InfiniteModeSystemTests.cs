@@ -130,6 +130,18 @@ namespace FlowState.Tests.PlayMode
                 _runtimeData.InfiniteModeRuntimeData.CurrentScore,
                 Is.Zero);
             Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.ScoringVersion,
+                Is.EqualTo(ScoringVersion.Current));
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.BaseDistanceScore,
+                Is.Zero);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.MomentumBonus,
+                Is.Zero);
+            Assert.That(
+                _runtimeData.InfiniteModeRuntimeData.TotalScore,
+                Is.Zero);
+            Assert.That(
                 _runtimeData.InfiniteModeRuntimeData.IsFinalized,
                 Is.False);
         }

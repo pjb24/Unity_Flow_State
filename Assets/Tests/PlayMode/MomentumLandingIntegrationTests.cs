@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Reflection;
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 namespace FlowState.Tests.PlayMode
 {
@@ -88,13 +91,105 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 _runtimeData.PlayerMovementRuntimeData.IsLastLandingMomentum,
                 Is.True);
-            Assert.That(landingHorizontalSpeed, Is.GreaterThan(8.0f));
-            Assert.That(landingHorizontalSpeed, Is.LessThanOrEqualTo(14.0f));
+            Assert.That(landingHorizontalSpeed, Is.EqualTo(8.0f).Within(0.001f));
+            Assert.That(_runtimeData.PlayerMovementRuntimeData.MomentumLandingSuccessId,
+                Is.EqualTo(1));
             Assert.That(_playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
 
             yield return new WaitForFixedUpdate();
             Assert.That(_runtimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
                 Is.EqualTo(landingHorizontalSpeed).Within(0.001f));
+            Assert.That(_runtimeData.PlayerMovementRuntimeData.MomentumLandingSuccessId,
+                Is.EqualTo(1));
+        }
+
+        [UnityTest]
+        public IEnumerator InfiniteMomentumLanding_PreservesSpeedAndUpdatesScoreAndHud()
+        {
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
+            MonoBehaviour runtimeDataSystem = FindRequiredBehaviour(
+                "RuntimeDataSystem",
+                "RuntimeDataSystem");
+            _runtimeData = (GameRuntimeData)GetPropertyValue(
+                runtimeDataSystem,
+                "RuntimeData");
+            yield return new WaitForFixedUpdate();
+            yield return ReachGroundMoveSpeed();
+
+            TriggerJump();
+            bool didObserveWindow = false;
+            bool didLand = false;
+
+            for (int step = 0; step < MaximumFixedSteps; step++)
+            {
+                yield return new WaitForFixedUpdate();
+                PlayerMovementRuntimeData movementData =
+                    _runtimeData.PlayerMovementRuntimeData;
+
+                if (movementData.IsMomentumLandingWindowActive)
+                {
+                    didObserveWindow = true;
+                    TriggerMomentumLanding();
+                }
+
+                if (didObserveWindow && movementData.IsGrounded)
+                {
+                    didLand = true;
+                    break;
+                }
+            }
+
+            Assert.That(didLand, Is.True);
+            Assert.That(_runtimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
+                Is.EqualTo(8.0f).Within(0.001f));
+
+            for (int step = 0; step < 5; step++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+
+            // UIManagementSystem updates HUD text during Update, after the
+            // score-producing FixedUpdate steps above.
+            yield return null;
+
+            InfiniteModeRuntimeData infiniteData =
+                _runtimeData.InfiniteModeRuntimeData;
+            Assert.That(infiniteData.ScoringVersion,
+                Is.EqualTo(ScoringVersion.Current));
+            Assert.That(infiniteData.CurrentMomentumMultiplier,
+                Is.GreaterThan(1.0));
+            Assert.That(infiniteData.MaximumMomentumMultiplier,
+                Is.GreaterThan(1.0));
+            Assert.That(infiniteData.MomentumBonus, Is.GreaterThan(0));
+            Assert.That(infiniteData.CurrentScore,
+                Is.EqualTo(infiniteData.BaseDistanceScore + infiniteData.MomentumBonus));
+
+            TMP_Text multiplierText = FindRequiredSceneObject(
+                "MomentumMultiplierText").GetComponent<TMP_Text>();
+            TMP_Text baseDistanceScoreText = FindRequiredSceneObject(
+                "BaseDistanceScoreText").GetComponent<TMP_Text>();
+            TMP_Text momentumBonusText = FindRequiredSceneObject(
+                "MomentumBonusText").GetComponent<TMP_Text>();
+            Image durationFill = FindRequiredSceneObject(
+                "MomentumDurationFill").GetComponent<Image>();
+            Assert.That(multiplierText, Is.Not.Null);
+            Assert.That(baseDistanceScoreText, Is.Not.Null);
+            Assert.That(momentumBonusText, Is.Not.Null);
+            Assert.That(durationFill, Is.Not.Null);
+            Assert.That(multiplierText.text,
+                Is.EqualTo(
+                    MomentumHudPresenter.Create(
+                        infiniteData.CurrentMomentumMultiplier,
+                        infiniteData.MomentumRemainingRatio).MultiplierText));
+            Assert.That(baseDistanceScoreText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatBaseDistanceScore(
+                        infiniteData.BaseDistanceScore)));
+            Assert.That(momentumBonusText.text,
+                Is.EqualTo(
+                    ResultTextFormatter.FormatMomentumBonus(
+                        infiniteData.MomentumBonus)));
+            Assert.That(durationFill.fillAmount, Is.GreaterThan(0.0f));
         }
 
         [UnityTest]
@@ -207,6 +302,23 @@ namespace FlowState.Tests.PlayMode
 
             Assert.Fail(
                 $"{typeName} was not found on {gameObjectName}.");
+            return null;
+        }
+
+        private GameObject FindRequiredSceneObject(string gameObjectName)
+        {
+            foreach (GameObject gameObject in
+                     Resources.FindObjectsOfTypeAll<GameObject>())
+            {
+                if (gameObject.name == gameObjectName &&
+                    gameObject.scene.IsValid() &&
+                    gameObject.scene.isLoaded)
+                {
+                    return gameObject;
+                }
+            }
+
+            Assert.Fail($"{gameObjectName} was not found in the loaded Scene.");
             return null;
         }
 

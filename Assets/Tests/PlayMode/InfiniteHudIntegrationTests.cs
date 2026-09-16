@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _uiManagementSystem;
         private GameRuntimeData _runtimeData;
         private TMP_Text _distanceText;
+        private TMP_Text _baseDistanceScoreText;
+        private TMP_Text _momentumBonusText;
         private TMP_Text _scoreText;
         private TMP_Text _stageCollectibleScoreText;
         private TMP_Text _infiniteCollectibleScoreText;
@@ -27,6 +30,9 @@ namespace FlowState.Tests.PlayMode
         private TMP_Text _infiniteDifficultyText;
         private GameObject _stageHud;
         private GameObject _infiniteHud;
+        private GameObject _momentumHud;
+        private TMP_Text _momentumMultiplierText;
+        private Image _momentumDurationFillImage;
 
         [SetUp]
         public void SetUp()
@@ -51,6 +57,10 @@ namespace FlowState.Tests.PlayMode
                 CreateObject("InfiniteResultContent");
 
             _distanceText = CreateText("DistanceText", _infiniteHud.transform);
+            _baseDistanceScoreText = CreateText(
+                "BaseDistanceScoreText", _infiniteHud.transform);
+            _momentumBonusText = CreateText(
+                "MomentumBonusText", _infiniteHud.transform);
             _scoreText = CreateText("ScoreText", _infiniteHud.transform);
             _stageCollectibleScoreText = CreateText(
                 "StageCollectibleScoreText",
@@ -64,6 +74,13 @@ namespace FlowState.Tests.PlayMode
             _infiniteDifficultyText = CreateText(
                 "InfiniteDifficultyText",
                 _infiniteHud.transform);
+            _momentumHud = CreateObject("MomentumHUD");
+            _momentumMultiplierText = CreateText(
+                "MomentumMultiplierText", _momentumHud.transform);
+            GameObject fillObject = CreateObject("MomentumDurationFill");
+            fillObject.transform.SetParent(_momentumHud.transform);
+            _momentumDurationFillImage = fillObject.AddComponent<Image>();
+            fillObject.AddComponent<MomentumGradientEffect>();
 
             SetPrivateField("_stageHud", _stageHud);
             SetPrivateField("_infiniteHud", _infiniteHud);
@@ -72,6 +89,8 @@ namespace FlowState.Tests.PlayMode
             SetPrivateField("_stageResultContent", stageResultContent);
             SetPrivateField("_infiniteResultContent", infiniteResultContent);
             SetPrivateField("_distanceText", _distanceText);
+            SetPrivateField("_baseDistanceScoreText", _baseDistanceScoreText);
+            SetPrivateField("_momentumBonusText", _momentumBonusText);
             SetPrivateField("_scoreText", _scoreText);
             SetPrivateField(
                 "_stageCollectibleScoreText",
@@ -83,6 +102,14 @@ namespace FlowState.Tests.PlayMode
                 "_infiniteTotalScoreText",
                 _infiniteTotalScoreText);
             SetPrivateField("_infiniteDifficultyText", _infiniteDifficultyText);
+            SetPrivateField("_momentumHud", _momentumHud);
+            SetPrivateField("_momentumMultiplierText", _momentumMultiplierText);
+            SetPrivateField(
+                "_momentumDurationFillImage",
+                _momentumDurationFillImage);
+            SetPrivateField(
+                "_momentumDurationGradient",
+                MomentumHudPresenter.CreateApprovedGradient());
             SetPrivateField("_retryButton", CreateButton("ResultRetryButton"));
             SetPrivateField("_quitButton", CreateButton("ResultQuitButton"));
             SetPrivateField("_pauseResumeButton", CreateButton("ResumeButton"));
@@ -114,6 +141,10 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_infiniteHud.activeSelf, Is.True);
             Assert.That(_stageHud.activeSelf, Is.False);
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 0"));
+            Assert.That(_baseDistanceScoreText.text,
+                Is.EqualTo("Base Distance Score: 0"));
+            Assert.That(_momentumBonusText.text,
+                Is.EqualTo("Momentum Bonus: +0"));
             Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 0"));
             Assert.That(
                 _infiniteCollectibleScoreText.text,
@@ -123,6 +154,40 @@ namespace FlowState.Tests.PlayMode
                 Is.EqualTo("Total Score: 0"));
             Assert.That(_infiniteDifficultyText.text,
                 Is.EqualTo("Difficulty: D1"));
+            Assert.That(_momentumHud.activeSelf, Is.True);
+            Assert.That(_momentumMultiplierText.text, Is.EqualTo("x1.00"));
+            Assert.That(_momentumDurationFillImage.fillAmount, Is.Zero);
+        }
+
+        [UnityTest]
+        public IEnumerator MomentumHud_UpdatesAndFreezesAcrossPauseAndResult()
+        {
+            StartRun(E_GameMode.Infinite);
+            Assert.That(TryUpdateInfinite(
+                10.0f, 100, 25, 1.25, 10.0, 10.0), Is.True);
+            yield return null;
+
+            Assert.That(_momentumMultiplierText.text, Is.EqualTo("x1.25"));
+            Assert.That(_momentumDurationFillImage.fillAmount, Is.EqualTo(1.0f));
+            Assert.That(_momentumDurationFillImage.color, Is.EqualTo(Color.white));
+            Assert.That(
+                _momentumDurationFillImage.GetComponent<MomentumGradientEffect>()
+                    .HasGradient,
+                Is.True);
+
+            SetGameState(E_GameState.Paused);
+            SetUIState(E_UIState.Pause);
+            Assert.That(TryUpdateInfinite(
+                20.0f, 200, 50, 1.5, 0.5, 9.5), Is.True);
+            yield return null;
+            Assert.That(_momentumMultiplierText.text, Is.EqualTo("x1.25"));
+            Assert.That(_momentumDurationFillImage.fillAmount, Is.EqualTo(1.0f));
+
+            SetGameState(E_GameState.Ended);
+            SetUIState(E_UIState.Result);
+            yield return null;
+            Assert.That(_momentumHud.activeSelf, Is.True);
+            Assert.That(_momentumMultiplierText.text, Is.EqualTo("x1.25"));
         }
 
         [UnityTest]
@@ -178,7 +243,7 @@ namespace FlowState.Tests.PlayMode
         {
             StartRun(E_GameMode.Infinite);
             Assert.That(
-                _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129),
+                TryUpdateInfinite(12.999f, 129),
                 Is.True);
             AwardCollectible("coin-1");
 
@@ -199,12 +264,12 @@ namespace FlowState.Tests.PlayMode
         {
             StartRun(E_GameMode.Infinite);
             Assert.That(
-                _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129),
+                TryUpdateInfinite(12.999f, 129),
                 Is.True);
             yield return null;
 
             Assert.That(
-                _runtimeData.InfiniteModeRuntimeData.TryUpdate(8.0f, 80),
+                TryUpdateInfinite(8.0f, 80),
                 Is.False);
             yield return null;
 
@@ -216,13 +281,13 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator Pause_FreezesHudUntilResume()
         {
             StartRun(E_GameMode.Infinite);
-            _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129);
+            TryUpdateInfinite(12.999f, 129);
             AwardCollectible("coin-before-pause");
             yield return null;
 
             SetGameState(E_GameState.Paused);
             SetUIState(E_UIState.Pause);
-            _runtimeData.InfiniteModeRuntimeData.TryUpdate(20.999f, 209);
+            TryUpdateInfinite(20.999f, 209);
             AwardCollectible("coin-during-pause");
             yield return null;
 
@@ -253,7 +318,7 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator EndingAndEnded_KeepLastDisplayedValues()
         {
             StartRun(E_GameMode.Infinite);
-            _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129);
+            TryUpdateInfinite(12.999f, 129);
             AwardCollectible("coin-before-end");
             yield return null;
 
@@ -291,7 +356,7 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator Retry_NewRuntimeDataResetsHudToZero()
         {
             StartRun(E_GameMode.Infinite);
-            _runtimeData.InfiniteModeRuntimeData.TryUpdate(12.999f, 129);
+            TryUpdateInfinite(12.999f, 129);
             AwardCollectible("coin-before-retry");
             yield return null;
 
@@ -359,12 +424,77 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 collectibleRuntimeData.TryCollect(scopeId, collectibleId),
                 Is.True);
+
+            InfiniteModeRuntimeData infiniteData =
+                _runtimeData.InfiniteModeRuntimeData;
+            if (infiniteData != null && infiniteData.IsInitialized &&
+                !infiniteData.IsFinalized)
+            {
+                infiniteData.TryUpdate(
+                    infiniteData.ScoringVersion,
+                    infiniteData.CurrentDistance,
+                    infiniteData.BaseDistanceScore,
+                    infiniteData.MomentumBonus,
+                    infiniteData.CurrentScore,
+                    collectibleRuntimeData.CurrentScore,
+                    SaturatedAdd(
+                        infiniteData.CurrentScore,
+                        collectibleRuntimeData.CurrentScore),
+                    infiniteData.CurrentMomentumMultiplier,
+                    infiniteData.MaximumMomentumMultiplier,
+                    infiniteData.MomentumRemainingDuration,
+                    infiniteData.MomentumDuration);
+            }
         }
 
         private void SetUIState(E_UIState uiState)
         {
             _runtimeData.SetUIState(uiState);
             InvokePublicMethod("SetUIState", uiState);
+        }
+
+        private bool TryUpdateInfinite(float distance, int baseDistanceScore)
+        {
+            return TryUpdateInfinite(
+                distance,
+                baseDistanceScore,
+                0,
+                1.0,
+                0.0,
+                0.0);
+        }
+
+        private bool TryUpdateInfinite(
+            float distance,
+            int baseDistanceScore,
+            int momentumBonus,
+            double multiplier,
+            double remainingDuration,
+            double duration)
+        {
+            int collectibleScore = _runtimeData.CollectibleRuntimeData.CurrentScore;
+            int distanceScore = SaturatedAdd(
+                baseDistanceScore,
+                momentumBonus);
+            return _runtimeData.InfiniteModeRuntimeData.TryUpdate(
+                ScoringVersion.Current,
+                distance,
+                baseDistanceScore,
+                momentumBonus,
+                distanceScore,
+                collectibleScore,
+                SaturatedAdd(distanceScore, collectibleScore),
+                multiplier,
+                multiplier,
+                remainingDuration,
+                duration);
+        }
+
+        private static int SaturatedAdd(int first, int second)
+        {
+            return first > int.MaxValue - second
+                ? int.MaxValue
+                : first + second;
         }
 
         private TMP_Text CreateText(string objectName, Transform parent)
