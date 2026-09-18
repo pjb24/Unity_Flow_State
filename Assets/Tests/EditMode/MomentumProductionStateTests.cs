@@ -33,6 +33,9 @@ namespace FlowState.Tests.EditMode
             _runtimeDataSystem = AddSystem("RuntimeDataSystem");
             MonoBehaviour stageSystem = AddSystem("StageSystem");
             MonoBehaviour collisionSystem = AddSystem("CollisionSystem");
+            MonoBehaviour playerControllerSystem =
+                AddSystem("PlayerControllerSystem");
+            MonoBehaviour cameraSystem = AddSystem("CameraSystem");
             _infiniteModeSystem = AddSystem("InfiniteModeSystem");
             _movementSystem = AddSystem("PlayerMovementSystem");
             _landingFeature = _systemsObject.AddComponent<MomentumLandingFeature>();
@@ -43,6 +46,11 @@ namespace FlowState.Tests.EditMode
             SetField(_infiniteModeSystem, "_runtimeDataSystem", _runtimeDataSystem);
             SetField(_infiniteModeSystem, "_stageSystem", stageSystem);
             SetField(_infiniteModeSystem, "_collisionSystem", collisionSystem);
+            SetField(
+                _infiniteModeSystem,
+                "_playerControllerSystem",
+                playerControllerSystem);
+            SetField(_infiniteModeSystem, "_cameraSystem", cameraSystem);
             SetField(_infiniteModeSystem, "_player", _playerObject.transform);
             SetField(_movementSystem, "_momentumLandingFeature", _landingFeature);
             SetField(_movementSystem, "_normalLandingFeature", normalLanding);
@@ -124,6 +132,56 @@ namespace FlowState.Tests.EditMode
             Assert.That(Invoke(_infiniteModeSystem, "ProcessRunMetrics"), Is.True);
 
             AssertScore(200, 25, 225, 10, 235);
+        }
+
+        [Test]
+        public void RebaseState_UsesLogicalDistanceAfterCumulativeOffset()
+        {
+            SetPlayerX(880.0f);
+            Assert.That(Invoke(_infiniteModeSystem, "ProcessRunMetrics"), Is.True);
+            Assert.That(GetDouble("LogicalDistance"), Is.EqualTo(880.0));
+            AssertScore(8800, 0, 8800, 0, 8800);
+
+            WorldRebaseState rebaseState = (WorldRebaseState)GetField(
+                _infiniteModeSystem, "_worldRebaseState");
+            Assert.That(rebaseState.TryApplyRebaseOffset(880.0), Is.True);
+            SetPlayerX(0.0f);
+
+            Assert.That(Invoke(_infiniteModeSystem, "ProcessRunMetrics"), Is.True);
+            Assert.That(GetDouble("LogicalDistance"), Is.EqualTo(880.0));
+            Assert.That(GetDouble("CumulativeRebaseOffset"), Is.EqualTo(880.0));
+            AssertScore(8800, 0, 8800, 0, 8800);
+        }
+
+        [Test]
+        public void PauseAndStop_ResetOrPreserveRebaseStateAtRunBoundaries()
+        {
+            SetPlayerX(100.0f);
+            Assert.That(Invoke(_infiniteModeSystem, "ProcessRunMetrics"), Is.True);
+            Assert.That(Invoke(_infiniteModeSystem, "Pause"), Is.True);
+            SetPlayerX(200.0f);
+            Assert.That(Invoke(_infiniteModeSystem, "ProcessRunMetrics"), Is.False);
+            Assert.That(GetDouble("LogicalDistance"), Is.EqualTo(100.0));
+
+            Invoke(_infiniteModeSystem, "Stop");
+            Assert.That(GetDouble("LogicalDistance"), Is.Zero);
+            Assert.That(GetDouble("CumulativeRebaseOffset"), Is.Zero);
+        }
+
+        [Test]
+        public void RebaseRequest_OnlyAllowsPlayingInfiniteRunAtThreshold()
+        {
+            SetPlayerX(879.999f);
+            Assert.That(TryGetRebaseOffset(out float offset), Is.True);
+            Assert.That(offset, Is.Zero);
+
+            SetPlayerX(880.0f);
+            Assert.That(
+                GetRebaseOffset(),
+                Is.EqualTo(880.0f));
+            Assert.That(Invoke(_infiniteModeSystem, "Pause"), Is.True);
+            Assert.That(TryGetRebaseOffset(out offset), Is.False);
+            Assert.That(offset, Is.Zero);
         }
 
         [Test]
@@ -450,6 +508,28 @@ namespace FlowState.Tests.EditMode
             return (bool)Invoke(_infiniteModeSystem, "ProcessMomentumStep", deltaTime);
         }
 
+        private float GetRebaseOffset()
+        {
+            object[] arguments = { 0.0f };
+            MethodInfo method = _infiniteModeSystem.GetType().GetMethod(
+                "TryGetWorldRebaseOffset", InstanceMembers);
+            Assert.That(method, Is.Not.Null);
+            Assert.That((bool)method.Invoke(_infiniteModeSystem, arguments), Is.True);
+            return (float)arguments[0];
+        }
+
+        private bool TryGetRebaseOffset(out float rebaseOffset)
+        {
+            object[] arguments = { 0.0f };
+            MethodInfo method = _infiniteModeSystem.GetType().GetMethod(
+                "TryGetWorldRebaseOffset", InstanceMembers);
+            Assert.That(method, Is.Not.Null);
+            bool didGetOffset = (bool)method.Invoke(
+                _infiniteModeSystem, arguments);
+            rebaseOffset = (float)arguments[0];
+            return didGetOffset;
+        }
+
         private double GetDouble(string propertyName)
         {
             return (double)GetProperty(_infiniteModeSystem, propertyName);
@@ -497,6 +577,13 @@ namespace FlowState.Tests.EditMode
             PropertyInfo property = target.GetType().GetProperty(propertyName, InstanceMembers);
             Assert.That(property, Is.Not.Null);
             return property.GetValue(target);
+        }
+
+        private static object GetField(object target, string fieldName)
+        {
+            FieldInfo field = target.GetType().GetField(fieldName, InstanceMembers);
+            Assert.That(field, Is.Not.Null);
+            return field.GetValue(target);
         }
 
         private static void SetField(object target, string fieldName, object value)

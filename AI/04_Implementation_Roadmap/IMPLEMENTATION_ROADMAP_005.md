@@ -132,7 +132,7 @@ InfiniteMode에 누적 논리 거리와 World Rebase를 적용한다.
 
 ### 상태
 
-대기
+완료 — Unity Script Compilation, Edit Mode `648/648`, Play Mode `222/222` 및 Rebase 화면 확인 통과
 
 ---
 
@@ -180,7 +180,7 @@ InfiniteMode에 누적 논리 거리와 World Rebase를 적용한다.
 
 ## 다음 작업
 
-Phase 2 Momentum Landing Score 전환과 UI 생산 연결
+Phase 4 전체 회귀, 대상 플랫폼 Build 및 장시간 Rebase 성능 검증
 
 ---
 
@@ -196,6 +196,8 @@ Phase 2 Momentum Landing Score 전환과 UI 생산 연결
 
 - Prototype 4: Pattern 확장, Difficulty, Collectible 안내와 Score·UI 통합
 - Prototype 5 Phase 1: Momentum Landing Score·Scoring Version·World Rebase 계약과 순수 모델 확정, 전체 Edit Mode Test `559`개 통과
+- Prototype 5 Phase 2: Momentum Landing Score 전환과 UI 생산 연결, Edit Mode `629/629`, Play Mode `221/221` 통과
+- Prototype 5 Phase 3: World Rebase 생산 연결과 논리 거리 보존, Edit Mode `648/648`, Play Mode `222/222` 및 화면 확인 통과
 
 ---
 

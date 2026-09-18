@@ -23,6 +23,7 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _playerInputSystem;
         private MonoBehaviour _gameSystem;
         private MonoBehaviour _runtimeDataSystem;
+        private Transform _fixtureRoot;
 
         [UnitySetUp]
         public IEnumerator SetUp()
@@ -383,11 +384,16 @@ namespace FlowState.Tests.PlayMode
                 100.0f);
             ProductionSceneGameModeTestUtility.RestartInMode(
                 E_GameMode.Infinite);
+            Transform infiniteModeRoot = GameObject.Find("InfiniteModeRoot")?.transform;
+            Assert.That(infiniteModeRoot, Is.Not.Null);
+            _fixtureRoot.SetParent(infiniteModeRoot, true);
             MovePlayerToFixture();
         }
 
         private void CreateFixture()
         {
+            _fixtureRoot = new GameObject(
+                "WallLandingRecoveryIntegrationTests.FixtureRoot").transform;
             CreateBox(
                 "Ground",
                 new Vector3(0.0f, 0.0f, 0.0f),
@@ -404,6 +410,7 @@ namespace FlowState.Tests.PlayMode
             GameObject boxObject = new GameObject(
                 $"WallLandingRecoveryIntegrationTests.{suffix}");
             boxObject.layer = GroundLayer;
+            boxObject.transform.SetParent(_fixtureRoot, false);
             boxObject.transform.position = FixtureOrigin + position;
             BoxCollider boxCollider = boxObject.AddComponent<BoxCollider>();
             boxCollider.size = size;

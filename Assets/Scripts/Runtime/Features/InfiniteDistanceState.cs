@@ -2,43 +2,43 @@ namespace FlowState.Runtime.Features
 {
     public class InfiniteDistanceState
     {
-        private float _originWorldX;
-        private float _currentDistance;
+        private double _originLogicalX;
+        private double _currentDistance;
         private bool _isInitialized;
         private bool _isFinalized;
 
-        public float OriginWorldX => _originWorldX;
+        public double OriginWorldX => _originLogicalX;
 
-        public float CurrentDistance => _currentDistance;
+        public double CurrentDistance => _currentDistance;
 
         public bool IsInitialized => _isInitialized;
 
         public bool IsFinalized => _isFinalized;
 
-        public bool Initialize(float originWorldX)
+        public bool Initialize(double originLogicalX)
         {
-            if (!IsFinite(originWorldX))
+            if (!IsFinite(originLogicalX))
             {
                 return false;
             }
 
-            _originWorldX = originWorldX;
+            _originLogicalX = originLogicalX;
             _currentDistance = 0.0f;
             _isInitialized = true;
             _isFinalized = false;
             return true;
         }
 
-        public bool TryUpdate(float currentWorldX)
+        public bool TryUpdate(double currentLogicalX)
         {
             if (!_isInitialized ||
                 _isFinalized ||
-                !IsFinite(currentWorldX))
+                !IsFinite(currentLogicalX))
             {
                 return false;
             }
 
-            float forwardDistance = currentWorldX - _originWorldX;
+            double forwardDistance = currentLogicalX - _originLogicalX;
 
             if (forwardDistance > _currentDistance)
             {
@@ -61,15 +61,15 @@ namespace FlowState.Runtime.Features
 
         public void Reset()
         {
-            _originWorldX = 0.0f;
+            _originLogicalX = 0.0;
             _currentDistance = 0.0f;
             _isInitialized = false;
             _isFinalized = false;
         }
 
-        private static bool IsFinite(float value)
+        private static bool IsFinite(double value)
         {
-            return !float.IsNaN(value) && !float.IsInfinity(value);
+            return !double.IsNaN(value) && !double.IsInfinity(value);
         }
     }
 }

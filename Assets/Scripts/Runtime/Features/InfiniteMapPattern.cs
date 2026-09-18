@@ -213,6 +213,27 @@ namespace FlowState.Runtime.Features
             RecheckCollectibles(_secondCollectibles);
         }
 
+        public bool TryApplyWorldRebaseOffset(float worldXOffset)
+        {
+            if (!CanApplyWorldRebaseOffset(worldXOffset))
+            {
+                return false;
+            }
+
+            Transform infiniteModeRoot = transform.parent;
+            Vector3 position = infiniteModeRoot.position;
+            position.x += worldXOffset;
+            infiniteModeRoot.position = position;
+            return true;
+        }
+
+        public bool CanApplyWorldRebaseOffset(float worldXOffset)
+        {
+            return _isInitialized &&
+                   transform.parent != null &&
+                   IsValidWorldXOffset(worldXOffset);
+        }
+
         public bool TryAdvance(int boundaryId)
         {
             if (_usesPatternSlots)
@@ -631,6 +652,13 @@ namespace FlowState.Runtime.Features
                     collectibles[i].TryCollectOverlappingPlayer();
                 }
             }
+        }
+
+        private static bool IsValidWorldXOffset(float worldXOffset)
+        {
+            return !float.IsNaN(worldXOffset) &&
+                   !float.IsInfinity(worldXOffset) &&
+                   worldXOffset < 0.0f;
         }
     }
 }

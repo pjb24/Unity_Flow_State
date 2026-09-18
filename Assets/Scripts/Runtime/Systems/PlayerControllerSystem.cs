@@ -114,6 +114,27 @@ namespace FlowState.Runtime.Systems
             _currentHorizontalAcceleration = 0.0f;
         }
 
+        public bool TryApplyWorldRebaseOffset(float worldXOffset)
+        {
+            if (!CanApplyWorldRebaseOffset(worldXOffset))
+            {
+                return false;
+            }
+
+            Vector3 position = _playerRigidbody.position;
+            position.x += worldXOffset;
+            _playerRigidbody.position = position;
+            return true;
+        }
+
+        public bool CanApplyWorldRebaseOffset(float worldXOffset)
+        {
+            return _isInitialized &&
+                   !_isPaused &&
+                   _playerRigidbody != null &&
+                   IsValidWorldXOffset(worldXOffset);
+        }
+
         public bool PausePhysics()
         {
             if (!_isInitialized || _isPaused)
@@ -152,6 +173,13 @@ namespace FlowState.Runtime.Systems
             _playerRigidbody.position = _startPoint.position;
             _playerRigidbody.linearVelocity = Vector3.zero;
             _playerRigidbody.angularVelocity = Vector3.zero;
+        }
+
+        private static bool IsValidWorldXOffset(float worldXOffset)
+        {
+            return !float.IsNaN(worldXOffset) &&
+                   !float.IsInfinity(worldXOffset) &&
+                   worldXOffset < 0.0f;
         }
     }
 }

@@ -11,6 +11,8 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private RuntimeDataSystem _runtimeDataSystem;
         [SerializeField] private StageSystem _stageSystem;
         [SerializeField] private CollisionSystem _collisionSystem;
+        [SerializeField] private PlayerControllerSystem _playerControllerSystem;
+        [SerializeField] private CameraSystem _cameraSystem;
         [SerializeField] private Transform _player;
         [SerializeField] private float _fallThresholdY = -3.0f;
         [SerializeField] private float _minimumHorizontalSpeed = 2.0f;
@@ -22,6 +24,8 @@ namespace FlowState.Runtime.Systems
         private readonly InfiniteModeState _state = new InfiniteModeState();
         private readonly InfiniteDistanceState _distanceState =
             new InfiniteDistanceState();
+        private readonly WorldRebaseState _worldRebaseState =
+            new WorldRebaseState();
         private readonly InfiniteScoreState _scoreState =
             new InfiniteScoreState();
         private readonly InfiniteDifficultyState _difficultyState =
@@ -43,6 +47,7 @@ namespace FlowState.Runtime.Systems
         private bool _hasPreviousRunSeed;
         private bool _hasPendingPatternRequest;
         private long _lastProcessedMomentumSuccessId;
+        private bool _isRebasing;
 
         public bool IsPlaying => _state.IsPlaying;
 
@@ -61,6 +66,32 @@ namespace FlowState.Runtime.Systems
 
         public double MomentumRemainingRatio => _momentumState.RemainingRatio;
 
+        public double CumulativeRebaseOffset =>
+            _worldRebaseState.CumulativeRebaseOffset;
+
+        public double LogicalDistance =>
+            _worldRebaseState.MaximumForwardDistance;
+
+        public bool TryGetWorldRebaseOffset(out float rebaseOffset)
+        {
+            rebaseOffset = 0.0f;
+
+            if (!_isInitialized || _isPaused || !_state.IsPlaying ||
+                _state.GameMode != E_GameMode.Infinite ||
+                _gameRuntimeData == null || !_gameRuntimeData.IsCreated ||
+                _gameRuntimeData.GameMode != E_GameMode.Infinite ||
+                _gameRuntimeData.GameState != E_GameState.Playing ||
+                _playerRigidbody == null ||
+                !_worldRebaseState.TryGetRebaseOffset(
+                    _playerRigidbody.position.x, out double offset))
+            {
+                return false;
+            }
+
+            rebaseOffset = (float)offset;
+            return true;
+        }
+
         private void FixedUpdate()
         {
             if (!_isInitialized ||
@@ -74,6 +105,7 @@ namespace FlowState.Runtime.Systems
             ProcessRunMetrics();
             ProcessMomentumStep(Time.fixedDeltaTime);
             PublishRunMetrics();
+            ProcessWorldRebase();
             ProcessProgress(Time.fixedDeltaTime);
             ProcessFallThreshold();
             ProcessPatternProgression();
@@ -91,6 +123,7 @@ namespace FlowState.Runtime.Systems
 
             _isInitialized = false;
             _isPaused = false;
+            _isRebasing = false;
             _movementRuntimeData = null;
             _gameRuntimeData = null;
             _momentumState.Reset();
@@ -177,6 +210,7 @@ namespace FlowState.Runtime.Systems
             ResetRunMetrics();
             _isInitialized = false;
             _isPaused = false;
+            _isRebasing = false;
         }
 
         public bool Pause()
@@ -195,6 +229,7 @@ namespace FlowState.Runtime.Systems
             }
 
             _isPaused = true;
+            _worldRebaseState.Pause();
             _difficultyState.Pause();
             _patternSelectionState.Pause();
             return true;
@@ -216,6 +251,7 @@ namespace FlowState.Runtime.Systems
             }
 
             _isPaused = false;
+            _worldRebaseState.Resume();
             _difficultyState.Resume();
             _patternSelectionState.Resume();
             return true;
@@ -272,6 +308,58 @@ namespace FlowState.Runtime.Systems
             }
 
             return UpdateRunMetrics() && PublishRunMetrics();
+        }
+
+        private bool ProcessWorldRebase()
+        {
+            if (_isRebasing ||
+                !TryGetWorldRebaseOffset(out float rebaseOffset) ||
+                rebaseOffset <= 0.0f)
+            {
+                return false;
+            }
+
+            InfiniteMapPattern mapPattern = _stageSystem.InfiniteMapPattern;
+            float worldXOffset = -rebaseOffset;
+
+            if (mapPattern == null ||
+                _playerControllerSystem == null ||
+                _cameraSystem == null ||
+                !_playerControllerSystem.CanApplyWorldRebaseOffset(
+                    worldXOffset) ||
+                !mapPattern.CanApplyWorldRebaseOffset(worldXOffset) ||
+                !_cameraSystem.CanApplyWorldRebaseOffset(worldXOffset))
+            {
+                return false;
+            }
+
+            _isRebasing = true;
+
+            try
+            {
+                if (!_playerControllerSystem.TryApplyWorldRebaseOffset(
+                        worldXOffset) ||
+                    !mapPattern.TryApplyWorldRebaseOffset(worldXOffset) ||
+                    !_cameraSystem.TryApplyWorldRebaseOffset(worldXOffset))
+                {
+                    return false;
+                }
+
+                Physics.SyncTransforms();
+
+                if (!_cameraSystem.TryNotifyWorldRebase(
+                        new Vector3(worldXOffset, 0.0f, 0.0f)) ||
+                    !_worldRebaseState.TryApplyRebaseOffset(rebaseOffset))
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            finally
+            {
+                _isRebasing = false;
+            }
         }
 
         private void ProcessProgress(float deltaTime)
@@ -343,7 +431,8 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            if (!_difficultyState.TryUpdate(_distanceState.CurrentDistance))
+            if (!_difficultyState.TryUpdate(
+                    (float)_worldRebaseState.MaximumForwardDistance))
             {
                 return;
             }
@@ -411,7 +500,8 @@ namespace FlowState.Runtime.Systems
             if (runtimeData.InfiniteModeRuntimeData == null ||
                 runtimeData.InfiniteModeRuntimeData.ScoringVersion !=
                     ScoringVersion.Current ||
-                !_distanceState.Initialize(_playerRigidbody.position.x) ||
+                !_worldRebaseState.StartRun(_playerRigidbody.position.x) ||
+                !_distanceState.Initialize(_worldRebaseState.OriginLogicalX) ||
                 !_scoreState.Initialize(ScoringVersion.Current, _scorePerUnit))
             {
                 ResetRunMetrics();
@@ -425,10 +515,13 @@ namespace FlowState.Runtime.Systems
         private bool UpdateRunMetrics()
         {
             if (_infiniteModeRuntimeData == null ||
-                !_distanceState.TryUpdate(_playerRigidbody.position.x) ||
+                !_worldRebaseState.TryUpdate(_playerRigidbody.position.x) ||
+                !_distanceState.TryUpdate(
+                    _playerRigidbody.position.x +
+                    _worldRebaseState.CumulativeRebaseOffset) ||
                 !_scoreState.TryUpdate(
                     _infiniteModeRuntimeData.ScoringVersion,
-                    _distanceState.CurrentDistance,
+                    _worldRebaseState.MaximumForwardDistance,
                     _momentumState.CurrentMultiplier))
             {
                 return false;
@@ -451,7 +544,7 @@ namespace FlowState.Runtime.Systems
 
             return _infiniteModeRuntimeData.TryUpdate(
                 _scoreState.ScoringVersion,
-                _distanceState.CurrentDistance,
+                (float)_worldRebaseState.MaximumForwardDistance,
                 _scoreState.BaseDistanceScore,
                 _scoreState.MomentumBonus,
                 _scoreState.DistanceScore,
@@ -468,6 +561,7 @@ namespace FlowState.Runtime.Systems
             if (!UpdateRunMetrics() ||
                 !PublishRunMetrics() ||
                 !_distanceState.TryFinalize() ||
+                !_worldRebaseState.FinalizeRun() ||
                 !_scoreState.TryFinalize(
                     _infiniteModeRuntimeData.ScoringVersion) ||
                 !FinalizeMomentumState() ||
@@ -481,6 +575,7 @@ namespace FlowState.Runtime.Systems
         private void ResetRunMetrics()
         {
             _distanceState.Reset();
+            _worldRebaseState.Reset();
             _scoreState.Reset();
             _infiniteModeRuntimeData = null;
         }
@@ -516,5 +611,6 @@ namespace FlowState.Runtime.Systems
 
             return true;
         }
+
     }
 }

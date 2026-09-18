@@ -20,7 +20,8 @@ namespace FlowState.Tests.EditMode
         {
             GameObject player = CreateObject("Player", null);
             _playerCollider = player.AddComponent<CapsuleCollider>();
-            GameObject mapObject = CreateObject("Map", null);
+            GameObject infiniteModeRoot = CreateObject("InfiniteModeRoot", null);
+            GameObject mapObject = CreateObject("Map", infiniteModeRoot.transform);
             _map = mapObject.AddComponent<InfiniteMapPattern>();
             _first = CreateSlot(mapObject.transform, 0, Vector3.zero);
             _second = CreateSlot(
@@ -231,6 +232,51 @@ namespace FlowState.Tests.EditMode
             Assert.That(_map.CurrentPatternId, Is.EqualTo("Flat"));
             Assert.That(_first.ContentRoot.childCount, Is.EqualTo(4));
             Assert.That(_second.ContentRoot.childCount, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void ApplyWorldRebaseOffset_MovesRootOnceAndPreservesPatternState()
+        {
+            Assert.That(_map.Initialize(), Is.True);
+            Transform infiniteModeRoot = _map.transform.parent;
+            Vector3 rootPosition = infiniteModeRoot.position;
+            Vector3 firstPosition = _first.transform.position;
+            Vector3 secondPosition = _second.transform.position;
+            string currentPatternId = _map.CurrentPatternId;
+            string trailingPatternId = _map.TrailingPatternId;
+            int advanceCount = _map.AdvanceCount;
+            bool firstTriggered = _first.AdvanceBoundary.IsTriggered;
+            bool secondTriggered = _second.AdvanceBoundary.IsTriggered;
+
+            Assert.That(_map.TryApplyWorldRebaseOffset(-880.0f), Is.True);
+
+            Assert.That(infiniteModeRoot.position.x,
+                Is.EqualTo(rootPosition.x - 880.0f));
+            Assert.That(_first.transform.position.x,
+                Is.EqualTo(firstPosition.x - 880.0f));
+            Assert.That(_second.transform.position.x,
+                Is.EqualTo(secondPosition.x - 880.0f));
+            Assert.That(_second.transform.position.x - _first.transform.position.x,
+                Is.EqualTo(44.0f));
+            Assert.That(_map.CurrentPatternId, Is.EqualTo(currentPatternId));
+            Assert.That(_map.TrailingPatternId, Is.EqualTo(trailingPatternId));
+            Assert.That(_map.AdvanceCount, Is.EqualTo(advanceCount));
+            Assert.That(_first.AdvanceBoundary.IsTriggered, Is.EqualTo(firstTriggered));
+            Assert.That(_second.AdvanceBoundary.IsTriggered, Is.EqualTo(secondTriggered));
+        }
+
+        [TestCase(0.0f)]
+        [TestCase(1.0f)]
+        [TestCase(float.NaN)]
+        [TestCase(float.PositiveInfinity)]
+        public void ApplyWorldRebaseOffset_InvalidOffsetLeavesRootUnchanged(
+            float worldXOffset)
+        {
+            Assert.That(_map.Initialize(), Is.True);
+            Vector3 rootPosition = _map.transform.parent.position;
+
+            Assert.That(_map.TryApplyWorldRebaseOffset(worldXOffset), Is.False);
+            Assert.That(_map.transform.parent.position, Is.EqualTo(rootPosition));
         }
 
         [Test]

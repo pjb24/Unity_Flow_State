@@ -49,6 +49,42 @@ namespace FlowState.Runtime.Systems
             _cinemachineCamera.enabled = isActive;
         }
 
+        public bool CanApplyWorldRebaseOffset(float worldXOffset)
+        {
+            return _isInitialized &&
+                   _cinemachineCamera != null &&
+                   _followTarget != null &&
+                   _followTarget.parent != null &&
+                   IsValidWorldXOffset(worldXOffset);
+        }
+
+        public bool TryApplyWorldRebaseOffset(float worldXOffset)
+        {
+            if (!CanApplyWorldRebaseOffset(worldXOffset))
+            {
+                return false;
+            }
+
+            Transform cameraRig = _followTarget.parent;
+            Vector3 position = cameraRig.position;
+            position.x += worldXOffset;
+            cameraRig.position = position;
+            return true;
+        }
+
+        public bool TryNotifyWorldRebase(Vector3 positionDelta)
+        {
+            if (!_isInitialized || _cinemachineCamera == null ||
+                _followTarget == null || !IsFinite(positionDelta))
+            {
+                return false;
+            }
+
+            _cinemachineCamera.OnTargetObjectWarped(
+                _followTarget, positionDelta);
+            return true;
+        }
+
         private bool HasRequiredReferences()
         {
             if (_cinemachineCamera == null)
@@ -64,6 +100,20 @@ namespace FlowState.Runtime.Systems
             }
 
             return true;
+        }
+
+        private static bool IsValidWorldXOffset(float worldXOffset)
+        {
+            return !float.IsNaN(worldXOffset) &&
+                   !float.IsInfinity(worldXOffset) &&
+                   worldXOffset < 0.0f;
+        }
+
+        private static bool IsFinite(Vector3 value)
+        {
+            return !float.IsNaN(value.x) && !float.IsInfinity(value.x) &&
+                   !float.IsNaN(value.y) && !float.IsInfinity(value.y) &&
+                   !float.IsNaN(value.z) && !float.IsInfinity(value.z);
         }
     }
 }

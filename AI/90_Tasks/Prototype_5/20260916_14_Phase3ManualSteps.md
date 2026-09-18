@@ -91,10 +91,10 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] Rebase 전후 생산 실행 순서가 확정되었다.
-- [ ] 각 이동 대상의 소유 System과 이동 API 책임이 확정되었다.
-- [ ] 사용자에게 필요한 Scene 참조 목록이 실제 C# 필드명과 객체명으로 확정되었다.
-- [ ] 변경하지 않을 Stage Mode·Score·Momentum·UI 범위가 기록되었다.
+- [x] Rebase 전후 생산 실행 순서가 확인되었다.
+- [x] 각 이동 대상의 소유 System과 이동 API 책임이 확인되었다.
+- [x] 사용자에게 필요한 Scene 참조 목록이 현재 C# 필드와 객체명을 기준으로 확인되었다.
+- [x] 변경하지 않을 Stage Mode·Score·Momentum·UI 범위가 기록되었다.
 
 ---
 
@@ -125,9 +125,9 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] 생산 거리 계산이 Player World X 단독 값에 의존하지 않는다.
-- [ ] Rebase 전후 거리, Score와 Difficulty 입력이 보존된다.
-- [ ] 상태 경계와 비정상 입력이 Unit Test로 판정 가능하다.
+- [x] 생산 거리 계산이 Player World X 단독 값에 의존하지 않는다.
+- [x] Rebase 전후 거리, Score와 Difficulty 입력이 보존된다.
+- [x] 상태 경계와 비정상 입력이 Unit Test로 판정 가능하다.
 
 ---
 
@@ -156,9 +156,9 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] Player와 Infinite World가 동일한 Offset을 적용할 수 있다.
-- [ ] Pattern·Boundary·Collectible의 논리 상태가 Rebase와 분리되어 있다.
-- [ ] 물리 상태와 계층 상대 위치를 자동 Test로 검증할 수 있다.
+- [x] Player와 Infinite World가 동일한 Offset을 적용할 수 있다.
+- [x] Pattern·Boundary·Collectible의 논리 상태가 Rebase와 분리되어 있다.
+- [x] 물리 상태와 계층 상대 위치를 자동 Test로 검증할 수 있다.
 
 ---
 
@@ -186,9 +186,9 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] Rebase 전체 실행 순서가 Phase 1 계약과 일치한다.
-- [ ] Camera Damping이 Rebase Offset을 실제 이동으로 해석하지 않도록 보정한다.
-- [ ] 자동 판정 가능한 Camera 상태를 수동 확인 항목으로 남기지 않는다.
+- [x] Rebase 전체 실행 순서가 Phase 1 계약과 일치한다.
+- [x] Camera Damping이 Rebase Offset을 실제 이동으로 해석하지 않도록 보정한다.
+- [x] 자동 판정 가능한 Camera 상태를 수동 확인 항목으로 남기지 않는다.
 
 ---
 
@@ -216,10 +216,10 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] AI 정적 검증이 통과했다.
-- [ ] Unity Script Compilation이 성공했다.
-- [ ] 관련 Test와 전체 Edit Mode Test가 통과했다.
-- [ ] 예상하지 않은 Error와 Warning이 없다.
+- [x] AI 정적 검증이 통과했다.
+- [x] Unity Script Compilation이 성공했다.
+- [x] 관련 Test와 전체 Edit Mode Test `648/648`이 통과했다.
+- [x] 예상하지 않은 Error와 Warning이 없다.
 
 ---
 
@@ -236,9 +236,9 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 ### 사용자 수동 작업
 
 1. `SampleScene`을 열고 작업 전 Scene을 저장한다.
-2. 기존 `InfiniteModeSystem` Component에서 새로 추가된 참조에 기존 `PlayerControllerSystem`, `InfiniteMapPattern`, `CameraSystem`을 각각 연결한다.
-3. `InfiniteMapPattern`의 Rebase 대상에는 기존 `World/InfiniteModeRoot`를 연결한다. Pattern Slot, Boundary와 Collectible을 별도 Rebase 대상으로 중복 등록하지 않는다.
-4. `CameraSystem`에 CameraRig 참조가 추가되었다면 기존 Camera 계층의 Rig Root를 연결한다. 기존 Cinemachine Camera와 Follow Target 참조는 유지한다.
+2. 기존 `InfiniteModeSystem` Component의 `_playerControllerSystem`에 Player의 `PlayerControllerSystem` Component를 연결한다.
+3. 같은 Component의 `_cameraSystem`에 `CameraSystem` GameObject의 `CameraSystem` Component를 연결한다.
+4. `InfiniteMapPattern`과 CameraRig의 새 직렬화 참조는 연결하지 않는다. InfiniteMapPattern은 기존 `StageSystem.InfiniteMapPattern` 접근 경로를 사용하고, CameraSystem은 기존 Follow Target의 부모 CameraRig를 사용한다. Pattern Slot, Boundary와 Collectible을 별도 Rebase 대상으로 등록하지 않는다.
 5. Player, InfiniteModeRoot와 CameraRig를 새 공통 부모 아래로 이동하지 않는다.
 6. Stage Mode Root, Goal, Start Point, UI Canvas와 EventSystem을 Rebase 대상에 연결하지 않는다.
 7. Inspector에 `None` 또는 Missing 참조가 없는지 확인하고 Scene을 저장한다.
@@ -248,10 +248,10 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] 필요한 기존 System과 Root 참조가 모두 연결되었다.
-- [ ] 이동 대상의 부모·자식 중복 등록이 없다.
-- [ ] Rebase 제외 대상이 기존 위치와 계층을 유지한다.
-- [ ] AI의 Scene YAML 정적 검사가 통과했다.
+- [x] 필요한 기존 System과 Root 참조가 모두 연결되었다.
+- [x] 이동 대상의 부모·자식 중복 등록이 없다.
+- [x] Rebase 제외 대상이 기존 위치와 계층을 유지한다.
+- [x] AI의 Scene YAML 정적 검사가 통과했다.
 
 ---
 
@@ -289,9 +289,9 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] 생산 Scene Rebase 관련 Play Mode Test가 통과했다.
-- [ ] 전체 Play Mode Test가 통과했다.
-- [ ] 예상하지 않은 Error와 Warning이 없다.
+- [x] 생산 Scene Rebase 관련 Play Mode Test가 통과했다.
+- [x] 전체 Play Mode Test `222/222`가 통과했다.
+- [x] 예상하지 않은 Error와 Warning이 없다.
 
 ---
 
@@ -319,9 +319,9 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] Rebase 순간 Camera 끊김과 떨림이 눈에 띄지 않는다.
-- [ ] 지형의 겹침과 틈이 보이지 않는다.
-- [ ] Rebase 대상이 서로 다른 프레임에 이동한 것처럼 보이지 않는다.
+- [x] Rebase 순간 Camera 끊김과 떨림이 눈에 띄지 않는다.
+- [x] 지형의 겹침과 틈이 보이지 않는다.
+- [x] Rebase 대상이 서로 다른 프레임에 이동한 것처럼 보이지 않는다.
 
 ---
 
@@ -342,10 +342,10 @@ InfiniteMode 생산 경로에 누적 논리 거리와 World Rebase를 연결한�
 
 ### 완료 조건
 
-- [ ] Roadmap, Feature, System 문서와 생산 구현이 일치한다.
-- [ ] Compile, 전체 Edit Mode와 전체 Play Mode 결과가 기록되었다.
-- [ ] 최소 수동 화면 확인 결과가 기록되었다.
-- [ ] Phase 3 완료 여부와 Phase 4로 넘길 Build·장시간 성능 범위가 명확하다.
+- [x] Roadmap, Feature, System 문서와 생산 구현이 일치한다.
+- [x] Compile, 전체 Edit Mode와 전체 Play Mode 결과가 기록되었다.
+- [x] 최소 수동 화면 확인 결과가 기록되었다.
+- [x] Phase 3 완료 여부와 Phase 4로 넘길 Build·장시간 성능 범위가 명확하다.
 
 ---
 

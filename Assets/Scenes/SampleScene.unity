@@ -736,6 +736,8 @@ MonoBehaviour:
   _runtimeDataSystem: {fileID: 383414368}
   _stageSystem: {fileID: 1671477403}
   _collisionSystem: {fileID: 2089254632}
+  _playerControllerSystem: {fileID: 2089254633}
+  _cameraSystem: {fileID: 1659597220}
   _player: {fileID: 2089254631}
   _fallThresholdY: -3
   _minimumHorizontalSpeed: 2

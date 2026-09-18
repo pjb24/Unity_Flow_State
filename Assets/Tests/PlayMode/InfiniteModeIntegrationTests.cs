@@ -33,6 +33,7 @@ namespace FlowState.Tests.PlayMode
         private GameObject _startPoint;
         private GameObject _stageModeRoot;
         private GameObject _infiniteModeRoot;
+        private GameObject _cameraRig;
         private Rigidbody _playerRigidbody;
         private Collider _playerCollider;
         private TMP_Text _finalDistanceText;
@@ -99,6 +100,7 @@ namespace FlowState.Tests.PlayMode
             _startPoint = FindSceneGameObject("StartPoint");
             _stageModeRoot = FindSceneGameObject("StageModeRoot");
             _infiniteModeRoot = FindSceneGameObject("InfiniteModeRoot");
+            _cameraRig = FindSceneGameObject("CameraRig");
             _playerRigidbody = _player.GetComponent<Rigidbody>();
             _playerCollider = _player.GetComponent<Collider>();
             _finalDistanceText = new GameObject(
@@ -207,6 +209,53 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 GetBoolProperty(_resultSystem, "HasResultData"),
                 Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator WorldRebase_ProductionScenePreservesRunStateAndRelativePositions()
+        {
+            const float threshold = 880.0f;
+            Vector3 playerPosition = new Vector3(threshold, 1.5f, 0.0f);
+            _playerRigidbody.position = playerPosition;
+            _playerRigidbody.linearVelocity = new Vector3(8.0f, -2.0f, 0.0f);
+            Physics.SyncTransforms();
+            InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
+
+            InfiniteModeRuntimeData data =
+                GetRuntimeData().InfiniteModeRuntimeData;
+            float distance = data.CurrentDistance;
+            int score = data.CurrentScore;
+            int difficulty = data.CurrentDifficultyLevel;
+            Vector3 playerVelocity = _playerRigidbody.linearVelocity;
+            Vector3 worldOffset = _infiniteModeRoot.transform.position -
+                                  _playerRigidbody.position;
+            Vector3 cameraOffset = _cameraRig.transform.position -
+                                   _playerRigidbody.position;
+            string currentPatternId = _mapPattern.CurrentPatternId;
+            int advanceCount = _mapPattern.AdvanceCount;
+
+            Assert.That(InvokePrivateBoolean(
+                _infiniteModeSystem, "ProcessWorldRebase"), Is.True);
+
+            Assert.That(_playerRigidbody.position.x,
+                Is.EqualTo(0.0f).Within(0.001f));
+            Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(playerVelocity));
+            Assert.That(_infiniteModeRoot.transform.position -
+                _playerRigidbody.position, Is.EqualTo(worldOffset));
+            Assert.That(_cameraRig.transform.position -
+                _playerRigidbody.position, Is.EqualTo(cameraOffset));
+            Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDistance,
+                Is.EqualTo(distance));
+            Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentScore,
+                Is.EqualTo(score));
+            Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDifficultyLevel,
+                Is.EqualTo(difficulty));
+            Assert.That(_mapPattern.CurrentPatternId, Is.EqualTo(currentPatternId));
+            Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(advanceCount));
+            Assert.That((double)GetProperty(
+                _infiniteModeSystem, "CumulativeRebaseOffset"),
+                Is.EqualTo(threshold));
+            yield return null;
         }
 
         [UnityTest]
@@ -876,6 +925,19 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(method, Is.Not.Null);
             method.Invoke(target, arguments);
+        }
+
+        private bool InvokePrivateBoolean(
+            object target,
+            string methodName,
+            params object[] arguments)
+        {
+            MethodInfo method = target.GetType().GetMethod(
+                methodName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.That(method, Is.Not.Null);
+            return (bool)method.Invoke(target, arguments);
         }
 
         private void SetPrivateField(
