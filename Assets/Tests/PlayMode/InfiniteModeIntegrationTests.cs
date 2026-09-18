@@ -259,6 +259,125 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator RepeatedWorldRebase_ProductionScenePreservesRunState()
+        {
+            const float threshold = 880.0f;
+            string currentPatternId = _mapPattern.CurrentPatternId;
+            int advanceCount = _mapPattern.AdvanceCount;
+
+            for (int rebaseIndex = 1; rebaseIndex <= 2; rebaseIndex++)
+            {
+                _playerRigidbody.position = new Vector3(
+                    threshold,
+                    1.5f,
+                    0.0f);
+                _playerRigidbody.linearVelocity =
+                    new Vector3(8.0f, -2.0f, 0.0f);
+                Physics.SyncTransforms();
+                InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
+
+                Vector3 worldOffset = _infiniteModeRoot.transform.position -
+                                      _playerRigidbody.position;
+                Vector3 cameraOffset = _cameraRig.transform.position -
+                                       _playerRigidbody.position;
+
+                InfiniteModeRuntimeData data =
+                    GetRuntimeData().InfiniteModeRuntimeData;
+                float distance = data.CurrentDistance;
+                int score = data.CurrentScore;
+                int difficulty = data.CurrentDifficultyLevel;
+
+                Assert.That(InvokePrivateBoolean(
+                    _infiniteModeSystem, "ProcessWorldRebase"), Is.True);
+                Assert.That(_playerRigidbody.position.x,
+                    Is.EqualTo(0.0f).Within(0.001f));
+                Assert.That(_infiniteModeRoot.transform.position -
+                    _playerRigidbody.position, Is.EqualTo(worldOffset));
+                Assert.That(_cameraRig.transform.position -
+                    _playerRigidbody.position, Is.EqualTo(cameraOffset));
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDistance,
+                    Is.EqualTo(distance));
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentScore,
+                    Is.EqualTo(score));
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDifficultyLevel,
+                    Is.EqualTo(difficulty));
+                Assert.That(_mapPattern.CurrentPatternId,
+                    Is.EqualTo(currentPatternId));
+                Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(advanceCount));
+                Assert.That((double)GetProperty(
+                    _infiniteModeSystem, "CumulativeRebaseOffset"),
+                    Is.EqualTo(threshold * rebaseIndex));
+            }
+
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator RebaseStressCycle_ProductionSceneKeepsScopesAndRunStateBounded()
+        {
+            const float threshold = 880.0f;
+            const int rebaseCount = 100;
+            GameRuntimeData runtimeData = GetRuntimeData();
+            int activeScopeCount =
+                runtimeData.CollectibleRuntimeData.ActiveScopeCount;
+            int registeredCount =
+                runtimeData.CollectibleRuntimeData.RegisteredCount;
+            string currentPatternId = _mapPattern.CurrentPatternId;
+            int advanceCount = _mapPattern.AdvanceCount;
+
+            for (int rebaseIndex = 1;
+                 rebaseIndex <= rebaseCount;
+                 rebaseIndex++)
+            {
+                _playerRigidbody.position = new Vector3(
+                    threshold,
+                    1.5f,
+                    0.0f);
+                _playerRigidbody.linearVelocity =
+                    new Vector3(8.0f, 0.0f, 0.0f);
+                Physics.SyncTransforms();
+                InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
+
+                Vector3 worldOffset = _infiniteModeRoot.transform.position -
+                                      _playerRigidbody.position;
+                Vector3 cameraOffset = _cameraRig.transform.position -
+                                       _playerRigidbody.position;
+                InfiniteModeRuntimeData data =
+                    GetRuntimeData().InfiniteModeRuntimeData;
+                float distance = data.CurrentDistance;
+                int score = data.CurrentScore;
+                int difficulty = data.CurrentDifficultyLevel;
+
+                Assert.That(InvokePrivateBoolean(
+                    _infiniteModeSystem, "ProcessWorldRebase"), Is.True);
+                Assert.That(_playerRigidbody.position.x,
+                    Is.EqualTo(0.0f).Within(0.001f));
+                Assert.That(_infiniteModeRoot.transform.position -
+                    _playerRigidbody.position, Is.EqualTo(worldOffset));
+                Assert.That(_cameraRig.transform.position -
+                    _playerRigidbody.position, Is.EqualTo(cameraOffset));
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDistance,
+                    Is.EqualTo(distance));
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentScore,
+                    Is.EqualTo(score));
+                Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDifficultyLevel,
+                    Is.EqualTo(difficulty));
+                Assert.That(_mapPattern.CurrentPatternId,
+                    Is.EqualTo(currentPatternId));
+                Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(advanceCount));
+                Assert.That(GetRuntimeData().CollectibleRuntimeData.ActiveScopeCount,
+                    Is.EqualTo(activeScopeCount));
+                Assert.That(GetRuntimeData().CollectibleRuntimeData.RegisteredCount,
+                    Is.EqualTo(registeredCount));
+                Assert.That((double)GetProperty(
+                    _infiniteModeSystem, "CumulativeRebaseOffset"),
+                    Is.EqualTo(threshold * rebaseIndex));
+            }
+
+            yield return null;
+        }
+
+        [UnityTest]
         public IEnumerator AutomaticPatternRequest_PhysicalBoundary_AdvancesAndRequestsAgain()
         {
             InfinitePatternSelectionState selection = GetPrivateField<

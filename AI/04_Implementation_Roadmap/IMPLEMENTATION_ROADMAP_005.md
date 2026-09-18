@@ -166,7 +166,7 @@ InfiniteMode에 누적 논리 거리와 World Rebase를 적용한다.
 
 ### 상태
 
-대기
+완료 — Unity Script Compilation, Edit Mode `649/649`, Play Mode `224/224`, Windows Standalone Win64/x64 Development Build 및 핵심 플레이 확인 통과. 1인 개발 환경에서 불가능한 20분 수동 실행은 사용자 승인에 따라 생산 Scene 100회 Rebase 스트레스 Test로 대체했으며, 시간 기반 성능 프로파일링은 별도 작업으로 분리한다.
 
 ---
 
@@ -180,7 +180,7 @@ InfiniteMode에 누적 논리 거리와 World Rebase를 적용한다.
 
 ## 다음 작업
 
-Phase 4 전체 회귀, 대상 플랫폼 Build 및 장시간 Rebase 성능 검증
+Prototype 5 완료. 후속 밸런스 조정, Pattern·Collectible 확장과 기록 저장·Leaderboard는 별도 Roadmap에서 진행
 
 ---
 
@@ -198,6 +198,7 @@ Phase 4 전체 회귀, 대상 플랫폼 Build 및 장시간 Rebase 성능 검증
 - Prototype 5 Phase 1: Momentum Landing Score·Scoring Version·World Rebase 계약과 순수 모델 확정, 전체 Edit Mode Test `559`개 통과
 - Prototype 5 Phase 2: Momentum Landing Score 전환과 UI 생산 연결, Edit Mode `629/629`, Play Mode `221/221` 통과
 - Prototype 5 Phase 3: World Rebase 생산 연결과 논리 거리 보존, Edit Mode `648/648`, Play Mode `222/222` 및 화면 확인 통과
+- Prototype 5 Phase 4: 전체 회귀와 Windows Standalone Win64/x64 Development Build 검증, Edit Mode `649/649`, Play Mode `224/224`, 핵심 플레이 및 사용자 승인 100회 Rebase 스트레스 Test 통과
 
 ---
 

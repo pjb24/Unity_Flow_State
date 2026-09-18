@@ -20,7 +20,7 @@ AI, 사용자
 
 ## 작업 상태
 
-작업 준비 완료
+Phase 4 완료, Prototype 5 완료
 
 ---
 
@@ -89,9 +89,9 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] Phase 4 검증 범위와 Phase 3 기준선이 명확하다.
-- [ ] 자동 검증과 수동 검증의 책임이 구분되었다.
-- [ ] 대상 플랫폼과 장시간 실행 기준이 확정되었다.
+- [x] Phase 4 검증 범위와 Phase 3 기준선이 명확하다.
+- [x] 자동 검증과 수동 검증의 책임이 구분되었다.
+- [x] 대상 플랫폼과 장시간 실행 기준이 확정되었다.
 
 ---
 
@@ -114,9 +114,9 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] 생산 코드·문서·Scene·Prefab·Build Settings의 계약이 일치한다.
-- [ ] Missing 참조, 중복 Rebase 대상과 의도하지 않은 설정 변경이 없다.
-- [ ] 정적 검사에서 확인된 자동 Test 공백이 기록되었다.
+- [x] 생산 코드·문서·Scene·Prefab·Build Settings의 계약이 일치한다.
+- [x] Missing 참조, 중복 Rebase 대상과 의도하지 않은 설정 변경이 없다.
+- [x] 정적 검사에서 확인된 자동 Test 공백이 기록되었다.
 
 ---
 
@@ -149,9 +149,9 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] Phase 4 계산·상태 회귀가 Edit Mode Unit Test로 판정 가능하다.
-- [ ] 수동으로 확인할 수치·경계값·실행 횟수가 남아 있지 않다.
-- [ ] 새 Test가 생산 코드를 호출하고 계산식을 복제하지 않는다.
+- [x] Phase 4 계산·상태 회귀가 Edit Mode Unit Test로 판정 가능하다.
+- [x] 수동으로 확인할 수치·경계값·실행 횟수가 남아 있지 않다.
+- [x] 새 Test가 생산 코드를 호출하고 계산식을 복제하지 않는다.
 
 ---
 
@@ -183,9 +183,9 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] 생산 Scene의 Phase 4 핵심 흐름을 Play Mode Test로 판정할 수 있다.
-- [ ] 반복 Rebase와 Mode·Run 생명주기의 자동 회귀 경로가 존재한다.
-- [ ] 화면 감각 외의 생산 상태를 수동 판정으로 남기지 않는다.
+- [x] 생산 Scene의 Phase 4 핵심 흐름을 Play Mode Test로 판정할 수 있다.
+- [x] 반복 Rebase와 Mode·Run 생명주기의 자동 회귀 경로가 존재한다.
+- [x] 화면 감각 외의 생산 상태를 수동 판정으로 남기지 않는다.
 
 ---
 
@@ -210,10 +210,10 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] Unity Script Compilation이 성공했다.
-- [ ] 관련 Edit Mode Test가 통과했다.
-- [ ] 전체 Edit Mode Test가 통과했다.
-- [ ] 예상하지 않은 Error와 Warning이 없다.
+- [x] Unity Script Compilation이 성공했다.
+- [x] 관련 Edit Mode Test가 통과했다.
+- [x] 전체 Edit Mode Test가 통과했다.
+- [x] 예상하지 않은 Error와 Warning이 없다.
 
 ---
 
@@ -236,9 +236,9 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] 관련 Play Mode Test가 통과했다.
-- [ ] 전체 Play Mode Test가 통과했다.
-- [ ] 예상하지 않은 Error와 Warning이 없다.
+- [x] 관련 Play Mode Test가 통과했다.
+- [x] 전체 Play Mode Test가 통과했다.
+- [x] 예상하지 않은 Error와 Warning이 없다.
 
 ---
 
@@ -261,9 +261,9 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] Build Scene과 대상 플랫폼 의존성이 유효하다.
-- [ ] Editor·Test 전용 코드가 생산 Player 경로에 유입되지 않았다.
-- [ ] Build를 막는 정적 문제와 의도하지 않은 설정 변경이 없다.
+- [x] Build Scene과 대상 플랫폼 의존성이 유효하다.
+- [x] Editor·Test 전용 코드가 생산 Player 경로에 유입되지 않았다.
+- [x] Build를 막는 정적 문제와 의도하지 않은 설정 변경이 없다.
 
 ---
 
@@ -289,9 +289,9 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] 대상 플랫폼 Development Build가 성공했다.
-- [ ] Build에 예상하지 않은 Error와 Warning이 없다.
-- [ ] 생성된 Player가 실행된다.
+- [x] 대상 플랫폼 Development Build가 성공했다.
+- [x] Build에 예상하지 않은 Error와 Warning이 없다.
+- [x] 생성된 Player가 실행된다.
 
 ---
 
@@ -316,9 +316,9 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] Stage Mode 핵심 플레이와 Result·Retry에 눈에 띄는 회귀가 없다.
-- [ ] InfiniteMode 핵심 플레이와 UI·Pause·Retry에 눈에 띄는 회귀가 없다.
-- [ ] Development Build에서만 발생하는 입력·Camera·물리 문제가 없다.
+- [x] Stage Mode 핵심 플레이와 Result·Retry에 눈에 띄는 회귀가 없다.
+- [x] InfiniteMode 핵심 플레이와 UI·Pause·Retry에 눈에 띄는 회귀가 없다.
+- [x] Development Build에서만 발생하는 입력·Camera·물리 문제가 없다.
 
 ---
 
@@ -344,10 +344,10 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] 장시간 InfiniteMode에서 반복 Rebase 후에도 정상 진행할 수 있다.
-- [ ] 좌표 정밀도에 따른 Camera·Physics·지형 이상이 보이지 않는다.
-- [ ] 반복 Rebase와 함께 악화되는 프레임 저하나 지속적인 메모리 증가가 확인되지 않는다.
-- [ ] Crash, Freeze와 예상하지 않은 Error·Warning이 없다.
+- [x] `RebaseStressCycle_ProductionSceneKeepsScopesAndRunStateBounded`가 100회 반복 Rebase에서 통과한다.
+- [x] 전체 Play Mode Test 재실행이 통과한다.
+- [x] 대체 Test 실행 중 예상하지 않은 Error와 Warning이 없다.
+- [x] 100회 반복에서 Collectible Scope·등록 수와 Run 상태의 누적 증가가 없다.
 
 ---
 
@@ -368,11 +368,11 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 ### 완료 조건
 
-- [ ] 정적 검사, Compile, 전체 Edit Mode·Play Mode Test 결과가 기록되었다.
-- [ ] 대상 플랫폼 Build와 핵심 플레이 결과가 기록되었다.
-- [ ] 장시간 반복 Rebase와 성능 결과가 기록되었다.
-- [ ] Roadmap, Feature, System 문서와 생산 구현이 일치한다.
-- [ ] Phase 4와 Prototype 5 완료 여부가 확인된 근거로 판정되었다.
+- [x] 정적 검사, Compile, 전체 Edit Mode·Play Mode Test 결과가 기록되었다.
+- [x] 대상 플랫폼 Build와 핵심 플레이 결과가 기록되었다.
+- [x] 사용자 승인 대체 100회 반복 Rebase 검증 결과가 기록되었다.
+- [x] Roadmap, Feature, System 문서와 생산 구현이 일치한다.
+- [x] Phase 4와 Prototype 5 완료 여부가 확인된 근거로 판정되었다.
 
 ---
 
@@ -425,20 +425,200 @@ Scene이나 Prefab의 새 제작·편집은 현재 예상 범위에 없다. 정�
 
 # 검증 내용
 
-이 문서는 Phase 4 실행 전 계획 문서다. 실제 Compile, Test Runner, Build와 장시간 Player 결과는 아직 수행되지 않았으며 각 Step 완료 후 기록한다.
+이 문서는 Phase 4 실행 전 계획 문서로 작성됐으며, 실제 Compile·Test Runner·Build·Player 결과는 각 Step 결과와 `20260917_04_Phase4VerificationResult.md`에 기록했다. 20분 장시간 Player 검증은 사용자 승인 대체 100회 Rebase 스트레스 Test로 변경했다.
 
 ---
 
 # 검증 결과
 
-미실행. Step 1부터 순서대로 수행한다.
+## Step 1 결과
+
+완료.
+
+- Phase 3 기준선은 Unity Script Compilation 성공, 전체 Edit Mode Test `648/648`, 전체 Play Mode Test `222/222`, 자연스러운 Rebase 화면 확인 통과다.
+- Phase 4 자동 검증 범위는 Edit Mode의 논리 거리·World Rebase·Momentum·Score·Pattern·Collectible·Result 상태와 Play Mode의 SampleScene 기반 Stage·Infinite·Camera·Pause·Result·Retry 통합 흐름이다.
+- 실제 Player에서만 판정할 항목은 Development Build의 조작감·화면 연속성·Camera/Physics 이상과 InfiniteMode `20분 이상` 장시간 실행의 성능·메모리 관찰이다.
+- `ProjectSettings/EditorBuildSettings.asset`에는 `Assets/Scenes/SampleScene.unity`만 활성 Scene으로 등록되어 있고 GUID `99c9720ab356a0642a771bea13969a05`는 Scene meta GUID와 일치한다. Unity 버전은 `6000.3.5f2`다.
+- 기존 작업 기록의 대상 플랫폼은 Windows Standalone Win64/x64 Development Build이며, 장시간 실행 기준은 연속 `20분 이상`이다.
+- 작업 시작 시점에 변경 파일과 `git diff --check` 오류는 없었다. Unity Build와 Unity Test Runner는 실행하지 않았다.
+
+Step 2부터 순서대로 수행한다.
+
+## Step 2 결과
+
+완료.
+
+- `InfiniteModeSystem`은 `WorldRebaseState`의 누적 논리 거리만 Score와 Difficulty 입력으로 사용한다. Rebase 횟수나 재배치 횟수를 Score·Difficulty·Pattern 선택에 직접 전달하는 생산 경로는 확인되지 않았다.
+- 유효한 Infinite Playing 상태에서만 Rebase를 요청하며, Player Rigidbody, `InfiniteModeRoot`(`InfiniteMapPattern` 포함), CameraRig/Follow Target을 같은 X Offset으로 이동한다. 적용 후 `Physics.SyncTransforms()`를 한 번 호출하고 Cinemachine Target Warp를 통지한다.
+- Pause·Result·Retry·새 Run의 상태 경계와 Rebase·Momentum·Pattern·Collectible Scope 초기화·해제 경로는 관련 System·Feature 문서와 생산 코드에서 대조했다.
+- `SampleScene.unity`와 Pattern Prefab YAML은 읽기 전용으로 검사했다. `m_Script: {fileID: 0}` 또는 `Missing Script` 표식과 중복 Asset GUID는 없었고, Build Settings의 활성 Scene GUID도 일치한다.
+- Runtime 경로에서 무조건적인 `UnityEditor`, NUnit 또는 Unity TestTools 참조는 확인되지 않았다. `ApplicationQuitService`의 `UnityEditor` 호출은 `#if UNITY_EDITOR`로 제한된다.
+- 변경 파일은 이 작업 기록뿐이며 ProjectSettings·Package 변경은 없다. `git diff --check` 오류는 없다.
+- 이 정적 감사만으로 특정 자동 Test 공백은 확인되지 않았다. 계산·상태 공백은 Step 3, 생산 Scene 통합 공백은 Step 4에서 기존 Test를 대조해 판정한다.
+- Unity Build와 Unity Test Runner는 실행하지 않았고, Scene 또는 Prefab을 편집하지 않았다.
+
+Step 3부터 순서대로 수행한다.
+
+## Step 3 결과
+
+완료. Unity Test Runner는 이 Step에서 실행하지 않았다.
+
+- 기존 Edit Mode Test는 `879.999...`·`880`·다중 `880` 경계, 비정상 입력·Overflow, Momentum 생명주기, Score 계약, Difficulty·Pattern 선택, 중복 요청, Collectible Scope 교체와 Retry·새 Run 초기화를 각각 검증한다.
+- `WorldRebaseStateTests.RepeatedRebase_PreservesScoreAndDifficultyContinuity`를 추가했다. 이 Test는 생산 `WorldRebaseState`, `InfiniteScoreState`, `InfiniteDifficultyState`를 직접 호출해 두 번의 Rebase 뒤 누적 Offset·논리 거리·Score·Difficulty가 Rebase 직전 값에서 연속되는지 검증한다.
+- 계산식이나 Scene 상태를 Test에 복제하지 않았고, Player·Camera·Rigidbody·Trigger·UI의 생산 Scene 연동은 Step 4의 Play Mode 범위로 남겼다.
+- 자동 판정 가능한 수치, 경계값, 실행 횟수와 내부 상태를 수동 작업으로 남기지 않았다. 이 Step의 수동 작업은 없다.
+
+Step 4부터 순서대로 수행한다.
+
+## Step 4 결과
+
+완료. Unity Test Runner는 이 Step에서 실행하지 않았고, `SampleScene`과 Prefab은 편집하지 않았다.
+
+- 기존 Play Mode Test는 생산 `SampleScene`에서 Stage의 자동 이동·Goal·Result·Retry, InfiniteMode의 Momentum·Pattern·Collectible·HUD·Pause·Resume·Result·Retry, Camera 및 UI·Result Data 일치를 검증한다.
+- `InfiniteModeIntegrationTests.RepeatedWorldRebase_ProductionScenePreservesRunState`를 추가했다. 이 Test는 대기 시간 없이 두 번의 생산 Scene Rebase를 수행하고, 매회 Player·InfiniteModeRoot·CameraRig 상대 위치, Rigidbody 위치, 논리 거리·Score·Difficulty, Pattern ID·AdvanceCount와 누적 Offset을 검증한다.
+- 기존 Pattern·Collectible 통합 Test는 Scope 재연결, 여러 Slot 재사용과 Pause·Result·Retry 생명주기를 검증한다. 새 Test는 그 범위와 중복하지 않고 반복 Rebase 생산 경로를 보강한다.
+- 화면 감각과 실제 Player에서의 조작감·장시간 성능만 Step 9–10의 수동 검증으로 남겼다. 이 Step의 수동 작업은 없다.
+
+Step 5부터 순서대로 수행한다.
+
+## Step 5 준비 결과
+
+AI의 정적 준비를 완료했다. Unity Script Compilation 및 Unity Test Runner 결과는 사용자 수동 실행 대기 상태이며, 이 Step은 아직 완료 처리하지 않는다.
+
+- 관련 Edit Mode 픽스처: `WorldRebaseStateTests`, `PlayerWorldRebaseTests`, `CameraWorldRebaseTests`, `InfiniteDistanceStateTests`, `InfiniteScoreStateTests`, `InfiniteDifficultyStateTests`, `InfinitePatternCatalogFactoryTests`, `InfinitePatternCatalogTests`, `InfinitePatternGeometryTests`, `InfinitePatternSelectionStateTests`, `InfinitePatternSlotProgressionTests`, `InfiniteModeRuntimeDataTests`, `MomentumScoreStateTests`, `MomentumProductionStateTests`, `CollectibleRuntimeDataTests`, `ScoringVersionTests`, `ResultDataTests`, `ResultSystemTests`, `ResultTextFormatterTests`.
+- 변경된 Edit Mode Test는 `WorldRebaseStateTests.RepeatedRebase_PreservesScoreAndDifficultyContinuity`다.
+- `git diff --check` 오류는 없고, Runtime 경로에는 `#if UNITY_EDITOR`로 보호되지 않은 Test API 참조가 없다. `ApplicationQuitService`의 `UnityEditor` 호출은 `#if UNITY_EDITOR` 범위다.
+- Unity Build와 Unity Test Runner는 실행하지 않았다. Scene 또는 Prefab을 편집하지 않았다.
+
+사용자가 관련 Test와 전체 Edit Mode Test의 실행 결과를 전달하면 Step 5 완료 여부를 판정한다.
+
+## Step 5 실행 결과
+
+완료.
+
+- 사용자가 Unity Script Compilation 성공을 확인했다.
+- 사용자가 Unity Script Compilation의 예상하지 않은 Error와 Warning이 없음을 확인했다.
+- 사용자가 전체 Edit Mode Test `649/649` 성공을 확인했다.
+- 사용자가 Edit Mode Test 실행 중 예상하지 않은 Error와 Warning이 없음을 확인했다.
+
+Step 6부터 순서대로 수행한다.
+
+## Step 6 준비 결과
+
+AI의 정적 준비를 완료했다. Unity Test Runner의 Play Mode 결과는 사용자 수동 실행 대기 상태이며, 이 Step은 아직 완료 처리하지 않는다.
+
+- 관련 Play Mode 픽스처: `InfiniteModeIntegrationTests`, `InfiniteModeSystemTests`, `InfiniteMapPatternTests`, `InfinitePatternConnectionIntegrationTests`, `InfinitePatternTraversalIntegrationTests`, `InfiniteCollectibleLayoutIntegrationTests`, `InfiniteHudIntegrationTests`, `MomentumLandingIntegrationTests`, `CollectibleLifecycleIntegrationTests`, `ScoreCollectibleTests`, `GamePauseOrchestrationTests`, `CameraFollowIntegrationTests`, `PauseMenuIntegrationTests`, `ResultMenuIntegrationTests`, `ModeResultDisplayIntegrationTests`, `StageGoalIntegrationTests`, `StageSystemTests`, `StageCollectibleLayoutIntegrationTests`, `StageCollisionConfigurationTests`.
+- 변경된 Play Mode Test는 `InfiniteModeIntegrationTests.RepeatedWorldRebase_ProductionScenePreservesRunState`이며, 실제 `SampleScene`을 로드해 두 번의 Rebase 상태 보존을 판정한다.
+- `git diff --check` 오류는 없다. Unity Build와 Unity Test Runner는 실행하지 않았고, Scene 또는 Prefab을 편집하지 않았다.
+
+사용자가 관련 Test와 전체 Play Mode Test의 실행 결과를 전달하면 Step 6 완료 여부를 판정한다.
+
+## Step 6 실행 결과
+
+완료.
+
+- 사용자가 Unity Script Compilation 성공을 확인했다.
+- 사용자가 Unity Script Compilation의 예상하지 않은 Error와 Warning이 없음을 확인했다.
+- 사용자가 전체 Play Mode Test `223/223` 성공을 확인했다.
+- 사용자가 Play Mode Test 실행 중 예상하지 않은 Error와 Warning이 없음을 확인했다.
+
+Step 7부터 순서대로 수행한다.
+
+## Step 7 결과
+
+완료.
+
+- `EditorBuildSettings.asset`에는 `Assets/Scenes/SampleScene.unity` 하나만 활성 Scene으로 등록되어 있으며, GUID `99c9720ab356a0642a771bea13969a05`는 Scene meta GUID와 일치한다. Input Actions GUID `052faaac586de48259a63d0c4782560b`도 `Assets/InputSystem_Actions.inputactions.meta`에서 확인했다.
+- Graphics·Input·Project 설정과 Package manifest는 현재 변경 범위에 포함되지 않았다. 변경 파일은 Phase 4 작업 기록과 Edit/Play Mode Test 두 개뿐이다.
+- Runtime 경로의 `UnityEditor` 호출은 `ApplicationQuitService`의 `#if UNITY_EDITOR` 범위로 제한된다. NUnit·Unity TestTools 또는 무조건적인 Editor 참조가 Runtime Player 경로에 유입되지 않았다.
+- Scene·Prefab YAML의 Missing Script 표식은 없고, 활성 Scene의 Runtime System/Feature 직렬화 참조를 읽기 전용으로 재확인했다.
+- `git diff --check` 오류는 없다. Git의 LF/CRLF 안내는 변경 내용이나 공백 오류가 아닌 작업 트리의 줄바꿈 경고로 분리했다.
+- Unity Build와 Unity Test Runner는 실행하지 않았고, Scene 또는 Prefab을 편집하지 않았다. 이 Step의 수동 작업은 없다.
+
+Step 8부터 순서대로 수행한다.
+
+## Step 8 준비 결과
+
+Step 7의 정적 Build 전 조건이 통과했다. Unity Editor Build 결과는 사용자 수동 실행 대기 상태이며, 이 Step은 아직 완료 처리하지 않는다.
+
+- AI는 Unity Build를 실행하지 않는다.
+- 사용자는 Unity Editor에서 Platform `Windows Standalone`, Architecture `Intel 64-bit (x86_64)`, 활성 Scene `Assets/Scenes/SampleScene.unity` 하나와 `Development Build`를 확인한다.
+- Profiler 기록이 필요한 경우에만 `Autoconnect Profiler`를 켜고 `Deep Profiling`은 끈다.
+- 새 빈 출력 폴더에 Build를 한 번 수행한 뒤, 성공 여부, 예상하지 않은 Error·Warning 유무와 생성된 Player 실행 여부를 전달한다. 실패 시 첫 오류와 관련 Editor Log 구간을 전달한다.
+- Scene 또는 Prefab 편집은 필요 없다.
+
+## Step 8 실행 결과
+
+완료.
+
+- 사용자가 대상 플랫폼 Development Build 성공을 확인했다.
+- 사용자가 생성된 Player 실행에 문제가 없음을 확인했다.
+- 사용자가 Build Console의 예상하지 않은 Error·Warning이 없음을 확인했다.
+
+Step 9부터 순서대로 수행한다.
+
+## Step 9 준비 결과
+
+자동 Test가 거리·Score·Offset·Pattern ID와 내부 상태를 판정했으므로, Development Build에서는 화면과 조작감만 확인한다. 사용자 수동 실행 결과 대기 상태이며, 이 Step은 아직 완료 처리하지 않는다.
+
+1. Development Build Player에서 Stage Mode를 시작하고 자동 이동, Jump, 일반·Momentum Landing의 기본 조작감에 눈에 띄는 회귀가 없는지 확인한다.
+2. Pause와 Resume을 한 번 수행해 입력·물리·Camera가 정상 복귀하는지 확인한다.
+3. Goal 도달 뒤 Result 표시와 Retry 후 새 Run 시작을 확인한다.
+4. InfiniteMode를 시작해 Pattern 전환, Collectible 표시, HUD와 Camera가 정상인지 확인한다.
+5. InfiniteMode에서 Momentum Landing, Pause·Resume, Retry를 각각 한 번 확인한다.
+6. 화면 겹침, UI 누락, 입력 정지, Camera 튐, 물리 폭주 또는 예상하지 않은 로그가 있으면 Mode·발생 시점과 함께 보고한다.
+
+Scene 또는 Prefab 편집, Unity Build와 Unity Test Runner 실행은 필요 없다.
+
+## Step 9 실행 결과
+
+완료.
+
+- 사용자가 Development Build의 Stage·Infinite 핵심 플레이와 관련 화면·조작 흐름이 적절함을 확인했다.
+- Stage Mode의 Result·Retry 및 InfiniteMode의 UI·Pause·Retry에 눈에 띄는 회귀가 보고되지 않았다.
+- Development Build에서만 발생하는 입력·Camera·물리 문제 또는 예상하지 않은 로그가 보고되지 않았다.
+
+Step 10부터 순서대로 수행한다.
+
+## Step 10 사전 대조 결과
+
+사용자 승인에 따라 Development Build `20분 이상` 장시간 수동 검증을 결정적 생산 Scene Rebase 스트레스 Play Mode Test로 대체한다. 대체 Test 실행 결과 대기 상태이며 이 Step은 아직 완료 처리하지 않는다.
+
+- Edit Mode `649/649`와 Play Mode `223/223` 성공 결과에는 다회 Rebase 뒤 논리 거리·Score·Difficulty 연속성, 생산 `SampleScene`의 두 번 연속 Rebase 상태 보존, Pattern·Collectible Scope와 Run 생명주기 회귀 검증이 포함된다.
+- 사용자가 1인 개발 환경에서 Development Build `20분 이상` 연속 실행은 현실적으로 불가능하므로 다른 Test로 대체하도록 승인했다.
+- `InfiniteModeIntegrationTests.RebaseStressCycle_ProductionSceneKeepsScopesAndRunStateBounded`는 생산 `SampleScene`에서 100회 Rebase를 대기 없이 반복하고, 매회 Player·InfiniteModeRoot·CameraRig 상대 위치, 논리 거리·Score·Difficulty·Pattern 상태, Collectible Scope 수와 등록 수의 불변성을 판정한다.
+- 이 대체 기준은 시간 기반 성능 측정이 아니라 반복 Rebase 상태·Scope 누적 회귀 검증이다. 시간 기반 CPU Frame Time·GC Alloc·Memory 관찰은 이번 Phase 4 완료 기준에서 제외한다.
+- Unity Build와 Unity Test Runner는 실행하지 않았고, Scene 또는 Prefab을 편집하지 않았다.
+
+사용자는 Unity Test Runner에서 `RebaseStressCycle_ProductionSceneKeepsScopesAndRunStateBounded`를 실행한 뒤 전체 Play Mode Test를 재실행하고, Run·Passed·Failed 수와 예상하지 않은 Error·Warning 유무를 전달한다.
+
+## Step 10 실행 결과
+
+완료.
+
+- 사용자가 Unity Script Compilation 성공과 예상하지 않은 Compile Error·Warning 부재를 확인했다.
+- 사용자가 전체 Edit Mode Test `649/649` 성공과 예상하지 않은 Test Error·Warning 부재를 확인했다.
+- 사용자가 새 대체 Rebase 스트레스 Test를 포함한 전체 Play Mode Test `224/224` 성공과 예상하지 않은 Test Error·Warning 부재를 확인했다.
+- 전체 Play Mode 재실행 성공으로 `RebaseStressCycle_ProductionSceneKeepsScopesAndRunStateBounded`의 100회 Rebase, 상태 보존과 Collectible Scope·등록 수 불변성 검증이 통과했다.
+
+Step 11부터 순서대로 수행한다.
+
+## Step 11 결과
+
+완료.
+
+- `20260917_04_Phase4VerificationResult.md`에 정적 검사, Compile, Edit Mode `649/649`, Play Mode `224/224`, Windows Standalone Win64/x64 Development Build, 핵심 플레이 및 대체 Rebase 스트레스 검증 결과를 기록했다.
+- `IMPLEMENTATION_ROADMAP_005.md`의 Phase 4와 현재 개발 진행 상태를 실제 결과로 갱신했다.
+- 관련 InfiniteMode·MomentumLanding·ScoreRecord Feature와 InfiniteMode·PlayerController·Camera System 문서는 Step 2와 Step 7의 정적 대조 결과에서 생산 구현과 일치했으므로 수정하지 않았다.
+- 사용자가 승인한 100회 Rebase 스트레스 Test를 장시간 수동 실행의 대체 기준으로 기록했다. 시간 기반 CPU Frame Time·GC Alloc·Memory 관찰은 수행하지 않았으며, 성능 검증 성공으로 기록하지 않았다.
+- Phase 4와 Prototype 5는 변경된 완료 기준을 충족했다.
 
 ---
 
 # 후속 작업
 
-- Phase 4 완료 후 Prototype 5 전체 완료 여부를 확정한다.
-- 미해결 Build·성능·회귀 문제가 있으면 별도 Bugfix Task로 분리한다.
+- Prototype 5 Phase 4와 전체 완료 여부를 확정했다.
+- 시간 기반 성능 프로파일링이 필요해지면 별도 성능 검증 또는 최적화 작업으로 분리한다.
 
 ---
 
