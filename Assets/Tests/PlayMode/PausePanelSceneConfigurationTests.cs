@@ -35,7 +35,9 @@ namespace FlowState.Tests.PlayMode
 
             Button resumeButton = FindDescendantButton(pausePanel, "ResumeButton");
             Button retryButton = FindDescendantButton(pausePanel, "RetryButton");
-            Button quitButton = FindDescendantButton(pausePanel, "QuitButton");
+            Button mainMenuButton = FindDescendantButton(
+                pausePanel,
+                "MainMenuButton");
             MonoBehaviour uiManagementSystem = FindRequiredBehaviour(
                 "UIManagementSystem",
                 "UIManagementSystem");
@@ -50,8 +52,8 @@ namespace FlowState.Tests.PlayMode
                 GetPrivateField<Button>(uiManagementSystem, "_pauseRetryButton"),
                 Is.EqualTo(retryButton));
             Assert.That(
-                GetPrivateField<Button>(uiManagementSystem, "_pauseQuitButton"),
-                Is.EqualTo(quitButton));
+                GetPrivateField<Button>(uiManagementSystem, "_pauseMainMenuButton"),
+                Is.EqualTo(mainMenuButton));
 
             InvokeSetGameState(uiManagementSystem, E_GameState.Paused);
             InvokeSetUIState(uiManagementSystem, E_UIState.Pause);

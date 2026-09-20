@@ -80,7 +80,7 @@ Boot, Main Menu와 Mode Select를 생산 흐름에 연결한다.
 - Main Menu에서 Mode를 선택한 뒤에만 Run이 시작된다.
 - Retry는 같은 Mode의 새 Run을 시작한다.
 - Main Menu 복귀는 이전 Run의 Runtime Data를 정리한다.
-- Keyboard와 Gamepad로 모든 메뉴를 탐색할 수 있다.
+- Keyboard로 모든 메뉴를 탐색할 수 있다. GamePad는 보유하지 않은 경우 미확인 사유를 기록한 사용자 승인 검증 제외로 처리한다.
 - Quit 이외의 기능 접근에 불필요한 확인 단계를 추가하지 않는다.
 
 ### 검증 책임
@@ -91,7 +91,7 @@ Boot, Main Menu와 Mode Select를 생산 흐름에 연결한다.
 
 ### 상태
 
-대기
+완료 (20260921)
 
 ---
 
@@ -176,7 +176,7 @@ How To Play과 첫 플레이 안내를 제공하고 전체 UI 흐름을 검증�
 
 ## 다음 작업
 
-Roadmap 5 완료 후 Phase 1 게임 진입 상태와 UI Navigation 계약 확정
+Phase 3 기능 접근 UI·Settings 범위 확정·Input Rebinding 작업 준비
 
 ---
 
@@ -191,6 +191,8 @@ Roadmap 5 완료 후 Phase 1 게임 진입 상태와 UI Navigation 계약 확정
 ## 완료된 단계
 
 - Prototype 4: InfiniteMode 생산 흐름과 HUD·Result 구성
+- Prototype 6 Phase 1: 게임 진입 상태와 UI Navigation 계약 확정
+- Prototype 6 Phase 2: Boot·Main Menu·Mode Select 생산 연결 및 Pause·Result 복귀 흐름 완성
 
 ---
 

@@ -42,6 +42,28 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private Button _pauseResumeButton;
         [SerializeField] private Button _pauseRetryButton;
         [SerializeField] private Button _pauseQuitButton;
+        [SerializeField] private GameObject _mainMenuPanel;
+        [SerializeField] private GameObject _modeSelectPanel;
+        [SerializeField] private GameObject _pauseMainMenuConfirmPanel;
+        [SerializeField] private GameObject _leaderboardPanel;
+        [SerializeField] private GameObject _howToPlayPanel;
+        [SerializeField] private GameObject _settingsPanel;
+        [SerializeField] private Button _mainMenuPlayButton;
+        [SerializeField] private Button _mainMenuHowToPlayButton;
+        [SerializeField] private Button _mainMenuLeaderboardButton;
+        [SerializeField] private Button _mainMenuSettingsButton;
+        [SerializeField] private Button _mainMenuQuitButton;
+        [SerializeField] private Button _modeSelectStageButton;
+        [SerializeField] private Button _modeSelectInfiniteButton;
+        [SerializeField] private Button _modeSelectBackButton;
+        [SerializeField] private Button _pauseSettingsButton;
+        [SerializeField] private Button _pauseMainMenuButton;
+        [SerializeField] private Button _pauseMainMenuConfirmButton;
+        [SerializeField] private Button _pauseMainMenuCancelButton;
+        [SerializeField] private Button _resultMainMenuButton;
+        [SerializeField] private Button _leaderboardBackButton;
+        [SerializeField] private Button _howToPlayBackButton;
+        [SerializeField] private Button _settingsBackButton;
 
         private E_UIState _currentUIState;
         private E_GameMode _currentGameMode;
@@ -66,6 +88,8 @@ namespace FlowState.Runtime.Systems
         private bool _isMomentumHudConfigured;
         private MomentumGradientEffect _momentumGradientEffect;
         private bool _isInitialized;
+        private E_NavigationScreen _currentNavigationScreen =
+            E_NavigationScreen.Boot;
 
         public E_UIState CurrentUIState => _currentUIState;
 
@@ -77,9 +101,41 @@ namespace FlowState.Runtime.Systems
 
         public bool IsPauseMenuActive => _pauseMenuState.IsActive;
 
+        public E_NavigationScreen CurrentNavigationScreen =>
+            _currentNavigationScreen;
+
+        public bool HasNavigationUIConfiguration =>
+            _mainMenuPanel != null &&
+            _modeSelectPanel != null &&
+            _pauseMainMenuConfirmPanel != null &&
+            _leaderboardPanel != null &&
+            _howToPlayPanel != null &&
+            _settingsPanel != null &&
+            _mainMenuPlayButton != null &&
+            _mainMenuHowToPlayButton != null &&
+            _mainMenuLeaderboardButton != null &&
+            _mainMenuSettingsButton != null &&
+            _mainMenuQuitButton != null &&
+            _modeSelectStageButton != null &&
+            _modeSelectInfiniteButton != null &&
+            _modeSelectBackButton != null &&
+            _pauseResumeButton != null &&
+            _pauseRetryButton != null &&
+            _pauseSettingsButton != null &&
+            _pauseMainMenuButton != null &&
+            _pauseMainMenuConfirmButton != null &&
+            _pauseMainMenuCancelButton != null &&
+            _retryButton != null &&
+            _resultMainMenuButton != null &&
+            _leaderboardBackButton != null &&
+            _howToPlayBackButton != null &&
+            _settingsBackButton != null;
+
         private void Update()
         {
-            if (!_isInitialized || _currentGameState != E_GameState.Playing)
+            if (!_isInitialized ||
+                _runtimeData == null ||
+                _currentGameState != E_GameState.Playing)
             {
                 return;
             }
@@ -118,6 +174,68 @@ namespace FlowState.Runtime.Systems
             SetUIState(E_UIState.None);
 
             Debug.Log("[UIManagementSystem] Initialized.");
+        }
+
+        public void InitializeMenu()
+        {
+            _runtimeData = null;
+            _currentGameMode = E_GameMode.Stage;
+            _currentGameState = E_GameState.None;
+            _currentResultMenuSelection = E_ResultMenuSelection.Retry;
+            _pauseMenuState.Deactivate();
+            _visibilityState.Reset();
+            ResetHudDisplay();
+            ResetResultDisplay();
+            _isInitialized = true;
+            SetUIState(E_UIState.None);
+        }
+
+        public void SetNavigationScreen(
+            E_NavigationScreen screen,
+            E_NavigationItem selection)
+        {
+            _currentNavigationScreen = screen;
+            SetNavigationUIActive(
+                _mainMenuPanel,
+                screen == E_NavigationScreen.MainMenu);
+            SetNavigationUIActive(
+                _modeSelectPanel,
+                screen == E_NavigationScreen.ModeSelect);
+            SetNavigationUIActive(
+                _pauseMainMenuConfirmPanel,
+                screen == E_NavigationScreen.PauseMainMenuConfirmation);
+            SetNavigationUIActive(
+                _leaderboardPanel,
+                screen == E_NavigationScreen.LeaderboardUnavailable);
+            SetNavigationUIActive(
+                _howToPlayPanel,
+                screen == E_NavigationScreen.HowToPlay);
+            SetNavigationUIActive(
+                _settingsPanel,
+                screen == E_NavigationScreen.Settings);
+
+            if (screen == E_NavigationScreen.Playing)
+            {
+                SetNavigationUIActive(_pausePanel, false);
+                SetNavigationUIActive(_resultPanel, false);
+            }
+            else if (screen == E_NavigationScreen.Pause)
+            {
+                SetNavigationUIActive(_pausePanel, true);
+                SetNavigationUIActive(_resultPanel, false);
+            }
+            else if (screen == E_NavigationScreen.Result)
+            {
+                SetNavigationUIActive(_pausePanel, false);
+                SetNavigationUIActive(_resultPanel, true);
+            }
+            else if (screen != E_NavigationScreen.Initializing)
+            {
+                SetNavigationUIActive(_pausePanel, false);
+                SetNavigationUIActive(_resultPanel, false);
+            }
+
+            SelectNavigationButton(screen, selection);
         }
 
         public void SetGameState(E_GameState gameState)
@@ -795,6 +913,97 @@ namespace FlowState.Runtime.Systems
                 buttonRectTransform,
                 pointerPosition,
                 eventCamera);
+        }
+
+        private void SelectNavigationButton(
+            E_NavigationScreen screen,
+            E_NavigationItem selection)
+        {
+            Button selectedButton = GetNavigationButton(screen, selection);
+
+            if (selectedButton != null)
+            {
+                selectedButton.Select();
+            }
+        }
+
+        private Button GetNavigationButton(
+            E_NavigationScreen screen,
+            E_NavigationItem selection)
+        {
+            switch (screen)
+            {
+                case E_NavigationScreen.MainMenu:
+                    switch (selection)
+                    {
+                        case E_NavigationItem.Play:
+                            return _mainMenuPlayButton;
+                        case E_NavigationItem.HowToPlay:
+                            return _mainMenuHowToPlayButton;
+                        case E_NavigationItem.Leaderboard:
+                            return _mainMenuLeaderboardButton;
+                        case E_NavigationItem.Settings:
+                            return _mainMenuSettingsButton;
+                        case E_NavigationItem.Quit:
+                            return _mainMenuQuitButton;
+                    }
+                    break;
+
+                case E_NavigationScreen.ModeSelect:
+                    switch (selection)
+                    {
+                        case E_NavigationItem.Stage:
+                            return _modeSelectStageButton;
+                        case E_NavigationItem.Infinite:
+                            return _modeSelectInfiniteButton;
+                        case E_NavigationItem.Back:
+                            return _modeSelectBackButton;
+                    }
+                    break;
+
+                case E_NavigationScreen.Pause:
+                    switch (selection)
+                    {
+                        case E_NavigationItem.Resume:
+                            return _pauseResumeButton;
+                        case E_NavigationItem.Retry:
+                            return _pauseRetryButton;
+                        case E_NavigationItem.Settings:
+                            return _pauseSettingsButton;
+                        case E_NavigationItem.MainMenu:
+                            return _pauseMainMenuButton;
+                    }
+                    break;
+
+                case E_NavigationScreen.PauseMainMenuConfirmation:
+                    return selection == E_NavigationItem.MainMenu
+                        ? _pauseMainMenuConfirmButton
+                        : _pauseMainMenuCancelButton;
+
+                case E_NavigationScreen.Result:
+                    return selection == E_NavigationItem.Retry
+                        ? _retryButton
+                        : _resultMainMenuButton;
+
+                case E_NavigationScreen.LeaderboardUnavailable:
+                    return _leaderboardBackButton;
+
+                case E_NavigationScreen.HowToPlay:
+                    return _howToPlayBackButton;
+
+                case E_NavigationScreen.Settings:
+                    return _settingsBackButton;
+            }
+
+            return null;
+        }
+
+        private void SetNavigationUIActive(GameObject uiObject, bool isActive)
+        {
+            if (uiObject != null)
+            {
+                uiObject.SetActive(isActive);
+            }
         }
 
         private void SetUIActive(GameObject uiObject, bool isActive, string fieldName)

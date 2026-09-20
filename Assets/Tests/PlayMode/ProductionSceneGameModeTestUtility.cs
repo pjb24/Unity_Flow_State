@@ -8,7 +8,6 @@ namespace FlowState.Tests.PlayMode
     internal static class ProductionSceneGameModeTestUtility
     {
         private const string GameSystemObjectName = "GameSystem";
-        private const string SelectedGameModeFieldName = "_selectedGameMode";
 
         public static void RestartInMode(E_GameMode gameMode)
         {
@@ -32,21 +31,29 @@ namespace FlowState.Tests.PlayMode
 
             E_GameState currentGameState = (E_GameState)
                 currentGameStateProperty.GetValue(gameSystem);
-            if (currentGameState != E_GameState.Ended)
+            if (currentGameState == E_GameState.Playing ||
+                currentGameState == E_GameState.Paused)
             {
                 InvokePublicMethod(gameSystem, "EndGame");
             }
 
-            FieldInfo selectedGameModeField = gameSystem.GetType().GetField(
-                SelectedGameModeFieldName,
-                BindingFlags.Instance | BindingFlags.NonPublic);
-            Assert.That(
-                selectedGameModeField,
-                Is.Not.Null,
-                $"{SelectedGameModeFieldName} was not found on GameSystem.");
+            E_NavigationScreen screen = (E_NavigationScreen)GetProperty(
+                gameSystem,
+                "CurrentNavigationScreen");
 
-            selectedGameModeField.SetValue(gameSystem, gameMode);
-            InvokePublicMethod(gameSystem, "StartGame");
+            if (screen == E_NavigationScreen.Result)
+            {
+                InvokeNavigationSelection(
+                    gameSystem,
+                    E_NavigationItem.MainMenu);
+            }
+
+            InvokeNavigationSelection(gameSystem, E_NavigationItem.Play);
+            InvokeNavigationSelection(
+                gameSystem,
+                gameMode == E_GameMode.Infinite
+                    ? E_NavigationItem.Infinite
+                    : E_NavigationItem.Stage);
 
             Assert.That(
                 (E_GameState)currentGameStateProperty.GetValue(gameSystem),
@@ -82,6 +89,31 @@ namespace FlowState.Tests.PlayMode
                 null);
             Assert.That(method, Is.Not.Null);
             method.Invoke(target, null);
+        }
+
+        private static void InvokeNavigationSelection(
+            MonoBehaviour target,
+            E_NavigationItem item)
+        {
+            MethodInfo method = target.GetType().GetMethod(
+                "RequestNavigationSelection",
+                BindingFlags.Instance | BindingFlags.Public,
+                null,
+                new[] { typeof(E_NavigationItem) },
+                null);
+            Assert.That(method, Is.Not.Null);
+            method.Invoke(target, new object[] { item });
+        }
+
+        private static object GetProperty(
+            MonoBehaviour target,
+            string propertyName)
+        {
+            PropertyInfo property = target.GetType().GetProperty(
+                propertyName,
+                BindingFlags.Instance | BindingFlags.Public);
+            Assert.That(property, Is.Not.Null);
+            return property.GetValue(target);
         }
     }
 }

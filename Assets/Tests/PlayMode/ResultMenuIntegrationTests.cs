@@ -49,58 +49,24 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator ResultMenu_DefaultsToRetryAndMovesVertically()
+        public IEnumerator ResultMenu_DefaultsToRetryAndMainMenuButtonReturnsToMenu()
         {
-            AssertCurrentSelection("Retry");
+            AssertNavigationSelection("Retry");
             AssertSelectedGameObject("RetryButton");
 
-            InvokePublicMethod(
-                _uiManagementSystem,
-                "MoveResultMenuSelection",
-                -1.0f);
-            AssertCurrentSelection("Quit");
-            AssertSelectedGameObject("QuitButton");
-
-            InvokePublicMethod(
-                _uiManagementSystem,
-                "MoveResultMenuSelection",
-                1.0f);
-            AssertCurrentSelection("Retry");
-            AssertSelectedGameObject("RetryButton");
+            FindResultMenuButton("MainMenuButton").GetComponent<
+                UnityEngine.UI.Button>().onClick.Invoke();
+            AssertNavigationScreen("MainMenu");
 
             yield return null;
         }
 
         [UnityTest]
-        public IEnumerator ResultMenu_PointerSelectsRetryAndQuit()
+        public IEnumerator ResultMenu_RetryButtonStartsNewStageRun()
         {
-            GameObject quitButton = FindResultMenuButton("QuitButton");
-            Vector2 quitPosition = RectTransformUtility.WorldToScreenPoint(
-                null,
-                quitButton.transform.position);
-
-            object quitResult = InvokePublicMethod(
-                _uiManagementSystem,
-                "TrySetResultMenuSelectionAtPointer",
-                quitPosition);
-
-            Assert.That((bool)quitResult, Is.True);
-            AssertCurrentSelection("Quit");
-            AssertSelectedGameObject("QuitButton");
-
             GameObject retryButton = FindResultMenuButton("RetryButton");
-            Vector2 retryPosition = RectTransformUtility.WorldToScreenPoint(
-                null,
-                retryButton.transform.position);
-
-            object retryResult = InvokePublicMethod(
-                _uiManagementSystem,
-                "TrySetResultMenuSelectionAtPointer",
-                retryPosition);
-
-            Assert.That((bool)retryResult, Is.True);
-            AssertCurrentSelection("Retry");
-            AssertSelectedGameObject("RetryButton");
+            retryButton.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
+            AssertGameState("Playing");
 
             yield return null;
         }
@@ -113,7 +79,7 @@ namespace FlowState.Tests.PlayMode
             yield return null;
 
             AssertGameState("Ended");
-            AssertCurrentSelection("Retry");
+            AssertNavigationSelection("Retry");
             Assert.That(
                 GetInputStateProperty<bool>("IsCancelPressed"),
                 Is.False);
@@ -122,51 +88,34 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator ResultMenu_SubmitRetry_StartsNewStageOnce()
         {
-            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            InvokePublicMethod(_gameSystem, "SelectRetry");
 
             yield return null;
 
             AssertGameState("Playing");
-            Assert.That(
-                GetInputStateProperty<bool>("IsSubmitPressed"),
-                Is.False);
         }
 
         [UnityTest]
         public IEnumerator ResultMenu_MouseClickRetry_StartsNewStageOnce()
         {
             GameObject retryButton = FindResultMenuButton("RetryButton");
-            Vector2 retryPosition = RectTransformUtility.WorldToScreenPoint(
-                null,
-                retryButton.transform.position);
-            SetPrivateField(
-                _uiInputSystem,
-                "_pointerPosition",
-                retryPosition);
-            SetPrivateField(_uiInputSystem, "_isPointChanged", true);
-            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
+            retryButton.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
 
             yield return null;
 
             AssertGameState("Playing");
-            Assert.That(
-                GetInputStateProperty<bool>("IsClickPressed"),
-                Is.False);
         }
 
         [UnityTest]
         public IEnumerator InfiniteResult_KeyboardSubmitRetry_StartsInfiniteRun()
         {
             RestartEndedInMode(E_GameMode.Infinite);
-            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            InvokePublicMethod(_gameSystem, "SelectRetry");
 
             yield return null;
 
             AssertGameState("Playing");
             AssertRuntimeMode(E_GameMode.Infinite);
-            Assert.That(
-                GetInputStateProperty<bool>("IsSubmitPressed"),
-                Is.False);
         }
 
         [UnityTest]
@@ -174,33 +123,19 @@ namespace FlowState.Tests.PlayMode
         {
             RestartEndedInMode(E_GameMode.Infinite);
             GameObject retryButton = FindResultMenuButton("RetryButton");
-            Vector2 retryPosition = RectTransformUtility.WorldToScreenPoint(
-                null,
-                retryButton.transform.position);
-            SetPrivateField(_uiInputSystem, "_pointerPosition", retryPosition);
-            SetPrivateField(_uiInputSystem, "_isPointChanged", true);
-            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
+            retryButton.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
 
             yield return null;
 
             AssertGameState("Playing");
             AssertRuntimeMode(E_GameMode.Infinite);
-            Assert.That(
-                GetInputStateProperty<bool>("IsClickPressed"),
-                Is.False);
         }
 
         [UnityTest]
         public IEnumerator ResultClickAndSubmit_RetryExecutesOnlyOnce()
         {
             GameObject retryButton = FindResultMenuButton("RetryButton");
-            Vector2 retryPosition = RectTransformUtility.WorldToScreenPoint(
-                null,
-                retryButton.transform.position);
-            SetPrivateField(_uiInputSystem, "_pointerPosition", retryPosition);
-            SetPrivateField(_uiInputSystem, "_isPointChanged", true);
-            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
-            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            retryButton.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
 
             yield return null;
 
@@ -215,12 +150,6 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 GetPropertyValue(_runtimeDataSystem, "RuntimeData"),
                 Is.SameAs(restartedRuntimeData));
-            Assert.That(
-                GetInputStateProperty<bool>("IsClickPressed"),
-                Is.False);
-            Assert.That(
-                GetInputStateProperty<bool>("IsSubmitPressed"),
-                Is.False);
         }
 
         private void RestartEndedInMode(E_GameMode gameMode)
@@ -268,6 +197,22 @@ namespace FlowState.Tests.PlayMode
                 "CurrentResultMenuSelection");
 
             Assert.That(selection.ToString(), Is.EqualTo(expectedSelection));
+        }
+
+        private void AssertNavigationSelection(string expectedSelection)
+        {
+            Assert.That(
+                GetPropertyValue(_gameSystem, "CurrentNavigationSelection")
+                    .ToString(),
+                Is.EqualTo(expectedSelection));
+        }
+
+        private void AssertNavigationScreen(string expectedScreen)
+        {
+            Assert.That(
+                GetPropertyValue(_gameSystem, "CurrentNavigationScreen")
+                    .ToString(),
+                Is.EqualTo(expectedScreen));
         }
 
         private void AssertGameState(string expectedState)

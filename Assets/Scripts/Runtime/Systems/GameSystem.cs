@@ -22,19 +22,35 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private CameraFollow _cameraFollow;
 
         private readonly GameState _gameState = new GameState();
+        private readonly GameNavigationState _navigationState =
+            new GameNavigationState();
         private IApplicationQuitService _applicationQuitService =
             new ApplicationQuitService();
         private GameRuntimeData _runtimeData;
 
         public E_GameState CurrentGameState => _gameState.CurrentState;
 
+        public E_NavigationScreen CurrentNavigationScreen =>
+            _navigationState.CurrentScreen;
+
+        public E_NavigationItem CurrentNavigationSelection =>
+            _navigationState.CurrentSelection;
+
         private void Start()
         {
-            StartGame();
+            InitializeBoot();
         }
 
         private void Update()
         {
+            if (CurrentGameState != E_GameState.Playing &&
+                CurrentGameState != E_GameState.Paused &&
+                CurrentGameState != E_GameState.Ended)
+            {
+                ProcessNavigationCancelInput();
+                return;
+            }
+
             switch (CurrentGameState)
             {
                 case E_GameState.Playing:
@@ -42,11 +58,25 @@ namespace FlowState.Runtime.Systems
                     break;
 
                 case E_GameState.Paused:
-                    ProcessPausedInput();
+                    if (_uiManagementSystem.HasNavigationUIConfiguration)
+                    {
+                        ProcessNavigationCancelInput();
+                    }
+                    else
+                    {
+                        ProcessPausedInput();
+                    }
                     break;
 
                 case E_GameState.Ended:
-                    ProcessResultMenuInput();
+                    if (_uiManagementSystem.HasNavigationUIConfiguration)
+                    {
+                        ProcessNavigationCancelInput();
+                    }
+                    else
+                    {
+                        ProcessResultMenuInput();
+                    }
                     break;
             }
         }
@@ -62,8 +92,153 @@ namespace FlowState.Runtime.Systems
         [ContextMenu("Start Game")]
         public void StartGame()
         {
+            if (CurrentGameState == E_GameState.Playing)
+            {
+                Debug.LogWarning("[GameSystem] Game is already running.");
+                return;
+            }
+
+            bool hasRunRequest = _navigationState.CurrentScreen ==
+                                 E_NavigationScreen.Result
+                ? BeginRunFromResult()
+                : BeginRunFromMenu(_selectedGameMode);
+
+            if (!hasRunRequest)
+            {
+                return;
+            }
+
+            StartRequestedRun();
+        }
+
+        public void RequestNavigationSelection(E_NavigationItem item)
+        {
+            if (!_navigationState.TrySelect(item))
+            {
+                return;
+            }
+
+            E_NavigationScreen screen = _navigationState.CurrentScreen;
+
+            switch (screen)
+            {
+                case E_NavigationScreen.MainMenu:
+                    HandleMainMenuSelection();
+                    break;
+
+                case E_NavigationScreen.ModeSelect:
+                    HandleModeSelectSelection();
+                    break;
+
+                case E_NavigationScreen.Pause:
+                    HandlePauseSelection(item);
+                    break;
+
+                case E_NavigationScreen.PauseMainMenuConfirmation:
+                    HandlePauseMainMenuConfirmation(item);
+                    break;
+
+                case E_NavigationScreen.Result:
+                    HandleResultSelection(item);
+                    break;
+
+                case E_NavigationScreen.LeaderboardUnavailable:
+                case E_NavigationScreen.HowToPlay:
+                case E_NavigationScreen.Settings:
+                    if (_navigationState.TrySubmit())
+                    {
+                        ApplyNavigationState();
+                    }
+                    break;
+            }
+        }
+
+        public void RequestNavigationCancel()
+        {
+            switch (_navigationState.CurrentScreen)
+            {
+                case E_NavigationScreen.Playing:
+                    PauseGame();
+                    return;
+
+                case E_NavigationScreen.Pause:
+                    ResumeGame();
+                    return;
+            }
+
+            if (_navigationState.TryCancel())
+            {
+                ApplyNavigationState();
+            }
+        }
+
+        // Unity Button.onClick only exposes parameterless methods reliably in the Inspector.
+        // Keep these adapters as the single Inspector-facing entry points; the navigation
+        // state still receives the strongly typed enum value through the method above.
+        public void SelectPlay() => RequestNavigationSelection(E_NavigationItem.Play);
+        public void SelectHowToPlay() => RequestNavigationSelection(E_NavigationItem.HowToPlay);
+        public void SelectLeaderboard() => RequestNavigationSelection(E_NavigationItem.Leaderboard);
+        public void SelectSettings() => RequestNavigationSelection(E_NavigationItem.Settings);
+        public void SelectQuit() => RequestNavigationSelection(E_NavigationItem.Quit);
+        public void SelectStage() => RequestNavigationSelection(E_NavigationItem.Stage);
+        public void SelectInfinite() => RequestNavigationSelection(E_NavigationItem.Infinite);
+        public void SelectBack() => RequestNavigationSelection(E_NavigationItem.Back);
+        public void SelectResume() => RequestNavigationSelection(E_NavigationItem.Resume);
+        public void SelectRetry() => RequestNavigationSelection(E_NavigationItem.Retry);
+        public void SelectMainMenu() => RequestNavigationSelection(E_NavigationItem.MainMenu);
+        public void SelectCancel() => RequestNavigationSelection(E_NavigationItem.Cancel);
+
+        private void InitializeBoot()
+        {
             if (!HasRequiredSystems())
             {
+                return;
+            }
+
+            _playerInputSystem.DisablePlayerActionMap();
+            _uiInputSystem.Initialize();
+            _uiInputSystem.EnableUIActionMap();
+            _uiManagementSystem.InitializeMenu();
+
+            if (_navigationState.CompleteBoot())
+            {
+                ApplyNavigationState();
+            }
+        }
+
+        private bool BeginRunFromMenu(E_GameMode gameMode)
+        {
+            if (_navigationState.CurrentScreen == E_NavigationScreen.Boot)
+            {
+                _navigationState.CompleteBoot();
+            }
+
+            if (_navigationState.CurrentScreen != E_NavigationScreen.MainMenu ||
+                !_navigationState.TrySelect(E_NavigationItem.Play) ||
+                !_navigationState.TrySubmit())
+            {
+                return false;
+            }
+
+            E_NavigationItem modeItem = gameMode == E_GameMode.Infinite
+                ? E_NavigationItem.Infinite
+                : E_NavigationItem.Stage;
+
+            if (!_navigationState.TrySelect(modeItem) ||
+                !_navigationState.TrySubmit())
+            {
+                return false;
+            }
+
+            _selectedGameMode = gameMode;
+            return _navigationState.IsRunStartRequested;
+        }
+
+        private void StartRequestedRun()
+        {
+            if (!HasRequiredSystems())
+            {
+                CompleteRunInitialization(false);
                 return;
             }
 
@@ -75,6 +250,7 @@ namespace FlowState.Runtime.Systems
 
             if (!SetGameState(E_GameState.Initializing))
             {
+                CompleteRunInitialization(false);
                 return;
             }
 
@@ -137,6 +313,7 @@ namespace FlowState.Runtime.Systems
             }
 
             Debug.Log("[GameSystem] Game started.");
+            CompleteRunInitialization(true);
         }
 
         public bool PauseGame()
@@ -156,6 +333,8 @@ namespace FlowState.Runtime.Systems
             _playerInputSystem.DisablePlayerActionMap();
             _uiInputSystem.EnableUIActionMap();
             SetUIState(E_UIState.Pause);
+            _navigationState.TryPause();
+            ApplyNavigationState();
             return true;
         }
 
@@ -177,6 +356,8 @@ namespace FlowState.Runtime.Systems
             _uiInputSystem.EnableUIActionMap();
             SetUIState(E_UIState.StageHud);
             _stageSystem.RecheckCollectibleOverlaps();
+            _navigationState.TryCancel();
+            ApplyNavigationState();
             return true;
         }
 
@@ -239,22 +420,32 @@ namespace FlowState.Runtime.Systems
 
         public bool RetryGame()
         {
-            if (CurrentGameState == E_GameState.Paused)
+            if (_navigationState.CurrentScreen == E_NavigationScreen.Pause &&
+                _navigationState.TrySelect(E_NavigationItem.Retry) &&
+                _navigationState.TrySubmit())
             {
-                EndGame();
+                EndRun(false);
+                StartRequestedRun();
+                return CurrentGameState == E_GameState.Playing;
             }
 
-            if (CurrentGameState != E_GameState.Ended)
+            if (CurrentGameState != E_GameState.Ended ||
+                !BeginRunFromResult())
             {
                 return false;
             }
 
-            StartGame();
+            StartRequestedRun();
             return CurrentGameState == E_GameState.Playing;
         }
 
         [ContextMenu("End Game")]
         public void EndGame()
+        {
+            EndRun(true);
+        }
+
+        private void EndRun(bool shouldShowResult)
         {
             if (!HasRequiredSystems())
             {
@@ -278,7 +469,7 @@ namespace FlowState.Runtime.Systems
             {
                 return;
             }
-            SetUIState(E_UIState.Result);
+            SetUIState(shouldShowResult ? E_UIState.Result : E_UIState.None);
 
             StopPlayTimer();
             _stageSystem.StopStage();
@@ -294,6 +485,17 @@ namespace FlowState.Runtime.Systems
 
             SetGameState(E_GameState.Ended);
 
+            if (shouldShowResult)
+            {
+                _navigationState.TryHandleStageEnded();
+            }
+            else
+            {
+                _navigationState.TryCancel();
+            }
+
+            ApplyNavigationState();
+
             Debug.Log("[GameSystem] Game ended.");
         }
 
@@ -307,6 +509,147 @@ namespace FlowState.Runtime.Systems
             {
                 PauseGame();
             }
+        }
+
+        private void ProcessNavigationCancelInput()
+        {
+            UIInputState inputState = _uiInputSystem.GetInputState();
+            bool shouldCancel = inputState.IsCancelPressed;
+            _uiInputSystem.ConsumeTransientInput();
+
+            if (shouldCancel)
+            {
+                RequestNavigationCancel();
+            }
+        }
+
+        private void HandleMainMenuSelection()
+        {
+            if (_navigationState.CurrentSelection == E_NavigationItem.Quit)
+            {
+                if (_navigationState.TrySubmit())
+                {
+                    RequestApplicationQuit();
+                }
+
+                return;
+            }
+
+            if (_navigationState.TrySubmit())
+            {
+                ApplyNavigationState();
+            }
+        }
+
+        private void HandleModeSelectSelection()
+        {
+            E_NavigationItem selection = _navigationState.CurrentSelection;
+
+            if (!_navigationState.TrySubmit())
+            {
+                return;
+            }
+
+            if (selection == E_NavigationItem.Stage ||
+                selection == E_NavigationItem.Infinite)
+            {
+                _selectedGameMode = selection == E_NavigationItem.Infinite
+                    ? E_GameMode.Infinite
+                    : E_GameMode.Stage;
+                StartRequestedRun();
+                return;
+            }
+
+            ApplyNavigationState();
+        }
+
+        private void HandlePauseSelection(E_NavigationItem selection)
+        {
+            switch (selection)
+            {
+                case E_NavigationItem.Resume:
+                    ResumeGame();
+                    break;
+
+                case E_NavigationItem.Retry:
+                    RetryGame();
+                    break;
+
+                case E_NavigationItem.Settings:
+                case E_NavigationItem.MainMenu:
+                    if (_navigationState.TrySubmit())
+                    {
+                        ApplyNavigationState();
+                    }
+                    break;
+            }
+        }
+
+        private void HandlePauseMainMenuConfirmation(E_NavigationItem selection)
+        {
+            if (selection == E_NavigationItem.MainMenu)
+            {
+                if (_navigationState.TrySubmit())
+                {
+                    EndRun(false);
+                    ResetToMainMenu();
+                }
+
+                return;
+            }
+
+            if (_navigationState.TrySubmit())
+            {
+                ApplyNavigationState();
+            }
+        }
+
+        private void HandleResultSelection(E_NavigationItem selection)
+        {
+            if (selection == E_NavigationItem.Retry)
+            {
+                RetryGame();
+                return;
+            }
+
+            if (selection == E_NavigationItem.MainMenu &&
+                _navigationState.TrySubmit())
+            {
+                ResetToMainMenu();
+            }
+        }
+
+        private bool BeginRunFromResult()
+        {
+            if (_navigationState.CurrentScreen != E_NavigationScreen.Result ||
+                !_navigationState.TrySelect(E_NavigationItem.Retry) ||
+                !_navigationState.TrySubmit())
+            {
+                return false;
+            }
+
+            return _navigationState.IsRunStartRequested;
+        }
+
+        private void ResetToMainMenu()
+        {
+            _uiInputSystem.EnableUIActionMap();
+            ApplyNavigationState();
+        }
+
+        private void CompleteRunInitialization(bool isSuccess)
+        {
+            if (_navigationState.CompleteInitialization(isSuccess))
+            {
+                ApplyNavigationState();
+            }
+        }
+
+        private void ApplyNavigationState()
+        {
+            _uiManagementSystem.SetNavigationScreen(
+                _navigationState.CurrentScreen,
+                _navigationState.CurrentSelection);
         }
 
         private void ProcessPausedInput()
@@ -488,6 +831,7 @@ namespace FlowState.Runtime.Systems
             _gameState.Reset();
             _uiManagementSystem.SetGameState(E_GameState.None);
             SetUIState(E_UIState.None);
+            CompleteRunInitialization(false);
 
             Debug.LogError("[GameSystem] Game start was aborted because initialization failed.");
         }

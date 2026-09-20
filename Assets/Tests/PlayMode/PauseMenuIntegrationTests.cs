@@ -47,42 +47,27 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator KeyboardSubmitRetry_StartsOneIndependentRun()
+        public IEnumerator RetryButton_StartsOneIndependentRun()
         {
             object previousRuntimeData = GetRuntimeData();
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
-            SetPrivateField(_uiInputSystem, "_navigateInput", Vector2.down);
-            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            FindPauseButton("RetryButton").onClick.Invoke();
 
             yield return null;
             yield return null;
 
             AssertState(E_GameState.Playing, E_UIState.StageHud);
             Assert.That(GetRuntimeData(), Is.Not.SameAs(previousRuntimeData));
-            Assert.That(GetInputStateBool("IsSubmitPressed"), Is.False);
         }
 
         [UnityTest]
-        public IEnumerator MouseClickRetry_MatchesKeyboardRetry()
+        public IEnumerator RetryButtonClick_MatchesDirectRetry()
         {
             object previousRuntimeData = GetRuntimeData();
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
             yield return null;
 
-            Button retryButton = FindPauseButton("RetryButton");
-            Canvas canvas = retryButton.GetComponentInParent<Canvas>();
-            Camera eventCamera = canvas != null &&
-                                 canvas.renderMode != RenderMode.ScreenSpaceOverlay
-                ? canvas.worldCamera
-                : null;
-            Vector2 pointerPosition = RectTransformUtility.WorldToScreenPoint(
-                eventCamera,
-                retryButton.transform.position);
-            SetPrivateField(_uiInputSystem, "_pointerPosition", pointerPosition);
-            SetPrivateField(_uiInputSystem, "_isPointChanged", true);
-            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
-
-            InvokeNonPublic(_gameSystem, "ProcessPausedInput");
+            FindPauseButton("RetryButton").onClick.Invoke();
 
             AssertState(E_GameState.Playing, E_UIState.StageHud);
             Assert.That(GetRuntimeData(), Is.Not.SameAs(previousRuntimeData));
@@ -90,35 +75,35 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator PauseQuit_SubmitRequestsApplicationQuitOnce()
+        public IEnumerator PauseMainMenu_OpensConfirmationWithoutQuitting()
         {
             FakeApplicationQuitService quitService = InjectFakeQuitService();
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
-            SetPrivateField(_uiInputSystem, "_navigateInput", Vector2.down);
-            yield return null;
-            SetPrivateField(_uiInputSystem, "_navigateInput", Vector2.down);
-            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            FindPauseButton("MainMenuButton").onClick.Invoke();
 
             yield return null;
-            yield return null;
 
-            Assert.That(quitService.RequestCount, Is.EqualTo(1));
-            Assert.That(GetInputStateBool("IsSubmitPressed"), Is.False);
+            Assert.That(quitService.RequestCount, Is.Zero);
+            Assert.That(GetProperty<object>(
+                _gameSystem,
+                "CurrentNavigationScreen").ToString(),
+                Is.EqualTo("PauseMainMenuConfirmation"));
         }
 
         [UnityTest]
-        public IEnumerator ResultQuit_UsesSameApplicationQuitService()
+        public IEnumerator ResultMainMenu_ReturnsToMainMenuWithoutQuitting()
         {
             FakeApplicationQuitService quitService = InjectFakeQuitService();
             InvokePublic(_gameSystem, "EndGame");
-            SetPrivateField(_uiInputSystem, "_navigateInput", Vector2.down);
-            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            FindResultButton("MainMenuButton").onClick.Invoke();
 
             yield return null;
 
-            Assert.That(quitService.RequestCount, Is.EqualTo(1));
-            Assert.That(GetProperty<E_GameState>(_gameSystem, "CurrentGameState"),
-                Is.EqualTo(E_GameState.Ended));
+            Assert.That(quitService.RequestCount, Is.Zero);
+            Assert.That(GetProperty<object>(
+                _gameSystem,
+                "CurrentNavigationScreen").ToString(),
+                Is.EqualTo("MainMenu"));
         }
 
         [UnityTest]
@@ -127,8 +112,7 @@ namespace FlowState.Tests.PlayMode
             RestartInMode(E_GameMode.Infinite);
             object previousRuntimeData = GetRuntimeData();
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
-            SetPrivateField(_uiInputSystem, "_navigateInput", Vector2.down);
-            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            FindPauseButton("RetryButton").onClick.Invoke();
 
             yield return null;
 
@@ -180,14 +164,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
             yield return null;
 
-            Button retryButton = FindPauseButton("RetryButton");
-            Vector2 pointerPosition = GetButtonScreenPosition(retryButton);
-            SetPrivateField(_uiInputSystem, "_pointerPosition", pointerPosition);
-            SetPrivateField(_uiInputSystem, "_isPointChanged", true);
-            SetPrivateField(_uiInputSystem, "_isClickPressed", true);
-            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
-
-            InvokeNonPublic(_gameSystem, "ProcessPausedInput");
+            FindPauseButton("RetryButton").onClick.Invoke();
 
             object restartedRuntimeData = GetRuntimeData();
             AssertState(E_GameState.Playing, E_UIState.StageHud);
@@ -197,8 +174,6 @@ namespace FlowState.Tests.PlayMode
 
             AssertState(E_GameState.Playing, E_UIState.StageHud);
             Assert.That(GetRuntimeData(), Is.SameAs(restartedRuntimeData));
-            Assert.That(GetInputStateBool("IsClickPressed"), Is.False);
-            Assert.That(GetInputStateBool("IsSubmitPressed"), Is.False);
         }
 
         private void RestartInMode(E_GameMode mode)
@@ -233,6 +208,21 @@ namespace FlowState.Tests.PlayMode
             }
 
             Assert.Fail($"{buttonName} was not found under PausePanel.");
+            return null;
+        }
+
+        private Button FindResultButton(string buttonName)
+        {
+            GameObject resultPanel = FindSceneObject("ResultPanel");
+            foreach (Button button in resultPanel.GetComponentsInChildren<Button>(true))
+            {
+                if (button.name == buttonName)
+                {
+                    return button;
+                }
+            }
+
+            Assert.Fail($"{buttonName} was not found under ResultPanel.");
             return null;
         }
 

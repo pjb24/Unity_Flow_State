@@ -120,9 +120,9 @@ namespace FlowState.Tests.PlayMode
             Button resultRetryButton = FindDirectComponent<Button>(
                 resultContainer,
                 "RetryButton");
-            Button resultQuitButton = FindDirectComponent<Button>(
+            Button resultMainMenuButton = FindDirectComponent<Button>(
                 resultContainer,
-                "QuitButton");
+                "MainMenuButton");
 
             GameObject pauseCanvas = RequireDirectCanvas(pausePanel);
             GameObject pauseContainer = FindDirectChild(pauseCanvas, "Panel");
@@ -135,9 +135,9 @@ namespace FlowState.Tests.PlayMode
             Button pauseRetryButton = FindDirectComponent<Button>(
                 pauseContainer,
                 "RetryButton");
-            Button pauseQuitButton = FindDirectComponent<Button>(
+            Button pauseMainMenuButton = FindDirectComponent<Button>(
                 pauseContainer,
-                "QuitButton");
+                "MainMenuButton");
 
             GameObject momentumCanvas = RequireDirectCanvas(momentumHud);
             Image momentumMultiplierContainer = FindDirectComponent<Image>(
@@ -272,15 +272,17 @@ namespace FlowState.Tests.PlayMode
                     uiManagementSystem,
                     "_momentumDurationGradient"),
                 Is.Not.Null);
-            Assert.That(momentumGradientEffect.HasGradient, Is.True);
+            // Boot intentionally has no GameRuntimeData. The runtime gradient is
+            // applied by Initialize(GameRuntimeData) when a run starts.
+            Assert.That(momentumGradientEffect.HasGradient, Is.False);
             AssertSerializedReference(
                 uiManagementSystem,
                 "_retryButton",
                 resultRetryButton);
             AssertSerializedReference(
                 uiManagementSystem,
-                "_quitButton",
-                resultQuitButton);
+                "_resultMainMenuButton",
+                resultMainMenuButton);
             AssertSerializedReference(
                 uiManagementSystem,
                 "_pauseResumeButton",
@@ -291,8 +293,8 @@ namespace FlowState.Tests.PlayMode
                 pauseRetryButton);
             AssertSerializedReference(
                 uiManagementSystem,
-                "_pauseQuitButton",
-                pauseQuitButton);
+                "_pauseMainMenuButton",
+                pauseMainMenuButton);
 
             EventSystem[] eventSystems = FindSceneComponents<EventSystem>();
             Assert.That(eventSystems, Has.Length.EqualTo(1));
