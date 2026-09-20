@@ -37,7 +37,8 @@ System 간의 실행 흐름을 연결한다.
 - 선택된 UI 항목에 해당하는 게임 실행 흐름을 시작한다.
 - Pause와 Resume 시 관련 System의 중단 및 재개 순서를 관리한다.
 - Pause 상태의 Retry를 기존 게임 시작 흐름에 연결한다.
-- Result와 Pause 상태의 Quit을 하나의 Application 종료 요청 흐름에 연결한다.
+- Pause와 Result의 Main Menu 복귀를 Run 정리와 Main Menu Navigation 흐름에 연결한다.
+- Main Menu의 Quit을 하나의 Application 종료 요청 흐름에 연결한다.
 - RuntimeDataSystem에 Runtime Data 생성 및 제거를 요청한다.
 - 필요한 System의 초기화를 요청한다.
 - InfiniteModeSystem에 선택된 게임 Mode와 진행 초기화를 요청한다.
@@ -99,7 +100,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - 현재 게임 상태
 - 선택된 게임 Mode
 - 현재 입력 상태 정책
-- PausePanel 실행 요청 상태
+- PausePanel과 Main Menu 복귀 확인 실행 요청 상태
 
 ---
 
@@ -131,7 +132,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 | UI 선택 상태 변경 요청 | UIManagementSystem |
 | 관련 System 중단 및 재개 요청 | 관련 System |
 | Stage 재시작 요청 | 관련 System |
-| Application 종료 요청 | Unity |
+| Main Menu Quit의 Application 종료 요청 | Unity |
 | 게임 종료 절차 시작 | ResultSystem |
 | 게임 종료 절차 시작 | UIManagementSystem |
 | Runtime Data 제거 요청 | RuntimeDataSystem |
@@ -153,6 +154,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - 현재 게임 상태에 따른 UI 입력 의미 판단
 - 선택된 UI 항목에 해당하는 실행 흐름 시작
 - Pause와 Resume 실행 순서 관리
+- Pause와 Result의 Main Menu 복귀 시 Run 정리 순서 관리
 - Application 종료 요청 지점 관리
 
 ## 담당하지 않는 범위
@@ -193,6 +195,9 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - 기본 게임 Mode는 Stage Mode를 사용한다.
 - 게임 시작 시 선택된 게임 Mode를 Runtime Data에 반영한다.
 - Retry 시 선택된 게임 Mode를 유지하고 이전 Stage Play의 Runtime 상태는 유지하지 않는다.
+- Pause와 Result에는 Application 종료 요청을 연결하지 않는다. Application 종료 요청은 Main Menu의 Quit만 사용한다.
+- Pause에서 Main Menu 복귀를 확정하면 현재 Run을 정리하고 Result를 생성하지 않는다.
+- 초기화 실패 시 부분 생성된 Run을 정리하고 Main Menu Navigation 상태로 복귀한다.
 - 다른 System의 내부 상태를 직접 변경하지 않는다.
 - Runtime Data를 직접 생성하거나 제거하지 않는다.
 - Action Map을 직접 활성화하거나 비활성화하지 않는다.

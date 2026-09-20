@@ -28,6 +28,7 @@ UI 입력 장치와 UI System 사이의 연결을 담당한다.
 - UI 입력 상태를 GameSystem에 전달한다.
 - UI 입력 장치의 변경을 추상화한다.
 - 상태 전환 시 transient UI 입력을 초기화한다.
+- UI System의 표준 Navigate 반복 설정을 사용하도록 연결한다.
 
 ---
 
@@ -153,6 +154,7 @@ UIInputSystem은 현재 게임 상태에 따른 UI 입력의 의미를 판단하
 - GameSystem이 요청한 시점에 transient UI 입력을 초기화한다.
 - 입력 장치에 의존하는 처리는 이 System 내부에서만 관리한다.
 - 입력 데이터는 Runtime에서만 사용한다.
+- Navigate 반복은 Unity `InputSystemUIInputModule`의 설정을 우선 사용한다. 별도 반복 로직은 기존 UI System으로 표현할 수 없을 때만 추가한다.
 
 ---
 

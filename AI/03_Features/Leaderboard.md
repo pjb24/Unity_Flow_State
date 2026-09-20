@@ -24,6 +24,7 @@ Leaderboard
 - InfiniteMode는 최종 점수를 기준으로 순위를 제공한다.
 - Leaderboard는 기록을 순위 형태로 제공한다.
 - Leaderboard는 기록을 생성하거나 수정하지 않는다.
+- 실제 조회가 준비되기 전에는 Main Menu에서 선택·진입할 수 있으며, 화면은 현재 사용할 수 없다는 안내와 Keyboard Navigate·Submit 및 Mouse Point·Click으로 실행할 수 있는 Back UI 항목을 제공한다.
 
 ---
 
@@ -56,7 +57,7 @@ Leaderboard
 
 # 예외 사항
 
-- 확정된 기록이 존재하지 않으면 Leaderboard를 제공하지 않는다.
+- 실제 조회가 준비되기 전에는 기록 조회를 시도하지 않는다.
 - 게임이 종료된 이후에는 수행하지 않는다.
 
 ---
@@ -77,6 +78,7 @@ Leaderboard
 - 일반 Stage는 클리어 시간을 기준으로 순위를 제공한다.
 - InfiniteMode는 최종 점수를 기준으로 순위를 제공한다.
 - 순위는 확정된 기록만 사용한다.
+- 미구현 안내 화면의 Back 또는 Cancel은 Main Menu의 Leaderboard 선택으로 복귀한다.
 
 ---
 
@@ -90,6 +92,7 @@ Leaderboard
 - Leaderboard 조회 시 현재 순위를 정상적으로 확인할 수 있는지 확인한다.
 - Leaderboard가 기록을 생성하거나 수정하지 않는지 확인한다.
 - 새로운 기록이 확정된 이후 Leaderboard를 다시 조회하면 최신 순위가 반영되는지 확인한다.
+- 실제 조회가 준비되기 전에는 안내 화면만 표시하고 Main Menu로 복귀하는지 확인한다.
 
 ---
 

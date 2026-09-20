@@ -54,7 +54,7 @@ Stage Mode, InfiniteMode, Leaderboard, How To Play, Settings와 종료 기능에
 
 ### 상태
 
-대기
+완료 (20260920)
 
 ---
 
@@ -236,4 +236,3 @@ Roadmap 5 완료 후 Phase 1 게임 진입 상태와 UI Navigation 계약 확정
 - 6차 프로토타입의 현재 구현 계획과 순서를 작성했다.
 - 구현 방법과 작업 기록을 포함하지 않았다.
 - 영구 저장과 실제 Leaderboard 구현을 Roadmap 7 범위로 구분했다.
-
