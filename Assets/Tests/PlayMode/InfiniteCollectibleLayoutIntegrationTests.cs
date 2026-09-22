@@ -124,7 +124,8 @@ namespace FlowState.Tests.PlayMode
                 ?.GetComponent<Rigidbody>();
             Assert.That(player, Is.Not.Null);
             player.position = coin.transform.position + Vector3.left * 2.0f;
-            player.linearVelocity = new Vector3(8.0f, 0.0f, 0.0f);
+            player.linearVelocity = new Vector3(
+                GetPlayerMoveSpeed(), 0.0f, 0.0f);
             Physics.SyncTransforms();
 
             for (int step = 0; step < 30 && !coin.IsCollected; step++)
@@ -369,6 +370,13 @@ namespace FlowState.Tests.PlayMode
 
             Assert.Fail(typeName + " was not found.");
             return null;
+        }
+
+        private static float GetPlayerMoveSpeed()
+        {
+            MonoBehaviour movementSystem = FindBehaviour(
+                "PlayerMovementSystem", "PlayerMovementSystem");
+            return GetField<float>(movementSystem, "_moveSpeed");
         }
 
         private static void AssertPatternLayout(InfinitePatternAuthoring pattern)

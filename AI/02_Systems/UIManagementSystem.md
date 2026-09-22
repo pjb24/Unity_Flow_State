@@ -26,6 +26,7 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - Application 실행 중의 화면별 선택 복귀 상태와 마지막 선택 Game Mode를 관리한다.
 - GameSystem의 요청에 따라 UI 선택 상태를 변경한다.
 - Pause UI State와 PausePanel 선택 상태를 관리한다.
+- Settings 화면의 값, Binding 표시와 Rebinding 대기 안내를 관리한다.
 - 현재 게임 Mode와 게임 상태에 맞는 HUD, PausePanel, ResultPanel과 Result Content의 표시 조합을 관리한다.
 - Stage Mode Runtime Data의 Collectible Score를 StageHUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 거리, Base Distance Score, Momentum Bonus, Distance Score, Collectible Score와 Total Score를 InfiniteHUD에 표시한다.
@@ -103,11 +104,11 @@ UIManagementSystem은 ResultSystem이 제공한 Result Data를 Result UI에 반�
 표시 형식은 아래와 같다.
 
 ```text
-Result: Stage Clear
+STAGE CLEAR
 Clear Time: 12.345 s
 Collectible Score: 30
 
-Result: Stage Failed
+STAGE FAILED
 Run Time: 8.250 s
 Collectible Score: 20
 ```
@@ -174,7 +175,7 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 - InfiniteMode Playing에서는 InfiniteHUD만 표시한다.
 - Paused에서는 현재 Mode의 HUD와 PausePanel을 함께 표시한다.
 - Ending에서는 현재 Mode의 HUD를 유지한다.
-- Result와 Ended에서는 현재 Mode의 HUD와 ResultPanel을 함께 표시한다.
+- Result와 Ended에서는 ResultPanel을 표시하고 Stage·Infinite·Momentum HUD를 모두 숨긴다. ResultData만 최종 점수 원천으로 사용한다.
 - Stage Result에서는 StageResultContent만 표시한다.
 - InfiniteMode Result에서는 InfiniteResultContent만 표시한다.
 - PausePanel과 ResultPanel은 현재 Mode의 HUD보다 앞에 표시한다.
@@ -239,6 +240,7 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 | InfiniteMode 현재 이동 거리와 Mode별 Score | Runtime Data |
 | InfiniteMode 현재 Momentum 배율과 남은 유지 시간 비율 | Runtime Data |
 | InfiniteMode 현재 Difficulty Level | Runtime Data |
+| 현재 Settings 값과 Rebinding 상태 | SettingsSystem |
 
 ---
 
@@ -267,6 +269,7 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 - UI 선택 상태 변경
 - UI 선택 표시 반영
 - PausePanel 선택 상태 관리 및 표시 반영
+- Settings 화면의 값, Binding, Rebinding 대기와 기본값 복원 확인 표시
 - Main Menu, Mode Select와 Main Menu 복귀 확인의 Navigation 상태·선택 상태 관리 및 표시 반영
 - 하위 화면 Back UI 항목의 선택 상태 관리 및 표시 반영
 - Mode와 상태별 UI 표시 조합 관리
@@ -285,6 +288,7 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 - 결과 데이터 생성
 - Action Map 관리
 - Feature 규칙 정의
+- Settings 값 적용과 Binding Override 관리
 
 ---
 
@@ -293,6 +297,7 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 - GameSystem
 - UIInputSystem
 - ResultSystem
+- SettingsSystem
 
 ---
 

@@ -34,6 +34,7 @@ System 간의 실행 흐름을 연결한다.
 - UIInputSystem에 UI Action Map 활성화 또는 비활성화를 요청한다.
 - UIInputSystem이 제공한 UI 입력 상태를 현재 게임 상태에 따라 해석한다.
 - UIManagementSystem에 UI 선택 상태 변경을 요청한다.
+- SettingsSystem에 Settings 값 변경, Rebinding, 취소와 기본값 복원 요청을 전달한다.
 - 선택된 UI 항목에 해당하는 게임 실행 흐름을 시작한다.
 - Pause와 Resume 시 관련 System의 중단 및 재개 순서를 관리한다.
 - Pause 상태의 Retry를 기존 게임 시작 흐름에 연결한다.
@@ -130,6 +131,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 | UI Action Map 활성화 요청 | UIInputSystem |
 | UI Action Map 비활성화 요청 | UIInputSystem |
 | UI 선택 상태 변경 요청 | UIManagementSystem |
+| Settings 값 변경, Rebinding, 취소와 기본값 복원 요청 | SettingsSystem |
 | 관련 System 중단 및 재개 요청 | 관련 System |
 | Stage 재시작 요청 | 관련 System |
 | Main Menu Quit의 Application 종료 요청 | Unity |
@@ -173,6 +175,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - 결과 데이터 생성
 - UI 표시
 - Runtime Data 관리
+- Settings 값과 Binding Override 직접 관리
 - 게임 Mode별 Feature 규칙 정의
 
 ---
@@ -186,6 +189,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - PlayerInputSystem
 - UIInputSystem
 - InfiniteModeSystem
+- SettingsSystem
 
 ---
 

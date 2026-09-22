@@ -474,6 +474,8 @@ namespace FlowState.Runtime.Systems
                     "[UIManagementSystem] UI visibility state is invalid.");
             }
 
+            ApplyResultLayoutForCurrentMode();
+
             SetUIActive(
                 _stageHud,
                 _visibilityState.IsStageHudVisible,
@@ -503,6 +505,69 @@ namespace FlowState.Runtime.Systems
                 _infiniteResultContent,
                 _visibilityState.IsInfiniteResultContentVisible,
                 nameof(_infiniteResultContent));
+        }
+
+        private void ApplyResultLayoutForCurrentMode()
+        {
+            if (!_visibilityState.IsResultPanelVisible ||
+                _stageResultContent == null ||
+                _infiniteResultContent == null ||
+                _retryButton == null ||
+                _resultMainMenuButton == null)
+            {
+                return;
+            }
+
+            RectTransform stageContent =
+                _stageResultContent.transform as RectTransform;
+            RectTransform infiniteContent =
+                _infiniteResultContent.transform as RectTransform;
+            RectTransform retryButton = _retryButton.transform as RectTransform;
+            RectTransform mainMenuButton =
+                _resultMainMenuButton.transform as RectTransform;
+            RectTransform resultWindow = stageContent?.parent as RectTransform;
+            if (stageContent == null || infiniteContent == null ||
+                retryButton == null || mainMenuButton == null ||
+                resultWindow == null ||
+                infiniteContent.parent != resultWindow ||
+                retryButton.parent != resultWindow ||
+                mainMenuButton.parent != resultWindow)
+            {
+                return;
+            }
+
+            if (_currentGameMode == E_GameMode.Stage)
+            {
+                SetResultRect(resultWindow, new Vector2(520.0f, 400.0f), 0.0f,
+                    new Vector2(0.5f, 0.5f));
+                SetResultRect(stageContent, new Vector2(472.0f, 150.0f), -36.0f);
+                SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -224.0f);
+                SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -282.0f);
+                return;
+            }
+
+            if (_currentGameMode == E_GameMode.Infinite)
+            {
+                SetResultRect(resultWindow, new Vector2(520.0f, 520.0f), 0.0f,
+                    new Vector2(0.5f, 0.5f));
+                SetResultRect(infiniteContent, new Vector2(472.0f, 278.0f), -36.0f);
+                SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -334.0f);
+                SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -392.0f);
+            }
+        }
+
+        private static void SetResultRect(
+            RectTransform rectTransform,
+            Vector2 size,
+            float yPosition,
+            Vector2? centerAnchor = null)
+        {
+            Vector2 anchor = centerAnchor ?? new Vector2(0.5f, 1.0f);
+            rectTransform.anchorMin = anchor;
+            rectTransform.anchorMax = anchor;
+            rectTransform.pivot = anchor;
+            rectTransform.anchoredPosition = new Vector2(0.0f, yPosition);
+            rectTransform.sizeDelta = size;
         }
 
         private void UpdateInfiniteHud()
@@ -624,9 +689,10 @@ namespace FlowState.Runtime.Systems
                                    collectibleRuntimeData.IsInitialized
                 ? collectibleRuntimeData.CurrentScore
                 : -1;
-            UpdateCollectibleScoreText(
+            SetTextIfChanged(
                 _stageCollectibleScoreText,
-                collectibleScore);
+                ResultTextFormatter.FormatStageCollectibleCounter(
+                    collectibleScore));
         }
 
         private void UpdateDistanceText(float distance)
@@ -769,7 +835,7 @@ namespace FlowState.Runtime.Systems
                 ResultTextFormatter.FormatMomentumBonus(-1));
             SetTextIfChanged(
                 _stageCollectibleScoreText,
-                ResultTextFormatter.FormatCollectibleScore(-1));
+                ResultTextFormatter.FormatStageCollectibleCounter(-1));
             SetTextIfChanged(
                 _infiniteCollectibleScoreText,
                 ResultTextFormatter.FormatCollectibleScore(-1));

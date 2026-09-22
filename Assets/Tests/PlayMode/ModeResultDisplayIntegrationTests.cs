@@ -146,7 +146,7 @@ namespace FlowState.Tests.PlayMode
                 30));
 
             Assert.That(didSetResult, Is.True);
-            Assert.That(_resultStatusText.text, Is.EqualTo("Result: Stage Clear"));
+            Assert.That(_resultStatusText.text, Is.EqualTo("STAGE CLEAR"));
             Assert.That(_clearTimeText.text, Is.EqualTo("Clear Time: 12.346 s"));
             Assert.That(
                 _stageResultCollectibleScoreText.text,
@@ -168,7 +168,7 @@ namespace FlowState.Tests.PlayMode
                 20));
 
             Assert.That(didSetResult, Is.True);
-            Assert.That(_resultStatusText.text, Is.EqualTo("Result: Stage Failed"));
+            Assert.That(_resultStatusText.text, Is.EqualTo("STAGE FAILED"));
             Assert.That(_clearTimeText.text, Is.EqualTo("Run Time: 8.250 s"));
             Assert.That(
                 _stageResultCollectibleScoreText.text,
@@ -261,7 +261,7 @@ namespace FlowState.Tests.PlayMode
                 5.25,
                 30));
 
-            Assert.That(_resultStatusText.text, Is.EqualTo("Result: Stage Clear"));
+            Assert.That(_resultStatusText.text, Is.EqualTo("STAGE CLEAR"));
             Assert.That(_clearTimeText.text, Is.EqualTo("Clear Time: 5.250 s"));
             Assert.That(
                 _stageResultCollectibleScoreText.text,

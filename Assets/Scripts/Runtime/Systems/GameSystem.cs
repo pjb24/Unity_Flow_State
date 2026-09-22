@@ -11,6 +11,7 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private UIManagementSystem _uiManagementSystem;
         [SerializeField] private PlayerInputSystem _playerInputSystem;
         [SerializeField] private UIInputSystem _uiInputSystem;
+        [SerializeField] private SettingsSystem _settingsSystem;
         [SerializeField] private PlayerMovementSystem _playerMovementSystem;
         [SerializeField] private PlayerControllerSystem _playerControllerSystem;
         [SerializeField] private CollisionSystem _collisionSystem;
@@ -188,6 +189,33 @@ namespace FlowState.Runtime.Systems
         public void SelectMainMenu() => RequestNavigationSelection(E_NavigationItem.MainMenu);
         public void SelectCancel() => RequestNavigationSelection(E_NavigationItem.Cancel);
 
+        public void SetSettingsMasterVolume(float normalizedVolume)
+        {
+            if (_settingsSystem == null)
+            {
+                return;
+            }
+
+            _settingsSystem.TrySetMasterVolume(
+                Mathf.RoundToInt(normalizedVolume * 100.0f));
+        }
+
+        public void SetSettingsFullscreen(bool isFullscreen)
+        {
+            if (_settingsSystem != null)
+            {
+                _settingsSystem.TrySetFullscreen(isFullscreen);
+            }
+        }
+
+        public void RestoreSettingsDefaults()
+        {
+            if (_settingsSystem != null)
+            {
+                _settingsSystem.TryRestoreDefaults();
+            }
+        }
+
         private void InitializeBoot()
         {
             if (!HasRequiredSystems())
@@ -195,6 +223,7 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
+            _playerInputSystem.Initialize();
             _playerInputSystem.DisablePlayerActionMap();
             _uiInputSystem.Initialize();
             _uiInputSystem.EnableUIActionMap();
@@ -516,6 +545,22 @@ namespace FlowState.Runtime.Systems
             UIInputState inputState = _uiInputSystem.GetInputState();
             bool shouldCancel = inputState.IsCancelPressed;
             _uiInputSystem.ConsumeTransientInput();
+
+            if (_settingsSystem != null && _settingsSystem.ConsumeRebindCancelSuppression())
+            {
+                return;
+            }
+
+            if (_settingsSystem != null && _settingsSystem.IsRebinding)
+            {
+                return;
+            }
+
+            if (shouldCancel && _settingsSystem != null &&
+                _settingsSystem.TryCancelRestoreConfirmation())
+            {
+                return;
+            }
 
             if (shouldCancel)
             {

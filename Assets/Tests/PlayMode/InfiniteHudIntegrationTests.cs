@@ -186,7 +186,7 @@ namespace FlowState.Tests.PlayMode
             SetGameState(E_GameState.Ended);
             SetUIState(E_UIState.Result);
             yield return null;
-            Assert.That(_momentumHud.activeSelf, Is.True);
+            Assert.That(_momentumHud.activeSelf, Is.False);
             Assert.That(_momentumMultiplierText.text, Is.EqualTo("x1.25"));
         }
 
@@ -328,7 +328,7 @@ namespace FlowState.Tests.PlayMode
             SetGameState(E_GameState.Ended);
             yield return null;
 
-            Assert.That(_infiniteHud.activeSelf, Is.True);
+            Assert.That(_infiniteHud.activeSelf, Is.False);
             Assert.That(_distanceText.text, Is.EqualTo("Distance: 12"));
             Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 129"));
             Assert.That(
@@ -388,7 +388,7 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(
                 _stageCollectibleScoreText.text,
-                Is.EqualTo("Collectible Score: 10"));
+                Is.EqualTo("Collectibles: 10"));
             Assert.That(_distanceText.text, Is.EqualTo("Distance: --"));
             Assert.That(_scoreText.text, Is.EqualTo("Distance Score: --"));
         }

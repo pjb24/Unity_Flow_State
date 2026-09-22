@@ -217,7 +217,8 @@ namespace FlowState.Tests.PlayMode
             const float threshold = 880.0f;
             Vector3 playerPosition = new Vector3(threshold, 1.5f, 0.0f);
             _playerRigidbody.position = playerPosition;
-            _playerRigidbody.linearVelocity = new Vector3(8.0f, -2.0f, 0.0f);
+            _playerRigidbody.linearVelocity = new Vector3(
+                GetPlayerMoveSpeed(), -2.0f, 0.0f);
             Physics.SyncTransforms();
             InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
 
@@ -272,7 +273,7 @@ namespace FlowState.Tests.PlayMode
                     1.5f,
                     0.0f);
                 _playerRigidbody.linearVelocity =
-                    new Vector3(8.0f, -2.0f, 0.0f);
+                    new Vector3(GetPlayerMoveSpeed(), -2.0f, 0.0f);
                 Physics.SyncTransforms();
                 InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
 
@@ -334,7 +335,7 @@ namespace FlowState.Tests.PlayMode
                     1.5f,
                     0.0f);
                 _playerRigidbody.linearVelocity =
-                    new Vector3(8.0f, 0.0f, 0.0f);
+                    new Vector3(GetPlayerMoveSpeed(), 0.0f, 0.0f);
                 Physics.SyncTransforms();
                 InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
 
@@ -397,7 +398,8 @@ namespace FlowState.Tests.PlayMode
             _playerRigidbody.linearVelocity = Vector3.zero;
             Physics.SyncTransforms();
             yield return new WaitForFixedUpdate();
-            _playerRigidbody.linearVelocity = new Vector3(8.0f, 0.0f, 0.0f);
+            _playerRigidbody.linearVelocity = new Vector3(
+                GetPlayerMoveSpeed(), 0.0f, 0.0f);
 
             for (int step = 0; step < 40 &&
                  _mapPattern.AdvanceCount == 0; step++)
@@ -467,7 +469,8 @@ namespace FlowState.Tests.PlayMode
             _playerRigidbody.linearVelocity = Vector3.zero;
             Physics.SyncTransforms();
             yield return new WaitForFixedUpdate();
-            _playerRigidbody.linearVelocity = new Vector3(8.0f, 0.0f, 0.0f);
+            _playerRigidbody.linearVelocity = new Vector3(
+                GetPlayerMoveSpeed(), 0.0f, 0.0f);
 
             for (int step = 0; step < 40 &&
                  _mapPattern.AdvanceCount == 0; step++)
@@ -1070,6 +1073,11 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(field, Is.Not.Null);
             field.SetValue(target, value);
+        }
+
+        private float GetPlayerMoveSpeed()
+        {
+            return GetPrivateField<float>(_playerMovementSystem, "_moveSpeed");
         }
 
         private T GetPrivateField<T>(object target, string fieldName)

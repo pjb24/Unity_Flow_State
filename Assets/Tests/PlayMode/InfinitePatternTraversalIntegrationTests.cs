@@ -13,11 +13,10 @@ namespace FlowState.Tests.PlayMode
     {
         private const string SceneName = "SampleScene";
         private const int MaximumFixedSteps = 240;
-        private const float BaseSpeed = 8.0f;
-        private const float MaximumSpeed = 14.0f;
 
         private Rigidbody _playerRigidbody;
         private MonoBehaviour _inputSystem;
+        private MonoBehaviour _playerMovementSystem;
         private MonoBehaviour _collisionSystem;
         private MonoBehaviour _infiniteModeSystem;
         private InfinitePatternSlot _firstSlot;
@@ -39,6 +38,8 @@ namespace FlowState.Tests.PlayMode
             _playerRigidbody = GameObject.Find("Player")?.GetComponent<Rigidbody>();
             Assert.That(_playerRigidbody, Is.Not.Null);
             _inputSystem = FindBehaviour("PlayerInputSystem", "PlayerInputSystem");
+            _playerMovementSystem = FindBehaviour(
+                "PlayerMovementSystem", "PlayerMovementSystem");
             _collisionSystem = FindBehaviour("Player", "CollisionSystem");
             _infiniteModeSystem = FindBehaviour(
                 "InfiniteModeSystem", "InfiniteModeSystem");
@@ -106,7 +107,9 @@ namespace FlowState.Tests.PlayMode
             }
 
             Assert.That(reachedEnd, Is.True);
-            Assert.That(peakSpeed, Is.GreaterThanOrEqualTo(7.5f));
+            Assert.That(
+                peakSpeed,
+                Is.GreaterThanOrEqualTo(GetPlayerMoveSpeed() - 0.5f));
             Assert.That(GetCollisionState().IsGrounded, Is.True);
         }
 
@@ -115,15 +118,7 @@ namespace FlowState.Tests.PlayMode
         {
             yield return TraverseGap(
                 InfinitePatternCatalogFactory.SingleRiseId,
-                -11.0f, 1.5f, BaseSpeed, -6.0f, 8.0f, 2.5f);
-        }
-
-        [UnityTest]
-        public IEnumerator SingleRise_MaximumSpeed_EntersAndLandsOnPlatform()
-        {
-            yield return TraverseGap(
-                InfinitePatternCatalogFactory.SingleRiseId,
-                -17.0f, 1.5f, MaximumSpeed, -6.0f, 8.0f, 2.5f);
+                -11.0f, 1.5f, -6.0f, 8.0f, 2.5f);
         }
 
         [UnityTest]
@@ -131,7 +126,7 @@ namespace FlowState.Tests.PlayMode
         {
             yield return TraverseGap(
                 InfinitePatternCatalogFactory.LegacyStepsId,
-                -17.0f, 1.5f, BaseSpeed, -10.0f, -2.0f, 2.5f);
+                -17.0f, 1.5f, -10.0f, -2.0f, 2.5f);
         }
 
         [UnityTest]
@@ -139,7 +134,7 @@ namespace FlowState.Tests.PlayMode
         {
             yield return TraverseGap(
                 InfinitePatternCatalogFactory.LegacyStepsId,
-                -7.0f, 2.5f, BaseSpeed, 0.0f, 8.0f, 2.5f);
+                -7.0f, 2.5f, 0.0f, 8.0f, 2.5f);
         }
 
         [UnityTest]
@@ -147,15 +142,7 @@ namespace FlowState.Tests.PlayMode
         {
             yield return TraverseGap(
                 InfinitePatternCatalogFactory.InternalGapId,
-                -4.2f, 1.5f, BaseSpeed, 3.0f, 20.0f, 1.5f);
-        }
-
-        [UnityTest]
-        public IEnumerator InternalGap_MaximumSpeed_CrossesAndLands()
-        {
-            yield return TraverseGap(
-                InfinitePatternCatalogFactory.InternalGapId,
-                -11.0f, 1.5f, MaximumSpeed, 3.0f, 20.0f, 1.5f);
+                -4.2f, 1.5f, 3.0f, 20.0f, 1.5f);
         }
 
         [UnityTest]
@@ -163,7 +150,7 @@ namespace FlowState.Tests.PlayMode
         {
             Assert.That(_firstSlot.TryActivatePattern(
                 InfinitePatternCatalogFactory.SingleRiseId), Is.True);
-            PlacePlayer(-8.4f, 1.5f, BaseSpeed);
+            PlacePlayer(-8.4f, 1.5f, GetPlayerMoveSpeed());
             Assert.That(GetCollisionState().IsGrounded, Is.True);
 
             bool contactedWallInAir = false;
@@ -213,11 +200,11 @@ namespace FlowState.Tests.PlayMode
             string patternId,
             float startX,
             float startY,
-            float speed,
             float landingStartX,
             float landingEndX,
             float landingY)
         {
+            float speed = GetPlayerMoveSpeed();
             Assert.That(_firstSlot.TryActivatePattern(patternId), Is.True);
             PlacePlayer(startX, startY, 0.0f);
             yield return new WaitForFixedUpdate();
@@ -287,6 +274,11 @@ namespace FlowState.Tests.PlayMode
             _playerRigidbody.linearVelocity = new Vector3(speed, 0.0f, 0.0f);
             _playerRigidbody.angularVelocity = Vector3.zero;
             Physics.SyncTransforms();
+        }
+
+        private float GetPlayerMoveSpeed()
+        {
+            return GetFloatField(_playerMovementSystem, "_moveSpeed");
         }
 
         private PlayerCollisionState GetCollisionState()

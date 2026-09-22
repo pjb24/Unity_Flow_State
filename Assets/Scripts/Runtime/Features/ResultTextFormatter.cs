@@ -6,8 +6,8 @@ namespace FlowState.Runtime.Features
 {
     public static class ResultTextFormatter
     {
-        private const string StageClearStatus = "Result: Stage Clear";
-        private const string StageFailedStatus = "Result: Stage Failed";
+        private const string StageClearStatus = "STAGE CLEAR";
+        private const string StageFailedStatus = "STAGE FAILED";
         private const string ClearTimeFormat = "Clear Time: {0:F3} s";
         private const string ClearTimePlaceholder = "Clear Time: --";
         private const string RunTimeFormat = "Run Time: {0:F3} s";
@@ -26,6 +26,8 @@ namespace FlowState.Runtime.Features
         private const string MaximumMomentumPlaceholder = "Max Momentum: x--";
         private const string CollectibleScoreFormat = "Collectible Score: {0}";
         private const string CollectibleScorePlaceholder = "Collectible Score: --";
+        private const string StageCollectibleCounterFormat = "Collectibles: {0}";
+        private const string StageCollectibleCounterPlaceholder = "Collectibles: --";
         private const string TotalScoreFormat = "Total Score: {0}";
         private const string TotalScorePlaceholder = "Total Score: --";
 
@@ -130,6 +132,14 @@ namespace FlowState.Runtime.Features
                 score,
                 CollectibleScoreFormat,
                 CollectibleScorePlaceholder);
+        }
+
+        public static string FormatStageCollectibleCounter(int score)
+        {
+            return FormatScore(
+                score,
+                StageCollectibleCounterFormat,
+                StageCollectibleCounterPlaceholder);
         }
 
         public static string FormatTotalScore(int score)

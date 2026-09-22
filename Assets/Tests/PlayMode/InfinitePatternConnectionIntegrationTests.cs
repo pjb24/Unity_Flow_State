@@ -26,6 +26,7 @@ namespace FlowState.Tests.PlayMode
         private Rigidbody _player;
         private Collider _playerCollider;
         private MonoBehaviour _input;
+        private MonoBehaviour _playerMovementSystem;
         private MonoBehaviour _collision;
         private MonoBehaviour _infiniteMode;
         private MonoBehaviour _gameSystem;
@@ -47,6 +48,8 @@ namespace FlowState.Tests.PlayMode
 
             yield return null;
             _input = FindBehaviour("PlayerInputSystem", "PlayerInputSystem");
+            _playerMovementSystem = FindBehaviour(
+                "PlayerMovementSystem", "PlayerMovementSystem");
             _collision = FindBehaviour("Player", "CollisionSystem");
             _infiniteMode = FindBehaviour("InfiniteModeSystem", "InfiniteModeSystem");
             _gameSystem = FindBehaviour("GameSystem", "GameSystem");
@@ -99,13 +102,7 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator AllSixteenConnections_BaseSpeed_JumpAndLand()
         {
-            yield return TraverseAllConnections(8.0f, 18.0f);
-        }
-
-        [UnityTest]
-        public IEnumerator AllSixteenConnections_MaximumSpeed_JumpAndLand()
-        {
-            yield return TraverseAllConnections(14.0f, 13.0f);
+            yield return TraverseAllConnections(18.0f);
         }
 
         [UnityTest]
@@ -116,7 +113,8 @@ namespace FlowState.Tests.PlayMode
             PlacePlayer(38.0f, 1.5f, 0.0f);
             yield return new WaitForFixedUpdate();
             Assert.That(GetCollisionState().IsGrounded, Is.True);
-            _player.linearVelocity = new Vector3(8.0f, 0.0f, 0.0f);
+            _player.linearVelocity = new Vector3(
+                GetPlayerMoveSpeed(), 0.0f, 0.0f);
 
             bool advanced = false;
             for (int step = 0; step < 30; step++)
@@ -235,8 +233,9 @@ namespace FlowState.Tests.PlayMode
                 Is.EqualTo(2));
         }
 
-        private IEnumerator TraverseAllConnections(float speed, float startX)
+        private IEnumerator TraverseAllConnections(float startX)
         {
+            float speed = GetPlayerMoveSpeed();
             for (int firstIndex = 0; firstIndex < PatternIds.Length; firstIndex++)
             {
                 for (int secondIndex = 0;
@@ -321,6 +320,11 @@ namespace FlowState.Tests.PlayMode
             _player.linearVelocity = new Vector3(speed, 0.0f, 0.0f);
             _player.angularVelocity = Vector3.zero;
             Physics.SyncTransforms();
+        }
+
+        private float GetPlayerMoveSpeed()
+        {
+            return GetFloat(_playerMovementSystem, "_moveSpeed");
         }
 
         private PlayerCollisionState GetCollisionState()

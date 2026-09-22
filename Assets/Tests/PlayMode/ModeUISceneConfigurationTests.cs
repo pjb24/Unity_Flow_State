@@ -36,19 +36,29 @@ namespace FlowState.Tests.PlayMode
             GameObject momentumHud = FindDirectChild(uiRoot, "MomentumHUD");
             GameObject resultPanel = FindDirectChild(uiRoot, "ResultPanel");
             GameObject pausePanel = FindDirectChild(uiRoot, "PausePanel");
+            MonoBehaviour uiManagementSystem = FindRequiredBehaviour(
+                "UIManagementSystem",
+                "UIManagementSystem");
 
             GameObject stageCanvas = RequireDirectCanvas(stageHud);
-            Image stageHudBackground = FindDirectComponent<Image>(
-                stageCanvas,
-                "Image");
-            TMP_Text stageCollectibleScoreText =
-                FindDirectComponent<TMP_Text>(
-                    stageHudBackground.gameObject,
-                    "StageCollectibleScoreText");
+            Image stageHudBackground =
+                FindUniqueDirectChildComponent<Image>(stageCanvas);
+            TMP_Text stageCollectibleScoreText = GetSerializedValue<TMP_Text>(
+                uiManagementSystem,
+                "_stageCollectibleScoreText");
+            Assert.That(stageCollectibleScoreText, Is.Not.Null);
+            Assert.That(
+                stageCollectibleScoreText.transform.parent,
+                Is.EqualTo(stageHudBackground.transform),
+                "Stage collectible text must be a direct child of the Stage HUD panel.");
+            Assert.That(stageHudBackground.raycastTarget, Is.False);
+            Assert.That(stageCollectibleScoreText.raycastTarget, Is.False);
+            Assert.That(
+                stageCollectibleScoreText.textWrappingMode,
+                Is.EqualTo(TextWrappingModes.NoWrap));
             GameObject infiniteCanvas = RequireDirectCanvas(infiniteHud);
-            Image infiniteHudBackground = FindDirectComponent<Image>(
-                infiniteCanvas,
-                "Image");
+            Image infiniteHudBackground =
+                FindUniqueDirectChildComponent<Image>(infiniteCanvas);
             TMP_Text distanceText = FindDirectComponent<TMP_Text>(
                 infiniteHudBackground.gameObject,
                 "DistanceText");
@@ -68,9 +78,23 @@ namespace FlowState.Tests.PlayMode
             TMP_Text infiniteTotalScoreText = FindDirectComponent<TMP_Text>(
                 infiniteHudBackground.gameObject,
                 "InfiniteTotalScoreText");
+            TMP_Text infiniteDifficultyText = FindDirectComponent<TMP_Text>(
+                infiniteHudBackground.gameObject,
+                "InfiniteDifficultyText");
+            AssertInfiniteHudPresentation(
+                infiniteHudBackground,
+                distanceText,
+                baseDistanceScoreText,
+                momentumBonusText,
+                scoreText,
+                infiniteCollectibleScoreText,
+                infiniteTotalScoreText,
+                infiniteDifficultyText);
 
             GameObject resultCanvas = RequireDirectCanvas(resultPanel);
-            GameObject resultContainer = FindDirectChild(resultCanvas, "Panel");
+            Image resultContainerImage =
+                FindUniqueDirectChildComponent<Image>(resultCanvas);
+            GameObject resultContainer = resultContainerImage.gameObject;
             GameObject stageResultContent = FindDirectChild(
                 resultContainer,
                 "StageResultContent");
@@ -88,9 +112,8 @@ namespace FlowState.Tests.PlayMode
                 FindUniqueDescendantComponent<TMP_Text>(
                     stageResultContent,
                     "StageResultCollectibleScoreText");
-            Image infiniteResultBackground = FindDirectComponent<Image>(
-                infiniteResultContent,
-                "Infinite Result Image");
+            Image infiniteResultBackground =
+                FindUniqueDirectChildComponent<Image>(infiniteResultContent);
             TMP_Text finalDistanceText = FindDirectComponent<TMP_Text>(
                 infiniteResultBackground.gameObject,
                 "FinalDistanceText");
@@ -123,10 +146,29 @@ namespace FlowState.Tests.PlayMode
             Button resultMainMenuButton = FindDirectComponent<Button>(
                 resultContainer,
                 "MainMenuButton");
+            AssertStageResultPresentation(
+                resultContainerImage,
+                stageResultContent,
+                resultStatusText,
+                clearTimeText,
+                stageResultCollectibleScoreText,
+                resultRetryButton,
+                resultMainMenuButton);
+            AssertInfiniteResultPresentation(
+                infiniteResultContent,
+                finalDistanceText,
+                infiniteResultBaseDistanceScoreText,
+                infiniteResultMomentumBonusText,
+                finalScoreText,
+                infiniteResultCollectibleScoreText,
+                infiniteResultTotalScoreText,
+                infiniteResultMaximumMomentumText);
 
             GameObject pauseCanvas = RequireDirectCanvas(pausePanel);
-            GameObject pauseContainer = FindDirectChild(pauseCanvas, "Panel");
-            FindUniqueDescendantComponent<TMP_Text>(
+            Image pauseContainerImage =
+                FindUniqueDirectChildComponent<Image>(pauseCanvas);
+            GameObject pauseContainer = pauseContainerImage.gameObject;
+            TMP_Text pauseTitleText = FindUniqueDescendantComponent<TMP_Text>(
                 pauseContainer,
                 "Pause Title Text");
             Button pauseResumeButton = FindDirectComponent<Button>(
@@ -135,23 +177,41 @@ namespace FlowState.Tests.PlayMode
             Button pauseRetryButton = FindDirectComponent<Button>(
                 pauseContainer,
                 "RetryButton");
+            Button pauseSettingsButton = FindDirectComponent<Button>(
+                pauseContainer,
+                "SettingsButton");
             Button pauseMainMenuButton = FindDirectComponent<Button>(
                 pauseContainer,
                 "MainMenuButton");
+            AssertPausePresentation(
+                pauseContainerImage,
+                pauseTitleText,
+                pauseResumeButton,
+                pauseRetryButton,
+                pauseSettingsButton,
+                pauseMainMenuButton);
 
             GameObject momentumCanvas = RequireDirectCanvas(momentumHud);
-            Image momentumMultiplierContainer = FindDirectComponent<Image>(
-                momentumCanvas,
-                "Image");
-            TMP_Text momentumMultiplierText = FindDirectComponent<TMP_Text>(
-                momentumMultiplierContainer.gameObject,
-                "MomentumMultiplierText");
-            Image momentumDurationBackground = FindDirectComponent<Image>(
-                momentumCanvas,
-                "MomentumDurationBackground");
-            Image momentumDurationFillImage = FindDirectComponent<Image>(
-                momentumDurationBackground.gameObject,
-                "MomentumDurationFill");
+            TMP_Text momentumMultiplierText = GetSerializedValue<TMP_Text>(
+                uiManagementSystem,
+                "_momentumMultiplierText");
+            Image momentumDurationFillImage = GetSerializedValue<Image>(
+                uiManagementSystem,
+                "_momentumDurationFillImage");
+            Assert.That(momentumMultiplierText, Is.Not.Null);
+            Assert.That(momentumDurationFillImage, Is.Not.Null);
+            Image momentumMultiplierContainer =
+                momentumMultiplierText.transform.parent?.GetComponent<Image>();
+            Image momentumDurationBackground =
+                momentumDurationFillImage.transform.parent?.GetComponent<Image>();
+            Assert.That(momentumMultiplierContainer, Is.Not.Null);
+            Assert.That(momentumDurationBackground, Is.Not.Null);
+            Assert.That(
+                momentumMultiplierContainer.transform.parent,
+                Is.EqualTo(momentumCanvas.transform));
+            Assert.That(
+                momentumDurationBackground.transform.parent,
+                Is.EqualTo(momentumCanvas.transform));
             MomentumGradientEffect momentumGradientEffect =
                 momentumDurationFillImage.GetComponent<MomentumGradientEffect>();
             Assert.That(momentumGradientEffect, Is.Not.Null);
@@ -162,10 +222,12 @@ namespace FlowState.Tests.PlayMode
             Assert.That(momentumDurationFillImage.fillAmount, Is.Zero);
             Assert.That(momentumDurationFillImage.color, Is.EqualTo(Color.white));
             Assert.That(momentumDurationFillImage.raycastTarget, Is.False);
+            AssertMomentumHudPresentation(
+                momentumMultiplierContainer,
+                momentumMultiplierText,
+                momentumDurationBackground,
+                momentumDurationFillImage);
 
-            MonoBehaviour uiManagementSystem = FindRequiredBehaviour(
-                "UIManagementSystem",
-                "UIManagementSystem");
             AssertSerializedReference(uiManagementSystem, "_stageHud", stageHud);
             AssertSerializedReference(
                 uiManagementSystem,
@@ -233,6 +295,10 @@ namespace FlowState.Tests.PlayMode
                 infiniteTotalScoreText);
             AssertSerializedReference(
                 uiManagementSystem,
+                "_infiniteDifficultyText",
+                infiniteDifficultyText);
+            AssertSerializedReference(
+                uiManagementSystem,
                 "_finalDistanceText",
                 finalDistanceText);
             AssertSerializedReference(
@@ -293,6 +359,10 @@ namespace FlowState.Tests.PlayMode
                 pauseRetryButton);
             AssertSerializedReference(
                 uiManagementSystem,
+                "_pauseSettingsButton",
+                pauseSettingsButton);
+            AssertSerializedReference(
+                uiManagementSystem,
                 "_pauseMainMenuButton",
                 pauseMainMenuButton);
 
@@ -326,6 +396,17 @@ namespace FlowState.Tests.PlayMode
                 FindUniqueSceneObject("StageResultContent");
             GameObject infiniteResultContent =
                 FindUniqueSceneObject("InfiniteResultContent");
+            RectTransform resultWindow =
+                stageResultContent.transform.parent as RectTransform;
+            Assert.That(resultWindow, Is.Not.Null);
+            Button resultRetryButton = GetSerializedValue<Button>(
+                uiManagementSystem,
+                "_retryButton");
+            Button resultMainMenuButton = GetSerializedValue<Button>(
+                uiManagementSystem,
+                "_resultMainMenuButton");
+            Assert.That(resultRetryButton, Is.Not.Null);
+            Assert.That(resultMainMenuButton, Is.Not.Null);
 
             GameRuntimeData stageRuntimeData = new GameRuntimeData();
             stageRuntimeData.Initialize(E_GameMode.Stage);
@@ -382,13 +463,16 @@ namespace FlowState.Tests.PlayMode
                 infiniteHud,
                 resultPanel,
                 pausePanel,
-                true,
+                false,
                 false,
                 true,
                 false);
             Assert.That(momentumHud.activeSelf, Is.False);
             Assert.That(stageResultContent.activeSelf, Is.True);
             Assert.That(infiniteResultContent.activeSelf, Is.False);
+            AssertResultWindowRect(resultWindow, new Vector2(520.0f, 400.0f));
+            AssertResultButtonRect(resultRetryButton, -224.0f);
+            AssertResultButtonRect(resultMainMenuButton, -282.0f);
             AssertStageResultText(uiManagementSystem, stageResultData);
 
             GameRuntimeData infiniteRuntimeData = new GameRuntimeData();
@@ -452,12 +536,15 @@ namespace FlowState.Tests.PlayMode
                 resultPanel,
                 pausePanel,
                 false,
-                true,
+                false,
                 true,
                 false);
-            Assert.That(momentumHud.activeSelf, Is.True);
+            Assert.That(momentumHud.activeSelf, Is.False);
             Assert.That(stageResultContent.activeSelf, Is.False);
             Assert.That(infiniteResultContent.activeSelf, Is.True);
+            AssertResultWindowRect(resultWindow, new Vector2(520.0f, 520.0f));
+            AssertResultButtonRect(resultRetryButton, -334.0f);
+            AssertResultButtonRect(resultMainMenuButton, -392.0f);
             AssertInfiniteResultText(
                 uiManagementSystem,
                 infiniteResultData);
@@ -472,6 +559,28 @@ namespace FlowState.Tests.PlayMode
                 canvasObject.GetComponent<GraphicRaycaster>(),
                 Is.Not.Null);
             return canvasObject;
+        }
+
+        private static void AssertResultWindowRect(
+            RectTransform resultWindow,
+            Vector2 size)
+        {
+            Assert.That(resultWindow.anchorMin, Is.EqualTo(new Vector2(0.5f, 0.5f)));
+            Assert.That(resultWindow.anchorMax, Is.EqualTo(new Vector2(0.5f, 0.5f)));
+            Assert.That(resultWindow.pivot, Is.EqualTo(new Vector2(0.5f, 0.5f)));
+            Assert.That(resultWindow.anchoredPosition, Is.EqualTo(Vector2.zero));
+            Assert.That(resultWindow.sizeDelta, Is.EqualTo(size));
+        }
+
+        private static void AssertResultButtonRect(Button button, float yPosition)
+        {
+            RectTransform rectTransform = button.GetComponent<RectTransform>();
+            Assert.That(rectTransform.anchorMin, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.anchorMax, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.pivot, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.anchoredPosition,
+                Is.EqualTo(new Vector2(0.0f, yPosition)));
+            Assert.That(rectTransform.sizeDelta, Is.EqualTo(new Vector2(472.0f, 48.0f)));
         }
 
         private void SetUIState(
@@ -663,6 +772,292 @@ namespace FlowState.Tests.PlayMode
                 Is.Not.Null,
                 $"{childName} must have {typeof(T).Name}.");
             return component;
+        }
+
+        private static T FindUniqueDirectChildComponent<T>(GameObject parent)
+            where T : Component
+        {
+            T match = null;
+
+            foreach (Transform child in parent.transform)
+            {
+                T component = child.GetComponent<T>();
+                if (component == null)
+                {
+                    continue;
+                }
+
+                Assert.That(
+                    match,
+                    Is.Null,
+                    $"{parent.name} must have exactly one direct {typeof(T).Name} child.");
+                match = component;
+            }
+
+            Assert.That(
+                match,
+                Is.Not.Null,
+                $"{parent.name} must have one direct {typeof(T).Name} child.");
+            return match;
+        }
+
+        private static void AssertInfiniteHudPresentation(
+            Image panel,
+            TMP_Text distanceText,
+            TMP_Text baseDistanceScoreText,
+            TMP_Text momentumBonusText,
+            TMP_Text scoreText,
+            TMP_Text collectibleScoreText,
+            TMP_Text totalScoreText,
+            TMP_Text difficultyText)
+        {
+            AssertHudPanel(
+                panel,
+                new Vector2(1.0f, 1.0f),
+                new Vector2(-24.0f, -24.0f),
+                new Vector2(300.0f, 238.0f),
+                new Color(11.0f / 255.0f, 20.0f / 255.0f, 38.0f / 255.0f, 0.8f));
+            VerticalLayoutGroup layoutGroup = panel.GetComponent<VerticalLayoutGroup>();
+            Assert.That(layoutGroup, Is.Not.Null);
+            Assert.That(layoutGroup.padding.left, Is.EqualTo(16));
+            Assert.That(layoutGroup.padding.right, Is.EqualTo(16));
+            Assert.That(layoutGroup.padding.top, Is.EqualTo(14));
+            Assert.That(layoutGroup.padding.bottom, Is.EqualTo(14));
+            Assert.That(layoutGroup.spacing, Is.EqualTo(4.0f));
+            Assert.That(layoutGroup.childControlWidth, Is.True);
+            Assert.That(layoutGroup.childControlHeight, Is.True);
+
+            TMP_Text[] standardTexts =
+            {
+                distanceText,
+                baseDistanceScoreText,
+                momentumBonusText,
+                scoreText,
+                collectibleScoreText
+            };
+            foreach (TMP_Text text in standardTexts)
+            {
+                Assert.That(text.raycastTarget, Is.False);
+                Assert.That(text.textWrappingMode, Is.EqualTo(TextWrappingModes.NoWrap));
+                Assert.That(text.fontSize, Is.EqualTo(20.0f));
+            }
+
+            Assert.That(totalScoreText.raycastTarget, Is.False);
+            Assert.That(totalScoreText.textWrappingMode, Is.EqualTo(TextWrappingModes.NoWrap));
+            Assert.That(totalScoreText.fontSize, Is.EqualTo(24.0f));
+            Assert.That(difficultyText.raycastTarget, Is.False);
+            Assert.That(difficultyText.textWrappingMode, Is.EqualTo(TextWrappingModes.NoWrap));
+            Assert.That(difficultyText.fontSize, Is.EqualTo(16.0f));
+        }
+
+        private static void AssertMomentumHudPresentation(
+            Image multiplierPanel,
+            TMP_Text multiplierText,
+            Image durationBackground,
+            Image durationFill)
+        {
+            AssertHudPanel(
+                multiplierPanel,
+                new Vector2(1.0f, 0.0f),
+                new Vector2(-24.0f, 76.0f),
+                new Vector2(220.0f, 36.0f),
+                new Color(11.0f / 255.0f, 20.0f / 255.0f, 38.0f / 255.0f, 0.8f));
+            Assert.That(multiplierText.raycastTarget, Is.False);
+            Assert.That(multiplierText.textWrappingMode, Is.EqualTo(TextWrappingModes.NoWrap));
+            Assert.That(multiplierText.fontSize, Is.EqualTo(22.0f));
+
+            AssertHudPanel(
+                durationBackground,
+                new Vector2(1.0f, 0.0f),
+                new Vector2(-24.0f, 32.0f),
+                new Vector2(220.0f, 18.0f),
+                new Color(11.0f / 255.0f, 20.0f / 255.0f, 38.0f / 255.0f, 0.6f));
+            Assert.That(durationBackground.raycastTarget, Is.False);
+            Assert.That(durationFill.rectTransform.anchorMin, Is.EqualTo(Vector2.zero));
+            Assert.That(durationFill.rectTransform.anchorMax, Is.EqualTo(Vector2.one));
+            Assert.That(durationFill.rectTransform.anchoredPosition, Is.EqualTo(Vector2.zero));
+            Assert.That(durationFill.rectTransform.sizeDelta, Is.EqualTo(new Vector2(-8.0f, -8.0f)));
+        }
+
+        private static void AssertPausePresentation(
+            Image pauseWindow,
+            TMP_Text titleText,
+            Button resumeButton,
+            Button retryButton,
+            Button settingsButton,
+            Button mainMenuButton)
+        {
+            AssertHudPanel(
+                pauseWindow,
+                new Vector2(0.5f, 0.5f),
+                Vector2.zero,
+                new Vector2(420.0f, 360.0f),
+                new Color(
+                    11.0f / 255.0f,
+                    20.0f / 255.0f,
+                    38.0f / 255.0f,
+                    230.0f / 255.0f));
+            Assert.That(pauseWindow.GetComponent<VerticalLayoutGroup>(), Is.Null,
+                "Pause window uses explicit, stable control positions.");
+
+            Image titleContainer = titleText.transform.parent?.GetComponent<Image>();
+            Assert.That(titleContainer, Is.Not.Null);
+            Assert.That(titleContainer.raycastTarget, Is.False);
+            Assert.That(titleContainer.color.a, Is.Zero.Within(0.001f));
+            Assert.That(titleContainer.rectTransform.anchorMin,
+                Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(titleContainer.rectTransform.anchorMax,
+                Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(titleContainer.rectTransform.anchoredPosition,
+                Is.EqualTo(new Vector2(0.0f, -50.0f)));
+            Assert.That(titleContainer.rectTransform.sizeDelta,
+                Is.EqualTo(new Vector2(372.0f, 48.0f)));
+            Assert.That(titleText.raycastTarget, Is.False);
+            Assert.That(titleText.textWrappingMode, Is.EqualTo(TextWrappingModes.NoWrap));
+            Assert.That(titleText.fontSize, Is.EqualTo(36.0f));
+
+            AssertPauseButtonPresentation(resumeButton, -116.0f);
+            AssertPauseButtonPresentation(retryButton, -174.0f);
+            AssertPauseButtonPresentation(settingsButton, -232.0f);
+            AssertPauseButtonPresentation(mainMenuButton, -290.0f);
+        }
+
+        private static void AssertStageResultPresentation(
+            Image resultWindow,
+            GameObject stageResultContent,
+            TMP_Text statusText,
+            TMP_Text clearTimeText,
+            TMP_Text collectibleScoreText,
+            Button retryButton,
+            Button mainMenuButton)
+        {
+            AssertHudPanel(
+                resultWindow,
+                new Vector2(0.5f, 0.5f),
+                Vector2.zero,
+                new Vector2(520.0f, 400.0f),
+                new Color(
+                    11.0f / 255.0f,
+                    20.0f / 255.0f,
+                    38.0f / 255.0f,
+                    230.0f / 255.0f));
+            Assert.That(resultWindow.GetComponent<VerticalLayoutGroup>(), Is.Null,
+                "Result window uses explicit, stable control positions.");
+
+            RectTransform stageContentRect = stageResultContent.GetComponent<RectTransform>();
+            Assert.That(stageContentRect.anchorMin, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(stageContentRect.anchorMax, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(stageContentRect.pivot, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(stageContentRect.anchoredPosition,
+                Is.EqualTo(new Vector2(0.0f, -36.0f)));
+            Assert.That(stageContentRect.sizeDelta, Is.EqualTo(new Vector2(472.0f, 150.0f)));
+
+            Image stageContentBackground =
+                FindUniqueDirectChildComponent<Image>(stageResultContent);
+            Assert.That(stageContentBackground.raycastTarget, Is.False);
+            Assert.That(stageContentBackground.color.a, Is.Zero.Within(0.001f));
+
+            AssertStageResultTextPresentation(statusText, -8.0f, 44.0f, 34.0f);
+            AssertStageResultTextPresentation(clearTimeText, -58.0f, 36.0f, 22.0f);
+            AssertStageResultTextPresentation(
+                collectibleScoreText,
+                -100.0f,
+                36.0f,
+                22.0f);
+            AssertResultButtonPresentation(retryButton);
+            AssertResultButtonPresentation(mainMenuButton);
+        }
+
+        private static void AssertStageResultTextPresentation(
+            TMP_Text text,
+            float yPosition,
+            float height,
+            float fontSize)
+        {
+            RectTransform rectTransform = text.rectTransform;
+            Assert.That(rectTransform.anchorMin, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.anchorMax, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.anchoredPosition,
+                Is.EqualTo(new Vector2(0.0f, yPosition)));
+            Assert.That(rectTransform.sizeDelta, Is.EqualTo(new Vector2(440.0f, height)));
+            Assert.That(text.raycastTarget, Is.False);
+            Assert.That(text.textWrappingMode, Is.EqualTo(TextWrappingModes.NoWrap));
+            Assert.That(text.fontSize, Is.EqualTo(fontSize));
+        }
+
+        private static void AssertInfiniteResultPresentation(
+            GameObject infiniteResultContent,
+            TMP_Text finalDistanceText,
+            TMP_Text baseDistanceScoreText,
+            TMP_Text momentumBonusText,
+            TMP_Text finalScoreText,
+            TMP_Text collectibleScoreText,
+            TMP_Text totalScoreText,
+            TMP_Text maximumMomentumText)
+        {
+            RectTransform contentRect = infiniteResultContent.GetComponent<RectTransform>();
+            Assert.That(contentRect.anchorMin, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(contentRect.anchorMax, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(contentRect.pivot, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(contentRect.anchoredPosition,
+                Is.EqualTo(new Vector2(0.0f, -36.0f)));
+            Assert.That(contentRect.sizeDelta, Is.EqualTo(new Vector2(472.0f, 278.0f)));
+
+            Image contentBackground =
+                FindUniqueDirectChildComponent<Image>(infiniteResultContent);
+            Assert.That(contentBackground.raycastTarget, Is.False);
+            Assert.That(contentBackground.color.a, Is.Zero.Within(0.001f));
+            Assert.That(contentBackground.GetComponent<VerticalLayoutGroup>(), Is.Null);
+            Assert.That(contentBackground.rectTransform.anchorMin, Is.EqualTo(Vector2.zero));
+            Assert.That(contentBackground.rectTransform.anchorMax, Is.EqualTo(Vector2.one));
+            Assert.That(contentBackground.rectTransform.anchoredPosition, Is.EqualTo(Vector2.zero));
+            Assert.That(contentBackground.rectTransform.sizeDelta, Is.EqualTo(Vector2.zero));
+
+            AssertStageResultTextPresentation(finalDistanceText, -8.0f, 34.0f, 26.0f);
+            AssertStageResultTextPresentation(baseDistanceScoreText, -48.0f, 30.0f, 20.0f);
+            AssertStageResultTextPresentation(momentumBonusText, -82.0f, 30.0f, 20.0f);
+            AssertStageResultTextPresentation(finalScoreText, -116.0f, 30.0f, 20.0f);
+            AssertStageResultTextPresentation(collectibleScoreText, -150.0f, 30.0f, 20.0f);
+            AssertStageResultTextPresentation(totalScoreText, -184.0f, 34.0f, 24.0f);
+            AssertStageResultTextPresentation(maximumMomentumText, -226.0f, 30.0f, 20.0f);
+        }
+
+        private static void AssertResultButtonPresentation(Button button)
+        {
+            Assert.That(button.transition, Is.EqualTo(Selectable.Transition.ColorTint));
+            Assert.That(button.targetGraphic, Is.TypeOf<Image>());
+        }
+
+        private static void AssertPauseButtonPresentation(Button button, float yPosition)
+        {
+            RectTransform rectTransform = button.GetComponent<RectTransform>();
+            Assert.That(rectTransform.anchorMin, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.anchorMax, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.anchoredPosition,
+                Is.EqualTo(new Vector2(0.0f, yPosition)));
+            Assert.That(rectTransform.sizeDelta, Is.EqualTo(new Vector2(372.0f, 48.0f)));
+            Assert.That(button.transition, Is.EqualTo(Selectable.Transition.ColorTint));
+            Assert.That(button.targetGraphic, Is.TypeOf<Image>());
+            Assert.That(button.colors.colorMultiplier, Is.EqualTo(1.0f));
+            Assert.That(button.colors.fadeDuration, Is.EqualTo(0.1f));
+        }
+
+        private static void AssertHudPanel(
+            Image panel,
+            Vector2 anchor,
+            Vector2 anchoredPosition,
+            Vector2 size,
+            Color color)
+        {
+            Assert.That(panel.raycastTarget, Is.False);
+            Assert.That(panel.rectTransform.anchorMin, Is.EqualTo(anchor));
+            Assert.That(panel.rectTransform.anchorMax, Is.EqualTo(anchor));
+            Assert.That(panel.rectTransform.anchoredPosition, Is.EqualTo(anchoredPosition));
+            Assert.That(panel.rectTransform.sizeDelta, Is.EqualTo(size));
+            Assert.That(panel.color.r, Is.EqualTo(color.r).Within(0.001f));
+            Assert.That(panel.color.g, Is.EqualTo(color.g).Within(0.001f));
+            Assert.That(panel.color.b, Is.EqualTo(color.b).Within(0.001f));
+            Assert.That(panel.color.a, Is.EqualTo(color.a).Within(0.001f));
         }
 
         private T FindUniqueDescendantComponent<T>(

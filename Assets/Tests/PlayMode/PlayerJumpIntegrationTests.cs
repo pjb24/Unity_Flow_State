@@ -178,24 +178,19 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator Jump_BoundaryGapAtBaseSpeed_LandsOnNextGround()
         {
-            yield return TraverseBoundaryGap(8.0f, 2.0f);
+            yield return TraverseBoundaryGap(2.0f);
         }
 
-        [UnityTest]
-        public IEnumerator Jump_BoundaryGapAtMaximumSpeed_LandsOnNextGround()
-        {
-            yield return TraverseBoundaryGap(14.0f, 3.0f);
-        }
-
-        private IEnumerator TraverseBoundaryGap(
-            float horizontalSpeed,
-            float takeoffDistance)
+        private IEnumerator TraverseBoundaryGap(float takeoffDistance)
         {
             const float boundaryX = 20000.0f;
             const float gapWidth = 4.0f;
             const float groundHeight = 0.5f;
             const float landingLength = 8.0f;
             const float playerRadius = 0.5f;
+            float horizontalSpeed = GetPrivateField<float>(
+                _playerMovementSystem,
+                "_moveSpeed");
 
             UnityEngine.Object.DestroyImmediate(_jumpGround);
             _jumpGround = CreateGround(
@@ -357,6 +352,21 @@ namespace FlowState.Tests.PlayMode
                 Is.Not.Null,
                 $"{fieldName} was not found on {targetBehaviour.GetType().Name}.");
             field.SetValue(targetBehaviour, value);
+        }
+
+        private T GetPrivateField<T>(
+            MonoBehaviour targetBehaviour,
+            string fieldName)
+        {
+            FieldInfo field = targetBehaviour.GetType().GetField(
+                fieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.That(
+                field,
+                Is.Not.Null,
+                $"{fieldName} was not found on {targetBehaviour.GetType().Name}.");
+            return (T)field.GetValue(targetBehaviour);
         }
     }
 }

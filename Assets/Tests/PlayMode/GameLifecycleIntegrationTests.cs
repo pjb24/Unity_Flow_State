@@ -71,7 +71,10 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator EndGame_ClearsRuntimeAndStopsPhase2Systems()
         {
             AssertPlayingState();
-            _playerRigidbody.linearVelocity = new Vector3(8.0f, 4.0f, 0.0f);
+            _playerRigidbody.linearVelocity = new Vector3(
+                GetPrivateField<float>(_playerMovementSystem, "_moveSpeed"),
+                4.0f,
+                0.0f);
 
             InvokePublicMethod(_gameSystem, "EndGame");
             yield return null;
@@ -110,7 +113,7 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
             Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(_playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
-            Assert.That(_stageHud.activeSelf, Is.True);
+            Assert.That(_stageHud.activeSelf, Is.False);
             Assert.That(_resultPanel.activeSelf, Is.True);
         }
 
@@ -253,9 +256,6 @@ namespace FlowState.Tests.PlayMode
                     "IsPlayerActionMapEnabled"),
                 Is.True);
             Assert.That(
-                (bool)GetPropertyValue(_playerInputSystem, "IsMoveActionEnabled"),
-                Is.False);
-            Assert.That(
                 (bool)GetPropertyValue(_playerInputSystem, "IsJumpActionEnabled"),
                 Is.True);
             Assert.That(
@@ -300,9 +300,6 @@ namespace FlowState.Tests.PlayMode
                 (bool)GetPropertyValue(
                     _playerInputSystem,
                     "IsPlayerActionMapEnabled"),
-                Is.False);
-            Assert.That(
-                (bool)GetPropertyValue(_playerInputSystem, "IsMoveActionEnabled"),
                 Is.False);
             Assert.That(
                 (bool)GetPropertyValue(_playerInputSystem, "IsJumpActionEnabled"),
@@ -387,6 +384,17 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(property, Is.Not.Null);
             return (T)property.GetValue(target);
+        }
+
+        private T GetPrivateField<T>(
+            MonoBehaviour targetBehaviour,
+            string fieldName)
+        {
+            FieldInfo field = targetBehaviour.GetType().GetField(
+                fieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            return (T)field.GetValue(targetBehaviour);
         }
 
         private object InvokePublicMethod(

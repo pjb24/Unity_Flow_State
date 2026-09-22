@@ -27,6 +27,7 @@ UI 입력 장치와 UI System 사이의 연결을 담당한다.
 - UI 입력 상태를 관리한다.
 - UI 입력 상태를 GameSystem에 전달한다.
 - UI 입력 장치의 변경을 추상화한다.
+- SettingsSystem의 요청에 따라 Navigate Binding Override를 실제 UI Action Map에 적용하거나 제거한다.
 - 상태 전환 시 transient UI 입력을 초기화한다.
 - UI System의 표준 Navigate 반복 설정을 사용하도록 연결한다.
 
@@ -89,6 +90,7 @@ UIInputSystem은 현재 게임 상태에 따른 UI 입력의 의미를 판단하
 |------|------|
 | UI Action Map 활성화 요청 | GameSystem |
 | UI Action Map 비활성화 요청 | GameSystem |
+| UI Binding Override 적용 또는 제거 요청 | SettingsSystem |
 | 키보드 입력 | Unity Input System |
 | 마우스 입력 | Unity Input System |
 | 게임패드 입력 | Unity Input System |
@@ -100,6 +102,7 @@ UIInputSystem은 현재 게임 상태에 따른 UI 입력의 의미를 판단하
 | 출력 | 대상 |
 |------|------|
 | 현재 UI 입력 상태 | GameSystem |
+| UI Binding Override 적용 결과 | SettingsSystem |
 
 ---
 
@@ -113,6 +116,7 @@ UIInputSystem은 현재 게임 상태에 따른 UI 입력의 의미를 판단하
 - UI 입력 상태 관리
 - UI 입력 상태 제공
 - UI 입력 장치 추상화
+- Navigate Binding Override 적용
 
 ---
 
@@ -127,6 +131,7 @@ UIInputSystem은 현재 게임 상태에 따른 UI 입력의 의미를 판단하
 - UI 상태 관리
 - UI 동작 규칙
 - Feature 규칙 수행
+- Settings 값과 Rebinding 충돌 규칙 관리
 
 ---
 
@@ -135,6 +140,7 @@ UIInputSystem은 현재 게임 상태에 따른 UI 입력의 의미를 판단하
 - GameSystem
 - PlayerInputSystem
 - UIManagementSystem
+- SettingsSystem
 
 ---
 
@@ -154,6 +160,7 @@ UIInputSystem은 현재 게임 상태에 따른 UI 입력의 의미를 판단하
 - GameSystem이 요청한 시점에 transient UI 입력을 초기화한다.
 - 입력 장치에 의존하는 처리는 이 System 내부에서만 관리한다.
 - 입력 데이터는 Runtime에서만 사용한다.
+- SettingsSystem이 요청한 Navigate Binding Override만 실제 UI Action Map에 적용한다.
 - Navigate 반복은 Unity `InputSystemUIInputModule`의 설정을 우선 사용한다. 별도 반복 로직은 기존 UI System으로 표현할 수 없을 때만 추가한다.
 
 ---

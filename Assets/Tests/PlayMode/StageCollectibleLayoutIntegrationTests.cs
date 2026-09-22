@@ -131,7 +131,7 @@ namespace FlowState.Tests.PlayMode
             float startY,
             float landingY)
         {
-            const float horizontalSpeed = 8.0f;
+            float horizontalSpeed = GetPlayerMoveSpeed();
             const float gravity = 25.0f;
             float verticalSpeed = PlayerMovementMath.CalculateJumpVerticalSpeed(
                 3.0f,
@@ -158,6 +158,31 @@ namespace FlowState.Tests.PlayMode
                 BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.That(field, Is.Not.Null);
             return (T)field.GetValue(target);
+        }
+
+        private float GetPlayerMoveSpeed()
+        {
+            GameObject movementOwner = GameObject.Find("PlayerMovementSystem");
+            Assert.That(movementOwner, Is.Not.Null);
+
+            MonoBehaviour movementSystem = null;
+            foreach (MonoBehaviour behaviour in
+                     movementOwner.GetComponents<MonoBehaviour>())
+            {
+                if (behaviour != null &&
+                    behaviour.GetType().Name == "PlayerMovementSystem")
+                {
+                    movementSystem = behaviour;
+                    break;
+                }
+            }
+
+            Assert.That(movementSystem, Is.Not.Null);
+            FieldInfo field = movementSystem.GetType().GetField(
+                "_moveSpeed",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            return (float)field.GetValue(movementSystem);
         }
     }
 }

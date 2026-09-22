@@ -18,6 +18,7 @@ namespace FlowState.Tests.PlayMode
 
         private Rigidbody _playerRigidbody;
         private MonoBehaviour _playerInputSystem;
+        private MonoBehaviour _playerMovementSystem;
         private GameRuntimeData _runtimeData;
 
         [UnitySetUp]
@@ -45,6 +46,9 @@ namespace FlowState.Tests.PlayMode
             _playerInputSystem = FindRequiredBehaviour(
                 "PlayerInputSystem",
                 "PlayerInputSystem");
+            _playerMovementSystem = FindRequiredBehaviour(
+                "PlayerMovementSystem",
+                "PlayerMovementSystem");
             MonoBehaviour runtimeDataSystem = FindRequiredBehaviour(
                 "RuntimeDataSystem",
                 "RuntimeDataSystem");
@@ -91,7 +95,9 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 _runtimeData.PlayerMovementRuntimeData.IsLastLandingMomentum,
                 Is.True);
-            Assert.That(landingHorizontalSpeed, Is.EqualTo(8.0f).Within(0.001f));
+            Assert.That(
+                landingHorizontalSpeed,
+                Is.EqualTo(GetPlayerMoveSpeed()).Within(0.001f));
             Assert.That(_runtimeData.PlayerMovementRuntimeData.MomentumLandingSuccessId,
                 Is.EqualTo(1));
             Assert.That(_playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
@@ -141,7 +147,7 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(didLand, Is.True);
             Assert.That(_runtimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
-                Is.EqualTo(8.0f).Within(0.001f));
+                Is.EqualTo(GetPlayerMoveSpeed()).Within(0.001f));
 
             for (int step = 0; step < 5; step++)
             {
@@ -222,7 +228,7 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
             yield return new WaitForFixedUpdate();
             Assert.That(_runtimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
-                Is.EqualTo(8.0f).Within(0.001f));
+                Is.EqualTo(GetPlayerMoveSpeed()).Within(0.001f));
         }
 
         [UnityTest]
@@ -262,7 +268,8 @@ namespace FlowState.Tests.PlayMode
             {
                 yield return new WaitForFixedUpdate();
 
-                if (_playerRigidbody.linearVelocity.x >= 7.9f)
+                if (_playerRigidbody.linearVelocity.x >=
+                    GetPlayerMoveSpeed() - 0.1f)
                 {
                     yield break;
                 }
@@ -274,6 +281,15 @@ namespace FlowState.Tests.PlayMode
         private void TriggerJump()
         {
             SetPrivateField(_playerInputSystem, "_isJumpPressed", true);
+        }
+
+        private float GetPlayerMoveSpeed()
+        {
+            FieldInfo field = _playerMovementSystem.GetType().GetField(
+                "_moveSpeed",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            return (float)field.GetValue(_playerMovementSystem);
         }
 
         private void TriggerMomentumLanding()

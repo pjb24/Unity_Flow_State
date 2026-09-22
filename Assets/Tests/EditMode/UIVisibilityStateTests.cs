@@ -84,7 +84,7 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void Apply_StageEnded_ShowsStageHudAndStageResult()
+        public void Apply_StageEnded_HidesStageHudAndShowsStageResult()
         {
             Assert.That(
                 _state.Apply(
@@ -93,7 +93,7 @@ namespace FlowState.Tests.EditMode
                     E_UIState.Result),
                 Is.True);
 
-            Assert.That(_state.IsStageHudVisible, Is.True);
+            Assert.That(_state.IsStageHudVisible, Is.False);
             Assert.That(_state.IsInfiniteHudVisible, Is.False);
             Assert.That(_state.IsPausePanelVisible, Is.False);
             Assert.That(_state.IsResultPanelVisible, Is.True);
@@ -102,7 +102,7 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void Apply_InfiniteEnded_ShowsInfiniteHudAndInfiniteResult()
+        public void Apply_InfiniteEnded_HidesInfiniteHudAndShowsInfiniteResult()
         {
             Assert.That(
                 _state.Apply(
@@ -112,7 +112,7 @@ namespace FlowState.Tests.EditMode
                 Is.True);
 
             Assert.That(_state.IsStageHudVisible, Is.False);
-            Assert.That(_state.IsInfiniteHudVisible, Is.True);
+            Assert.That(_state.IsInfiniteHudVisible, Is.False);
             Assert.That(_state.IsPausePanelVisible, Is.False);
             Assert.That(_state.IsResultPanelVisible, Is.True);
             Assert.That(_state.IsStageResultContentVisible, Is.False);

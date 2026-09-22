@@ -71,7 +71,10 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(runtimeData.PlayerMovementRuntimeData.IsGrounded, Is.True);
             Assert.That(_playerRigidbody.linearVelocity.x,
-                Is.EqualTo(50.0f * Time.fixedDeltaTime).Within(SpeedTolerance));
+                Is.EqualTo(GetField<float>(
+                    _movementSystem,
+                    "_groundAcceleration") * Time.fixedDeltaTime)
+                    .Within(SpeedTolerance));
             Assert.That(runtimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
                 Is.EqualTo(_playerRigidbody.linearVelocity.x).Within(SpeedTolerance));
         }
@@ -309,11 +312,19 @@ namespace FlowState.Tests.PlayMode
             {
                 yield return new WaitForFixedUpdate();
                 Assert.That(_playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
-                Assert.That(_playerRigidbody.linearVelocity.x, Is.LessThanOrEqualTo(8.0f));
+                Assert.That(
+                    _playerRigidbody.linearVelocity.x,
+                    Is.LessThanOrEqualTo(GetField<float>(
+                        _movementSystem,
+                        "_moveSpeed")));
             }
 
             Assert.That(_playerRigidbody.position.x, Is.GreaterThan(startX));
-            Assert.That(_playerRigidbody.linearVelocity.x, Is.EqualTo(8.0f).Within(SpeedTolerance));
+            Assert.That(
+                _playerRigidbody.linearVelocity.x,
+                Is.EqualTo(GetField<float>(
+                    _movementSystem,
+                    "_moveSpeed")).Within(SpeedTolerance));
             Assert.That(GetRuntimeData().GameMode, Is.EqualTo(gameMode));
         }
 

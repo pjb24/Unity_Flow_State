@@ -1,10 +1,11 @@
 {
   "name": "FlowState.PlayModeTests",
   "rootNamespace": "FlowState.Tests.PlayMode",
-  "references": [
-    "FlowState.Runtime.Core",
-    "FlowState.Runtime.Features",
-    "Unity.TextMeshPro"
+    "references": [
+        "FlowState.Runtime.Core",
+        "FlowState.Runtime.Features",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem"
   ],
   "optionalUnityReferences": [
     "TestAssemblies"

@@ -43,6 +43,9 @@ namespace FlowState.Tests.PlayMode
             MonoBehaviour stageSystem = FindRequiredBehaviour(
                 "StageSystem",
                 "StageSystem");
+            MonoBehaviour playerMovementSystem = FindRequiredBehaviour(
+                "PlayerMovementSystem",
+                "PlayerMovementSystem");
             MonoBehaviour resultSystem = FindRequiredBehaviour(
                 "ResultSystem",
                 "ResultSystem");
@@ -66,7 +69,10 @@ namespace FlowState.Tests.PlayMode
             yield return new WaitForSeconds(0.02f);
 
             player.transform.position = goal.transform.position;
-            playerRigidbody.linearVelocity = new Vector3(8.0f, 4.0f, 0.0f);
+            playerRigidbody.linearVelocity = new Vector3(
+                GetPrivateField<float>(playerMovementSystem, "_moveSpeed"),
+                4.0f,
+                0.0f);
             Physics.SyncTransforms();
 
             yield return new WaitForFixedUpdate();
@@ -111,7 +117,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 GetProperty<object>(gameSystem, "CurrentGameState").ToString(),
                 Is.EqualTo("Ended"));
-            Assert.That(stageHud.activeSelf, Is.True);
+            Assert.That(stageHud.activeSelf, Is.False);
             Assert.That(resultPanel.activeSelf, Is.True);
             Assert.That(playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
@@ -244,6 +250,17 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(property, Is.Not.Null);
             return (T)property.GetValue(target);
+        }
+
+        private T GetPrivateField<T>(
+            MonoBehaviour targetBehaviour,
+            string fieldName)
+        {
+            FieldInfo field = targetBehaviour.GetType().GetField(
+                fieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            return (T)field.GetValue(targetBehaviour);
         }
 
         private void InvokePublicMethod(

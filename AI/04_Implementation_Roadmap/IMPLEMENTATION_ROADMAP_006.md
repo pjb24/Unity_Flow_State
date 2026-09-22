@@ -108,6 +108,7 @@ Boot, Main Menu와 Mode Select를 생산 흐름에 연결한다.
 - Leaderboard 준비·미구현·Offline 상태 표시 영역
 - Settings의 Audio·화면·조작 항목 범위 확정
 - Input Rebinding과 기본값 복원
+- 자동 이동 구조에서 사용하지 않는 Player Move Action, 해당 Binding과 생성 Wrapper·생산 코드·Test 참조 제거
 - Pause와 Main Menu에서 Settings 공유
 - 일반 빌드의 개발자 Difficulty UI 비활성 확인
 
@@ -117,6 +118,7 @@ Boot, Main Menu와 Mode Select를 생산 흐름에 연결한다.
 - 기능 화면에서 이전 화면으로 돌아갈 수 있다.
 - Input Rebinding 후 UI와 Player 입력이 새 Binding을 사용한다.
 - Binding 충돌·취소·기본값 복원 규칙이 동작한다.
+- Player Move Action과 해당 Binding이 Input Action Asset과 생성 Wrapper에 없고 생산 코드와 Test가 이를 참조하지 않는다.
 - 일반 빌드에서 개발자 전용 정보가 표시되지 않는다.
 
 ### 검증 책임
@@ -127,7 +129,7 @@ Boot, Main Menu와 Mode Select를 생산 흐름에 연결한다.
 
 ### 상태
 
-대기
+완료 (20260923)
 
 ---
 
@@ -176,7 +178,7 @@ How To Play과 첫 플레이 안내를 제공하고 전체 UI 흐름을 검증�
 
 ## 다음 작업
 
-Phase 3 기능 접근 UI·Settings 범위 확정·Input Rebinding 작업 준비
+Phase 4 How To Play, 첫 플레이 안내 및 전체 UI 흐름 회귀
 
 ---
 
@@ -193,6 +195,7 @@ Phase 3 기능 접근 UI·Settings 범위 확정·Input Rebinding 작업 준비
 - Prototype 4: InfiniteMode 생산 흐름과 HUD·Result 구성
 - Prototype 6 Phase 1: 게임 진입 상태와 UI Navigation 계약 확정
 - Prototype 6 Phase 2: Boot·Main Menu·Mode Select 생산 연결 및 Pause·Result 복귀 흐름 완성
+- Prototype 6 Phase 3: 기능 접근 UI·Settings·Input Rebinding 및 일반 Build 개발자 UI 경계 확인
 
 ---
 

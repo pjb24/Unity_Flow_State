@@ -6,8 +6,8 @@ namespace FlowState.Tests.EditMode
 {
     public class ResultTextFormatterTests
     {
-        [TestCase(E_StageResultType.Cleared, "Result: Stage Clear")]
-        [TestCase(E_StageResultType.Fell, "Result: Stage Failed")]
+        [TestCase(E_StageResultType.Cleared, "STAGE CLEAR")]
+        [TestCase(E_StageResultType.Fell, "STAGE FAILED")]
         [TestCase(E_StageResultType.None, "")]
         public void FormatStageResultStatus_ReturnsApprovedText(
             E_StageResultType stageResultType,
@@ -103,6 +103,18 @@ namespace FlowState.Tests.EditMode
             Assert.That(resultText, Is.EqualTo(expectedText));
         }
 
+        [TestCase(0, "Collectibles: 0")]
+        [TestCase(int.MaxValue, "Collectibles: 2147483647")]
+        public void FormatStageCollectibleCounter_ValidScore_ReturnsCompactHudFormat(
+            int score,
+            string expectedText)
+        {
+            string resultText = ResultTextFormatter.FormatStageCollectibleCounter(
+                score);
+
+            Assert.That(resultText, Is.EqualTo(expectedText));
+        }
+
         [TestCase(0, "Total Score: 0")]
         [TestCase(int.MaxValue, "Total Score: 2147483647")]
         public void FormatTotalScore_ValidScore_ReturnsApprovedFormat(
@@ -123,6 +135,9 @@ namespace FlowState.Tests.EditMode
             Assert.That(
                 ResultTextFormatter.FormatCollectibleScore(-1),
                 Is.EqualTo("Collectible Score: --"));
+            Assert.That(
+                ResultTextFormatter.FormatStageCollectibleCounter(-1),
+                Is.EqualTo("Collectibles: --"));
             Assert.That(
                 ResultTextFormatter.FormatTotalScore(-1),
                 Is.EqualTo("Total Score: --"));
@@ -199,7 +214,7 @@ namespace FlowState.Tests.EditMode
                 out string collectibleScoreText);
 
             Assert.That(didFormat, Is.True);
-            Assert.That(resultStatusText, Is.EqualTo("Result: Stage Clear"));
+            Assert.That(resultStatusText, Is.EqualTo("STAGE CLEAR"));
             Assert.That(elapsedTimeText, Is.EqualTo("Clear Time: 12.346 s"));
             Assert.That(collectibleScoreText, Is.EqualTo("Collectible Score: 30"));
         }
@@ -219,7 +234,7 @@ namespace FlowState.Tests.EditMode
                 out string collectibleScoreText);
 
             Assert.That(didFormat, Is.True);
-            Assert.That(resultStatusText, Is.EqualTo("Result: Stage Failed"));
+            Assert.That(resultStatusText, Is.EqualTo("STAGE FAILED"));
             Assert.That(elapsedTimeText, Is.EqualTo("Run Time: 8.250 s"));
             Assert.That(collectibleScoreText, Is.EqualTo("Collectible Score: 20"));
         }

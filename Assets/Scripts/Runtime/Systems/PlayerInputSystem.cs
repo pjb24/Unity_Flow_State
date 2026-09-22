@@ -1,3 +1,4 @@
+using System;
 using FlowState.Input;
 using FlowState.Runtime.Core;
 using UnityEngine;
@@ -14,9 +15,6 @@ namespace FlowState.Runtime.Systems
 
         public bool IsPlayerActionMapEnabled =>
             _inputActions != null && _inputActions.Player.enabled;
-
-        public bool IsMoveActionEnabled =>
-            _inputActions != null && _inputActions.Player.Move.enabled;
 
         public bool IsJumpActionEnabled =>
             _inputActions != null && _inputActions.Player.Jump.enabled;
@@ -62,7 +60,6 @@ namespace FlowState.Runtime.Systems
 
             ResetInputState();
             _inputActions.Player.Enable();
-            _inputActions.Player.Move.Disable();
         }
 
         public void DisablePlayerActionMap()
@@ -89,10 +86,65 @@ namespace FlowState.Runtime.Systems
             _isMomentumLandingPressed = false;
         }
 
+        public bool TryApplyBindingOverride(
+            SettingsBindingTarget target,
+            string controlPath)
+        {
+            return TrySetBindingOverride(target, controlPath, false);
+        }
+
+        public bool TryRemoveBindingOverride(SettingsBindingTarget target)
+        {
+            return TrySetBindingOverride(target, string.Empty, true);
+        }
+
+        public bool TryGetBindingAction(
+            SettingsBindingTarget target,
+            out InputAction action,
+            out int bindingIndex)
+        {
+            return TryFindBinding(target, out action, out bindingIndex);
+        }
+
         private void RegisterCallbacks()
         {
             _inputActions.Player.Jump.performed += OnJumpPerformed;
             _inputActions.Player.MomentumLanding.performed += OnMomentumLandingPerformed;
+        }
+
+        private bool TrySetBindingOverride(
+            SettingsBindingTarget target,
+            string controlPath,
+            bool shouldRemove)
+        {
+            if (_inputActions == null ||
+                target.ActionMap != E_SettingsActionMap.Player ||
+                (!shouldRemove && string.IsNullOrEmpty(controlPath)))
+            {
+                return false;
+            }
+
+            if (!TryFindBinding(target, out InputAction action, out int bindingIndex))
+            {
+                return false;
+            }
+
+            if (shouldRemove) action.RemoveBindingOverride(bindingIndex);
+            else action.ApplyBindingOverride(bindingIndex, controlPath);
+            return true;
+        }
+
+        private bool TryFindBinding(SettingsBindingTarget target, out InputAction action, out int bindingIndex)
+        {
+            action = null;
+            bindingIndex = -1;
+            if (_inputActions == null || target.ActionMap != E_SettingsActionMap.Player) return false;
+            action = _inputActions.asset.FindAction(target.ActionId.ToString(), false);
+            if (action == null || action.actionMap.name != "Player") return false;
+            for (int i = 0; i < action.bindings.Count; i++)
+                if (action.bindings[i].id == target.BindingId) { bindingIndex = i; return true; }
+            action = null;
+            return false;
         }
 
         private void UnregisterCallbacks()

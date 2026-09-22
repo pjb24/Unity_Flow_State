@@ -46,6 +46,10 @@ namespace FlowState.Runtime.Core
             if (gameState == E_GameState.Ended &&
                 uiState == E_UIState.Result)
             {
+                // ResultData is the sole score source on a completed run.
+                // Gameplay HUDs can otherwise display a stale pre-end value.
+                IsStageHudVisible = false;
+                IsInfiniteHudVisible = false;
                 IsResultPanelVisible = true;
                 IsStageResultContentVisible = gameMode == E_GameMode.Stage;
                 IsInfiniteResultContentVisible =
