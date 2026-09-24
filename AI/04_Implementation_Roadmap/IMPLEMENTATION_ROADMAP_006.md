@@ -143,7 +143,7 @@ How To Play과 첫 플레이 안내를 제공하고 전체 UI 흐름을 검증�
 
 - 자동 이동·Jump·Momentum Landing·Collectible·Pause 안내
 - 현재 Input Binding을 반영하는 조작 표기
-- 첫 Run 전 간단한 안내와 건너뛰기
+- 첫 Run 전 자동 안내와 Start Run으로의 진행
 - Main Menu의 How To Play 재열람
 - 안내 중 게임 진행과 Player 입력 차단
 - 전체 Menu·Stage·InfiniteMode·Pause·Result 흐름 회귀
@@ -151,9 +151,9 @@ How To Play과 첫 플레이 안내를 제공하고 전체 UI 흐름을 검증�
 ### 완료 조건
 
 - 플레이어가 안내만 보고 핵심 조작과 Score 목적을 이해할 수 있다.
-- Keyboard와 Gamepad의 현재 Binding이 올바르게 표시된다.
+- Keyboard·Mouse와 Gamepad의 현재 Binding이 마지막 입력 장치에 맞게 표시된다.
 - 안내 중 Stage, Timer와 Player가 진행되지 않는다.
-- 안내를 건너뛰거나 다시 열 수 있다.
+- 자동 안내는 Start Run으로만 진행하며 Main Menu에서 다시 열 수 있다.
 - 전체 UI 흐름의 자동 Test, 화면 확인과 Build가 통과한다.
 
 ### 검증 책임
@@ -164,7 +164,7 @@ How To Play과 첫 플레이 안내를 제공하고 전체 UI 흐름을 검증�
 
 ### 상태
 
-대기
+완료 (20260924)
 
 ---
 
@@ -178,7 +178,7 @@ How To Play과 첫 플레이 안내를 제공하고 전체 UI 흐름을 검증�
 
 ## 다음 작업
 
-Phase 4 How To Play, 첫 플레이 안내 및 전체 UI 흐름 회귀
+없음
 
 ---
 
@@ -196,6 +196,7 @@ Phase 4 How To Play, 첫 플레이 안내 및 전체 UI 흐름 회귀
 - Prototype 6 Phase 1: 게임 진입 상태와 UI Navigation 계약 확정
 - Prototype 6 Phase 2: Boot·Main Menu·Mode Select 생산 연결 및 Pause·Result 복귀 흐름 완성
 - Prototype 6 Phase 3: 기능 접근 UI·Settings·Input Rebinding 및 일반 Build 개발자 UI 경계 확인
+- Prototype 6 Phase 4: How To Play·첫 플레이 자동 안내·현재 Binding 표기 및 전체 UI 흐름 회귀 확인
 
 ---
 
@@ -204,7 +205,7 @@ Phase 4 How To Play, 첫 플레이 안내 및 전체 UI 흐름 회귀
 1. 게임 진입·UI Navigation 계약
 2. Main Menu와 Mode Select
 3. 기능 접근 UI, Settings와 Input Rebinding
-4. How To Play, 첫 플레이 안내와 전체 회귀
+4. How To Play, 첫 플레이 안내와 전체 회귀 — 완료
 
 ---
 
@@ -214,7 +215,7 @@ Phase 4 How To Play, 첫 플레이 안내 및 전체 UI 흐름 회귀
 - Stage Mode와 InfiniteMode를 UI에서 선택해 시작할 수 있다.
 - Pause와 Result에서 Retry 또는 Main Menu로 이동할 수 있다.
 - 모든 구현 기능에 일관된 접근과 복귀 경로가 있다.
-- Keyboard와 Gamepad로 전체 UI를 사용할 수 있다.
+- Keyboard·Mouse로 전체 UI를 사용할 수 있다. Gamepad 미보유 시 실제 장치 확인은 사유와 사용자 승인된 제외로 기록한다.
 - 핵심 조작과 게임 규칙을 안내하는 화면이 제공된다.
 - 일반 빌드에서 개발자 전용 UI가 표시되지 않는다.
 - Compile, 전체 Test, 화면 비율·입력 장치 확인과 Build가 통과한다.

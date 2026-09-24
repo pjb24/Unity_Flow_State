@@ -781,17 +781,28 @@ namespace FlowState.Input
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
-                {
-                    ""name"": """",
-                    ""id"": ""82627dcc-3b13-4ba9-841d-e4b746d6553e"",
-                    ""path"": ""*/{Cancel}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
+                    {
+                        ""name"": """",
+                        ""id"": ""82627dcc-3b13-4ba9-841d-e4b746d6553e"",
+                        ""path"": ""<Keyboard>/escape"",
+                        ""interactions"": """",
+                        ""processors"": """",
+                        ""groups"": ""Keyboard&Mouse"",
+                        ""action"": ""Cancel"",
+                        ""isComposite"": false,
+                        ""isPartOfComposite"": false
+                    },
+                    {
+                        ""name"": """",
+                        ""id"": ""b6c8940b-414d-4b94-a412-7fc2ebd5d821"",
+                        ""path"": ""<Gamepad>/buttonEast"",
+                        ""interactions"": """",
+                        ""processors"": """",
+                        ""groups"": ""Gamepad"",
+                        ""action"": ""Cancel"",
+                        ""isComposite"": false,
+                        ""isPartOfComposite"": false
+                    },
                 {
                     ""name"": """",
                     ""id"": ""c52c8e0b-8179-41d3-b8a1-d149033bbe86"",

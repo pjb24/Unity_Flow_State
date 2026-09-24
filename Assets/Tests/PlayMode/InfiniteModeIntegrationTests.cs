@@ -159,15 +159,9 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_playerRigidbody, Is.Not.Null);
             Assert.That(_playerCollider, Is.Not.Null);
 
-            InvokePublicMethod(_gameSystem, "EndGame");
-            yield return null;
-
-            SetPrivateField(
-                _gameSystem,
-                "_selectedGameMode",
-                E_GameMode.Infinite);
             SetInfiniteTiming(100.0f, 0.5f);
-            InvokePublicMethod(_gameSystem, "StartGame");
+            ProductionSceneGameModeTestUtility.RestartInMode(
+                E_GameMode.Infinite);
             yield return null;
             yield return new WaitForFixedUpdate();
         }
@@ -733,9 +727,8 @@ namespace FlowState.Tests.PlayMode
                 }
 
                 previousResultData = currentResultData;
-                SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
                 // Inspect reset before automatic movement advances the new run.
-                InvokePrivateMethod(_gameSystem, "ProcessResultMenuInput");
+                InvokePublicMethod(_gameSystem, "SelectRetry");
 
                 AssertInfinitePlayingState();
                 Assert.That(

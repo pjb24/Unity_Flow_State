@@ -11,6 +11,7 @@ namespace FlowState.Runtime.Core
         Stage,
         Infinite,
         Back,
+        StartRun,
         Resume,
         Retry,
         MainMenu,

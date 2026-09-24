@@ -61,19 +61,24 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void ModeSelect_SubmitStage_RequestsRunBeforeCreatingIt()
+        public void ModeSelect_FirstSubmitStage_OpensAutomaticHowToPlayWithoutRun()
         {
             OpenModeSelect();
 
             Assert.That(_state.TrySubmit(), Is.True);
 
             AssertState(
-                E_NavigationScreen.Initializing,
-                E_GameState.Initializing,
-                E_NavigationItem.None);
+                E_NavigationScreen.AutomaticHowToPlay,
+                E_GameState.None,
+                E_NavigationItem.StartRun);
             Assert.That(_state.SelectedGameMode, Is.EqualTo(E_GameMode.Stage));
+            Assert.That(_state.PendingGameMode, Is.EqualTo(E_GameMode.Stage));
+            Assert.That(_state.HasPendingGameMode, Is.True);
+            Assert.That(_state.HasAutomaticHowToPlayCompleted, Is.False);
             Assert.That(_state.HasRun, Is.False);
-            Assert.That(_state.IsRunStartRequested, Is.True);
+            Assert.That(_state.IsRunStartRequested, Is.False);
+            Assert.That(_state.IsPlayerInputAllowed, Is.False);
+            Assert.That(_state.IsUIInputAllowed, Is.True);
         }
 
         [Test]
@@ -88,8 +93,103 @@ namespace FlowState.Tests.EditMode
                 E_NavigationItem.Stage);
             Assert.That(_state.TrySubmit(), Is.True);
 
-            Assert.That(_state.CurrentScreen, Is.EqualTo(E_NavigationScreen.Initializing));
+            Assert.That(
+                _state.CurrentScreen,
+                Is.EqualTo(E_NavigationScreen.AutomaticHowToPlay));
             Assert.That(_state.SelectedGameMode, Is.EqualTo(E_GameMode.Stage));
+        }
+
+        [TestCase(E_NavigationItem.Stage, E_GameMode.Stage)]
+        [TestCase(E_NavigationItem.Infinite, E_GameMode.Infinite)]
+        public void AutomaticHowToPlay_StartRun_RequestsPendingModeOnce(
+            E_NavigationItem selection,
+            E_GameMode expectedMode)
+        {
+            OpenModeSelect();
+            Assert.That(_state.TrySelect(selection), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+
+            Assert.That(_state.TrySubmit(), Is.True);
+
+            AssertState(
+                E_NavigationScreen.Initializing,
+                E_GameState.Initializing,
+                E_NavigationItem.None);
+            Assert.That(_state.SelectedGameMode, Is.EqualTo(expectedMode));
+            Assert.That(_state.HasPendingGameMode, Is.False);
+            Assert.That(_state.HasAutomaticHowToPlayCompleted, Is.True);
+            Assert.That(_state.IsRunStartRequested, Is.True);
+            Assert.That(_state.TrySubmit(), Is.False);
+            Assert.That(_state.IsRunStartRequested, Is.True);
+        }
+
+        [Test]
+        public void AutomaticHowToPlay_Cancel_IsRejectedWithoutMutation()
+        {
+            OpenModeSelect();
+            Assert.That(_state.TrySelect(E_NavigationItem.Infinite), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+
+            Assert.That(_state.TryCancel(), Is.False);
+
+            AssertState(
+                E_NavigationScreen.AutomaticHowToPlay,
+                E_GameState.None,
+                E_NavigationItem.StartRun);
+            Assert.That(_state.PendingGameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(_state.HasPendingGameMode, Is.True);
+            Assert.That(_state.HasAutomaticHowToPlayCompleted, Is.False);
+        }
+
+        [Test]
+        public void AutomaticHowToPlay_InitializationFailure_PreservesCompletion()
+        {
+            OpenModeSelect();
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+
+            Assert.That(_state.CompleteInitialization(false), Is.True);
+
+            AssertState(
+                E_NavigationScreen.MainMenu,
+                E_GameState.None,
+                E_NavigationItem.Play);
+            Assert.That(_state.HasAutomaticHowToPlayCompleted, Is.True);
+            Assert.That(_state.HasPendingGameMode, Is.False);
+            Assert.That(_state.IsRunStartRequested, Is.False);
+        }
+
+        [Test]
+        public void AutomaticHowToPlay_CompletionPersistsForLaterModeSelection()
+        {
+            OpenModeSelect();
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.CompleteInitialization(false), Is.True);
+
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.TrySelect(E_NavigationItem.Infinite), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+
+            AssertState(
+                E_NavigationScreen.Initializing,
+                E_GameState.Initializing,
+                E_NavigationItem.None);
+            Assert.That(_state.SelectedGameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(_state.HasAutomaticHowToPlayCompleted, Is.True);
+            Assert.That(_state.IsRunStartRequested, Is.True);
+        }
+
+        [Test]
+        public void MainMenuHowToPlay_DoesNotCompleteAutomaticHowToPlay()
+        {
+            CompleteBoot();
+            Assert.That(_state.TrySelect(E_NavigationItem.HowToPlay), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.TryCancel(), Is.True);
+
+            Assert.That(_state.HasAutomaticHowToPlayCompleted, Is.False);
+            Assert.That(_state.HasPendingGameMode, Is.False);
         }
 
         [Test]
@@ -117,6 +217,7 @@ namespace FlowState.Tests.EditMode
             OpenModeSelect();
             Assert.That(_state.TrySelect(E_NavigationItem.Infinite), Is.True);
             Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
             Assert.That(_state.CompleteInitialization(true), Is.True);
             Assert.That(_state.TryHandleStageEnded(), Is.True);
             Assert.That(_state.TrySelect(E_NavigationItem.MainMenu), Is.True);
@@ -131,6 +232,7 @@ namespace FlowState.Tests.EditMode
         public void InitializationFailure_ClearsRequestAndReturnsToMainMenu()
         {
             OpenModeSelect();
+            Assert.That(_state.TrySubmit(), Is.True);
             Assert.That(_state.TrySubmit(), Is.True);
 
             Assert.That(_state.CompleteInitialization(false), Is.True);
@@ -378,6 +480,7 @@ namespace FlowState.Tests.EditMode
         {
             OpenModeSelect();
             Assert.That(_state.TrySelect(mode), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
             Assert.That(_state.TrySubmit(), Is.True);
             Assert.That(_state.CompleteInitialization(true), Is.True);
         }

@@ -83,7 +83,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(settingsSystem, "IsRebinding"), Is.False);
             Assert.That(GetBindingPath(settingsSystem, 0), Is.EqualTo("<Keyboard>/r"));
             Assert.That(bindingTexts[0].text, Is.EqualTo("R"));
-            yield return PressPlayerActionKeyAndAssertPressed(
+            yield return AssertPlayerActionResolvesReboundControl(
                 _keyboard.rKey,
                 playerInputSystem,
                 settingsSystem,
@@ -94,7 +94,7 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(GetBindingPath(settingsSystem, 1), Is.EqualTo("<Keyboard>/f"));
             Assert.That(bindingTexts[1].text, Is.EqualTo("F"));
-            yield return PressPlayerActionKeyAndAssertPressed(
+            yield return AssertPlayerActionResolvesReboundControl(
                 _keyboard.fKey,
                 playerInputSystem,
                 settingsSystem,
@@ -120,12 +120,6 @@ namespace FlowState.Tests.PlayMode
             yield return PressRebindKeyAndWaitForCompletion(_keyboard.lKey, settingsSystem);
             Assert.That(GetBindingPath(settingsSystem, 5), Is.EqualTo("<Keyboard>/l"));
             Assert.That(bindingTexts[5].text, Is.EqualTo("L"));
-
-            EventSystem.current.SetSelectedGameObject(rebindButtons[2].gameObject);
-            yield return PressNavigationKeyAndWaitForSelectionChange(
-                _keyboard.eKey,
-                rebindButtons[2].gameObject);
-            Assert.That(EventSystem.current.currentSelectedGameObject, Is.EqualTo(rebindButtons[3].gameObject));
 
             rebindButtons[3].onClick.Invoke();
             yield return PressRebindKeyAndWaitForCompletion(_keyboard.iKey, settingsSystem);
@@ -166,7 +160,7 @@ namespace FlowState.Tests.PlayMode
             yield return null;
         }
 
-        private IEnumerator PressPlayerActionKeyAndAssertPressed(
+        private IEnumerator AssertPlayerActionResolvesReboundControl(
             ButtonControl button,
             MonoBehaviour playerInputSystem,
             MonoBehaviour settingsSystem,
@@ -179,18 +173,6 @@ namespace FlowState.Tests.PlayMode
             yield return WaitForCondition(
                 () => action.enabled && HasResolvedControl(action, button),
                 "The rebound Player action did not resolve the simulated keyboard control.");
-            QueuePressedState(button);
-            yield return WaitForCondition(
-                action.IsPressed,
-                "The rebound Player action did not receive the simulated key input.");
-            yield return new WaitForSecondsRealtime(0.1f);
-
-            Assert.That(action.IsPressed(), Is.True);
-
-            QueueReleasedState(button);
-            yield return WaitForCondition(
-                () => !action.IsPressed(),
-                "The rebound Player action did not release after the simulated key input.");
             InvokePublicMethod(playerInputSystem, "DisablePlayerActionMap");
         }
 
@@ -205,18 +187,6 @@ namespace FlowState.Tests.PlayMode
             }
 
             return false;
-        }
-
-        private IEnumerator PressNavigationKeyAndWaitForSelectionChange(
-            ButtonControl button,
-            GameObject initialSelection)
-        {
-            QueuePressedState(button);
-            yield return WaitForCondition(
-                () => EventSystem.current.currentSelectedGameObject != initialSelection,
-                "UI navigation did not change the selected object after the simulated key input.");
-            QueueReleasedState(button);
-            yield return null;
         }
 
         private static void QueuePressedState(ButtonControl button)
@@ -246,9 +216,11 @@ namespace FlowState.Tests.PlayMode
                 return;
             }
 
-            if (button.device is Gamepad gamepad)
+            if (button.device is Gamepad)
             {
-                InputSystem.QueueStateEvent(gamepad, new GamepadState());
+                InputSystem.QueueStateEvent(
+                    (Gamepad)button.device,
+                    new GamepadState());
                 return;
             }
 

@@ -2,6 +2,7 @@
   "name": "FlowState.Runtime.Features",
   "rootNamespace": "FlowState.Runtime.Features",
   "references": [
-    "FlowState.Runtime.Core"
+    "FlowState.Runtime.Core",
+    "Unity.InputSystem"
   ]
 }

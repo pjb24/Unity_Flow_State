@@ -12,6 +12,7 @@ namespace FlowState.Runtime.Core
         Result,
         LeaderboardUnavailable,
         HowToPlay,
+        AutomaticHowToPlay,
         Settings
     }
 }

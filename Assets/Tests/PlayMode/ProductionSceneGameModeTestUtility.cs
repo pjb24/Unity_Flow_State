@@ -55,6 +55,19 @@ namespace FlowState.Tests.PlayMode
                     ? E_NavigationItem.Infinite
                     : E_NavigationItem.Stage);
 
+            // The first mode choice in an application session opens the automatic
+            // How To Play screen. Production tests intentionally use Start Run here
+            // so their shared setup represents the same completed entry flow as play.
+            screen = (E_NavigationScreen)GetProperty(
+                gameSystem,
+                "CurrentNavigationScreen");
+            if (screen == E_NavigationScreen.AutomaticHowToPlay)
+            {
+                InvokeNavigationSelection(
+                    gameSystem,
+                    E_NavigationItem.StartRun);
+            }
+
             Assert.That(
                 (E_GameState)currentGameStateProperty.GetValue(gameSystem),
                 Is.EqualTo(E_GameState.Playing),

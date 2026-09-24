@@ -3,7 +3,8 @@
   "rootNamespace": "FlowState.Tests.EditMode",
   "references": [
     "FlowState.Runtime.Core",
-    "FlowState.Runtime.Features"
+    "FlowState.Runtime.Features",
+    "Unity.InputSystem"
   ],
   "includePlatforms": [
     "Editor"

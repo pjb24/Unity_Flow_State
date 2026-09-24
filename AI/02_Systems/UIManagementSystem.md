@@ -21,11 +21,11 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - UI State를 변경한다.
 - 현재 활성 UI를 관리한다.
 - UI State를 Unity UI에 반영한다.
-- 현재 UI 선택 상태를 관리한다.
-- Boot, Main Menu, Mode Select와 Main Menu 복귀 확인의 Navigation 화면 상태를 관리한다.
-- Application 실행 중의 화면별 선택 복귀 상태와 마지막 선택 Game Mode를 관리한다.
-- GameSystem의 요청에 따라 UI 선택 상태를 변경한다.
-- Pause UI State와 PausePanel 선택 상태를 관리한다.
+- GameNavigationState가 제공한 현재 Navigation 선택을 해당 Button Focus에 반영한다.
+- Boot, Main Menu, Mode Select와 Main Menu 복귀 확인의 Navigation 화면 상태를 표시한다.
+- Main Menu 재열람과 자동 How To Play 안내의 표시·버튼 구성·기본 Focus를 각각 반영한다.
+- Application 실행 중의 화면별 선택 복귀 상태와 마지막 선택 Game Mode를 표시한다.
+- GameSystem의 요청에 따라 Navigation 화면과 선택 표시를 갱신한다.
 - Settings 화면의 값, Binding 표시와 Rebinding 대기 안내를 관리한다.
 - 현재 게임 Mode와 게임 상태에 맞는 HUD, PausePanel, ResultPanel과 Result Content의 표시 조합을 관리한다.
 - Stage Mode Runtime Data의 Collectible Score를 StageHUD에 표시한다.
@@ -75,19 +75,13 @@ UIManagementSystem은 현재 UI State를 기준으로 UI를 활성화하거나 �
 
 UI 선택 상태는 현재 UI State에서 선택된 UI 항목을 의미한다.
 
-UIManagementSystem은 GameSystem의 요청에 따라 UI 선택 상태를 변경한다.
+Navigation 선택 상태는 GameNavigationState가 소유한다.
 
-UIManagementSystem은 현재 선택된 UI 항목을 GameSystem에 제공한다.
+UIManagementSystem은 GameSystem이 전달한 화면과 선택에 따라 해당 Button을 Focus한다.
 
-UIManagementSystem은 선택된 항목이 수행할 게임 동작을 결정하지 않는다.
+Pause에는 Resume, Retry, Settings와 Main Menu, Result에는 Retry와 Main Menu 항목이 존재한다. 각 화면의 기본 선택과 선택 복귀는 Runtime Navigation 상태로만 유지하며 Application 종료 후 저장하거나 복원하지 않는다.
 
-Pause UI State에는 Resume, Retry, Settings와 Main Menu 선택 항목이 존재한다.
-
-Pause UI State가 활성화되면 Resume을 기본 선택 항목으로 사용한다.
-
-PausePanel 선택 상태는 ResultMenu 선택 상태와 독립적으로 관리한다.
-
-선택 복귀 상태와 마지막 선택 Game Mode는 Runtime Navigation 상태로만 유지한다. Application 종료 후에는 저장하거나 복원하지 않는다.
+Pause와 Result의 구형 독립 선택 상태 및 Quit fallback은 사용하지 않는다.
 
 ---
 
@@ -222,9 +216,8 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 
 ## UI 선택 상태
 
-- 현재 선택된 UI 항목
-- UI 선택 표시 상태
-- 현재 PausePanel 선택 항목
+- GameNavigationState가 제공한 현재 선택 항목의 Focus 표시
+- 현재 화면의 UI 선택 표시 상태
 
 ---
 
@@ -233,7 +226,7 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 | 입력 | 출처 |
 |------|------|
 | UI State 변경 요청 | GameSystem |
-| UI 선택 상태 변경 요청 | GameSystem |
+| Navigation 화면과 선택 반영 요청 | GameSystem |
 | 결과 데이터 | ResultSystem |
 | 현재 게임 Mode와 상태 | GameSystem |
 | Stage Mode 현재 Collectible Score | Runtime Data |
@@ -250,7 +243,6 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 |------|------|
 | UI State 반영 | Unity UI |
 | 현재 UI State | GameSystem |
-| 현재 선택된 UI 항목 | GameSystem |
 
 ---
 
@@ -265,13 +257,11 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 - UI 비활성화
 - UI 표시 상태 관리
 - UI State 반영
-- UI 선택 상태 관리
-- UI 선택 상태 변경
-- UI 선택 표시 반영
-- PausePanel 선택 상태 관리 및 표시 반영
+- 전달받은 Navigation 선택의 UI Focus 표시 반영
 - Settings 화면의 값, Binding, Rebinding 대기와 기본값 복원 확인 표시
-- Main Menu, Mode Select와 Main Menu 복귀 확인의 Navigation 상태·선택 상태 관리 및 표시 반영
-- 하위 화면 Back UI 항목의 선택 상태 관리 및 표시 반영
+- Main Menu, Mode Select와 Main Menu 복귀 확인의 Navigation 상태·선택 표시 반영
+- 하위 화면 Back UI 항목의 선택 표시 반영
+- 자동 How To Play 안내의 Start Run 기본 선택과 Main Menu 재열람의 Back 기본 선택 표시 반영
 - Mode와 상태별 UI 표시 조합 관리
 - Stage Mode·InfiniteMode HUD, 우측 하단 Momentum HUD 및 Result Text 표시
 
@@ -304,10 +294,11 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 # 제약 사항
 
 - UI 동작 규칙을 정의하지 않는다.
+- 자동 How To Play 안내의 완료 여부, 보류 Mode 또는 Run 시작 시점을 결정하지 않는다.
 - 게임 상태를 결정하지 않는다.
 - UI 입력을 직접 처리하지 않는다.
 - 선택된 UI 항목이 수행할 게임 동작을 결정하지 않는다.
-- PausePanel과 ResultMenu의 선택 상태를 공유하지 않는다.
+- Navigation 선택 상태·마지막 선택 Mode·선택 복귀 상태를 별도로 소유하지 않는다.
 - 화면을 처음 열 때는 해당 화면의 기본 선택을 사용하고, Back 또는 Cancel 복귀 시에는 해당 화면을 떠나기 전의 선택을 복귀한다.
 - Mode Select의 최초 선택은 Stage이며, Application 실행 중 다시 열 때는 마지막으로 선택한 Game Mode를 사용한다.
 - 모든 세로 메뉴의 첫 항목에서 위로, 마지막 항목에서 아래로 Navigate해도 현재 선택을 유지한다.

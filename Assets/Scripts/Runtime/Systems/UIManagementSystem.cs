@@ -2,6 +2,7 @@ using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace FlowState.Runtime.Systems
@@ -38,10 +39,8 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private Image _momentumDurationFillImage;
         [SerializeField] private Gradient _momentumDurationGradient;
         [SerializeField] private Button _retryButton;
-        [SerializeField] private Button _quitButton;
         [SerializeField] private Button _pauseResumeButton;
         [SerializeField] private Button _pauseRetryButton;
-        [SerializeField] private Button _pauseQuitButton;
         [SerializeField] private GameObject _mainMenuPanel;
         [SerializeField] private GameObject _modeSelectPanel;
         [SerializeField] private GameObject _pauseMainMenuConfirmPanel;
@@ -63,13 +62,17 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private Button _resultMainMenuButton;
         [SerializeField] private Button _leaderboardBackButton;
         [SerializeField] private Button _howToPlayBackButton;
+        [SerializeField] private Button _howToPlayStartRunButton;
+        [SerializeField] private TMP_Text _howToPlayJumpBindingText;
+        [SerializeField] private TMP_Text _howToPlayMomentumLandingBindingText;
+        [SerializeField] private TMP_Text _howToPlayPauseBindingText;
         [SerializeField] private Button _settingsBackButton;
+        [SerializeField] private PlayerInputSystem _playerInputSystem;
+        [SerializeField] private UIInputSystem _uiInputSystem;
 
         private E_UIState _currentUIState;
         private E_GameMode _currentGameMode;
         private E_GameState _currentGameState;
-        private E_ResultMenuSelection _currentResultMenuSelection;
-        private readonly PauseMenuState _pauseMenuState = new PauseMenuState();
         private readonly UIVisibilityState _visibilityState =
             new UIVisibilityState();
         private GameRuntimeData _runtimeData;
@@ -92,14 +95,6 @@ namespace FlowState.Runtime.Systems
             E_NavigationScreen.Boot;
 
         public E_UIState CurrentUIState => _currentUIState;
-
-        public E_ResultMenuSelection CurrentResultMenuSelection =>
-            _currentResultMenuSelection;
-
-        public E_PauseMenuSelection CurrentPauseMenuSelection =>
-            _pauseMenuState.CurrentSelection;
-
-        public bool IsPauseMenuActive => _pauseMenuState.IsActive;
 
         public E_NavigationScreen CurrentNavigationScreen =>
             _currentNavigationScreen;
@@ -129,12 +124,25 @@ namespace FlowState.Runtime.Systems
             _resultMainMenuButton != null &&
             _leaderboardBackButton != null &&
             _howToPlayBackButton != null &&
+            _howToPlayStartRunButton != null &&
+            _howToPlayJumpBindingText != null &&
+            _howToPlayMomentumLandingBindingText != null &&
+            _howToPlayPauseBindingText != null &&
             _settingsBackButton != null;
 
         private void Update()
         {
-            if (!_isInitialized ||
-                _runtimeData == null ||
+            if (!_isInitialized)
+            {
+                return;
+            }
+
+            if (IsHowToPlayScreen(_currentNavigationScreen))
+            {
+                UpdateHowToPlayBindingTexts();
+            }
+
+            if (_runtimeData == null ||
                 _currentGameState != E_GameState.Playing)
             {
                 return;
@@ -163,8 +171,6 @@ namespace FlowState.Runtime.Systems
             }
 
             _currentGameMode = _runtimeData.GameMode;
-            _currentResultMenuSelection = E_ResultMenuSelection.Retry;
-            _pauseMenuState.Deactivate();
             _visibilityState.Reset();
             ResetHudDisplay();
             ConfigureDifficultyVisibility();
@@ -181,8 +187,6 @@ namespace FlowState.Runtime.Systems
             _runtimeData = null;
             _currentGameMode = E_GameMode.Stage;
             _currentGameState = E_GameState.None;
-            _currentResultMenuSelection = E_ResultMenuSelection.Retry;
-            _pauseMenuState.Deactivate();
             _visibilityState.Reset();
             ResetHudDisplay();
             ResetResultDisplay();
@@ -209,7 +213,7 @@ namespace FlowState.Runtime.Systems
                 screen == E_NavigationScreen.LeaderboardUnavailable);
             SetNavigationUIActive(
                 _howToPlayPanel,
-                screen == E_NavigationScreen.HowToPlay);
+                IsHowToPlayScreen(screen));
             SetNavigationUIActive(
                 _settingsPanel,
                 screen == E_NavigationScreen.Settings);
@@ -236,6 +240,8 @@ namespace FlowState.Runtime.Systems
             }
 
             SelectNavigationButton(screen, selection);
+            UpdateHowToPlayControls(screen);
+            UpdateHowToPlayBindingTexts();
         }
 
         public void SetGameState(E_GameState gameState)
@@ -252,81 +258,8 @@ namespace FlowState.Runtime.Systems
         {
             _currentUIState = uiState;
             ApplyUIState();
-            UpdatePauseMenuState(uiState);
-
-            if (_currentUIState == E_UIState.Result)
-            {
-                SetResultMenuSelection(E_ResultMenuSelection.Retry);
-            }
 
             Debug.Log($"[UIManagementSystem] UI State changed to {_currentUIState}.");
-        }
-
-        public bool MovePauseMenuSelection(float verticalInput)
-        {
-            if (_currentUIState != E_UIState.Pause ||
-                !_pauseMenuState.TryMove(verticalInput))
-            {
-                return false;
-            }
-
-            return ApplyPauseMenuSelection();
-        }
-
-        public bool TrySetPauseMenuSelectionAtPointer(
-            Vector2 pointerPosition)
-        {
-            if (_currentUIState != E_UIState.Pause || _pausePanel == null)
-            {
-                return false;
-            }
-
-            if (IsPointerOverButton(pointerPosition, _pauseResumeButton))
-            {
-                return SetPauseMenuSelection(E_PauseMenuSelection.Resume);
-            }
-
-            if (IsPointerOverButton(pointerPosition, _pauseRetryButton))
-            {
-                return SetPauseMenuSelection(E_PauseMenuSelection.Retry);
-            }
-
-            if (IsPointerOverButton(pointerPosition, _pauseQuitButton))
-            {
-                return SetPauseMenuSelection(E_PauseMenuSelection.Quit);
-            }
-
-            return false;
-        }
-
-        public bool TrySubmitPauseMenuSelection(
-            out E_PauseMenuSelection selection)
-        {
-            selection = _pauseMenuState.CurrentSelection;
-            return _currentUIState == E_UIState.Pause &&
-                   _pauseMenuState.TrySubmit(out selection);
-        }
-
-        public bool TryCancelPauseMenu(
-            out E_PauseMenuSelection selection)
-        {
-            selection = E_PauseMenuSelection.Resume;
-            return _currentUIState == E_UIState.Pause &&
-                   _pauseMenuState.TryCancel(out selection);
-        }
-
-        public bool TryClickPauseMenuSelection(
-            Vector2 pointerPosition,
-            out E_PauseMenuSelection executedSelection)
-        {
-            executedSelection = _pauseMenuState.CurrentSelection;
-
-            if (!TrySetPauseMenuSelectionAtPointer(pointerPosition))
-            {
-                return false;
-            }
-
-            return _pauseMenuState.TrySubmit(out executedSelection);
         }
 
         public bool SetResultData(ResultData resultData)
@@ -416,50 +349,6 @@ namespace FlowState.Runtime.Systems
 
             Debug.LogError(
                 "[UIManagementSystem] Result Data contract is invalid.");
-            return false;
-        }
-
-        public bool MoveResultMenuSelection(float verticalInput)
-        {
-            if (_currentUIState != E_UIState.Result ||
-                Mathf.Abs(verticalInput) < 0.5f)
-            {
-                return false;
-            }
-
-            if (verticalInput < 0.0f &&
-                _currentResultMenuSelection == E_ResultMenuSelection.Retry)
-            {
-                return SetResultMenuSelection(E_ResultMenuSelection.Quit);
-            }
-
-            if (verticalInput > 0.0f &&
-                _currentResultMenuSelection == E_ResultMenuSelection.Quit)
-            {
-                return SetResultMenuSelection(E_ResultMenuSelection.Retry);
-            }
-
-            return false;
-        }
-
-        public bool TrySetResultMenuSelectionAtPointer(Vector2 pointerPosition)
-        {
-            if (_currentUIState != E_UIState.Result ||
-                _resultPanel == null)
-            {
-                return false;
-            }
-
-            if (IsPointerOverButton(pointerPosition, _retryButton))
-            {
-                return SetResultMenuSelection(E_ResultMenuSelection.Retry);
-            }
-
-            if (IsPointerOverButton(pointerPosition, _quitButton))
-            {
-                return SetResultMenuSelection(E_ResultMenuSelection.Quit);
-            }
-
             return false;
         }
 
@@ -881,106 +770,6 @@ namespace FlowState.Runtime.Systems
             }
         }
 
-        private void UpdatePauseMenuState(E_UIState uiState)
-        {
-            if (uiState == E_UIState.Pause)
-            {
-                _pauseMenuState.Activate();
-                ApplyPauseMenuSelection();
-                return;
-            }
-
-            _pauseMenuState.Deactivate();
-        }
-
-        private bool SetPauseMenuSelection(E_PauseMenuSelection selection)
-        {
-            return _pauseMenuState.TrySelectAtPointer(selection) &&
-                   ApplyPauseMenuSelection();
-        }
-
-        private bool ApplyPauseMenuSelection()
-        {
-            Button selectedButton = null;
-
-            switch (_pauseMenuState.CurrentSelection)
-            {
-                case E_PauseMenuSelection.Resume:
-                    selectedButton = _pauseResumeButton;
-                    break;
-
-                case E_PauseMenuSelection.Retry:
-                    selectedButton = _pauseRetryButton;
-                    break;
-
-                case E_PauseMenuSelection.Quit:
-                    selectedButton = _pauseQuitButton;
-                    break;
-            }
-
-            if (selectedButton == null)
-            {
-                Debug.LogError(
-                    $"[UIManagementSystem] Pause {_pauseMenuState.CurrentSelection} Button is not assigned.");
-                return false;
-            }
-
-            selectedButton.Select();
-            return true;
-        }
-
-        private bool SetResultMenuSelection(
-            E_ResultMenuSelection resultMenuSelection)
-        {
-            Button selectedButton = null;
-
-            switch (resultMenuSelection)
-            {
-                case E_ResultMenuSelection.Retry:
-                    selectedButton = _retryButton;
-                    break;
-
-                case E_ResultMenuSelection.Quit:
-                    selectedButton = _quitButton;
-                    break;
-            }
-
-            if (selectedButton == null)
-            {
-                Debug.LogError(
-                    $"[UIManagementSystem] {resultMenuSelection} Button is not assigned.");
-                return false;
-            }
-
-            _currentResultMenuSelection = resultMenuSelection;
-            selectedButton.Select();
-            return true;
-        }
-
-        private bool IsPointerOverButton(
-            Vector2 pointerPosition,
-            Button button)
-        {
-            RectTransform buttonRectTransform =
-                button != null ? button.transform as RectTransform : null;
-
-            if (buttonRectTransform == null)
-            {
-                return false;
-            }
-
-            Canvas parentCanvas = button.GetComponentInParent<Canvas>();
-            Camera eventCamera = parentCanvas != null &&
-                                 parentCanvas.renderMode != RenderMode.ScreenSpaceOverlay
-                ? parentCanvas.worldCamera
-                : null;
-
-            return RectTransformUtility.RectangleContainsScreenPoint(
-                buttonRectTransform,
-                pointerPosition,
-                eventCamera);
-        }
-
         private void SelectNavigationButton(
             E_NavigationScreen screen,
             E_NavigationItem selection)
@@ -1057,11 +846,74 @@ namespace FlowState.Runtime.Systems
                 case E_NavigationScreen.HowToPlay:
                     return _howToPlayBackButton;
 
+                case E_NavigationScreen.AutomaticHowToPlay:
+                    return _howToPlayStartRunButton;
+
                 case E_NavigationScreen.Settings:
                     return _settingsBackButton;
             }
 
             return null;
+        }
+
+        private void UpdateHowToPlayControls(E_NavigationScreen screen)
+        {
+            bool isAutomatic = screen == E_NavigationScreen.AutomaticHowToPlay;
+            bool isManual = screen == E_NavigationScreen.HowToPlay;
+            SetNavigationUIActive(_howToPlayStartRunButton != null
+                ? _howToPlayStartRunButton.gameObject
+                : null, isAutomatic);
+            SetNavigationUIActive(_howToPlayBackButton != null
+                ? _howToPlayBackButton.gameObject
+                : null, isManual);
+        }
+
+        private void UpdateHowToPlayBindingTexts()
+        {
+            E_InputDisplayDevice displayDevice = _uiInputSystem != null
+                ? _uiInputSystem.LastInputDisplayDevice
+                : E_InputDisplayDevice.KeyboardMouse;
+
+            SetTextIfChanged(
+                _howToPlayJumpBindingText,
+                $"Jump: {GetPlayerBindingText("Jump", displayDevice)}");
+            SetTextIfChanged(
+                _howToPlayMomentumLandingBindingText,
+                "Momentum Landing: " +
+                GetPlayerBindingText("MomentumLanding", displayDevice));
+            SetTextIfChanged(
+                _howToPlayPauseBindingText,
+                $"Pause: {GetUIBindingText("Cancel", displayDevice)}");
+        }
+
+        private string GetPlayerBindingText(
+            string actionName,
+            E_InputDisplayDevice displayDevice)
+        {
+            InputAction action;
+
+            return _playerInputSystem != null &&
+                   _playerInputSystem.TryGetPlayerAction(actionName, out action)
+                ? HowToPlayBindingFormatter.GetDisplayText(action, displayDevice)
+                : "Unassigned";
+        }
+
+        private string GetUIBindingText(
+            string actionName,
+            E_InputDisplayDevice displayDevice)
+        {
+            InputAction action;
+
+            return _uiInputSystem != null &&
+                   _uiInputSystem.TryGetUIAction(actionName, out action)
+                ? HowToPlayBindingFormatter.GetDisplayText(action, displayDevice)
+                : "Unassigned";
+        }
+
+        private static bool IsHowToPlayScreen(E_NavigationScreen screen)
+        {
+            return screen == E_NavigationScreen.HowToPlay ||
+                   screen == E_NavigationScreen.AutomaticHowToPlay;
         }
 
         private void SetNavigationUIActive(GameObject uiObject, bool isActive)

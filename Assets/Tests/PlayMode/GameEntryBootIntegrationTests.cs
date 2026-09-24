@@ -70,6 +70,19 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
 
             InvokeNavigationSelection(gameSystem, E_NavigationItem.Infinite);
+            Assert.That(
+                GetProperty<E_NavigationScreen>(
+                    gameSystem,
+                    "CurrentNavigationScreen"),
+                Is.EqualTo(E_NavigationScreen.AutomaticHowToPlay));
+            Assert.That(
+                GetProperty<E_GameState>(gameSystem, "CurrentGameState"),
+                Is.EqualTo(E_GameState.None));
+            Assert.That(
+                GetProperty<bool>(runtimeDataSystem, "HasRuntimeData"),
+                Is.False);
+
+            InvokeNavigationSelection(gameSystem, E_NavigationItem.StartRun);
 
             Assert.That(
                 GetProperty<E_GameState>(gameSystem, "CurrentGameState"),
@@ -92,8 +105,7 @@ namespace FlowState.Tests.PlayMode
             MonoBehaviour runtimeDataSystem = FindBehaviour(
                 "RuntimeDataSystem",
                 "RuntimeDataSystem");
-            InvokeNavigationSelection(gameSystem, E_NavigationItem.Play);
-            InvokeNavigationSelection(gameSystem, E_NavigationItem.Stage);
+            StartModeRun(gameSystem, E_NavigationItem.Stage);
             object runtimeData = GetProperty<object>(
                 runtimeDataSystem,
                 "RuntimeData");
@@ -133,8 +145,7 @@ namespace FlowState.Tests.PlayMode
             MonoBehaviour runtimeDataSystem = FindBehaviour(
                 "RuntimeDataSystem",
                 "RuntimeDataSystem");
-            InvokeNavigationSelection(gameSystem, E_NavigationItem.Play);
-            InvokeNavigationSelection(gameSystem, E_NavigationItem.Stage);
+            StartModeRun(gameSystem, E_NavigationItem.Stage);
             object runtimeData = GetProperty<object>(
                 runtimeDataSystem,
                 "RuntimeData");
@@ -223,6 +234,26 @@ namespace FlowState.Tests.PlayMode
                 null);
             Assert.That(method, Is.Not.Null);
             method.Invoke(gameSystem, new object[] { item });
+        }
+
+        private void StartModeRun(
+            MonoBehaviour gameSystem,
+            E_NavigationItem mode)
+        {
+            InvokeNavigationSelection(gameSystem, E_NavigationItem.Play);
+            InvokeNavigationSelection(gameSystem, mode);
+
+            if (GetProperty<E_NavigationScreen>(
+                    gameSystem,
+                    "CurrentNavigationScreen") ==
+                E_NavigationScreen.AutomaticHowToPlay)
+            {
+                InvokeNavigationSelection(gameSystem, E_NavigationItem.StartRun);
+            }
+
+            Assert.That(
+                GetProperty<E_GameState>(gameSystem, "CurrentGameState"),
+                Is.EqualTo(E_GameState.Playing));
         }
 
         private void InvokePublic(MonoBehaviour target, string methodName)

@@ -111,10 +111,8 @@ namespace FlowState.Tests.PlayMode
                 "_momentumDurationGradient",
                 MomentumHudPresenter.CreateApprovedGradient());
             SetPrivateField("_retryButton", CreateButton("ResultRetryButton"));
-            SetPrivateField("_quitButton", CreateButton("ResultQuitButton"));
             SetPrivateField("_pauseResumeButton", CreateButton("ResumeButton"));
             SetPrivateField("_pauseRetryButton", CreateButton("PauseRetryButton"));
-            SetPrivateField("_pauseQuitButton", CreateButton("PauseQuitButton"));
         }
 
         [TearDown]

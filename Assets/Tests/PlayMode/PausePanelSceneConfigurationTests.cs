@@ -55,15 +55,19 @@ namespace FlowState.Tests.PlayMode
                 GetPrivateField<Button>(uiManagementSystem, "_pauseMainMenuButton"),
                 Is.EqualTo(mainMenuButton));
 
-            InvokeSetGameState(uiManagementSystem, E_GameState.Paused);
-            InvokeSetUIState(uiManagementSystem, E_UIState.Pause);
+            InvokeSetNavigationScreen(
+                uiManagementSystem,
+                E_NavigationScreen.Pause,
+                E_NavigationItem.Resume);
             Assert.That(pausePanel.activeSelf, Is.True);
             Assert.That(EventSystem.current, Is.Not.Null);
             Assert.That(EventSystem.current.currentSelectedGameObject,
                 Is.EqualTo(resumeButton.gameObject));
 
-            InvokeSetGameState(uiManagementSystem, E_GameState.Playing);
-            InvokeSetUIState(uiManagementSystem, E_UIState.StageHud);
+            InvokeSetNavigationScreen(
+                uiManagementSystem,
+                E_NavigationScreen.Playing,
+                E_NavigationItem.None);
             Assert.That(pausePanel.activeSelf, Is.False);
         }
 
@@ -122,24 +126,23 @@ namespace FlowState.Tests.PlayMode
             return (T)field.GetValue(target);
         }
 
-        private void InvokeSetUIState(MonoBehaviour target, E_UIState state)
-        {
-            MethodInfo method = target.GetType().GetMethod(
-                "SetUIState",
-                BindingFlags.Instance | BindingFlags.Public);
-            Assert.That(method, Is.Not.Null);
-            method.Invoke(target, new object[] { state });
-        }
-
-        private void InvokeSetGameState(
+        private void InvokeSetNavigationScreen(
             MonoBehaviour target,
-            E_GameState state)
+            E_NavigationScreen screen,
+            E_NavigationItem selection)
         {
             MethodInfo method = target.GetType().GetMethod(
-                "SetGameState",
-                BindingFlags.Instance | BindingFlags.Public);
+                "SetNavigationScreen",
+                BindingFlags.Instance | BindingFlags.Public,
+                null,
+                new[]
+                {
+                    typeof(E_NavigationScreen),
+                    typeof(E_NavigationItem)
+                },
+                null);
             Assert.That(method, Is.Not.Null);
-            method.Invoke(target, new object[] { state });
+            method.Invoke(target, new object[] { screen, selection });
         }
     }
 }

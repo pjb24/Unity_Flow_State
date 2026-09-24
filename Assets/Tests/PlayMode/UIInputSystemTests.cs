@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using FlowState.Runtime.Core;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +15,9 @@ namespace FlowState.Tests.PlayMode
         private InputActionAsset _inputActionsAsset;
         private InputSystemUIInputModule _inputModule;
         private MonoBehaviour _uiInputSystem;
+        private Keyboard _keyboard;
+        private Gamepad _gamepad;
+        private Mouse _mouse;
 
         [SetUp]
         public void SetUp()
@@ -48,7 +52,13 @@ namespace FlowState.Tests.PlayMode
                 UnityEngine.Object.DestroyImmediate(_inputActionsAsset);
             }
 
+            RemoveTestDevice(_mouse);
+            RemoveTestDevice(_gamepad);
+            RemoveTestDevice(_keyboard);
             _inputModule = null;
+            _keyboard = null;
+            _gamepad = null;
+            _mouse = null;
         }
 
         [Test]
@@ -82,6 +92,29 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetIsUIActionMapEnabled(), Is.True);
         }
 
+        [Test]
+        public void InputDevices_UpdateDisplayDevice()
+        {
+            _keyboard = InputSystem.AddDevice<Keyboard>();
+            _gamepad = InputSystem.AddDevice<Gamepad>();
+            _mouse = InputSystem.AddDevice<Mouse>();
+
+            InvokePrivateMethod("RecordInputDevice", _keyboard);
+            Assert.That(
+                GetLastInputDisplayDevice(),
+                Is.EqualTo(E_InputDisplayDevice.KeyboardMouse));
+
+            InvokePrivateMethod("RecordInputDevice", _gamepad);
+            Assert.That(
+                GetLastInputDisplayDevice(),
+                Is.EqualTo(E_InputDisplayDevice.Gamepad));
+
+            InvokePrivateMethod("RecordInputDevice", _mouse);
+            Assert.That(
+                GetLastInputDisplayDevice(),
+                Is.EqualTo(E_InputDisplayDevice.KeyboardMouse));
+        }
+
         private bool GetIsUIActionMapEnabled()
         {
             PropertyInfo property = _uiInputSystem.GetType().GetProperty(
@@ -92,6 +125,16 @@ namespace FlowState.Tests.PlayMode
             return (bool)property.GetValue(_uiInputSystem);
         }
 
+        private E_InputDisplayDevice GetLastInputDisplayDevice()
+        {
+            PropertyInfo property = _uiInputSystem.GetType().GetProperty(
+                "LastInputDisplayDevice",
+                BindingFlags.Instance | BindingFlags.Public);
+
+            Assert.That(property, Is.Not.Null);
+            return (E_InputDisplayDevice)property.GetValue(_uiInputSystem);
+        }
+
         private void InvokePublicMethod(string methodName)
         {
             MethodInfo method = _uiInputSystem.GetType().GetMethod(
@@ -100,6 +143,19 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(method, Is.Not.Null);
             method.Invoke(_uiInputSystem, null);
+        }
+
+        private void InvokePrivateMethod(string methodName, InputDevice device)
+        {
+            MethodInfo method = _uiInputSystem.GetType().GetMethod(
+                methodName,
+                BindingFlags.Instance | BindingFlags.NonPublic,
+                null,
+                new[] { typeof(InputDevice) },
+                null);
+
+            Assert.That(method, Is.Not.Null);
+            method.Invoke(_uiInputSystem, new object[] { device });
         }
 
         private static void SetPrivateField(object target, string fieldName, object value)
@@ -137,6 +193,14 @@ namespace FlowState.Tests.PlayMode
             map.AddAction("Point", InputActionType.PassThrough);
             map.AddAction("Click", InputActionType.PassThrough);
             return asset;
+        }
+
+        private static void RemoveTestDevice(InputDevice device)
+        {
+            if (device != null && device.added)
+            {
+                InputSystem.RemoveDevice(device);
+            }
         }
     }
 }

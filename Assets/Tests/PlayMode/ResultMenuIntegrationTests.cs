@@ -190,15 +190,6 @@ namespace FlowState.Tests.PlayMode
             return property.GetValue(target);
         }
 
-        private void AssertCurrentSelection(string expectedSelection)
-        {
-            object selection = GetPropertyValue(
-                _uiManagementSystem,
-                "CurrentResultMenuSelection");
-
-            Assert.That(selection.ToString(), Is.EqualTo(expectedSelection));
-        }
-
         private void AssertNavigationSelection(string expectedSelection)
         {
             Assert.That(

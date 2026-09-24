@@ -106,6 +106,21 @@ namespace FlowState.Runtime.Systems
             return TryFindBinding(target, out action, out bindingIndex);
         }
 
+        public bool TryGetPlayerAction(string actionName, out InputAction action)
+        {
+            action = null;
+
+            if (_inputActions == null || string.IsNullOrEmpty(actionName))
+            {
+                return false;
+            }
+
+            action = _inputActions.asset.FindAction(
+                $"Player/{actionName}",
+                false);
+            return action != null;
+        }
+
         private void RegisterCallbacks()
         {
             _inputActions.Player.Jump.performed += OnJumpPerformed;

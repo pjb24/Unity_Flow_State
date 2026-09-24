@@ -11,6 +11,9 @@ namespace FlowState.Runtime.Core
         private double _nextNavigateRepeatTime;
         private bool _isNavigateNeutral = true;
         private bool _hasLastSelectedMode;
+        private bool _hasAutomaticHowToPlayCompleted;
+        private bool _hasPendingGameMode;
+        private E_GameMode _pendingGameMode = E_GameMode.Stage;
 
         public E_NavigationScreen CurrentScreen { get; private set; } =
             E_NavigationScreen.Boot;
@@ -33,6 +36,13 @@ namespace FlowState.Runtime.Core
         public bool HasInitializationFailureNotice { get; private set; }
 
         public bool IsApplicationQuitRequested { get; private set; }
+
+        public bool HasAutomaticHowToPlayCompleted =>
+            _hasAutomaticHowToPlayCompleted;
+
+        public bool HasPendingGameMode => _hasPendingGameMode;
+
+        public E_GameMode PendingGameMode => _pendingGameMode;
 
         public bool IsPlayerInputAllowed =>
             CurrentScreen == E_NavigationScreen.Playing &&
@@ -144,6 +154,9 @@ namespace FlowState.Runtime.Core
                 case E_NavigationScreen.HowToPlay:
                     return ReturnToMainMenu(CurrentSelection);
 
+                case E_NavigationScreen.AutomaticHowToPlay:
+                    return SubmitAutomaticHowToPlay();
+
                 case E_NavigationScreen.Settings:
                     return ReturnFromSettings();
 
@@ -174,6 +187,9 @@ namespace FlowState.Runtime.Core
                 case E_NavigationScreen.LeaderboardUnavailable:
                 case E_NavigationScreen.HowToPlay:
                     return ReturnToMainMenu(CurrentSelection);
+
+                case E_NavigationScreen.AutomaticHowToPlay:
+                    return false;
 
                 case E_NavigationScreen.Settings:
                     return ReturnFromSettings();
@@ -302,6 +318,32 @@ namespace FlowState.Runtime.Core
                 ? E_GameMode.Stage
                 : E_GameMode.Infinite;
             _hasLastSelectedMode = true;
+
+            if (!_hasAutomaticHowToPlayCompleted)
+            {
+                _pendingGameMode = SelectedGameMode;
+                _hasPendingGameMode = true;
+                SetScreen(
+                    E_NavigationScreen.AutomaticHowToPlay,
+                    E_NavigationItem.StartRun);
+                return true;
+            }
+
+            BeginInitialization();
+            return true;
+        }
+
+        private bool SubmitAutomaticHowToPlay()
+        {
+            if (CurrentSelection != E_NavigationItem.StartRun ||
+                !_hasPendingGameMode)
+            {
+                return false;
+            }
+
+            SelectedGameMode = _pendingGameMode;
+            _hasPendingGameMode = false;
+            _hasAutomaticHowToPlayCompleted = true;
             BeginInitialization();
             return true;
         }
@@ -500,6 +542,7 @@ namespace FlowState.Runtime.Core
 
                 case E_NavigationScreen.LeaderboardUnavailable:
                 case E_NavigationScreen.HowToPlay:
+                case E_NavigationScreen.AutomaticHowToPlay:
                 case E_NavigationScreen.Settings:
                     return 1;
 
@@ -573,6 +616,9 @@ namespace FlowState.Runtime.Core
                 case E_NavigationScreen.HowToPlay:
                 case E_NavigationScreen.Settings:
                     return E_NavigationItem.Back;
+
+                case E_NavigationScreen.AutomaticHowToPlay:
+                    return E_NavigationItem.StartRun;
             }
 
             return E_NavigationItem.None;

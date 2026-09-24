@@ -149,6 +149,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - 게임 종료 관리
 - 현재 게임 상태 관리
 - 선택된 게임 Mode 관리
+- Application 실행 중 자동 How To Play 안내의 Navigation 전이와 보류된 선택 Mode 사용 여부 결정
 - Retry에서 게임 Mode 유지
 - Action Map 사용 여부 결정
 - 게임 전체 실행 순서 관리
@@ -166,6 +167,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - 플레이어 입력 수집
 - UI 입력 수집
 - UI 선택 상태 직접 관리
+- 자동 How To Play 안내 처리 여부와 보류 Mode를 별도 상태로 관리
 - 플레이어 이동
 - 점프 처리
 - 관성 착지 처리
@@ -208,13 +210,15 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - 어떤 Action Map을 사용할지만 결정한다.
 - Action Map 상태 변경은 담당 InputSystem에 요청한다.
 - UI 입력은 현재 게임 상태에서 허용된 실행 흐름으로만 해석한다.
+- 자동 How To Play 안내 중에는 Player Action Map 비활성·UI Action Map 활성 상태를 각 InputSystem에 요청하고, Start Run 요청 전에는 Run 초기화를 시작하지 않는다.
+- 자동 How To Play 안내의 처리 여부와 보류 Mode는 GameNavigationState만 소유하며 Run 정리·Retry·Main Menu 복귀가 이를 초기화하지 않는다.
 - Playing에서만 Pause를 시작하고 Paused에서만 Resume을 수행한다.
 - Initializing, Ready, Ending과 Ended에서는 Pause 요청을 수행하지 않는다.
 - Pause와 Stage 종료가 동시에 확정되는 경우 Stage 종료를 우선한다.
 - Pause 상태 전환은 `E_GameState.Paused`로 표현하고 별도의 Pause bool을 관리하지 않는다.
 - 전역 시간 배율을 변경하지 않는다.
 - Application 종료 요청은 하나의 실행 경로에서 처리한다.
-- UI 선택 상태 변경과 조회는 UIManagementSystem을 사용한다.
+- UI 선택 상태 변경과 조회는 GameNavigationState를 사용하고, UIManagementSystem에는 화면·Focus 반영만 요청한다.
 - Stage 종료 여부는 StageSystem이 전달한 종료 이벤트만 사용한다.
 - 게임 종료 절차의 실행 순서만 관리한다.
 

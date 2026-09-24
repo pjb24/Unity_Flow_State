@@ -115,10 +115,8 @@ namespace FlowState.Tests.PlayMode
                 "_momentumDurationGradient",
                 MomentumHudPresenter.CreateApprovedGradient());
             SetPrivateField("_retryButton", CreateButton("RetryButton"));
-            SetPrivateField("_quitButton", CreateButton("QuitButton"));
             SetPrivateField("_pauseResumeButton", CreateButton("ResumeButton"));
             SetPrivateField("_pauseRetryButton", CreateButton("PauseRetryButton"));
-            SetPrivateField("_pauseQuitButton", CreateButton("PauseQuitButton"));
         }
 
         [TearDown]
@@ -275,22 +273,6 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_infiniteResultMaximumMomentumText.text, Is.Empty);
         }
 
-        [UnityTest]
-        public IEnumerator ResultMenuSelection_RemainsSharedAcrossModesAndResets()
-        {
-            Initialize(E_GameMode.Stage);
-            SetEndedResultState();
-            Assert.That(GetCurrentResultSelection(), Is.EqualTo("Retry"));
-            Assert.That(MoveResultSelection(-1.0f), Is.True);
-            Assert.That(GetCurrentResultSelection(), Is.EqualTo("Quit"));
-
-            Initialize(E_GameMode.Infinite);
-            SetEndedResultState();
-
-            Assert.That(GetCurrentResultSelection(), Is.EqualTo("Retry"));
-            yield return null;
-        }
-
         private void Initialize(E_GameMode gameMode)
         {
             GameRuntimeData runtimeData = new GameRuntimeData();
@@ -327,22 +309,6 @@ namespace FlowState.Tests.PlayMode
                 collectibleScore,
                 distanceScore + collectibleScore,
                 maximumMomentumMultiplier);
-        }
-
-        private bool MoveResultSelection(float verticalInput)
-        {
-            return (bool)InvokePublicMethod(
-                "MoveResultMenuSelection",
-                verticalInput);
-        }
-
-        private string GetCurrentResultSelection()
-        {
-            PropertyInfo property = _uiManagementSystem.GetType().GetProperty(
-                "CurrentResultMenuSelection",
-                BindingFlags.Instance | BindingFlags.Public);
-            Assert.That(property, Is.Not.Null);
-            return property.GetValue(_uiManagementSystem).ToString();
         }
 
         private TMP_Text CreateText(string objectName)

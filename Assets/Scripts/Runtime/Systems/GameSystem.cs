@@ -59,25 +59,11 @@ namespace FlowState.Runtime.Systems
                     break;
 
                 case E_GameState.Paused:
-                    if (_uiManagementSystem.HasNavigationUIConfiguration)
-                    {
-                        ProcessNavigationCancelInput();
-                    }
-                    else
-                    {
-                        ProcessPausedInput();
-                    }
+                    ProcessNavigationCancelInput();
                     break;
 
                 case E_GameState.Ended:
-                    if (_uiManagementSystem.HasNavigationUIConfiguration)
-                    {
-                        ProcessNavigationCancelInput();
-                    }
-                    else
-                    {
-                        ProcessResultMenuInput();
-                    }
+                    ProcessNavigationCancelInput();
                     break;
             }
         }
@@ -151,6 +137,13 @@ namespace FlowState.Runtime.Systems
                         ApplyNavigationState();
                     }
                     break;
+
+                case E_NavigationScreen.AutomaticHowToPlay:
+                    if (_navigationState.TrySubmit())
+                    {
+                        StartRequestedRun();
+                    }
+                    break;
             }
         }
 
@@ -184,6 +177,7 @@ namespace FlowState.Runtime.Systems
         public void SelectStage() => RequestNavigationSelection(E_NavigationItem.Stage);
         public void SelectInfinite() => RequestNavigationSelection(E_NavigationItem.Infinite);
         public void SelectBack() => RequestNavigationSelection(E_NavigationItem.Back);
+        public void SelectStartRun() => RequestNavigationSelection(E_NavigationItem.StartRun);
         public void SelectResume() => RequestNavigationSelection(E_NavigationItem.Resume);
         public void SelectRetry() => RequestNavigationSelection(E_NavigationItem.Retry);
         public void SelectMainMenu() => RequestNavigationSelection(E_NavigationItem.MainMenu);
@@ -601,7 +595,14 @@ namespace FlowState.Runtime.Systems
                 _selectedGameMode = selection == E_NavigationItem.Infinite
                     ? E_GameMode.Infinite
                     : E_GameMode.Stage;
-                StartRequestedRun();
+
+                if (_navigationState.IsRunStartRequested)
+                {
+                    StartRequestedRun();
+                    return;
+                }
+
+                ApplyNavigationState();
                 return;
             }
 
@@ -695,86 +696,6 @@ namespace FlowState.Runtime.Systems
             _uiManagementSystem.SetNavigationScreen(
                 _navigationState.CurrentScreen,
                 _navigationState.CurrentSelection);
-        }
-
-        private void ProcessPausedInput()
-        {
-            UIInputState inputState = _uiInputSystem.GetInputState();
-            bool shouldExecuteSelection = false;
-            E_PauseMenuSelection selection =
-                _uiManagementSystem.CurrentPauseMenuSelection;
-
-            if (inputState.IsCancelPressed)
-            {
-                shouldExecuteSelection =
-                    _uiManagementSystem.TryCancelPauseMenu(out selection);
-            }
-            else if (inputState.IsClickPressed)
-            {
-                shouldExecuteSelection =
-                    _uiManagementSystem.TryClickPauseMenuSelection(
-                        inputState.PointerPosition,
-                        out selection);
-            }
-            else
-            {
-                if (inputState.IsPointChanged)
-                {
-                    _uiManagementSystem.TrySetPauseMenuSelectionAtPointer(
-                        inputState.PointerPosition);
-                }
-
-                if (Mathf.Abs(inputState.NavigateInput.y) >= 0.5f)
-                {
-                    _uiManagementSystem.MovePauseMenuSelection(
-                        inputState.NavigateInput.y);
-                }
-
-                if (inputState.IsSubmitPressed)
-                {
-                    shouldExecuteSelection =
-                        _uiManagementSystem.TrySubmitPauseMenuSelection(
-                            out selection);
-                }
-            }
-
-            _uiInputSystem.ConsumeTransientInput();
-
-            if (shouldExecuteSelection)
-            {
-                ExecutePauseMenuSelection(selection);
-            }
-        }
-
-        private void ProcessResultMenuInput()
-        {
-
-            UIInputState inputState = _uiInputSystem.GetInputState();
-            bool isPointerOverResultMenu = false;
-
-            if (inputState.IsPointChanged || inputState.IsClickPressed)
-            {
-                isPointerOverResultMenu =
-                    _uiManagementSystem.TrySetResultMenuSelectionAtPointer(
-                        inputState.PointerPosition);
-            }
-
-            if (Mathf.Abs(inputState.NavigateInput.y) >= 0.5f)
-            {
-                _uiManagementSystem.MoveResultMenuSelection(
-                    inputState.NavigateInput.y);
-            }
-
-            bool shouldExecuteSelection = inputState.IsSubmitPressed ||
-                                          (inputState.IsClickPressed &&
-                                           isPointerOverResultMenu);
-
-            _uiInputSystem.ConsumeTransientInput();
-
-            if (shouldExecuteSelection)
-            {
-                ExecuteResultMenuSelection();
-            }
         }
 
         private bool HasRequiredSystems()
@@ -955,38 +876,6 @@ namespace FlowState.Runtime.Systems
             }
 
             _timerSystem.StopTimer(E_TimerKey.PlayTimer);
-        }
-
-        private void ExecuteResultMenuSelection()
-        {
-            switch (_uiManagementSystem.CurrentResultMenuSelection)
-            {
-                case E_ResultMenuSelection.Retry:
-                    RetryGame();
-                    break;
-
-                case E_ResultMenuSelection.Quit:
-                    RequestApplicationQuit();
-                    break;
-            }
-        }
-
-        private void ExecutePauseMenuSelection(E_PauseMenuSelection selection)
-        {
-            switch (selection)
-            {
-                case E_PauseMenuSelection.Resume:
-                    ResumeGame();
-                    break;
-
-                case E_PauseMenuSelection.Retry:
-                    RetryGame();
-                    break;
-
-                case E_PauseMenuSelection.Quit:
-                    RequestApplicationQuit();
-                    break;
-            }
         }
 
         private void RequestApplicationQuit()

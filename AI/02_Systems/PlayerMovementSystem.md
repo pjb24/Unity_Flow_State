@@ -135,7 +135,7 @@ PlayerMovementSystem
 - 이동 계산은 유효한 현재 Run의 Playing 상태에서만 수행한다.
 - 착지 성공 결과는 같은 물리 갱신의 InfiniteMode 배율 처리 전에 제공한다.
 - 마지막 착지 종류를 유지하는 상태와 새 착지 성공 ID를 구분한다.
-- Momentum Landing 성공으로 수평 속도를 증가시키지 않으며 Score 배율은 계산하지 않는다.
+- Momentum Landing 성공의 Score 배율은 계산하지 않는다.
 - 같은 Run에서 실행 중인 System의 중복 초기화는 Jump, Landing 및 Pause 상태를 유지한다.
 - 종료 시 현재 Run과 이동 Runtime Data 참조를 해제한다.
 - 충돌을 직접 판정하지 않는다.

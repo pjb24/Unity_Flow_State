@@ -24,6 +24,9 @@ namespace FlowState.Runtime.Systems
         public bool IsUIActionMapEnabled =>
             _uiActionMap != null && _uiActionMap.enabled;
 
+        public E_InputDisplayDevice LastInputDisplayDevice { get; private set; } =
+            E_InputDisplayDevice.KeyboardMouse;
+
         private void OnDestroy()
         {
             if (!_isInitialized)
@@ -131,6 +134,19 @@ namespace FlowState.Runtime.Systems
             return TryFindBinding(target, out action, out bindingIndex);
         }
 
+        public bool TryGetUIAction(string actionName, out InputAction action)
+        {
+            action = null;
+
+            if (_inputActionsAsset == null || string.IsNullOrEmpty(actionName))
+            {
+                return false;
+            }
+
+            action = _inputActionsAsset.FindAction($"UI/{actionName}", false);
+            return action != null;
+        }
+
         private void RegisterCallbacks()
         {
             _uiActionMap.FindAction("Navigate", true).performed += OnNavigatePerformed;
@@ -203,6 +219,7 @@ namespace FlowState.Runtime.Systems
 
         private void OnNavigatePerformed(InputAction.CallbackContext context)
         {
+            RecordInputDevice(context);
             _navigateInput = context.ReadValue<Vector2>();
         }
 
@@ -213,16 +230,19 @@ namespace FlowState.Runtime.Systems
 
         private void OnSubmitPerformed(InputAction.CallbackContext context)
         {
+            RecordInputDevice(context);
             _isSubmitPressed = true;
         }
 
         private void OnCancelPerformed(InputAction.CallbackContext context)
         {
+            RecordInputDevice(context);
             _isCancelPressed = true;
         }
 
         private void OnPointPerformed(InputAction.CallbackContext context)
         {
+            RecordInputDevice(context);
             _pointerPosition = context.ReadValue<Vector2>();
             _isPointChanged = true;
         }
@@ -235,10 +255,28 @@ namespace FlowState.Runtime.Systems
 
         private void OnClickPerformed(InputAction.CallbackContext context)
         {
+            RecordInputDevice(context);
+
             if (context.ReadValueAsButton())
             {
                 _isClickPressed = true;
             }
+        }
+
+        private void RecordInputDevice(InputAction.CallbackContext context)
+        {
+            RecordInputDevice(context.control != null ? context.control.device : null);
+        }
+
+        private void RecordInputDevice(InputDevice device)
+        {
+            if (device is Gamepad)
+            {
+                LastInputDisplayDevice = E_InputDisplayDevice.Gamepad;
+                return;
+            }
+
+            LastInputDisplayDevice = E_InputDisplayDevice.KeyboardMouse;
         }
     }
 }
