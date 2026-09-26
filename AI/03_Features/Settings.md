@@ -61,7 +61,7 @@ Settings
 ## 예외 사항
 
 - Result에서는 Settings를 열지 않는다.
-- 영구 저장은 Roadmap 7 범위에서 정의한다.
+- Settings와 Binding Override의 영구 저장 정책은 Roadmap 7 범위에서 정의한다.
 
 ---
 
@@ -75,8 +75,8 @@ Settings
 
 ## 제약 사항
 
-- Settings 값은 영구 저장하지 않는다.
-- Settings 값과 Binding Override는 Application 실행 중에만 유지한다.
+- Settings 값과 Binding Override는 로컬 영구 저장하고 다음 Application 실행에 복원한다.
+- 인증 토큰이나 서비스 Secret은 Settings 저장에 포함하지 않는다.
 
 ---
 

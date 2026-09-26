@@ -28,7 +28,7 @@ Flow State
 
 스테이지 기록은 클리어 시간을 기준으로 측정한다.
 
-추후에는 무한 모드와 리더보드를 추가하여 기록 경쟁을 지원할 예정이다.
+일반 Stage와 InfiniteMode의 개인 기록을 보존하고, Mode별 온라인 Leaderboard 기록 경쟁을 지원한다.
 
 ---
 
@@ -44,14 +44,13 @@ Flow State
 * 스테이지 클리어
 * 클리어 시간 기록
 * 무한 모드
-* 리더보드 지원을 고려한 구조
+* 로컬 Settings·Input Binding·Tutorial 완료·개인 최고 기록·제출 대기열 보존
+* Stage별 Clear Time과 InfiniteMode Total Score의 독립된 온라인 Leaderboard
 
 ---
 
 ## 제외 사항
 
-* 서버 저장
-* 로컬 저장
 * 캐릭터 성장 시스템
 * 아이템 파밍
 * 스토리 진행
@@ -125,8 +124,10 @@ Flow State
 * Unity 사용
 * 3D 프로젝트
 * 3D 오소그래픽 횡스크롤 카메라 사용
-* 저장 데이터는 런타임에서만 관리한다.
-* 현재 버전에서는 서버를 사용하지 않는다.
+* 현재 Run 데이터는 Runtime에서만 관리한다.
+* 사용자 설정, 개인 최고 기록과 제출 대기열은 로컬 저장 대상으로 관리한다.
+* 온라인 순위 기록은 계정에 귀속된 서버 저장 대상으로 관리한다.
+* 실제 로컬 저장과 온라인 서비스 연결은 각각 Roadmap 007 Phase 2와 Phase 3에서 구현한다.
 
 ---
 
@@ -144,8 +145,10 @@ Rules
 
 System
 
-* 없음
+* ResultSystem.md
+* RecordSubmissionSystem.md
 
 Feature
 
-* 없음
+* Leaderboard.md
+* RecordSubmission.md

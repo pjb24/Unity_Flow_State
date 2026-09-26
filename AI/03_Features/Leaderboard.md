@@ -16,12 +16,15 @@ Leaderboard
 
 # 기능 규칙
 
-- Leaderboard는 확정된 기록이 존재하는 경우에만 조회할 수 있다.
+- Leaderboard는 제출 가능한 확정 기록이 존재하는 경우에만 조회할 수 있다.
 - 일반 Stage와 InfiniteMode는 각각 독립적인 Leaderboard를 사용한다.
 - 일반 Stage의 Leaderboard는 Stage별로 독립적으로 제공한다.
 - InfiniteMode의 Leaderboard는 InfiniteMode 전체에 대해 하나의 순위를 제공한다.
-- 일반 Stage는 클리어 시간을 기준으로 순위를 제공한다.
-- InfiniteMode는 최종 점수를 기준으로 순위를 제공한다.
+- 일반 Stage는 `Cleared` 결과의 정수 밀리초 Clear Time 오름차순으로 순위를 제공한다.
+- InfiniteMode는 유효하게 확정된 Total Score 내림차순으로 순위를 제공한다.
+- 동일한 순위 값은 서버 수락 시각 오름차순으로 표시하고, 수락 시각도 같으면 공동 순위와 competition ranking을 사용한다.
+- Player는 같은 Board Key에서 더 나은 기록만 최고 기록으로 유지한다. 같은 값 재제출은 기존 기록을 유지한다.
+- Stage Board는 불변 Stage ID와 Stage Rules Version으로, InfiniteMode Board는 Scoring Version으로 분리한다. 일반 Game Version은 Board 분리 기준이 아니다.
 - Leaderboard는 기록을 순위 형태로 제공한다.
 - Leaderboard는 기록을 생성하거나 수정하지 않는다.
 - 실제 조회가 준비되기 전에는 Main Menu에서 선택·진입할 수 있으며, 화면은 현재 사용할 수 없다는 안내와 Keyboard Navigate·Submit 및 Mouse Point·Click으로 실행할 수 있는 Back UI 항목을 제공한다.
@@ -77,7 +80,8 @@ Leaderboard
 - InfiniteMode의 Leaderboard는 하나만 존재한다.
 - 일반 Stage는 클리어 시간을 기준으로 순위를 제공한다.
 - InfiniteMode는 최종 점수를 기준으로 순위를 제공한다.
-- 순위는 확정된 기록만 사용한다.
+- 순위는 제출 가능한 확정 기록만 사용한다.
+- 규칙 Version이 다른 기록은 순위, 최고 기록 또는 동점 판정을 함께 수행하지 않는다.
 - 미구현 안내 화면의 Back 또는 Cancel은 Main Menu의 Leaderboard 선택으로 복귀한다.
 
 ---

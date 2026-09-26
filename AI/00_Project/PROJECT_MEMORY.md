@@ -24,9 +24,12 @@
 
 - 문서는 자신의 책임 범위만 관리한다.
 - 프로젝트 수준의 내용과 System, Feature 수준의 내용을 혼합하지 않는다.
-- Runtime Data만 사용한다.
-- 현재 버전에서는 로컬 저장을 사용하지 않는다.
-- 현재 버전에서는 서버 저장을 사용하지 않는다.
+- 현재 Run 데이터와 확정 Result Data는 Runtime 전용이다.
+- Settings, Input Binding Override, Tutorial 완료 상태, 개인 최고 기록 캐시와 제출 대기열은 로컬 영구 데이터다.
+- 온라인 최고 기록과 순위는 계정 귀속 서버 데이터다.
+- 온라인 기능 요청 시 Anonymous 계정을 사용하며, 초기 버전에는 계정 연결·복구를 지원하지 않는다.
+- 재설치·기기 변경 뒤 온라인 기록을 복구할 수 없다는 제한은 첫 온라인 요청 전과 Settings에서 확인할 수 있다.
+- 인증 토큰·서비스 Secret·개인정보와 임의 표시명은 앱 저장소와 제출 대기열에 저장하지 않는다.
 
 ---
 
@@ -44,9 +47,11 @@
 - 게임의 핵심 플레이는 점프와 관성 착지를 이용한 이동이다.
 - 게임은 3D 오소그래픽 횡스크롤 카메라를 사용한다.
 - 스테이지는 클리어 시간을 기준으로 완료를 판단한다.
-- 무한 모드를 추가할 예정이다.
-- 무한 모드는 Momentum Landing 연속 성공에 따른 거리 Score 배율을 제공하는 방향으로 설계한다.
-- 추후 리더보드를 추가할 수 있도록 프로젝트 구조를 유지한다.
+- 무한 모드는 Momentum Landing 연속 성공에 따른 거리 Score 배율을 제공한다.
+- Stage는 `Cleared` 결과만 불변 Stage ID와 밀리초 Clear Time으로 Leaderboard 제출 후보가 된다.
+- InfiniteMode는 유효하게 확정된 Total Score와 Scoring Version으로 Leaderboard 제출 후보가 된다.
+- Stage와 InfiniteMode는 규칙 Version이 다른 기록을 비교하지 않는 독립 Leaderboard를 사용한다.
+- Offline·인증·서비스 실패는 플레이를 차단하지 않으며 제출 후보를 로컬 대기열에 보존한다.
 
 ---
 
@@ -77,10 +82,12 @@
 
 ## Systems
 
-- 없음
+- ResultSystem.md
+- RecordSubmissionSystem.md
 
 ---
 
 ## Features
 
-- 없음
+- Leaderboard.md
+- RecordSubmission.md

@@ -58,7 +58,7 @@ Stage별 Clear Time과 InfiniteMode Total Score를 독립된 온라인 Leaderboa
 
 ### 상태
 
-대기
+완료
 
 ---
 
@@ -184,7 +184,7 @@ Leaderboard UI와 기록 경쟁 흐름을 완성하고 출시 후보 품질을 �
 
 ## 다음 작업
 
-Roadmap 5–6 완료 후 Phase 1 저장 범위와 Leaderboard 운영 정책 확정
+Roadmap 007 Phase 2 — 로컬 기록·설정 저장 계층 구현
 
 ---
 
@@ -199,6 +199,7 @@ Roadmap 5–6 완료 후 Phase 1 저장 범위와 Leaderboard 운영 정책 확�
 ## 완료된 단계
 
 - Prototype 4: InfiniteMode Score와 Result Data 기반 확보
+- Roadmap 007 Phase 1: 저장 범위와 Leaderboard 운영 정책 확정, 순수 정책 모델·Edit Mode Test 검증
 
 ---
 

@@ -8,7 +8,7 @@ SettingsSystem
 
 ## 목적
 
-Application 실행 중 Settings 값과 Binding Override 상태를 관리한다.
+Settings 값과 Binding Override 상태를 관리하고 영구 상태 적용·변경 요청의 경계를 제공한다.
 
 Settings 변경을 Audio, Display와 실제 Input Action 인스턴스에 적용한다.
 
@@ -21,6 +21,8 @@ Settings 변경을 Audio, Display와 실제 Input Action 인스턴스에 적용�
 - Rebinding 대기, 완료, 취소와 충돌 거부 상태를 관리한다.
 - PlayerInputSystem과 UIInputSystem에 해당 Action Map Binding Override의 적용 또는 제거를 요청한다.
 - Audio와 Display 플랫폼 API 적용 경계를 관리한다.
+- 저장소가 제공한 Settings와 Binding Override의 적용 요청을 처리한다.
+- 변경된 Settings와 Binding Override의 영구 저장 요청을 제공한다.
 
 ---
 
@@ -50,6 +52,7 @@ Settings 변경을 Audio, Display와 실제 Input Action 인스턴스에 적용�
 - Rebinding 진행 상태
 - Rebinding 대상과 대기 전 Binding Override 상태
 - Application 시작 Settings 기본값
+- 저장소에서 복원한 Settings와 Binding Override
 
 ---
 
@@ -73,6 +76,7 @@ Settings 변경을 Audio, Display와 실제 Input Action 인스턴스에 적용�
 | Player Binding Override 적용 또는 제거 요청 | PlayerInputSystem |
 | UI Binding Override 적용 또는 제거 요청 | UIInputSystem |
 | Audio와 Display 적용 요청 | 플랫폼 적용 경계 |
+| Settings와 Binding Override 영구 저장 요청 | 저장소 경계 |
 
 ---
 
@@ -84,6 +88,7 @@ Settings 변경을 Audio, Display와 실제 Input Action 인스턴스에 적용�
 - Rebinding 상태와 충돌 검증 관리
 - Settings 기본값 복원 관리
 - Audio와 Display 적용 요청
+- 영구 상태 적용과 저장 요청 경계 제공
 
 ## 담당하지 않는 범위
 
@@ -91,7 +96,7 @@ Settings 변경을 Audio, Display와 실제 Input Action 인스턴스에 적용�
 - UI 표시와 Focus 관리
 - Player 또는 UI 입력 수집
 - Player 이동과 UI 동작 의미 판단
-- Settings 값과 Binding Override의 영구 저장
+- 파일 형식·저장 경로·직렬화와 저장소 구현
 - Leaderboard 상태 판정 또는 조회
 
 ---
@@ -107,7 +112,7 @@ Settings 변경을 Audio, Display와 실제 Input Action 인스턴스에 적용�
 
 # 제약 사항
 
-- Settings 상태는 Runtime에서만 사용하고 Application 종료 후 저장하거나 복원하지 않는다.
+- Settings 값과 Binding Override는 로컬 영구 저장 대상이며, SettingsSystem은 저장 수단을 직접 결정하지 않는다.
 - Player Move Binding은 Settings 재지정 또는 복원 대상에 포함하지 않는다.
 - UI Navigate의 Keyboard 기본 Binding은 WASD 4방향만 사용한다.
 - UI Submit과 Cancel Binding은 Settings 재지정 또는 복원 대상에 포함하지 않는다.

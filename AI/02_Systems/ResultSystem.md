@@ -82,7 +82,7 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 
 | 출력 | 대상 |
 |------|------|
-| Result Data | UIManagementSystem |
+| Result Data | UIManagementSystem, RecordSubmissionSystem |
 
 ---
 
@@ -94,6 +94,7 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 - Result Data 관리
 - Result Data 제공
 - Mode에 맞는 Record Feature 연결
+- 확정 Result Data를 RecordSubmissionSystem에 제공
 - Runtime Data의 Scoring Version을 InfiniteMode Result 생성 요청에 전달
 - Runtime Data의 최종 Score 구성 요소와 최고 Momentum 배율을 ScoreRecord에 변경 없이 전달
 
@@ -106,6 +107,8 @@ Result Data의 저장, 표시 및 평가는 다른 System이 담당한다.
 - Result Data 저장
 - Result Data 표시
 - Result Data 평가
+- Result Data 저장
+- 제출 후보 판정, 대기열 관리와 온라인 제출
 - 게임 진행 관리
 - Feature 규칙 정의
 - 이동 거리와 Distance 및 Collectible Score 계산

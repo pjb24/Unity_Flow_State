@@ -14,7 +14,7 @@ AI, 사용자
 
 ## 작업 상태
 
-계획 작성 완료. Phase 1 실행과 아래 Step의 완료 판정은 대기 상태다.
+Step 1~8 정적 조사, 정책 결정, 문서 계약, 순수 정책 구현, Unity 검증과 완료 근거 정리를 완료했다. Roadmap 007 Phase 1은 완료 상태다.
 
 # 작업 목적
 
@@ -63,7 +63,18 @@ AI는 제안·장단점, 정적 조사, 계약 문서, 순수 정책 코드와 U
 
 ### 완료 조건
 
-- [ ] 저장 후보와 기존 생산 데이터 원천, 누락된 식별자 및 문서 충돌 목록이 작성됐다.
+- [x] 저장 후보와 기존 생산 데이터 원천, 누락된 식별자 및 문서 충돌 목록이 작성됐다.
+
+### 수행 결과
+
+- `GameRuntimeData`는 Mode별 Runtime Data, InfiniteMode Score와 Collectible Score를 생성하고 `RuntimeDataSystem`이 Run 종료 시 제거한다.
+- `ResultSystem`은 현재 Run의 `ResultData`만 보유한다. `GameSystem`은 일반 Stage에서 `Cleared` 또는 `Fell`, 경과 시간과 Collectible Score를 전달하고, InfiniteMode에서 Scoring Version과 최종 Score 구성 요소를 전달한다.
+- `SettingsState`와 `SettingsSystem`은 Volume, Fullscreen 및 Input Binding Override를 Runtime 상태로만 관리한다. 자동 How To Play 완료 상태도 `GameNavigationState` 인스턴스에만 존재한다.
+- `PlayerPrefs`, 파일 기반 저장, `persistentDataPath`, Authentication, Unity Services, Leaderboards API, Player ID, Stage ID, Game Version 및 영구 제출 ID 구현은 `Assets/Scripts`와 `Assets/Tests` 정적 검색에서 발견되지 않았다.
+- `ResultData`에 Stage ID, Player ID, Game Version 및 제출 ID는 없다. `CurrentRunId`는 `GameNavigationState` 인스턴스의 Run 시작마다 증가하므로 재실행 후에도 유지되는 제출 식별자가 아니다.
+- `ScoringVersion.Current`는 `2`이며, 기존 ScoreRecord 계약은 서로 다른 Scoring Version 기록의 비교를 금지한다.
+- `PROJECT_OVERVIEW.md`, `ARCHITECTURE.md`, `PROJECT_MEMORY.md`의 Runtime 전용·로컬 저장 제외·서버 저장 제외 규칙은 Roadmap 007의 Phase 1 저장 정책 확정 후 갱신해야 하는 문서 충돌이다.
+- 로컬 저장소는 Phase 2, 실제 Authentication 및 온라인 제출·조회는 Phase 3, Leaderboard UI와 Build 검증은 Phase 4 범위로 유지한다.
 
 ## Step 2. 저장 대상과 계정 정책을 결정한다
 
@@ -81,7 +92,17 @@ AI는 제안·장단점, 정적 조사, 계약 문서, 순수 정책 코드와 U
 
 ### 완료 조건
 
-- [ ] 로컬·서버·Runtime 전용 범위와 Anonymous 계정의 복구 제한이 확정됐다.
+- [x] 로컬·서버·Runtime 전용 범위와 Anonymous 계정의 복구 제한이 확정됐다.
+
+### 수행 결과
+
+- Settings 값, Input Binding Override, Tutorial 완료 상태, 개인 최고 기록 캐시와 제출 대기열은 로컬 영구 저장 대상으로 확정했다.
+- 현재 Run Runtime Data와 `ResultData` 원본은 Runtime 전용으로 유지한다. 전체 Result 이력은 저장하지 않으며, 제출 후보와 개인 최고 기록만 영구 보존한다.
+- 계정에 귀속된 온라인 최고 기록과 순위는 서버 저장 대상으로 확정했다. 로컬 개인 최고 기록 캐시는 Offline 표시를 위한 값이며 서버 기록과 일시적으로 다를 수 있다.
+- 온라인 Leaderboard 조회 또는 첫 제출 요청 시 Anonymous 계정을 생성한다. 인증 실패는 Offline 플레이, Result 확인 또는 Menu 진행을 차단하지 않는다.
+- 초기 버전은 Anonymous 계정 연결·복구를 지원하지 않는다. 재설치 또는 기기 변경 뒤 기존 온라인 기록을 복구할 수 없다는 제한은 첫 온라인 제출·조회 전 안내하고, 이후에도 Settings에서 언제든지 확인할 수 있게 한다.
+- 이메일, 실명, 전화번호, 임의 표시명을 수집·저장하지 않는다. 인증 토큰과 서비스 Secret은 앱 저장소 또는 제출 대기열에 저장하지 않고 서비스 SDK가 관리한다.
+- 현재 `Assets/Scripts`와 `Assets/Tests`에는 위 저장·인증 구현이 없음을 정적 검색으로 재확인했다. 로컬 저장소 구현은 Phase 2, 실제 Authentication·온라인 저장은 Phase 3, 복구 제한 안내 UI는 Phase 4 범위로 유지한다.
 
 ## Step 3. 제출 기록과 순위 정책을 결정한다
 
@@ -99,7 +120,19 @@ AI는 제안·장단점, 정적 조사, 계약 문서, 순수 정책 코드와 U
 
 ### 완료 조건
 
-- [ ] 두 Mode의 Record 구조·순위·동점·최고 기록·Version 정책이 모순 없이 확정됐다.
+- [x] 두 Mode의 Record 구조·순위·동점·최고 기록·Version 정책이 모순 없이 확정됐다.
+
+### 수행 결과
+
+- 일반 Stage는 `Cleared` 결과만 Leaderboard 제출 후보로 인정한다. `Fell` 결과는 Result 표시만 하고 개인 최고 기록, 제출 대기열과 온라인 순위에 넣지 않는다.
+- Stage 구분 Key는 Scene 이름·경로·Build Index와 독립적인 불변 문자열 ID를 사용한다. 형식은 `stage-001`과 같이 정하고, 새 Stage에 명시적으로 부여한다.
+- Stage 순위 값은 원본 경과 시간을 가장 가까운 밀리초로 반올림한 정수 `clearTimeMilliseconds`이며 오름차순으로 비교한다. 표시 형식은 `mm:ss.fff`를 사용한다.
+- InfiniteMode는 종료와 점수 구성 요소 검증이 모두 완료된 Result만 제출 후보로 인정한다. 순위 값은 `TotalScore`이며 내림차순으로 비교하고, 점수 구성 요소와 Scoring Version은 검증·표시용 스냅샷으로 보존한다.
+- 동일한 Stage Clear Time 또는 InfiniteMode Total Score는 서버 수락 시각 오름차순으로 보조 정렬한다. 보조 정렬 값도 같으면 공동 순위로 처리하며, 다음 순위는 공동 순위 인원 수만큼 건너뛰는 competition ranking을 사용한다. 제출 ID는 중복 방지용이며 순위 강제 분리에는 사용하지 않는다.
+- Player별 최고 기록은 Stage의 더 짧은 시간 또는 InfiniteMode의 더 높은 Total Score일 때만 교체한다. 동일 값 재제출은 기존 최고 기록과 최초 수락 순서를 유지한다.
+- Board Key는 규칙 버전으로만 분리한다. Stage는 `mode`, 불변 `stageId`, `stageRulesVersion`을, InfiniteMode는 `mode`, `scoringVersion`을 사용한다. `gameVersion`은 기록 메타데이터로만 보존하고 일반 앱 업데이트는 Board를 분리하지 않는다.
+- Score 또는 시간 비교 규칙이 바뀌면 새 규칙 Version Board를 만들고 기존 Board는 보존한다. 특히 서로 다른 InfiniteMode Scoring Version 기록은 순위·최고 기록·동점 판정을 수행하지 않는다.
+- 현재 `TimeRecord`가 `Cleared`와 `Fell`을 모두 결과로 확정하고 `ScoreRecord`가 유효한 InfiniteMode 종료·Total Score·Scoring Version을 검증하는 기존 계약을 정적으로 확인했다. Stage ID, 규칙 Version, 영구 제출 ID와 실제 Board 연결은 후속 Phase 구현 범위로 유지한다.
 
 ## Step 4. Offline·운영·신뢰 정책을 결정한다
 
@@ -117,7 +150,20 @@ AI는 제안·장단점, 정적 조사, 계약 문서, 순수 정책 코드와 U
 
 ### 완료 조건
 
-- [ ] Offline·재시도·중복 방지·삭제·복구·신뢰 정책이 확정됐고 플레이 차단 금지 조건이 명시됐다.
+- [x] Offline·재시도·중복 방지·삭제·복구·신뢰 정책이 확정됐고 플레이 차단 금지 조건이 명시됐다.
+
+### 수행 결과
+
+- 제출 후보는 생성 즉시 로컬 대기열에 보존한다. Offline, Authentication 실패, Timeout과 서비스 오류는 Run 결과 확인, Menu 진행 또는 Offline 플레이를 차단하지 않으며 후보를 `Pending`으로 유지한다.
+- 자동 재시도는 앱 시작, 온라인 복구와 인증 성공에서 수행하고, 사용자는 수동 Retry도 요청할 수 있다. 하나의 재시도 계기에서는 지수 백오프로 최대 세 번 시도한 뒤 다음 재시도 계기까지 대기한다.
+- 서버가 기록 유효성을 거부한 후보는 `Rejected`로 종료하고 자동 재시도하지 않는다. 네트워크·인증·서비스 실패는 영구 실패로 바꾸지 않는다.
+- 제출 후보가 만들어지는 순간 UUID v4 제출 ID를 한 번 생성한다. 해당 ID는 로컬 대기열에 저장하며 재시도와 재실행에서도 변경하지 않는다. 서버 중복 판정은 동일 Player ID와 제출 ID 조합을 사용한다.
+- 대기 후보는 생성 당시 계정에 귀속한다. 현재 인증 계정이 다르면 다른 계정으로 전송하지 않고 보류하며, 명시적인 로컬 데이터 초기화에서만 삭제한다.
+- 사용자가 로컬 데이터를 초기화하면 Settings, Input Binding, Tutorial 완료 상태, 개인 최고 기록 캐시와 제출 대기열을 삭제한다. 온라인 순위와 서버 기록은 유지됨을 초기화 전과 Settings에서 명확히 고지한다. 초기 버전에는 온라인 개별 기록 또는 계정 삭제를 제공하지 않는다.
+- Client가 계산한 기록을 기본 신뢰하되 서버는 인증 Player ID, Board Key·규칙 Version, 제출 ID 중복, 제출 가능 결과, 시간·점수 범위, Score 구성 합계를 검증한다. 서버는 실제 플레이 입력이나 물리를 재현하지 않는다.
+- InfiniteMode 제출에는 Run 시간과 Scoring Version 규칙 데이터를 함께 포함한다. 서버는 Run 시간, 최대 Momentum Landing 배율, 최대 이동 속도, 시간 내 가능한 최대 Pattern 수 및 Pattern별 가능한 최대 Collectible 수를 조합해 계산한 논리적 최대 Total Score를 상한으로 사용한다. 이 상한을 넘거나 상한 계산에 필요한 값이 누락·불일치하면 거부한다.
+- 위 상한은 Scoring Version별 불변 규칙 데이터로 계산한다. 점수·이동·Pattern·Collectible 규칙이 변경되면 새 Scoring Version Board와 새 상한을 사용하며 기존 Version의 상한을 소급 변경하지 않는다.
+- 현재 `ResultData`에는 InfiniteMode Run 시간이 없고 영구 제출 ID·대기열·Authentication·온라인 제출 구현도 없다. Run 시간과 규칙 상한 입력의 생산·저장 연결은 Phase 2, 실제 서버 검증은 Phase 3 범위로 유지한다.
 
 ## Step 5. 확정 정책을 문서 계약과 Test 명세로 반영한다
 
@@ -133,7 +179,21 @@ AI는 제안·장단점, 정적 조사, 계약 문서, 순수 정책 코드와 U
 
 ### 완료 조건
 
-- [ ] Project·Feature·System 문서가 확정 정책과 일치하고, 모든 결정 가능한 규칙에 Test 사례가 연결됐다.
+- [x] Project·Feature·System 문서가 확정 정책과 일치하고, 모든 결정 가능한 규칙에 Test 사례가 연결됐다.
+
+### 수행 결과
+
+- Project 문서에서 Runtime·로컬 영구·서버 데이터의 소유 경계를 확정 정책에 맞게 갱신했다. 기존 Runtime 전용·로컬 저장 제외·서버 저장 제외 문구를 제거했다.
+- `RecordSubmission` Feature와 `RecordSubmissionSystem` 문서를 추가해 제출 후보 규칙과 Result 생성, 저장·대기열·온라인 제출 책임을 분리했다. ResultSystem은 Result Data 생성·제공만 담당하고 저장·제출을 담당하지 않는다.
+- Settings와 Binding Override는 로컬 영구 저장 정책으로 갱신했고, SettingsSystem은 저장 수단을 소유하지 않는 적용·저장 요청 경계로 정의했다.
+- Leaderboard는 Stage의 `Cleared` 밀리초 Clear Time, InfiniteMode의 유효 Total Score, Board Key·Version 분리, 동점 보조 정렬·competition ranking과 Player별 최고 기록 유지 규칙을 반영했다.
+- 다음 Edit Mode Unit Test 명세를 확정했다.
+  - Stage 후보: `Cleared`와 유효 불변 Stage ID·Rules Version·밀리초 시간이 후보가 되고, `Fell`, 누락·지원하지 않는 Version과 유효하지 않은 시간은 거부한다.
+  - Infinite 후보: 유효 종료·Scoring Version·점수 구성 합계·Run 시간이 후보가 되고, 구성 합계·Version·논리적 최대 Total Score 상한의 정상·경계·초과·누락 사례를 판정한다.
+  - Board·순위: Mode·Stage ID·Rules/Scoring Version 분리, Stage 오름차순·Infinite 내림차순, 서버 수락 시각 보조 정렬, 완전 동점의 competition ranking을 판정한다.
+  - 최고 기록: Stage의 더 짧은 시간과 InfiniteMode의 더 높은 점수만 교체하고 동일 값은 기존 기록을 유지한다.
+  - 제출 상태: 동일 Player ID·Submission ID 거부, Pending·Submitted·Rejected 전이, 계정 귀속 불일치, 재시도 계기별 최대 세 번과 영구 실패가 아닌 오류의 Pending 보존을 판정한다.
+- Stage ID, 영구 제출 ID, Run 시간, 규칙 상한 입력, 실제 저장소·SDK·UI 연결은 각각 Phase 2~4 구현 대상이며, 이번 Step에서는 계약과 Test 명세만 작성했다.
 
 ## Step 6. 순수 정책 모델과 Edit Mode Unit Test를 작성한다
 
@@ -149,7 +209,16 @@ AI는 제안·장단점, 정적 조사, 계약 문서, 순수 정책 코드와 U
 
 ### 완료 조건
 
-- [ ] 확정된 순수 정책의 생산 코드와 대응 Unit Test가 작성되고 정적 대조를 통과했다.
+- [x] 확정된 순수 정책의 생산 코드와 대응 Unit Test가 작성되고 정적 대조를 통과했다.
+
+### 수행 결과
+
+- `RecordBoardKey`, `RecordSubmissionCandidate`, `RecordSubmissionPolicy`, `InfiniteScoreLimit`, `RecordSubmissionQueue`와 `RecordLeaderboardPolicy`를 순수 Runtime Feature 모델로 작성했다. 모델은 Stage 후보·밀리초 변환, InfiniteMode Score 구성·상한, Board 분리, 정렬·공동 순위, 최고 기록, 제출 ID 중복 및 Pending·Submitted·Rejected 상태를 생산 코드에서 판정한다.
+- Stage 후보는 `Cleared`와 UUID v4 제출 ID, 불변 Stage ID·Rules Version, 유효 시간을 요구한다. InfiniteMode 후보는 Current Scoring Version, Run 시간, 일치하는 Score 구성·최대 배율과 Version별 논리적 최대 Total Score를 요구한다.
+- `InfiniteScoreLimit`은 Run 시간, 최대 속도, 거리당 Score, 최대 배율, 최소 Pattern 길이, Pattern별 최대 Collectible과 Collectible Score로 상한을 계산한다. 상한 입력이 누락·무효이거나 Total Score가 상한을 넘으면 후보 생성을 거부한다.
+- `RecordSubmissionPolicyTests`는 Stage 정상·거부·밀리초 반올림, InfiniteMode 상한 경계·초과·Version·구성 불일치, UUID v4, 동일 제출 ID, 재시도 계기별 세 번 제한, Rejected 종료와 계정 귀속 불일치를 검증한다.
+- `RecordLeaderboardPolicyTests`는 Stage 오름차순, InfiniteMode 내림차순, 서버 수락 시각 보조 정렬, 완전 동점 competition ranking, Board 분리와 Mode별 엄격한 개인 최고 기록 갱신을 검증한다.
+- 새 모델과 Test에는 UnityEngine, MonoBehaviour, Scene, 실제 파일, SDK·Authentication·Leaderboard API 의존이 없음을 정적 검색으로 확인했다. 새 Asset meta GUID 충돌이 없고 `git diff --check`를 통과했다.
 
 ## Step 7. Unity Script Compilation과 자동 Test를 확인한다
 
@@ -170,7 +239,13 @@ Phase 1에서 Scene과 생산 플레이 경로를 변경하지 않은 경우 화
 
 ### 완료 조건
 
-- [ ] 최신 변경 기준 Script Compilation과 지정된 자동 Test가 모두 성공하고 예상하지 않은 Error/Warning이 없다.
+- [x] 최신 변경 기준 Script Compilation과 지정된 자동 Test가 모두 성공하고 예상하지 않은 Error/Warning이 없다.
+
+### 수행 결과
+
+- 사용자가 Unity Editor에서 최신 변경 기준 Script Compilation 성공을 확인했고 예상하지 않은 Error와 Warning이 없다고 보고했다.
+- 사용자가 Unity Test Runner Edit Mode 전체 회귀 716개를 실행해 모두 성공했고 예상하지 않은 Error와 Warning이 없다고 보고했다. 전체 실행에는 `RecordSubmissionPolicyTests`와 `RecordLeaderboardPolicyTests`가 포함된다.
+- 이번 변경은 순수 정책 모델과 Edit Mode Test만 추가했으며 Scene·생산 플레이 경로를 변경하지 않았다. 따라서 Play Mode Test, 화면 확인과 Player Build는 Step 7 완료 조건에 포함하지 않았다.
 
 ## Step 8. Phase 1 완료 근거와 후속 범위를 정리한다
 
@@ -186,7 +261,14 @@ Phase 1에서 Scene과 생산 플레이 경로를 변경하지 않은 경우 화
 
 ### 완료 조건
 
-- [ ] 저장·계정·순위·Version·Offline·운영 정책과 Unit Test 근거가 모두 기록되고 Phase 1 상태가 갱신됐다.
+- [x] 저장·계정·순위·Version·Offline·운영 정책과 Unit Test 근거가 모두 기록되고 Phase 1 상태가 갱신됐다.
+
+### 수행 결과
+
+- 저장 대상·계정 복구 제한·Board/Version 분리·정렬/공동 순위·Offline 재시도·로컬 초기화와 서버 기록 유지·InfiniteMode 논리적 점수 상한 정책을 Project·Feature·System 문서와 이 Task에 기록했다.
+- 순수 정책 모델과 Edit Mode Unit Test가 후보 유효성, 상한, Board 분리, 순위, 최고 기록, 중복 제출, 재시도와 계정 귀속을 검증한다.
+- 사용자가 Unity Script Compilation 성공 및 예상하지 않은 Error/Warning 없음, Edit Mode Test 716개 전체 성공 및 예상하지 않은 Error/Warning 없음을 확인했다.
+- Phase 2의 실제 로컬 저장, Phase 3의 Authentication·온라인 제출/조회, Phase 4의 UI·Player Build는 아직 수행하지 않았으며, Roadmap 007 Phase 1만 완료로 갱신했다.
 
 # 영향 범위
 
@@ -201,11 +283,11 @@ Phase 1에서 Scene과 생산 플레이 경로를 변경하지 않은 경우 화
 
 # 검증 결과
 
-이 문서는 실행 계획이다. 정책 결정, 생산 코드·Unit Test 구현과 Unity 검증은 아직 수행되지 않았으며 Phase 1 완료로 기록하지 않는다.
+Step 1~8을 완료했다. 확정 정책은 관련 Project·Feature·System 문서에 반영했고, 순수 정책 모델과 Edit Mode Unit Test를 추가했다. 사용자가 Unity Script Compilation 성공 및 Edit Mode Test 716개 전체 성공을 확인했으며, 두 실행 모두 예상하지 않은 Error/Warning이 없었다. Roadmap 007 Phase 1 상태를 완료로 갱신했다.
 
 # 후속 작업
 
-Step 1의 정적 조사부터 시작하고, Step 2~4에서 사용자 정책 결정을 받은 뒤 계약과 순수 Unit Test를 작성한다.
+Roadmap 007 Phase 2에서 로컬 기록·설정 저장 계층을 구현한다. Phase 3의 실제 Authentication·온라인 제출/조회와 Phase 4의 UI·Player Build는 후속 범위로 유지한다.
 
 # 관련 문서
 

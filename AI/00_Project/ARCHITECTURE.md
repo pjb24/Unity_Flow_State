@@ -58,15 +58,13 @@ Feature의 동작 규칙은 Feature 문서에서 관리한다.
 
 # 데이터 구조
 
-프로젝트에서 사용하는 데이터는 모두 Runtime Data로 관리한다.
+현재 Run 데이터와 확정 Result Data는 Runtime Data로 관리한다.
 
-데이터는 게임 시작 시 생성된다.
+Runtime Data는 게임 시작 시 생성되고 게임 종료 시 제거된다.
 
-데이터는 게임 진행 중 필요한 System으로 전달된다.
+Settings, Input Binding Override, Tutorial 완료 상태, 개인 최고 기록 캐시와 제출 대기열은 로컬 영구 데이터로 관리한다.
 
-데이터는 게임 종료 시 제거된다.
-
-현재 버전에서는 데이터를 저장하지 않는다.
+온라인 Leaderboard의 계정 귀속 최고 기록과 순위는 서버 데이터로 관리한다.
 
 ---
 
@@ -114,11 +112,13 @@ Runtime Data를 제거한다.
 
 # 저장 구조
 
-현재 버전에서는 저장 데이터를 관리하지 않는다.
+ResultSystem은 Mode별 Result Data를 생성하고 관리한다.
 
-모든 데이터는 Runtime Data로만 사용한다.
+RecordSubmissionSystem은 확정 Result를 제출 후보로 판정하고, 로컬 대기열과 온라인 제출 경계를 관리한다.
 
-게임 종료 시 모든 Runtime Data를 제거한다.
+저장소와 온라인 서비스 구현은 게임 로직과 Repository 경계로 분리한다.
+
+게임 종료 시 현재 Run Runtime Data는 제거하지만, 로컬 영구 데이터와 제출 대기열은 제거하지 않는다.
 
 ---
 
@@ -152,13 +152,11 @@ System의 책임은 System 문서에서 관리한다.
 
 Project 문서에는 프로젝트 수준의 구조만 작성한다.
 
-Runtime Data만 사용한다.
+현재 Run Runtime Data와 로컬·서버 영구 데이터의 소유 경계를 분리한다.
 
-현재 버전에서는 로컬 저장을 사용하지 않는다.
+게임 로직은 특정 파일 형식, 저장 경로 또는 서버 SDK를 직접 참조하지 않는다.
 
-현재 버전에서는 서버 저장을 사용하지 않는다.
-
-리더보드 추가가 가능하도록 구조를 유지한다.
+리더보드 기록 생성·저장·제출·조회 책임을 분리한다.
 
 ---
 
@@ -180,10 +178,12 @@ Runtime Data만 사용한다.
 
 ## Systems
 
-- 없음
+- ResultSystem.md
+- RecordSubmissionSystem.md
 
 ---
 
 ## Features
 
-- 없음
+- Leaderboard.md
+- RecordSubmission.md
