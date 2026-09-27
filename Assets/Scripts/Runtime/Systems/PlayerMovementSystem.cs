@@ -50,9 +50,6 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private MomentumLandingFeature _momentumLandingFeature;
         [SerializeField] private NormalLandingFeature _normalLandingFeature;
         [SerializeField] private float _moveSpeed = 8.0f;
-        [SerializeField] private float _groundAcceleration = 50.0f;
-        [SerializeField] private float _airAcceleration = 25.0f;
-        [SerializeField] private float _maximumHorizontalSpeed = 14.0f;
         [SerializeField] private float _gravityAcceleration = 25.0f;
         private PlayerMovementRuntimeData _runtimeData;
         private GameRuntimeData _gameRuntimeData;
@@ -66,6 +63,9 @@ namespace FlowState.Runtime.Systems
         public bool IsRunning => _isRunning;
 
         public bool IsPaused => _isPaused;
+
+        public float FixedHorizontalSpeed =>
+            PlayerMovementMath.CalculateFixedHorizontalSpeed(_moveSpeed);
 
         private void FixedUpdate()
         {
@@ -212,9 +212,7 @@ namespace FlowState.Runtime.Systems
             NormalizeMovementState(stepInput.CollisionState);
             _jumpFeature.UpdateCoyoteTime(_movementState, deltaTime);
 
-            MovementCalculation calculation = CreateInitialCalculation(
-                stepInput,
-                deltaTime);
+            MovementCalculation calculation = CreateInitialCalculation(stepInput);
 
             CalculateJumpAndGravity(stepInput, deltaTime, ref calculation);
             UpdateAirborneProgress(stepInput.CollisionState);
@@ -226,19 +224,12 @@ namespace FlowState.Runtime.Systems
         }
 
         private MovementCalculation CreateInitialCalculation(
-            in MovementStepInput stepInput,
-            float deltaTime)
+            in MovementStepInput stepInput)
         {
             return new MovementCalculation
             {
-                HorizontalSpeed = PlayerMovementMath.CalculateAutoHorizontalSpeed(
-                    stepInput.CurrentVelocity.x,
-                    stepInput.CollisionState.IsGrounded,
-                    deltaTime,
-                    _moveSpeed,
-                    _groundAcceleration,
-                    _airAcceleration,
-                    _maximumHorizontalSpeed),
+                HorizontalSpeed = PlayerMovementMath.CalculateFixedHorizontalSpeed(
+                    _moveSpeed),
                 VerticalSpeed = stepInput.CurrentVelocity.y,
                 LandingState = E_PlayerMovementState.None
             };

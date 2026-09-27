@@ -58,6 +58,7 @@ namespace FlowState.Tests.PlayMode
             MonoBehaviour runtimeDataSystem = FindBehaviour(
                 "RuntimeDataSystem",
                 "RuntimeDataSystem");
+            RestoreTutorialIncomplete(gameSystem);
 
             InvokeNavigationSelection(gameSystem, E_NavigationItem.Play);
             Assert.That(
@@ -263,6 +264,17 @@ namespace FlowState.Tests.PlayMode
                 BindingFlags.Instance | BindingFlags.Public);
             Assert.That(method, Is.Not.Null);
             method.Invoke(target, null);
+        }
+
+        private void RestoreTutorialIncomplete(MonoBehaviour gameSystem)
+        {
+            FieldInfo field = gameSystem.GetType().GetField(
+                "_navigationState",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            GameNavigationState navigationState =
+                (GameNavigationState)field.GetValue(gameSystem);
+            navigationState.RestoreAutomaticHowToPlayCompleted(false);
         }
 
         private T GetProperty<T>(MonoBehaviour target, string propertyName)

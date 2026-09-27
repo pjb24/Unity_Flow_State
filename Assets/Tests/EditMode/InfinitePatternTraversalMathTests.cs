@@ -48,7 +48,7 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void CanTraverseJump_ShortLandingAtMaximumSpeed_IsRejected()
+        public void CanTraverseJump_ShortLandingAtFixedSpeed_IsAccepted()
         {
             bool canTraverse = InfinitePatternTraversalMath.CanTraverseJump(
                 4.0f,
@@ -56,7 +56,7 @@ namespace FlowState.Tests.EditMode
                 4.0f,
                 4.0f);
 
-            Assert.That(canTraverse, Is.False);
+            Assert.That(canTraverse, Is.True);
         }
 
         [Test]

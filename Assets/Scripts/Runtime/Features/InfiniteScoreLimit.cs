@@ -5,7 +5,7 @@ namespace FlowState.Runtime.Features
     public sealed class InfiniteScoreLimit
     {
         private readonly int _scoringVersion;
-        private readonly double _maximumHorizontalSpeed;
+        private readonly double _fixedHorizontalSpeed;
         private readonly double _scorePerDistanceUnit;
         private readonly double _maximumMomentumMultiplier;
         private readonly double _minimumPatternLength;
@@ -18,7 +18,7 @@ namespace FlowState.Runtime.Features
 
         public InfiniteScoreLimit(
             int scoringVersion,
-            double maximumHorizontalSpeed,
+            double fixedHorizontalSpeed,
             double scorePerDistanceUnit,
             double maximumMomentumMultiplier,
             double minimumPatternLength,
@@ -26,7 +26,7 @@ namespace FlowState.Runtime.Features
             int collectibleScorePerItem)
         {
             _scoringVersion = scoringVersion;
-            _maximumHorizontalSpeed = maximumHorizontalSpeed;
+            _fixedHorizontalSpeed = fixedHorizontalSpeed;
             _scorePerDistanceUnit = scorePerDistanceUnit;
             _maximumMomentumMultiplier = maximumMomentumMultiplier;
             _minimumPatternLength = minimumPatternLength;
@@ -46,7 +46,7 @@ namespace FlowState.Runtime.Features
             }
 
             double durationSeconds = runDurationMilliseconds / 1000.0;
-            double maximumDistance = durationSeconds * _maximumHorizontalSpeed;
+            double maximumDistance = durationSeconds * _fixedHorizontalSpeed;
             double maximumDistanceScore = maximumDistance *
                                           _scorePerDistanceUnit *
                                           _maximumMomentumMultiplier;
@@ -73,8 +73,8 @@ namespace FlowState.Runtime.Features
         private bool IsValid()
         {
             return _scoringVersion > 0 &&
-                   IsFinite(_maximumHorizontalSpeed) &&
-                   _maximumHorizontalSpeed > 0.0 &&
+                   IsFinite(_fixedHorizontalSpeed) &&
+                   _fixedHorizontalSpeed > 0.0 &&
                    IsFinite(_scorePerDistanceUnit) &&
                    _scorePerDistanceUnit > 0.0 &&
                    IsFinite(_maximumMomentumMultiplier) &&

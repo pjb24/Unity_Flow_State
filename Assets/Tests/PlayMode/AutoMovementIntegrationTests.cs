@@ -15,7 +15,6 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _movementSystem;
         private MonoBehaviour _inputSystem;
         private MonoBehaviour _runtimeDataSystem;
-        private MonoBehaviour _controllerSystem;
         private MonoBehaviour _timerSystem;
         private Rigidbody _playerRigidbody;
 
@@ -28,7 +27,6 @@ namespace FlowState.Tests.PlayMode
             _movementSystem = FindSystem("PlayerMovementSystem", "PlayerMovementSystem");
             _inputSystem = FindSystem("PlayerInputSystem", "PlayerInputSystem");
             _runtimeDataSystem = FindSystem("RuntimeDataSystem", "RuntimeDataSystem");
-            _controllerSystem = FindSystem("Player", "PlayerControllerSystem");
             _timerSystem = FindSystem("TimerSystem", "TimerSystem");
             _playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
             Assert.That(_playerRigidbody, Is.Not.Null);
@@ -48,20 +46,20 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator StageStart_NoMoveInput_AcceleratesFromZero()
+        public IEnumerator StageStart_NoMoveInput_UsesFixedSerializedSpeed()
         {
             yield return VerifyAutomaticStart(E_GameMode.Stage);
         }
 
         [UnityTest]
-        public IEnumerator InfiniteStart_NoMoveInput_AcceleratesFromZero()
+        public IEnumerator InfiniteStart_NoMoveInput_UsesFixedSerializedSpeed()
         {
             yield return VerifyAutomaticStart(E_GameMode.Infinite);
         }
 
         [TestCase(E_GameMode.Stage)]
         [TestCase(E_GameMode.Infinite)]
-        public void PlayingStep_BothModes_UsesCommonGroundAcceleration(E_GameMode gameMode)
+        public void PlayingStep_BothModes_UsesFixedSerializedSpeed(E_GameMode gameMode)
         {
             ProductionSceneGameModeTestUtility.RestartInMode(gameMode);
             GameRuntimeData runtimeData = GetRuntimeData();
@@ -73,7 +71,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_playerRigidbody.linearVelocity.x,
                 Is.EqualTo(GetField<float>(
                     _movementSystem,
-                    "_groundAcceleration") * Time.fixedDeltaTime)
+                    "_moveSpeed"))
                     .Within(SpeedTolerance));
             Assert.That(runtimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
                 Is.EqualTo(_playerRigidbody.linearVelocity.x).Within(SpeedTolerance));
@@ -286,9 +284,6 @@ namespace FlowState.Tests.PlayMode
 
                 Assert.That(currentRuntimeData, Is.Not.SameAs(previousRuntimeData));
                 Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
-                Assert.That(GetProperty<float>(
-                    _controllerSystem,
-                    "CurrentHorizontalAcceleration"), Is.Zero);
                 Assert.That(
                     currentRuntimeData.PlayerMovementRuntimeData.CurrentHorizontalSpeed,
                     Is.Zero);
@@ -311,12 +306,11 @@ namespace FlowState.Tests.PlayMode
             for (int step = 0; step < 12; step++)
             {
                 yield return new WaitForFixedUpdate();
-                Assert.That(_playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
                 Assert.That(
                     _playerRigidbody.linearVelocity.x,
-                    Is.LessThanOrEqualTo(GetField<float>(
+                    Is.EqualTo(GetField<float>(
                         _movementSystem,
-                        "_moveSpeed")));
+                        "_moveSpeed")).Within(SpeedTolerance));
             }
 
             Assert.That(_playerRigidbody.position.x, Is.GreaterThan(startX));

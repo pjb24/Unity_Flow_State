@@ -25,7 +25,7 @@ RecordSubmissionSystem
 
 # 시작 조건
 
-- ResultSystem이 확정 Result Data를 제공한다.
+- GameSystem이 확정 Result Data를 제출 후보 연결 경계에 제공한다.
 - Application 시작, 온라인 복구, 인증 성공 또는 사용자 Retry 요청이 발생한다.
 
 ---
@@ -55,8 +55,8 @@ RecordSubmissionSystem
 
 | 입력 | 출처 |
 |------|------|
-| 확정 Result Data | ResultSystem |
-| 현재 계정 식별 정보 | 인증 경계 |
+| 확정 Result Data | GameSystem |
+| 현재 계정 식별 정보 | Phase 2 Local Save, Phase 3 인증 경계 |
 | 제출·저장소 결과 | 로컬·온라인 Repository 경계 |
 | Retry 요청 | UIManagementSystem |
 
@@ -102,6 +102,7 @@ RecordSubmissionSystem
 # 제약 사항
 
 - 제출 후보는 Result Data를 변경하지 않는다.
+- Phase 2는 최초 로컬 실행에 생성해 Local Save에 보존한 UUID v4 계정 ID를 후보 귀속에 사용한다. 이 값은 Phase 3 Anonymous Authentication Player ID와 동일하다고 가정하지 않는다.
 - 같은 계정과 제출 ID의 후보를 중복 제출하지 않는다.
 - 다른 계정에 귀속된 후보를 전송하지 않는다.
 - Offline·인증·Timeout·서비스 실패는 Pending 상태로 유지하고 게임 진행을 차단하지 않는다.

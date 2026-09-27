@@ -141,6 +141,7 @@ namespace FlowState.Tests.PlayMode
                 "FlowState.Runtime.Systems.PlayerInputSystem");
             MonoBehaviour uiInputSystem = FindSystem(
                 "FlowState.Runtime.Systems.UIInputSystem");
+            RestoreTutorialIncomplete(gameSystem);
 
             InvokePublicMethod(gameSystem, "SelectPlay");
             InvokePublicMethod(gameSystem, "SelectInfinite");
@@ -237,6 +238,17 @@ namespace FlowState.Tests.PlayMode
             T value = (T)field.GetValue(target);
             Assert.That(value, Is.Not.Null, $"{fieldName} was not assigned.");
             return value;
+        }
+
+        private static void RestoreTutorialIncomplete(MonoBehaviour gameSystem)
+        {
+            FieldInfo field = gameSystem.GetType().GetField(
+                "_navigationState",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null, "_navigationState was not found.");
+            GameNavigationState navigationState =
+                (GameNavigationState)field.GetValue(gameSystem);
+            navigationState.RestoreAutomaticHowToPlayCompleted(false);
         }
 
         private static void AssertButtonContract(

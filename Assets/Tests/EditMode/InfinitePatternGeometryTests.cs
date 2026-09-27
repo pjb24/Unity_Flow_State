@@ -118,10 +118,6 @@ namespace FlowState.Tests.EditMode
                         patternId, surfaceIndex, gap,
                         heightDifference, fromSize.x, toSize.x,
                         InfinitePatternTraversalMath.BaseHorizontalSpeed);
-                    AssertWindow(
-                        patternId, surfaceIndex, gap,
-                        heightDifference, fromSize.x, toSize.x,
-                        InfinitePatternTraversalMath.MaximumHorizontalSpeed);
                 }
             }
         }
@@ -210,16 +206,21 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void JustOutsideTraversalContract_IsRejected()
+        public void TraversalContract_HeightAboveJumpApex_IsRejected()
         {
             Assert.That(
                 InfinitePatternTraversalMath.CanTraverseJump(
                     4.0f, 3.011f, 8.0f, 8.0f),
                 Is.False);
+        }
+
+        [Test]
+        public void FixedSpeedTraversalContract_ShortLanding_IsAccepted()
+        {
             Assert.That(
                 InfinitePatternTraversalMath.CanTraverseJump(
                     4.0f, 0.0f, 4.0f, 4.0f),
-                Is.False);
+                Is.True);
         }
 
         private static void AssertWindow(

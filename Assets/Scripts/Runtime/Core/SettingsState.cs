@@ -30,6 +30,8 @@ namespace FlowState.Runtime.Core
 
         public int BindingOverrideCount => _overrides.Count;
 
+        public IReadOnlyList<SettingsBindingOverride> BindingOverrides => _overrides;
+
         public SettingsState(
             bool defaultFullscreen,
             ISettingsApplication application,
@@ -111,6 +113,20 @@ namespace FlowState.Runtime.Core
 
             SetOverride(_pendingTarget, controlPath);
             ClearPendingRebind();
+            return true;
+        }
+
+        public bool TryApplyPersistedOverride(
+            SettingsBindingTarget target,
+            string controlPath)
+        {
+            if (FindDefinitionIndex(target) < 0 ||
+                string.IsNullOrEmpty(controlPath) || HasConflict(target, controlPath))
+            {
+                return false;
+            }
+
+            SetOverride(target, controlPath);
             return true;
         }
 

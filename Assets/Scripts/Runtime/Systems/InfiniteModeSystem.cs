@@ -64,6 +64,8 @@ namespace FlowState.Runtime.Systems
 
         public double MomentumDuration => _momentumState.CurrentDuration;
 
+        public float ScorePerUnit => _scorePerUnit;
+
         public double MomentumRemainingRatio => _momentumState.RemainingRatio;
 
         public double CumulativeRebaseOffset =>

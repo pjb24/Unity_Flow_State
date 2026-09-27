@@ -16,6 +16,14 @@ namespace FlowState.Tests.EditMode
         };
 
         [Test]
+        public void TryGetMaximumCount_UsesLargestCurrentPatternLayout()
+        {
+            Assert.That(InfiniteCollectibleLayout.TryGetMaximumCount(
+                out int maximumCount), Is.True);
+            Assert.That(maximumCount, Is.EqualTo(20));
+        }
+
+        [Test]
         public void EveryPattern_HasUniqueFinitePointsAndCompleteJumpGroups()
         {
             for (int patternIndex = 0;

@@ -8,6 +8,13 @@ namespace FlowState.Runtime.Features
         public const string SingleRiseId = "SingleRise";
         public const string LegacyStepsId = "LegacySteps";
         public const string InternalGapId = "InternalGap";
+        public static readonly string[] PatternIds =
+        {
+            FlatId,
+            SingleRiseId,
+            LegacyStepsId,
+            InternalGapId
+        };
 
         private const float StartAnchorX = -22.0f;
         private const float EndAnchorX = 22.0f;
@@ -21,7 +28,7 @@ namespace FlowState.Runtime.Features
             {
                 CreateDefinition(
                     FlatId,
-                    "Provides the run start, automatic acceleration, and fallback.",
+                    "Provides the run start, fixed-speed movement, and fallback.",
                     E_InfinitePatternDifficulty.D1),
                 CreateDefinition(
                     SingleRiseId,

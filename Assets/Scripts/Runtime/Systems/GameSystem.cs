@@ -1,5 +1,6 @@
 using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
+using System;
 using UnityEngine;
 
 namespace FlowState.Runtime.Systems
@@ -28,6 +29,10 @@ namespace FlowState.Runtime.Systems
         private IApplicationQuitService _applicationQuitService =
             new ApplicationQuitService();
         private GameRuntimeData _runtimeData;
+        private LocalRecordRepository _localRecordRepository;
+        private RecordSubmissionService _recordSubmissionService;
+        private LocalSaveData _localSaveData;
+        private GameRuntimeData _candidateRuntimeData;
 
         public E_GameState CurrentGameState => _gameState.CurrentState;
 
@@ -70,6 +75,11 @@ namespace FlowState.Runtime.Systems
 
         private void OnDisable()
         {
+            if (_settingsSystem != null)
+            {
+                _settingsSystem.SettingsChanged -= SaveLocalState;
+            }
+
             if (_stageSystem != null)
             {
                 _stageSystem.RemoveStageEndedListener(HandleStageEnded);
@@ -141,6 +151,7 @@ namespace FlowState.Runtime.Systems
                 case E_NavigationScreen.AutomaticHowToPlay:
                     if (_navigationState.TrySubmit())
                     {
+                        SaveLocalState();
                         StartRequestedRun();
                     }
                     break;
@@ -221,12 +232,58 @@ namespace FlowState.Runtime.Systems
             _playerInputSystem.DisablePlayerActionMap();
             _uiInputSystem.Initialize();
             _uiInputSystem.EnableUIActionMap();
+            InitializeLocalState();
             _uiManagementSystem.InitializeMenu();
 
             if (_navigationState.CompleteBoot())
             {
                 ApplyNavigationState();
             }
+        }
+
+        private void InitializeLocalState()
+        {
+            _localRecordRepository = new LocalRecordRepository(
+                new PersistentLocalSaveFileStore());
+            _recordSubmissionService = new RecordSubmissionService(
+                _localRecordRepository);
+            _localRecordRepository.TryLoad(out _localSaveData);
+
+            if (_localSaveData == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(_localSaveData.AccountId))
+            {
+                _localSaveData = new LocalSaveData(
+                    LocalSaveData.CurrentVersion,
+                    Guid.NewGuid().ToString("D"),
+                    _localSaveData.Settings,
+                    _localSaveData.HasCompletedTutorial,
+                    _localSaveData.PersonalBests,
+                    _localSaveData.PendingSubmissions);
+                _localRecordRepository.TrySave(_localSaveData);
+            }
+
+            _settingsSystem.ApplyLocalSettings(_localSaveData.Settings);
+            _navigationState.RestoreAutomaticHowToPlayCompleted(
+                _localSaveData.HasCompletedTutorial);
+            _settingsSystem.SettingsChanged += SaveLocalState;
+        }
+
+        private void SaveLocalState()
+        {
+            if (_localRecordRepository == null || _settingsSystem == null)
+            {
+                return;
+            }
+
+            _localSaveData = _localRecordRepository.CreateSaveData(
+                _localSaveData == null ? string.Empty : _localSaveData.AccountId,
+                _settingsSystem.CreateLocalSettingsData(),
+                _navigationState.HasAutomaticHowToPlayCompleted);
+            _localRecordRepository.TrySave(_localSaveData);
         }
 
         private bool BeginRunFromMenu(E_GameMode gameMode)
@@ -825,6 +882,8 @@ namespace FlowState.Runtime.Systems
                 {
                     _uiManagementSystem.SetResultData(
                         _resultSystem.CurrentResultData);
+                    TryStoreCurrentResultCandidate(
+                        _resultSystem.CurrentResultData);
                 }
             }
             else if (_runtimeData.GameMode == E_GameMode.Infinite)
@@ -861,7 +920,107 @@ namespace FlowState.Runtime.Systems
             {
                 _uiManagementSystem.SetResultData(
                     _resultSystem.CurrentResultData);
+                TryStoreCurrentResultCandidate(_resultSystem.CurrentResultData);
             }
+        }
+
+        private void TryStoreCurrentResultCandidate(ResultData resultData)
+        {
+            if (resultData == null || _runtimeData == null ||
+                _candidateRuntimeData == _runtimeData ||
+                _recordSubmissionService == null || _localSaveData == null ||
+                string.IsNullOrEmpty(_localSaveData.AccountId))
+            {
+                return;
+            }
+
+            string submissionId = Guid.NewGuid().ToString("D");
+            bool isCandidateCreated;
+            RecordSubmissionCandidate candidate;
+
+            if (resultData.GameMode == E_GameMode.Stage)
+            {
+                isCandidateCreated = RecordSubmissionPolicy.TryCreateStageCandidate(
+                    _localSaveData.AccountId,
+                    submissionId,
+                    StageRecordIdentity.CurrentStageId,
+                    StageRecordIdentity.CurrentRulesVersion,
+                    resultData.StageResultType,
+                    resultData.ElapsedTime,
+                    out candidate);
+            }
+            else if (resultData.GameMode == E_GameMode.Infinite &&
+                     TryCreateInfiniteScoreLimit(
+                         resultData,
+                         out InfiniteScoreLimit scoreLimit))
+            {
+                isCandidateCreated = RecordSubmissionPolicy.TryCreateInfiniteCandidate(
+                    _localSaveData.AccountId,
+                    submissionId,
+                    resultData.ScoringVersion,
+                    GetPlayDurationMilliseconds(),
+                    resultData.BaseDistanceScore,
+                    resultData.MomentumBonus,
+                    resultData.DistanceScore,
+                    resultData.CollectibleScore,
+                    resultData.TotalScore,
+                    resultData.MaximumMomentumMultiplier,
+                    scoreLimit,
+                    out candidate);
+            }
+            else
+            {
+                return;
+            }
+
+            if (!isCandidateCreated ||
+                !_recordSubmissionService.TryStoreCandidate(candidate))
+            {
+                return;
+            }
+
+            _candidateRuntimeData = _runtimeData;
+            SaveLocalState();
+        }
+
+        private bool TryCreateInfiniteScoreLimit(
+            ResultData resultData,
+            out InfiniteScoreLimit scoreLimit)
+        {
+            scoreLimit = null;
+
+            if (_playerMovementSystem == null || _infiniteModeSystem == null ||
+                _runtimeData.CollectibleRuntimeData == null ||
+                !InfiniteCollectibleLayout.TryGetMaximumCount(
+                    out int maximumCollectiblesPerPattern))
+            {
+                return false;
+            }
+
+            scoreLimit = new InfiniteScoreLimit(
+                resultData.ScoringVersion,
+                _playerMovementSystem.FixedHorizontalSpeed,
+                _infiniteModeSystem.ScorePerUnit,
+                MomentumScoreState.MaximumMultiplier,
+                InfinitePatternDefinition.PatternLength,
+                maximumCollectiblesPerPattern,
+                _runtimeData.CollectibleRuntimeData.ScorePerCollectible);
+            return true;
+        }
+
+        private long GetPlayDurationMilliseconds()
+        {
+            double elapsedTime = _timerSystem.GetElapsedTime(E_TimerKey.PlayTimer);
+
+            if (double.IsNaN(elapsedTime) || double.IsInfinity(elapsedTime) ||
+                elapsedTime < 0.0 || elapsedTime > long.MaxValue / 1000.0)
+            {
+                return -1;
+            }
+
+            return (long)Math.Round(
+                elapsedTime * 1000.0,
+                MidpointRounding.AwayFromZero);
         }
 
         private void StopPlayTimer()

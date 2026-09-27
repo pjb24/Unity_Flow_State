@@ -28,6 +28,25 @@ namespace FlowState.Runtime.Features
             return true;
         }
 
+        public static bool TryGetMaximumCount(out int maximumCount)
+        {
+            maximumCount = 0;
+
+            for (int i = 0; i < InfinitePatternCatalogFactory.PatternIds.Length; i++)
+            {
+                if (!TryGetCount(
+                        InfinitePatternCatalogFactory.PatternIds[i],
+                        out int count))
+                {
+                    return false;
+                }
+
+                maximumCount = Mathf.Max(maximumCount, count);
+            }
+
+            return true;
+        }
+
         public static bool TryGetPoint(
             string patternId,
             int index,

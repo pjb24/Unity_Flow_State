@@ -34,7 +34,7 @@ InfiniteMode
 
 | ID | 목적 | 최초 허용 Difficulty |
 |---|---|---|
-| `Flat` | Run 시작, 자동 이동 가속과 대체 후보를 위한 평탄 구간을 제공한다. | D1 |
+| `Flat` | Run 시작, 고정 수평 이동과 대체 후보를 위한 평탄 구간을 제공한다. | D1 |
 | `SingleRise` | 한 번의 상승 Jump와 넓은 착지 구간을 제공한다. | D1 |
 | `LegacySteps` | 기존 두 Platform을 사용하는 연속 Jump와 착지 흐름을 유지한다. | D2 |
 | `InternalGap` | Pattern 내부 Gap에서 Jump 시점과 수평 이동을 판단하게 한다. | D3 |
@@ -73,7 +73,7 @@ InfiniteMode
 ### Flat
 
 - 내부 지형은 높이 변화와 Gap이 없는 평탄 Ground를 사용한다.
-- 첫 Pattern에서는 Jump 입력 없이 정지 상태부터 자동 가속하여 진행할 수 있어야 한다.
+- 첫 Pattern에서는 Jump 입력 없이 Playing 시작 직후 고정 수평 속도로 진행할 수 있어야 한다.
 - 다른 Pattern과 연결되는 경계 Gap에서는 일반 Jump를 사용한다.
 - 모든 Difficulty에서 시작 Pattern과 대체 후보로 사용할 수 있다.
 - 실제 정지 출발과 경계 Gap 통과는 Phase 2 Play Mode Test로 검증한다.
@@ -82,7 +82,7 @@ InfiniteMode
 
 - 한 번의 상승 Platform 진입과 이후의 평탄한 이탈 구간을 사용한다.
 - 일반 Jump 한 번으로 상승하고 Momentum Landing 없이 착지할 수 있어야 한다.
-- 이륙 Ground와 착지면은 기본 속도와 최대 속도에서 최소 `0.10`초의 유효 입력 구간을 제공해야 한다.
+- 이륙 Ground와 착지면은 직렬화된 고정 수평 속도에서 최소 `0.10`초의 유효 입력 구간을 제공해야 한다.
 - 상승 높이와 착지면 길이는 `InfinitePatternTraversalMath` 계약을 만족해야 한다.
 - 실제 Platform 전면 충돌, 모서리 고정과 착지는 Phase 2 Play Mode Test로 검증한다.
 
@@ -122,14 +122,15 @@ InfiniteMode
 
 - 모든 Pattern과 허용된 연결 조합은 현재 Player 이동 수치를 변경하지 않고 일반 Jump로 통과할 수 있어야 한다.
 - Momentum Landing은 통과의 필수 조건으로 사용하지 않는다.
-- Pattern은 기본 수평 속도 `8`과 최대 수평 속도 `14`의 진입 상태를 모두 고려한다.
-- 첫 `Flat` Pattern은 정지 상태에서 자동 가속하여 진행할 수 있어야 한다.
+- Pattern은 PlayerMovementSystem의 직렬화된 고정 수평 속도에서 통과 가능해야 한다.
+- 현재 생산 Pattern과 Collectible 좌표는 직렬화된 이동 속도 `8`을 기준으로 작성되어 있다. 이 값을 변경할 때는 모든 Pattern의 통과 정적 검사와 Collectible 좌표를 같은 속도로 다시 작성해야 한다.
+- 첫 `Flat` Pattern은 Playing 시작 직후 고정 수평 속도로 진행할 수 있어야 한다.
 - Jump가 필요한 구간은 유효한 Jump 입력 구간을 최소 `0.10`초 제공해야 한다.
 - Player 통과 계산은 Jump 높이 `3`, 중력 가속도 `25`, Capsule 반지름 `0.5`와 높이 `2`를 사용한다.
 - Ground 연속 구간은 수평 간격과 높이 차이가 각각 `0.01` 이하일 때 연속으로 판정한다.
 - Gap, 상승 및 하강 구간은 이륙 전 Ground 길이, Gap 길이, 착지 높이와 착지면 길이를 함께 판정한다.
 - 착지면 길이는 Player Capsule 지름 `1` 이상이어야 한다.
-- 기본 속도와 최대 속도에서 계산한 유효 Jump 입력 구간이 모두 `0.10`초 이상이어야 한다.
+- 직렬화된 고정 수평 속도에서 계산한 유효 Jump 입력 구간이 `0.10`초 이상이어야 한다.
 - Platform 진입과 이탈은 각각 별도의 Jump 구간으로 판정한다.
 - 진행 경로에 수직 장애물이 있으면 Jump 궤적에서 Player 하단이 장애물 상단을 통과할 수 있어야 한다.
 - 통과 계산을 만족하지 않는 Gap과 착지면은 낙하 위험 구간으로 판정하고 허용하지 않는다.
@@ -201,10 +202,10 @@ InfiniteMode
 
 ## Phase 2 Pattern별 Test 대상
 
-- `Flat`: 정지 출발 자동 가속, 평탄 Ground 진행과 모든 Pattern 경계 Gap 통과
-- `SingleRise`: 기본 및 최대 속도의 상승 Platform 진입, 착지와 이탈
+- `Flat`: Playing 시작 직후 고정 수평 속도, 평탄 Ground 진행과 모든 Pattern 경계 Gap 통과
+- `SingleRise`: 직렬화된 고정 수평 속도의 상승 Platform 진입, 착지와 이탈
 - `LegacySteps`: 기존 두 Platform의 각 진입·착지·이탈과 앞뒤 Pattern 연결
-- `InternalGap`: 기본 및 최대 속도의 내부 Gap 통과, 착지와 낙하 방지
+- `InternalGap`: 직렬화된 고정 수평 속도의 내부 Gap 통과, 착지와 낙하 방지
 - 전체 조합: 앞 Pattern EndAnchor에서 뒤 Pattern StartAnchor까지 16개 조합의 연결 및 통과
 - 공통 물리: Platform 전면과 모서리의 Wall 접촉 해제, Ground 상태 복구와 추락 임계값 도달
 

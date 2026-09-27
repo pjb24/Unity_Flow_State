@@ -15,80 +15,9 @@ namespace FlowState.Runtime.Core
                 2.0f * gravityAcceleration * jumpHeight);
         }
 
-        public static float CalculateHorizontalSpeed(
-            float currentSpeed,
-            float horizontalInput,
-            bool isGrounded,
-            float deltaTime,
-            float moveSpeed,
-            float groundAcceleration,
-            float airAcceleration,
-            float maximumHorizontalSpeed)
+        public static float CalculateFixedHorizontalSpeed(float moveSpeed)
         {
-            float clampedInput = Mathf.Clamp(horizontalInput, -1.0f, 1.0f);
-            float targetSpeed = clampedInput * Mathf.Max(0.0f, moveSpeed);
-            bool isContinuingDirection =
-                !Mathf.Approximately(clampedInput, 0.0f) &&
-                Mathf.Sign(clampedInput) == Mathf.Sign(currentSpeed);
-
-            if (isContinuingDirection)
-            {
-                targetSpeed = Mathf.Sign(clampedInput) * Mathf.Max(
-                    Mathf.Abs(targetSpeed),
-                    Mathf.Abs(currentSpeed));
-            }
-
-            float acceleration = isGrounded
-                ? Mathf.Max(0.0f, groundAcceleration)
-                : Mathf.Max(0.0f, airAcceleration);
-            float speed = Mathf.MoveTowards(
-                currentSpeed,
-                targetSpeed,
-                acceleration * Mathf.Max(0.0f, deltaTime));
-            float maximumSpeed = Mathf.Max(0.0f, maximumHorizontalSpeed);
-
-            return Mathf.Clamp(speed, -maximumSpeed, maximumSpeed);
-        }
-
-        public static float CalculateAutoHorizontalSpeed(
-            float currentSpeed,
-            bool isGrounded,
-            float deltaTime,
-            float moveSpeed,
-            float groundAcceleration,
-            float airAcceleration,
-            float maximumHorizontalSpeed)
-        {
-            float maximumSpeed = SanitizeNonNegative(maximumHorizontalSpeed);
-
-            if (float.IsNaN(currentSpeed) || float.IsInfinity(currentSpeed))
-            {
-                currentSpeed = 0.0f;
-            }
-
-            currentSpeed = Mathf.Clamp(currentSpeed, -maximumSpeed, maximumSpeed);
-            float baseSpeed = Mathf.Min(SanitizeNonNegative(moveSpeed), maximumSpeed);
-
-            // Momentum gained from landing must survive the next automatic movement step.
-            float targetSpeed = Mathf.Max(baseSpeed, currentSpeed);
-            float acceleration = SanitizeNonNegative(
-                isGrounded ? groundAcceleration : airAcceleration);
-            float speed = Mathf.MoveTowards(
-                currentSpeed,
-                targetSpeed,
-                acceleration * SanitizeNonNegative(deltaTime));
-
-            return Mathf.Clamp(speed, -maximumSpeed, maximumSpeed);
-        }
-
-        public static float CalculateSignedHorizontalAcceleration(
-            float previousSpeed,
-            float currentSpeed,
-            float deltaTime)
-        {
-            float safeDeltaTime = Mathf.Max(deltaTime, Mathf.Epsilon);
-
-            return (currentSpeed - previousSpeed) / safeDeltaTime;
+            return SanitizeNonNegative(moveSpeed);
         }
 
         public static float CalculateVerticalSpeed(

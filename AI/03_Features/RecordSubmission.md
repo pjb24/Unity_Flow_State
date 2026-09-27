@@ -18,6 +18,7 @@ RecordSubmission
 - Stage 후보는 불변 Stage ID, Stage Rules Version과 가장 가까운 밀리초로 반올림한 Clear Time을 포함한다.
 - InfiniteMode 후보는 유효하게 확정된 종료 Result의 Total Score, Score 구성 요소, Scoring Version과 Run 시간을 포함한다.
 - 제출 후보는 생성 시 UUID v4 제출 ID와 계정 귀속 정보를 받고 재시도·재실행 중 변경하지 않는다.
+- Phase 2는 최초 로컬 실행 때 생성해 Local Save에 보존한 UUID v4 계정 ID를 후보 귀속에 사용한다. 이 값은 Anonymous Authentication Player ID가 아니며, 다른 계정에 귀속된 Pending 후보를 자동 전송하지 않는다.
 - 온라인 조회 또는 첫 제출 요청 시 Anonymous 계정을 사용한다. 초기 버전은 계정 연결·복구를 제공하지 않는다.
 - 재설치·기기 변경 뒤 온라인 기록을 복구할 수 없다는 제한은 첫 온라인 요청 전 안내하고 Settings에서 다시 확인할 수 있다.
 - 같은 계정과 제출 ID의 후보는 한 번만 제출한다.

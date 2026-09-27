@@ -24,9 +24,6 @@ namespace FlowState.EditorTools
                 EditorGUILayout.Vector3Field(
                     "Current Velocity",
                     playerController.CurrentVelocity);
-                EditorGUILayout.FloatField(
-                    "Horizontal Acceleration (Signed)",
-                    playerController.CurrentHorizontalAcceleration);
             }
 
             if (!Application.isPlaying)

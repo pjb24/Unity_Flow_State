@@ -6,7 +6,6 @@ namespace FlowState.Runtime.Features
     public static class InfinitePatternTraversalMath
     {
         public const float BaseHorizontalSpeed = 8.0f;
-        public const float MaximumHorizontalSpeed = 14.0f;
         public const float JumpHeight = 3.0f;
         public const float GravityAcceleration = 25.0f;
         public const float PlayerRadius = 0.5f;
@@ -36,20 +35,12 @@ namespace FlowState.Runtime.Features
                     takeoffRunwayLength,
                     landingSurfaceLength,
                     BaseHorizontalSpeed,
-                    out float baseSpeedWindow) ||
-                !TryCalculateJumpInputWindow(
-                    gapWidth,
-                    landingHeightDifference,
-                    takeoffRunwayLength,
-                    landingSurfaceLength,
-                    MaximumHorizontalSpeed,
-                    out float maximumSpeedWindow))
+                    out float jumpInputWindow))
             {
                 return false;
             }
 
-            return baseSpeedWindow >= MinimumJumpInputWindow &&
-                   maximumSpeedWindow >= MinimumJumpInputWindow;
+            return jumpInputWindow >= MinimumJumpInputWindow;
         }
 
         public static bool TryCalculateJumpInputWindow(
@@ -71,6 +62,11 @@ namespace FlowState.Runtime.Features
                 takeoffRunwayLength < 0.0f ||
                 landingSurfaceLength < PlayerRadius * 2.0f ||
                 horizontalSpeed <= 0.0f)
+            {
+                return false;
+            }
+
+            if (landingHeightDifference > JumpHeight)
             {
                 return false;
             }

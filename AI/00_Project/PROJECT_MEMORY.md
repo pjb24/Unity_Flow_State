@@ -22,6 +22,9 @@
 
 ## 프로젝트 규칙
 
+- 수평 속도 증가와 수평 가속 기능은 제거된 확정 사항이다. Playing 중 수평 이동은 PlayerMovementSystem의 직렬화된 이동 속도 하나로 World +X 고정 값을 사용하며, 지상/공중 가속도와 최대 수평 속도 설정을 사용하지 않는다.
+- Momentum Landing은 수평 속도를 변경하지 않는다. 중력 가속도는 점프와 낙하를 위한 수직 규칙이므로 이 결정의 제거 대상이 아니다.
+- Infinite Pattern과 Collectible의 직렬화된 제작 좌표는 현재 PlayerMovementSystem의 직렬화된 이동 속도 `8`을 기준으로 한다. 해당 속도 변경은 Pattern 통과 검증과 Collectible 재배치를 함께 수행하는 제작 변경이다.
 - 문서는 자신의 책임 범위만 관리한다.
 - 프로젝트 수준의 내용과 System, Feature 수준의 내용을 혼합하지 않는다.
 - 현재 Run 데이터와 확정 Result Data는 Runtime 전용이다.
@@ -48,7 +51,7 @@
 - 게임은 3D 오소그래픽 횡스크롤 카메라를 사용한다.
 - 스테이지는 클리어 시간을 기준으로 완료를 판단한다.
 - 무한 모드는 Momentum Landing 연속 성공에 따른 거리 Score 배율을 제공한다.
-- Stage는 `Cleared` 결과만 불변 Stage ID와 밀리초 Clear Time으로 Leaderboard 제출 후보가 된다.
+- 현재 단일 일반 Stage의 불변 식별자는 코드 기본값 `stage-001`, Stage Rules Version은 `1`이다. Stage는 `Cleared` 결과만 이 식별자와 밀리초 Clear Time으로 Leaderboard 제출 후보가 된다.
 - InfiniteMode는 유효하게 확정된 Total Score와 Scoring Version으로 Leaderboard 제출 후보가 된다.
 - Stage와 InfiniteMode는 규칙 Version이 다른 기록을 비교하지 않는 독립 Leaderboard를 사용한다.
 - Offline·인증·서비스 실패는 플레이를 차단하지 않으며 제출 후보를 로컬 대기열에 보존한다.

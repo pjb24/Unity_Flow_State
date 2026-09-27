@@ -8,12 +8,10 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private Rigidbody _playerRigidbody;
         [SerializeField] private Transform _startPoint;
 
-        private float _currentHorizontalAcceleration;
         private bool _isInitialized;
         private bool _isPaused;
         private Vector3 _pausedLinearVelocity;
         private Vector3 _pausedAngularVelocity;
-        private float _pausedHorizontalAcceleration;
         private RigidbodyConstraints _pausedConstraints;
 
         public bool IsInitialized => _isInitialized;
@@ -24,9 +22,6 @@ namespace FlowState.Runtime.Systems
             _playerRigidbody == null
                 ? Vector3.zero
                 : _playerRigidbody.linearVelocity;
-
-        public float CurrentHorizontalAcceleration =>
-            _currentHorizontalAcceleration;
 
         public Rigidbody PlayerRigidbody => _playerRigidbody;
 
@@ -45,7 +40,6 @@ namespace FlowState.Runtime.Systems
                 RigidbodyConstraints.FreezePositionZ |
                 RigidbodyConstraints.FreezeRotation;
             ResetToStartPoint();
-            _currentHorizontalAcceleration = 0.0f;
             _isPaused = false;
             _isInitialized = true;
 
@@ -84,15 +78,9 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            Vector3 currentVelocity = _playerRigidbody.linearVelocity;
             Vector3 resultVelocity = movementResult.Velocity;
             resultVelocity.z = 0.0f;
 
-            _currentHorizontalAcceleration =
-                PlayerMovementMath.CalculateSignedHorizontalAcceleration(
-                    currentVelocity.x,
-                    resultVelocity.x,
-                    Time.fixedDeltaTime);
             _playerRigidbody.linearVelocity = resultVelocity;
         }
 
@@ -111,7 +99,6 @@ namespace FlowState.Runtime.Systems
 
             _playerRigidbody.linearVelocity = Vector3.zero;
             _playerRigidbody.angularVelocity = Vector3.zero;
-            _currentHorizontalAcceleration = 0.0f;
         }
 
         public bool TryApplyWorldRebaseOffset(float worldXOffset)
@@ -144,7 +131,6 @@ namespace FlowState.Runtime.Systems
 
             _pausedLinearVelocity = _playerRigidbody.linearVelocity;
             _pausedAngularVelocity = _playerRigidbody.angularVelocity;
-            _pausedHorizontalAcceleration = _currentHorizontalAcceleration;
             _pausedConstraints = _playerRigidbody.constraints;
             _playerRigidbody.linearVelocity = Vector3.zero;
             _playerRigidbody.angularVelocity = Vector3.zero;
@@ -163,7 +149,6 @@ namespace FlowState.Runtime.Systems
             _playerRigidbody.constraints = _pausedConstraints;
             _playerRigidbody.linearVelocity = _pausedLinearVelocity;
             _playerRigidbody.angularVelocity = _pausedAngularVelocity;
-            _currentHorizontalAcceleration = _pausedHorizontalAcceleration;
             _isPaused = false;
             return true;
         }

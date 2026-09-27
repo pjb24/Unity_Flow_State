@@ -42,6 +42,11 @@ namespace FlowState.Runtime.Core
 
         public bool HasPendingGameMode => _hasPendingGameMode;
 
+        public void RestoreAutomaticHowToPlayCompleted(bool hasCompletedTutorial)
+        {
+            _hasAutomaticHowToPlayCompleted = hasCompletedTutorial;
+        }
+
         public E_GameMode PendingGameMode => _pendingGameMode;
 
         public bool IsPlayerInputAllowed =>

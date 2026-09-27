@@ -1,5 +1,6 @@
 using System;
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +24,7 @@ namespace FlowState.Runtime.Systems
         public event Action<SettingsBindingTarget> RebindStarted;
         public event Action<SettingsBindingTarget, bool, string> RebindFinished;
         public event Action RestoreConfirmationCancelRequested;
+        public event Action SettingsChanged;
 
         private void Awake()
         {
@@ -51,12 +53,16 @@ namespace FlowState.Runtime.Systems
 
         public bool TrySetMasterVolume(int volumePercent)
         {
-            return _state != null && _state.TrySetMasterVolume(volumePercent);
+            bool didChange = _state != null && _state.TrySetMasterVolume(volumePercent);
+            NotifySettingsChanged(didChange);
+            return didChange;
         }
 
         public bool TrySetFullscreen(bool isFullscreen)
         {
-            return _state != null && _state.TrySetFullscreen(isFullscreen);
+            bool didChange = _state != null && _state.TrySetFullscreen(isFullscreen);
+            NotifySettingsChanged(didChange);
+            return didChange;
         }
 
         public bool TryBeginRebind(SettingsBindingTarget target)
@@ -83,7 +89,9 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
-            return _state.TryCompleteRebind(controlPath);
+            bool didChange = _state.TryCompleteRebind(controlPath);
+            NotifySettingsChanged(didChange);
+            return didChange;
         }
 
         public bool TryCancelRebind()
@@ -111,6 +119,39 @@ namespace FlowState.Runtime.Systems
             if (!_isRestoreConfirmationOpen) return false;
             RestoreConfirmationCancelRequested?.Invoke();
             return true;
+        }
+
+        public LocalSettingsData CreateLocalSettingsData()
+        {
+            return _state == null
+                ? new LocalSettingsData(100, Screen.fullScreen, null)
+                : new LocalSettingsData(
+                    _state.MasterVolume,
+                    _state.IsFullscreen,
+                    _state.BindingOverrides);
+        }
+
+        public void ApplyLocalSettings(LocalSettingsData settings)
+        {
+            if (_state == null || settings == null)
+            {
+                return;
+            }
+
+            _state.TrySetMasterVolume(settings.MasterVolume);
+            _state.TrySetFullscreen(settings.IsFullscreen);
+
+            for (int i = 0; i < settings.BindingOverrides.Count; i++)
+            {
+                SettingsBindingOverride binding = settings.BindingOverrides[i];
+
+                if (_state.TryApplyPersistedOverride(
+                        binding.Target,
+                        binding.ControlPath))
+                {
+                    ApplyBindingOverride(binding.Target, binding.ControlPath);
+                }
+            }
         }
 
         // Unity Button.onClick exposes public void methods in the Inspector.
@@ -252,6 +293,8 @@ namespace FlowState.Runtime.Systems
                 RemoveBindingOverride(_definitions[i].Target);
             }
 
+            SettingsChanged?.Invoke();
+
             return true;
         }
 
@@ -291,6 +334,14 @@ namespace FlowState.Runtime.Systems
             if (_uiInputSystem != null)
             {
                 _uiInputSystem.TryRemoveBindingOverride(target);
+            }
+        }
+
+        private void NotifySettingsChanged(bool didChange)
+        {
+            if (didChange)
+            {
+                SettingsChanged?.Invoke();
             }
         }
 

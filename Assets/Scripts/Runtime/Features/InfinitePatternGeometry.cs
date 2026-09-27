@@ -161,12 +161,9 @@ namespace FlowState.Runtime.Features
                 }
 
                 if (heightDifference > 0.0f &&
-                    (!InfinitePatternTraversalMath.CanClearObstacle(
-                         2.0f, gap, heightDifference,
-                         InfinitePatternTraversalMath.BaseHorizontalSpeed) ||
-                     !InfinitePatternTraversalMath.CanClearObstacle(
-                         2.0f, gap, heightDifference,
-                         InfinitePatternTraversalMath.MaximumHorizontalSpeed)))
+                    !InfinitePatternTraversalMath.CanClearObstacle(
+                        2.0f, gap, heightDifference,
+                        InfinitePatternTraversalMath.BaseHorizontalSpeed))
                 {
                     return false;
                 }

@@ -555,7 +555,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator BelowMinimumSpeed_CreatesInfiniteResultData()
+        public IEnumerator FixedSerializedSpeed_DoesNotCreateInfiniteResultData()
         {
             InvokePublicMethod(_gameSystem, "EndGame");
             yield return null;
@@ -565,8 +565,8 @@ namespace FlowState.Tests.PlayMode
             yield return new WaitForFixedUpdate();
             yield return null;
 
-            AssertInfiniteEndedState();
-            AssertInfiniteResultData();
+            AssertInfinitePlayingState();
+            Assert.That(GetBoolProperty(_resultSystem, "HasResultData"), Is.False);
         }
 
         [UnityTest]

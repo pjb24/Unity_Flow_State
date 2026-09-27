@@ -11,6 +11,24 @@ namespace FlowState.Runtime.Features
 
         public int Count => _entries.Count;
 
+        public IReadOnlyList<RecordSubmissionCandidate> CreatePendingSnapshot()
+        {
+            List<RecordSubmissionCandidate> candidates =
+                new List<RecordSubmissionCandidate>();
+
+            for (int i = 0; i < _entries.Count; i++)
+            {
+                RecordSubmissionEntry entry = _entries[i];
+
+                if (entry.Status == E_RecordSubmissionStatus.Pending)
+                {
+                    candidates.Add(entry.Candidate);
+                }
+            }
+
+            return candidates;
+        }
+
         public bool TryEnqueue(RecordSubmissionCandidate candidate)
         {
             if (candidate == null || HasDuplicateSubmission(candidate))
