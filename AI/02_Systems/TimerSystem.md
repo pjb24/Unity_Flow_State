@@ -41,6 +41,8 @@ TimerSystem은 Timer Key를 기준으로 Timer를 생성하고 관리한다.
 
 현재 프로젝트에서는 Stage Mode와 Infinite Mode가 동시에 진행되지 않으므로 기본 플레이 시간 측정에는 하나의 활성 Timer만 사용한다.
 
+현재 Timer Key는 `PlayTimer`와 `InfiniteRunTimer`다. GameSystem은 실행 Mode에 맞는 Key를 선택하고 시작·Pause·Resume·종료·제거 수명을 관리한다.
+
 추후 여러 시간 측정이 동시에 필요해지는 경우 Timer Key를 추가하여 여러 Timer를 관리한다.
 
 예를 들어 아래 항목이 Timer Key가 될 수 있다.

@@ -1,0 +1,18 @@
+{
+  "statements": [
+    {
+      "Sid": "DenyPlayerLeaderboardWrites",
+      "Action": ["Write"],
+      "Effect": "Deny",
+      "Principal": "Player",
+      "Resource": "urn:ugs:leaderboards:/**"
+    },
+    {
+      "Sid": "DenyPlayerCloudSaveWrites",
+      "Action": ["Write"],
+      "Effect": "Deny",
+      "Principal": "Player",
+      "Resource": "urn:ugs:cloud-save:/**"
+    }
+  ]
+}

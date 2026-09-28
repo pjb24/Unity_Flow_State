@@ -105,6 +105,8 @@ RecordSubmissionSystem
 - Phase 2는 최초 로컬 실행에 생성해 Local Save에 보존한 UUID v4 계정 ID를 후보 귀속에 사용한다. 이 값은 Phase 3 Anonymous Authentication Player ID와 동일하다고 가정하지 않는다.
 - 같은 계정과 제출 ID의 후보를 중복 제출하지 않는다.
 - 다른 계정에 귀속된 후보를 전송하지 않는다.
+- 로컬 UUID 후보는 사용자 명시적 동의 전에는 Anonymous Authentication Player ID로 재귀속하거나 전송하지 않는다.
+- 사용자 동의 뒤 현재 인증 Player ID를 제출 대상으로 귀속할 때에도 기존 제출 ID는 변경하지 않는다.
 - Offline·인증·Timeout·서비스 실패는 Pending 상태로 유지하고 게임 진행을 차단하지 않는다.
 - 제출 거부 후보는 자동 재시도하지 않는다.
 - 인증 토큰과 서비스 Secret을 저장하거나 전달하지 않는다.

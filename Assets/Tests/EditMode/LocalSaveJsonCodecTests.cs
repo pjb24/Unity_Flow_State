@@ -63,7 +63,7 @@ namespace FlowState.Tests.EditMode
         {
             Assert.That(LocalSaveJsonCodec.TryDeserialize("{", out LocalSaveData corrupt), Is.False);
             Assert.That(corrupt.Version, Is.EqualTo(LocalSaveData.CurrentVersion));
-            Assert.That(LocalSaveJsonCodec.TryDeserialize("{\"version\":2}", out LocalSaveData unsupported), Is.False);
+            Assert.That(LocalSaveJsonCodec.TryDeserialize("{\"version\":999}", out LocalSaveData unsupported), Is.False);
             Assert.That(unsupported.Version, Is.EqualTo(LocalSaveData.CurrentVersion));
         }
 

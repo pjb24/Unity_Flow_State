@@ -3,6 +3,10 @@
   "rootNamespace": "FlowState.Runtime.Features",
   "references": [
     "FlowState.Runtime.Core",
-    "Unity.InputSystem"
+    "Unity.InputSystem",
+    "Unity.Services.Core",
+    "Unity.Services.Core.Environments",
+    "Unity.Services.Authentication",
+    "Unity.Services.CloudCode"
   ]
 }

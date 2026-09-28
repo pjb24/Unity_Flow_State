@@ -1,6 +1,7 @@
 using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace FlowState.Runtime.Systems
@@ -32,6 +33,18 @@ namespace FlowState.Runtime.Systems
         private LocalRecordRepository _localRecordRepository;
         private RecordSubmissionService _recordSubmissionService;
         private LocalSaveData _localSaveData;
+        private OnlineRecordCoordinator _onlineRecords;
+        private IOnlineRecordRepository _onlineRepository;
+        private NetworkReachability _lastReachability;
+        public IOnlineRecordRepository OnlineRecords => _onlineRepository;
+        public string OnlinePlayerId => _localRecordRepository == null
+            ? string.Empty : _localRecordRepository.OnlineAccount.PlayerId;
+        public int PendingOnlineRecordCount => _localRecordRepository == null
+            ? 0 : _localRecordRepository.CreatePendingSnapshot().Count;
+        public int SubmittedOnlineRecordCount => _localRecordRepository == null
+            ? 0 : _localRecordRepository.OnlineAccount.SubmittedIds.Count;
+        public int RejectedOnlineRecordCount => _localRecordRepository == null
+            ? 0 : _localRecordRepository.OnlineAccount.RejectedIds.Count;
         private GameRuntimeData _candidateRuntimeData;
 
         public E_GameState CurrentGameState => _gameState.CurrentState;
@@ -49,6 +62,10 @@ namespace FlowState.Runtime.Systems
 
         private void Update()
         {
+            NetworkReachability reachability = Application.internetReachability;
+            if (_lastReachability == NetworkReachability.NotReachable &&
+                reachability != NetworkReachability.NotReachable) RetryOnlineRecords();
+            _lastReachability = reachability;
             if (CurrentGameState != E_GameState.Playing &&
                 CurrentGameState != E_GameState.Paused &&
                 CurrentGameState != E_GameState.Ended)
@@ -270,6 +287,35 @@ namespace FlowState.Runtime.Systems
             _navigationState.RestoreAutomaticHowToPlayCompleted(
                 _localSaveData.HasCompletedTutorial);
             _settingsSystem.SettingsChanged += SaveLocalState;
+            IOnlineAuthenticationGateway authentication = new UgsOnlineAuthenticationGateway();
+            _onlineRepository = new CloudCodeRecordRepository(_localSaveData.AccountId,
+                () => _localRecordRepository.OnlineAccount, authentication, new UgsOnlineRecordTransport());
+            _onlineRecords = new OnlineRecordCoordinator(_localSaveData.AccountId,
+                _localRecordRepository, authentication, _onlineRepository);
+            _lastReachability = Application.internetReachability;
+            RetryOnlineRecords();
+        }
+
+        public async Task<bool> ConfirmOnlineRecoveryNoticeAsync()
+        {
+            if (_onlineRecords == null) return false;
+            bool confirmed = await _onlineRecords.ConfirmRecoveryNoticeAsync();
+            if (confirmed) await _onlineRecords.RetryPendingAsync();
+            return confirmed;
+        }
+
+        public async void RetryOnlineRecords()
+        {
+            await RetryOnlineRecordsAsync();
+        }
+
+        public async Task RetryOnlineRecordsAsync()
+        {
+            if (_onlineRecords != null &&
+                Application.internetReachability != NetworkReachability.NotReachable)
+            {
+                await _onlineRecords.RetryPendingAsync();
+            }
         }
 
         private void SaveLocalState()
@@ -376,9 +422,8 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            if (_selectedGameMode == E_GameMode.Stage &&
-                (!_timerSystem.CreateTimer(E_TimerKey.PlayTimer) ||
-                 !_timerSystem.StartTimer(E_TimerKey.PlayTimer)))
+            if (!_timerSystem.CreateTimer(GetRunTimerKey()) ||
+                !_timerSystem.StartTimer(GetRunTimerKey()))
             {
                 AbortGameStart();
                 return;
@@ -443,8 +488,7 @@ namespace FlowState.Runtime.Systems
 
         private bool PausePlaySystems()
         {
-            bool timerPaused = _runtimeData.GameMode != E_GameMode.Stage ||
-                               _timerSystem.PauseTimer(E_TimerKey.PlayTimer);
+            bool timerPaused = _timerSystem.PauseTimer(GetRunTimerKey());
             bool stagePaused = timerPaused && _stageSystem.PauseStage();
             bool infinitePaused = stagePaused &&
                                   (_runtimeData.GameMode != E_GameMode.Infinite ||
@@ -474,9 +518,9 @@ namespace FlowState.Runtime.Systems
                 _stageSystem.ResumeStage();
             }
 
-            if (_runtimeData.GameMode == E_GameMode.Stage && timerPaused)
+            if (timerPaused)
             {
-                _timerSystem.ResumeTimer(E_TimerKey.PlayTimer);
+                _timerSystem.ResumeTimer(GetRunTimerKey());
             }
 
             return false;
@@ -492,8 +536,7 @@ namespace FlowState.Runtime.Systems
                                     _infiniteModeSystem.Resume());
             bool stageResumed = infiniteResumed && _stageSystem.ResumeStage();
             bool timerResumed = stageResumed &&
-                                (_runtimeData.GameMode != E_GameMode.Stage ||
-                                 _timerSystem.ResumeTimer(E_TimerKey.PlayTimer));
+                                _timerSystem.ResumeTimer(GetRunTimerKey());
 
             return timerResumed;
         }
@@ -551,14 +594,14 @@ namespace FlowState.Runtime.Systems
             }
             SetUIState(shouldShowResult ? E_UIState.Result : E_UIState.None);
 
-            StopPlayTimer();
+            StopRunTimer();
             _stageSystem.StopStage();
             _playerInputSystem.DisablePlayerActionMap();
             _uiInputSystem.EnableUIActionMap();
             _cameraFollow.StopFollowing();
             _infiniteModeSystem.Stop();
             _playerMovementSystem.StopMovement();
-            RemovePlayTimer();
+            RemoveRunTimer();
 
             _runtimeDataSystem.ClearRuntimeData();
             _runtimeData = null;
@@ -848,7 +891,7 @@ namespace FlowState.Runtime.Systems
             _cameraFollow.StopFollowing();
             _infiniteModeSystem.Stop();
             _playerMovementSystem.StopMovement();
-            RemovePlayTimer();
+            RemoveRunTimer();
             _runtimeDataSystem.ClearRuntimeData();
             _runtimeData = null;
             _gameState.Reset();
@@ -867,7 +910,7 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            StopPlayTimer();
+            StopRunTimer();
 
             if (_runtimeData.GameMode == E_GameMode.Stage)
             {
@@ -1010,7 +1053,12 @@ namespace FlowState.Runtime.Systems
 
         private long GetPlayDurationMilliseconds()
         {
-            double elapsedTime = _timerSystem.GetElapsedTime(E_TimerKey.PlayTimer);
+            if (_timerSystem == null || !_timerSystem.HasTimer(GetRunTimerKey()))
+            {
+                Debug.LogWarning("[GameSystem] Run timer missing; record candidate was not stored.");
+                return -1;
+            }
+            double elapsedTime = _timerSystem.GetElapsedTime(GetRunTimerKey());
 
             if (double.IsNaN(elapsedTime) || double.IsInfinity(elapsedTime) ||
                 elapsedTime < 0.0 || elapsedTime > long.MaxValue / 1000.0)
@@ -1023,18 +1071,24 @@ namespace FlowState.Runtime.Systems
                 MidpointRounding.AwayFromZero);
         }
 
-        private void StopPlayTimer()
+        private void StopRunTimer()
         {
-            if (!_timerSystem.HasTimer(E_TimerKey.PlayTimer) ||
+            if (!_timerSystem.HasTimer(GetRunTimerKey()) ||
                 !_timerSystem.TryGetTimerState(
-                    E_TimerKey.PlayTimer,
+                    GetRunTimerKey(),
                     out E_TimerState timerState) ||
                 timerState == E_TimerState.Stopped)
             {
                 return;
             }
 
-            _timerSystem.StopTimer(E_TimerKey.PlayTimer);
+            _timerSystem.StopTimer(GetRunTimerKey());
+        }
+
+        private E_TimerKey GetRunTimerKey()
+        {
+            return _runtimeData != null && _runtimeData.GameMode == E_GameMode.Infinite
+                ? E_TimerKey.InfiniteRunTimer : E_TimerKey.PlayTimer;
         }
 
         private void RequestApplicationQuit()
@@ -1042,12 +1096,12 @@ namespace FlowState.Runtime.Systems
             _applicationQuitService.RequestQuit();
         }
 
-        private void RemovePlayTimer()
+        private void RemoveRunTimer()
         {
             if (_timerSystem != null &&
-                _timerSystem.HasTimer(E_TimerKey.PlayTimer))
+                _timerSystem.HasTimer(GetRunTimerKey()))
             {
-                _timerSystem.RemoveTimer(E_TimerKey.PlayTimer);
+                _timerSystem.RemoveTimer(GetRunTimerKey());
             }
         }
 

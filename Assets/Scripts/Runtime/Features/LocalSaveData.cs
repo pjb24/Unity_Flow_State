@@ -4,7 +4,8 @@ namespace FlowState.Runtime.Features
 {
     public sealed class LocalSaveData
     {
-        public const int CurrentVersion = 1;
+        public const int CurrentVersion = 2;
+        public OnlineAccountState OnlineAccount { get; }
 
         private readonly List<RecordSubmissionCandidate> _personalBests;
         private readonly List<RecordSubmissionCandidate> _pendingSubmissions;
@@ -29,10 +30,12 @@ namespace FlowState.Runtime.Features
             LocalSettingsData settings,
             bool hasCompletedTutorial,
             IReadOnlyList<RecordSubmissionCandidate> personalBests,
-            IReadOnlyList<RecordSubmissionCandidate> pendingSubmissions)
+            IReadOnlyList<RecordSubmissionCandidate> pendingSubmissions,
+            OnlineAccountState onlineAccount = null)
         {
             Version = version;
-            AccountId = accountId ?? string.Empty;
+            AccountId = accountId == null ? string.Empty : accountId;
+            OnlineAccount = onlineAccount == null ? new OnlineAccountState() : onlineAccount;
             Settings = settings;
             HasCompletedTutorial = hasCompletedTutorial;
             _personalBests = CopyCandidates(personalBests);

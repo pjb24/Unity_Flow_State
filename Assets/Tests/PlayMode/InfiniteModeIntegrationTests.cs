@@ -175,7 +175,62 @@ namespace FlowState.Tests.PlayMode
                 E_TimerKey.PlayTimer);
 
             Assert.That(hasPlayTimer, Is.False);
+            Assert.That((bool)InvokePublicMethod(_timerSystem, "HasTimer",
+                E_TimerKey.InfiniteRunTimer), Is.True);
             yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator InfiniteRunTimer_PauseExcludesTime_ResumeContinues()
+        {
+            yield return new WaitForSecondsRealtime(0.1f);
+            Assert.That((bool)InvokePublicMethod(_gameSystem, "PauseGame"), Is.True);
+            double paused = (double)InvokePublicMethod(_timerSystem, "GetElapsedTime",
+                E_TimerKey.InfiniteRunTimer);
+            Assert.That(paused, Is.GreaterThan(0.0));
+            yield return new WaitForSecondsRealtime(0.1f);
+            Assert.That((double)InvokePublicMethod(_timerSystem, "GetElapsedTime",
+                E_TimerKey.InfiniteRunTimer), Is.EqualTo(paused));
+            Assert.That((bool)InvokePublicMethod(_gameSystem, "ResumeGame"), Is.True);
+            yield return new WaitForSecondsRealtime(0.05f);
+            Assert.That((double)InvokePublicMethod(_timerSystem, "GetElapsedTime",
+                E_TimerKey.InfiniteRunTimer), Is.GreaterThan(paused));
+        }
+
+        [UnityTest]
+        public IEnumerator InfiniteFall_StoresTimedCandidate_AndRetryCreatesFreshTimer()
+        {
+            // Isolate the candidate from the user's persistent queue and account receipts.
+            LocalRecordRepository repository = new LocalRecordRepository(null);
+            SetPrivateField(_gameSystem, "_localRecordRepository", repository);
+            SetPrivateField(_gameSystem, "_recordSubmissionService", new RecordSubmissionService(repository));
+            SetPrivateField(_gameSystem, "_localSaveData", new LocalSaveData(
+                LocalSaveData.CurrentVersion, "infinite-timer-test",
+                new LocalSettingsData(100, false, null), false, null, null));
+            SetPrivateField(_gameSystem, "_onlineRecords", null);
+            int countBefore = repository.CreatePendingSnapshot().Count;
+            yield return new WaitForSecondsRealtime(0.15f);
+            double elapsed = (double)InvokePublicMethod(_timerSystem, "GetElapsedTime",
+                E_TimerKey.InfiniteRunTimer);
+            _playerRigidbody.position = new Vector3(
+                _playerRigidbody.position.x, FallThresholdY - 0.01f, 0.0f);
+            Physics.SyncTransforms();
+            InvokePrivateMethod(_infiniteModeSystem, "ProcessFallThreshold");
+            AssertInfiniteEndedState();
+            var pending = repository.CreatePendingSnapshot();
+            Assert.That(pending.Count, Is.EqualTo(countBefore + 1));
+            RecordSubmissionCandidate candidate = pending[pending.Count - 1];
+            Assert.That(candidate.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(candidate.RunDurationMilliseconds, Is.GreaterThan(0));
+            Assert.That(candidate.RunDurationMilliseconds, Is.GreaterThanOrEqualTo(
+                (long)System.Math.Floor(elapsed * 1000.0)));
+            Assert.That((bool)InvokePublicMethod(_timerSystem, "HasTimer",
+                E_TimerKey.InfiniteRunTimer), Is.False);
+            Assert.That((bool)InvokePublicMethod(_gameSystem, "RetryGame"), Is.True);
+            Assert.That((bool)InvokePublicMethod(_timerSystem, "HasTimer",
+                E_TimerKey.InfiniteRunTimer), Is.True);
+            Assert.That((double)InvokePublicMethod(_timerSystem, "GetElapsedTime",
+                E_TimerKey.InfiniteRunTimer), Is.LessThan(elapsed));
         }
 
         [UnityTest]

@@ -21,6 +21,8 @@ RecordSubmission
 - Phase 2는 최초 로컬 실행 때 생성해 Local Save에 보존한 UUID v4 계정 ID를 후보 귀속에 사용한다. 이 값은 Anonymous Authentication Player ID가 아니며, 다른 계정에 귀속된 Pending 후보를 자동 전송하지 않는다.
 - 온라인 조회 또는 첫 제출 요청 시 Anonymous 계정을 사용한다. 초기 버전은 계정 연결·복구를 제공하지 않는다.
 - 재설치·기기 변경 뒤 온라인 기록을 복구할 수 없다는 제한은 첫 온라인 요청 전 안내하고 Settings에서 다시 확인할 수 있다.
+- 사용자가 복구 제한을 확인하고 명시적으로 동의한 경우에만 현재 Anonymous Authentication Player ID를 제출 대상으로 1회 귀속한다. 로컬 UUID 후보를 묵시적으로 재귀속하거나 전송하지 않는다.
+- 복구 제한 확인 상태가 저장되기 전에는 생산 온라인 조회와 제출을 시작하지 않는다. 검증 경로는 명시적으로 제공된 확인 상태에서만 요청할 수 있다.
 - 같은 계정과 제출 ID의 후보는 한 번만 제출한다.
 - Offline, Authentication 실패, Timeout과 서비스 실패는 후보를 Pending으로 보존하며 게임 진행을 차단하지 않는다.
 - Pending 후보는 앱 시작, 온라인 복구, 인증 성공과 사용자 Retry에서 최대 세 번의 지수 백오프 재시도를 수행한다.
@@ -28,6 +30,8 @@ RecordSubmission
 - 다른 계정에 귀속된 후보는 전송하지 않는다.
 - 로컬 데이터 초기화는 제출 대기열을 삭제하며 온라인 순위와 서버 기록은 유지됨을 고지한다.
 - InfiniteMode 서버 검증은 Run 시간과 규칙 Version의 최대 배율·속도·Pattern·Collectible 한계로 계산한 논리적 최대 Total Score를 넘거나 상한 입력이 누락·불일치한 후보를 거부한다.
+- InfiniteMode 후보의 Run 시간은 시작부터 결과 확정까지 측정하고 Pause 시간을 제외한다. 측정 시간이 없으면 0초로 대체해 제출하지 않는다.
+- 온라인 쓰기는 서버 검증 경계를 통과하며, Player의 Leaderboard 직접 쓰기는 허용하지 않는다. 서버는 Submission ID 중복과 Board·Version 일치도 함께 검증한다.
 
 ---
 

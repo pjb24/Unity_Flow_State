@@ -127,7 +127,7 @@ Flow State
 * 현재 Run 데이터는 Runtime에서만 관리한다.
 * 사용자 설정, 개인 최고 기록과 제출 대기열은 로컬 저장 대상으로 관리한다.
 * 온라인 순위 기록은 계정에 귀속된 서버 저장 대상으로 관리한다.
-* 로컬 기록·설정 저장 계층은 Roadmap 007 Phase 2에서 완료됐다. Authentication과 온라인 서비스 연결은 Phase 3 범위다.
+* 로컬 기록·설정 저장 계층은 Roadmap 007 Phase 2에서 완료됐다. Authentication과 온라인 서비스 연결은 Roadmap 007 Phase 3에서 verification 환경 검증까지 완료됐다. Leaderboard UI와 출시 후보 검증은 Phase 4 범위다.
 
 ---
 

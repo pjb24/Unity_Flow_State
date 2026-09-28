@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FlowState.Runtime.Features
@@ -5,6 +6,10 @@ namespace FlowState.Runtime.Features
     public sealed class LocalRecordRepository : ILocalRecordRepository
     {
         private readonly ILocalSaveFileStore _fileStore;
+        private LocalSaveData _lastSave;
+        public string AccountId => _lastSave == null ? string.Empty : _lastSave.AccountId;
+        public OnlineAccountState OnlineAccount => _lastSave == null
+            ? new OnlineAccountState() : _lastSave.OnlineAccount;
         private readonly MemoryRecordRepository _memoryRepository =
             new MemoryRecordRepository();
 
@@ -19,6 +24,7 @@ namespace FlowState.Runtime.Features
 
             if (_fileStore == null || !_fileStore.HasSave)
             {
+                _lastSave = saveData;
                 return true;
             }
 
@@ -30,14 +36,46 @@ namespace FlowState.Runtime.Features
             }
 
             RestoreMemoryRecords(saveData);
+            _lastSave = saveData;
 
             return true;
         }
 
         public bool TrySave(LocalSaveData saveData)
         {
-            return _fileStore != null && saveData != null &&
-                   _fileStore.TryWriteAtomically(LocalSaveJsonCodec.Serialize(saveData));
+            if (_fileStore == null || saveData == null ||
+                !_fileStore.TryWriteAtomically(LocalSaveJsonCodec.Serialize(saveData))) return false;
+            _lastSave = saveData;
+            return true;
+        }
+
+        public bool TrySaveOnlineAccount(OnlineAccountState state)
+        {
+            if (_lastSave == null || state == null) return false;
+            if (!string.IsNullOrEmpty(OnlineAccount.PlayerId) && state.PlayerId != OnlineAccount.PlayerId)
+                return false;
+            return TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, _lastSave.AccountId,
+                _lastSave.Settings, _lastSave.HasCompletedTutorial,
+                _memoryRepository.CreatePersonalBestSnapshot(), CreatePendingSnapshot(state), state));
+        }
+
+        public bool TryCheckpoint()
+        {
+            return TrySaveOnlineAccount(OnlineAccount);
+        }
+
+        public IReadOnlyList<RecordSubmissionCandidate> CreatePendingSnapshot()
+        {
+            return CreatePendingSnapshot(OnlineAccount);
+        }
+
+        private IReadOnlyList<RecordSubmissionCandidate> CreatePendingSnapshot(OnlineAccountState state)
+        {
+            List<RecordSubmissionCandidate> result = new List<RecordSubmissionCandidate>();
+            IReadOnlyList<RecordSubmissionCandidate> pending = _memoryRepository.CreatePendingSnapshot();
+            for (int i = 0; i < pending.Count; i++)
+                if (!state.HasFinished(pending[i].SubmissionId)) result.Add(pending[i]);
+            return result;
         }
 
         public bool TryEnqueuePending(RecordSubmissionCandidate candidate)
@@ -72,7 +110,7 @@ namespace FlowState.Runtime.Features
                 settings,
                 hasCompletedTutorial,
                 _memoryRepository.CreatePersonalBestSnapshot(),
-                _memoryRepository.CreatePendingSnapshot());
+                CreatePendingSnapshot(), OnlineAccount);
         }
 
         private void RestoreMemoryRecords(LocalSaveData saveData)

@@ -33,6 +33,12 @@
 - 온라인 기능 요청 시 Anonymous 계정을 사용하며, 초기 버전에는 계정 연결·복구를 지원하지 않는다.
 - 재설치·기기 변경 뒤 온라인 기록을 복구할 수 없다는 제한은 첫 온라인 요청 전과 Settings에서 확인할 수 있다.
 - 인증 토큰·서비스 Secret·개인정보와 임의 표시명은 앱 저장소와 제출 대기열에 저장하지 않는다.
+- 온라인 서비스는 기존 Flow State UGS 프로젝트의 `verification` 환경에서 먼저 검증한다. Runtime 초기화는 환경명을 명시하며, 검증·운영 환경을 묵시적으로 선택하지 않는다.
+- 로컬 UUID 후보를 UGS Anonymous Player ID로 자동 재귀속하거나 전송하지 않는다. 사용자가 복구 제한을 확인한 뒤 명시적으로 동의한 경우에만 현재 인증 Player ID를 제출 대상으로 1회 귀속한다.
+- Anonymous 계정 복구 제한 확인을 저장하기 전에는 생산 온라인 요청을 시작하지 않는다. Phase 3 검증 경로는 이 확인 상태를 명시적으로 제공하는 경우에만 온라인 요청을 허용한다.
+- 온라인 점수 쓰기는 Cloud Code의 서버 검증 경계를 통과하며, Access Control은 Player의 Leaderboard 직접 쓰기를 거부한다. 서버는 Submission ID 중복, Board·Version 및 InfiniteMode 점수 상한을 검증한다.
+- Phase 3 검증 소스와 배포 절차는 `UGS/VERIFICATION_DEPLOYMENT.md`에 있다. Local Save v2에 동의·UGS 귀속·완료 제출 ID를 보존한다. 검증용 서버의 최초 ledger 수동 생성, 계정별 128 ID/보드 100명 한도는 운영 전 해소할 제한이며 Unity·UGS 실제 검증 완료를 의미하지 않는다.
+- Roadmap 007 Phase 3은 verification 환경에서 완료했다. Stage·Infinite Board 제출/조회, submission ID 재호출·변조·Version 거부, Player 직접 Write 403, 계정 불일치 차단·복구, Offline Pending 보존과 연결 복구 뒤 자동 제출을 실제로 확인했다. Phase 4는 이 경계를 UI·출시 후보 품질로 확장하는 별도 작업이다.
 
 ---
 

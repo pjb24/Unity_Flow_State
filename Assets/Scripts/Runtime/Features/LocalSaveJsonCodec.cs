@@ -19,6 +19,10 @@ namespace FlowState.Runtime.Features
             public BindingFile[] bindingOverrides;
             public CandidateFile[] personalBests;
             public CandidateFile[] pendingSubmissions;
+            public bool recoveryNoticeConfirmed;
+            public string onlinePlayerId;
+            public string[] submittedIds;
+            public string[] rejectedIds;
         }
 
         [Serializable]
@@ -61,6 +65,10 @@ namespace FlowState.Runtime.Features
             {
                 version = saveData.Version,
                 accountId = saveData.AccountId,
+                recoveryNoticeConfirmed = saveData.OnlineAccount.HasConfirmedRecoveryNotice,
+                onlinePlayerId = saveData.OnlineAccount.PlayerId,
+                submittedIds = new List<string>(saveData.OnlineAccount.SubmittedIds).ToArray(),
+                rejectedIds = new List<string>(saveData.OnlineAccount.RejectedIds).ToArray(),
                 hasSettings = saveData.Settings != null,
                 isFullscreen = saveData.Settings != null && saveData.Settings.IsFullscreen,
                 masterVolume = saveData.Settings == null ? 100 : saveData.Settings.MasterVolume,
@@ -99,7 +107,7 @@ namespace FlowState.Runtime.Features
                 }
 
                 saveData = new LocalSaveData(
-                    file.version,
+                    LocalSaveData.CurrentVersion,
                     file.accountId,
                     new LocalSettingsData(
                         file.hasSettings ? ClampMasterVolume(file.masterVolume) : 100,
@@ -107,7 +115,9 @@ namespace FlowState.Runtime.Features
                         ReadBindings(file.bindingOverrides)),
                     file.hasCompletedTutorial,
                     ReadCandidates(file.personalBests),
-                    ReadCandidates(file.pendingSubmissions));
+                    ReadCandidates(file.pendingSubmissions),
+                    file.version >= 2 ? new OnlineAccountState(file.recoveryNoticeConfirmed,
+                        file.onlinePlayerId, file.submittedIds, file.rejectedIds) : new OnlineAccountState());
                 return true;
             }
             catch (Exception)

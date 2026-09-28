@@ -26,6 +26,7 @@ GamePause
 - GamePause 동안에는 플레이어를 조작할 수 없다.
 - GamePause 동안에는 Stage Play가 진행되지 않는다.
 - GamePause 동안에는 Stage Mode의 PlayTimer가 증가하지 않는다.
+- GamePause 동안에는 InfiniteMode 기록 제출용 Run 측정 시간도 증가하지 않는다.
 - GamePause 동안에는 InfiniteMode의 이동 거리와 Score가 증가하지 않는다.
 - GamePause 동안에는 InfiniteMode의 진행 지속 시간, 추락 종료 판정과 Map Pattern 재배치가 진행되지 않는다.
 - GamePause 동안에는 PausePanel의 Navigate, Submit, Cancel, Point와 Click 입력만 허용한다.
