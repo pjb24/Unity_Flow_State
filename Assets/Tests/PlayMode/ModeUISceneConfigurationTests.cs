@@ -146,6 +146,15 @@ namespace FlowState.Tests.PlayMode
             Button resultMainMenuButton = FindDirectComponent<Button>(
                 resultContainer,
                 "MainMenuButton");
+            TMP_Text resultRecordStatusText = FindDirectComponent<TMP_Text>(
+                resultContainer,
+                "ResultRecordStatusText");
+            Button resultLeaderboardButton = FindDirectComponent<Button>(
+                resultContainer,
+                "ResultLeaderboardButton");
+            Button resultSubmissionRetryButton = FindDirectComponent<Button>(
+                resultContainer,
+                "ResultSubmissionRetryButton");
             AssertStageResultPresentation(
                 resultContainerImage,
                 stageResultContent,
@@ -153,6 +162,9 @@ namespace FlowState.Tests.PlayMode
                 clearTimeText,
                 stageResultCollectibleScoreText,
                 resultRetryButton,
+                resultRecordStatusText,
+                resultLeaderboardButton,
+                resultSubmissionRetryButton,
                 resultMainMenuButton);
             AssertInfiniteResultPresentation(
                 infiniteResultContent,
@@ -371,6 +383,140 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator Phase4LeaderboardAndResultControls_AreWired()
+        {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(
+                SceneName, LoadSceneMode.Single);
+            while (!loadOperation.isDone) yield return null;
+            yield return null;
+
+            MonoBehaviour uiManagementSystem = FindRequiredBehaviour(
+                "UIManagementSystem", "UIManagementSystem");
+            MonoBehaviour gameSystem = FindRequiredBehaviour("GameSystem", "GameSystem");
+
+            AssertSerializedReference(uiManagementSystem, "_leaderboardTopText",
+                FindUniqueSceneObject("LeaderboardTopText").GetComponent<TMP_Text>());
+            AssertSerializedReference(uiManagementSystem, "_leaderboardAroundText",
+                FindUniqueSceneObject("LeaderboardAroundText").GetComponent<TMP_Text>());
+            AssertSerializedReference(uiManagementSystem, "_leaderboardAccountText",
+                FindUniqueSceneObject("LeaderboardAccountText").GetComponent<TMP_Text>());
+            AssertButtonBinding(uiManagementSystem, "_leaderboardStageButton",
+                "LeaderboardStageButton", gameSystem, "SelectStage");
+            AssertButtonBinding(uiManagementSystem, "_leaderboardInfiniteButton",
+                "LeaderboardInfiniteButton", gameSystem, "SelectInfinite");
+            AssertButtonBinding(uiManagementSystem, "_leaderboardRetryButton",
+                "LeaderboardRetryButton", gameSystem, "SelectLeaderboardRetry");
+            AssertButtonBinding(uiManagementSystem, "_leaderboardPendingRetryButton",
+                "LeaderboardPendingRetryButton", gameSystem, "SelectLeaderboardPendingRetry");
+            AssertSerializedReference(uiManagementSystem, "_leaderboardPendingRetryText",
+                FindUniqueSceneObject("LeaderboardPendingRetryButtonText").GetComponent<TMP_Text>());
+            AssertSerializedReference(uiManagementSystem, "_leaderboardPendingRetryStatusText",
+                FindUniqueSceneObject("LeaderboardPendingRetryStatusText").GetComponent<TMP_Text>());
+
+            Button queryRetryButton = FindUniqueSceneObject(
+                "LeaderboardRetryButton").GetComponent<Button>();
+            Button stageModeButton = FindUniqueSceneObject(
+                "LeaderboardStageButton").GetComponent<Button>();
+            Button infiniteModeButton = FindUniqueSceneObject(
+                "LeaderboardInfiniteButton").GetComponent<Button>();
+            TMP_Text stageModeText = stageModeButton.GetComponentInChildren<TMP_Text>(true);
+            TMP_Text infiniteModeText = infiniteModeButton.GetComponentInChildren<TMP_Text>(true);
+            Assert.That(stageModeText, Is.Not.Null);
+            Assert.That(infiniteModeText, Is.Not.Null);
+            Button pendingRetryButton = FindUniqueSceneObject(
+                "LeaderboardPendingRetryButton").GetComponent<Button>();
+            Button leaderboardBackButton = GetSerializedValue<Button>(
+                uiManagementSystem, "_leaderboardBackButton");
+            LeaderboardViewState leaderboardState = new LeaderboardViewState();
+            InvokePublicMethod(uiManagementSystem, "SetLeaderboardViewState",
+                leaderboardState, string.Empty, 0, false, "No manual retry yet");
+            Color stageOriginalBackground = GetSerializedValue<ColorBlock>(
+                uiManagementSystem, "_leaderboardStageOriginalColors").normalColor;
+            Color infiniteOriginalBackground = GetSerializedValue<ColorBlock>(
+                uiManagementSystem, "_leaderboardInfiniteOriginalColors").normalColor;
+            Color stageOriginalText = GetSerializedValue<Color>(
+                uiManagementSystem, "_leaderboardStageOriginalTextColor");
+            Color infiniteOriginalText = GetSerializedValue<Color>(
+                uiManagementSystem, "_leaderboardInfiniteOriginalTextColor");
+            Outline stageModeOutline = FindUniqueSceneObject(
+                "LeaderboardStageButton").GetComponent<Outline>();
+            Outline infiniteModeOutline = FindUniqueSceneObject(
+                "LeaderboardInfiniteButton").GetComponent<Outline>();
+            Assert.That(stageModeOutline, Is.Not.Null);
+            Assert.That(infiniteModeOutline, Is.Not.Null);
+            Assert.That(stageModeOutline.enabled, Is.True);
+            Assert.That(infiniteModeOutline.enabled, Is.False);
+            Assert.That(stageModeButton.colors.normalColor,
+                Is.Not.EqualTo(stageOriginalBackground));
+            Assert.That(stageModeText.color, Is.Not.EqualTo(stageOriginalText));
+            Assert.That(infiniteModeButton.colors.normalColor,
+                Is.EqualTo(infiniteOriginalBackground));
+            Assert.That(infiniteModeText.color, Is.EqualTo(infiniteOriginalText));
+            Assert.That(pendingRetryButton.gameObject.activeSelf, Is.False);
+            Assert.That(queryRetryButton.navigation.selectOnDown,
+                Is.SameAs(leaderboardBackButton));
+            Assert.That(leaderboardBackButton.navigation.selectOnUp,
+                Is.SameAs(queryRetryButton));
+            InvokePublicMethod(uiManagementSystem, "SetLeaderboardViewState",
+                leaderboardState, string.Empty, 1, false, "No manual retry yet");
+            Assert.That(pendingRetryButton.gameObject.activeSelf, Is.True);
+            Assert.That(queryRetryButton.navigation.selectOnDown,
+                Is.SameAs(pendingRetryButton));
+            Assert.That(pendingRetryButton.navigation.selectOnUp,
+                Is.SameAs(queryRetryButton));
+            Assert.That(pendingRetryButton.navigation.selectOnDown,
+                Is.SameAs(leaderboardBackButton));
+            Assert.That(leaderboardBackButton.navigation.selectOnUp,
+                Is.SameAs(pendingRetryButton));
+            InvokePublicMethod(uiManagementSystem, "SetLeaderboardViewState",
+                leaderboardState, string.Empty, 1, true, "Submitting saved records...");
+            Assert.That(pendingRetryButton.gameObject.activeSelf, Is.True);
+            Assert.That(pendingRetryButton.interactable, Is.False);
+            Assert.That(queryRetryButton.navigation.selectOnDown,
+                Is.SameAs(leaderboardBackButton));
+            Assert.That(leaderboardBackButton.navigation.selectOnUp,
+                Is.SameAs(queryRetryButton));
+            InvokePublicMethod(uiManagementSystem, "SetLeaderboardViewState",
+                leaderboardState, string.Empty, 1, false, "Retry unavailable; pending retained");
+            Assert.That(pendingRetryButton.interactable, Is.True);
+
+            leaderboardState.SelectGameMode(E_GameMode.Infinite);
+            InvokePublicMethod(uiManagementSystem, "SetLeaderboardViewState",
+                leaderboardState, string.Empty, 1, false, "No manual retry yet");
+            Assert.That(stageModeOutline.enabled, Is.False);
+            Assert.That(infiniteModeOutline.enabled, Is.True);
+            Assert.That(stageModeButton.colors.normalColor,
+                Is.EqualTo(stageOriginalBackground));
+            Assert.That(stageModeText.color, Is.EqualTo(stageOriginalText));
+            Assert.That(infiniteModeButton.colors.normalColor,
+                Is.Not.EqualTo(infiniteOriginalBackground));
+            Assert.That(infiniteModeText.color, Is.Not.EqualTo(infiniteOriginalText));
+            InvokePublicMethod(uiManagementSystem, "SetNavigationScreen",
+                E_NavigationScreen.Leaderboard, E_NavigationItem.LeaderboardRetry);
+            Assert.That(EventSystem.current.currentSelectedGameObject,
+                Is.SameAs(queryRetryButton.gameObject));
+            Assert.That(infiniteModeOutline.enabled, Is.True);
+            Assert.That(infiniteModeButton.colors.normalColor,
+                Is.Not.EqualTo(infiniteOriginalBackground));
+
+            AssertSerializedReference(uiManagementSystem, "_resultRecordStatusText",
+                FindUniqueSceneObject("ResultRecordStatusText").GetComponent<TMP_Text>());
+            AssertButtonBinding(uiManagementSystem, "_resultLeaderboardButton",
+                "ResultLeaderboardButton", gameSystem, "SelectResultLeaderboard");
+            AssertButtonBinding(uiManagementSystem, "_resultSubmissionRetryButton",
+                "ResultSubmissionRetryButton", gameSystem, "RetryPendingSubmission");
+
+            AssertSerializedReference(uiManagementSystem, "_onlineRecoveryNoticePanel",
+                FindUniqueSceneObject("OnlineRecoveryNoticePanel"));
+            AssertButtonBinding(uiManagementSystem, "_onlineRecoveryNoticeConfirmButton",
+                "OnlineRecoveryNoticeConfirmButton", gameSystem, "ConfirmOnlineRecoveryNotice");
+            AssertButtonBinding(uiManagementSystem, "_onlineRecoveryNoticeCancelButton",
+                "OnlineRecoveryNoticeCancelButton", gameSystem, "CancelOnlineRecoveryNotice");
+            AssertButtonBinding(uiManagementSystem, "_settingsRecoveryNoticeButton",
+                "SettingsRecoveryNoticeButton", gameSystem, "OpenOnlineRecoveryNoticeFromSettings");
+        }
+
+        [UnityTest]
         public IEnumerator ModeUI_MapsPlayingPauseAndResultContent()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(
@@ -405,8 +551,20 @@ namespace FlowState.Tests.PlayMode
             Button resultMainMenuButton = GetSerializedValue<Button>(
                 uiManagementSystem,
                 "_resultMainMenuButton");
+            TMP_Text resultRecordStatusText = GetSerializedValue<TMP_Text>(
+                uiManagementSystem,
+                "_resultRecordStatusText");
+            Button resultLeaderboardButton = GetSerializedValue<Button>(
+                uiManagementSystem,
+                "_resultLeaderboardButton");
+            Button resultSubmissionRetryButton = GetSerializedValue<Button>(
+                uiManagementSystem,
+                "_resultSubmissionRetryButton");
             Assert.That(resultRetryButton, Is.Not.Null);
             Assert.That(resultMainMenuButton, Is.Not.Null);
+            Assert.That(resultRecordStatusText, Is.Not.Null);
+            Assert.That(resultLeaderboardButton, Is.Not.Null);
+            Assert.That(resultSubmissionRetryButton, Is.Not.Null);
 
             GameRuntimeData stageRuntimeData = new GameRuntimeData();
             stageRuntimeData.Initialize(E_GameMode.Stage);
@@ -470,9 +628,12 @@ namespace FlowState.Tests.PlayMode
             Assert.That(momentumHud.activeSelf, Is.False);
             Assert.That(stageResultContent.activeSelf, Is.True);
             Assert.That(infiniteResultContent.activeSelf, Is.False);
-            AssertResultWindowRect(resultWindow, new Vector2(520.0f, 400.0f));
-            AssertResultButtonRect(resultRetryButton, -224.0f);
-            AssertResultButtonRect(resultMainMenuButton, -282.0f);
+            AssertResultWindowRect(resultWindow, new Vector2(520.0f, 620.0f));
+            AssertResultStatusRect(resultRecordStatusText, -204.0f);
+            AssertResultButtonRect(resultRetryButton, -302.0f);
+            AssertResultButtonRect(resultLeaderboardButton, -360.0f);
+            AssertResultButtonRect(resultSubmissionRetryButton, -418.0f);
+            AssertResultButtonRect(resultMainMenuButton, -476.0f);
             AssertStageResultText(uiManagementSystem, stageResultData);
 
             GameRuntimeData infiniteRuntimeData = new GameRuntimeData();
@@ -542,9 +703,12 @@ namespace FlowState.Tests.PlayMode
             Assert.That(momentumHud.activeSelf, Is.False);
             Assert.That(stageResultContent.activeSelf, Is.False);
             Assert.That(infiniteResultContent.activeSelf, Is.True);
-            AssertResultWindowRect(resultWindow, new Vector2(520.0f, 520.0f));
-            AssertResultButtonRect(resultRetryButton, -334.0f);
-            AssertResultButtonRect(resultMainMenuButton, -392.0f);
+            AssertResultWindowRect(resultWindow, new Vector2(520.0f, 740.0f));
+            AssertResultStatusRect(resultRecordStatusText, -334.0f);
+            AssertResultButtonRect(resultRetryButton, -432.0f);
+            AssertResultButtonRect(resultLeaderboardButton, -490.0f);
+            AssertResultButtonRect(resultSubmissionRetryButton, -548.0f);
+            AssertResultButtonRect(resultMainMenuButton, -606.0f);
             AssertInfiniteResultText(
                 uiManagementSystem,
                 infiniteResultData);
@@ -581,6 +745,17 @@ namespace FlowState.Tests.PlayMode
             Assert.That(rectTransform.anchoredPosition,
                 Is.EqualTo(new Vector2(0.0f, yPosition)));
             Assert.That(rectTransform.sizeDelta, Is.EqualTo(new Vector2(472.0f, 48.0f)));
+        }
+
+        private static void AssertResultStatusRect(TMP_Text text, float yPosition)
+        {
+            RectTransform rectTransform = text.rectTransform;
+            Assert.That(rectTransform.anchorMin, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.anchorMax, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.pivot, Is.EqualTo(new Vector2(0.5f, 1.0f)));
+            Assert.That(rectTransform.anchoredPosition,
+                Is.EqualTo(new Vector2(0.0f, yPosition)));
+            Assert.That(rectTransform.sizeDelta, Is.EqualTo(new Vector2(472.0f, 82.0f)));
         }
 
         private void SetUIState(
@@ -929,18 +1104,24 @@ namespace FlowState.Tests.PlayMode
             TMP_Text clearTimeText,
             TMP_Text collectibleScoreText,
             Button retryButton,
+            TMP_Text recordStatusText,
+            Button leaderboardButton,
+            Button submissionRetryButton,
             Button mainMenuButton)
         {
-            AssertHudPanel(
-                resultWindow,
-                new Vector2(0.5f, 0.5f),
-                Vector2.zero,
-                new Vector2(520.0f, 400.0f),
-                new Color(
+            Assert.That(resultWindow.raycastTarget, Is.False);
+            Assert.That(resultWindow.rectTransform.anchorMin,
+                Is.EqualTo(new Vector2(0.5f, 0.5f)));
+            Assert.That(resultWindow.rectTransform.anchorMax,
+                Is.EqualTo(new Vector2(0.5f, 0.5f)));
+            Assert.That(resultWindow.rectTransform.anchoredPosition,
+                Is.EqualTo(Vector2.zero));
+            Assert.That(resultWindow.color,
+                Is.EqualTo(new Color(
                     11.0f / 255.0f,
                     20.0f / 255.0f,
                     38.0f / 255.0f,
-                    230.0f / 255.0f));
+                    230.0f / 255.0f)));
             Assert.That(resultWindow.GetComponent<VerticalLayoutGroup>(), Is.Null,
                 "Result window uses explicit, stable control positions.");
 
@@ -965,6 +1146,8 @@ namespace FlowState.Tests.PlayMode
                 36.0f,
                 22.0f);
             AssertResultButtonPresentation(retryButton);
+            AssertResultButtonPresentation(leaderboardButton);
+            AssertResultButtonPresentation(submissionRetryButton);
             AssertResultButtonPresentation(mainMenuButton);
         }
 
@@ -1150,6 +1333,30 @@ namespace FlowState.Tests.PlayMode
                 BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.That(field, Is.Not.Null);
             Assert.That(field.GetValue(target), Is.EqualTo(expected));
+        }
+
+        private void AssertButtonBinding(
+            MonoBehaviour uiManagementSystem,
+            string fieldName,
+            string objectName,
+            MonoBehaviour target,
+            string methodName)
+        {
+            Button button = FindUniqueSceneObject(objectName).GetComponent<Button>();
+            Assert.That(button, Is.Not.Null);
+            AssertSerializedReference(uiManagementSystem, fieldName, button);
+            bool hasBinding = false;
+            for (int i = 0; i < button.onClick.GetPersistentEventCount(); i++)
+            {
+                if (button.onClick.GetPersistentTarget(i) == target &&
+                    button.onClick.GetPersistentMethodName(i) == methodName)
+                {
+                    hasBinding = true;
+                    break;
+                }
+            }
+            Assert.That(hasBinding, Is.True,
+                objectName + " must invoke " + methodName + " on GameSystem.");
         }
 
         private T GetSerializedValue<T>(

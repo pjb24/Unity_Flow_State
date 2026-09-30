@@ -33,6 +33,8 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - InfiniteMode Runtime Data의 현재 Momentum 배율과 남은 유지 시간 비율을 기존 InfiniteHUD와 분리된 우측 하단 Momentum HUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 Difficulty Level을 개발 환경의 InfiniteHUD 별도 행에 표시한다. 일반 빌드에서는 이 행을 숨긴다.
 - Result Data의 Mode별 Result Status, 경과 시간, 최종 거리와 Score를 해당 Result Content에 표시한다.
+- Leaderboard의 상위·내 주변 영역별 조회 상태와 오류 원인, 고정 Stage 선택 및 마스킹 계정 표시를 반영한다.
+- Result의 로컬 새 최고, 조회된 서버 최고·순위, 현재 Run 제출 상태·거부 사유 및 허용된 제출 Retry 표시를 반영한다. 순위·최고 기록·제출 상태를 UI에서 계산하지 않는다.
 
 ---
 
@@ -79,7 +81,7 @@ Navigation 선택 상태는 GameNavigationState가 소유한다.
 
 UIManagementSystem은 GameSystem이 전달한 화면과 선택에 따라 해당 Button을 Focus한다.
 
-Pause에는 Resume, Retry, Settings와 Main Menu, Result에는 Retry와 Main Menu 항목이 존재한다. 각 화면의 기본 선택과 선택 복귀는 Runtime Navigation 상태로만 유지하며 Application 종료 후 저장하거나 복원하지 않는다.
+Pause에는 Resume, Retry, Settings와 Main Menu, Result에는 Retry, Main Menu와 순위 보기 항목이 존재하며 Pending 후보에는 제출 Retry를 제공한다. 각 화면의 기본 선택과 선택 복귀는 Runtime Navigation 상태로만 유지하며 Application 종료 후 저장하거나 복원하지 않는다.
 
 Pause와 Result의 구형 독립 선택 상태 및 Quit fallback은 사용하지 않는다.
 

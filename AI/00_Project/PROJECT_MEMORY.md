@@ -39,6 +39,9 @@
 - 온라인 점수 쓰기는 Cloud Code의 서버 검증 경계를 통과하며, Access Control은 Player의 Leaderboard 직접 쓰기를 거부한다. 서버는 Submission ID 중복, Board·Version 및 InfiniteMode 점수 상한을 검증한다.
 - Phase 3 검증 소스와 배포 절차는 `UGS/VERIFICATION_DEPLOYMENT.md`에 있다. Local Save v2에 동의·UGS 귀속·완료 제출 ID를 보존한다. 검증용 서버의 최초 ledger 수동 생성, 계정별 128 ID/보드 100명 한도는 운영 전 해소할 제한이며 Unity·UGS 실제 검증 완료를 의미하지 않는다.
 - Roadmap 007 Phase 3은 verification 환경에서 완료했다. Stage·Infinite Board 제출/조회, submission ID 재호출·변조·Version 거부, Player 직접 Write 403, 계정 불일치 차단·복구, Offline Pending 보존과 연결 복구 뒤 자동 제출을 실제로 확인했다. Phase 4는 이 경계를 UI·출시 후보 품질로 확장하는 별도 작업이다.
+- Roadmap 007 Phase 4는 verification 환경의 Windows x64·1920×1080 Windowed 후보를 대상으로 하며 성능·응답 시간 측정은 제외한다. 공개 운영 준비와 서버 발급 십진 Public Player Number는 다음 Prototype으로 분리하며 세부 작업은 Roadmap 007의 후속 계획에서 관리한다.
+- Phase 4 UI·순위 규칙은 2026-09-29 사용자 결정에 따라 관련 Feature 문서에 반영했다. 이는 코드·Scene·서버 배포나 검증 완료를 뜻하지 않으며, 기존 Phase 3 구현과 변경 계약의 차이는 Phase 4에서 해소한다.
+- Roadmap 007 Phase 4는 2026-09-30 완료했다. Edit Mode 729/729, Play Mode 234/234, verification 서비스 UI·Offline 복구 및 Windows x64·1920×1080 Windowed 비 Development Player Build·실행을 확인했다. 성능·응답 시간 측정은 합의에 따라 제외했다. 이는 공개 운영 승인이 아니며 Production 환경·Public Player Number는 다음 Prototype 범위다.
 
 ---
 
@@ -65,6 +68,8 @@
 ---
 
 ## 기타
+
+- Prototype 8의 계획은 `AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_008.md`에서 관리한다. 서버 발급 십진 Public Player Number, 검증용 제출·조회 제한 해소 및 공개 운영 준비가 목표다. 현재는 계획 작성 완료·구현 미착수이며 기존 UI·순위·Pending 계약을 승계한다.
 
 - 프로젝트는 1인 개발을 기준으로 진행한다.
 - Unity를 사용하여 3D 게임으로 개발한다.

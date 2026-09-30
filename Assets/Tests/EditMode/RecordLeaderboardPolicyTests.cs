@@ -135,6 +135,26 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
+        public void TryGetCompetitionRank_SameValueWithDifferentAcceptedTimesSharesRank()
+        {
+            RecordLeaderboardEntry first = CreateStageEntry(
+                "player-a", "00000000-0000-4000-8000-000000000001",
+                "stage-001", 1, 10.0, 5);
+            RecordLeaderboardEntry tied = CreateStageEntry(
+                "player-b", "00000000-0000-4000-8000-000000000002",
+                "stage-001", 1, 10.0, 10);
+            RecordLeaderboardEntry slower = CreateStageEntry(
+                "player-c", "00000000-0000-4000-8000-000000000003",
+                "stage-001", 1, 11.0, 15);
+            var entries = new List<RecordLeaderboardEntry> { first, tied, slower };
+
+            Assert.That(RecordLeaderboardPolicy.TryGetCompetitionRank(entries, tied, out int rank), Is.True);
+            Assert.That(rank, Is.EqualTo(1));
+            Assert.That(RecordLeaderboardPolicy.TryGetCompetitionRank(entries, slower, out rank), Is.True);
+            Assert.That(rank, Is.EqualTo(3));
+        }
+
+        [Test]
         public void TryCompare_DifferentBoardKeysIsRejected()
         {
             RecordLeaderboardEntry first = CreateStageEntry(

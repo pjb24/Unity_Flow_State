@@ -145,8 +145,8 @@ test("rank uses score then timestamp and shared competition rank", async () => {
   f.state.scores = [["a",100,10],["b",100,10],["test-player",100,20],["d",200,5]].map(
     ([playerId,score,acceptedAt]) => ({ board:stage, playerId,score,metadata:{acceptedAt} }));
   const top = await f.query({boardId:stage,kind:"top",limit:20});
-  assert.equal(top.status,"Success"); assert.equal(JSON.stringify(top.entries.map(e=>e.rank)),"[1,1,3,4]");
-  const me = await f.query({boardId:stage,kind:"me",limit:1}); assert.equal(me.entries[0].rank,3);
+  assert.equal(top.status,"Success"); assert.equal(JSON.stringify(top.entries.map(e=>e.rank)),"[1,1,1,4]");
+  const me = await f.query({boardId:stage,kind:"me",limit:1}); assert.equal(me.entries[0].rank,1);
   const around = await f.query({boardId:stage,kind:"around",limit:3}); assert.equal(around.entries.length,3);
 });
 test("empty boards succeed; unknown metadata and partial boards fail closed", async () => {

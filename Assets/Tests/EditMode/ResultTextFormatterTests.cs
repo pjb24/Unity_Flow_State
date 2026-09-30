@@ -6,6 +6,15 @@ namespace FlowState.Tests.EditMode
 {
     public class ResultTextFormatterTests
     {
+        [TestCase(E_GameMode.Stage, 16L, "0.016 s")]
+        [TestCase(E_GameMode.Infinite, 1234L, "1,234")]
+        public void FormatRankingValue_UsesLeaderboardUnits(
+            E_GameMode gameMode, long value, string expected)
+        {
+            Assert.That(ResultTextFormatter.FormatRankingValue(value, gameMode),
+                Is.EqualTo(expected));
+        }
+
         [TestCase(E_StageResultType.Cleared, "STAGE CLEAR")]
         [TestCase(E_StageResultType.Fell, "STAGE FAILED")]
         [TestCase(E_StageResultType.None, "")]

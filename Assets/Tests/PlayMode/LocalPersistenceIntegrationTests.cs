@@ -24,7 +24,6 @@ namespace FlowState.Tests.PlayMode
                     firstSettings,
                     "CreateLocalSettingsData"),
                 true,
-                null,
                 null);
             UnityEngine.Object.Destroy(firstObject);
             yield return null;

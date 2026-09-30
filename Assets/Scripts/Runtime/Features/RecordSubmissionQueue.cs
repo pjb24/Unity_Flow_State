@@ -92,6 +92,18 @@ namespace FlowState.Runtime.Features
                    entry.TryCompleteSubmission(result);
         }
 
+        public bool TryRemove(string playerId, string submissionId)
+        {
+            for (int i = 0; i < _entries.Count; i++)
+            {
+                RecordSubmissionCandidate candidate = _entries[i].Candidate;
+                if (candidate.PlayerId != playerId || candidate.SubmissionId != submissionId) continue;
+                _entries.RemoveAt(i);
+                return true;
+            }
+            return false;
+        }
+
         private bool HasDuplicateSubmission(RecordSubmissionCandidate candidate)
         {
             for (int i = 0; i < _entries.Count; i++)

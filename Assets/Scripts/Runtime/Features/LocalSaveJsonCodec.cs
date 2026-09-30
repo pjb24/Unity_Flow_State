@@ -21,8 +21,6 @@ namespace FlowState.Runtime.Features
             public CandidateFile[] pendingSubmissions;
             public bool recoveryNoticeConfirmed;
             public string onlinePlayerId;
-            public string[] submittedIds;
-            public string[] rejectedIds;
         }
 
         [Serializable]
@@ -67,8 +65,6 @@ namespace FlowState.Runtime.Features
                 accountId = saveData.AccountId,
                 recoveryNoticeConfirmed = saveData.OnlineAccount.HasConfirmedRecoveryNotice,
                 onlinePlayerId = saveData.OnlineAccount.PlayerId,
-                submittedIds = new List<string>(saveData.OnlineAccount.SubmittedIds).ToArray(),
-                rejectedIds = new List<string>(saveData.OnlineAccount.RejectedIds).ToArray(),
                 hasSettings = saveData.Settings != null,
                 isFullscreen = saveData.Settings != null && saveData.Settings.IsFullscreen,
                 masterVolume = saveData.Settings == null ? 100 : saveData.Settings.MasterVolume,
@@ -115,9 +111,9 @@ namespace FlowState.Runtime.Features
                         ReadBindings(file.bindingOverrides)),
                     file.hasCompletedTutorial,
                     ReadCandidates(file.personalBests),
-                    ReadCandidates(file.pendingSubmissions),
                     file.version >= 2 ? new OnlineAccountState(file.recoveryNoticeConfirmed,
-                        file.onlinePlayerId, file.submittedIds, file.rejectedIds) : new OnlineAccountState());
+                        file.onlinePlayerId) : new OnlineAccountState(),
+                    ReadCandidates(file.pendingSubmissions));
                 return true;
             }
             catch (Exception)
@@ -180,6 +176,7 @@ namespace FlowState.Runtime.Features
 
             return files;
         }
+
 
         private static List<SettingsBindingOverride> ReadBindings(BindingFile[] bindings)
         {

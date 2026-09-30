@@ -12,9 +12,9 @@ for (const value of ["c76d55cf-7846-494b-9dce-a0797b179b36", "a20a46fa-1edb-4d79
   assert.ok(config.includes(value)); assert.ok(submit.includes(value)); assert.ok(query.includes(value));
 }
 const policy = JSON.parse(read("UGS/AccessControl/project-policy.json"));
-for (const resource of ["urn:ugs:leaderboards:*", "urn:ugs:cloud-save:*"])
+for (const resource of ["urn:ugs:leaderboards:/**", "urn:ugs:cloud-save:/**"])
   assert.ok(policy.statements.some(s => s.Resource === resource && s.Principal === "Player" &&
-    s.Effect === "Deny" && s.Action.includes("Write")));
+    s.Effect === "Deny" && s.Action.includes("Write")), `Missing Player Write Deny: ${resource}`);
 assert.deepEqual(JSON.parse(read("UGS/CloudSave/verification-ledger-seed.json")),
   { version: 1, active: "", entries: [], best: {} });
 const manifest = JSON.parse(read("Packages/manifest.json")).dependencies;
@@ -36,12 +36,14 @@ assert.ok(!repository.includes("LeaderboardsService"));
 const coordinator = read("Assets/Scripts/Runtime/Features/OnlineRecordCoordinator.cs");
 assert.ok(coordinator.includes("MaximumAttemptsPerRetryTrigger"));
 assert.ok(coordinator.includes("InitialRetryDelayMilliseconds <<"));
-assert.ok(coordinator.includes("WithResult"));
+assert.ok(coordinator.includes("TryRemovePending"));
 const scene = read("Assets/Scenes/SampleScene.unity"); // Inspect only; never edits the scene.
 assert.ok(scene.includes("_moveSpeed: 8")); assert.ok(scene.includes("_scorePerUnit: 10"));
 const codec = read("Assets/Scripts/Runtime/Features/LocalSaveJsonCodec.cs");
-for (const field of ["recoveryNoticeConfirmed", "onlinePlayerId", "submittedIds", "rejectedIds"])
+for (const field of ["recoveryNoticeConfirmed", "onlinePlayerId", "pendingSubmissions"])
   assert.ok(codec.includes(field));
+for (const field of ["submittedIds", "rejectedIds", "rejectedReceipts"])
+  assert.ok(!codec.includes(field));
 const files = ["OnlineAccountState", "OnlineRecordConfiguration", "OnlineAuthenticationResult",
   "UgsOnlineAuthenticationGateway", "CloudCodeRecordRepository", "OnlineRecordCoordinator", "UgsOnlineRecordTransport"];
 for (const name of files) {

@@ -12,11 +12,14 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private GameObject _stageHud;
         [SerializeField] private GameObject _infiniteHud;
         [SerializeField] private GameObject _resultPanel;
+        [SerializeField] private GameObject _resultSubmissionLoadingPanel;
+        [SerializeField] private TMP_Text _resultSubmissionLoadingText;
         [SerializeField] private GameObject _pausePanel;
         [SerializeField] private GameObject _stageResultContent;
         [SerializeField] private GameObject _infiniteResultContent;
         [SerializeField] private TMP_Text _stageCollectibleScoreText;
         [SerializeField] private TMP_Text _resultStatusText;
+        [SerializeField] private TMP_Text _resultRecordStatusText;
         [SerializeField] private TMP_Text _clearTimeText;
         [SerializeField] private TMP_Text _stageResultCollectibleScoreText;
         [SerializeField] private TMP_Text _distanceText;
@@ -60,7 +63,22 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private Button _pauseMainMenuConfirmButton;
         [SerializeField] private Button _pauseMainMenuCancelButton;
         [SerializeField] private Button _resultMainMenuButton;
+        [SerializeField] private Button _resultLeaderboardButton;
+        [SerializeField] private Button _resultSubmissionRetryButton;
         [SerializeField] private Button _leaderboardBackButton;
+        [SerializeField] private Button _leaderboardStageButton;
+        [SerializeField] private Button _leaderboardInfiniteButton;
+        [SerializeField] private Button _leaderboardRetryButton;
+        [SerializeField] private Button _leaderboardPendingRetryButton;
+        [SerializeField] private TMP_Text _leaderboardPendingRetryText;
+        [SerializeField] private TMP_Text _leaderboardPendingRetryStatusText;
+        [SerializeField] private TMP_Text _leaderboardTopText;
+        [SerializeField] private TMP_Text _leaderboardAroundText;
+        [SerializeField] private TMP_Text _leaderboardAccountText;
+        [SerializeField] private GameObject _onlineRecoveryNoticePanel;
+        [SerializeField] private Button _onlineRecoveryNoticeConfirmButton;
+        [SerializeField] private Button _onlineRecoveryNoticeCancelButton;
+        [SerializeField] private Button _settingsRecoveryNoticeButton;
         [SerializeField] private Button _howToPlayBackButton;
         [SerializeField] private Button _howToPlayStartRunButton;
         [SerializeField] private TMP_Text _howToPlayJumpBindingText;
@@ -91,6 +109,15 @@ namespace FlowState.Runtime.Systems
         private bool _isMomentumHudConfigured;
         private MomentumGradientEffect _momentumGradientEffect;
         private bool _isInitialized;
+        private Outline _leaderboardStageModeOutline;
+        private Outline _leaderboardInfiniteModeOutline;
+        private bool _hasLeaderboardModeStyles;
+        private ColorBlock _leaderboardStageOriginalColors;
+        private ColorBlock _leaderboardInfiniteOriginalColors;
+        private Color _leaderboardStageOriginalTextColor;
+        private Color _leaderboardInfiniteOriginalTextColor;
+        private bool _hasHighlightedLeaderboardMode;
+        private E_GameMode _highlightedLeaderboardMode;
         private E_NavigationScreen _currentNavigationScreen =
             E_NavigationScreen.Boot;
 
@@ -98,6 +125,155 @@ namespace FlowState.Runtime.Systems
 
         public E_NavigationScreen CurrentNavigationScreen =>
             _currentNavigationScreen;
+
+        public void SetLeaderboardViewState(
+            LeaderboardViewState state,
+            string currentPlayerId,
+            int pendingCount,
+            bool isPendingRetryRunning,
+            string pendingRetryStatus)
+        {
+            if (state == null)
+            {
+                return;
+            }
+
+            SetTextIfChanged(_leaderboardTopText,
+                FormatLeaderboardSection("TOP", state.TopState, state.TopResult,
+                    state.GameMode, currentPlayerId));
+            SetTextIfChanged(_leaderboardAroundText,
+                FormatLeaderboardSection("AROUND YOU", state.AroundState,
+                    state.AroundResult, state.GameMode, currentPlayerId));
+            SetTextIfChanged(_leaderboardAccountText,
+                string.IsNullOrEmpty(currentPlayerId)
+                    ? "Anonymous account: consent required"
+                    : "Anonymous account: " + MaskPlayerId(currentPlayerId));
+            SetTextIfChanged(_leaderboardPendingRetryText,
+                isPendingRetryRunning ? "Retrying pending..."
+                    : "Retry Pending (" + pendingCount + ")");
+            SetTextIfChanged(_leaderboardPendingRetryStatusText, pendingRetryStatus);
+            UpdateLeaderboardModeHighlight(state.GameMode);
+            bool hasPending = pendingCount > 0;
+            bool canRetryPending = hasPending && !isPendingRetryRunning;
+            SetNavigationUIActive(_leaderboardPendingRetryButton == null
+                ? null : _leaderboardPendingRetryButton.gameObject, hasPending);
+            if (_leaderboardPendingRetryButton != null)
+                _leaderboardPendingRetryButton.interactable = canRetryPending;
+            ConfigureLeaderboardPendingRetryNavigation(canRetryPending);
+        }
+
+        private void UpdateLeaderboardModeHighlight(E_GameMode gameMode)
+        {
+            if (_hasHighlightedLeaderboardMode && _highlightedLeaderboardMode == gameMode)
+                return;
+
+            if (!_hasLeaderboardModeStyles)
+            {
+                if (_leaderboardStageButton != null)
+                {
+                    _leaderboardStageOriginalColors = _leaderboardStageButton.colors;
+                    TMP_Text stageText = _leaderboardStageButton.GetComponentInChildren<TMP_Text>(true);
+                    if (stageText != null) _leaderboardStageOriginalTextColor = stageText.color;
+                }
+                if (_leaderboardInfiniteButton != null)
+                {
+                    _leaderboardInfiniteOriginalColors = _leaderboardInfiniteButton.colors;
+                    TMP_Text infiniteText = _leaderboardInfiniteButton.GetComponentInChildren<TMP_Text>(true);
+                    if (infiniteText != null) _leaderboardInfiniteOriginalTextColor = infiniteText.color;
+                }
+                _hasLeaderboardModeStyles = true;
+            }
+
+            if (_leaderboardStageButton != null)
+            {
+                if (_leaderboardStageModeOutline == null)
+                    _leaderboardStageModeOutline = CreateLeaderboardModeOutline(
+                        _leaderboardStageButton);
+                bool isStage = gameMode == E_GameMode.Stage;
+                _leaderboardStageModeOutline.enabled = isStage;
+                SetLeaderboardModeButtonColors(_leaderboardStageButton,
+                    _leaderboardStageOriginalColors, _leaderboardStageOriginalTextColor, isStage);
+            }
+
+            if (_leaderboardInfiniteButton != null)
+            {
+                if (_leaderboardInfiniteModeOutline == null)
+                    _leaderboardInfiniteModeOutline = CreateLeaderboardModeOutline(
+                        _leaderboardInfiniteButton);
+                bool isInfinite = gameMode == E_GameMode.Infinite;
+                _leaderboardInfiniteModeOutline.enabled = isInfinite;
+                SetLeaderboardModeButtonColors(_leaderboardInfiniteButton,
+                    _leaderboardInfiniteOriginalColors, _leaderboardInfiniteOriginalTextColor,
+                    isInfinite);
+            }
+
+            _highlightedLeaderboardMode = gameMode;
+            _hasHighlightedLeaderboardMode = true;
+        }
+
+        private static void SetLeaderboardModeButtonColors(Button button,
+            ColorBlock originalColors, Color originalTextColor, bool isActive)
+        {
+            ColorBlock colors = originalColors;
+            if (isActive)
+            {
+                colors.normalColor = new Color(0.95f, 0.74f, 0.25f, 1f);
+                colors.highlightedColor = new Color(1f, 0.82f, 0.35f, 1f);
+                colors.selectedColor = new Color(1f, 0.94f, 0.65f, 1f);
+                colors.pressedColor = new Color(0.85f, 0.62f, 0.16f, 1f);
+            }
+            button.colors = colors;
+            TMP_Text label = button.GetComponentInChildren<TMP_Text>(true);
+            if (label != null)
+                label.color = isActive ? new Color(0.09f, 0.12f, 0.18f, 1f)
+                    : originalTextColor;
+        }
+
+        private static Outline CreateLeaderboardModeOutline(Button button)
+        {
+            Outline outline = button.GetComponent<Outline>();
+            if (outline == null)
+                outline = button.gameObject.AddComponent<Outline>();
+            outline.effectColor = new Color(1f, 0.82f, 0.25f, 1f);
+            outline.effectDistance = new Vector2(3f, -3f);
+            outline.useGraphicAlpha = false;
+            return outline;
+        }
+
+        private void ConfigureLeaderboardPendingRetryNavigation(bool canRetryPending)
+        {
+            if (_leaderboardRetryButton == null || _leaderboardBackButton == null)
+                return;
+
+            Button nextButton = canRetryPending && _leaderboardPendingRetryButton != null
+                ? _leaderboardPendingRetryButton : _leaderboardBackButton;
+            Navigation retryNavigation = _leaderboardRetryButton.navigation;
+            retryNavigation.mode = Navigation.Mode.Explicit;
+            retryNavigation.selectOnDown = nextButton;
+            _leaderboardRetryButton.navigation = retryNavigation;
+
+            Navigation backNavigation = _leaderboardBackButton.navigation;
+            backNavigation.mode = Navigation.Mode.Explicit;
+            backNavigation.selectOnUp = nextButton == _leaderboardBackButton
+                ? _leaderboardRetryButton : _leaderboardPendingRetryButton;
+            _leaderboardBackButton.navigation = backNavigation;
+
+            if (_leaderboardPendingRetryButton == null) return;
+            Navigation pendingNavigation = _leaderboardPendingRetryButton.navigation;
+            pendingNavigation.mode = Navigation.Mode.Explicit;
+            pendingNavigation.selectOnUp = _leaderboardRetryButton;
+            pendingNavigation.selectOnDown = _leaderboardBackButton;
+            _leaderboardPendingRetryButton.navigation = pendingNavigation;
+        }
+
+        public void SetOnlineRecoveryNoticeVisible(bool isVisible)
+        {
+            SetNavigationUIActive(_onlineRecoveryNoticePanel, isVisible);
+            if (isVisible && _onlineRecoveryNoticeConfirmButton != null)
+            {
+                _onlineRecoveryNoticeConfirmButton.Select();
+            }
+        }
 
         public bool HasNavigationUIConfiguration =>
             _mainMenuPanel != null &&
@@ -178,6 +354,7 @@ namespace FlowState.Runtime.Systems
             ResetResultDisplay();
             _isInitialized = true;
             SetUIState(E_UIState.None);
+            SetResultSubmissionLoading(false);
 
             Debug.Log("[UIManagementSystem] Initialized.");
         }
@@ -192,6 +369,30 @@ namespace FlowState.Runtime.Systems
             ResetResultDisplay();
             _isInitialized = true;
             SetUIState(E_UIState.None);
+            SetResultSubmissionLoading(false);
+        }
+
+        public void SetResultSubmissionLoading(bool isVisible)
+        {
+            if (_resultSubmissionLoadingPanel == null)
+            {
+                if (isVisible)
+                    Debug.LogWarning("[UIManagementSystem] Result submission loading panel is not assigned.");
+                return;
+            }
+
+            if (isVisible && _resultSubmissionLoadingText == null)
+                Debug.LogWarning("[UIManagementSystem] Result submission loading text is not assigned.");
+
+            SetNavigationUIActive(_resultSubmissionLoadingPanel, isVisible);
+        }
+
+        public void SetResultSubmissionLoadingRemainingSeconds(int remainingSeconds)
+        {
+            if (_resultSubmissionLoadingText == null) return;
+            SetTextIfChanged(_resultSubmissionLoadingText,
+                "Submitting record...\nResult in " + Mathf.Max(0, remainingSeconds) +
+                "s or sooner");
         }
 
         public void SetNavigationScreen(
@@ -210,7 +411,7 @@ namespace FlowState.Runtime.Systems
                 screen == E_NavigationScreen.PauseMainMenuConfirmation);
             SetNavigationUIActive(
                 _leaderboardPanel,
-                screen == E_NavigationScreen.LeaderboardUnavailable);
+                screen == E_NavigationScreen.Leaderboard);
             SetNavigationUIActive(
                 _howToPlayPanel,
                 IsHowToPlayScreen(screen));
@@ -352,6 +553,34 @@ namespace FlowState.Runtime.Systems
             return false;
         }
 
+        public void SetResultRecordPresentation(ResultRecordPresentation presentation)
+        {
+            if (presentation == null) return;
+            string text = presentation.IsNewLocalBest ? "Local best: New" : "Local best: No change";
+            switch (presentation.SubmissionState)
+            {
+                case E_ResultSubmissionState.Pending:
+                    text += "\nSubmission: Pending (retry available)";
+                    break;
+                case E_ResultSubmissionState.Submitted:
+                    text += "\nSubmission: Submitted";
+                    break;
+                case E_ResultSubmissionState.Rejected:
+                    text += "\nSubmission: Rejected (retry unavailable)";
+                    text += "\nReason: " + FormatSubmissionReason(presentation.RejectionReason);
+                    break;
+                default:
+                    text += "\nSubmission: Not available";
+                    break;
+            }
+            text += "\nOnline best: " + FormatOnlineBest(presentation.OnlineBest,
+                _currentGameMode);
+            SetTextIfChanged(_resultRecordStatusText, text);
+            SetNavigationUIActive(_resultSubmissionRetryButton == null
+                ? null : _resultSubmissionRetryButton.gameObject,
+                presentation.SubmissionState == E_ResultSubmissionState.Pending);
+        }
+
         private void ApplyUIState()
         {
             if (!_visibilityState.Apply(
@@ -425,6 +654,12 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
+            if (TryApplyExpandedResultLayout(resultWindow, stageContent,
+                    infiniteContent, retryButton, mainMenuButton))
+            {
+                return;
+            }
+
             if (_currentGameMode == E_GameMode.Stage)
             {
                 SetResultRect(resultWindow, new Vector2(520.0f, 400.0f), 0.0f,
@@ -443,6 +678,60 @@ namespace FlowState.Runtime.Systems
                 SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -334.0f);
                 SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -392.0f);
             }
+        }
+
+        private bool TryApplyExpandedResultLayout(
+            RectTransform resultWindow,
+            RectTransform stageContent,
+            RectTransform infiniteContent,
+            RectTransform retryButton,
+            RectTransform mainMenuButton)
+        {
+            if (_resultRecordStatusText == null || _resultLeaderboardButton == null ||
+                _resultSubmissionRetryButton == null)
+            {
+                return false;
+            }
+
+            RectTransform recordStatus = _resultRecordStatusText.transform as RectTransform;
+            RectTransform leaderboardButton = _resultLeaderboardButton.transform as RectTransform;
+            RectTransform submissionRetryButton =
+                _resultSubmissionRetryButton.transform as RectTransform;
+            if (recordStatus == null || leaderboardButton == null ||
+                submissionRetryButton == null || recordStatus.parent != resultWindow ||
+                leaderboardButton.parent != resultWindow ||
+                submissionRetryButton.parent != resultWindow)
+            {
+                return false;
+            }
+
+            if (_currentGameMode == E_GameMode.Stage)
+            {
+                SetResultRect(resultWindow, new Vector2(520.0f, 620.0f), 0.0f,
+                    new Vector2(0.5f, 0.5f));
+                SetResultRect(stageContent, new Vector2(472.0f, 150.0f), -36.0f);
+                SetResultRect(recordStatus, new Vector2(472.0f, 82.0f), -204.0f);
+                SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -302.0f);
+                SetResultRect(leaderboardButton, new Vector2(472.0f, 48.0f), -360.0f);
+                SetResultRect(submissionRetryButton, new Vector2(472.0f, 48.0f), -418.0f);
+                SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -476.0f);
+                return true;
+            }
+
+            if (_currentGameMode == E_GameMode.Infinite)
+            {
+                SetResultRect(resultWindow, new Vector2(520.0f, 740.0f), 0.0f,
+                    new Vector2(0.5f, 0.5f));
+                SetResultRect(infiniteContent, new Vector2(472.0f, 278.0f), -36.0f);
+                SetResultRect(recordStatus, new Vector2(472.0f, 82.0f), -334.0f);
+                SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -432.0f);
+                SetResultRect(leaderboardButton, new Vector2(472.0f, 48.0f), -490.0f);
+                SetResultRect(submissionRetryButton, new Vector2(472.0f, 48.0f), -548.0f);
+                SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -606.0f);
+                return true;
+            }
+
+            return false;
         }
 
         private static void SetResultRect(
@@ -760,6 +1049,9 @@ namespace FlowState.Runtime.Systems
             SetTextIfChanged(
                 _infiniteResultMaximumMomentumText,
                 string.Empty);
+            SetTextIfChanged(_resultRecordStatusText, string.Empty);
+            SetNavigationUIActive(_resultSubmissionRetryButton == null
+                ? null : _resultSubmissionRetryButton.gameObject, false);
         }
 
         private void SetTextIfChanged(TMP_Text targetText, string value)
@@ -768,6 +1060,77 @@ namespace FlowState.Runtime.Systems
             {
                 targetText.text = value;
             }
+        }
+
+        private static string FormatLeaderboardSection(
+            string title,
+            E_LeaderboardQueryState state,
+            OnlineLeaderboardResult result,
+            E_GameMode gameMode,
+            string currentPlayerId)
+        {
+            if (state == E_LeaderboardQueryState.Loading) return title + "\nLoading...";
+            if (state == E_LeaderboardQueryState.Empty) return title + "\nNo records.";
+            if (state == E_LeaderboardQueryState.Offline) return title + "\nOffline. Retry when connected.";
+            if (state == E_LeaderboardQueryState.Error)
+                return title + "\nError: " + GetSafeReason(result);
+            if (state != E_LeaderboardQueryState.Success || result == null || result.entries == null)
+                return title + "\n--";
+
+            string output = title;
+            for (int i = 0; i < result.entries.Length; i++)
+            {
+                OnlineLeaderboardEntry entry = result.entries[i];
+                if (entry == null) continue;
+                output += "\n#" + entry.rank + " " +
+                    MaskPlayerId(entry.playerId) +
+                    (!string.IsNullOrEmpty(currentPlayerId) &&
+                     entry.playerId == currentPlayerId ? " (You)" : string.Empty) +
+                    "  " + ResultTextFormatter.FormatRankingValue(entry.score, gameMode);
+            }
+            return output;
+        }
+
+        private static string GetSafeReason(OnlineLeaderboardResult result)
+        {
+            if (result == null || string.IsNullOrEmpty(result.reason)) return "Unavailable";
+            switch (result.reason)
+            {
+                case "Timeout": return "Timeout";
+                case "AuthenticationUnavailable": return "Authentication unavailable";
+                case "ServiceUnavailable": return "Service unavailable";
+                case "InvalidQuery": return "Invalid query";
+                default: return "Unavailable";
+            }
+        }
+
+        private static string FormatSubmissionReason(string reason)
+        {
+            if (string.IsNullOrEmpty(reason)) return "Unavailable";
+            switch (reason)
+            {
+                case "InvalidBoard": return "Board is unavailable";
+                case "InvalidScore": return "Score validation failed";
+                case "DuplicateSubmission": return "Duplicate submission";
+                case "RejectedByServer": return "Rejected by server";
+                default: return "Rejected by server";
+            }
+        }
+
+        private static string FormatOnlineBest(OnlineLeaderboardResult result,
+            E_GameMode gameMode)
+        {
+            if (result == null || !result.IsSuccess || result.entries == null ||
+                result.entries.Length == 0 || result.entries[0] == null) return "Unavailable";
+            return "#" + result.entries[0].rank + " " +
+                ResultTextFormatter.FormatRankingValue(result.entries[0].score, gameMode);
+        }
+
+        private static string MaskPlayerId(string playerId)
+        {
+            if (string.IsNullOrEmpty(playerId)) return "Player";
+            int suffixStart = playerId.Length > 4 ? playerId.Length - 4 : 0;
+            return "Player • …" + playerId.Substring(suffixStart);
         }
 
         private void SelectNavigationButton(
@@ -836,11 +1199,22 @@ namespace FlowState.Runtime.Systems
                         : _pauseMainMenuCancelButton;
 
                 case E_NavigationScreen.Result:
-                    return selection == E_NavigationItem.Retry
-                        ? _retryButton
-                        : _resultMainMenuButton;
+                    if (selection == E_NavigationItem.Retry) return _retryButton;
+                    if (selection == E_NavigationItem.ResultLeaderboard)
+                        return _resultLeaderboardButton;
+                    if (selection == E_NavigationItem.SubmissionRetry)
+                        return _resultSubmissionRetryButton;
+                    return _resultMainMenuButton;
 
-                case E_NavigationScreen.LeaderboardUnavailable:
+                case E_NavigationScreen.Leaderboard:
+                    if (selection == E_NavigationItem.Stage)
+                        return _leaderboardStageButton;
+                    if (selection == E_NavigationItem.Infinite)
+                        return _leaderboardInfiniteButton;
+                    if (selection == E_NavigationItem.LeaderboardRetry)
+                        return _leaderboardRetryButton;
+                    if (selection == E_NavigationItem.LeaderboardPendingRetry)
+                        return _leaderboardPendingRetryButton;
                     return _leaderboardBackButton;
 
                 case E_NavigationScreen.HowToPlay:

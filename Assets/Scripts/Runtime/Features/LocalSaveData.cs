@@ -4,11 +4,12 @@ namespace FlowState.Runtime.Features
 {
     public sealed class LocalSaveData
     {
-        public const int CurrentVersion = 2;
+        public const int CurrentVersion = 5;
         public OnlineAccountState OnlineAccount { get; }
 
         private readonly List<RecordSubmissionCandidate> _personalBests;
         private readonly List<RecordSubmissionCandidate> _pendingSubmissions;
+        public IReadOnlyList<RecordSubmissionCandidate> PendingSubmissions => _pendingSubmissions;
 
         public int Version { get; }
 
@@ -21,17 +22,14 @@ namespace FlowState.Runtime.Features
         public IReadOnlyList<RecordSubmissionCandidate> PersonalBests =>
             _personalBests;
 
-        public IReadOnlyList<RecordSubmissionCandidate> PendingSubmissions =>
-            _pendingSubmissions;
-
         public LocalSaveData(
             int version,
             string accountId,
             LocalSettingsData settings,
             bool hasCompletedTutorial,
             IReadOnlyList<RecordSubmissionCandidate> personalBests,
-            IReadOnlyList<RecordSubmissionCandidate> pendingSubmissions,
-            OnlineAccountState onlineAccount = null)
+            OnlineAccountState onlineAccount = null,
+            IReadOnlyList<RecordSubmissionCandidate> pendingSubmissions = null)
         {
             Version = version;
             AccountId = accountId == null ? string.Empty : accountId;
@@ -49,7 +47,6 @@ namespace FlowState.Runtime.Features
                 string.Empty,
                 settings,
                 false,
-                null,
                 null);
         }
 

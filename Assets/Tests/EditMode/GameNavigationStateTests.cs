@@ -397,8 +397,9 @@ namespace FlowState.Tests.EditMode
             Assert.That(_state.TrySubmit(), Is.True);
             Assert.That(
                 _state.CurrentScreen,
-                Is.EqualTo(E_NavigationScreen.LeaderboardUnavailable));
-            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.Back));
+                Is.EqualTo(E_NavigationScreen.Leaderboard));
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.Stage));
+            Assert.That(_state.TrySelect(E_NavigationItem.Back), Is.True);
             Assert.That(_state.TrySubmit(), Is.True);
             Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.Leaderboard));
 
@@ -406,6 +407,103 @@ namespace FlowState.Tests.EditMode
             Assert.That(_state.TrySubmit(), Is.True);
             Assert.That(_state.TryCancel(), Is.True);
             Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.HowToPlay));
+        }
+
+        [Test]
+        public void Leaderboard_ResultEntryBack_ReturnsToResultSelection()
+        {
+            StartRun(E_NavigationItem.Infinite);
+            Assert.That(_state.TryHandleStageEnded(), Is.True);
+            Assert.That(_state.TrySelect(E_NavigationItem.ResultLeaderboard), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+
+            Assert.That(_state.CurrentScreen, Is.EqualTo(E_NavigationScreen.Leaderboard));
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.Infinite));
+            Assert.That(_state.TryCancel(), Is.True);
+            Assert.That(_state.CurrentScreen, Is.EqualTo(E_NavigationScreen.Result));
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.ResultLeaderboard));
+        }
+
+        [Test]
+        public void ResultSubmissionRetry_IsNavigableOnlyWhilePending()
+        {
+            StartRun(E_NavigationItem.Stage);
+            Assert.That(_state.TryHandleStageEnded(), Is.True);
+            Assert.That(_state.SetResultSubmissionRetryAvailable(true), Is.True);
+            Assert.That(_state.TryNavigate(1, 0.0), Is.True);
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.ResultLeaderboard));
+            ReleaseNavigate(0.01);
+            Assert.That(_state.TryNavigate(1, 0.02), Is.True);
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.SubmissionRetry));
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.CurrentScreen, Is.EqualTo(E_NavigationScreen.Result));
+            Assert.That(_state.SetResultSubmissionRetryAvailable(false), Is.True);
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.ResultLeaderboard));
+            ReleaseNavigate(0.03);
+            Assert.That(_state.TryNavigate(1, 0.04), Is.True);
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.MainMenu));
+        }
+
+        [Test]
+        public void Leaderboard_ModeSelection_KeepsScreenAndChangesSelection()
+        {
+            CompleteBoot();
+            Assert.That(_state.TrySelect(E_NavigationItem.Leaderboard), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.TrySelect(E_NavigationItem.Infinite), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+
+            Assert.That(_state.CurrentScreen, Is.EqualTo(E_NavigationScreen.Leaderboard));
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.Infinite));
+        }
+
+        [Test]
+        public void Leaderboard_PendingRetry_IsSelectableWithoutStartingRun()
+        {
+            CompleteBoot();
+            Assert.That(_state.TrySelect(E_NavigationItem.Leaderboard), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.SetLeaderboardPendingRetryAvailable(true), Is.True);
+            Assert.That(_state.TrySelect(E_NavigationItem.LeaderboardPendingRetry), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.CurrentScreen, Is.EqualTo(E_NavigationScreen.Leaderboard));
+            Assert.That(_state.IsRunStartRequested, Is.False);
+        }
+
+        [Test]
+        public void Leaderboard_KeyboardNavigation_ReachesPendingRetryAndBack()
+        {
+            CompleteBoot();
+            Assert.That(_state.TrySelect(E_NavigationItem.Leaderboard), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.SetLeaderboardPendingRetryAvailable(true), Is.True);
+            Assert.That(_state.TryNavigate(1, 0.0), Is.True);
+            ReleaseNavigate(0.01);
+            Assert.That(_state.TryNavigate(1, 0.02), Is.True);
+            ReleaseNavigate(0.03);
+            Assert.That(_state.TryNavigate(1, 0.04), Is.True);
+            Assert.That(_state.CurrentSelection,
+                Is.EqualTo(E_NavigationItem.LeaderboardPendingRetry));
+            ReleaseNavigate(0.05);
+            Assert.That(_state.TryNavigate(1, 0.06), Is.True);
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.Back));
+        }
+
+        [Test]
+        public void Leaderboard_PendingRetry_IsSkippedWhenNoPendingRemains()
+        {
+            CompleteBoot();
+            Assert.That(_state.TrySelect(E_NavigationItem.Leaderboard), Is.True);
+            Assert.That(_state.TrySubmit(), Is.True);
+            Assert.That(_state.TrySelect(E_NavigationItem.LeaderboardPendingRetry), Is.False);
+            Assert.That(_state.SetLeaderboardPendingRetryAvailable(true), Is.True);
+            Assert.That(_state.TrySelect(E_NavigationItem.LeaderboardPendingRetry), Is.True);
+            Assert.That(_state.SetLeaderboardPendingRetryAvailable(false), Is.True);
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.LeaderboardRetry));
+            Assert.That(_state.TrySelect(E_NavigationItem.LeaderboardPendingRetry), Is.False);
+            ReleaseNavigate(0.01);
+            Assert.That(_state.TryNavigate(1, 0.02), Is.True);
+            Assert.That(_state.CurrentSelection, Is.EqualTo(E_NavigationItem.Back));
         }
 
         [Test]

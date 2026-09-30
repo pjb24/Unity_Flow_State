@@ -75,5 +75,10 @@ namespace FlowState.Runtime.Features
         {
             return _pendingSubmissions.CreatePendingSnapshot();
         }
+
+        public bool TryRemovePending(string playerId, string submissionId)
+        {
+            return _pendingSubmissions.TryRemove(playerId, submissionId);
+        }
     }
 }

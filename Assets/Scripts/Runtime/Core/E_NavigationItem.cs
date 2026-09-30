@@ -15,6 +15,12 @@ namespace FlowState.Runtime.Core
         Resume,
         Retry,
         MainMenu,
-        Cancel
+        Cancel,
+        LeaderboardTop,
+        LeaderboardAround,
+        LeaderboardRetry,
+        ResultLeaderboard,
+        SubmissionRetry,
+        LeaderboardPendingRetry
     }
 }

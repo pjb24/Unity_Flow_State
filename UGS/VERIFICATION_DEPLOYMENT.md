@@ -1,5 +1,16 @@
 # Phase 3 verification 적용 안내
 
+## Phase 4의 제한된 원격 변경
+
+Phase 4에서는 기존 verification 구성을 다시 만들거나 전체 문서의 Phase 3 절차를 반복하지 않는다. 원격 적용 대상은 `query-records` JavaScript Script 하나다. 게시 전 원격 `query-records` 소스와 입력 정의를 백업한 뒤, 로컬 `UGS/CloudCode/query-records.js` 전체로 교체하고 Publish한다.
+
+- 대상: Project `c76d55cf-7846-494b-9dce-a0797b179b36`, Environment `verification` (`a20a46fa-1edb-4d79-9c35-02f2fed31896`)
+- 유지: `request` / String / Required 입력, 응답 필드, `submit-record`, Access Control, Cloud Save ledger/seed, 두 Leaderboard
+- 변경: 같은 Score는 같은 competition rank를 사용한다. 같은 Score 안에서만 서버 수락 시각 오름차순으로 표시한다.
+- 금지: Board·ledger 초기화, `submit-record` 재게시, 정책 재적용, 입력 정의 변경
+
+원격 게시 후 실제 Player context에서의 조회·제출·403·Offline 검증은 Phase 4 Step 7에서 수행한다. Dashboard의 Player context 없는 실행은 검증 근거가 아니다.
+
 이 문서는 Step 4-1의 **검증용 소스 준비 결과**다. AI는 UGS에 접속·배포하지 않았으며 Unity Build·Test Runner·Scene/Inspector 변경도 하지 않았다. 일반 사용자/운영 환경 배포용 완료 선언이 아니다.
 
 ## 대상과 현재 제한
@@ -21,7 +32,7 @@
 - ledger는 계정별 최대 128개 ID를 보존한다. 기존 ID는 만료·삭제·덮어쓰기하지 않으며 초과 신규 ID는 `LedgerCapacity` → Pending이다. 무제한 운영 보관/분할과 신규 계정 자동 초기화는 후속 서버 설계 항목이다.
 - 조회는 보드 전체 100명 이하일 때 한 페이지를 받아 서버 접수 시각까지 정렬한다. 초과/불완전 페이지는 `VerificationBoardCapacity`로 실패한다. 일반 규모의 안정적인 전체 순위 조회는 아직 미완료다.
 - 서버는 정수·구성 합계·Version·시간 대비 논리 상한을 검증한다. 사용자가 보고한 플레이 시간이나 Stage 실제 클리어의 진위를 증명하지는 않는다. 서버 권위 게임 시뮬레이션/완전한 부정행위 방지를 구현했다고 간주하지 않는다.
-- 동점 접수 시각은 서버 UTC epoch milliseconds다. 점수와 시각이 모두 같으면 공동 순위(다음 순위 건너뜀)이며, Player ID는 표시 순서를 고정하는 용도로만 쓴다. Dashboard 원래 rank와 커스텀 조회 rank가 다를 수 있다.
+- 동점 접수 시각은 서버 UTC epoch milliseconds다. 같은 점수는 수락 시각과 무관하게 공동 순위(다음 순위 건너뜀)이며, 같은 점수 안에서만 수락 시각 오름차순으로 표시한다. Player ID는 수락 시각까지 같을 때 표시 순서를 고정하는 용도로만 쓴다. Dashboard 원래 rank와 커스텀 조회 rank가 다를 수 있다.
 - 스크립트 서비스 토큰/SDK, keepBest의 metadata 보존, 실제 Cloud Save CAS 및 정책 강제력은 Step 7에서 별도로 확인한다. 로컬 대역 테스트로 서비스 보장을 입증하지 않는다.
 
 ## 1. Unity 소스 컴파일 확인 — 사용자
@@ -98,8 +109,8 @@ POST body(최초 생성에만 사용, 기존 값이 있으면 중단):
 Play Mode에서 Stage를 클리어하거나 Infinite 기록을 만든 뒤 검증 창의 **Pending 재시도**를 누른다. 상위·내 주변·내 최고 조회 버튼으로 결과를 확인한다. 현재 Result 화면은 Phase 4 UI이므로 이 창을 검증 경로로 사용한다.
 
 - 제출 성공 후 Protected ledger의 해당 ID가 `Submitted`, active가 빈 문자열이고 최고 기록의 metadata에 `submissionId/acceptedAt`가 있어야 한다.
-- 재시작·다시 재시도해도 완료 후보가 재전송되지 않아야 한다. 서비스 응답 유실의 중복 재요청은 같은 ID·같은 점수·같은 접수 시각으로 복구한다. 네트워크 요청 횟수 자체가 정확히 1회라는 보장은 아니다.
-- 거부 후보는 Rejected receipt로 저장되고 자동 재시도되지 않는다. Timeout/Offline/403/429/서비스 오류는 Pending이다. 계기당 최대 3회, 재시도 간격 1초·2초, SDK 호출 응답 대기 15초 후 Pending으로 돌아간다.
+- Submitted 또는 Rejected 확정 응답 뒤 Local Save의 해당 Pending만 삭제 저장에 성공하면 재시작 후 재전송되지 않는다. 삭제 저장이 실패한 경우에는 동일 ID·같은 점수로 다시 전송해 서버의 기존 terminal 응답을 확인한 뒤 삭제를 다시 시도한다. 네트워크 요청 횟수 자체가 정확히 1회라는 보장은 아니다.
+- 거부 사유와 Rejected 상태는 현재 앱 실행 중 Result에만 보존하며 Local Save에는 receipt를 저장하지 않는다. Timeout/Offline/403/429/서비스 오류는 Pending이다. 계기당 최대 3회, 재시도 간격 1초·2초, SDK 호출 응답 대기 15초 후 Pending으로 돌아간다.
 - 다른 인증 계정으로 바뀌면 기존 로컬 후보는 전송하지 않는다. 로컬 UUID와 제출 ID는 변경하지 않는다. 인증 정보 삭제로 시험하면 익명 계정을 잃을 수 있으므로 사전 동의 없이 삭제하지 않는다.
 - 기존 보드 데이터에 서버 metadata가 없으면 조회가 실패한다. 기존 데이터를 자동 삭제하거나 정상으로 추정하지 말고 해당 상태만 전달한다.
 - 실패/직접 Write 403/서버 거부의 실제 서비스 회귀 절차는 Step 7의 별도 확인 대상이다. 로컬 테스트가 이를 대체하지 않는다.

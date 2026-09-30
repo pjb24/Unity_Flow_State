@@ -26,8 +26,8 @@ module.exports = async ({ params, context }) => {
     entries.sort((a, b) => (p.boardId === stage ? a.score - b.score : b.score - a.score) ||
       a.acceptedAt - b.acceptedAt || a.playerId.localeCompare(b.playerId));
     for (let i = 0; i < entries.length; i++) {
-      entries[i].rank = i > 0 && entries[i].score === entries[i - 1].score &&
-        entries[i].acceptedAt === entries[i - 1].acceptedAt ? entries[i - 1].rank : i + 1;
+      entries[i].rank = i > 0 && entries[i].score === entries[i - 1].score
+        ? entries[i - 1].rank : i + 1;
     }
     const me = entries.findIndex(e => e.playerId === context.playerId);
     let selected;

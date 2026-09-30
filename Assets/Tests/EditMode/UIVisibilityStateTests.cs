@@ -120,7 +120,7 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void Apply_EndedWithoutResultState_KeepsHudAndHidesResult()
+        public void Apply_EndedWithoutResultState_HidesHudAndResultWhileWaiting()
         {
             Assert.That(
                 _state.Apply(
@@ -129,8 +129,7 @@ namespace FlowState.Tests.EditMode
                     E_UIState.None),
                 Is.True);
 
-            Assert.That(_state.IsInfiniteHudVisible, Is.True);
-            AssertPanelsHidden();
+            AssertEveryUIHidden();
         }
 
         [TestCase(E_GameState.None)]

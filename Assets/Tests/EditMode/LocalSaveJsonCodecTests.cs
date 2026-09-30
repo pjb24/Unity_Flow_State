@@ -27,7 +27,6 @@ namespace FlowState.Tests.EditMode
                 PlayerId,
                 new LocalSettingsData(75, true, new List<SettingsBindingOverride> { binding }),
                 true,
-                new List<RecordSubmissionCandidate> { candidate },
                 new List<RecordSubmissionCandidate> { candidate });
 
             bool didDeserialize = LocalSaveJsonCodec.TryDeserialize(
@@ -42,7 +41,6 @@ namespace FlowState.Tests.EditMode
             Assert.That(restored.Settings.BindingOverrides[0].ControlPath, Is.EqualTo("<Keyboard>/q"));
             Assert.That(restored.HasCompletedTutorial, Is.True);
             Assert.That(restored.PersonalBests[0].SubmissionId, Is.EqualTo(SubmissionId));
-            Assert.That(restored.PendingSubmissions[0].SubmissionId, Is.EqualTo(SubmissionId));
         }
 
         [Test]
@@ -92,7 +90,6 @@ namespace FlowState.Tests.EditMode
             Assert.That(repository.TryLoad(out LocalSaveData saveData), Is.True);
             Assert.That(saveData.Version, Is.EqualTo(LocalSaveData.CurrentVersion));
             Assert.That(saveData.Settings.MasterVolume, Is.EqualTo(100));
-            Assert.That(saveData.PendingSubmissions, Is.Empty);
         }
 
         [Test]
@@ -104,8 +101,7 @@ namespace FlowState.Tests.EditMode
                 PlayerId,
                 new LocalSettingsData(100, false, null),
                 false,
-                new List<RecordSubmissionCandidate> { candidate },
-                null);
+                new List<RecordSubmissionCandidate> { candidate });
             LocalRecordRepository repository = new LocalRecordRepository(
                 new InMemorySaveFileStore(LocalSaveJsonCodec.Serialize(savedData)));
 
@@ -119,7 +115,7 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void StoreCandidateThenCreateSaveData_PreservesCandidateAndRejectsDuplicate()
+        public void StoreCandidate_PendingSurvivesRestartWithSameId()
         {
             LocalRecordRepository repository = new LocalRecordRepository(
                 new InMemorySaveFileStore(null));
@@ -135,24 +131,42 @@ namespace FlowState.Tests.EditMode
                 false);
 
             Assert.That(saveData.PersonalBests, Has.Count.EqualTo(1));
-            Assert.That(saveData.PendingSubmissions, Has.Count.EqualTo(1));
-            Assert.That(
-                saveData.PendingSubmissions[0].SubmissionId,
-                Is.EqualTo(SubmissionId));
+            Assert.That(repository.CreatePendingSnapshot(), Has.Count.EqualTo(1));
+            LocalRecordRepository restored = new LocalRecordRepository(
+                new InMemorySaveFileStore(LocalSaveJsonCodec.Serialize(saveData)));
+            restored.TryLoad(out LocalSaveData ignored);
+            Assert.That(restored.CreatePendingSnapshot(), Has.Count.EqualTo(1));
+            Assert.That(restored.CreatePendingSnapshot()[0].SubmissionId, Is.EqualTo(SubmissionId));
         }
 
         private static RecordSubmissionCandidate CreateStageCandidate()
         {
             bool didCreate = RecordSubmissionPolicy.TryCreateStageCandidate(
-                PlayerId,
-                SubmissionId,
-                "stage-001",
-                1,
-                E_StageResultType.Cleared,
-                12.0,
-                out RecordSubmissionCandidate candidate);
+                PlayerId, SubmissionId, "stage-001", 1, E_StageResultType.Cleared,
+                12.0, out RecordSubmissionCandidate candidate);
             Assert.That(didCreate, Is.True);
             return candidate;
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        public void LegacySave_PreservesPendingWhenPresentAndDropsTerminalHistory(int version)
+        {
+            LocalSaveData source = new LocalSaveData(version, PlayerId,
+                new LocalSettingsData(75, false, null), true,
+                new[] { CreateStageCandidate() }, null, new[] { CreateStageCandidate() });
+            string json = LocalSaveJsonCodec.Serialize(source);
+            json = json.Insert(json.Length - 1,
+                ",\"submittedIds\":[\"old-id\"],\"rejectedIds\":[\"old-id\"],\"rejectedReceipts\":[]");
+            Assert.That(LocalSaveJsonCodec.TryDeserialize(json, out LocalSaveData restored), Is.True);
+            Assert.That(restored.Version, Is.EqualTo(LocalSaveData.CurrentVersion));
+            Assert.That(restored.PendingSubmissions[0].SubmissionId, Is.EqualTo(SubmissionId));
+            string updated = LocalSaveJsonCodec.Serialize(restored);
+            Assert.That(updated, Does.Not.Contain("submittedIds"));
+            Assert.That(updated, Does.Not.Contain("rejectedIds"));
+            Assert.That(updated, Does.Not.Contain("rejectedReceipts"));
         }
 
         private sealed class InMemorySaveFileStore : ILocalSaveFileStore

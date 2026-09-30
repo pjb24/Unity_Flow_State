@@ -6,6 +6,13 @@ namespace FlowState.Runtime.Features
 {
     public static class ResultTextFormatter
     {
+        public static string FormatRankingValue(long value, E_GameMode gameMode)
+        {
+            return gameMode == E_GameMode.Stage
+                ? (value / 1000.0).ToString("F3", CultureInfo.InvariantCulture) + " s"
+                : value.ToString("N0", CultureInfo.InvariantCulture);
+        }
+
         private const string StageClearStatus = "STAGE CLEAR";
         private const string StageFailedStatus = "STAGE FAILED";
         private const string ClearTimeFormat = "Clear Time: {0:F3} s";

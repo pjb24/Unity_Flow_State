@@ -35,6 +35,12 @@ namespace FlowState.Runtime.Core
                 return true;
             }
 
+            // A completed run waiting for its online Result must not show stale gameplay HUD.
+            if (gameState == E_GameState.Ended && uiState != E_UIState.Result)
+            {
+                return true;
+            }
+
             ApplyCurrentModeHud(gameMode);
 
             if (gameState == E_GameState.Paused &&

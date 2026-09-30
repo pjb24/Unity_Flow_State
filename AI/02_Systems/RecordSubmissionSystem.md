@@ -19,7 +19,7 @@ RecordSubmissionSystem
 - 제출 후보와 제출 상태를 관리한다.
 - 제출 후보의 계정 귀속과 영구 제출 ID를 관리한다.
 - 로컬 대기열 저장소와 온라인 제출 저장소에 요청한다.
-- 저장소 결과에 따라 Pending, Submitted 또는 Rejected 상태를 제공한다.
+- 저장소 결과에 따라 Pending, Submitted 또는 Rejected 상태를 제공한다. Rejected 사유는 현재 실행 중 Result에만 보존하며, Rejected는 재시도 대상이 아니다.
 
 ---
 

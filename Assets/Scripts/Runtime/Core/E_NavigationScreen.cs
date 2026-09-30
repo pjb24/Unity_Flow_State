@@ -10,7 +10,7 @@ namespace FlowState.Runtime.Core
         Pause,
         PauseMainMenuConfirmation,
         Result,
-        LeaderboardUnavailable,
+        Leaderboard,
         HowToPlay,
         AutomaticHowToPlay,
         Settings

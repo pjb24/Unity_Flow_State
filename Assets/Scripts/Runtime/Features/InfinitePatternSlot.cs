@@ -59,8 +59,14 @@ namespace FlowState.Runtime.Features
             _initialPosition = transform.position;
             _initialRotation = transform.rotation;
             _isInitialized = true;
-            ApplyActivePattern(_initialPatternId);
-            AlignBoundaryToCurrentPattern();
+            if (!ApplyActivePattern(_initialPatternId) ||
+                !AlignBoundaryToCurrentPattern())
+            {
+                _isInitialized = false;
+                _currentPatternId = null;
+                return false;
+            }
+
             return true;
         }
 
@@ -109,11 +115,19 @@ namespace FlowState.Runtime.Features
                 return false;
             }
 
-            ApplyActivePattern(_initialPatternId);
+            if (!ApplyActivePattern(_initialPatternId))
+            {
+                return false;
+            }
+
             transform.SetPositionAndRotation(
                 _initialPosition,
                 _initialRotation);
-            AlignBoundaryToCurrentPattern();
+            if (!AlignBoundaryToCurrentPattern())
+            {
+                return false;
+            }
+
             _advanceBoundary.ResetBoundary();
             return true;
         }
@@ -125,8 +139,12 @@ namespace FlowState.Runtime.Features
                 return false;
             }
 
-            ApplyActivePattern(patternId);
-            AlignBoundaryToCurrentPattern();
+            if (!ApplyActivePattern(patternId) ||
+                !AlignBoundaryToCurrentPattern())
+            {
+                return false;
+            }
+
             _advanceBoundary.ResetBoundary();
             return true;
         }
@@ -142,7 +160,11 @@ namespace FlowState.Runtime.Features
 
             transform.position +=
                 worldEndPosition - current.StartAnchor.position;
-            AlignBoundaryToCurrentPattern();
+            if (!AlignBoundaryToCurrentPattern())
+            {
+                return false;
+            }
+
             Physics.SyncTransforms();
             return true;
         }
@@ -218,9 +240,10 @@ namespace FlowState.Runtime.Features
 
             for (int i = 0; i < _patternInstances.Count; i++)
             {
-                if (_patternInstances[i].PatternId == patternId)
+                InfinitePatternAuthoring instance = _patternInstances[i];
+                if (instance != null && instance.PatternId == patternId)
                 {
-                    patternInstance = _patternInstances[i];
+                    patternInstance = instance;
                     return true;
                 }
             }
@@ -332,12 +355,19 @@ namespace FlowState.Runtime.Features
             return true;
         }
 
-        private void AlignBoundaryToCurrentPattern()
+        private bool AlignBoundaryToCurrentPattern()
         {
-            TryGetCurrentPattern(out InfinitePatternAuthoring current);
+            if (_advanceBoundary == null ||
+                !TryGetCurrentPattern(out InfinitePatternAuthoring current) ||
+                current.AdvanceBoundaryPoint == null)
+            {
+                return false;
+            }
+
             _advanceBoundary.transform.SetPositionAndRotation(
                 current.AdvanceBoundaryPoint.position,
                 current.AdvanceBoundaryPoint.rotation);
+            return true;
         }
 
         private void DestroyInstances(InfinitePatternAuthoring[] instances)
@@ -363,16 +393,28 @@ namespace FlowState.Runtime.Features
             }
         }
 
-        private void ApplyActivePattern(string patternId)
+        private bool ApplyActivePattern(string patternId)
         {
+            bool wasFound = false;
             for (int i = 0; i < _patternInstances.Count; i++)
             {
                 InfinitePatternAuthoring patternInstance = _patternInstances[i];
+                if (patternInstance == null)
+                {
+                    return false;
+                }
+
                 bool isCurrent = patternInstance.PatternId == patternId;
                 patternInstance.gameObject.SetActive(isCurrent);
+                wasFound |= isCurrent;
             }
 
-            _currentPatternId = patternId;
+            if (wasFound)
+            {
+                _currentPatternId = patternId;
+            }
+
+            return wasFound;
         }
     }
 }

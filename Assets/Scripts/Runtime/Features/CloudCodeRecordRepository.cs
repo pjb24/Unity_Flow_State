@@ -22,15 +22,16 @@ namespace FlowState.Runtime.Features
             _transport = transport;
         }
 
-        public async Task<E_RecordSubmissionResult> SubmitAsync(RecordSubmissionCandidate candidate)
+        public async Task<OnlineSubmissionResult> SubmitAsync(RecordSubmissionCandidate candidate)
         {
             if (candidate == null || candidate.PlayerId != _localOwner)
-                return E_RecordSubmissionResult.TransientFailure;
+                return new OnlineSubmissionResult(E_RecordSubmissionResult.TransientFailure);
             if (!OnlineRecordConfiguration.TryGetLeaderboardId(candidate.BoardKey, out string boardId))
-                return E_RecordSubmissionResult.Rejected;
+                return new OnlineSubmissionResult(E_RecordSubmissionResult.Rejected, "InvalidBoard");
             try
             {
-                if (!await AuthenticateAsync()) return E_RecordSubmissionResult.TransientFailure;
+                if (!await AuthenticateAsync())
+                    return new OnlineSubmissionResult(E_RecordSubmissionResult.TransientFailure);
                 OnlineRecordRequest request = new OnlineRecordRequest
                 {
                     boardId = boardId, rulesVersion = candidate.BoardKey.RulesVersion,
@@ -42,14 +43,16 @@ namespace FlowState.Runtime.Features
                 };
                 OnlineSubmissionResponse response = await _transport.CallAsync<OnlineSubmissionResponse>(
                     "submit-record", JsonUtility.ToJson(request));
-                if (response != null && response.status == "Submitted") return E_RecordSubmissionResult.Submitted;
-                if (response != null && response.status == "Rejected") return E_RecordSubmissionResult.Rejected;
+                if (response != null && response.status == "Submitted")
+                    return new OnlineSubmissionResult(E_RecordSubmissionResult.Submitted);
+                if (response != null && response.status == "Rejected")
+                    return new OnlineSubmissionResult(E_RecordSubmissionResult.Rejected, response.reason);
             }
             catch (Exception)
             {
                 Debug.LogWarning("[CloudCodeRecordRepository] Submission unavailable; pending retained.");
             }
-            return E_RecordSubmissionResult.TransientFailure;
+            return new OnlineSubmissionResult(E_RecordSubmissionResult.TransientFailure);
         }
 
         public Task<OnlineLeaderboardResult> GetTopAsync(RecordBoardKey boardKey, int limit = 20)

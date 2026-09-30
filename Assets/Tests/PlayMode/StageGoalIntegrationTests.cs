@@ -118,6 +118,17 @@ namespace FlowState.Tests.PlayMode
                 GetProperty<object>(gameSystem, "CurrentGameState").ToString(),
                 Is.EqualTo("Ended"));
             Assert.That(stageHud.activeSelf, Is.False);
+            if (!resultPanel.activeSelf)
+            {
+                GameObject loadingPanel = FindSceneGameObject("ResultSubmissionLoadingPanel");
+                Assert.That(loadingPanel.activeSelf, Is.True);
+                float deadline = Time.realtimeSinceStartup + 9.5f;
+                while (!resultPanel.activeSelf && Time.realtimeSinceStartup < deadline)
+                {
+                    yield return null;
+                }
+                Assert.That(loadingPanel.activeSelf, Is.False);
+            }
             Assert.That(resultPanel.activeSelf, Is.True);
             Assert.That(playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));

@@ -54,7 +54,7 @@ namespace FlowState.Runtime.Features
                     return false;
                 }
 
-                if (comparison < 0)
+                if (CompareRankingValue(current.Candidate, target.Candidate) < 0)
                 {
                     betterEntryCount++;
                 }

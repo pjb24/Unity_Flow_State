@@ -24,9 +24,13 @@ RecordSubmission
 - 사용자가 복구 제한을 확인하고 명시적으로 동의한 경우에만 현재 Anonymous Authentication Player ID를 제출 대상으로 1회 귀속한다. 로컬 UUID 후보를 묵시적으로 재귀속하거나 전송하지 않는다.
 - 복구 제한 확인 상태가 저장되기 전에는 생산 온라인 조회와 제출을 시작하지 않는다. 검증 경로는 명시적으로 제공된 확인 상태에서만 요청할 수 있다.
 - 같은 계정과 제출 ID의 후보는 한 번만 제출한다.
-- Offline, Authentication 실패, Timeout과 서비스 실패는 후보를 Pending으로 보존하며 게임 진행을 차단하지 않는다.
-- Pending 후보는 앱 시작, 온라인 복구, 인증 성공과 사용자 Retry에서 최대 세 번의 지수 백오프 재시도를 수행한다.
-- 서버 유효성 거부 후보는 Rejected가 되며 자동 재시도하지 않는다.
+- Pending 후보는 Local Save에 보존하고 앱 재시작 시 동일 제출 ID와 계정 귀속으로 복원한다. Offline, Authentication 실패, Timeout과 서비스 실패는 Pending을 유지하며 게임 진행을 차단하지 않는다.
+- Pending 후보는 앱 시작, 온라인 복구, 인증 성공과 사용자 Retry에서 최대 세 번의 지수 백오프 재시도를 수행한다. 온라인·동의 상태에서 새 Run이 끝나면 해당 제출 ID도 자동 시도한다. 현재 Run의 자동·수동 제출은 다른 Pending 후보의 실패에 막히지 않도록 해당 ID만 처리한다.
+- Leaderboard의 별도 `Retry Pending (N)`은 새 플레이 없이 같은 계정의 저장된 Pending 전체를 순회한다. 한 후보의 일시 실패는 다음 후보의 재시도를 막지 않는다. 사용자 요청은 이미 진행 중인 복구 요청이 끝나기를 기다린 뒤 실행하며, 완료 후 이번 요청의 Submitted·Rejected 건수와 남은 Pending 건수를 보여 준다.
+- Submitted 또는 Rejected 확정 응답을 받으면 해당 Pending 항목만 Local Save에서 제거한다. 완료 ID 목록과 거절 사유는 영구 저장하지 않는다. 삭제 저장이 실패하면 후보를 유지하고 동일 ID로 서버 결과를 다시 확인한다.
+- 서버 유효성 거부 후보는 Rejected가 되며 자동·수동 재시도하지 않는다. 거부 사유와 `재시도 불가`는 현재 Result에만 표시하고 제출 Retry 버튼은 Pending 후보에만 제공한다.
+- Pending은 `Submission pending — retrying when online`, Submitted는 `Submitted`로 표시한다. Submitted는 해당 제출 ID의 서버 수락을 뜻하며 최고 기록 갱신이나 순위 조회 성공을 뜻하지 않는다. Pending 0건만으로 제출 성공을 판정하지 않는다.
+- 동의 취소 시 온라인 요청을 시작하지 않고 진입 화면으로 복귀한다. Settings에서 복구 제한 안내를 다시 확인할 수 있다.
 - 다른 계정에 귀속된 후보는 전송하지 않는다.
 - 로컬 데이터 초기화는 제출 대기열을 삭제하며 온라인 순위와 서버 기록은 유지됨을 고지한다.
 - InfiniteMode 서버 검증은 Run 시간과 규칙 Version의 최대 배율·속도·Pattern·Collectible 한계로 계산한 논리적 최대 Total Score를 넘거나 상한 입력이 누락·불일치한 후보를 거부한다.
@@ -50,7 +54,7 @@ RecordSubmission
 
 ## 강제 종료
 
-- Application이 종료되어 Pending 후보가 로컬 대기열에 남는다.
+- Application이 종료되어도 저장된 Pending 후보는 유지된다. 완료 제출 상태와 거절 사유는 재시작 뒤 복원하지 않는다.
 
 ---
 

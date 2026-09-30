@@ -200,13 +200,13 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator InfiniteFall_StoresTimedCandidate_AndRetryCreatesFreshTimer()
         {
-            // Isolate the candidate from the user's persistent queue and account receipts.
+            // Isolate the candidate from the runtime-only queue and account binding.
             LocalRecordRepository repository = new LocalRecordRepository(null);
             SetPrivateField(_gameSystem, "_localRecordRepository", repository);
             SetPrivateField(_gameSystem, "_recordSubmissionService", new RecordSubmissionService(repository));
             SetPrivateField(_gameSystem, "_localSaveData", new LocalSaveData(
                 LocalSaveData.CurrentVersion, "infinite-timer-test",
-                new LocalSettingsData(100, false, null), false, null, null));
+                new LocalSettingsData(100, false, null), false, null));
             SetPrivateField(_gameSystem, "_onlineRecords", null);
             int countBefore = repository.CreatePendingSnapshot().Count;
             yield return new WaitForSecondsRealtime(0.15f);

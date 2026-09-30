@@ -275,6 +275,18 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
+        public void ResetToInitialPattern_DestroyedCurrentPattern_ReturnsFalseWithoutException()
+        {
+            InfinitePatternSlot slot = CreateSlot(
+                0,
+                out InfinitePatternAuthoring[] patterns);
+            Assert.That(slot.Initialize(_catalog, patterns, "Flat"), Is.True);
+            Object.DestroyImmediate(patterns[0].gameObject);
+
+            Assert.That(slot.ResetToInitialPattern(), Is.False);
+        }
+
+        [Test]
         public void CanPairWith_DifferentSlotsAndInstances_IsAccepted()
         {
             InfinitePatternSlot first = CreateSlot(0, out var firstPatterns);

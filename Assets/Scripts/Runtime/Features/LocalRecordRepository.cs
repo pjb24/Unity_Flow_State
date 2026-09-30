@@ -56,7 +56,7 @@ namespace FlowState.Runtime.Features
                 return false;
             return TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, _lastSave.AccountId,
                 _lastSave.Settings, _lastSave.HasCompletedTutorial,
-                _memoryRepository.CreatePersonalBestSnapshot(), CreatePendingSnapshot(state), state));
+                _memoryRepository.CreatePersonalBestSnapshot(), state, CreatePendingSnapshot()));
         }
 
         public bool TryCheckpoint()
@@ -66,16 +66,7 @@ namespace FlowState.Runtime.Features
 
         public IReadOnlyList<RecordSubmissionCandidate> CreatePendingSnapshot()
         {
-            return CreatePendingSnapshot(OnlineAccount);
-        }
-
-        private IReadOnlyList<RecordSubmissionCandidate> CreatePendingSnapshot(OnlineAccountState state)
-        {
-            List<RecordSubmissionCandidate> result = new List<RecordSubmissionCandidate>();
-            IReadOnlyList<RecordSubmissionCandidate> pending = _memoryRepository.CreatePendingSnapshot();
-            for (int i = 0; i < pending.Count; i++)
-                if (!state.HasFinished(pending[i].SubmissionId)) result.Add(pending[i]);
-            return result;
+            return _memoryRepository.CreatePendingSnapshot();
         }
 
         public bool TryEnqueuePending(RecordSubmissionCandidate candidate)
@@ -86,6 +77,26 @@ namespace FlowState.Runtime.Features
         public bool TryUpdatePersonalBest(RecordSubmissionCandidate candidate)
         {
             return _memoryRepository.TryUpdatePersonalBest(candidate);
+        }
+
+        public bool TryRemovePending(string playerId, string submissionId)
+        {
+            if (_lastSave == null) return false;
+            List<RecordSubmissionCandidate> remaining = new List<RecordSubmissionCandidate>();
+            bool hasTarget = false;
+            IReadOnlyList<RecordSubmissionCandidate> pending = CreatePendingSnapshot();
+            for (int i = 0; i < pending.Count; i++)
+            {
+                if (pending[i].PlayerId == playerId && pending[i].SubmissionId == submissionId)
+                    hasTarget = true;
+                else remaining.Add(pending[i]);
+            }
+            if (!hasTarget) return false;
+            // Commit removal first. Failed writes retain the same ID for safe server replay.
+            if (!TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, _lastSave.AccountId,
+                    _lastSave.Settings, _lastSave.HasCompletedTutorial,
+                    _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount, remaining))) return false;
+            return _memoryRepository.TryRemovePending(playerId, submissionId);
         }
 
         public bool TryGetPersonalBest(
@@ -109,8 +120,7 @@ namespace FlowState.Runtime.Features
                 accountId,
                 settings,
                 hasCompletedTutorial,
-                _memoryRepository.CreatePersonalBestSnapshot(),
-                CreatePendingSnapshot(), OnlineAccount);
+                _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount, CreatePendingSnapshot());
         }
 
         private void RestoreMemoryRecords(LocalSaveData saveData)
@@ -119,11 +129,8 @@ namespace FlowState.Runtime.Features
             {
                 _memoryRepository.TryUpdatePersonalBest(saveData.PersonalBests[i]);
             }
-
             for (int i = 0; i < saveData.PendingSubmissions.Count; i++)
-            {
                 _memoryRepository.TryEnqueuePending(saveData.PendingSubmissions[i]);
-            }
         }
     }
 }

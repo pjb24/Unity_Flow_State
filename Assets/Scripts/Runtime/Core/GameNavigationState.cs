@@ -6,6 +6,7 @@ namespace FlowState.Runtime.Core
         public const double NavigateRepeatInterval = 0.1;
 
         private E_NavigationScreen _settingsReturnScreen;
+        private E_NavigationScreen _leaderboardReturnScreen;
         private long _lastProcessedInputSequence = -1;
         private int _navigateDirection;
         private double _nextNavigateRepeatTime;
@@ -13,6 +14,8 @@ namespace FlowState.Runtime.Core
         private bool _hasLastSelectedMode;
         private bool _hasAutomaticHowToPlayCompleted;
         private bool _hasPendingGameMode;
+        private bool _isSubmissionRetryAvailable;
+        private bool _isLeaderboardPendingRetryAvailable;
         private E_GameMode _pendingGameMode = E_GameMode.Stage;
 
         public E_NavigationScreen CurrentScreen { get; private set; } =
@@ -41,6 +44,31 @@ namespace FlowState.Runtime.Core
             _hasAutomaticHowToPlayCompleted;
 
         public bool HasPendingGameMode => _hasPendingGameMode;
+
+        public bool SetResultSubmissionRetryAvailable(bool isAvailable)
+        {
+            if (_isSubmissionRetryAvailable == isAvailable) return false;
+            _isSubmissionRetryAvailable = isAvailable;
+            if (!isAvailable && CurrentScreen == E_NavigationScreen.Result &&
+                CurrentSelection == E_NavigationItem.SubmissionRetry)
+            {
+                CurrentSelection = E_NavigationItem.ResultLeaderboard;
+                return true;
+            }
+            return true;
+        }
+
+        public bool SetLeaderboardPendingRetryAvailable(bool isAvailable)
+        {
+            if (_isLeaderboardPendingRetryAvailable == isAvailable) return false;
+            _isLeaderboardPendingRetryAvailable = isAvailable;
+            if (!isAvailable && CurrentScreen == E_NavigationScreen.Leaderboard &&
+                CurrentSelection == E_NavigationItem.LeaderboardPendingRetry)
+            {
+                CurrentSelection = E_NavigationItem.LeaderboardRetry;
+            }
+            return true;
+        }
 
         public void RestoreAutomaticHowToPlayCompleted(bool hasCompletedTutorial)
         {
@@ -155,7 +183,9 @@ namespace FlowState.Runtime.Core
                 case E_NavigationScreen.Result:
                     return SubmitResult();
 
-                case E_NavigationScreen.LeaderboardUnavailable:
+                case E_NavigationScreen.Leaderboard:
+                    return SubmitLeaderboard();
+
                 case E_NavigationScreen.HowToPlay:
                     return ReturnToMainMenu(CurrentSelection);
 
@@ -189,7 +219,9 @@ namespace FlowState.Runtime.Core
                     SetScreen(E_NavigationScreen.Pause, E_NavigationItem.MainMenu);
                     return true;
 
-                case E_NavigationScreen.LeaderboardUnavailable:
+                case E_NavigationScreen.Leaderboard:
+                    return ReturnFromLeaderboard();
+
                 case E_NavigationScreen.HowToPlay:
                     return ReturnToMainMenu(CurrentSelection);
 
@@ -286,9 +318,10 @@ namespace FlowState.Runtime.Core
                     return true;
 
                 case E_NavigationItem.Leaderboard:
+                    _leaderboardReturnScreen = E_NavigationScreen.MainMenu;
                     SetScreen(
-                        E_NavigationScreen.LeaderboardUnavailable,
-                        E_NavigationItem.Back);
+                        E_NavigationScreen.Leaderboard,
+                        E_NavigationItem.Stage);
                     return true;
 
                 case E_NavigationItem.Settings:
@@ -408,6 +441,20 @@ namespace FlowState.Runtime.Core
                 return true;
             }
 
+            if (CurrentSelection == E_NavigationItem.ResultLeaderboard)
+            {
+                _leaderboardReturnScreen = E_NavigationScreen.Result;
+                SetScreen(E_NavigationScreen.Leaderboard,
+                    ToNavigationItem(SelectedGameMode));
+                return true;
+            }
+
+            if (CurrentSelection == E_NavigationItem.SubmissionRetry &&
+                _isSubmissionRetryAvailable)
+            {
+                return true;
+            }
+
             if (CurrentSelection == E_NavigationItem.MainMenu)
             {
                 ClearRun();
@@ -468,6 +515,32 @@ namespace FlowState.Runtime.Core
             return true;
         }
 
+        private bool SubmitLeaderboard()
+        {
+            if (CurrentSelection == E_NavigationItem.Back)
+            {
+                return ReturnFromLeaderboard();
+            }
+
+            return CurrentSelection == E_NavigationItem.Stage ||
+                   CurrentSelection == E_NavigationItem.Infinite ||
+                   CurrentSelection == E_NavigationItem.LeaderboardRetry ||
+                   (CurrentSelection == E_NavigationItem.LeaderboardPendingRetry &&
+                    _isLeaderboardPendingRetryAvailable);
+        }
+
+        private bool ReturnFromLeaderboard()
+        {
+            if (_leaderboardReturnScreen == E_NavigationScreen.Result)
+            {
+                SetScreen(E_NavigationScreen.Result, E_NavigationItem.ResultLeaderboard);
+                return true;
+            }
+
+            SetScreen(E_NavigationScreen.MainMenu, E_NavigationItem.Leaderboard);
+            return true;
+        }
+
         private void BeginInitialization()
         {
             ClearRun();
@@ -521,14 +594,14 @@ namespace FlowState.Runtime.Core
             _navigateDirection = 0;
         }
 
-        private static bool ContainsItem(
+        private bool ContainsItem(
             E_NavigationScreen screen,
             E_NavigationItem item)
         {
             return GetItemIndex(screen, item) >= 0;
         }
 
-        private static int GetItemCount(E_NavigationScreen screen)
+        private int GetItemCount(E_NavigationScreen screen)
         {
             switch (screen)
             {
@@ -542,10 +615,13 @@ namespace FlowState.Runtime.Core
                     return 4;
 
                 case E_NavigationScreen.PauseMainMenuConfirmation:
-                case E_NavigationScreen.Result:
                     return 2;
 
-                case E_NavigationScreen.LeaderboardUnavailable:
+                case E_NavigationScreen.Result:
+                    return _isSubmissionRetryAvailable ? 4 : 3;
+
+                case E_NavigationScreen.Leaderboard:
+                    return _isLeaderboardPendingRetryAvailable ? 5 : 4;
                 case E_NavigationScreen.HowToPlay:
                 case E_NavigationScreen.AutomaticHowToPlay:
                 case E_NavigationScreen.Settings:
@@ -556,7 +632,7 @@ namespace FlowState.Runtime.Core
             }
         }
 
-        private static int GetItemIndex(
+        private int GetItemIndex(
             E_NavigationScreen screen,
             E_NavigationItem item)
         {
@@ -571,7 +647,7 @@ namespace FlowState.Runtime.Core
             return -1;
         }
 
-        private static E_NavigationItem GetItemAt(
+        private E_NavigationItem GetItemAt(
             E_NavigationScreen screen,
             int index)
         {
@@ -613,11 +689,19 @@ namespace FlowState.Runtime.Core
                         : E_NavigationItem.Cancel;
 
                 case E_NavigationScreen.Result:
-                    return index == 0
-                        ? E_NavigationItem.Retry
-                        : E_NavigationItem.MainMenu;
+                    if (index == 0) return E_NavigationItem.Retry;
+                    if (index == 1) return E_NavigationItem.ResultLeaderboard;
+                    if (_isSubmissionRetryAvailable && index == 2)
+                        return E_NavigationItem.SubmissionRetry;
+                    return E_NavigationItem.MainMenu;
 
-                case E_NavigationScreen.LeaderboardUnavailable:
+                case E_NavigationScreen.Leaderboard:
+                    if (index == 0) return E_NavigationItem.Stage;
+                    if (index == 1) return E_NavigationItem.Infinite;
+                    if (index == 2) return E_NavigationItem.LeaderboardRetry;
+                    if (_isLeaderboardPendingRetryAvailable && index == 3)
+                        return E_NavigationItem.LeaderboardPendingRetry;
+                    return E_NavigationItem.Back;
                 case E_NavigationScreen.HowToPlay:
                 case E_NavigationScreen.Settings:
                     return E_NavigationItem.Back;
