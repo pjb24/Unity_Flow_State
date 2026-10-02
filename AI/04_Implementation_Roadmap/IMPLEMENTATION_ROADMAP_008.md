@@ -63,7 +63,7 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 
 ### 상태
 
-대기
+완료 — 2026-10-03. Step 1~8에서 공개 번호·논리 계정·기기 이전·receipt·조회·환경·운영 정책과 정책 Test를 확정하고 Phase 2~5 인계를 기록했다. 이는 구현·Unity·원격 서비스 검증 완료가 아니며, 실제 제약 해소는 후속 Phase에서 수행한다.
 
 ## Phase 2. Public Player Number 발급·표시
 
@@ -77,6 +77,8 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 - 중복 요청·동시 발급·실패 후 재시도에서 번호와 계정 매핑의 일관성.
 - 계정 안내와 Leaderboard 행의 공개 번호 표시, 본인 행 `(You)` 표시.
 - 번호 도입 과정에서 기존 순위·개인 최고·계정 귀속 Pending 보존.
+- 외부 ID 없이 Anonymous 계정의 유일한 활성 기기를 새 기기로 이전하는 서버 발급 코드·인증값과 연결 교체.
+- 논리 계정의 고정 Leaderboard 소유 ID를 사용하고, 기기 이전 뒤에도 동일 행·순위 metadata를 유지.
 
 ### 완료 조건
 
@@ -84,6 +86,8 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 - 전체 십진 공개 번호가 정밀도 손실·생략 없이 표시된다.
 - 내부 UGS Player ID의 십진 변환을 공개 번호 발급으로 대체하지 않는다.
 - 번호 발급·조회 실패가 Offline 플레이를 차단하지 않으며 다른 계정의 번호나 기록을 표시하지 않는다.
+- 이전 성공 뒤 새 기기만 활성 연결이 되고, 이전 기기는 같은 논리 계정의 온라인 기능을 사용할 수 없다.
+- 기기 이전이 Leaderboard 기록을 새 Player ID 행으로 복사·이동하지 않고 기존 서버 수락 시각과 동점 표시 순서를 보존한다.
 - 자동 Test와 사용자 UI 확인이 통과한다.
 
 ### 상태
@@ -99,15 +103,15 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 ### 구현 대상
 
 - 신규 계정의 Protected ledger 자동 초기화와 동시 초기화·부분 실패 복구.
-- 128 submission ID 제한을 대체하는 보관·정리 및 중복 제출 방지.
-- 100명 조회 제한을 대체하는 상위·내 주변 조회와 순위 처리.
-- 보관 정보 정리, 재전송, 페이지 전환 중 공동 순위·수락 시각 순서 보존.
+- 128 submission ID 제한을 C별 시간 분할 terminal receipt로 대체한다. receipt는 180일 동안 중복·payload 충돌 판정에 사용하고, 이후 삭제한다. Local Save Pending도 생성 뒤 180일에 `SubmissionExpired`로 정리한다.
+- 100명 조회 제한을 대체하는 상위 10·내 주변 7 조회와 서버 전역 순위 처리. 사용자 페이지 UI는 제공하지 않는다.
+- 보관 정보 정리, 재전송, 동점 경계 분리에도 전역 공동 순위·수락 시각·공개 번호 최종 순서 보존. 최초 진입·명시적 새로고침·재진입 외 자동 조회 갱신을 하지 않는다.
 
 ### 완료 조건
 
 - 신규 계정이 Dashboard 수동 ledger 생성 없이 기록을 제출할 수 있다.
 - 128건을 넘는 제출과 100명을 넘는 보드 자료를 자동 Test로 검증한다.
-- 동시 요청·삭제 저장 실패·오래된 Pending 재전송이 중복 반영이나 계정 간 기록 혼합을 만들지 않는다.
+- 동시 요청·삭제 저장 실패·180일 전 Pending 재전송이 중복 반영이나 계정 간 기록 혼합을 만들지 않는다. 180일 뒤 receipt가 삭제된 동일 ID는 신규 제출로 허용한다.
 - 페이지 경계의 동점과 내 주변 순위가 전체 순위 계약과 일치한다.
 - 용량 경계 검증은 정확성 검증이며 성능 측정 통과로 기록하지 않는다.
 
@@ -124,9 +128,9 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 ### 구현 대상
 
 - 환경별 Authentication·Cloud Code·Cloud Save·Leaderboard·Access Control 설정과 Client의 명시적 환경 선택.
-- 환경 전환 시 계정·공개 번호·Local Save·Pending의 귀속 및 잘못된 환경 전송 차단.
+- verification 자료를 Production으로 이전하지 않고 운영 테스트는 verification에만 둔다. 빌드 고정 환경과 `(Project ID, Environment ID)`별 온라인 Local Save·Pending 분리로 잘못된 환경 전송을 차단한다.
 - 배포 대상·버전·권한·비밀값 관리, 변경 전 보존과 롤백 절차.
-- 오류 관측, 요청 제한, Timeout·장애 대응 및 테스트 계정·데이터 관리.
+- PII·비밀값을 제외한 최소 구조화 로그 30일 보관, C 귀속 요청 제한, Timeout·1인 수동 장애 대응 및 테스트 계정·데이터 관리. 30일 로그 sink·삭제 절차가 없으면 Production 배포를 차단한다.
 
 ### 완료 조건
 
@@ -174,22 +178,24 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 
 ## 진행 중인 작업
 
-없음 — Prototype 8 목표와 단계별 계획 작성 완료, 구현 미착수.
+Prototype 8 Phase 1 완료 — 정책·정적 계약 검증·Phase 2~5 인계를 완료했다. 구현은 미착수다.
 
 ## 다음 작업
 
-`AI/90_Tasks/Prototype_8/20260930_01_Phase1ManualSteps.md`의 Step 1 정적 대조부터 진행하고, Step 2~6에서 미정 정책을 확정한다. 수동 절차·Unit Test 계획은 작성됐으며 Phase 1 수행은 대기다.
+Phase 2에서 공개 번호 발급·기존 자료 cutover·논리 계정의 단일 활성 연결·기기 이전·고정 Leaderboard 소유 행을 Cloud Code와 Client에 구현하고, 원자성·경합·응답 유실을 자동 검증한다.
+
+실행 순서와 사용자 수동 적용·Unity Test Runner·verification 확인 절차는 `AI/90_Tasks/Prototype_8/20261003_01_Phase2ManualSteps.md`에서 관리한다. 계획 작성 완료이며 Step 1~12 구현·적용·검증은 대기다.
 
 ## 보류된 작업
 
 - 자체 Backend 전환: 기존 UGS로 목표를 충족할 수 없는 제약이 확인될 때 검토한다.
-- 계정 연결·기기 간 복구, 친구·시즌·지역별 순위, 보상과 추가 Stage: 이번 목표에 포함하지 않는다.
-- 강화된 부정행위 방지·Server Authoritative Run: Phase 1에서 필요성과 범위를 판단한다.
+- 외부 ID 계정 연결, 이전 자격 증명 없는 분실 기기 복구, 친구·시즌·지역별 순위, 보상과 추가 Stage: 이번 목표에 포함하지 않는다. 서버 발급 코드·인증값을 사용하는 Anonymous 계정의 기기 이전은 Phase 2 구현 대상이다.
+- 강화된 부정행위 방지·Server Authoritative Run: Phase 1에서 현재 서버 입력 검증 유지로 범위를 확정했다. Server Authoritative Run과 자동 부정행위 판정은 이번 Prototype 범위 밖이며, 필요성이 생길 때 별도 목표·완료 조건으로 검토한다.
 - 추가 플랫폼·해상도·Gamepad 지원 및 성능·응답 시간 측정: 별도 범위 결정 전까지 제외한다.
 
 ## 완료된 단계
 
-없음.
+- Phase 1. 공개 운영과 공개 번호 계약 확정 — 2026-10-03 완료. 정책·정적 계약 검증·후속 인계를 완료했으며 구현·운영 검증은 포함하지 않는다.
 
 # 구현 우선순위
 

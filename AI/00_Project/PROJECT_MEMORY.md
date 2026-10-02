@@ -30,10 +30,15 @@
 - 현재 Run 데이터와 확정 Result Data는 Runtime 전용이다.
 - Settings, Input Binding Override, Tutorial 완료 상태, 개인 최고 기록 캐시와 제출 대기열은 로컬 영구 데이터다.
 - 온라인 최고 기록과 순위는 계정 귀속 서버 데이터다.
-- 온라인 기능 요청 시 Anonymous 계정을 사용하며, 초기 버전에는 계정 연결·복구를 지원하지 않는다.
-- 재설치·기기 변경 뒤 온라인 기록을 복구할 수 없다는 제한은 첫 온라인 요청 전과 Settings에서 확인할 수 있다.
+- 온라인 기능 요청 시 Anonymous 계정을 사용한다. 외부 ID 계정 연결은 지원하지 않는다.
+- Anonymous 계정은 서버 발급 8자리 Base32 이전 코드와 9자리 십진 인증값으로 현재 활성 기기에서 새 기기로 연결을 이전할 수 있다. 같은 논리 계정은 한 번에 하나의 활성 Player ID만 가진다.
+- 공개 번호만으로 계정을 복구하지 않는다. 이전 기기를 사용할 수 없어 이전 자격 증명을 발급하지 못하면 연결을 복구하지 않는다.
+- 온라인 기록과 Leaderboard 행은 논리 계정에 영구 귀속된 고정 소유 ID를 사용한다. 기기 이전은 활성 Player ID만 교체하며, 기록 행·동점·서버 수락 시각 metadata를 이전·복사·변경하지 않는다.
 - 인증 토큰·서비스 Secret·개인정보와 임의 표시명은 앱 저장소와 제출 대기열에 저장하지 않는다.
 - 온라인 서비스는 기존 Flow State UGS 프로젝트의 `verification` 환경에서 먼저 검증한다. Runtime 초기화는 환경명을 명시하며, 검증·운영 환경을 묵시적으로 선택하지 않는다.
+- verification 자료는 Production으로 이전·복사하지 않고 삭제하지 않는다. 운영 테스트 계정·기록은 verification에만 두며 Production은 일반 사용자 기록만 사용한다.
+- Prototype 8의 부정행위 방지는 서버 입력 검증·직접 Write 차단·활성 연결·제출 ID·점수 상한 검증까지다. 최소 구조화 운영 로그는 30일 보관하되 PII·비밀값·payload를 제외하고, 그보다 긴 archive는 만들지 않는다. 운영 담당은 사용자 1인이며 보안·정합성 이상 때 동일 환경 버전 롤백과 필요 시 Secret 회전을 수행한다.
+- 사용자 환경 전환 UI는 제공하지 않는다. 빌드별 UGS 대상 환경을 명시적으로 고정하고, 인증 Player ID·공개 번호 캐시·개인 최고·Pending은 `(Project ID, Environment ID)`별 Local Save 영역으로 분리한다. Settings·튜토리얼·입력 설정은 기기 공용이다.
 - 로컬 UUID 후보를 UGS Anonymous Player ID로 자동 재귀속하거나 전송하지 않는다. 사용자가 복구 제한을 확인한 뒤 명시적으로 동의한 경우에만 현재 인증 Player ID를 제출 대상으로 1회 귀속한다.
 - Anonymous 계정 복구 제한 확인을 저장하기 전에는 생산 온라인 요청을 시작하지 않는다. Phase 3 검증 경로는 이 확인 상태를 명시적으로 제공하는 경우에만 온라인 요청을 허용한다.
 - 온라인 점수 쓰기는 Cloud Code의 서버 검증 경계를 통과하며, Access Control은 Player의 Leaderboard 직접 쓰기를 거부한다. 서버는 Submission ID 중복, Board·Version 및 InfiniteMode 점수 상한을 검증한다.
@@ -69,7 +74,7 @@
 
 ## 기타
 
-- Prototype 8의 계획은 `AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_008.md`에서 관리한다. 서버 발급 십진 Public Player Number, 검증용 제출·조회 제한 해소 및 공개 운영 준비가 목표다. 현재는 계획 작성 완료·구현 미착수이며 기존 UI·순위·Pending 계약을 승계한다.
+- Prototype 8의 계획은 `AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_008.md`에서 관리한다. 서버 발급 십진 Public Player Number, 검증용 제출·조회 제한 해소 및 공개 운영 준비가 목표다. Phase 1의 정책 확정·정적 계약 검증·Phase 2~5 인계는 2026-10-03 완료했고, 서비스·Client·Scene 구현과 운영 검증은 아직 착수하지 않았다. 기존 UI·순위·Pending 계약을 승계한다.
 
 - 프로젝트는 1인 개발을 기준으로 진행한다.
 - Unity를 사용하여 3D 게임으로 개발한다.

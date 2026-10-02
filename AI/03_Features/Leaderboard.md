@@ -24,19 +24,26 @@ Leaderboard
 - InfiniteMode는 유효하게 확정된 Total Score 내림차순으로 순위를 제공한다.
 - 동일한 순위 값(Stage Clear Time 또는 Infinite Total Score)은 서버 수락 시각과 무관하게 같은 순위를 부여하고 competition ranking을 사용한다. 예를 들어 동일 최고 값 두 건 다음 순위는 `1, 1, 3`이다.
 - 같은 순위 안의 표시 순서는 서버 수락 시각 오름차순이다. 클라이언트의 기록 생성 시각은 사용하지 않는다.
+- Score와 서버 수락 시각까지 같으면 정확한 10자리 공개 번호 오름차순으로 표시한다. 공개 번호는 이 최종 표시 정렬 외의 권한·복구·기록 소유 근거가 아니다.
+- 동점 그룹은 고정 목록 경계에서 분리될 수 있으며, 분리된 모든 행은 서버가 계산한 전역 competition rank를 그대로 표시한다.
 - Player는 같은 Board Key에서 더 나은 기록만 최고 기록으로 유지한다. 같은 값 재제출은 기존 기록을 유지한다.
 - Stage Board는 불변 Stage ID와 Stage Rules Version으로, InfiniteMode Board는 Scoring Version으로 분리한다. 일반 Game Version은 Board 분리 기준이 아니다.
 - Leaderboard는 기록을 순위 형태로 제공한다.
 - Leaderboard는 기록을 생성하거나 수정하지 않는다.
-- Main Menu에서는 상위 기록과 내 주변 기록을 독립적으로 조회하고 각 영역의 Loading·성공·Empty·Offline·Error를 독립적으로 표시한다. 내 최고 기록 전용 영역과 조회 요청은 제공하지 않는다.
+- Main Menu에서는 상위 10건과 내 주변 7건을 독립적으로 조회하고 각 영역의 Loading·성공·Empty·Offline·Error를 독립적으로 표시한다. 내 최고 기록 전용 영역과 조회 요청은 제공하지 않는다.
+- 사용자에게 Previous/Next 또는 페이지 번호 이동 UI를 제공하지 않는다. 서버는 상위·내 주변 결과를 만들기 위해 내부 페이지·cursor 조회를 사용할 수 있으나, Client는 해당 고정 목록만 표시한다.
 - Stage와 Infinite Tab을 제공한다. Stage Tab은 현재 단일 Stage를 `Stage 1` 고정 선택 행으로 표시하며 변경 조작을 제공하지 않는다.
 - 제출 가능한 확정 기록이 없으면 온라인 조회 없이 기록 확정 안내를 표시한다. 온라인 요청은 RecordSubmission의 동의·계정 귀속 조건도 충족해야 한다.
 - Empty는 원격 조회가 성공하고 해당 목록이 0건일 때만 사용한다. 확정 기록 없음, 제출 대기, 내 온라인 기록 없음은 구분해 안내한다.
 - 네트워크 상태가 `NotReachable`이면 Offline으로 표시한다. Timeout·인증·서비스 실패 등은 Error로 표시하고 확인 가능한 원인과 안전한 오류 코드를 제공한다. 확인되지 않은 원인은 추측하지 않는다.
 - 실패한 조회를 다시 요청하는 Retry는 제출 Retry와 구분한다. 원본 예외·token·secret·전체 내부 Player ID는 오류 화면에 노출하지 않는다.
+- 상위·내 주변의 한 조회 응답은 스냅샷으로 유지한다. 최초 진입, 명시적 Retry·새로고침 또는 Leaderboard 재진입 때만 새 조회를 시작하며, 타이머·제출 완료만으로 자동 새로고침하지 않는다.
 - 별도 `Retry Pending (N)`은 현재 Run에 한정되지 않고 Local Save에 남은 같은 계정의 Pending 후보 N건을 새 플레이 없이 재전송한다. 조회 Retry와 이름·요청 경로를 분리하고 Keyboard·Mouse로 사용할 수 있게 한다. N=0이면 Button을 숨기고 Navigation 선택 목록에서 제외한다. 이때 조회 Retry와 Back을 직접 연결하며, 사라지는 Pending Button에 포커스가 있으면 조회 Retry로 옮긴다. N>0이면 조회 Retry → Pending Retry → Back 순서로 연결한다. 실행 중·완료 후 제출·거절·남은 Pending 건수를 안전한 상태 Text로 표시한다.
 - Stage 시간은 정수 밀리초 기준 `12.345 s`, Infinite 점수는 천 단위 구분 정수 `12,345`로 표시한다.
-- 현재 계정과 행 식별자는 내부 Player ID를 마스킹하여 표시한다. 본인 행에는 `(You)`를 덧붙이며, 마스킹 문자열 대신 전체 내부 식별자로 본인 여부를 판정한다.
+- 공개 번호가 발급된 계정과 행 식별자는 전체 10자리 공개 번호로 표시한다. 본인 행에는 `<공개 번호> (You)`를 표시하며, 표시 문자열 대신 활성 Player ID 연결로 본인 여부를 판정한다.
+- 공개 번호 발급 또는 행 번호 조회가 실패하면 해당 Leaderboard 영역은 안전한 Error와 조회 Retry를 표시한다. 내부 Player ID·마스킹 ID·다른 계정 번호로 폴백하지 않는다.
+- Leaderboard 행은 논리 계정에 영구 귀속된 고정 소유 ID를 사용한다. 기기 이전은 행을 A에서 B로 이동하거나 순위 값을 변경하지 않는다.
+- 기기 이전은 기존 행의 서버 수락 시각 metadata와 동점 표시 순서를 변경하지 않는다.
 - Back UI 항목은 Keyboard Navigate·Submit과 Mouse Point·Click으로 실행할 수 있다.
 - Result의 `순위 보기`로 진입하면 해당 Mode·Stage·Version Board를 연다. 진입 출처와 선택을 보존하며 Back/Cancel은 원래 Result 또는 Main Menu의 Leaderboard 선택으로 복귀한다.
 
@@ -80,6 +87,7 @@ Leaderboard
 
 - ResultSystem
 - UIManagementSystem
+- AccountConnectionSystem
 
 ---
 
@@ -93,7 +101,7 @@ Leaderboard
 - InfiniteMode는 최종 점수를 기준으로 순위를 제공한다.
 - 순위는 제출 가능한 확정 기록만 사용한다.
 - 규칙 Version이 다른 기록은 순위, 최고 기록 또는 동점 판정을 함께 수행하지 않는다.
-- 공개 십진 식별자 발급 전에는 전체 내부 Player ID를 표시하지 않는다.
+- 전체 내부 Player ID를 화면에 표시하지 않는다.
 
 ---
 

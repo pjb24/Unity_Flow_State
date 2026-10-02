@@ -17,7 +17,7 @@ RecordSubmissionSystem
 # 시스템 책임
 
 - 제출 후보와 제출 상태를 관리한다.
-- 제출 후보의 계정 귀속과 영구 제출 ID를 관리한다.
+- 제출 후보의 계정 귀속, 제출 ID와 Pending 생성 시각을 관리한다.
 - 로컬 대기열 저장소와 온라인 제출 저장소에 요청한다.
 - 저장소 결과에 따라 Pending, Submitted 또는 Rejected 상태를 제공한다. Rejected 사유는 현재 실행 중 Result에만 보존하며, Rejected는 재시도 대상이 아니다.
 
@@ -47,7 +47,7 @@ RecordSubmissionSystem
 - 제출 후보
 - 제출 상태
 - 제출 후보의 계정 귀속 정보
-- 영구 제출 ID
+- 제출 ID와 Pending 생성 시각
 
 ---
 
@@ -57,6 +57,7 @@ RecordSubmissionSystem
 |------|------|
 | 확정 Result Data | GameSystem |
 | 현재 계정 식별 정보 | Phase 2 Local Save, Phase 3 인증 경계 |
+| 활성 연결 상태 | AccountConnectionSystem |
 | 제출·저장소 결과 | 로컬·온라인 Repository 경계 |
 | Retry 요청 | UIManagementSystem |
 
@@ -96,6 +97,7 @@ RecordSubmissionSystem
 - ResultSystem
 - UIManagementSystem
 - SettingsSystem
+- AccountConnectionSystem
 
 ---
 
@@ -103,11 +105,13 @@ RecordSubmissionSystem
 
 - 제출 후보는 Result Data를 변경하지 않는다.
 - Phase 2는 최초 로컬 실행에 생성해 Local Save에 보존한 UUID v4 계정 ID를 후보 귀속에 사용한다. 이 값은 Phase 3 Anonymous Authentication Player ID와 동일하다고 가정하지 않는다.
-- 같은 계정과 제출 ID의 후보를 중복 제출하지 않는다.
+- 같은 계정과 제출 ID는 서버 terminal receipt 보관 기간 180일 안에서만 중복 판정한다.
 - 다른 계정에 귀속된 후보를 전송하지 않는다.
+- 활성 연결이 아닌 Player ID의 후보는 온라인 제출하지 않는다.
 - 로컬 UUID 후보는 사용자 명시적 동의 전에는 Anonymous Authentication Player ID로 재귀속하거나 전송하지 않는다.
 - 사용자 동의 뒤 현재 인증 Player ID를 제출 대상으로 귀속할 때에도 기존 제출 ID는 변경하지 않는다.
-- Offline·인증·Timeout·서비스 실패는 Pending 상태로 유지하고 게임 진행을 차단하지 않는다.
+- Offline·인증·Timeout·서비스 실패는 Pending 생성 뒤 180일 전까지 Pending으로 유지하고 게임 진행을 차단하지 않는다. 180일에 도달한 Pending은 `SubmissionExpired`로 제거한다.
+- C별 신규 제출은 60초에 최대 3회, 동일 제출 ID 재호출은 5초 간격으로 제한한다. `TooManyRequests`는 Client 자동 재시도 대상이 아니며 사용자 재시도 시각만 제공한다.
 - 제출 거부 후보는 자동 재시도하지 않는다.
 - 인증 토큰과 서비스 Secret을 저장하거나 전달하지 않는다.
 

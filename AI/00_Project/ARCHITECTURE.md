@@ -66,6 +66,8 @@ Settings, Input Binding Override, Tutorial 완료 상태, 개인 최고 기록 �
 
 온라인 Leaderboard의 계정 귀속 최고 기록과 순위는 서버 데이터로 관리한다.
 
+온라인 Local Save의 인증 Player ID·공개 번호 캐시·개인 최고 기록·제출 대기열은 `(Project ID, Environment ID)`별로 분리한다. Settings, Input Binding Override와 Tutorial 완료 상태는 기기 공용으로 유지한다.
+
 ---
 
 # 실행 흐름
@@ -119,6 +121,18 @@ RecordSubmissionSystem은 확정 Result를 제출 후보로 판정하고, 로컬
 저장소와 온라인 서비스 구현은 게임 로직과 Repository 경계로 분리한다.
 
 게임 종료 시 현재 Run Runtime Data는 제거하지만, 로컬 영구 데이터와 제출 대기열은 제거하지 않는다.
+
+## Prototype 8 계정 저장 구조 — 설계 확정, 구현 예정
+
+서버의 영구 소유 단위는 `(Project ID, Environment ID, 논리 계정 ID)`다. Anonymous Player ID는 요청 인증과 활성 연결 확인에 사용하며, 공개 번호 및 고정 Leaderboard 소유 ID와 구분한다.
+
+공개 번호와 고정 Leaderboard 소유 ID는 논리 계정에 고정된다. 공개 번호는 선행 0을 보존하는 10자리 문자열로 저장·전달한다. 신규 논리 계정의 고정 Leaderboard 소유 ID는 서버가 별도로 만든 불투명 UUID v4이며, `accountId`·공개 번호·Anonymous Player ID와 같게 만들지 않는다. Prototype 7의 기존 온라인 자료를 최초 전환하는 계정은 기존 UGS Player ID를 고정 소유 ID로 승계해 기존 행을 그대로 유지한다. 두 경우 모두 Client가 전달한 소유 ID는 무시하고 Cloud Code 서비스 토큰만 해당 ID에 점수를 쓴다. 기기 이전은 활성 연결을 교체하며, 서버 제출 이력·개인 최고 기록의 계정 소유권과 Leaderboard 행을 변경하지 않는다.
+
+논리 계정 본문은 활성 연결과 이전 상태의 판정 기준이다. Player ID·공개 번호·고정 소유 ID로 찾는 역방향 매핑은 조회를 돕는 자료이며, 활성 권한은 계정 본문과 대조한 뒤 판단한다. 계정·연결·제출 이력은 서버 전용 저장 경계에서 관리하고 Client에는 필요한 표시 결과만 제공한다.
+
+계정 저장 후보는 Cloud Save Private Game Data다. 현재 Player Protected ledger와 호출자 Player ID 기반 Leaderboard 구현을 전환하는 것은 후속 구현 작업이며, 서버 전용 데이터 모델을 정한 것만으로 서비스의 다중 항목 원자성이 보장되지는 않는다.
+
+세부 필드·요청 검증 순서·ledger 전환 인계는 `AI/90_Tasks/Prototype_8/20260930_01_Phase1ManualSteps.md`의 2-1 설계 결과를 따른다.
 
 ---
 
