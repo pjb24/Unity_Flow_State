@@ -1,4 +1,28 @@
-# Phase 3 verification 적용 안내
+# verification Cloud Code 게시 안내
+
+## 현재 적용 방식 — C# Module
+
+게시 대상은 `Assets/CloudCode/FlowStateVerification.ccmr`이 가리키는 **FlowStateVerification Module 하나**다. Project는 `c76d55cf-7846-494b-9dce-a0797b179b36`, Environment는 `verification` (`a20a46fa-1edb-4d79-9c35-02f2fed31896`)이다.
+
+1. 서버 코드를 변경할 때 `UGS/CloudCode` 원본과 `UGS/Modules/FlowStateVerification` Module 소스를 수정한다. JavaScript 원본은 Module에 EmbeddedResource로 포함되어 Jint에서 실행된다.
+2. 서버 변경 게시가 필요하면 사용자가 Module을 빌드하고 Unity Deployment 창에서 **FlowStateVerification → Deploy Selected**를 실행한다. 상세 절차는 [Phase 2 Step 9-3](../AI/90_Tasks/Prototype_8/20261003_01_Phase2ManualSteps.md)을 따른다.
+3. 클라이언트는 Module의 `GetPublicPlayerNumber`, `GetAccountTransferStatus`, `GetAccountPersonalBests`, `StartAccountTransfer`, `ReissueAccountTransfer`, `CancelAccountTransfer`, `CompleteAccountTransfer`, `SubmitRecord`, `QueryRecords`를 호출한다.
+
+`query-records.js`만 수정한 경우에도 게시 단위는 전체 Module이다. 기존 Secret·Access Control·Leaderboard 설정은 유지한다. 서버 invocation budget은 5000ms이며 서버 기동·네트워크 왕복 시간을 포함한 클라이언트 수신 시간의 보장은 아니다.
+
+2026-10-06 폐기된 `Assets/CloudCode/Phase2Verification`의 JS 게시 래퍼 9개와 전용 검사 도구·테스트를 제거했다. 실제 서버 원본과 Module 실행 코드는 변경하지 않았으므로 **이번 정리 때문에 Module 빌드·재게시할 필요는 없다.**
+
+## 과거 JavaScript 게시 절차 — 참고 이력
+
+이 제목 아래 내용은 당시 상태와 지침을 보존한 이력이다. 과거의 “현재”, “미완료”, “사용자 확인 대기” 표기는 작성 당시 기준이며 위의 현재 Module 게시 방식을 대체하지 않는다. 과거 JS 원본 붙여넣기·개별 Script 게시·staging·bridge 적용 절차를 현재 프로젝트에 실행하는 안내로 사용하지 않는다.
+
+> **2026-10-05 서버 응답 budget 변경:** 현재 C# Module 9함수는 HTTP/body/Jint/Secret에 invocation 공통 5000ms 제한을 적용한다. 만료 후 새 호출/성공 반환은 거부하고 이미 반영된 쓰기는 기존 receipt/CAS 복구로 처리한다. 기동·네트워크 왕복 및 협력 취소는 별개로 클라이언트 수신 5초를 보장하지 않는다. 이 서버 수정에는 사용자의 **verification / FlowStateVerification C# Module 하나 / Deploy Selected** 빌드·재게시가 필요하다. 이전 Client-only 재게시 불필요 안내와 구분한다. Scene/Secret/정책/Board 초기화/Deploy All/예전 JS 게시를 하지 않는다. 실제 컴파일·시간 경계·원격 결과는 사용자 확인 대기이며 자세한 현행 절차는 Phase 2 Task 최신 서버 budget 항목을 따른다.
+
+> **2026-10-04 현재 게시 대상 변경:** JavaScript Cloud Code의 `Cannot find module 'crypto'` 오류로 현재 Step 9-3은 `Assets/CloudCode/FlowStateVerification.ccmr` **C# Module 하나만** 게시한다. Client는 `FlowStateVerification`의 9개 함수를 호출한다. 아래 9개 `.js` Deploy Selected 절차는 실패 원인 확인 전의 이력이며 재실행하지 않는다. 기존 Secret/정책/Board는 유지한다. Module 빌드·게시·실제 동작은 사용자 확인 전 미완료다. 상세한 현재 절차는 Phase 2 Task의 Step 9-3을 따른다.
+
+> 2026-10-04 Prototype 8 현재 게시 절차는 `AI/90_Tasks/Prototype_8/20261003_01_Phase2ManualSteps.md` Step 9-3에 있다. 최종 Editor 게시 entry 9개는 `Assets/CloudCode/Phase2Verification`에 준비했다. 현재 운영 배포 전 개발 환경에서는 bridge 없이 앱/검증 요청 중지 후 최종 9개를 Deploy Selected한다. 기존 `submit-record`도 최종 버전으로 직접 교체한다. 아래 Prototype 7 및 운영 legacy 전환용 bridge 안내는 현재 적용 절차가 아니다.
+
+> Prototype 8 Phase 2 Step 5부터 현재 `submit-record.js`/`query-records.js`는 C 기반 bundled endpoint다. 아래 Prototype 7의 raw source 붙여넣기·수동 ledger 초기화·단일 조회 재게시 지침을 현재 파일에 적용하지 않는다. Prototype 8 적용표·읽기 전용 검사·사용자 백업 방법은 `AI/90_Tasks/Prototype_8/20261003_01_Phase2ManualSteps.md` Step 9-1에 준비했다. 이 단계는 대상 확인/백업만 하며 실제 설정과 게시 방법은 Step 9-2/9-3에서 준비한다. 현재 `UGS/CloudCode` source는 Editor 게시용 staging을 준비하기 전이므로 바로 Deploy하거나 원본을 붙여넣지 않는다. 기존 barrier-aware bridge는 `UGS/Migration/legacy-barrier-submit.js`를 같은 `submit-record` 이름에서만 사용하고 구버전 실행을 배출한다. C cutover 뒤 legacy rollback/marker 삭제/두 번째 legacy endpoint 게시를 하지 않는다.
 
 ## Phase 4의 제한된 원격 변경
 

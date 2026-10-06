@@ -16,10 +16,15 @@ namespace FlowState.Runtime.Features
         public bool HasSave => File.Exists(_savePath);
 
         public PersistentLocalSaveFileStore()
+            : this(Application.persistentDataPath)
         {
-            _savePath = Path.Combine(Application.persistentDataPath, SaveFileName);
+        }
+
+        public PersistentLocalSaveFileStore(string directoryPath)
+        {
+            _savePath = Path.Combine(directoryPath, SaveFileName);
             _temporaryPath = Path.Combine(
-                Application.persistentDataPath,
+                directoryPath,
                 TemporaryFileName);
         }
 
@@ -53,6 +58,7 @@ namespace FlowState.Runtime.Features
 
             try
             {
+                Directory.CreateDirectory(Path.GetDirectoryName(_savePath));
                 File.WriteAllText(_temporaryPath, contents, Encoding.UTF8);
 
                 if (HasSave)

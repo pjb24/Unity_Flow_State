@@ -21,6 +21,22 @@ namespace FlowState.Runtime.Features
             public CandidateFile[] pendingSubmissions;
             public bool recoveryNoticeConfirmed;
             public string onlinePlayerId;
+            public string publicPlayerNumber;
+            public string onlineProjectId;
+            public string onlineEnvironmentId;
+            public OnlineAreaFile[] inactiveOnlineAreas;
+        }
+
+        [Serializable]
+        private sealed class OnlineAreaFile
+        {
+            public string projectId;
+            public string environmentId;
+            public bool recoveryNoticeConfirmed;
+            public string onlinePlayerId;
+            public string publicPlayerNumber;
+            public CandidateFile[] personalBests;
+            public CandidateFile[] pendingSubmissions;
         }
 
         [Serializable]
@@ -54,7 +70,7 @@ namespace FlowState.Runtime.Features
 
         public static string Serialize(LocalSaveData saveData)
         {
-            if (saveData == null)
+            if (saveData == null || !saveData.HasValidOnlineScopes)
             {
                 return string.Empty;
             }
@@ -65,6 +81,10 @@ namespace FlowState.Runtime.Features
                 accountId = saveData.AccountId,
                 recoveryNoticeConfirmed = saveData.OnlineAccount.HasConfirmedRecoveryNotice,
                 onlinePlayerId = saveData.OnlineAccount.PlayerId,
+                publicPlayerNumber = saveData.OnlineAccount.PublicNumberCache,
+                onlineProjectId = saveData.OnlineScope.ProjectId,
+                onlineEnvironmentId = saveData.OnlineScope.EnvironmentId,
+                inactiveOnlineAreas = CreateOnlineAreas(saveData.InactiveOnlineAreas),
                 hasSettings = saveData.Settings != null,
                 isFullscreen = saveData.Settings != null && saveData.Settings.IsFullscreen,
                 masterVolume = saveData.Settings == null ? 100 : saveData.Settings.MasterVolume,
@@ -102,6 +122,12 @@ namespace FlowState.Runtime.Features
                     return true;
                 }
 
+                // No environment marker in v1-v5: assign verification only,
+                // irrespective of the environment opening this file.
+                OnlineDataScope scope = file.version < 6 ? OnlineDataScope.CreateVerification() :
+                    new OnlineDataScope(file.onlineProjectId, file.onlineEnvironmentId);
+                if (!scope.IsValid) return false;
+                List<OnlineLocalSaveData> areas = ReadOnlineAreas(file, scope);
                 saveData = new LocalSaveData(
                     LocalSaveData.CurrentVersion,
                     file.accountId,
@@ -112,14 +138,62 @@ namespace FlowState.Runtime.Features
                     file.hasCompletedTutorial,
                     ReadCandidates(file.personalBests),
                     file.version >= 2 ? new OnlineAccountState(file.recoveryNoticeConfirmed,
-                        file.onlinePlayerId) : new OnlineAccountState(),
-                    ReadCandidates(file.pendingSubmissions));
+                        file.onlinePlayerId, file.publicPlayerNumber) : new OnlineAccountState(),
+                    ReadPendingCandidates(file.pendingSubmissions), scope, areas, file.version < 6);
                 return true;
             }
             catch (Exception)
             {
                 return false;
             }
+        }
+
+        private static OnlineAreaFile[] CreateOnlineAreas(IReadOnlyList<OnlineLocalSaveData> areas)
+        {
+            OnlineAreaFile[] files = new OnlineAreaFile[areas.Count];
+            for (int i = 0; i < files.Length; i++)
+            {
+                OnlineLocalSaveData area = areas[i];
+                files[i] = new OnlineAreaFile { projectId = area.Scope.ProjectId,
+                    environmentId = area.Scope.EnvironmentId,
+                    recoveryNoticeConfirmed = area.Account.HasConfirmedRecoveryNotice,
+                    onlinePlayerId = area.Account.PlayerId,
+                    publicPlayerNumber = area.Account.PublicNumberCache,
+                    personalBests = CreateCandidates(area.PersonalBests),
+                    pendingSubmissions = CreateCandidates(area.PendingSubmissions) };
+            }
+            return files;
+        }
+
+        private static List<OnlineLocalSaveData> ReadOnlineAreas(SaveFile file, OnlineDataScope active)
+        {
+            List<OnlineLocalSaveData> result = new List<OnlineLocalSaveData>();
+            if (file.version < 6 || file.inactiveOnlineAreas == null) return result;
+            for (int i = 0; i < file.inactiveOnlineAreas.Length; i++)
+            {
+                OnlineAreaFile area = file.inactiveOnlineAreas[i];
+                if (area == null) throw new FormatException("Invalid online area.");
+                OnlineDataScope scope = new OnlineDataScope(area.projectId, area.environmentId);
+                if (!scope.IsValid || scope.Matches(active)) throw new FormatException("Invalid online scope.");
+                for (int j = 0; j < result.Count; j++)
+                    if (result[j].Scope.Matches(scope)) throw new FormatException("Duplicate online scope.");
+                result.Add(new OnlineLocalSaveData(scope,
+                    new OnlineAccountState(area.recoveryNoticeConfirmed, area.onlinePlayerId, area.publicPlayerNumber),
+                    ReadCandidates(area.personalBests), ReadPendingCandidates(area.pendingSubmissions)));
+            }
+            return result;
+        }
+
+        private static List<RecordSubmissionCandidate> ReadPendingCandidates(CandidateFile[] files)
+        {
+            List<RecordSubmissionCandidate> result = ReadCandidates(files);
+            // Losing an unreadable Pending would falsely unlock transfer.
+            if (files != null && result.Count != files.Length) throw new FormatException("Invalid Pending.");
+            for (int i = 0; i < result.Count; i++)
+                for (int j = 0; j < i; j++)
+                    if (result[i].PlayerId == result[j].PlayerId && result[i].SubmissionId == result[j].SubmissionId)
+                        throw new FormatException("Duplicate Pending.");
+            return result;
         }
 
         private static BindingFile[] CreateBindings(LocalSettingsData settings)

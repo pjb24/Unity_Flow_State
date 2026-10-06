@@ -160,16 +160,17 @@ namespace FlowState.Tests.EditMode
             InfinitePatternSelectionState state = CreateState(CreateCatalog(
                 CreateDefinition("Flat", E_InfinitePatternDifficulty.D1),
                 CreateDefinition("Other", E_InfinitePatternDifficulty.D1)));
-            state.StartRun(88);
+            Assert.That(state.StartRun(88), Is.True);
             string previousId = state.CurrentPatternId;
             int consecutiveCount = 1;
 
             for (int requestId = 0; requestId < 100; requestId++)
             {
-                state.TrySelectNext(
+                Assert.That(state.TrySelectNext(
                     requestId,
                     E_InfinitePatternDifficulty.D1,
-                    out string selectedId);
+                    out string selectedId), Is.True);
+                Assert.That(selectedId, Is.EqualTo("Flat").Or.EqualTo("Other"));
                 consecutiveCount = selectedId == previousId
                     ? consecutiveCount + 1
                     : 1;
@@ -186,19 +187,25 @@ namespace FlowState.Tests.EditMode
         {
             InfinitePatternSelectionState first = CreateFactoryState();
             InfinitePatternSelectionState second = CreateFactoryState();
-            first.StartRun(20260910);
-            second.StartRun(20260910);
+            Assert.That(first.StartRun(20260910), Is.True);
+            Assert.That(second.StartRun(20260910), Is.True);
 
             for (int requestId = 0; requestId < 30; requestId++)
             {
-                first.TrySelectNext(
+                Assert.That(first.TrySelectNext(
                     requestId,
                     E_InfinitePatternDifficulty.D3,
-                    out string firstId);
-                second.TrySelectNext(
+                    out string firstId), Is.True);
+                Assert.That(second.TrySelectNext(
                     requestId,
                     E_InfinitePatternDifficulty.D3,
-                    out string secondId);
+                    out string secondId), Is.True);
+                Assert.That(firstId,
+                    Is.EqualTo(InfinitePatternCatalogFactory.FlatId)
+                        .Or.EqualTo(InfinitePatternCatalogFactory.SingleRiseId)
+                        .Or.EqualTo(InfinitePatternCatalogFactory.LegacyStepsId)
+                        .Or.EqualTo(InfinitePatternCatalogFactory.InternalGapId));
+                Assert.That(secondId, Is.Not.Null.And.Not.Empty);
                 Assert.That(secondId, Is.EqualTo(firstId));
             }
         }

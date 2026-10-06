@@ -128,7 +128,7 @@ namespace FlowState.Runtime.Systems
 
         public void SetLeaderboardViewState(
             LeaderboardViewState state,
-            string currentPlayerId,
+            string currentPublicNumber,
             int pendingCount,
             bool isPendingRetryRunning,
             string pendingRetryStatus)
@@ -140,14 +140,14 @@ namespace FlowState.Runtime.Systems
 
             SetTextIfChanged(_leaderboardTopText,
                 FormatLeaderboardSection("TOP", state.TopState, state.TopResult,
-                    state.GameMode, currentPlayerId));
+                    state.GameMode));
             SetTextIfChanged(_leaderboardAroundText,
                 FormatLeaderboardSection("AROUND YOU", state.AroundState,
-                    state.AroundResult, state.GameMode, currentPlayerId));
+                    state.AroundResult, state.GameMode));
             SetTextIfChanged(_leaderboardAccountText,
-                string.IsNullOrEmpty(currentPlayerId)
-                    ? "Anonymous account: consent required"
-                    : "Anonymous account: " + MaskPlayerId(currentPlayerId));
+                PublicPlayerNumber.IsValid(currentPublicNumber)
+                    ? "Public number: " + currentPublicNumber + "\nA public number alone cannot recover your account."
+                    : "Public number unavailable. Retry.");
             SetTextIfChanged(_leaderboardPendingRetryText,
                 isPendingRetryRunning ? "Retrying pending..."
                     : "Retry Pending (" + pendingCount + ")");
@@ -1066,8 +1066,7 @@ namespace FlowState.Runtime.Systems
             string title,
             E_LeaderboardQueryState state,
             OnlineLeaderboardResult result,
-            E_GameMode gameMode,
-            string currentPlayerId)
+            E_GameMode gameMode)
         {
             if (state == E_LeaderboardQueryState.Loading) return title + "\nLoading...";
             if (state == E_LeaderboardQueryState.Empty) return title + "\nNo records.";
@@ -1081,11 +1080,10 @@ namespace FlowState.Runtime.Systems
             for (int i = 0; i < result.entries.Length; i++)
             {
                 OnlineLeaderboardEntry entry = result.entries[i];
-                if (entry == null) continue;
+                if (entry == null || !PublicPlayerNumber.IsValid(entry.publicPlayerNumber))
+                    return title + "\nError: PublicNumberUnavailable";
                 output += "\n#" + entry.rank + " " +
-                    MaskPlayerId(entry.playerId) +
-                    (!string.IsNullOrEmpty(currentPlayerId) &&
-                     entry.playerId == currentPlayerId ? " (You)" : string.Empty) +
+                    PublicPlayerNumber.Format(entry.publicPlayerNumber, entry.isMe) +
                     "  " + ResultTextFormatter.FormatRankingValue(entry.score, gameMode);
             }
             return output;
@@ -1124,13 +1122,6 @@ namespace FlowState.Runtime.Systems
                 result.entries.Length == 0 || result.entries[0] == null) return "Unavailable";
             return "#" + result.entries[0].rank + " " +
                 ResultTextFormatter.FormatRankingValue(result.entries[0].score, gameMode);
-        }
-
-        private static string MaskPlayerId(string playerId)
-        {
-            if (string.IsNullOrEmpty(playerId)) return "Player";
-            int suffixStart = playerId.Length > 4 ? playerId.Length - 4 : 0;
-            return "Player • …" + playerId.Substring(suffixStart);
         }
 
         private void SelectNavigationButton(

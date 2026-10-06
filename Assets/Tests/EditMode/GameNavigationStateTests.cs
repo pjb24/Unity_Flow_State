@@ -543,22 +543,25 @@ namespace FlowState.Tests.EditMode
             Assert.That(_state.HasRun, Is.False);
         }
 
-        [TestCase(false, false, false)]
-        [TestCase(false, true, false)]
-        [TestCase(true, false, false)]
-        [TestCase(true, true, true)]
+        [TestCase(false, false, false, false)]
+        [TestCase(false, false, true, false)]
+        [TestCase(false, true, false, false)]
+        [TestCase(false, true, true, true)]
+        [TestCase(true, false, false, false)]
+        [TestCase(true, false, true, true)]
+        [TestCase(true, true, false, false)]
+        [TestCase(true, true, true, true)]
         public void ShouldShowDifficulty_RequiresDevelopmentContextAndSetting(
             bool isEditor,
             bool isDevelopmentBuild,
-            bool isDevelopmentDisplayEnabled)
+            bool isDevelopmentDisplayEnabled,
+            bool expected)
         {
             bool result = GameNavigationState.ShouldShowDifficulty(
                 isEditor,
                 isDevelopmentBuild,
                 isDevelopmentDisplayEnabled);
 
-            bool expected = isDevelopmentDisplayEnabled &&
-                            (isEditor || isDevelopmentBuild);
             Assert.That(result, Is.EqualTo(expected));
         }
 

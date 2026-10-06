@@ -79,7 +79,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator Flat_StationaryStart_AcceleratesAndRemainsGrounded()
+        public IEnumerator Flat_StationaryStart_UsesFixedSpeedAndRemainsGrounded()
         {
             Assert.That(_firstSlot.TryActivatePattern(
                 InfinitePatternCatalogFactory.FlatId), Is.True);

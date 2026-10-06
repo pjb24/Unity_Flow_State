@@ -14,32 +14,41 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator RestoredSettingsAndTutorial_AreAppliedToNewRuntimeState()
         {
-            GameObject firstObject = new GameObject("FirstSettingsSystem");
-            MonoBehaviour firstSettings = AddSettingsSystem(firstObject);
-            InvokePublicMethod(firstSettings, "TrySetMasterVolume", 73);
-            LocalSaveData savedData = new LocalSaveData(
-                LocalSaveData.CurrentVersion,
-                string.Empty,
-                (LocalSettingsData)InvokePublicMethod(
-                    firstSettings,
-                    "CreateLocalSettingsData"),
-                true,
-                null);
-            UnityEngine.Object.Destroy(firstObject);
-            yield return null;
+            GameObject firstObject = null;
+            GameObject secondObject = null;
+            float previousVolume = AudioListener.volume;
+            try
+            {
+                firstObject = new GameObject("FirstSettingsSystem");
+                MonoBehaviour firstSettings = AddSettingsSystem(firstObject);
+                Assert.That((bool)InvokePublicMethod(firstSettings, "TrySetMasterVolume", 73), Is.True);
+                LocalSaveData savedData = new LocalSaveData(
+                    LocalSaveData.CurrentVersion,
+                    string.Empty,
+                    (LocalSettingsData)InvokePublicMethod(
+                        firstSettings,
+                        "CreateLocalSettingsData"),
+                    true,
+                    null);
+                UnityEngine.Object.Destroy(firstObject);
+                yield return null;
 
-            GameObject secondObject = new GameObject("SecondSettingsSystem");
-            MonoBehaviour secondSettings = AddSettingsSystem(secondObject);
-            InvokePublicMethod(secondSettings, "ApplyLocalSettings", savedData.Settings);
-            GameNavigationState navigationState = new GameNavigationState();
-            navigationState.RestoreAutomaticHowToPlayCompleted(
-                savedData.HasCompletedTutorial);
+                secondObject = new GameObject("SecondSettingsSystem");
+                MonoBehaviour secondSettings = AddSettingsSystem(secondObject);
+                InvokePublicMethod(secondSettings, "ApplyLocalSettings", savedData.Settings);
+                GameNavigationState navigationState = new GameNavigationState();
+                navigationState.RestoreAutomaticHowToPlayCompleted(savedData.HasCompletedTutorial);
 
-            object state = GetPublicProperty(secondSettings, "State");
-            Assert.That(GetPublicProperty(state, "MasterVolume"), Is.EqualTo(73));
-            Assert.That(navigationState.HasAutomaticHowToPlayCompleted, Is.True);
-
-            UnityEngine.Object.Destroy(secondObject);
+                object state = GetPublicProperty(secondSettings, "State");
+                Assert.That(GetPublicProperty(state, "MasterVolume"), Is.EqualTo(73));
+                Assert.That(navigationState.HasAutomaticHowToPlayCompleted, Is.True);
+            }
+            finally
+            {
+                if (firstObject != null) UnityEngine.Object.DestroyImmediate(firstObject);
+                if (secondObject != null) UnityEngine.Object.DestroyImmediate(secondObject);
+                AudioListener.volume = previousVolume;
+            }
         }
 
         private static MonoBehaviour AddSettingsSystem(GameObject target)

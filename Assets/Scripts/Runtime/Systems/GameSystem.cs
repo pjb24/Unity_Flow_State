@@ -35,6 +35,13 @@ namespace FlowState.Runtime.Systems
         private RecordSubmissionService _recordSubmissionService;
         private LocalSaveData _localSaveData;
         private OnlineRecordCoordinator _onlineRecords;
+        private OnlineAccountCoordinator _onlineAccount;
+        private AccountTransferUIController _accountTransferUI;
+        private VerificationSessionConfiguration _verificationSession;
+        public OnlineAccountViewState OnlineAccountView => _onlineAccount == null ? null : _onlineAccount.ViewState;
+        public bool CanOpenAccountTransfer => _onlineAccount != null &&
+            _navigationState.CurrentScreen == E_NavigationScreen.Settings &&
+            (_settingsSystem == null || !_settingsSystem.IsRebinding);
         private IOnlineRecordRepository _onlineRepository;
         private readonly LeaderboardViewState _leaderboardViewState =
             new LeaderboardViewState();
@@ -226,6 +233,11 @@ namespace FlowState.Runtime.Systems
         public void RequestNavigationCancel()
         {
             if (_isResultPresentationDeferred) return;
+            if (_accountTransferUI != null && _accountTransferUI.IsOpen)
+            {
+                _accountTransferUI.Close();
+                return;
+            }
             switch (_navigationState.CurrentScreen)
             {
                 case E_NavigationScreen.Playing:
@@ -317,11 +329,11 @@ namespace FlowState.Runtime.Systems
         {
             ILocalSaveFileStore saveFileStore;
 #if UNITY_EDITOR
-            saveFileStore = UseIsolatedRecordsForPlayModeTests
+            saveFileStore = (UseIsolatedRecordsForPlayModeTests || VerificationSessionConfiguration.IsEditorIsolationArmed)
                 ? new TestMemorySaveFileStore()
-                : new PersistentLocalSaveFileStore();
+                : CreatePersistentSaveFileStore();
 #else
-            saveFileStore = new PersistentLocalSaveFileStore();
+            saveFileStore = CreatePersistentSaveFileStore();
 #endif
             _localRecordRepository = new LocalRecordRepository(saveFileStore);
             _recordSubmissionService = new RecordSubmissionService(
@@ -340,7 +352,9 @@ namespace FlowState.Runtime.Systems
                     Guid.NewGuid().ToString("D"),
                     _localSaveData.Settings,
                     _localSaveData.HasCompletedTutorial,
-                    _localSaveData.PersonalBests);
+                    _localSaveData.PersonalBests, _localSaveData.OnlineAccount,
+                    _localSaveData.PendingSubmissions, _localSaveData.OnlineScope,
+                    _localSaveData.InactiveOnlineAreas);
                 _localRecordRepository.TrySave(_localSaveData);
             }
 
@@ -349,19 +363,60 @@ namespace FlowState.Runtime.Systems
                 _localSaveData.HasCompletedTutorial);
             _settingsSystem.SettingsChanged += SaveLocalState;
 #if UNITY_EDITOR
-            if (UseIsolatedRecordsForPlayModeTests)
+            if (UseIsolatedRecordsForPlayModeTests || VerificationSessionConfiguration.IsEditorIsolationArmed)
             {
                 _lastReachability = Application.internetReachability;
                 return;
             }
 #endif
-            IOnlineAuthenticationGateway authentication = new UgsOnlineAuthenticationGateway();
+            IOnlineAuthenticationGateway authentication = _verificationSession == null ? new UgsOnlineAuthenticationGateway() :
+                new UgsOnlineAuthenticationGateway(_verificationSession.Profile);
+            UgsOnlineRecordTransport transport = new UgsOnlineRecordTransport();
+            _onlineAccount = new OnlineAccountCoordinator(_localRecordRepository, authentication, transport,
+                () => Application.internetReachability != NetworkReachability.NotReachable,
+                ClearAccountPresentation);
             _onlineRepository = new CloudCodeRecordRepository(_localSaveData.AccountId,
-                () => _localRecordRepository.OnlineAccount, authentication, new UgsOnlineRecordTransport());
+                () => _localRecordRepository.OnlineAccount, _onlineAccount, transport,
+                () => _localRecordRepository.CanUseOnlineData);
             _onlineRecords = new OnlineRecordCoordinator(_localSaveData.AccountId,
-                _localRecordRepository, authentication, _onlineRepository);
+                _localRecordRepository, _onlineAccount, _onlineRepository);
             _lastReachability = Application.internetReachability;
             RetryOnlineRecords();
+        }
+
+        public AccountTransferController CreateAccountTransferController(IAccountTransferView view)
+        {
+            if (_localRecordRepository == null || _onlineAccount == null || _onlineRecords == null || view == null) return null;
+            return new AccountTransferController(_localRecordRepository, _onlineAccount, view,
+                () => _onlineRecords.RetryAllPendingAsync());
+        }
+
+        private ILocalSaveFileStore CreatePersistentSaveFileStore()
+        {
+            _verificationSession = VerificationSessionConfiguration.FromArguments(Application.persistentDataPath, Environment.GetCommandLineArgs());
+            return _verificationSession == null ? new PersistentLocalSaveFileStore() :
+                new PersistentLocalSaveFileStore(_verificationSession.DirectoryPath);
+        }
+
+        public bool RegisterAccountTransferUI(AccountTransferUIController controller)
+        {
+            if (controller == null || (_accountTransferUI != null && _accountTransferUI != controller)) return false;
+            _accountTransferUI = controller;
+            return true;
+        }
+
+        public void UnregisterAccountTransferUI(AccountTransferUIController controller)
+        {
+            if (_accountTransferUI == controller) _accountTransferUI = null;
+        }
+
+        private void ClearAccountPresentation()
+        {
+            _leaderboardViewState.Invalidate();
+            if (_onlineRecords != null) _onlineRecords.ClearSessionHistory();
+            _resultRecordPresentation = new ResultRecordPresentation(false, null,
+                E_ResultSubmissionState.NotAvailable, string.Empty, null);
+            ApplyResultRecordPresentation();
         }
 
         public async Task<bool> ConfirmOnlineRecoveryNoticeAsync()
@@ -936,7 +991,7 @@ namespace FlowState.Runtime.Systems
             if (_uiManagementSystem != null)
             {
                 _uiManagementSystem.SetLeaderboardViewState(
-                    _leaderboardViewState, OnlinePlayerId,
+                    _leaderboardViewState, _onlineAccount == null ? string.Empty : _onlineAccount.ViewState.NumberText,
                     PendingOnlineRecordCount, _isLeaderboardPendingRetryRunning,
                     _leaderboardPendingRetryStatus);
                 if (previousSelection != _navigationState.CurrentSelection)

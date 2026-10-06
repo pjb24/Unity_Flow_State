@@ -118,3 +118,5 @@ InitTestScene*.unity*
 /AI/98_Archived
 
 /.agents
+
+/node_modules

@@ -351,14 +351,39 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public async Task Timeout_RemainsPending()
+        public async Task SubmissionTimeout_RetryRetainsOriginalPendingAcrossRestart()
         {
+            OnlineTestFileStore store = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(store);
+            OnlineTestAuthentication auth = new OnlineTestAuthentication();
             OnlineTestTransport transport = new OnlineTestTransport { Timeout = true };
             CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner,
-                () => new OnlineAccountState(true, "ugs-player"), new OnlineTestAuthentication(), transport);
-            UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType.Warning,
-                "[CloudCodeRecordRepository] Submission unavailable; pending retained.");
-            Assert.That((await online.SubmitAsync(Candidate())).Result, Is.EqualTo(E_RecordSubmissionResult.TransientFailure));
+                () => local.OnlineAccount, auth, transport);
+            OnlineRecordCoordinator coordinator = new OnlineRecordCoordinator(
+                Owner, local, auth, online, milliseconds => Task.CompletedTask);
+            Assert.That(await coordinator.ConfirmRecoveryNoticeAsync(), Is.True);
+            Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            Assert.That(local.CreatePendingSnapshot()[0].SubmissionId, Is.EqualTo(SubmissionId));
+            for (int attempt = 0; attempt < RecordSubmissionQueue.MaximumAttemptsPerRetryTrigger; attempt++)
+            {
+                UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType.Warning,
+                    "[CloudCodeRecordRepository] Submission unavailable; pending retained.");
+            }
+
+            await coordinator.RetryPendingAsync();
+
+            Assert.That(transport.Calls, Is.EqualTo(RecordSubmissionQueue.MaximumAttemptsPerRetryTrigger));
+            Assert.That(transport.Endpoint, Is.EqualTo("submit-record"));
+            Assert.That(transport.Request, Does.Contain(SubmissionId));
+            Assert.That(coordinator.SubmittedCount, Is.Zero);
+            Assert.That(coordinator.RejectedCount, Is.Zero);
+            Assert.That(coordinator.TryGetTerminalResult(SubmissionId, out OnlineSubmissionResult ignoredResult), Is.False);
+            Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            Assert.That(local.CreatePendingSnapshot()[0].SubmissionId, Is.EqualTo(SubmissionId));
+            LocalRecordRepository restored = new LocalRecordRepository(store);
+            Assert.That(restored.TryLoad(out LocalSaveData ignoredSave), Is.True);
+            Assert.That(restored.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            Assert.That(restored.CreatePendingSnapshot()[0].SubmissionId, Is.EqualTo(SubmissionId));
         }
 
         [Test]

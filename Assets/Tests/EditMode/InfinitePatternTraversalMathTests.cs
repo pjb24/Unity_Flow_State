@@ -24,7 +24,7 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void CanTraverseJump_SelectedBoundaryGap_IsAcceptedAtBothSpeeds()
+        public void CanTraverseJump_SelectedBoundaryGap_IsAcceptedAtFixedSpeed()
         {
             bool canTraverse = InfinitePatternTraversalMath.CanTraverseJump(
                 4.0f,

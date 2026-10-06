@@ -7,6 +7,9 @@ namespace FlowState.Runtime.Features
     {
         public string status;
         public string reason;
+        public string queryPhase;
+        public string queryFault;
+        public int serviceStatus;
         public OnlineLeaderboardEntry[] entries = new OnlineLeaderboardEntry[0];
         public bool IsSuccess => status == "Success";
     }

@@ -430,6 +430,10 @@ namespace FlowState.Tests.PlayMode
             LeaderboardViewState leaderboardState = new LeaderboardViewState();
             InvokePublicMethod(uiManagementSystem, "SetLeaderboardViewState",
                 leaderboardState, string.Empty, 0, false, "No manual retry yet");
+            InvokePublicMethod(uiManagementSystem, "SetLeaderboardViewState",
+                leaderboardState, "0000000007", 0, false, "No manual retry yet");
+            Assert.That(FindUniqueSceneObject("LeaderboardAccountText").GetComponent<TMP_Text>().text,
+                Is.EqualTo("Public number: 0000000007\nA public number alone cannot recover your account."));
             Color stageOriginalBackground = GetSerializedValue<ColorBlock>(
                 uiManagementSystem, "_leaderboardStageOriginalColors").normalColor;
             Color infiniteOriginalBackground = GetSerializedValue<ColorBlock>(

@@ -224,7 +224,7 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void Finalize_DuplicateRequestDoesNotChangeRuntimeValues()
+        public void ProcessRunMetrics_AfterFinalize_IsRejectedWithoutChangingRuntimeValues()
         {
             SetPlayerX(20.0f);
             Invoke(_infiniteModeSystem, "FinalizeRunMetrics");

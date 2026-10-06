@@ -354,9 +354,12 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator Retry_NewRuntimeDataResetsHudToZero()
         {
             StartRun(E_GameMode.Infinite);
-            TryUpdateInfinite(12.999f, 129);
+            Assert.That(TryUpdateInfinite(12.999f, 129), Is.True);
             AwardCollectible("coin-before-retry");
             yield return null;
+            Assert.That(_distanceText.text, Is.EqualTo("Distance: 12"));
+            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: 129"));
+            Assert.That(_infiniteCollectibleScoreText.text, Is.EqualTo("Collectible Score: 10"));
 
             SetGameState(E_GameState.Ending);
             SetUIState(E_UIState.Result);

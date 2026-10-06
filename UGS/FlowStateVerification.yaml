@@ -1,0 +1,226 @@
+openapi: 3.0.1
+info:
+  title: FlowStateVerification OpenApi Specification
+  version: 1.0.0
+servers:
+  - url: https://cloud-code.services.api.unity.com/v1/projects/c76d55cf-7846-494b-9dce-a0797b179b36/modules/FlowStateVerification
+paths:
+  /GetPublicPlayerNumber:
+    post:
+      description: GetPublicPlayerNumber POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+  /GetAccountTransferStatus:
+    post:
+      description: GetAccountTransferStatus POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+  /GetAccountPersonalBests:
+    post:
+      description: GetAccountPersonalBests POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+  /StartAccountTransfer:
+    post:
+      description: StartAccountTransfer POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+  /ReissueAccountTransfer:
+    post:
+      description: ReissueAccountTransfer POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+  /CancelAccountTransfer:
+    post:
+      description: CancelAccountTransfer POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    transferId:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+  /CompleteAccountTransfer:
+    post:
+      description: CompleteAccountTransfer POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    verificationValue:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+  /SubmitRecord:
+    post:
+      description: SubmitRecord POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    request:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+  /QueryRecords:
+    post:
+      description: QueryRecords POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    request:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - { }

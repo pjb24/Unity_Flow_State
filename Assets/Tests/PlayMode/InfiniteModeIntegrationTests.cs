@@ -260,53 +260,6 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
         }
 
-        [UnityTest]
-        public IEnumerator WorldRebase_ProductionScenePreservesRunStateAndRelativePositions()
-        {
-            const float threshold = 880.0f;
-            Vector3 playerPosition = new Vector3(threshold, 1.5f, 0.0f);
-            _playerRigidbody.position = playerPosition;
-            _playerRigidbody.linearVelocity = new Vector3(
-                GetPlayerMoveSpeed(), -2.0f, 0.0f);
-            Physics.SyncTransforms();
-            InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
-
-            InfiniteModeRuntimeData data =
-                GetRuntimeData().InfiniteModeRuntimeData;
-            float distance = data.CurrentDistance;
-            int score = data.CurrentScore;
-            int difficulty = data.CurrentDifficultyLevel;
-            Vector3 playerVelocity = _playerRigidbody.linearVelocity;
-            Vector3 worldOffset = _infiniteModeRoot.transform.position -
-                                  _playerRigidbody.position;
-            Vector3 cameraOffset = _cameraRig.transform.position -
-                                   _playerRigidbody.position;
-            string currentPatternId = _mapPattern.CurrentPatternId;
-            int advanceCount = _mapPattern.AdvanceCount;
-
-            Assert.That(InvokePrivateBoolean(
-                _infiniteModeSystem, "ProcessWorldRebase"), Is.True);
-
-            Assert.That(_playerRigidbody.position.x,
-                Is.EqualTo(0.0f).Within(0.001f));
-            Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(playerVelocity));
-            Assert.That(_infiniteModeRoot.transform.position -
-                _playerRigidbody.position, Is.EqualTo(worldOffset));
-            Assert.That(_cameraRig.transform.position -
-                _playerRigidbody.position, Is.EqualTo(cameraOffset));
-            Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDistance,
-                Is.EqualTo(distance));
-            Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentScore,
-                Is.EqualTo(score));
-            Assert.That(GetRuntimeData().InfiniteModeRuntimeData.CurrentDifficultyLevel,
-                Is.EqualTo(difficulty));
-            Assert.That(_mapPattern.CurrentPatternId, Is.EqualTo(currentPatternId));
-            Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(advanceCount));
-            Assert.That((double)GetProperty(
-                _infiniteModeSystem, "CumulativeRebaseOffset"),
-                Is.EqualTo(threshold));
-            yield return null;
-        }
 
         [UnityTest]
         public IEnumerator RepeatedWorldRebase_ProductionScenePreservesRunState()
@@ -324,7 +277,8 @@ namespace FlowState.Tests.PlayMode
                 _playerRigidbody.linearVelocity =
                     new Vector3(GetPlayerMoveSpeed(), -2.0f, 0.0f);
                 Physics.SyncTransforms();
-                InvokePrivateMethod(_infiniteModeSystem, "ProcessRunMetrics");
+                Assert.That(InvokePrivateBoolean(_infiniteModeSystem, "ProcessRunMetrics"), Is.True);
+                Vector3 playerVelocity = _playerRigidbody.linearVelocity;
 
                 Vector3 worldOffset = _infiniteModeRoot.transform.position -
                                       _playerRigidbody.position;
@@ -341,6 +295,7 @@ namespace FlowState.Tests.PlayMode
                     _infiniteModeSystem, "ProcessWorldRebase"), Is.True);
                 Assert.That(_playerRigidbody.position.x,
                     Is.EqualTo(0.0f).Within(0.001f));
+                Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(playerVelocity));
                 Assert.That(_infiniteModeRoot.transform.position -
                     _playerRigidbody.position, Is.EqualTo(worldOffset));
                 Assert.That(_cameraRig.transform.position -
@@ -531,15 +486,6 @@ namespace FlowState.Tests.PlayMode
             Assert.That(_mapPattern.CurrentPatternId,
                 Is.EqualTo(InfinitePatternCatalogFactory.SingleRiseId));
 
-            // Hold a view of the joined terrain for the manual visual check.
-            RigidbodyConstraints previousConstraints =
-                _playerRigidbody.constraints;
-            _playerRigidbody.position = new Vector3(73.0f, 1.5f, 0.0f);
-            _playerRigidbody.linearVelocity = Vector3.zero;
-            _playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            Physics.SyncTransforms();
-            yield return new WaitForSecondsRealtime(5.0f);
-            _playerRigidbody.constraints = previousConstraints;
         }
 
         [UnityTest]

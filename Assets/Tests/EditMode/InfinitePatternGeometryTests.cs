@@ -88,7 +88,7 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void EveryTransition_ProvidesMinimumWindowAtBothSpeeds()
+        public void EveryTransition_ProvidesMinimumWindowAtFixedSpeed()
         {
             for (int patternIndex = 0;
                  patternIndex < PatternIds.Length;
@@ -203,24 +203,6 @@ namespace FlowState.Tests.EditMode
                 InfinitePatternGeometry.CanTraverseInternalSurfaces(
                     "Unknown"),
                 Is.False);
-        }
-
-        [Test]
-        public void TraversalContract_HeightAboveJumpApex_IsRejected()
-        {
-            Assert.That(
-                InfinitePatternTraversalMath.CanTraverseJump(
-                    4.0f, 3.011f, 8.0f, 8.0f),
-                Is.False);
-        }
-
-        [Test]
-        public void FixedSpeedTraversalContract_ShortLanding_IsAccepted()
-        {
-            Assert.That(
-                InfinitePatternTraversalMath.CanTraverseJump(
-                    4.0f, 0.0f, 4.0f, 4.0f),
-                Is.True);
         }
 
         private static void AssertWindow(

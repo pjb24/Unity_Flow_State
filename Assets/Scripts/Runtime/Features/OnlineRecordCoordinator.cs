@@ -32,6 +32,11 @@ namespace FlowState.Runtime.Features
         public int SubmittedCount => Count(E_RecordSubmissionResult.Submitted);
         public int RejectedCount => Count(E_RecordSubmissionResult.Rejected);
 
+        public void ClearSessionHistory()
+        {
+            _terminalReceipts.Clear();
+        }
+
         public bool TryGetTerminalResult(string submissionId, out OnlineSubmissionResult result)
         {
             result = null;
@@ -47,7 +52,8 @@ namespace FlowState.Runtime.Features
         // Must only be called after the human has explicitly acknowledged the recovery notice.
         public async Task<bool> ConfirmRecoveryNoticeAsync()
         {
-            if (string.IsNullOrEmpty(_owner) || _local.AccountId != _owner) return false;
+            if (string.IsNullOrEmpty(_owner) || _local.AccountId != _owner ||
+                !_local.TryCheckpoint() || !_local.CanUseOnlineData) return false;
             OnlineAccountState state = _local.OnlineAccount;
             if (!state.HasConfirmedRecoveryNotice &&
                 !_local.TrySaveOnlineAccount(new OnlineAccountState(true))) return false;
@@ -61,10 +67,10 @@ namespace FlowState.Runtime.Features
 
         private async Task<bool> BindAsync()
         {
-            if (string.IsNullOrEmpty(_owner) || _local.AccountId != _owner ||
+            if (!_local.CanUseOnlineData || string.IsNullOrEmpty(_owner) || _local.AccountId != _owner ||
                 !_local.OnlineAccount.HasConfirmedRecoveryNotice) return false;
             OnlineAuthenticationResult result = await _authentication.TryAuthenticateAsync();
-            if (!result.IsAuthenticated || string.IsNullOrEmpty(result.PlayerId)) return false;
+            if (!_local.CanUseOnlineData || !result.IsAuthenticated || string.IsNullOrEmpty(result.PlayerId)) return false;
             OnlineAccountState state = _local.OnlineAccount;
             if (!string.IsNullOrEmpty(state.PlayerId)) return state.PlayerId == result.PlayerId;
             return _local.TrySaveOnlineAccount(new OnlineAccountState(true, result.PlayerId));
@@ -114,7 +120,7 @@ namespace FlowState.Runtime.Features
         {
             try
             {
-                if (!await BindAsync() || !_local.TryCheckpoint()) return;
+                if (!_local.TryCheckpoint() || !await BindAsync()) return;
                 var pending = _local.CreatePendingSnapshot();
                 for (int i = 0; i < pending.Count; i++)
                 {
@@ -133,6 +139,10 @@ namespace FlowState.Runtime.Features
                     }
                     if (ContainsPending(candidate.SubmissionId) && !continueAfterTransient) return;
                 }
+            }
+            catch (TimeoutException)
+            {
+                // A bounded explicit retry ends here; unconfirmed records remain Pending.
             }
             catch (Exception)
             {

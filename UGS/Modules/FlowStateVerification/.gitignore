@@ -1,0 +1,5 @@
+!*.sln
+!*.csproj
+!**/*.pubxml
+bin/
+obj/

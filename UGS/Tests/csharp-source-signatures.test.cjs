@@ -1,0 +1,14 @@
+const assert = require("node:assert/strict");
+const { duplicateMembers } = require("./csharp-source-signatures.cjs");
+assert.equal(duplicateMembers("class A { public bool serverTimingPresent; public bool serverTimingPresent; }").length, 1);
+assert.equal(duplicateMembers("class A { public int elapsed = -1; private readonly int elapsed = 0; }").length, 1);
+assert.equal(duplicateMembers("class A { public bool flag; class B { public bool flag; } }").length, 0);
+assert.equal(duplicateMembers("class A { public bool flag; public bool Flag { get; set; } }").length, 0);
+assert.equal(duplicateMembers("class A { private readonly List<int> items; public IReadOnlyList<int> Items => items; }").length, 0);
+assert.equal(duplicateMembers("class A { public static string F(int a, bool b) {} public static string F(int x, bool y) {} }").length, 1);
+assert.equal(duplicateMembers("class A { public void F(int a) {} public void F(string a) {} class B { public void F(int a) {} } }").length, 0);
+assert.equal(duplicateMembers("class A { public int F<T>(T a) {} public void F<U>(U b) {} }").length, 1);
+assert.equal(duplicateMembers("class A { public void F(ref int a) {} public void F(out int b) {} }").length, 1);
+assert.equal(duplicateMembers("class A { private readonly List<string> a = new List<string>(); private readonly List<bool> b = new List<bool>(); }").length, 0);
+assert.equal(duplicateMembers('class A { private void F(int a = 1) {} private void F(int b = 2) {} string text = "public void F(int z) {}"; }').length, 1);
+console.log("PASS source signature audit: CS0111 duplicates, different return/parameter names, generics, byref, defaults, overloads, nested scopes, strings");

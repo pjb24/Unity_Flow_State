@@ -141,9 +141,10 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void ResetPatterns_AfterAdvance_RestoresInitialTransforms()
         {
-            _mapPattern.Initialize();
-            _mapPattern.TryAdvance(SecondBoundaryId);
-            _mapPattern.TryAdvance(FirstBoundaryId);
+            Assert.That(_mapPattern.Initialize(), Is.True);
+            Assert.That(_mapPattern.TryAdvance(SecondBoundaryId), Is.True);
+            Assert.That(_mapPattern.TryAdvance(FirstBoundaryId), Is.True);
+            Assert.That(_mapPattern.AdvanceCount, Is.EqualTo(2));
 
             bool didReset = _mapPattern.ResetPatterns();
 

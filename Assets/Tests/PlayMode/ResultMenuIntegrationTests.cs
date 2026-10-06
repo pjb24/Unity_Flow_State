@@ -61,15 +61,6 @@ namespace FlowState.Tests.PlayMode
             yield return null;
         }
 
-        [UnityTest]
-        public IEnumerator ResultMenu_RetryButtonStartsNewStageRun()
-        {
-            GameObject retryButton = FindResultMenuButton("RetryButton");
-            retryButton.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
-            AssertGameState("Playing");
-
-            yield return null;
-        }
 
         [UnityTest]
         public IEnumerator ResultMenu_CancelInput_DoesNotExecuteSelection()
@@ -88,11 +79,18 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator ResultMenu_SubmitRetry_StartsNewStageOnce()
         {
-            InvokePublicMethod(_gameSystem, "SelectRetry");
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            SubmitSelectedRetryButton();
 
             yield return null;
 
             AssertGameState("Playing");
+            AssertRuntimeMode(E_GameMode.Stage);
+            Assert.That(GetInputStateProperty<bool>("IsSubmitPressed"), Is.False);
+            object restartedRuntimeData = GetPropertyValue(_runtimeDataSystem, "RuntimeData");
+            yield return null;
+            Assert.That(GetPropertyValue(_runtimeDataSystem, "RuntimeData"),
+                Is.SameAs(restartedRuntimeData));
         }
 
         [UnityTest]
@@ -100,22 +98,29 @@ namespace FlowState.Tests.PlayMode
         {
             GameObject retryButton = FindResultMenuButton("RetryButton");
             retryButton.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
+            AssertGameState("Playing");
+            AssertRuntimeMode(E_GameMode.Stage);
+            object restartedRuntimeData = GetPropertyValue(_runtimeDataSystem, "RuntimeData");
 
             yield return null;
 
             AssertGameState("Playing");
+            Assert.That(GetPropertyValue(_runtimeDataSystem, "RuntimeData"),
+                Is.SameAs(restartedRuntimeData));
         }
 
         [UnityTest]
-        public IEnumerator InfiniteResult_KeyboardSubmitRetry_StartsInfiniteRun()
+        public IEnumerator InfiniteResult_UISubmitRetry_StartsInfiniteRun()
         {
             RestartEndedInMode(E_GameMode.Infinite);
-            InvokePublicMethod(_gameSystem, "SelectRetry");
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            SubmitSelectedRetryButton();
 
             yield return null;
 
             AssertGameState("Playing");
             AssertRuntimeMode(E_GameMode.Infinite);
+            Assert.That(GetInputStateProperty<bool>("IsSubmitPressed"), Is.False);
         }
 
         [UnityTest]
@@ -135,14 +140,15 @@ namespace FlowState.Tests.PlayMode
         public IEnumerator ResultClickAndSubmit_RetryExecutesOnlyOnce()
         {
             GameObject retryButton = FindResultMenuButton("RetryButton");
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
             retryButton.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
-
-            yield return null;
 
             object restartedRuntimeData = GetPropertyValue(
                 _runtimeDataSystem,
                 "RuntimeData");
             AssertGameState("Playing");
+            ExecuteEvents.Execute(retryButton, new BaseEventData(EventSystem.current),
+                ExecuteEvents.submitHandler);
 
             yield return null;
 
@@ -150,6 +156,18 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 GetPropertyValue(_runtimeDataSystem, "RuntimeData"),
                 Is.SameAs(restartedRuntimeData));
+            Assert.That(GetInputStateProperty<bool>("IsSubmitPressed"), Is.False);
+        }
+
+        private void SubmitSelectedRetryButton()
+        {
+            Assert.That(EventSystem.current, Is.Not.Null);
+            GameObject retryButton = FindResultMenuButton("RetryButton");
+            Assert.That(EventSystem.current.currentSelectedGameObject,
+                Is.SameAs(retryButton));
+            Assert.That(ExecuteEvents.Execute(
+                EventSystem.current.currentSelectedGameObject,
+                new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler), Is.True);
         }
 
         private void RestartEndedInMode(E_GameMode gameMode)

@@ -59,38 +59,6 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void RebasePreservedDistance_ProducesSameScoreAndDifficultyInput()
-        {
-            InfiniteScoreState score = new InfiniteScoreState();
-            InfiniteDifficultyState difficulty = new InfiniteDifficultyState();
-            score.Initialize(ScoringVersion.Current, 10.0);
-            difficulty.Initialize();
-            difficulty.StartRun();
-
-            _state.TryUpdate(880.0);
-            double beforeDistance = _state.MaximumForwardDistance;
-            score.TryUpdate(ScoringVersion.Current, beforeDistance, 1.5);
-            difficulty.TryUpdate((float)beforeDistance);
-            int beforeScore = score.DistanceScore;
-            E_InfinitePatternDifficulty beforeDifficulty =
-                difficulty.CurrentDifficulty;
-
-            _state.TryApplyRebaseOffset(880.0);
-            _state.TryUpdate(0.0);
-            score.TryUpdate(
-                ScoringVersion.Current,
-                _state.MaximumForwardDistance,
-                1.5);
-            difficulty.TryUpdate((float)_state.MaximumForwardDistance);
-
-            Assert.That(_state.MaximumForwardDistance,
-                Is.EqualTo(beforeDistance));
-            Assert.That(score.DistanceScore, Is.EqualTo(beforeScore));
-            Assert.That(difficulty.CurrentDifficulty,
-                Is.EqualTo(beforeDifficulty));
-        }
-
-        [Test]
         public void RepeatedRebase_PreservesScoreAndDifficultyContinuity()
         {
             InfiniteScoreState score = new InfiniteScoreState();
@@ -107,6 +75,9 @@ namespace FlowState.Tests.EditMode
             Assert.That(difficulty.TryUpdate(
                 (float)_state.MaximumForwardDistance), Is.True);
             int scoreBeforeFirstRebase = score.DistanceScore;
+            double distanceBeforeFirstRebase = _state.MaximumForwardDistance;
+            E_InfinitePatternDifficulty difficultyBeforeFirstRebase =
+                difficulty.CurrentDifficulty;
 
             Assert.That(_state.TryApplyRebaseOffset(880.0), Is.True);
             Assert.That(_state.TryUpdate(0.0), Is.True);
@@ -117,6 +88,10 @@ namespace FlowState.Tests.EditMode
             Assert.That(difficulty.TryUpdate(
                 (float)_state.MaximumForwardDistance), Is.True);
             Assert.That(score.DistanceScore, Is.EqualTo(scoreBeforeFirstRebase));
+            Assert.That(_state.MaximumForwardDistance,
+                Is.EqualTo(distanceBeforeFirstRebase));
+            Assert.That(difficulty.CurrentDifficulty,
+                Is.EqualTo(difficultyBeforeFirstRebase));
 
             Assert.That(_state.TryUpdate(880.0), Is.True);
             Assert.That(score.TryUpdate(
@@ -126,6 +101,9 @@ namespace FlowState.Tests.EditMode
             Assert.That(difficulty.TryUpdate(
                 (float)_state.MaximumForwardDistance), Is.True);
             int scoreBeforeSecondRebase = score.DistanceScore;
+            double distanceBeforeSecondRebase = _state.MaximumForwardDistance;
+            E_InfinitePatternDifficulty difficultyBeforeSecondRebase =
+                difficulty.CurrentDifficulty;
 
             Assert.That(_state.TryApplyRebaseOffset(880.0), Is.True);
             Assert.That(_state.TryUpdate(0.0), Is.True);
@@ -139,6 +117,10 @@ namespace FlowState.Tests.EditMode
             Assert.That(_state.CumulativeRebaseOffset, Is.EqualTo(1760.0));
             Assert.That(_state.MaximumForwardDistance, Is.EqualTo(1760.0));
             Assert.That(score.DistanceScore, Is.EqualTo(scoreBeforeSecondRebase));
+            Assert.That(_state.MaximumForwardDistance,
+                Is.EqualTo(distanceBeforeSecondRebase));
+            Assert.That(difficulty.CurrentDifficulty,
+                Is.EqualTo(difficultyBeforeSecondRebase));
             Assert.That(difficulty.CurrentDifficulty,
                 Is.EqualTo(E_InfinitePatternDifficulty.D3));
         }

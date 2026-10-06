@@ -26,6 +26,11 @@ namespace FlowState.Runtime.Features
             }
 
             GameMode = gameMode;
+            Invalidate();
+        }
+
+        public void Invalidate()
+        {
             _topRequestVersion++;
             _aroundRequestVersion++;
             _personalBestRequestVersion++;

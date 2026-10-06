@@ -6,25 +6,38 @@ namespace FlowState.Runtime.Features
     public sealed class LocalRecordRepository : ILocalRecordRepository
     {
         private readonly ILocalSaveFileStore _fileStore;
+        private readonly OnlineDataScope _activeScope;
         private LocalSaveData _lastSave;
+        private bool _hasReliableLoad = true;
+        private bool _isTransferRequestInProgress;
+        private bool _isAccountTransitionInProgress;
+        public bool IsLocalSaveReady { get; private set; }
+        public OnlineDataScope ActiveScope => _activeScope;
+        public bool CanUseOnlineData => IsLocalSaveReady && _activeScope.Matches(OnlineDataScope.CreateConfigured());
         public string AccountId => _lastSave == null ? string.Empty : _lastSave.AccountId;
         public OnlineAccountState OnlineAccount => _lastSave == null
             ? new OnlineAccountState() : _lastSave.OnlineAccount;
-        private readonly MemoryRecordRepository _memoryRepository =
+        private MemoryRecordRepository _memoryRepository =
             new MemoryRecordRepository();
 
-        public LocalRecordRepository(ILocalSaveFileStore fileStore)
+        public LocalRecordRepository(ILocalSaveFileStore fileStore, OnlineDataScope activeScope = null)
         {
             _fileStore = fileStore;
+            _activeScope = activeScope == null ? OnlineDataScope.CreateConfigured() : activeScope;
         }
 
         public bool TryLoad(out LocalSaveData saveData)
         {
             saveData = LocalSaveData.CreateDefault(new LocalSettingsData(100, false, null));
+            saveData = saveData.SelectOnlineScope(_activeScope);
+            IsLocalSaveReady = false;
+            _memoryRepository = new MemoryRecordRepository();
 
             if (_fileStore == null || !_fileStore.HasSave)
             {
                 _lastSave = saveData;
+                _hasReliableLoad = _fileStore != null && _activeScope.IsValid;
+                IsLocalSaveReady = _hasReliableLoad;
                 return true;
             }
 
@@ -33,19 +46,35 @@ namespace FlowState.Runtime.Features
             {
                 Debug.LogWarning("[LocalRecordRepository] Save recovery used default values.");
                 saveData = LocalSaveData.CreateDefault(new LocalSettingsData(100, false, null));
+                saveData = saveData.SelectOnlineScope(_activeScope);
+                _lastSave = saveData;
+                _hasReliableLoad = false;
+                return true;
             }
-
+            bool requiresSave = saveData.RequiresOnlineMigration || !saveData.OnlineScope.Matches(_activeScope);
+            saveData = saveData.SelectOnlineScope(_activeScope);
             RestoreMemoryRecords(saveData);
             _lastSave = saveData;
-
+            _hasReliableLoad = _activeScope.IsValid;
+            IsLocalSaveReady = _hasReliableLoad;
+            if (requiresSave && !TrySave(saveData)) IsLocalSaveReady = false;
             return true;
         }
 
         public bool TrySave(LocalSaveData saveData)
         {
-            if (_fileStore == null || saveData == null ||
-                !_fileStore.TryWriteAtomically(LocalSaveJsonCodec.Serialize(saveData))) return false;
+            if (!_hasReliableLoad || _fileStore == null || saveData == null ||
+                !saveData.HasValidOnlineScopes || !saveData.OnlineScope.Matches(_activeScope)) return false;
+            // Ordinary settings/account checkpoints cannot remove or replace
+            // inactive environment data. Environment selection happens on load.
+            if (_lastSave != null && !KeepsInactiveAreas(saveData)) return false;
+            if (!_fileStore.TryWriteAtomically(LocalSaveJsonCodec.Serialize(saveData)))
+            {
+                IsLocalSaveReady = false;
+                return false;
+            }
             _lastSave = saveData;
+            IsLocalSaveReady = true;
             return true;
         }
 
@@ -56,7 +85,8 @@ namespace FlowState.Runtime.Features
                 return false;
             return TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, _lastSave.AccountId,
                 _lastSave.Settings, _lastSave.HasCompletedTutorial,
-                _memoryRepository.CreatePersonalBestSnapshot(), state, CreatePendingSnapshot()));
+                _memoryRepository.CreatePersonalBestSnapshot(), state, CreatePendingSnapshot(),
+                _activeScope, _lastSave.InactiveOnlineAreas));
         }
 
         public bool TryCheckpoint()
@@ -71,11 +101,13 @@ namespace FlowState.Runtime.Features
 
         public bool TryEnqueuePending(RecordSubmissionCandidate candidate)
         {
+            if (_isTransferRequestInProgress || _isAccountTransitionInProgress) return false;
             return _memoryRepository.TryEnqueuePending(candidate);
         }
 
         public bool TryUpdatePersonalBest(RecordSubmissionCandidate candidate)
         {
+            if (_isAccountTransitionInProgress) return false;
             return _memoryRepository.TryUpdatePersonalBest(candidate);
         }
 
@@ -95,7 +127,8 @@ namespace FlowState.Runtime.Features
             // Commit removal first. Failed writes retain the same ID for safe server replay.
             if (!TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, _lastSave.AccountId,
                     _lastSave.Settings, _lastSave.HasCompletedTutorial,
-                    _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount, remaining))) return false;
+                    _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount, remaining,
+                    _activeScope, _lastSave.InactiveOnlineAreas))) return false;
             return _memoryRepository.TryRemovePending(playerId, submissionId);
         }
 
@@ -120,7 +153,70 @@ namespace FlowState.Runtime.Features
                 accountId,
                 settings,
                 hasCompletedTutorial,
-                _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount, CreatePendingSnapshot());
+                _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount, CreatePendingSnapshot(),
+                _activeScope, _lastSave == null ? null : _lastSave.InactiveOnlineAreas);
+        }
+
+        // Explicit user action only. Persist first so a restart cannot resurrect
+        // a queue that was considered empty when authorizing a transfer.
+        public bool TryDiscardPending()
+        {
+            if (_lastSave == null || _isTransferRequestInProgress || _isAccountTransitionInProgress || !_hasReliableLoad) return false;
+            if (!TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, _lastSave.AccountId,
+                _lastSave.Settings, _lastSave.HasCompletedTutorial,
+                _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount,
+                new List<RecordSubmissionCandidate>(), _activeScope, _lastSave.InactiveOnlineAreas))) return false;
+            _memoryRepository = new MemoryRecordRepository();
+            RestoreMemoryRecords(_lastSave);
+            return true;
+        }
+
+        internal bool TryBeginTransferRequest()
+        {
+            if (_isTransferRequestInProgress || _isAccountTransitionInProgress || !_hasReliableLoad ||
+                !_activeScope.Matches(OnlineDataScope.CreateConfigured()) || CreatePendingSnapshot().Count != 0)
+                return false;
+            if (!TryCheckpoint() || !CanUseOnlineData || CreatePendingSnapshot().Count != 0) return false;
+            _isTransferRequestInProgress = true;
+            return true;
+        }
+
+        internal void EndTransferRequest()
+        {
+            _isTransferRequestInProgress = false;
+        }
+
+        internal bool TryBeginAccountTransition(bool ownsTransferGate)
+        {
+            if (_isAccountTransitionInProgress || (_isTransferRequestInProgress && !ownsTransferGate) ||
+                !CanUseOnlineData || CreatePendingSnapshot().Count != 0) return false;
+            _isAccountTransitionInProgress = true;
+            return true;
+        }
+
+        internal void EndAccountTransition() { _isAccountTransitionInProgress = false; }
+
+        internal bool TryApplyAccountTransition(OnlineAccountState expected, OnlineAccountState next,
+            IReadOnlyList<RecordSubmissionCandidate> personalBests)
+        {
+            if (!_isAccountTransitionInProgress || !ReferenceEquals(expected, OnlineAccount) ||
+                CreatePendingSnapshot().Count != 0 || next == null || personalBests == null) return false;
+            // Replace the entire current area in one durable write. Other scopes
+            // and device settings are untouched. Never use best-only merge here.
+            if (!TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, _lastSave.AccountId,
+                _lastSave.Settings, _lastSave.HasCompletedTutorial, personalBests, next,
+                CreatePendingSnapshot(), _activeScope, _lastSave.InactiveOnlineAreas))) return false;
+            _memoryRepository = new MemoryRecordRepository();
+            RestoreMemoryRecords(_lastSave);
+            return true;
+        }
+
+        private bool KeepsInactiveAreas(LocalSaveData next)
+        {
+            if (next.InactiveOnlineAreas.Count != _lastSave.InactiveOnlineAreas.Count) return false;
+            for (int i = 0; i < next.InactiveOnlineAreas.Count; i++)
+                if (!ReferenceEquals(next.InactiveOnlineAreas[i], _lastSave.InactiveOnlineAreas[i])) return false;
+            return true;
         }
 
         private void RestoreMemoryRecords(LocalSaveData saveData)

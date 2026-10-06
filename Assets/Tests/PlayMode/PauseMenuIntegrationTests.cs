@@ -3,6 +3,7 @@ using System.Reflection;
 using FlowState.Runtime.Core;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
@@ -51,28 +52,20 @@ namespace FlowState.Tests.PlayMode
         {
             object previousRuntimeData = GetRuntimeData();
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
+            yield return null;
             FindPauseButton("RetryButton").onClick.Invoke();
+
+            object restartedRuntimeData = GetRuntimeData();
+            AssertState(E_GameState.Playing, E_UIState.StageHud);
+            Assert.That(restartedRuntimeData, Is.Not.SameAs(previousRuntimeData));
 
             yield return null;
             yield return null;
 
             AssertState(E_GameState.Playing, E_UIState.StageHud);
-            Assert.That(GetRuntimeData(), Is.Not.SameAs(previousRuntimeData));
+            Assert.That(GetRuntimeData(), Is.SameAs(restartedRuntimeData));
         }
 
-        [UnityTest]
-        public IEnumerator RetryButtonClick_MatchesDirectRetry()
-        {
-            object previousRuntimeData = GetRuntimeData();
-            Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
-            yield return null;
-
-            FindPauseButton("RetryButton").onClick.Invoke();
-
-            AssertState(E_GameState.Playing, E_UIState.StageHud);
-            Assert.That(GetRuntimeData(), Is.Not.SameAs(previousRuntimeData));
-            yield return null;
-        }
 
         [UnityTest]
         public IEnumerator PauseMainMenu_OpensConfirmationWithoutQuitting()
@@ -164,16 +157,21 @@ namespace FlowState.Tests.PlayMode
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
             yield return null;
 
-            FindPauseButton("RetryButton").onClick.Invoke();
+            SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
+            Button retryButton = FindPauseButton("RetryButton");
+            retryButton.onClick.Invoke();
 
             object restartedRuntimeData = GetRuntimeData();
             AssertState(E_GameState.Playing, E_UIState.StageHud);
             Assert.That(restartedRuntimeData, Is.Not.SameAs(previousRuntimeData));
+            ExecuteEvents.Execute(retryButton.gameObject, new BaseEventData(EventSystem.current),
+                ExecuteEvents.submitHandler);
 
             yield return null;
 
             AssertState(E_GameState.Playing, E_UIState.StageHud);
             Assert.That(GetRuntimeData(), Is.SameAs(restartedRuntimeData));
+            Assert.That(GetInputStateBool("IsSubmitPressed"), Is.False);
         }
 
         private void RestartInMode(E_GameMode mode)

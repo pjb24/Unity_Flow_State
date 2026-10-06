@@ -210,7 +210,8 @@ namespace FlowState.Tests.PlayMode
         public void Initialize_AfterResult_ClearsPreviousResultText()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0));
+            Assert.That(SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0)), Is.True);
+            Assert.That(_finalScoreText.text, Is.EqualTo("Distance Score: 129"));
 
             Initialize(E_GameMode.Infinite);
 
@@ -230,10 +231,11 @@ namespace FlowState.Tests.PlayMode
         public void ConsecutiveInfiniteRuns_DisplayIndependentResults()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0));
+            Assert.That(SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0)), Is.True);
+            Assert.That(_finalScoreText.text, Is.EqualTo("Distance Score: 129"));
 
             Initialize(E_GameMode.Infinite);
-            SetResultData(CreateInfiniteResult(20.999f, 180, 29, 40, 2.5));
+            Assert.That(SetResultData(CreateInfiniteResult(20.999f, 180, 29, 40, 2.5)), Is.True);
 
             Assert.That(
                 _finalDistanceText.text,
@@ -251,13 +253,14 @@ namespace FlowState.Tests.PlayMode
         public void StageRunAfterInfiniteRun_DoesNotKeepInfiniteResultText()
         {
             Initialize(E_GameMode.Infinite);
-            SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0));
+            Assert.That(SetResultData(CreateInfiniteResult(12.999f, 100, 29, 30, 2.0)), Is.True);
+            Assert.That(_finalScoreText.text, Is.EqualTo("Distance Score: 129"));
 
             Initialize(E_GameMode.Stage);
-            SetResultData(new ResultData(
+            Assert.That(SetResultData(new ResultData(
                 E_StageResultType.Cleared,
                 5.25,
-                30));
+                30)), Is.True);
 
             Assert.That(_resultStatusText.text, Is.EqualTo("STAGE CLEAR"));
             Assert.That(_clearTimeText.text, Is.EqualTo("Clear Time: 5.250 s"));
