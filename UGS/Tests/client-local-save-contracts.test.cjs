@@ -9,11 +9,17 @@ const scope = feature("OnlineDataScope"), data = feature("LocalSaveData");
 const codec = feature("LocalSaveJsonCodec"), local = feature("LocalRecordRepository");
 const gate = feature("AccountTransferPendingGate");
 const test = read("Assets/Tests/EditMode/OnlineLocalSaveScopeTests.cs");
-assert.ok(data.includes("CurrentVersion = 6"));
+assert.ok(data.includes("CurrentVersion = 7"));
 for (const field of ["onlineProjectId", "onlineEnvironmentId", "inactiveOnlineAreas"])
   assert.ok(codec.includes(field));
 assert.ok(codec.includes("file.version < 6 ? OnlineDataScope.CreateVerification()"));
 assert.ok(codec.includes("ReadPendingCandidates(file.pendingSubmissions)"));
+assert.ok(codec.includes("createdAtMilliseconds"));
+assert.ok(codec.includes("CopyWithCreatedAt"));
+assert.ok(local.includes("DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()"));
+assert.ok(local.includes("TryExpirePending"));
+assert.ok(local.includes("PendingRetentionMilliseconds"));
+assert.ok(feature("OnlineRecordCoordinator").includes("SubmissionExpired"));
 assert.ok(codec.includes("result.Count != files.Length"));
 assert.ok(codec.includes("Duplicate online scope."));
 assert.ok(scope.includes("ProjectId == other.ProjectId && EnvironmentId == other.EnvironmentId"));
@@ -38,7 +44,8 @@ for (const name of ["LegacyMigration_AssignsVerificationAndKeepsCandidateIdentit
   "MigrationWriteFailure_KeepsOriginalFilePendingAndBlocksRequests", "PendingOnEitherDeviceOrDifferentOwner_MakesZeroTransferRequests",
   "ExplicitDiscard_FailedSaveRetainsPendingAndSuccessfulSaveAllowsTransfer", "DiscardCurrentScope_DoesNotRemoveInactiveScopePending",
   "SharedRepositoryGate_CoalescesAAndBDoubleRequestsAndFencesNewPending", "CorruptPending_IsNotSilentlyDroppedToUnlockTransfer",
-  "EmptyPendingButCheckpointFailure_MakesZeroRequestsAndCanRetry", "SettingsCheckpointCannotDropInactiveAreas"])
+  "EmptyPendingButCheckpointFailure_MakesZeroRequestsAndCanRetry", "SettingsCheckpointCannotDropInactiveAreas",
+  "PendingCreatedAt_IsPersistedAndDoesNotChangeAfterRestart", "PendingExpiry_AtBoundaryRemovesOnlyCurrentScopeAfterSuccessfulSave"])
   assert.ok(test.includes(name));
 for (const name of ["OnlineDataScope", "OnlineLocalSaveData", "AccountTransferPendingGate", "LocalSaveData", "LocalSaveJsonCodec", "LocalRecordRepository"]) {
   const content = feature(name);
@@ -63,4 +70,4 @@ for (const forbidden of ["verificationValue", "credentialHmac", "codeDigest", "t
   assert.ok(!codec.includes(forbidden));
 const plain = (test.match(/\[Test\]/g) || []).length;
 const parameterized = (test.match(/\[TestCase\(/g) || []).length;
-console.log(`PASS client Local Save static contracts: scoped v6, migration, fail-closed pending, persisted discard/gate, meta; ${plain + parameterized} Edit Mode cases prepared (not executed)`);
+console.log(`PASS client Local Save static contracts: scoped v7, created-at migration, fail-closed pending, persisted discard/gate, meta; ${plain + parameterized} Edit Mode cases prepared (not executed)`);

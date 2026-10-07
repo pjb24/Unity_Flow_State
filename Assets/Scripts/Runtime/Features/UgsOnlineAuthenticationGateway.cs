@@ -53,7 +53,8 @@ namespace FlowState.Runtime.Features
                     failure = "ProjectMismatch";
                     throw new InvalidOperationException();
                 }
-                if (_profile != "flow-state-verification" && _profile != "flow-state-phase2-a" && _profile != "flow-state-phase2-b")
+                if (_profile != "flow-state-verification" && _profile != "flow-state-phase2-a" &&
+                    _profile != "flow-state-phase2-b" && _profile != "flow-state-phase3-new")
                 {
                     failure = "UnsupportedProfile";
                     throw new InvalidOperationException();

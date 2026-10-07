@@ -1,0 +1,15 @@
+const assert = require("node:assert/strict");
+const { projectId, environmentId } = require("../CloudCode/account-store");
+const { bucketFor, plan } = require("../CloudCode/ledger-v2-migration");
+const accountId = "11111111-1111-4111-8111-111111111111";
+const id = "22222222-2222-4222-8222-222222222222";
+const base = () => ({ schemaVersion: 1, projectId, environmentId, version: 1, accountId, best: {}, active: "", entries: [] });
+const ledger = base(); ledger.entries.push({ id, payload: "[]", status: "Submitted", reason: "Accepted", acceptedAt: Date.UTC(2026, 9, 6) });
+const converted = plan(ledger, accountId);
+assert.equal(converted.ledger.version, 2); assert.equal(converted.ledger.migration.state, "CopyReceipts");
+assert.deepEqual(converted.receipts[0].bucket, "202610");
+const pending = base(); pending.active = id; pending.entries.push({ id, payload: "[]", status: "Pending", reason: "Accepted", acceptedAt: 1 });
+assert.equal(plan(pending, accountId).ledger.pending.id, id);
+assert.throws(() => plan({ ...base(), active: id }, accountId));
+assert.equal(bucketFor(Date.UTC(2026, 0, 1)), "202601");
+console.log("PASS ledger v2 migration planner: terminal receipts, pending reservation and UTC buckets");

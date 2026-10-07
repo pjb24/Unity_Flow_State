@@ -1096,10 +1096,34 @@ namespace FlowState.Runtime.Systems
             {
                 case "Timeout": return "Timeout";
                 case "AuthenticationUnavailable": return "Authentication unavailable";
-                case "ServiceUnavailable": return "Service unavailable";
+                case "ServiceUnavailable": return "Service unavailable" + SafeQueryDiagnostic(result);
                 case "InvalidQuery": return "Invalid query";
+                case "MissingServerMetadata": return "Leaderboard metadata unavailable";
                 default: return "Unavailable";
             }
+        }
+
+        // Allow-list diagnostic values only; never display endpoint bodies,
+        // player IDs, tokens, or arbitrary exception text.
+        private static string SafeQueryDiagnostic(OnlineLeaderboardResult result)
+        {
+            string phase;
+            switch (result == null ? string.Empty : result.queryPhase)
+            {
+                case "ReadLeaderboard": phase = "Read leaderboard"; break;
+                case "ResolveAccount": phase = "Resolve account"; break;
+                case "ReadPublicNumber": phase = "Read public number"; break;
+                case "ResolvePublicRows": phase = "Resolve public rows"; break;
+                case "ReadOwnerMapping": phase = "Read owner mapping"; break;
+                case "ReadRowAccount": phase = "Read row account"; break;
+                case "ReadNumberMapping": phase = "Read number mapping"; break;
+                case "RecheckAccount": phase = "Recheck account"; break;
+                default: return string.Empty;
+            }
+            int status = result.serviceStatus;
+            if (status != 400 && status != 401 && status != 403 && status != 404 && status != 429 &&
+                status != 500 && status != 503 && status != 504) return " (" + phase + ")";
+            return " (" + phase + ", HTTP " + status + ")";
         }
 
         private static string FormatSubmissionReason(string reason)

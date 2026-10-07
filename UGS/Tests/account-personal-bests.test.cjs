@@ -33,6 +33,14 @@ test("both boards are returned as one whole snapshot with no internal owner", as
   for (const row of result.personalBests) assert.deepEqual(Object.keys(row).sort(), ["boardId", "score", "submissionId"]);
   assert.deepEqual(f.ledger(), before); assert.equal(f.state.writes, writes);
 });
+test("v2 ledger snapshot reads preserved bests without a v1 entries array", async () => {
+  const f = await ready();
+  f.ledger().version = 2; delete f.ledger().entries; f.ledger().pending = null;
+  f.ledger().receiptDirectory = { version: 1, buckets: [], cleanup: null };
+  f.ledger().migration = { sourceVersion: 1, state: "Complete", cursor: 0 };
+  f.ledger().best = { [stage]: { score: 1, id, acceptedAt: 1 } };
+  assert.deepEqual((await f.snapshot()).personalBests, [{ boardId: stage, score: 1, submissionId: id }]);
+});
 test("wrong environment and unauthenticated context never yield a snapshot", async () => {
   const f = await ready();
   assert.equal((await f.snapshot({ ...f.context, environmentId: "other" })).status, "TransientFailure");

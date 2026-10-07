@@ -36,14 +36,35 @@ function fixture() {
     if (state.writes === state.loseAt) throw Error("injected-after-commit");
     return { data: {} };
   }
+  async function remove(items, id, key, writeLock) {
+    state.writes++;
+    if (state.beforeWrite) await state.beforeWrite({ items, id, data: [{ key, writeLock, delete: true }] });
+    if (state.writes === state.failAt) throw Error("injected-before-commit");
+    const old = items.get(identity(id, key));
+    if (!old || (writeLock && old.writeLock !== writeLock))
+      throw Object.assign(Error("cas-conflict"), { response: { status: 409 } });
+    items.delete(identity(id, key));
+    if (state.writes === state.loseAt) throw Error("injected-after-commit");
+    return { data: {} };
+  }
   const save = {
     getPrivateCustomItems: async (project, id, keys) => { assert.equal(project, projectId); return read(privateItems, id, keys); },
     setPrivateCustomItem: async (project, id, item) => { assert.equal(project, projectId); return write(privateItems, id, [item]); },
     setPrivateCustomItemBatch: async (project, id, batch) => { assert.equal(project, projectId); return write(privateItems, id, batch.data); },
+    deletePrivateCustomItem: async (project, id, key, writeLock) => { assert.equal(project, projectId); return remove(privateItems, id, key, writeLock); },
     getProtectedItems: async (project, id, keys) => { assert.equal(project, projectId); return read(protectedItems, id, keys); },
     setProtectedItem: async (project, id, item) => { assert.equal(project, projectId); return write(protectedItems, id, [item]); },
     setProtectedItemBatch: async (project, id, batch) => { assert.equal(project, projectId); return write(protectedItems, id, batch.data); }
   };
+  function ranked(board) {
+      const rows = [...scores].filter(([id]) => id.startsWith(`${board}/`)).map(([, row]) => clone(row));
+      rows.sort((left, right) => (board === "fs-stage-stage-001-r1" ? left.score - right.score : right.score - left.score) ||
+        left.metadata.acceptedAt - right.metadata.acceptedAt || left.playerId.localeCompare(right.playerId));
+      // Leaderboards service ranks are zero-based; the endpoint translates
+      // them to the one-based public competition rank.
+      for (let i = 0; i < rows.length; i++) rows[i].rank = i > 0 && rows[i].score === rows[i - 1].score ? rows[i - 1].rank : i;
+      return rows;
+  }
   const leaderboard = {
     async addLeaderboardPlayerScore(project, board, player, value) {
       assert.equal(project, projectId);
@@ -54,14 +75,22 @@ function fixture() {
     },
     async getLeaderboardScores(project, board, offset, limit) {
       assert.equal(project, projectId);
-      const rows = [...scores].filter(([id]) => id.startsWith(`${board}/`)).map(([, row]) => clone(row));
+      const rows = ranked(board);
       return { data: { total: rows.length, results: rows.slice(offset, offset + limit) } };
     },
     async getLeaderboardPlayerScore(project, board, player) {
       assert.equal(project, projectId);
-      const row = scores.get(`${board}/${player}`);
+      const row = ranked(board).find(value => value.playerId === player);
       if (!row) throw Object.assign(Error("absent-score"), { response: { status: 404 } });
       return { data: clone(row) };
+    },
+    async getLeaderboardPlayerRange(project, board, player, options = {}) {
+      assert.equal(project, projectId);
+      const rows = ranked(board);
+      const index = rows.findIndex(row => row.playerId === player);
+      if (index < 0) throw Object.assign(Error("absent-score"), { response: { status: 404 } });
+      const range = options && options.params && Number.isInteger(options.params.rangeLimit) ? options.params.rangeLimit : 3;
+      return { data: { total: rows.length, results: rows.slice(Math.max(0, index - range), index + range + 1) } };
     }
   };
   return { context, state, save, leaderboard, privateItems, protectedItems, scores,

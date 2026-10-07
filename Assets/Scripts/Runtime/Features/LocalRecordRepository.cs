@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,8 +6,10 @@ namespace FlowState.Runtime.Features
 {
     public sealed class LocalRecordRepository : ILocalRecordRepository
     {
+        public const long PendingRetentionMilliseconds = 180L * 24L * 60L * 60L * 1000L;
         private readonly ILocalSaveFileStore _fileStore;
         private readonly OnlineDataScope _activeScope;
+        private readonly Func<long> _now;
         private LocalSaveData _lastSave;
         private bool _hasReliableLoad = true;
         private bool _isTransferRequestInProgress;
@@ -20,10 +23,12 @@ namespace FlowState.Runtime.Features
         private MemoryRecordRepository _memoryRepository =
             new MemoryRecordRepository();
 
-        public LocalRecordRepository(ILocalSaveFileStore fileStore, OnlineDataScope activeScope = null)
+        public LocalRecordRepository(ILocalSaveFileStore fileStore, OnlineDataScope activeScope = null,
+            Func<long> now = null)
         {
             _fileStore = fileStore;
             _activeScope = activeScope == null ? OnlineDataScope.CreateConfigured() : activeScope;
+            _now = now == null ? () => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() : now;
         }
 
         public bool TryLoad(out LocalSaveData saveData)
@@ -102,6 +107,13 @@ namespace FlowState.Runtime.Features
         public bool TryEnqueuePending(RecordSubmissionCandidate candidate)
         {
             if (_isTransferRequestInProgress || _isAccountTransitionInProgress) return false;
+            if (candidate == null) return false;
+            if (candidate.CreatedAtMilliseconds <= 0)
+                candidate = new RecordSubmissionCandidate(candidate.PlayerId, candidate.SubmissionId,
+                    candidate.BoardKey, candidate.RankingValue, candidate.RunDurationMilliseconds,
+                    candidate.BaseDistanceScore, candidate.MomentumBonus, candidate.DistanceScore,
+                    candidate.CollectibleScore, candidate.TotalScore, candidate.MaximumMomentumMultiplier,
+                    _now());
             return _memoryRepository.TryEnqueuePending(candidate);
         }
 
@@ -130,6 +142,30 @@ namespace FlowState.Runtime.Features
                     _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount, remaining,
                     _activeScope, _lastSave.InactiveOnlineAreas))) return false;
             return _memoryRepository.TryRemovePending(playerId, submissionId);
+        }
+
+        // Save first: a failed write must retain every Pending candidate.
+        public bool TryExpirePending(long nowMilliseconds, out int expiredCount)
+        {
+            expiredCount = 0;
+            if (_lastSave == null || nowMilliseconds <= 0) return false;
+            List<RecordSubmissionCandidate> remaining = new List<RecordSubmissionCandidate>();
+            IReadOnlyList<RecordSubmissionCandidate> pending = CreatePendingSnapshot();
+            for (int i = 0; i < pending.Count; i++)
+            {
+                RecordSubmissionCandidate candidate = pending[i];
+                if (candidate.CreatedAtMilliseconds > 0 && nowMilliseconds >= candidate.CreatedAtMilliseconds + PendingRetentionMilliseconds)
+                    expiredCount++;
+                else remaining.Add(candidate);
+            }
+            if (expiredCount == 0) return true;
+            if (!TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, _lastSave.AccountId,
+                _lastSave.Settings, _lastSave.HasCompletedTutorial,
+                _memoryRepository.CreatePersonalBestSnapshot(), OnlineAccount, remaining,
+                _activeScope, _lastSave.InactiveOnlineAreas))) { expiredCount = 0; return false; }
+            _memoryRepository = new MemoryRecordRepository();
+            RestoreMemoryRecords(_lastSave);
+            return true;
         }
 
         public bool TryGetPersonalBest(

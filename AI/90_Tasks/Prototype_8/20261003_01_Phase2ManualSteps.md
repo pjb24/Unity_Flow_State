@@ -2636,15 +2636,15 @@ Label의 **TextMeshPro - Text (UI)**:
 
 ### 수행 결과 — 2026-10-06
 
-**최신 판정: 기술 검증·인계 통과, 임시 관리자 접근 권한 회수 확인 대기.** 첫 실행 `p2v-8ff93ebaaed15bf42f7043915b7365b4-*`에서 batch/CAS·정상 이전·BEFORE1~10·AFTER1~9가 PASS였다. 두 번째 실행 `p2v-05d31f106c6b3165ef553bbe7d3f3856-*`에서 AFTER10·STORAGE_SINGLE_WINNER_RACE·STORAGE_SUBMISSION_TRANSFER_FENCE·LIVE_STORAGE_REMAINDER(FaultCases1/RaceCases2/FullRunFalse)이 PASS다. 두 실행을 합쳐 실제 Cloud Save의 저장 경계20복구·경합2사례를 확인했다. 최초 REQUEST_UNCONFIRMED/HTTP0은 실제 원인 미확인인 실패 이력으로 보존하고 후속 성공으로 없었던 일이 되었다고 기록하지 않는다. 보완 후 로컬 Node39파일/47검사·정적 계약·JavaScript/PowerShell 구문 통과도 구분한다.
+**최종 판정: 완료.** 첫 실행 `p2v-8ff93ebaaed15bf42f7043915b7365b4-*`에서 batch/CAS·정상 이전·BEFORE1~10·AFTER1~9가 PASS였다. 두 번째 실행 `p2v-05d31f106c6b3165ef553bbe7d3f3856-*`에서 AFTER10·STORAGE_SINGLE_WINNER_RACE·STORAGE_SUBMISSION_TRANSFER_FENCE·LIVE_STORAGE_REMAINDER(FaultCases1/RaceCases2/FullRunFalse)이 PASS다. 두 실행을 합쳐 실제 Cloud Save의 저장 경계20복구·경합2사례를 확인했다. 최초 REQUEST_UNCONFIRMED/HTTP0은 실제 원인 미확인인 실패 이력으로 보존하고 후속 성공으로 없었던 일이 되었다고 기록하지 않는다. 보완 후 로컬 Node39파일/47검사·정적 계약·JavaScript/PowerShell 구문 통과도 구분한다. 이후 사용자 보고로 이번 검사에 사용한 임시 Service Account Key 폐기, `Unity_Flow_State / Cloud Save Editor` 역할 회수, 검사용 계정 삭제를 확인했다.
 
 기존 Step10~11의 실제 Module/Anonymous/권한 거부/고정 행 보존/사용자 UI·Unity909/257와 위 실제 저장 검사 근거를 함께 대조했다. 이전 저장은 여러 요청을 복구하는 saga이며 단일 전체 transaction 보장을 요구하거나 입증한 것이 아니다. 검증한 저장 경계 실패·응답 유실·연결 경합 복구는 충족됐다. Unity 서버 내부 장애 자체·모든 플랫폼/통신 장애 조합·관리자 도구의 Jint 실행·전체 응답5초 실측은 추가 보장으로 선언하지 않는다. 기존 legacy N/A, 시작 지연 수용 제한과 Phase3~5 인계는 유지한다.
 
-**현재 완료 보류 이유는 검사 실패가 아니라, 이번 검사에만 허용한 임시 Key/프로젝트 역할 회수 미보고다.** 해당 사용자 보고 후 Step12/Phase2의 최종 완료 상태를 갱신한다. 아래 초기 미확인 판정은 도구 실행 전 이력이다.
+**완료 보류 이력:** 검사 실패가 아니라 이번 검사에만 허용한 임시 Key/프로젝트 역할 회수 보고를 기다렸었다. 사용자 보고로 Key 폐기·역할 회수·검사용 계정 삭제가 완료되어 이 보류를 해제했다. 아래 초기 미확인 판정은 도구 실행 전 이력이다.
 
 **후속 자동 도구 최종 검사:** 전체 Node 39파일/43검사 통과(fail/skipped0), 신규 도구5검사에 실제 서버 코드 기반 로컬 저장 before/after20사례·batch409/동시CAS·두 대상 이전·제출 예약/이전 시작 경합을 포함했다. JavaScript/PowerShell 구문·기존 정적 계약도 통과했다. 원격 Service Account가 준비되지 않아 AI는 원격 검사를 실행하지 않았으며 사용자가 전용 도구 실행 후 안전한 결과를 전달해야 한다. 최신 Unity909/257를 추가 Unity 실행으로 대체하지 않는다.
 
-**판정: 검토·인계 작성 완료, Step 12 전체는 미완료.** Step 1~11 완료는 유지하되 실제 서비스 장애/경합 복구의 미확인을 Phase 2 완료로 확대하지 않는다. Step 10-2는 적용 대상 없음에 대한 사용자 승인 N/A이지 실제 기존 계정 전환 PASS가 아니다.
+**판정: Step 12 및 Phase 2 완료.** Step 1~11 완료와 실제 저장 경계 20복구·경합 2사례, 임시 관리자 접근 종료 보고를 함께 근거로 한다. 실제 서비스 장애/경합 복구의 범위는 확인한 사례로 한정하며, 무제한 장애 보장으로 확대하지 않는다. Step 10-2는 적용 대상 없음에 대한 사용자 승인 N/A이지 실제 기존 계정 전환 PASS가 아니다.
 
 | Phase 2 조건 | 확보한 근거 | 판정 범위 |
 | --- | --- | --- |
@@ -2657,28 +2657,27 @@ Label의 **TextMeshPro - Text (UI)**:
 
 **이번 AI 검증:** 38개 Node Test 파일 38/38 통과(fail/skipped 0), 50개 C# source preflight·정적 계약 통과. C# source 준비 사례 Edit180/Play23은 전체 Unity 실행 수 909/257와 구분한다. 실행 코드와 Scene은 이번 Step에서 변경하지 않았다.
 
-### 서비스 계약에서 확인한 범위와 남은 항목
+### 서비스 계약에서 확인한 범위와 제한
 
-**후속 실제 확인:** 공식 계약 대조에 더해 실제 Private Custom batch의 stale lock 전체 거부 및 두 쓰기의 CAS 단일 승자를 확인했다. 여러 저장 요청의 복구는 사용자 실제20경계/경합2사례로 확인했다. 아래 미확인 기술 범위 설명은 원격 검사 전 이력이며, 현재 남은 사용자 종료 작업은 임시 Key/역할 회수다.
+**후속 실제 확인:** 공식 계약 대조에 더해 실제 Private Custom batch의 stale lock 전체 거부 및 두 쓰기의 CAS 단일 승자를 확인했다. 여러 저장 요청의 복구는 사용자 실제20경계/경합2사례로 확인했다. 임시 Key 폐기·역할 회수·검사용 계정 삭제도 사용자 보고로 완료했다. 아래 미확인 기술 범위 설명은 원격 검사 전 이력이다.
 
 - [Unity Cloud Save API](https://docs.unity.com/en-us/oas-cloud-save/1.0.0)의 **Set Private Custom Item Batch**는 같은 custom ID의 batch에서 한 항목이 실패하면 전체 batch가 실패하는 원자성을 명시한다. `account-store.create`의 guard와 대상 키는 같은 custom ID의 해당 batch를 사용한다. 공식 계약과 코드 대조 근거이며 실제 충돌 주입을 실행한 근거는 아니다.
 - [Write locks](https://docs.unity.com/en-us/cloud-save/concepts/write-locks)의 기존 항목 충돌 검사는 `compareExchange`의 필수 writeLock 경계와 대조했다. 새 항목 생성 자체를 writeLock만으로 보호한다고 주장하지 않는다.
-- 이전은 Account·binding·credential 등의 여러 저장 요청을 복구 가능한 단계로 수행한다. 위 단일 batch 계약은 전체 요청 묶음의 원자성을 증명하지 않는다. 로컬 장애/응답 유실/경합 검사는 통과했고 실제 정상 교체·조회 거부도 확인했지만, 실제 서비스에서 중간 저장 실패 및 동시 Complete/제출 경합 이후 복구는 미확인이다. 이 항목이 Step 12의 두 번째 완료 조건을 막는다.
+- 이전은 Account·binding·credential 등의 여러 저장 요청을 복구 가능한 단계로 수행한다. 위 단일 batch 계약은 전체 요청 묶음의 원자성을 증명하지 않는다. 로컬 장애/응답 유실/경합 검사와 실제 저장 경계 20복구·경합 2사례, 실제 정상 교체·조회 거부를 확인했다. Unity 서버 내부 장애와 모든 플랫폼/통신 조합의 무제한 보장은 Phase 2 완료 범위에 포함하지 않는 제한으로 기록한다.
 - 시작 직후 지연은 사용자 승인한 수용 제한이다. 원인이 UGS라는 확정이나 모든 응답의 실측 5초 PASS는 없다. Timeout 후 원격 변경이 반영될 수 있으므로 명시적 상태 확인 경계를 유지한다.
 
-### 사용자에게 필요한 작업
+### 사용자 종료 작업 — 완료
 
-**현재는 검사 추가 실행 없이 아래 종료 작업만 수행한다.** 목적은 일회성 검사에 부여한 관리자 접근 권한을 종료하는 것이다.
+**검사 추가 실행 없이 수행한 종료 작업:** 목적은 일회성 검사에 부여한 관리자 접근 권한을 종료하는 것이었다.
 
-1. Unity Dashboard → Administration → Service Accounts → `fs-phase2-storage-probe`를 연다.
-2. Keys에서 이번 검사에 사용한 임시 Key를 Delete/Revoke로 폐기한다.
-3. Project roles에서 `Unity_Flow_State / Cloud Save Editor`를 제거한다.
-4. 임시 보관한 Key ID/Secret Key를 지우고 결과 텍스트 및 두 p2v 검사 자료는 보관한다.
-5. `임시 Key 폐기 완료 / Cloud Save Editor 역할 회수 완료`라고 알려 준다. 이미 수행했다면 완료 여부만 보고한다.
+1. Unity Dashboard → Administration → Service Accounts → `fs-phase2-storage-probe`에서 이번 검사에 사용한 임시 Key를 Delete/Revoke로 폐기했다.
+2. Project roles에서 `Unity_Flow_State / Cloud Save Editor`를 제거했다.
+3. 검사용 계정을 삭제했다.
+4. 사용자 완료 보고를 Step 12 및 Roadmap에 반영했다. Key ID/Secret Key 값은 문서에 기록하지 않는다.
 
-키·역할 회수 여부는 로컬 소스로 확인할 수 없는 실제 Dashboard 상태이므로 사용자 확인을 받는다. Access Token의 즉시 무효화까지 검증한 것으로 쓰지 않는다. 아래 실행 절차는 이미 성공한 이전 안내다.
+Key·역할 회수·계정 삭제는 로컬 소스로 확인할 수 없는 실제 Dashboard 상태이므로 사용자 보고를 근거로 기록한다. Access Token의 즉시 무효화까지 검증한 것으로 쓰지 않는다. 아래 실행 절차는 이미 성공한 이전 안내다.
 
-**최신 도구 준비:** 사용자 후속 요청에 따라 [실제 저장 검사 실행 안내](../../../UGS/Verification/LIVE_TRANSFER_STORAGE_PROBE.md)를 작성했다. 현재 사용자 작업은 이 안내의 **임시 Service Account/Cloud Save Editor → PowerShell 실행·VERIFY 승인·키 숨김 입력 → 안전한 결과 전달 → 임시 키 회수**다. Module 게시·Unity Build/Test·Scene 변경 없이 실행한다. 도구는 전용 Private Game Data만 만들며 기존 A/B/발급기/Leaderboard는 보존한다. 전체 완료 판단은 원격 결과 확인 후 진행한다. 아래 “현재 추가 작업 없음”은 도구 준비 전 판정 이력이다.
+**도구 실행 이력:** 사용자 후속 요청에 따라 [실제 저장 검사 실행 안내](../../../UGS/Verification/LIVE_TRANSFER_STORAGE_PROBE.md)를 작성했고, 실제 결과와 임시 Key·역할 회수·검사용 계정 삭제의 사용자 완료 보고를 받아 전체 완료 판정에 반영했다. Module 게시·Unity Build/Test·Scene 변경은 이 종료 처리에 포함하지 않는다. 아래 “현재 추가 작업 없음”은 도구 준비 전 판정 이력이다.
 
 **현재 추가로 수행할 화면·Scene·빌드·Unity Test 작업은 없다.** 마지막 수정의 컴파일·전체 Test 결과는 이미 받았다.
 
@@ -2705,9 +2704,9 @@ Step 1~11 근거를 Roadmap Phase 2의 번호 유일성/유지·전체 표시·�
 ### 완료 조건
 
 - [x] Step 1~11의 필수 구현·검증·사용자 결과가 모두 기록됐다. Step 10-2 N/A 및 시작 지연 수용 제한을 실제 PASS와 구분했다.
-- [ ] 미확인 원자성·권한·서비스 제약 또는 필수 실패가 없다.
+- [x] 필수 완료 범위에 미확인 원자성·권한·서비스 제약 또는 필수 실패가 없다.
 
-  기술 범위는 실제 저장20복구/경합2사례·기존 Module/권한/UI/Unity 근거로 충족했다. 일회성 검사 관리자 Key/역할 회수 완료 보고를 기다린다. 무제한 장애 보장·Production 승인과 구분한다.
+  기술 범위는 실제 저장20복구/경합2사례·기존 Module/권한/UI/Unity 근거로 충족했고, 일회성 검사 관리자 Key 폐기·역할 회수·검사용 계정 삭제의 사용자 완료 보고를 받았다. 무제한 장애 보장·Production 승인과 구분한다.
 - [x] Phase 3의 receipt·조회 한도, Phase 4의 Production/30일 로그·복구, Phase 5의 전체 Test/Build 인계를 기록했다.
 
 # 영향 범위

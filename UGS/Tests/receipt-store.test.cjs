@@ -1,0 +1,26 @@
+const assert = require("node:assert/strict");
+const { fixture } = require("./account-sdk-double.cjs");
+const { createReceiptStore, receiptContainerId, locatorContainerId, receiptKey, shardKey, scope } = require("../CloudCode/receipt-store");
+const accountId = "11111111-1111-4111-8111-111111111111";
+const submissionId = "22222222-2222-4222-8222-222222222222";
+(async () => {
+  assert.equal(receiptContainerId(accountId, "202610", 1), `r-${accountId}-202610-001`);
+  assert.equal(locatorContainerId(accountId, "a0f"), `l-${accountId}-a0f`);
+  assert.equal(receiptKey(submissionId), `r-${submissionId}`);
+  assert.equal(shardKey(1), "s-001");
+  assert.throws(() => receiptContainerId(accountId, "20261", 1));
+  const f = fixture(), store = createReceiptStore(f.context, f.save);
+  const container = receiptContainerId(accountId, "202610", 1), key = receiptKey(submissionId);
+  const first = await store.create(container, key, { ...scope(), status: "Submitted" });
+  assert.equal(first.value.status, "Submitted");
+  const same = await store.create(container, key, { ...scope(), status: "Rejected" });
+  assert.equal(same.value.status, "Submitted", "create-if-absent preserves terminal receipt");
+  await store.compareExchange(first, { ...first.value, status: "Rejected" });
+  const changed = await store.read(container, key); assert.equal(changed.value.status, "Rejected");
+  await store.remove(changed); assert.equal(await store.read(container, key), null);
+  const manifest = await store.ensureManifest(accountId, "202610", 1);
+  assert.equal(manifest.key, "manifest"); assert.equal(manifest.value.receiptCount, 0);
+  await store.createLocator(accountId, submissionId, { id: submissionId, receiptContainer: container, shard: shardKey(1), terminalAt: 1 });
+  assert.equal((await store.readLocator(accountId, submissionId)).value.shard, "s-001");
+  console.log("PASS receipt store: bounded IDs, manifest, locator, create-if-absent, CAS and conditional delete");
+})().catch(error => { console.error(error); process.exitCode = 1; });

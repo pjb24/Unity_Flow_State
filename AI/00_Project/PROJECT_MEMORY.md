@@ -8,6 +8,49 @@
 
 # 프로젝트 결정 사항
 
+## Prototype 8 Phase 2 완료 (2026-10-06)
+
+- Phase 2의 실제 Cloud Save 저장 경계 20복구·경합 2사례, 기존 Module/권한/UI 및 최신 Unity 909/257 근거를 대조했다.
+- 사용자가 이번 검사에만 사용한 임시 Service Account Key 폐기, `Unity_Flow_State / Cloud Save Editor` 역할 회수, 검사용 계정 삭제를 완료했다고 보고했다.
+- 따라서 Phase 2 Step 12와 Phase 2를 완료 처리한다. 이는 단일 실행 전체 PASS, 전체 transaction, 무제한 서비스 장애 보장 또는 Production 승인으로 확대하지 않는다.
+
+## Prototype 8 Phase 3 완료 (2026-10-07)
+
+- receipt journal/lazy migration/180일 cleanup·CAS 및 TOP 10/AROUND YOU 7 조회를 구현하고 127·128·129·256 제출, 0~201 service-total, 동점/전역 rank/응답 유실 경계를 자동 검증했다.
+- verification에서 신규 Phase3New 계정의 서버 행·재시작 보존, Offline Pending 생성·재시작 보존·명시 재전송, Stage/Infinite TOP·AROUND YOU·Retry/Back을 확인했다. Module 재게시 뒤 service rank 0-based→공개 1-based 정규화와 player-range options adapter도 실제로 확인했다.
+- 최신 Unity Script Compilation 성공, EditMode 890/890 및 PlayMode 254/254 성공, 예상 밖 Error/Warning 없음을 사용자 보고로 확인했다.
+- `SampleScene` Leaderboard는 TOP 10행·AROUND YOU 7행의 최대 표시에서도 하단 Retry/Pending Retry/Back과 겹치지 않도록 수동 조정·확인됐고, 그 뒤에도 Unity Script Compilation과 EditMode 890/890·PlayMode 254/254가 성공했다.
+- 기존 verification 계정·Legacy Local Save 부재로 기존 자료 migration 보존 비교는 N/A다. Dashboard C# Module source 미다운로드 때문에 Git `b2953d9` rollback 후보와 원격 활성 source의 동일성은 증명하지 않는다. Production 운영 및 Windows Player Build는 Phase 4~5 범위다.
+
+## Prototype 8 Phase 3 Step 1 정책 결정 (2026-10-06)
+
+- 신규 ledger는 기존 논리 계정 준비 흐름에서 create-if-absent와 재조회/CAS 복구로 준비한다.
+- terminal receipt는 계정별 UTC 시간 버킷과 item 크기 기준의 다중 shard로 보관한다. 180일 뒤 receipt의 실제 삭제가 성공한 뒤에만 같은 제출 ID를 신규 제출로 허용한다.
+- 현재 테스트 자료와 출시 후 legacy 자료는 lazy migration이 기본 경로이며, 관리자 일괄 migration은 선택 계정의 사전 전환을 위한 보조 도구다.
+- TOP 10과 AROUND YOU 최대 7은 API 기반의 독립 조회로 제공하고, 불완전한 조회 결과는 Error로 처리한다.
+- 제출·receipt·Leaderboard 규칙은 provider-neutral port 뒤에 두고, 현재 UGS는 그 구현체로 취급한다. 서비스별 원자성·충돌·응답 유실은 port 결과로 명시하며 전체 transaction을 가정하지 않는다.
+
+## Prototype 8 Phase 3 Step 2~6 구현·검증 준비 (2026-10-07)
+
+- 신규 계정 첫 제출 준비, v2 receipt journal/lazy migration/180일 제한 정리, Local Save v7 Pending 생성 시각·만료, TOP 10·AROUND YOU 7 API 조회를 구현했다. 모든 원격 UGS·Unity·Scene 결과와는 구분되는 로컬 대역/정적 검증 근거다.
+- 경계 Test는 127·128·129·256 제출과 0·1·7·10·99·100·101·201행 total, receipt cleanup·응답 유실·CAS, migration·이전, Local Pending 저장 실패를 포함한다. 256건은 고정 shard 한도가 아니라 128 경계 회귀를 막는 입력값이다.
+- Step 9의 신규 계정 검증은 `flow-state-phase3-new` Profile과 `Prototype8Verification/Phase3New` 별도 Local Save를 사용한다. Unity Test Runner·Module 게시·실제 제출/조회/UI는 아직 수행하지 않았으며 Step 7~9에서 사용자 확인이 필요하다.
+
+## Prototype 8 Phase 3 Step 7 Unity 검증 완료 (2026-10-07)
+
+- 사용자가 최신 Unity Script Compilation 성공과 예상 밖 Error/Warning 없음을 확인했다. 전체 EditMode는 890/890, PlayMode는 254/254 성공했고 각각 예상 밖 Test Error/Warning이 없었다.
+- 정적 preflight의 관련 소스 사례 EditMode 183·PlayMode 23 집계와 실제 전체 Test Runner 수량은 서로 다른 기준이다. Module 게시와 실제 verification 서비스/UI 검증은 Step 8~9에 남는다.
+
+## Prototype 8 Phase 3 Step 8 Module 게시 완료 (2026-10-07)
+
+- 사용자가 `FlowStateVerification` C# Module 빌드·Deploy Selected 성공과 Project `Unity_Flow_State` / Environment `verification` 대상 일치를 확인했다. 게시 시각은 Oct 7, 2026, 3:01 PM이며 Dashboard에는 별도 version 정보가 없다.
+- Dashboard C# Module source를 내려받을 수 없어 Git `b2953d9`의 Module/.ccmr/embedded Cloud Code archive를 최선의 rollback 후보로 보관했다. 원격 활성 source와의 동일성은 증명되지 않는다. 실제 신규 제출·기존 자료·Offline/UI 검증은 Step 9에 남는다.
+
+## Prototype 8 Phase 3 Phase3New 인증 회귀 완료 (2026-10-07)
+
+- Step 9-1의 첫 `ConfirmConsent`는 `UnsupportedProfile`로 SDK 초기화 전에 차단됐다. 새 Profile을 설정했지만 Client authentication gateway 허용 목록에 넣지 않은 누락을 수정했다. 이 실패는 원격 account/ledger/제출을 만들지 않았다.
+- 정적 계약 뒤 사용자가 Unity Script Compilation 성공, EditMode 890/890, PlayMode 254/254 및 예상 밖 Error/Warning 없음을 확인했다. Module 재게시·Scene 변경 없이 새 Editor 세션에서 Step 9-1을 재개한다.
+
 ## Cloud Code 게시 대상 정리 (2026-10-06)
 
 - 현재 게시 대상은 `Assets/CloudCode/FlowStateVerification.ccmr`의 C# Module 하나다. 폐기된 `Phase2Verification` JS 게시 래퍼와 전용 bundle/staging 검사를 제거했다. `UGS/CloudCode` 원본은 Module의 EmbeddedResource이므로 계속 관리한다. 과거 게시 안내는 이력으로 구분한다.

@@ -69,6 +69,11 @@ namespace FlowState.Server
                         path = saveRoot + "/custom/" + target + "/private/items"; verb = "POST"; body = args[2]; break;
                     case "setPrivateCustomItemBatch":
                         path = saveRoot + "/custom/" + target + "/private/item-batch"; verb = "POST"; body = args[2]; break;
+                    case "deletePrivateCustomItem":
+                        path = saveRoot + "/custom/" + target + "/private/items/" + Uri.EscapeDataString((string)args[2]);
+                        if (args.Count > 3 && args[3].Type == JTokenType.String && !string.IsNullOrEmpty((string)args[3]))
+                            path += "?writeLock=" + Uri.EscapeDataString((string)args[3]);
+                        verb = "DELETE"; break;
                     case "setProtectedItem":
                         path = saveRoot + "/players/" + target + "/protected/items"; verb = "POST"; body = args[2]; break;
                     case "setProtectedItemBatch":
@@ -79,6 +84,10 @@ namespace FlowState.Server
                     case "getLeaderboardPlayerScore":
                         CheckBoard((string)args[1]);
                         path = boardRoot + target + "/scores/players/" + Uri.EscapeDataString((string)args[2]) + "?includeMetadata=true"; break;
+                    case "getLeaderboardPlayerRange":
+                        CheckBoard((string)args[1]);
+                        path = boardRoot + target + "/scores/players/" + Uri.EscapeDataString((string)args[2]) +
+                            "/range?rangeLimit=" + ReadRangeLimit(args) + "&includeMetadata=true"; break;
                     case "addLeaderboardPlayerScore":
                         CheckBoard((string)args[1]);
                         path = boardRoot + target + "/scores/players/" + Uri.EscapeDataString((string)args[2]);
@@ -125,6 +134,19 @@ namespace FlowState.Server
                 result += "keys=" + Uri.EscapeDataString((string)key);
             }
             return result;
+        }
+
+        // The JavaScript SDK receives an options object, not a positional
+        // integer: { params: { rangeLimit: 3, includeMetadata: true } }.
+        private static int ReadRangeLimit(JArray args)
+        {
+            JObject options = args.Count > 3 ? args[3] as JObject : null;
+            JObject parameters = options == null ? null : options["params"] as JObject;
+            JToken value = parameters == null ? null : parameters["rangeLimit"];
+            if (value == null || value.Type != JTokenType.Integer) throw new InvalidOperationException("Invalid range limit.");
+            int rangeLimit = (int)value;
+            if (rangeLimit < 0 || rangeLimit > 3) throw new InvalidOperationException("Invalid range limit.");
+            return rangeLimit;
         }
 
         private static void CheckBoard(string board)

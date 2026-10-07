@@ -106,6 +106,7 @@ RecordSubmissionSystem
 - 제출 후보는 Result Data를 변경하지 않는다.
 - Phase 2는 최초 로컬 실행에 생성해 Local Save에 보존한 UUID v4 계정 ID를 후보 귀속에 사용한다. 이 값은 Phase 3 Anonymous Authentication Player ID와 동일하다고 가정하지 않는다.
 - 같은 계정과 제출 ID는 서버 terminal receipt 보관 기간 180일 안에서만 중복 판정한다.
+- terminal receipt가 180일 뒤 실제로 삭제된 경우에만 같은 제출 ID를 신규 제출로 허용한다. 삭제 실패·응답 유실은 기존 receipt가 남아 있는 것으로 처리한다.
 - 다른 계정에 귀속된 후보를 전송하지 않는다.
 - 활성 연결이 아닌 Player ID의 후보는 온라인 제출하지 않는다.
 - 로컬 UUID 후보는 사용자 명시적 동의 전에는 Anonymous Authentication Player ID로 재귀속하거나 전송하지 않는다.

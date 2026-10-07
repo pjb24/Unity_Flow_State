@@ -12,6 +12,9 @@ namespace FlowState.Runtime.Features
         private readonly IOnlineRecordTransport _records;
         private readonly IOnlineAccountTransport _accounts;
         public const int OperationTimeoutMilliseconds = 5000;
+        // A submit probe may include bounded backoff plus before/after reads.
+        // Keep it finite while allowing the verification UI's advertised 60-second flow.
+        public const int MaximumVerificationOperationTimeoutMilliseconds = 60000;
         private readonly Func<int, Task> _delay;
         public Task OperationDeadline { get; private set; }
         public bool OperationTimedOut => OperationDeadline != null && OperationDeadline.IsCompleted;
@@ -21,10 +24,12 @@ namespace FlowState.Runtime.Features
             _isAllowed = isAllowed; _authentication = authentication; _records = records; _accounts = accounts;
             _delay = delay == null ? milliseconds => Task.Delay(milliseconds) : delay;
         }
-        public void BeginOperation()
+        public void BeginOperation(int timeoutMilliseconds = OperationTimeoutMilliseconds)
         {
             if (OperationDeadline != null) throw new InvalidOperationException("Verification operation already running.");
-            OperationDeadline = _delay(OperationTimeoutMilliseconds);
+            if (timeoutMilliseconds <= 0 || timeoutMilliseconds > MaximumVerificationOperationTimeoutMilliseconds)
+                throw new ArgumentOutOfRangeException(nameof(timeoutMilliseconds));
+            OperationDeadline = _delay(timeoutMilliseconds);
         }
         public void EndOperation() { OperationDeadline = null; }
 

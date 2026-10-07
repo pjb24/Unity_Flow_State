@@ -120,7 +120,9 @@ namespace FlowState.Runtime.Features
         {
             try
             {
-                if (!_local.TryCheckpoint() || !await BindAsync()) return;
+                if (!_local.TryExpirePending(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), out int expired) ||
+                    !_local.TryCheckpoint() || !await BindAsync()) return;
+                if (expired > 0) Debug.LogWarning("[OnlineRecordCoordinator] SubmissionExpired: old Pending records were removed.");
                 var pending = _local.CreatePendingSnapshot();
                 for (int i = 0; i < pending.Count; i++)
                 {

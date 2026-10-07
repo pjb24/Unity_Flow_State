@@ -57,9 +57,11 @@ function __load(name) {
   if (name === "crypto") return __crypto;
   if (name === "@unity-services/cloud-save-1.4") return { DataApi: __sdk([
     "getPrivateCustomItems", "setPrivateCustomItem", "setPrivateCustomItemBatch",
+    "deletePrivateCustomItem",
     "getProtectedItems", "setProtectedItem", "setProtectedItemBatch"]) };
   if (name === "@unity-services/leaderboards-1.1") return { LeaderboardsApi: __sdk([
-    "getLeaderboardScores", "getLeaderboardPlayerScore", "addLeaderboardPlayerScore"]) };
+    "getLeaderboardScores", "getLeaderboardPlayerScore", "getLeaderboardPlayerRange",
+    "addLeaderboardPlayerScore"]) };
   name = name.replace(/^\.\//, "").replace(/\.js$/, "");
   if (!/^[a-z0-9-]+$/.test(name)) throw new Error("Unsupported module");
   if (!__cache[name]) {

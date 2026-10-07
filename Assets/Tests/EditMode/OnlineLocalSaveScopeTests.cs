@@ -45,7 +45,7 @@ namespace FlowState.Tests.EditMode
         {
             string json = LocalSaveJsonCodec.Serialize(Data(version));
             Assert.That(LocalSaveJsonCodec.TryDeserialize(json, out LocalSaveData migrated), Is.True);
-            Assert.That(migrated.Version, Is.EqualTo(6));
+            Assert.That(migrated.Version, Is.EqualTo(LocalSaveData.CurrentVersion));
             Assert.That(migrated.RequiresOnlineMigration, Is.True);
             Assert.That(migrated.OnlineScope.Matches(OnlineDataScope.CreateVerification()), Is.True);
             Assert.That(migrated.PendingSubmissions[0].PlayerId, Is.EqualTo(Owner));
@@ -287,6 +287,41 @@ namespace FlowState.Tests.EditMode
             Assert.That(store.Contents, Is.EqualTo(before));
             Assert.That(local.TrySave(local.CreateSaveData(Owner, new LocalSettingsData(25, true, null), true)), Is.True);
             Assert.That(Load(store).CreatePendingSnapshot(), Has.Count.EqualTo(1));
+        }
+
+        [Test]
+        public void PendingCreatedAt_IsPersistedAndDoesNotChangeAfterRestart()
+        {
+            const long createdAt = 1000;
+            OnlineTestFileStore store = new OnlineTestFileStore();
+            LocalRecordRepository local = new LocalRecordRepository(store, null, () => createdAt);
+            Assert.That(local.TryLoad(out LocalSaveData ignored), Is.True);
+            Assert.That(local.TrySave(local.CreateSaveData(Owner, new LocalSettingsData(75, true, null), true)), Is.True);
+            Assert.That(local.TryEnqueuePending(Candidate()), Is.True);
+            Assert.That(local.TryCheckpoint(), Is.True);
+            Assert.That(local.CreatePendingSnapshot()[0].CreatedAtMilliseconds, Is.EqualTo(createdAt));
+            LocalRecordRepository restarted = new LocalRecordRepository(store, null, () => createdAt + 99);
+            Assert.That(restarted.TryLoad(out ignored), Is.True);
+            Assert.That(restarted.CreatePendingSnapshot()[0].CreatedAtMilliseconds, Is.EqualTo(createdAt));
+        }
+
+        [Test]
+        public void PendingExpiry_AtBoundaryRemovesOnlyCurrentScopeAfterSuccessfulSave()
+        {
+            const long createdAt = 1000;
+            OnlineTestFileStore store = new OnlineTestFileStore();
+            LocalRecordRepository local = new LocalRecordRepository(store, null, () => createdAt);
+            Assert.That(local.TryLoad(out LocalSaveData ignored), Is.True);
+            Assert.That(local.TrySave(local.CreateSaveData(Owner, new LocalSettingsData(75, true, null), true)), Is.True);
+            Assert.That(local.TryEnqueuePending(Candidate()), Is.True); Assert.That(local.TryCheckpoint(), Is.True);
+            long expiry = createdAt + LocalRecordRepository.PendingRetentionMilliseconds;
+            Assert.That(local.TryExpirePending(expiry - 1, out int before), Is.True); Assert.That(before, Is.Zero);
+            store.FailWrite = true;
+            Assert.That(local.TryExpirePending(expiry, out int failed), Is.False); Assert.That(failed, Is.Zero);
+            Assert.That(local.CreatePendingSnapshot(), Has.Count.EqualTo(1));
+            store.FailWrite = false;
+            Assert.That(local.TryExpirePending(expiry, out int removed), Is.True); Assert.That(removed, Is.EqualTo(1));
+            Assert.That(local.CreatePendingSnapshot(), Is.Empty);
         }
 
         [Test]

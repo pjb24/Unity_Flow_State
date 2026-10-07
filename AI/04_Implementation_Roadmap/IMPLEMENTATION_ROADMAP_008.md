@@ -92,7 +92,7 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 
 ### 상태
 
-기술 검증·후속 Phase 인계 통과, 임시 관리자 Key/역할 회수 확인 대기 — 2026-10-06. Step1~11·사용자Unity909/257·실제Module/서비스/UI에 더해 실제CloudSave batch/CAS·저장 경계20복구·경합2사례를 두 실행으로 확인했다. 단일 실행 전체PASS나 전체transaction/무제한 서비스 장애 보장으로 확대하지 않는다. Step12/Phase2 최종 완료는 이번 도구 임시Service Account Key 폐기·Cloud Save Editor 역할 회수 보고 후 처리한다. 기존legacy N/A·시작지연 수용 제한 및 Phase3~5 인계는 유지하며 Production 승인은 별도다.
+완료 — 2026-10-06. Step 1~11·사용자 Unity 909/257·실제 Module/서비스/UI와 실제 Cloud Save batch/CAS·저장 경계 20복구·경합 2사례를 대조했고, 사용자가 이번 검사에 사용한 임시 Service Account Key를 폐기하고 `Unity_Flow_State / Cloud Save Editor` 역할을 회수했으며 검사용 계정을 삭제했다고 보고했다. 단일 실행 전체 PASS, 전체 transaction, 무제한 서비스 장애 보장으로 확대하지 않는다. legacy N/A·시작 지연 수용 제한 및 Phase 3~5 인계는 유지하며 Production 승인은 별도다.
 
 ## Phase 3. 제출·조회 제한 해소
 
@@ -119,9 +119,43 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 
 ### 상태
 
-대기
+Step 1 완료 — 2026-10-06. Step 1-1에서 규칙·공식 계약·receipt 용량 예산을 확정했고, Step 1-2에서 Module adapter의 Private Custom 조건부 delete/Leaderboard player-range, receipt store의 bounded ID/create-if-absent/CAS/conditional delete·manifest·locator, v1→v2 lazy-migration planner 및 receipt-first/ledger-CAS 전환 helper와 로컬 Test를 완료했다. 실제 shard append/replay/cleanup 및 v2 제출 경로·128건 제한 제거는 Step 2·3의 구현 범위다. Unity·게시·원격 서비스·Scene 검증은 아직 시작하지 않았다.
+
+Step 2 완료 — 2026-10-06. `submit-record` endpoint가 유효한 새 계정의 첫 제출 전에 account provisioning을 자동 수행하도록 연결했다. malformed request는 저장을 생성하지 않으며, 로컬 SDK 대역에서 첫 제출·동시 초기화·각 저장 경계 실패/응답 유실·기존 계정/legacy row/번호/소유권 보존을 통과했다. Unity·게시·원격 서비스·Scene 검증은 아직 시작하지 않았다.
+
+Step 3-2 완료 — 2026-10-06. `submit-record`가 v1 ledger를 receipt-first/ledger-CAS 순서로 v2 journal로 lazy migration한 뒤 v2 제출·재전송·best·terminal receipt를 사용하게 했다. v2 개인 최고 기록 snapshot, 예약 해제·이전 precheck를 연결했고 endpoint 대역의 v1→v2 전환 후 130 terminal 제출 및 기존 제출/이전·Module shim 회귀를 통과했다. retention cleanup·삭제 응답 유실·제출/정리/이전 경합은 Step 3-3에 남는다.
+
+Step 3 완료 — 2026-10-06. receipt journal shard/locator와 v1→v2 lazy migration·v2 제출 경로를 연결했고, 제한된 opportunistic cleanup을 구현했다. shard/manifest CAS 성공 뒤 locator를 조건부 삭제하며 응답 유실은 manifest cleanup 상태로 재개한다. 로컬 대역에서 130 terminal 제출, 180일 만료·삭제 응답 유실·cleanup/append CAS 경합 재시도·payload 충돌·v2 pending 이전 차단/terminal 해제 및 기존 Module shim 회귀를 통과했다. Unity·게시·원격 서비스·Scene 검증은 아직 시작하지 않았다.
+
+Step 4 완료 — 2026-10-06. Local Save v7에 Pending 생성 시각을 영속화하고 v6 이하 파일의 최초 load migration, 180일 save-first 만료 제거와 retry 전 `SubmissionExpired` 진단을 구현했다. 사용자가 Unity Script Compilation 성공·예상 밖 Error/Warning 없음 및 EditMode 889/889 성공·예상 밖 Test Error/Warning 없음을 확인했다. Step 9-C의 실제 복제 저장/화면 확인은 별도다.
+
+Step 5 완료 — 2026-10-07. `query-records`를 TOP 10 offset API·AROUND YOU player range API·ME player score API로 전환해 100건 전체 조회/로컬 전역 rank 재계산을 제거했다. rank/metadata/본인 행/매핑 불일치는 Error로 처리하고 Client 기본 요청도 10/7로 맞췄다. 로컬 대역의 range/global rank 및 기존 제출/이전/embedded Module shim 회귀와 정적 Unity preflight를 통과했다. Unity·게시·원격 서비스·Scene 검증은 아직 시작하지 않았다.
+
+Step 6 완료 — 2026-10-07. 실제 endpoint/Module shim 기반 로컬 대역에서 127·128·129·256 제출 및 0·1·7·10·99·100·101·201행 서비스 total의 TOP 10 고정 요청을 보강해 통과했다. Cloud Save/Leaderboard adapter·Local Save·C# source preflight 정적 검사를 통과했고, `flow-state-phase3-new`과 분리 Local Save 경로 및 Step 9의 정확한 검증 창/버튼 순서를 확정했다. 이는 Unity 컴파일/Test Runner·Module 게시·원격 UGS·Scene/UI 실행 결과가 아니며, 해당 검증은 Step 7~9에 남는다.
+
+Step 7-1 완료 — 2026-10-07. Unity source preflight와 verification 도구 정적 계약을 다시 통과했고, 변경/신규 C# 10개와 준비된 EditMode 183·PlayMode 23 사례의 정적 경계를 확인했다. Step 7-2의 Unity Script Compilation 및 전체 Test Runner 실행은 사용자 작업으로 대기한다.
+
+Step 7 완료 — 2026-10-07. 사용자가 Unity Script Compilation 성공·예상 밖 Error/Warning 없음, EditMode 890/890 성공·예상 밖 Test Error/Warning 없음, PlayMode 254/254 성공·예상 밖 Test Error/Warning 없음을 확인했다. Step 7-1의 183/23은 관련 소스 사례의 정적 집계이고, 이 실제 전체 Test Runner 실행 수량과 구분한다.
+
+Step 8-1 완료 — 2026-10-07. `FlowStateVerification.ccmr`의 단일 C# Module manifest, 9 endpoint 계약 및 Phase 3 adapter/Module shim 로컬 대역 계약을 확인했다. 원격 source/검증 자료 백업, 대상 Dashboard 확인, Module 빌드·게시와 실제 호출은 사용자 Step 8-2~8-3으로 대기한다.
+
+Step 8-2 완료 — 2026-10-07. Dashboard C# Module은 API Spec만 내려받을 수 있고 source/revision-to-source 대응을 제공하지 않는다. A Local Save는 보관됐고 Legacy Local Save·기존 verification 계정은 없다. Git `b2953d9`의 Module/.ccmr/embedded Cloud Code 44파일을 `Ignore/StepPhase3/Before` rollback archive로 보관했다. 현재 원격 활성 Module과의 정확한 일치는 확인할 수 없다는 한계를 사용자가 인지하고, 이 archive를 verification 게시의 최선의 복구 자료로 수용했다. Step 8-3 Module 빌드·Deploy Selected 결과를 기다린다.
+
+Step 8 완료 — 2026-10-07. 사용자가 `FlowStateVerification` Module 빌드·Deploy Selected 성공, 게시 시각 Oct 7, 2026, 3:01 PM 및 대상 `Unity_Flow_State / verification` 일치를 보고했다. Dashboard에는 별도 version 정보가 없다. Git `b2953d9` rollback 후보는 원격 활성 source와 동일함을 증명하지 않는 최선의 복구 자료이며, 실제 endpoint/UI 검증은 Step 9에서 수행한다.
+
+Step 9 준비 — 2026-10-07. verification 계정/Legacy Local Save가 없어 기존 자료 보존 비교는 N/A로 분리했다. 새 `flow-state-phase3-new` 계정의 첫 제출·재시작 보존과 Offline Pending/Stage·Infinite 조회/UI 조작을 사용자 Step 9-1·9-3으로 준비했다. fake-clock 만료 UI와 Scene 변경은 제공하지 않으며, 180일 경계는 자동 Test 근거로 유지한다.
+
+Step 9-1 인증 수정 — 2026-10-07. 첫 `ConfirmConsent`가 `UnsupportedProfile`로 SDK 초기화 전 fail-closed 된 것을 확인했다. `flow-state-phase3-new`을 Client 인증 gateway의 허용 Profile 목록과 정적 계약에 추가했으며, Module 재게시·원격 데이터 변경·Scene 작업은 필요 없다. 정적 검증은 통과했고 이 Client 변경의 Unity 컴파일 및 전체 Test Runner 회귀를 사용자 Step 7-3으로 대기한다.
+
+Step 7-3 완료 — 2026-10-07. 사용자가 Phase3New 인증 허용 목록 변경 뒤 Unity Script Compilation 성공·예상 밖 Error/Warning 없음, EditMode 890/890 성공·예상 밖 Test Error/Warning 없음, PlayMode 254/254 성공·예상 밖 Test Error/Warning 없음을 확인했다. Module 재게시 없이 Step 9-1을 새 Editor 세션에서 재개한다.
+
+Step 9-1 상태 조회 timeout — 2026-10-07. Phase3New의 인증은 388ms에 완료했으나 첫 `GetAccountTransferStatus`가 client 5초 제한(5,052ms)에서 timeout 됐다. server timing이 없어 계정 상태를 추정하지 않고, 제출/초기화/자동 재시도 없이 사용자가 같은 계정 패널에서 `RefreshStatus` 한 번으로 명시 재조회를 수행하도록 한다.
+
+Phase 3 완료 — 2026-10-07. Step 1~10을 완료했다. 새 Phase3New 계정의 서버 행 생성·재시작 후 보존, 오프라인 Pending 보존·명시 재전송, Stage/Infinite의 TOP·AROUND YOU·Retry 재조회 및 Back 동작을 실서비스에서 확인했다. TOP 10행·AROUND YOU 7행의 최대 표시에서도 Retry/Pending Retry/Back과 겹치지 않도록 Scene 레이아웃을 조정하고 수동 확인했다. 마지막 Scene 변경 뒤 최신 Unity Script Compilation은 성공했고 예상 밖 Error/Warning이 없었으며, EditMode 890/890과 PlayMode 254/254도 모두 성공했다. Legacy Local Save와 기존 verification 계정이 없어 실제 migration 전/후 비교는 N/A로 남긴다. Dashboard에서 C# Module 원본을 내려받을 수 없어 git 이력과 API Spec을 복구 자료로 수용했으나, 원격 원본과의 정확한 rollback 대조는 검증하지 못했다. Production 배포·운영 복구 훈련은 Phase 4, Windows Player Build 검증은 Phase 5 범위다.
 
 ## Phase 4. 운영 환경·배포·복구 준비
+
+실행 계획: [20261007_09_Phase4ManualSteps.md](../90_Tasks/Prototype_8/20261007_09_Phase4ManualSteps.md). Production ID·권한·Secret·로그 sink의 실제 값은 계획 문서에 추정해 넣지 않으며, 정적 검사·Unit Test와 사용자 수동 설정/확인 근거를 분리한다.
 
 ### 목표
 
@@ -180,9 +214,11 @@ Pending의 Local Save 보존, 재시작 후 동일 제출 ID 복원, Submitted/R
 
 ## 진행 중인 작업
 
-Prototype 8 Phase 1 및 Phase 2 Step 1~5의 로컬 서버 구현/검증, Step 6-1~6-5의 Client 코드/Test 작성·정적 검증은 완료했다. 2026-10-04 최신 사용자 Unity 컴파일 성공·Edit Mode 850/850·Play Mode 242/242 통과 및 각 단계의 예상 밖 Error/Warning 없음과 Scene 연결·영어 label 반영/AI 읽기 전용 대조를 근거로 Step 7·8도 완료했다. 신규 작성 사례 Edit 121/Play 8은 사용자 전체 실행 수와 구분한다. Step 9~12의 verification 적용·실서비스·화면·최종 승인 및 Phase 2 전체는 미완료이며 상세 근거는 Phase 2 Task에서 관리한다.
+Prototype 8 Phase 1과 Phase 2는 완료했다. Phase 2는 Step 1~11의 로컬·Unity·verification 근거 및 Step 12의 실제 Cloud Save 저장 경계 20복구·경합 2사례를 대조했으며, 임시 Key 폐기·Cloud Save Editor 역할 회수·검사용 계정 삭제의 사용자 완료 보고까지 기록했다. 단일 실행 전체 PASS, 전체 transaction, 무제한 서비스 장애 보장 및 Production 승인을 주장하지 않는다. 다음 구현 작업은 Phase 3 Step 1이며 상세 근거는 각 Phase Task에서 관리한다.
 
 ## 다음 작업
+
+2026-10-06 사용자 보고로 Phase 2 검사에만 사용한 임시 Service Account Key 폐기, `Unity_Flow_State / Cloud Save Editor` 역할 회수, 검사용 계정 삭제를 확인했다. 이에 따라 Step 12와 Phase 2를 최종 완료로 갱신했다. 이 종료 처리는 verification 검증 자료나 Production 승인 상태를 변경하지 않는다.
 
 2026-10-06 Remaining 실제PASS로 AFTER10·경합2사례까지 확보해 기술 검증 범위는 통과했다. 다음은 **사용자 임시 Key 폐기 / Unity_Flow_State의 Cloud Save Editor 역할 회수 완료 보고**뿐이다. 이전 검사·UnityTest/Build/Scene/Module 적용을 반복하지 않는다. 보고 후 Step12/Phase2 최종 완료 상태를 갱신한다. 실제두실행의20복구/경합2와 기존Module/UI/Unity909/257를 함께 사용하며 관리자 저장 도구를 Module/Jint 실행 근거로 혼동하지 않는다.
 

@@ -134,18 +134,22 @@ namespace FlowState.Tests.EditMode
             Assert.That(VerificationSessionConfiguration.CanExecuteRemote(true, false, false, true, OnlineRecordConfiguration.ProjectId, true), Is.True);
         }
         [Test]
-        public void ABAndLegacy_AreSeparatePathsAndProfiles_WithoutFilesystemWrites()
+        public void VerificationSessions_AreSeparatePathsAndProfiles_WithoutFilesystemWrites()
         {
             VerificationSessionConfiguration a = new VerificationSessionConfiguration("isolated-root", E_VerificationSession.A);
             VerificationSessionConfiguration b = new VerificationSessionConfiguration("isolated-root", E_VerificationSession.B);
             VerificationSessionConfiguration legacy = new VerificationSessionConfiguration("isolated-root", E_VerificationSession.Legacy);
+            VerificationSessionConfiguration phase3New = new VerificationSessionConfiguration("isolated-root", E_VerificationSession.Phase3New);
             Assert.That(a.SavePath, Is.Not.EqualTo(b.SavePath)); Assert.That(a.Profile, Is.Not.EqualTo(b.Profile));
             Assert.That(legacy.SavePath, Is.Not.EqualTo(a.SavePath)); Assert.That(legacy.Profile, Is.EqualTo("flow-state-verification"));
+            Assert.That(phase3New.SavePath, Is.Not.EqualTo(a.SavePath));
+            Assert.That(phase3New.Profile, Is.EqualTo("flow-state-phase3-new"));
             Assert.That(a.SavePath, Does.Contain("Prototype8Verification"));
         }
         [TestCase("A", E_VerificationSession.A)]
         [TestCase("B", E_VerificationSession.B)]
         [TestCase("Legacy", E_VerificationSession.Legacy)]
+        [TestCase("Phase3New", E_VerificationSession.Phase3New)]
         public void ExplicitLaunchArgument_SelectsSameConfigurationAsTool(string argument, E_VerificationSession session)
         {
             VerificationSessionConfiguration selected = VerificationSessionConfiguration.FromArguments("root", new[] { "program", "--fs-verification-session=" + argument });

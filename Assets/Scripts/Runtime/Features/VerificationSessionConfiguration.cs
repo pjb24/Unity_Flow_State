@@ -2,7 +2,7 @@ using System.IO;
 
 namespace FlowState.Runtime.Features
 {
-    public enum E_VerificationSession { A, B, Legacy }
+    public enum E_VerificationSession { A, B, Legacy, Phase3New }
 
     public sealed class VerificationSessionConfiguration
     {
@@ -24,10 +24,12 @@ namespace FlowState.Runtime.Features
         public string SavePath => Path.Combine(DirectoryPath, "flow-state-save.json");
         public VerificationSessionConfiguration(string persistentPath, E_VerificationSession session)
         {
-            if (session != E_VerificationSession.A && session != E_VerificationSession.B && session != E_VerificationSession.Legacy)
+            if (session != E_VerificationSession.A && session != E_VerificationSession.B &&
+                session != E_VerificationSession.Legacy && session != E_VerificationSession.Phase3New)
                 throw new System.ArgumentOutOfRangeException(nameof(session));
             Session = session;
-            Profile = session == E_VerificationSession.Legacy ? "flow-state-verification" :
+            Profile = session == E_VerificationSession.Phase3New ? "flow-state-phase3-new" :
+                session == E_VerificationSession.Legacy ? "flow-state-verification" :
                 session == E_VerificationSession.A ? "flow-state-phase2-a" : "flow-state-phase2-b";
             DirectoryPath = Path.Combine(persistentPath, "Prototype8Verification", session.ToString());
         }
@@ -49,8 +51,9 @@ namespace FlowState.Runtime.Features
                 if (argument == null || !argument.StartsWith(prefix, System.StringComparison.Ordinal)) continue;
                 if (selected != null) throw new System.InvalidOperationException("Duplicate verification session.");
                 string value = argument.Substring(prefix.Length);
-                if (value != "A" && value != "B" && value != "Legacy") throw new System.InvalidOperationException("Invalid verification session.");
-                E_VerificationSession session = value == "Legacy" ? E_VerificationSession.Legacy :
+                if (value != "A" && value != "B" && value != "Legacy" && value != "Phase3New") throw new System.InvalidOperationException("Invalid verification session.");
+                E_VerificationSession session = value == "Phase3New" ? E_VerificationSession.Phase3New :
+                    value == "Legacy" ? E_VerificationSession.Legacy :
                     value == "A" ? E_VerificationSession.A : E_VerificationSession.B;
                 selected = new VerificationSessionConfiguration(persistentPath, session);
             }

@@ -66,6 +66,7 @@ namespace FlowState.Runtime.Features
             public int collectibleScore;
             public int totalScore;
             public double maximumMomentumMultiplier;
+            public long createdAtMilliseconds;
         }
 
         public static string Serialize(LocalSaveData saveData)
@@ -139,7 +140,7 @@ namespace FlowState.Runtime.Features
                     ReadCandidates(file.personalBests),
                     file.version >= 2 ? new OnlineAccountState(file.recoveryNoticeConfirmed,
                         file.onlinePlayerId, file.publicPlayerNumber) : new OnlineAccountState(),
-                    ReadPendingCandidates(file.pendingSubmissions), scope, areas, file.version < 6);
+                    ReadPendingCandidates(file.pendingSubmissions), scope, areas, file.version < 7);
                 return true;
             }
             catch (Exception)
@@ -193,7 +194,19 @@ namespace FlowState.Runtime.Features
                 for (int j = 0; j < i; j++)
                     if (result[i].PlayerId == result[j].PlayerId && result[i].SubmissionId == result[j].SubmissionId)
                         throw new FormatException("Duplicate Pending.");
+            long migratedAt = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            for (int i = 0; i < result.Count; i++)
+                if (result[i].CreatedAtMilliseconds <= 0)
+                    result[i] = CopyWithCreatedAt(result[i], migratedAt);
             return result;
+        }
+
+        private static RecordSubmissionCandidate CopyWithCreatedAt(RecordSubmissionCandidate value, long createdAt)
+        {
+            return new RecordSubmissionCandidate(value.PlayerId, value.SubmissionId, value.BoardKey,
+                value.RankingValue, value.RunDurationMilliseconds, value.BaseDistanceScore,
+                value.MomentumBonus, value.DistanceScore, value.CollectibleScore, value.TotalScore,
+                value.MaximumMomentumMultiplier, createdAt);
         }
 
         private static BindingFile[] CreateBindings(LocalSettingsData settings)
@@ -244,7 +257,8 @@ namespace FlowState.Runtime.Features
                     distanceScore = candidate.DistanceScore,
                     collectibleScore = candidate.CollectibleScore,
                     totalScore = candidate.TotalScore,
-                    maximumMomentumMultiplier = candidate.MaximumMomentumMultiplier
+                    maximumMomentumMultiplier = candidate.MaximumMomentumMultiplier,
+                    createdAtMilliseconds = candidate.CreatedAtMilliseconds
                 };
             }
 
@@ -326,7 +340,7 @@ namespace FlowState.Runtime.Features
                     file.distanceScore,
                     file.collectibleScore,
                     file.totalScore,
-                    file.maximumMomentumMultiplier));
+                    file.maximumMomentumMultiplier, file.createdAtMilliseconds));
             }
 
             return candidates;

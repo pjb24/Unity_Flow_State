@@ -4,7 +4,7 @@ namespace FlowState.Runtime.Features
 {
     public sealed class LocalSaveData
     {
-        public const int CurrentVersion = 6;
+        public const int CurrentVersion = 7;
         public OnlineAccountState OnlineAccount { get; }
         public OnlineDataScope OnlineScope { get; }
         public IReadOnlyList<OnlineLocalSaveData> InactiveOnlineAreas { get; }

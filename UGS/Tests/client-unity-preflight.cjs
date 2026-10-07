@@ -30,11 +30,19 @@ for (const name of ["Unity.Services.Core", "Unity.Services.Core.Environments", "
   assert.ok(features.references.includes(name), name);
 for (const test of [edit, play]) { assert.ok(test.references.includes(features.name)); assert.ok(test.optionalUnityReferences.includes("TestAssemblies")); }
 assert.ok(edit.includePlatforms.includes("Editor")); assert.ok(play.references.includes("Unity.TextMeshPro"));
-const setup = read("Assets/Tests/PlayMode/PlayModeRecordIsolationTests.cs"), game = read("Assets/Scripts/Runtime/Systems/GameSystem.cs");
+const setup = read("Assets/Tests/PlayMode/PlayModeRecordIsolationTests.cs"), game = read("Assets/Scripts/Runtime/Systems/GameSystem.cs"), records = read("Assets/Scripts/Runtime/Features/IOnlineRecordRepository.cs");
 assert.ok(setup.includes("[SetUpFixture]")); assert.ok(setup.includes("IsolationField.SetValue(null, true)")); assert.ok(setup.includes("IsolationField.SetValue(null, false)"));
 assert.ok(game.includes("? new TestMemorySaveFileStore()"));
 assert.ok(game.indexOf("if (UseIsolatedRecordsForPlayModeTests || VerificationSessionConfiguration.IsEditorIsolationArmed)") >= 0);
 assert.ok(game.indexOf("if (UseIsolatedRecordsForPlayModeTests || VerificationSessionConfiguration.IsEditorIsolationArmed)") < game.indexOf("IOnlineAuthenticationGateway authentication ="));
+assert.ok(records.includes("GetTopAsync(RecordBoardKey boardKey, int limit = 10)"));
+assert.ok(records.includes("GetAroundAsync(RecordBoardKey boardKey, int limit = 7)"));
+assert.ok(game.includes("_onlineRepository.GetTopAsync(key, 10)"));
+assert.ok(game.includes("_onlineRepository.GetAroundAsync(key, 7)"));
+const leaderboardUi = read("Assets/Scripts/Runtime/Systems/UIManagementSystem.cs");
+assert.ok(leaderboardUi.includes("private static string SafeQueryDiagnostic(OnlineLeaderboardResult result)"));
+assert.ok(leaderboardUi.includes("case \"ReadLeaderboard\": phase = \"Read leaderboard\""));
+assert.ok(leaderboardUi.includes("case \"MissingServerMetadata\": return \"Leaderboard metadata unavailable\""));
 const newEdit = ["OnlineLocalSaveScopeTests", "OnlineAccountCoordinatorTests", "AccountTransferCompletionTests", "AccountTransferControllerTests", "VerificationSessionTests", "CloudCodeModuleRoutingTests"];
 const newPlay = ["AccountTransferUIIsolationTests", "VerificationToolIsolationTests"];
 let editCount = 0, playCount = 0;
@@ -46,5 +54,5 @@ for (const [folder, names] of [["EditMode", newEdit], ["PlayMode", newPlay]])
     if (folder === "EditMode") editCount += count; else playCount += count;
     console.log(`PREPARED / ${folder} / ${name} / ${count} source cases (NOT EXECUTED)`);
   }
-assert.equal(editCount, 180); assert.equal(playCount, 23);
+assert.equal(editCount, 183); assert.equal(playCount, 23);
 console.log(`PASS Unity preflight: ${changed.length} changed/new C# files, meta GUIDs, source delimiters, asmdefs, isolated setup; Edit ${editCount}/Play ${playCount} prepared. NO compile/Test Runner/Scene/build/remote execution.`);

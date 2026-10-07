@@ -61,12 +61,12 @@ namespace FlowState.Runtime.Features
             return new OnlineSubmissionResult(E_RecordSubmissionResult.TransientFailure);
         }
 
-        public Task<OnlineLeaderboardResult> GetTopAsync(RecordBoardKey boardKey, int limit = 20)
+        public Task<OnlineLeaderboardResult> GetTopAsync(RecordBoardKey boardKey, int limit = 10)
         {
             return QueryAsync(boardKey, "top", limit);
         }
 
-        public Task<OnlineLeaderboardResult> GetAroundAsync(RecordBoardKey boardKey, int limit = 20)
+        public Task<OnlineLeaderboardResult> GetAroundAsync(RecordBoardKey boardKey, int limit = 7)
         {
             return QueryAsync(boardKey, "around", limit);
         }

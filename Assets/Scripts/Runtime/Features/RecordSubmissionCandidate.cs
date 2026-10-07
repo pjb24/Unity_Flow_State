@@ -27,6 +27,7 @@ namespace FlowState.Runtime.Features
         public int TotalScore { get; }
 
         public double MaximumMomentumMultiplier { get; }
+        public long CreatedAtMilliseconds { get; }
 
         internal RecordSubmissionCandidate(
             string playerId,
@@ -39,7 +40,7 @@ namespace FlowState.Runtime.Features
             int distanceScore,
             int collectibleScore,
             int totalScore,
-            double maximumMomentumMultiplier)
+            double maximumMomentumMultiplier, long createdAtMilliseconds = 0)
         {
             PlayerId = playerId;
             SubmissionId = submissionId;
@@ -53,6 +54,7 @@ namespace FlowState.Runtime.Features
             CollectibleScore = collectibleScore;
             TotalScore = totalScore;
             MaximumMomentumMultiplier = maximumMomentumMultiplier;
+            CreatedAtMilliseconds = createdAtMilliseconds;
         }
     }
 }

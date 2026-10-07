@@ -680,7 +680,11 @@ namespace FlowState.Editor
         {
             if (!CanRunPhase2() || _account == null || _busy || _screen != null && _screen.IsBusy) return;
             _busy = true;
-            _guard.BeginOperation();
+            // Submission probes include bounded retry backoff and before/after
+            // reads, so use their advertised finite 60-second total budget.
+            _guard.BeginOperation(probe == 2 || probe == 5
+                ? VerificationRemoteGuard.MaximumVerificationOperationTimeoutMilliseconds
+                : VerificationRemoteGuard.OperationTimeoutMilliseconds);
             try
             {
                 if (probe == 8)

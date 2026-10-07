@@ -25,26 +25,39 @@ function createRecordQueryService(store, boards, provisionLegacyRow) {
     let p;
     try { p = JSON.parse(params.request); } catch (_) { return fail("InvalidRequest"); }
     if (!p || ![stage, infinite].includes(p.boardId) || !["top", "around", "me"].includes(p.kind) ||
-        !Number.isInteger(p.limit) || p.limit < 1 || p.limit > 20) return fail("InvalidQuery");
+        !Number.isInteger(p.limit) || p.limit < 1 || p.limit > (p.kind === "top" ? 10 : p.kind === "around" ? 7 : 20)) return fail("InvalidQuery");
     let queryPhase = "ResolveAccount";
     try {
       const initial = (await accounts.resolve(context)).account.value;
       queryPhase = "ReadPublicNumber";
       await accounts.getPublicNumber(context);
       queryPhase = "ReadLeaderboard";
-      const response = await boards.getLeaderboardScores(project, p.boardId, 0, 100,
-        { params: { includeMetadata: true } });
+      let response;
+      try {
+        response = p.kind === "top" ? await boards.getLeaderboardScores(project, p.boardId, 0, 10,
+          { params: { includeMetadata: true } }) : p.kind === "around" ?
+          await boards.getLeaderboardPlayerRange(project, p.boardId, initial.leaderboardOwnerId,
+            { params: { rangeLimit: 3, includeMetadata: true } }) :
+          await boards.getLeaderboardPlayerScore(project, p.boardId, initial.leaderboardOwnerId,
+            { params: { includeMetadata: true } });
+      } catch (error) {
+        if (p.kind === "me" && error && error.response && error.response.status === 404)
+          return { status: "Success", reason: "", entries: [] };
+        throw error;
+      }
       const data = response.data;
-      if (!Number.isInteger(data.total) || data.total < 0 || data.total > 100 ||
-          !Array.isArray(data.results) || data.results.length !== data.total)
-        return fail("VerificationBoardCapacity");
+      const rows = Array.isArray(data.results) ? data.results : p.kind === "me" ? [data] : null;
+      if (!rows || rows.length > (p.kind === "top" ? 10 : p.kind === "around" ? 7 : 1)) return fail("InvalidLeaderboardPage");
       queryPhase = "ResolvePublicRows";
       const entries = [];
       const seenOwners = new Set(); const seenNumbers = new Set();
-      for (const row of data.results) {
+      for (const row of rows) {
         if (typeof row.playerId !== "string" || !row.playerId || seenOwners.has(row.playerId) ||
             !Number.isSafeInteger(row.score) || row.score < 0 || !row.metadata ||
-            !Number.isSafeInteger(row.metadata.acceptedAt) || row.metadata.acceptedAt <= 0)
+            !Number.isSafeInteger(row.metadata.acceptedAt) || row.metadata.acceptedAt <= 0 ||
+            // Leaderboards ranks are zero-based at the service boundary.
+            // Public UI/contract ranks are one-based competition ranks.
+            !Number.isInteger(row.rank) || row.rank < 0)
           return fail("MissingServerMetadata");
         seenOwners.add(row.playerId);
         queryPhase = "ReadOwnerMapping";
@@ -87,22 +100,13 @@ function createRecordQueryService(store, boards, provisionLegacyRow) {
         if (!numberMapping || numberMapping.value.accountId !== account.value.accountId) throw fault("AccountConflict");
         seenNumbers.add(number);
         entries.push({ publicPlayerNumber: number, isMe: account.value.accountId === initial.accountId,
-          score: row.score, acceptedAt: row.metadata.acceptedAt, rank: 0 });
+          score: row.score, acceptedAt: row.metadata.acceptedAt, rank: row.rank + 1 });
       }
       queryPhase = "SortPublicRows";
-      entries.sort((a, b) => (p.boardId === stage ? a.score - b.score : b.score - a.score) ||
-        a.acceptedAt - b.acceptedAt || (a.publicPlayerNumber < b.publicPlayerNumber ? -1 :
+      entries.sort((a, b) => a.rank - b.rank || a.acceptedAt - b.acceptedAt || (a.publicPlayerNumber < b.publicPlayerNumber ? -1 :
           a.publicPlayerNumber > b.publicPlayerNumber ? 1 : 0));
-      for (let i = 0; i < entries.length; i++)
-        entries[i].rank = i > 0 && entries[i].score === entries[i - 1].score ? entries[i - 1].rank : i + 1;
-      const me = entries.findIndex(e => e.isMe);
-      let selected;
-      if (p.kind === "top") selected = entries.slice(0, p.limit);
-      else if (p.kind === "me") selected = me < 0 ? [] : [entries[me]];
-      else {
-        const start = Math.max(0, Math.min(me - Math.floor(p.limit / 2), entries.length - p.limit));
-        selected = me < 0 ? [] : entries.slice(start, start + p.limit);
-      }
+      if (p.kind === "around" && !entries.some(entry => entry.isMe)) return fail("MissingServerMetadata");
+      const selected = entries.slice(0, p.limit);
       queryPhase = "RecheckAccount";
       const current = (await accounts.resolve(context)).account.value;
       if (current.accountId !== initial.accountId || current.connectionRevision !== initial.connectionRevision ||

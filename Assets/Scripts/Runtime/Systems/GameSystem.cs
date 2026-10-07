@@ -980,7 +980,10 @@ namespace FlowState.Runtime.Systems
                 ? RecordBoardKey.TryCreateStage("stage-001", 1, out key)
                 : RecordBoardKey.TryCreateInfinite(2, out key);
             if (!hasKey) return new OnlineLeaderboardResult { status = "TransientFailure", reason = "InvalidQuery" };
-            return isTop ? await _onlineRepository.GetTopAsync(key) : await _onlineRepository.GetAroundAsync(key);
+            // Keep the runtime call contract explicit: optional interface
+            // arguments are embedded at the call site by the C# compiler.
+            return isTop ? await _onlineRepository.GetTopAsync(key, 10) :
+                await _onlineRepository.GetAroundAsync(key, 7);
         }
 
         private void ApplyLeaderboardPresentation()

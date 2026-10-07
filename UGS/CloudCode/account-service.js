@@ -67,10 +67,11 @@ function createAccountService(store, clock = Date.now) {
       const ledger = await store.read("ledger", account.value.accountId);
       if (!ledger) throw fault("LedgerUnavailable");
       validateScope(ledger.value);
-      if (ledger.value.accountId !== account.value.accountId || ledger.value.active !== "" ||
-          !Array.isArray(ledger.value.entries)) throw fault("LedgerConflict");
-      const terminal = ledger.value.entries.find(entry => entry.id === operation.id);
-      if (!terminal || !["Submitted", "Rejected"].includes(terminal.status)) throw fault("SubmissionNotTerminal");
+      if (ledger.value.accountId !== account.value.accountId || ledger.value.active !== "") throw fault("LedgerConflict");
+      if (ledger.value.version === 1) {
+        const terminal = Array.isArray(ledger.value.entries) && ledger.value.entries.find(entry => entry.id === operation.id);
+        if (!terminal || !["Submitted", "Rejected"].includes(terminal.status)) throw fault("SubmissionNotTerminal");
+      } else if (ledger.value.version !== 2 || ledger.value.pending !== null) throw fault("SubmissionNotTerminal");
       await store.compareExchange(account, { ...account.value, onlineOperation: null });
       return "Released";
     },
@@ -80,9 +81,10 @@ function createAccountService(store, clock = Date.now) {
       if (!ledger) throw fault("LedgerUnavailable");
       validateScope(ledger.value);
       if (ledger.value.accountId !== account.value.accountId || typeof ledger.value.active !== "string" ||
-          !Array.isArray(ledger.value.entries))
+          ![1, 2].includes(ledger.value.version))
         throw fault("LedgerConflict");
-      const hasPending = !!ledger.value.active || ledger.value.entries.some(entry => entry.status === "Pending");
+      const hasPending = !!ledger.value.active || (ledger.value.version === 1 ?
+        !Array.isArray(ledger.value.entries) || ledger.value.entries.some(entry => entry.status === "Pending") : ledger.value.pending !== null);
       if (!connection.canBeginTransfer(account.value, binding.value, context.playerId, hasPending))
         throw fault("AccountBusy");
       // Step 3 must CAS this exact Account token into TransferPending. A precheck

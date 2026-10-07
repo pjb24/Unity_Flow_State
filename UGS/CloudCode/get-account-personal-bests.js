@@ -14,8 +14,9 @@ function createPersonalBestSnapshotService(store) {
       if (!ledger) throw fault("LedgerUnavailable");
       validateScope(ledger.value);
       const value = ledger.value;
-      if (value.accountId !== initial.accountId || value.version !== 1 || value.active !== "" ||
-          !Array.isArray(value.entries) || value.entries.some(e => e.status === "Pending") ||
+      const pending = value.version === 1 ? Array.isArray(value.entries) && value.entries.some(e => e.status === "Pending") :
+        value.version === 2 && value.pending !== null;
+      if (value.accountId !== initial.accountId || ![1, 2].includes(value.version) || value.active !== "" || pending ||
           initial.onlineOperation || !value.best || Array.isArray(value.best) || typeof value.best !== "object")
         throw fault("LedgerConflict");
       const personalBests = [];

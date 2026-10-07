@@ -38,6 +38,7 @@ Leaderboard
 - 네트워크 상태가 `NotReachable`이면 Offline으로 표시한다. Timeout·인증·서비스 실패 등은 Error로 표시하고 확인 가능한 원인과 안전한 오류 코드를 제공한다. 확인되지 않은 원인은 추측하지 않는다.
 - 실패한 조회를 다시 요청하는 Retry는 제출 Retry와 구분한다. 원본 예외·token·secret·전체 내부 Player ID는 오류 화면에 노출하지 않는다.
 - 상위·내 주변의 한 조회 응답은 스냅샷으로 유지한다. 최초 진입, 명시적 Retry·새로고침 또는 Leaderboard 재진입 때만 새 조회를 시작하며, 타이머·제출 완료만으로 자동 새로고침하지 않는다.
+- 조회 중 페이지 누락·중복, rank 또는 total 불일치, 공개 번호 매핑 실패가 확인되면 부분 목록을 Success 또는 Empty로 표시하지 않고 해당 영역을 Error로 처리한다.
 - 별도 `Retry Pending (N)`은 현재 Run에 한정되지 않고 Local Save에 남은 같은 계정의 Pending 후보 N건을 새 플레이 없이 재전송한다. 조회 Retry와 이름·요청 경로를 분리하고 Keyboard·Mouse로 사용할 수 있게 한다. N=0이면 Button을 숨기고 Navigation 선택 목록에서 제외한다. 이때 조회 Retry와 Back을 직접 연결하며, 사라지는 Pending Button에 포커스가 있으면 조회 Retry로 옮긴다. N>0이면 조회 Retry → Pending Retry → Back 순서로 연결한다. 실행 중·완료 후 제출·거절·남은 Pending 건수를 안전한 상태 Text로 표시한다.
 - Stage 시간은 정수 밀리초 기준 `12.345 s`, Infinite 점수는 천 단위 구분 정수 `12,345`로 표시한다.
 - 공개 번호가 발급된 계정과 행 식별자는 전체 10자리 공개 번호로 표시한다. 본인 행에는 `<공개 번호> (You)`를 표시하며, 표시 문자열 대신 활성 Player ID 연결로 본인 여부를 판정한다.

@@ -65,6 +65,66 @@ test("bundled actual submit/query endpoints use fixed owner and safe public fiel
   assert.ok(f.scores.has(`${stage}/${f.account().leaderboardOwnerId}`));
   assert.ok(!f.scores.has(`${stage}/A`));
 });
+test("around query uses the player-range API and preserves its global rank", async () => {
+  const f = await configured(); await f.submit(); let ranged = 0;
+  const range = f.leaderboard.getLeaderboardPlayerRange;
+  f.leaderboard.getLeaderboardPlayerRange = async (...args) => { ranged++; return range(...args); };
+  const result = await f.query({ boardId: stage, kind: "around", limit: 7 });
+  assert.equal(result.status, "Success"); assert.equal(ranged, 1);
+  assert.equal(result.entries[0].rank, 1); assert.equal(result.entries[0].isMe, true);
+});
+test("zero-based service rank is normalized to the one-based public rank", async () => {
+  const f = await configured(); await f.submit(); const original = f.leaderboard.getLeaderboardScores;
+  f.leaderboard.getLeaderboardScores = async (...args) => {
+    const response = await original(...args);
+    response.data.results[0].rank = 0;
+    return response;
+  };
+  const result = await f.query({ boardId: stage, kind: "top", limit: 10 });
+  assert.equal(result.status, "Success"); assert.equal(result.entries[0].rank, 1);
+});
+test("actual submit endpoint provisions a new authenticated account before its first valid submission", async () => {
+  const f = fixture(), submit = loadEndpoint("submit-record", f);
+  const fresh = { ...f.context, playerId: "fresh-submit" };
+  assert.equal(await createAccountStore(fresh, f.save).read("player", fresh.playerId), null);
+  assert.equal((await invoke(submit, request(), fresh)).status, "Submitted");
+  const store = createAccountStore(fresh, f.save), binding = await store.read("player", fresh.playerId);
+  assert.ok(binding); assert.ok(await store.read("ledger", binding.value.accountId));
+  const writes = f.state.writes;
+  assert.equal((await submit({ params: { request: "{" }, context: { ...f.context, playerId: "malformed-submit" } })).reason, "InvalidRequest");
+  assert.equal(f.state.writes, writes, "malformed requests do not provision an account");
+});
+test("actual endpoint lazy-migrates the v1 ledger then accepts 127/128/129/256 terminal submissions", async () => {
+  const f = fixture(), submit = loadEndpoint("submit-record", f), fresh = { ...f.context, playerId: "v2-capacity" };
+  for (let n = 1; n <= 256; n++) {
+    assert.equal((await invoke(submit, request(n), fresh)).status, "Submitted", String(n));
+    if ([127, 128, 129, 256].includes(n)) {
+      const storeAtBoundary = createAccountStore(fresh, f.save);
+      const bindingAtBoundary = await storeAtBoundary.read("player", fresh.playerId);
+      const ledgerAtBoundary = await storeAtBoundary.read("ledger", bindingAtBoundary.value.accountId);
+      assert.equal(ledgerAtBoundary.value.version, 2, `v2 ledger at ${n}`);
+    }
+  }
+  const store = createAccountStore(fresh, f.save), binding = await store.read("player", fresh.playerId);
+  const ledger = await store.read("ledger", binding.value.accountId);
+  assert.equal(ledger.value.version, 2); assert.equal(ledger.value.pending, null); assert.equal(ledger.value.active, "");
+});
+test("top query remains bounded at ten rows for 0/1/7/10/99/100/101/201 service totals", async () => {
+  const f = await configured(); await f.submit();
+  const original = f.leaderboard.getLeaderboardScores;
+  for (const total of [0, 1, 7, 10, 99, 100, 101, 201]) {
+    let receivedLimit = 0;
+    f.leaderboard.getLeaderboardScores = async (...args) => {
+      receivedLimit = args[3];
+      const response = await original(...args);
+      return { data: { total, results: total === 0 ? [] : response.data.results } };
+    };
+    const result = await f.query({ boardId: stage, kind: "top", limit: 10 });
+    assert.equal(result.status, "Success", String(total));
+    assert.equal(receivedLimit, 10, String(total));
+    assert.equal(result.entries.length, total === 0 ? 0 : 1, String(total));
+  }
+});
 test("B retains the same row, number and timestamp then submits to that row; A is denied", async () => {
   const f = await ready();
   await createTransferLifecycleService(f.store, () => f.now).cancel(f.context, f.c().transfer.transferId);
@@ -130,6 +190,15 @@ test("reserved submission fences transfer until terminal release", async () => {
   };
   assert.equal((await f.submit()).status, "Submitted"); assert.ok(checked);
   assert.equal(f.account().onlineOperation, null);
+  await createAccountService(f.store).assertTransferCanStart(f.context);
+});
+test("v2 pending ledger fences transfer and a terminal v2 ledger releases it", async () => {
+  const f = await configured(), ledger = f.ledger();
+  ledger.version = 2; delete ledger.entries;
+  ledger.pending = { id: id(77), payload: "[]", status: "Pending", acceptedAt: 1 };
+  ledger.active = id(77); ledger.receiptDirectory = { version: 1, buckets: [], cleanup: null };
+  await assert.rejects(createAccountService(f.store).assertTransferCanStart(f.context));
+  ledger.pending = null; ledger.active = "";
   await createAccountService(f.store).assertTransferCanStart(f.context);
 });
 test("all four submission write boundaries recover before/after commit without duplicate receipts", async () => {
@@ -259,7 +328,7 @@ for (const code of [403, 404, 503, "private-response-placeholder"]) {
       error.response = { status: code, data: { token: "private-response-placeholder" } };
       throw error;
     };
-    const result = await f.query(query("me"));
+    const result = await f.query(query("top"));
     assert.equal(result.status, "TransientFailure");
     assert.equal(result.reason, "ServiceUnavailable");
     assert.equal(result.queryPhase, "ReadLeaderboard");
@@ -278,7 +347,7 @@ for (const [kind, phase] of [["owner", "ReadOwnerMapping"], ["account", "ReadRow
       if (boardRead && args[0] === kind) throw Object.assign(new Error("private-error-placeholder"), { reason: "StoredScopeMismatch" });
       return read(...args);
     };
-    const result = await f.query(query("me"));
+    const result = await f.query(query("top"));
     assert.equal(result.queryPhase, phase); assert.equal(result.queryFault, "StoredScopeMismatch");
     assert.equal(result.serviceStatus, 0); assert.equal(result.status, "TransientFailure");
     assert.deepEqual(result.entries, []);
@@ -293,7 +362,7 @@ for (const reason of ["LedgerConflict", "private-error-placeholder"]) {
     const run = createRecordQueryService(f.store, f.leaderboard, async () => {
       throw Object.assign(new Error("private-error-placeholder"), { reason });
     });
-    const result = await invoke(run, query("me"), f.context);
+    const result = await invoke(run, query("top"), f.context);
     assert.equal(result.queryPhase, "ProvisionLegacyRow");
     assert.equal(result.queryFault, reason === "LedgerConflict" ? reason : "Unknown");
     assert.equal(JSON.stringify(result).includes("private-error-placeholder"), false);

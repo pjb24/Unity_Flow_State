@@ -8,7 +8,7 @@ const infinite = "fs-infinite-v2";
 const intMax = 2147483647;
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-function createRecordSubmissionService(store, boards, clock = Date.now) {
+function createRecordSubmissionService(store, boards, clock = Date.now, receipts = null) {
  const accounts = createAccountService(store, clock);
  return async ({ params, context }) => {
   try { validateContext(context); } catch (_) { return reply("TransientFailure", "ContextMismatch"); }
@@ -42,6 +42,14 @@ function createRecordSubmissionService(store, boards, clock = Date.now) {
       return reply(entry.status, entry.reason);
     }
     let item = await store.read("ledger", accountId);
+    if (item && item.value && item.value.version === 1 && receipts) {
+      await require("./lazy-ledger-migration").migrateV1Ledger(store, receipts, item);
+      item = await store.read("ledger", accountId);
+    }
+    if (item && item.value && item.value.version === 2) {
+      if (!receipts) return reply("TransientFailure", "ReceiptStoreUnavailable");
+      return await require("./submit-record-v2").createV2SubmissionService(store, receipts, boards, project, clock, validate, reply)(p, payload, context);
+    }
     // Missing keys cannot safely be initialized with an unconditional write under concurrency.
     if (!validLedger(item, accountId)) return reply("TransientFailure", "LedgerNotProvisioned");
     let ledger = item.value;
@@ -112,11 +120,23 @@ module.exports = async ({ params, context }) => {
   try { validateContext(context); } catch (_) { return reply("TransientFailure", "ContextMismatch"); }
   try {
     const { LeaderboardsApi } = require("@unity-services/leaderboards-1.1");
-    return await createRecordSubmissionService(createAccountStore(context), new LeaderboardsApi(context))({ params, context });
+    const { createLegacyAccountStore } = require("./legacy-account-store");
+    const { createAccountProvisioningService } = require("./account-provisioning-service");
+    const store = createAccountStore(context);
+    // A malformed request must not create storage. A syntactically valid first
+    // submission, however, owns its account provisioning path end-to-end.
+    if (hasSubmissionId(params))
+      await createAccountProvisioningService(store, createLegacyAccountStore(context)).ensure(context);
+    const { createReceiptStore } = require("./receipt-store");
+    return await createRecordSubmissionService(store, new LeaderboardsApi(context), Date.now, createReceiptStore(context))({ params, context });
   } catch (_) { return reply("TransientFailure", "ServiceUnavailable"); }
 };
 module.exports.createRecordSubmissionService = createRecordSubmissionService;
 function reply(status, reason) { return { status, reason }; }
+function hasSubmissionId(params) {
+  try { const request = JSON.parse(params.request); return !!request && typeof request.submissionId === "string" && uuid.test(request.submissionId); }
+  catch (_) { return false; }
+}
 function validLedger(item, accountId) {
   return item && item.writeLock && item.value && item.value.version === 1 &&
     item.value.accountId === accountId && Array.isArray(item.value.entries) && item.value.best &&
