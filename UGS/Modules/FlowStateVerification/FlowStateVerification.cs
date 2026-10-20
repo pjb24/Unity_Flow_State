@@ -42,6 +42,21 @@ namespace FlowState.Server
         public object QueryRecords(IExecutionContext context, IGameApiClient client, string request)
         { return Run("query-records", context, client, new { request }); }
 
+        [CloudCodeFunction("EmitVerificationSafeLogProbe")]
+        public object EmitVerificationSafeLogProbe(IExecutionContext context, IGameApiClient client)
+        {
+            if (context.ProjectId != ServerServices.ProjectId || context.EnvironmentId != ServerServices.EnvironmentId)
+                throw new InvalidOperationException("ContextMismatch");
+            if (!SyntheticLogProbeLimiter.TryReserve()) return new { status = "RateLimited" };
+            using ServerServices services = new ServerServices(context);
+            bool accepted = new SafeLogSinkClient(services,
+                (name, remainingMilliseconds) => client.SecretManager.GetSecret(context, name)
+                    .WaitAsync(TimeSpan.FromMilliseconds(remainingMilliseconds)).GetAwaiter().GetResult().Value,
+                SafeLogSinkClient.SyntheticProbeTelemetryMilliseconds)
+                .TryEmit("Accepted", "SyntheticProbe", "Allowed");
+            return new { status = accepted ? "Accepted" : "Unavailable" };
+        }
+
         private static object Run(string endpoint, IExecutionContext context, IGameApiClient client, object parameters)
         {
             // Only fixed names select embedded code; players cannot supply executable source.

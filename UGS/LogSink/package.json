@@ -1,0 +1,11 @@
+{
+  "name": "flow-state-safe-log-sink",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Closed-schema HMAC-authenticated safe event collector for local Docker and Cloud Run.",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.cjs"
+  }
+}

@@ -34,7 +34,7 @@ assert.ok(runtime.includes("getSecret(name, services.RemainingMilliseconds)"));
 assert.match(entry, /\(name, remainingMilliseconds\)[\s\S]*?WaitAsync\(TimeSpan.FromMilliseconds\(remainingMilliseconds\)\)/);
 assert.equal(/FromSeconds\((5|15)\)|12000|15000/.test(runtime + services + entry), false, "no independent or longer server budgets");
 assert.ok(runtime.lastIndexOf("services.ThrowIfExpired();", runtime.indexOf("return response;")) > runtime.indexOf("DeserializeObject<object>(result)"));
-assert.equal((entry.match(/CloudCodeFunction\(/g) || []).length, 9);
+assert.equal((entry.match(/CloudCodeFunction\(/g) || []).length, 10);
 for (const source of [services, runtime, entry]) {
   assert.deepEqual(duplicateMembers(source), []);
   const plain = source.replace(/\/\/[^\r\n]*|\/\*[\s\S]*?\*\//g, "").replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, '""');

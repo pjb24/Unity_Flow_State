@@ -1,0 +1,8 @@
+services:
+  safe-log-sink:
+    build: .
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      FLOW_STATE_LOG_SINK_HMAC: ${FLOW_STATE_LOG_SINK_HMAC:?Set this only in an ignored .env file.}
+    restart: unless-stopped

@@ -115,12 +115,16 @@ async function main() {
   const beforeMissing = JSON.stringify([...missing.privateItems]);
   assert.equal((await unavailable.call("start-account-transfer")).status, "TransientFailure");
   assert.equal(JSON.stringify([...missing.privateItems]), beforeMissing);
-  // Client and server must agree on all nine function names. Crypto helpers are never endpoints.
+  // The client owns nine gameplay endpoints. The tenth endpoint is a verification-only
+  // synthetic LogSink probe and has no client route or player input.
   const transport = fs.readFileSync(path.resolve(__dirname, "../../Assets/Scripts/Runtime/Features/UgsOnlineRecordTransport.cs"), "utf8");
   const entry = fs.readFileSync(path.join(root, "FlowStateVerification.cs"), "utf8");
   const functions = [...entry.matchAll(/CloudCodeFunction\("([^"]+)"\)/g)].map(match => match[1]);
-  assert.equal(functions.length, 9);
-  for (const fn of functions) assert.ok(transport.includes(`return "${fn}"`));
+  assert.equal(functions.length, 10);
+  const clientFunctions = functions.filter(fn => fn !== "EmitVerificationSafeLogProbe");
+  assert.equal(clientFunctions.length, 9);
+  for (const fn of clientFunctions) assert.ok(transport.includes(`return "${fn}"`));
+  assert.ok(entry.includes('public object EmitVerificationSafeLogProbe(IExecutionContext context, IGameApiClient client)'));
   assert.ok(transport.includes("CallModuleEndpointAsync<T>"));
   assert.equal(/Instance\.CallEndpointAsync/.test(transport), false);
   const ccmr = path.resolve(__dirname, "../../Assets/CloudCode/FlowStateVerification.ccmr");
@@ -149,6 +153,6 @@ async function main() {
     assert.ok(fs.existsSync(path.resolve(__dirname, "../CloudCode", endpoint[1] + ".js")));
   assert.ok(project.includes('<TargetFramework>net9.0</TargetFramework>'));
   assert.ok(project.includes('Include="Jint" Version="4.16.4"'));
-  console.log("PASS module shim: crypto parity, nine endpoint contracts, Stage submit/query/duplicate/worse score, transfer preserves row and denies old device, missing Secret, fixed client routes (offline Node VM; .NET build/runtime unverified)");
+  console.log("PASS module shim: crypto parity, nine gameplay endpoints plus a synthetic LogSink probe, Stage submit/query/duplicate/worse score, transfer preserves row and denies old device, missing Secret, fixed client routes (offline Node VM; .NET build/runtime unverified)");
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

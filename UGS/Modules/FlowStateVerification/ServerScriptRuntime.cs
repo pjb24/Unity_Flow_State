@@ -49,11 +49,15 @@ namespace FlowState.Server
                     accountResponse["serverTimingPresent"] = true;
                 }
                 services.ThrowIfExpired();
+                new SafeLogSinkClient(services, getSecret, SafeLogSinkClient.NormalTelemetryMilliseconds)
+                    .TryEmit("Completed", "ModuleInvocation", "NotApplied");
                 return response;
             }
             catch (Exception)
             {
                 // Interpreter errors can include source arguments; never return their details.
+                new SafeLogSinkClient(services, getSecret, SafeLogSinkClient.NormalTelemetryMilliseconds)
+                    .TryEmit("Failed", "ModuleFailure", "NotApplied");
                 throw new InvalidOperationException("ServiceUnavailable");
             }
         }

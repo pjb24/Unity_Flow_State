@@ -1,0 +1,15 @@
+// Copy to OnlineRecordProductionConfiguration.cs (which is ignored by Git) only
+// in the approved local Production build workspace. Do not put these identifiers
+// in a committed source file, test fixture, task document, or chat transcript.
+namespace FlowState.Runtime.Features
+{
+    internal static class OnlineRecordProductionConfiguration
+    {
+        // Use the Production Environment display name and approved internal IDs.
+        // Leave a required value empty to make authentication fail closed.
+        public const string EnvironmentName = "production";
+        public const string ProjectId = "";
+        public const string EnvironmentId = "";
+        public const string AuthenticationProfile = "flow-state-production";
+    }
+}

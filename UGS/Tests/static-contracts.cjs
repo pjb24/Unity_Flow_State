@@ -95,8 +95,10 @@ for (const marker of ["## Step 7. 결정 사항을 문서와 Unit Test 계약으
 assert.ok(submit.includes("store.compareExchange(item, ledger)"));
 assert.ok(!/writeLock:\s*null/.test(submit));
 const auth = read("Assets/Scripts/Runtime/Features/UgsOnlineAuthenticationGateway.cs");
-assert.ok(auth.includes("SetEnvironmentName")); assert.ok(auth.includes("OnlineRecordConfiguration.ProjectId"));
-assert.ok(auth.includes("flow-state-verification"));
+const onlineConfiguration = read("Assets/Scripts/Runtime/Features/OnlineRecordConfiguration.cs");
+assert.ok(auth.includes("SetEnvironmentName")); assert.ok(auth.includes("OnlineRecordConfiguration.ActiveProjectId"));
+assert.ok(auth.includes("OnlineRecordConfiguration.ActiveEnvironmentName"));
+assert.ok(onlineConfiguration.includes("VerificationEnvironmentName"));
 assert.ok(!auth.includes("production"));
 const repository = read("Assets/Scripts/Runtime/Features/CloudCodeRecordRepository.cs");
 assert.ok(repository.includes("submit-record")); assert.ok(repository.includes("query-records"));

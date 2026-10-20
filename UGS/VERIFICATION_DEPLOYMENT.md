@@ -7,6 +7,7 @@
 1. 서버 코드를 변경할 때 `UGS/CloudCode` 원본과 `UGS/Modules/FlowStateVerification` Module 소스를 수정한다. JavaScript 원본은 Module에 EmbeddedResource로 포함되어 Jint에서 실행된다.
 2. 서버 변경 게시가 필요하면 사용자가 Module을 빌드하고 Unity Deployment 창에서 **FlowStateVerification → Deploy Selected**를 실행한다. 상세 절차는 [Phase 2 Step 9-3](../AI/90_Tasks/Prototype_8/20261003_01_Phase2ManualSteps.md)을 따른다.
 3. 클라이언트는 Module의 `GetPublicPlayerNumber`, `GetAccountTransferStatus`, `GetAccountPersonalBests`, `StartAccountTransfer`, `ReissueAccountTransfer`, `CancelAccountTransfer`, `CompleteAccountTransfer`, `SubmitRecord`, `QueryRecords`를 호출한다.
+4. `EmitVerificationSafeLogProbe`는 verification LogSink 점검 전용 함수다. 입력값과 Player·계정·요청 본문을 읽거나 전송하지 않으며, Cloud Code가 인증된 호출만 수락한다는 플랫폼 경계는 유지한다. 이 함수는 일반 Client 연결 대상이 아니며 6-3.6 수동 점검에만 사용한다.
 
 `query-records.js`만 수정한 경우에도 게시 단위는 전체 Module이다. 기존 Secret·Access Control·Leaderboard 설정은 유지한다. 서버 invocation budget은 5000ms이며 서버 기동·네트워크 왕복 시간을 포함한 클라이언트 수신 시간의 보장은 아니다.
 
@@ -24,7 +25,14 @@
 
 > Prototype 8 Phase 2 Step 5부터 현재 `submit-record.js`/`query-records.js`는 C 기반 bundled endpoint다. 아래 Prototype 7의 raw source 붙여넣기·수동 ledger 초기화·단일 조회 재게시 지침을 현재 파일에 적용하지 않는다. Prototype 8 적용표·읽기 전용 검사·사용자 백업 방법은 `AI/90_Tasks/Prototype_8/20261003_01_Phase2ManualSteps.md` Step 9-1에 준비했다. 이 단계는 대상 확인/백업만 하며 실제 설정과 게시 방법은 Step 9-2/9-3에서 준비한다. 현재 `UGS/CloudCode` source는 Editor 게시용 staging을 준비하기 전이므로 바로 Deploy하거나 원본을 붙여넣지 않는다. 기존 barrier-aware bridge는 `UGS/Migration/legacy-barrier-submit.js`를 같은 `submit-record` 이름에서만 사용하고 구버전 실행을 배출한다. C cutover 뒤 legacy rollback/marker 삭제/두 번째 legacy endpoint 게시를 하지 않는다.
 
-## Phase 4의 제한된 원격 변경
+## 과거 Phase 4의 제한된 원격 변경 — 참고 이력
+
+이 절은 C# Module 전환 전 JavaScript Script 게시 방식의 기록이다. 여기의
+`query-records` 단독 게시, JavaScript 입력 정의, 수동 ledger 초기화 지침은 현재
+배포 절차나 Production 변경 권한이 아니다. 현재 배포 단위는 이 문서 맨 앞의
+`FlowStateVerification` C# Module 하나이며, Production 적용은
+`20261007_09_Phase4ManualSteps.md`의 Step 8 승인 판정과 사용자의 명시적 승인 뒤에만
+수행한다.
 
 Phase 4에서는 기존 verification 구성을 다시 만들거나 전체 문서의 Phase 3 절차를 반복하지 않는다. 원격 적용 대상은 `query-records` JavaScript Script 하나다. 게시 전 원격 `query-records` 소스와 입력 정의를 백업한 뒤, 로컬 `UGS/CloudCode/query-records.js` 전체로 교체하고 Publish한다.
 

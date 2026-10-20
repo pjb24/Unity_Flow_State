@@ -24,7 +24,7 @@ if (process.argv.includes("--self-test")) {
       "$clipboardSecretInput = [Console]::In.ReadToEnd(); Set-Clipboard -Value $clipboardSecretInput -ErrorAction Stop; $clipboardSecretInput = $null"],
       { input: value, encoding: "utf8", windowsHide: true, timeout: 10000 });
     if (result.error || result.status !== 0) throw new Error("ClipboardUnavailable");
-    console.log("Ready: 32 random bytes encoded as 44-character canonical Base64 copied to clipboard. Paste into verification Secret Value, save, then clear the clipboard. Secret NOT printed or saved to a file.");
+    console.log("Ready: 32 random bytes encoded as 44-character canonical Base64 copied to clipboard. Paste into the target environment Secret Value, save, then clear the clipboard. Secret NOT printed or saved to a file.");
   } catch (_) {
     console.error("Secret preparation failed. No value will be printed. Check local PowerShell/clipboard availability.");
     process.exitCode = 1;

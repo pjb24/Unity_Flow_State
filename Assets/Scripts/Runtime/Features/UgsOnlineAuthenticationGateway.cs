@@ -14,7 +14,12 @@ namespace FlowState.Runtime.Features
         private readonly string _profile;
         public string LastDiagnostic { get; private set; } = "AuthPhase=NotAttempted / AuthFailure=None";
 
-        public UgsOnlineAuthenticationGateway(string profile = "flow-state-verification")
+        public UgsOnlineAuthenticationGateway()
+            : this(OnlineRecordConfiguration.ActiveAuthenticationProfile)
+        {
+        }
+
+        public UgsOnlineAuthenticationGateway(string profile)
         {
             _profile = profile;
         }
@@ -48,13 +53,17 @@ namespace FlowState.Runtime.Features
             string failure = "SdkFailure";
             try
             {
-                if (Application.cloudProjectId != OnlineRecordConfiguration.ProjectId)
+                if (!OnlineRecordConfiguration.HasValidActiveConfiguration)
+                {
+                    failure = "InvalidBuildConfiguration";
+                    throw new InvalidOperationException();
+                }
+                if (Application.cloudProjectId != OnlineRecordConfiguration.ActiveProjectId)
                 {
                     failure = "ProjectMismatch";
                     throw new InvalidOperationException();
                 }
-                if (_profile != "flow-state-verification" && _profile != "flow-state-phase2-a" &&
-                    _profile != "flow-state-phase2-b" && _profile != "flow-state-phase3-new")
+                if (!OnlineRecordConfiguration.IsAllowedAuthenticationProfile(_profile))
                 {
                     failure = "UnsupportedProfile";
                     throw new InvalidOperationException();
@@ -72,10 +81,8 @@ namespace FlowState.Runtime.Features
                     }
                     phase = "ServicesInitialize";
                     InitializationOptions options = new InitializationOptions();
-                    options.SetEnvironmentName(
-                        OnlineRecordConfiguration.VerificationEnvironmentName);
-                    if (_profile == "flow-state-verification") options.SetProfile("flow-state-verification");
-                    else options.SetProfile(_profile);
+                    options.SetEnvironmentName(OnlineRecordConfiguration.ActiveEnvironmentName);
+                    options.SetProfile(_profile);
                     _initializedProfile = _profile;
                     _initialization = UnityServices.InitializeAsync(options);
                 }

@@ -217,6 +217,28 @@ paths:
                     type: object
     x-class-name: FlowState.Server.FlowStateVerification
     x-access-type: Global
+  /EmitVerificationSafeLogProbe:
+    post:
+      description: EmitVerificationSafeLogProbe POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    type: object
+    x-class-name: FlowState.Server.FlowStateVerification
+    x-access-type: Global
 components:
   securitySchemes:
     BearerAuth:

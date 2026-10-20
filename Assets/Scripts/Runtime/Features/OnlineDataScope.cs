@@ -28,7 +28,8 @@ namespace FlowState.Runtime.Features
 
         public static OnlineDataScope CreateConfigured()
         {
-            return new OnlineDataScope(OnlineRecordConfiguration.ProjectId, OnlineRecordConfiguration.EnvironmentId);
+            return new OnlineDataScope(OnlineRecordConfiguration.ActiveProjectId,
+                OnlineRecordConfiguration.ActiveEnvironmentId);
         }
     }
 }

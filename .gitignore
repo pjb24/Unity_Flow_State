@@ -120,3 +120,11 @@ InitTestScene*.unity*
 /.agents
 
 /node_modules
+
+# Approved Production identifiers are injected locally for a Production build.
+# Never commit this file or its Unity meta file.
+/Assets/Scripts/Runtime/Features/OnlineRecordProductionConfiguration.cs
+/Assets/Scripts/Runtime/Features/OnlineRecordProductionConfiguration.cs.meta
+
+# Local Docker log-sink secret. The committed example is intentionally blank.
+/UGS/LogSink/.env
