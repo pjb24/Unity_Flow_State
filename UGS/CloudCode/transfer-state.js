@@ -3,14 +3,14 @@ const { validateContext, validateScope, fault } = require("./account-store");
 const policy = require("./transfer-credential-policy");
 const ownerPolicy = require("./leaderboard-owner-policy");
 async function readSourceAccount(store, context) {
-  validateContext(context);
+  validateContext(context, store.scope);
   const binding = await store.read("player", context.playerId);
   if (!binding) throw fault("AccountUnavailable");
-  validateScope(binding.value);
+  validateScope(binding.value, store.scope);
   if (binding.value.transferOperation || binding.value.status === "Inactive") throw fault("ActiveDeviceRequired");
   const account = await store.read("account", binding.value.accountId);
   if (!account) throw fault("AccountUnavailable");
-  validateScope(account.value);
+  validateScope(account.value, store.scope);
   if (binding.value.playerId !== context.playerId || account.value.accountId !== binding.value.accountId ||
       account.value.currentPlayerId !== context.playerId ||
       account.value.connectionRevision !== binding.value.connectionRevision ||

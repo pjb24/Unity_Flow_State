@@ -2,6 +2,14 @@
 
 ## 현재 적용 방식 — C# Module
 
+2026-10-20 Step 8의 로컬 source는 환경 중립 scope와 공통 Secret 이름으로 변경됐다. 현재 원격 배포본의
+Git 기준 `935a8d`와 다르다. verification Secret은 C# host에서 기존 `_VERIFICATION_` 이름으로 해석해
+현재 항목을 그대로 사용한다. 이름과 값 복사 없이 재배포할 수 있으며, 설정과 Phase 4 Step 8 회귀 결과는
+`UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md`를 따른다.
+
+EnvironmentCheck 실패 보정에는 verification의 `FS_ENVIRONMENT_NAME_V1` 설정(값 `verification`, Cloud Code만
+접근)이 추가로 필요하다. context 표시 이름을 인식할 수 없을 때 현재 환경에서만 읽으며, 기존 세 Secret은 유지한다.
+
 게시 대상은 `Assets/CloudCode/FlowStateVerification.ccmr`이 가리키는 **FlowStateVerification Module 하나**다. Project는 `c76d55cf-7846-494b-9dce-a0797b179b36`, Environment는 `verification` (`a20a46fa-1edb-4d79-9c35-02f2fed31896`)이다.
 
 1. 서버 코드를 변경할 때 `UGS/CloudCode` 원본과 `UGS/Modules/FlowStateVerification` Module 소스를 수정한다. JavaScript 원본은 Module에 EmbeddedResource로 포함되어 Jint에서 실행된다.

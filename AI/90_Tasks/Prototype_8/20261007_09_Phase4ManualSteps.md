@@ -416,7 +416,7 @@ Production은 현재 정책과 Secret이 없는 첫 배포 전 baseline이다. �
 - [x] 6-3.6 완료 — 6-3.6.3~6-3.6.5가 모두 안전한 메타데이터로 통과했다.
 - [x] 완료: 6-3.1~6-3.6의 설정 및 점검 결과를 안전한 메타데이터로 대조했다. Step 6을 완료 처리한다.
 
-## Step 7. verification에서 배포·rollback 절차를 연습한다 — 사용자
+## Step 7. verification 배포 기준과 읽기 전용 조회를 점검한다 — 사용자
 
 ### 7-1. 정적 사전점검 — AI 완료 (2026-10-20)
 
@@ -443,46 +443,64 @@ Production은 현재 정책과 Secret이 없는 첫 배포 전 baseline이다. �
 - 사용자가 최신 API spec을 내려받아 교체했고, `EmitVerificationSafeLogProbe`를 포함한 C# 공개
   함수와 endpoint 목록의 정적 대조를 통과했다.
 
-### 7-2. rollback 후보 고정 — 사용자
+### 7-2. Module Git 기준 고정 — 사용자
 
 현재 `Assets/CloudCode/FlowStateVerification.ccmr`, `UGS/Modules/FlowStateVerification`,
 `UGS/CloudCode`를 포함하는 현재 source 후보를 로컬 Git commit 또는 접근 제한된 내부 archive로
-고정한다. archive/commit 식별자와 보관 성공 여부만 기록한다. 이 후보는 이후 rollback 때 다시
-빌드·Deploy Selected할 유일한 source가 된다.
+고정한다. archive/commit 식별자와 보관 성공 여부만 기록한다. 이 기준은 이후 Module 변경의
+배포 대상을 식별하는 기준이 된다.
 
-### 7-3. 단일 Module 배포와 읽기 전용 확인 — 사용자
+- [x] 7-2 Module Git 기준 고정 — 사용자 (2026-10-20): 현재 verification에 배포된
+  `FlowStateVerification` Module source를 Git
+  `935a8d01a08c1b1d882560c7fe5c5d3d4f366665`으로 고정했다. manifest, Module source,
+  embedded Cloud Code source 및 내려받은 API spec이 이 commit에 포함됨을 읽기 전용으로 대조했다.
+  이 commit은 이후 변경된 source의 배포 기준이며, 현재 source의 식별 기준으로 사용한다.
+
+### 7-3. 변경 시 단일 Module 배포와 읽기 전용 확인 — 사용자
 
 현재 source가 마지막 verification 배포 뒤 변경된 경우에만 `FlowStateVerification` 하나를 빌드하고
 verification을 재확인한 뒤 **Deploy Selected**를 실행한다. 배포 뒤에는 안전한 격리 계정으로 계정 상태,
 Stage TOP·AROUND YOU, Infinite TOP·AROUND YOU를 각각 한 번 읽기 전용으로 확인한다. 최신 API spec을
 내려받아 함수 목록만 대조한다.
 
-### 7-4. rollback 배포와 재확인 — 사용자
-
-7-2에서 고정한 후보와 다른 source를 7-3에서 배포한 경우에만, 7-2 후보를 다시 열어
-`FlowStateVerification` 하나를 빌드하고 **Deploy Selected**한다. 이어서 7-3과 같은 읽기 전용 조회를
-한 번씩 수행한다. 배포/rollback 시각, 대상 환경, Module 이름, archive/commit 식별자, 결과 분류만 기록한다.
-
-현재 source와 7-2 후보가 같다면 실제 rollback은 발생하지 않으므로 rehearsal 완료로 처리하지 않는다.
-
 1. Step 3 방식으로 verification의 현행 대상·배포 reference·입력 정의·정책 reference를 읽기 전용으로 보관한다.
 2. 변경이 있는 경우에만 `FlowStateVerification` C# Module 하나를 빌드하고, verification을 재확인한 뒤 **Deploy Selected**를 실행한다. `Deploy All`, raw JavaScript 개별 게시, Board/ledger 초기화는 하지 않는다.
-3. 배포 후에는 안전한 verification 격리 계정으로 계정 상태 조회와 Stage/Infinite TOP·AROUND YOU 조회를 한 번씩 확인한다. 새 기록 제출·계정 이전·자료 삭제는 이 rehearsal에 포함하지 않는다.
-4. 실패, 대상 불일치, 예상 밖 경고, 비밀 노출 우려가 있으면 새 배포를 중단한다. 같은 verification 환경의 Step 1에서 보관한 직전 확인 Module reference만 재게시한다. Cloud Save·Leaderboard·계정 데이터를 삭제하거나 다른 환경 자료로 덮어쓰지 않는다.
-5. rollback 뒤 같은 읽기 전용 조회로 정상 복귀 여부를 확인하고, 배포/rollback 시각·대상·reference·안전한 결과만 기록한다.
+3. 배포 후에는 안전한 verification 격리 계정으로 계정 상태 조회와 Stage/Infinite TOP·AROUND YOU 조회를 한 번씩 확인한다. 새 기록 제출·계정 이전·자료 삭제는 이 점검에 포함하지 않는다.
 
 ### 완료 조건
 
-- [ ] verification에서 한 환경·한 Module 단위의 배포와 rollback 절차가 재현된다.
-- [ ] rollback이 데이터 삭제나 환경 간 복사 없이 수행됨을 확인한다.
+- [x] 현재 verification Module의 Git 기준과 단일 Module 배포 단위를 확인했다.
+- [x] 격리 verification 계정으로 Stage/Infinite TOP·AROUND YOU 읽기 전용 조회를 확인했다.
+- [x] 이번 실행 차수에 Module 변경이 없으므로 배포를 수행하지 않는 조건을 대조했다.
+
+### Step 7 진행 상태 — 2026-10-20
+
+- [x] 정적 사전점검 완료: 단일 C# Module, 환경 분리, Player Write Deny, Secret 경계,
+  안전 로그 및 배포 gate의 정적 계약을 통과했다.
+- [x] rollback 기준 고정 완료: 현재 verification 배포 source의 Git 기준은
+  `935a8d01a08c1b1d882560c7fe5c5d3d4f366665`이다.
+- [x] 읽기 전용 조회 확인 완료 — 사용자 (2026-10-20): Online Verification의 격리·Play·세션 준비·원격
+  동의·계정 `Ready` 뒤 Stage와 Infinite의 TOP·AROUND YOU를 모두 확인했고 정상 표시됐다. 이 결과는
+  격리·동의·계정 준비 후에만 원격 Leaderboard를 읽도록 한 보호 흐름이 정상 동작함을 뜻한다.
+- [x] 이번 실행 차수의 배포 판단 완료 — 사용자 (2026-10-20): 마지막 verification 배포 이후 Module
+  변경이 없음을 확인했다. Step 7의 조건에 따라 이번에는 새 배포와 rollback을 수행하지 않는다.
+  - AI 정적 대조: `Assets/CloudCode/FlowStateVerification.ccmr`,
+    `UGS/Modules/FlowStateVerification`, `UGS/CloudCode`가 Git
+    `935a8d01a08c1b1d882560c7fe5c5d3d4f366665`와 동일하다. Step 1·2·5·6 관련 정적
+    계약 검사도 통과했다.
+- [x] 범위 결정: 실제 배포·rollback 연습은 Step 7의 완료 조건에서 제외한다. 향후 Module 변경은
+  Git `935a8d01a08c1b1d882560c7fe5c5d3d4f366665` 기준과 단일 Module 배포 원칙을 따라 별도 변경
+  작업으로 관리한다.
+
+따라서 Step 7을 완료 처리한다. 실제 배포·rollback 연습은 이 Step의 완료 근거가 아니다.
 
 ## Step 8. Production 적용 가능 여부를 대조한다
 
 ### AI 작업
 
 1. Step 1~7의 확인 근거가 모두 있고, Step 2의 정적 검사/Unit Test가 통과하며, 최신 코드 변경이 있으면 Unity 회귀가 통과했는지 대조한다.
-2. 다음 중 하나라도 없으면 `PRODUCTION_DEPLOY_BLOCKED`로 판정한다: 대상 inventory, 복구 후보, 최소 권한 대조, Secret 권한 대조, 30일 로그/삭제 절차, 호환성 표, verification rehearsal 결과.
-3. 허용된 Production 변경 단위·직전 rollback reference·담당자·중단 기준만 정리한다. Secret 값, Player 식별자, 원격 source 본문은 기록하지 않는다.
+2. 다음 중 하나라도 없으면 `PRODUCTION_DEPLOY_BLOCKED`로 판정한다: 대상 inventory, 첫 배포 복구 기준 또는 기존 배포의 rollback 후보, 최소 권한 대조, Secret 권한 대조, 30일 로그/삭제 절차, 호환성 표, verification rehearsal 결과.
+3. 허용된 Production 변경 단위·첫 배포 복구 기준 또는 직전 rollback reference·담당자·중단 기준만 정리한다. Secret 값, Player 식별자, 원격 source 본문은 기록하지 않는다.
 
 ### 사용자 작업
 
@@ -490,16 +508,351 @@ AI의 대조 결과가 `READY_FOR_APPROVAL`일 때에만 Production 적용 권�
 
 ### 완료 조건
 
-- [ ] Production 적용 여부가 확인 근거에 따라 `READY_FOR_APPROVAL` 또는 `PRODUCTION_DEPLOY_BLOCKED` 중 하나로 명확히 판정된다.
+- [x] Production 적용 여부가 확인 근거에 따라 `READY_FOR_APPROVAL` 또는 `PRODUCTION_DEPLOY_BLOCKED` 중 하나로 명확히 판정된다.
+
+### Step 8 수행 결과 — 2026-10-20
+
+#### 8-1. 정적 대조 — AI 완료
+
+- Step 1·2·5·6의 정적 계약과 Production inventory 정적 검사를 통과했다.
+- Client Unity preflight는 변경·신규 Unity C# source가 없음을 확인했고, 준비된 EditMode 183개와
+  PlayMode 23개 source 사례를 보고했다. Unity Script Compilation·Test Runner는 실행하지 않았다.
+- 현재 verification Module 배포 범위는 Git `935a8d01a08c1b1d882560c7fe5c5d3d4f366665`와 동일하며,
+  Step 7의 읽기 전용 조회는 완료됐다.
+
+#### 8-2. Production 적용 판정 — AI
+
+`PRODUCTION_DEPLOY_BLOCKED`
+
+다음 근거가 아직 없으므로 Production 적용을 승인하지 않는다.
+
+1. Production 전용 Safe LogSink, 30일 보관·자동 삭제, 접근 권한, LogSink Secret·Cloud Code 연결의
+   준비 및 대조 결과가 없다.
+2. Production은 첫 배포 전 빈 baseline이다. 첫 배포에는 rollback할 이전 Module이 없으므로, 수정 후
+   재배포하는 복구 기준과 중단 절차가 필요하다.
+3. 호환성 표 v1은 Git `a6258ef` 기준이다. 현재 배포 기준 Git `935a8d`에 대한 Production
+   호환성 승인과 최신 Unity Script Compilation·전체 EditMode/PlayMode 결과가 이 Step에 기록되지 않았다.
+4. 원격 verification Module의 기준은 Git `935a8d`이며, 아래 환경 중립 전환은 아직 로컬 변경이다.
+   새 source의 verification 배포·실제 동작과 Production Secret 준비는 확인되지 않았다.
+5. 아래 회귀 검사에서 기존 실패 5개 파일을 재현해 테스트 자료를 수정했고, 최종 Node 49파일을 모두 통과했다.
+   이 로컬 결과는 사용자 Unity 실행·원격 Secret 준비·새 Module 배포 결과를 대신하지 않는다.
+
+따라서 Step 8을 `PRODUCTION_DEPLOY_BLOCKED` 판정으로 완료 처리한다. Step 9는 수행하지 않는다.
+
+### Step 8 후속 변경 — 환경 중립 Module 전환 — 2026-10-20
+
+- [x] 8-A AI: Module의 service API 대상과 Probe context를 호출별 scope로 전환했다.
+  source 구현·환경 분리 전용 검사·Node 49파일 회귀를 통과했다. 사용자 실행은 8-E에서 확인한다.
+- [x] 8-B AI: 공통 Secret 이름 `FS_TRANSFER_HMAC_V1`, `FS_LOG_SINK_HMAC_V1`,
+  `FS_LOG_SINK_URL_V1`을 논리 이름으로 사용한다. C# host는 verification에서 기존 `_VERIFICATION_` 이름으로,
+  Production에서는 공통 이름으로 해석한다. 요청 scope의 EnvironmentName으로만 선택하며 값은 환경별로 분리한다.
+- [x] 8-C AI: 첫 Production 배포는 이전 reference rollback이 아니라, 데이터 변경 없이 수정 commit으로
+  재배포하는 복구 기준을 정책과 문서에 반영했다.
+- [x] 8-D verification Secret 준비 — 기존 세 항목 확인 및 후속 Probe의 환경 이름 해석·LogSink 접근 성공으로 완료.
+  - [x] 8-D-1 AI: C# host의 환경별 이름 해석과 Secret 접근 경계를 정적으로 대조했다.
+  - [x] 8-D-2 사용자: `FS_TRANSFER_HMAC_VERIFICATION_V1`, `FS_LOG_SINK_HMAC_VERIFICATION_V1`,
+    `FS_LOG_SINK_URL_VERIFICATION_V1`이 존재함을 확인했다. 새 이름 생성·값 복사 작업은 제외한다.
+  - [x] 8-D-3 사용자: 세 항목 모두 서비스 액세스가 Cloud Code만임을 확인했다.
+    값을 열람·변경·회전하지 않는다. 새 Module의 실제 Secret 접근·연결 성공은 8-E에서 확인한다.
+  - [x] 8-D-4 환경 표시 이름 해석 확인: 보정 후 사용자 Probe가 `Accepted`를 반환했다.
+    context 이름 정규화 또는 `FS_ENVIRONMENT_NAME_V1` 보완으로 환경 해석이 성공한 증거다.
+    설정 Secret의 생성·권한 자체는 별도 보고되지 않아 생성 사실을 추정하지 않는다.
+- [x] 8-E 사용자: 변경된 Module을 verification에 배포하고, Unity Script Compilation·전체 Test Runner와
+  기존 읽기 전용 조회·합성 LogSink probe를 실행한다.
+  - [x] 8-E-1 verification Module 배포 — 2026-10-20 사용자 완료 보고. 새 source commit은 아직 미기록이다.
+  - [x] 8-E-2 Unity Script Compilation — 사용자 완료 보고, 에러 없음.
+  - [x] 8-E-3 전체 Edit Mode·Play Mode 테스트 — 사용자 완료 보고, 에러 없음. 실행 개수는 보고되지 않아 추정하지 않는다.
+  - [x] 8-E-4 이번 배포 뒤 계정 상태·Stage/Infinite TOP·AROUND YOU 읽기 전용 확인.
+    - [x] 8-E-4-A 계정 상태 확인 — 2026-10-21 사용자 결과:
+      `State=Ready / Reason=None / Consent=True / Pending=0 / LocalSave=Ready / RemoteAllowed=True`.
+      인증은 `Complete / AuthFailure=None`, `GetPublicPlayerNumber`는 `ResponseReceived / SDKErrorCode=0`,
+      ClientElapsedMs=759였다. 서버 시간·호출 수는 -1이므로 실측 서버 성능으로 해석하지 않는다.
+    - [x] 8-E-4-B 게임 화면 Leaderboard 조회 — 2026-10-20 사용자 보고:
+      `IsolationArmed=False`에서 Loading 뒤 각 순위 내용이 정상 표시됐다.
+      직전 안내한 Stage/Infinite TOP·AROUND YOU 조회에 대한 결과로 기록하며 행 수·점수는 추정하지 않는다.
+    - 실행 모드 구분: `IsolationArmed=True`에서는 게임 화면의 온라인 coordinator가 초기화되지 않아
+      Continue가 동의를 저장하지 못하고 Notice가 반복됐다. 격리 창과 게임 화면은 별도 실행 경로다.
+      일반 Play(`False`)에서는 Notice가 표시되지 않고 Leaderboard가 정상 조회됐다.
+      기존 로컬 동의를 읽는 동작과 일치하며, 이전 원격 환경이 남았다는 근거로 사용하지 않는다.
+      Scene·코드·로컬 저장 데이터는 변경하지 않았다. 격리 상태의 Notice 반복 UI 개선은 별도 미처리 사항이다.
+  - [x] 8-E-5 이번 배포 뒤 합성 LogSink Probe `Accepted`와 Cloud Run HTTP 202·7필드 이벤트 확인.
+    `UGS/Verification/Invoke-VerificationSafeLogProbe.ps1 -Run`으로 한 번 실행한다. 실행 방법은
+    `UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md`의 8-E 절을 따른다.
+    - 2026-10-20 사용자 실행 결과: `Status=Unavailable`. Service Account 인증과 Module endpoint 호출은
+      응답을 받았지만 LogSink 전송은 확인되지 않았다. PowerShell의 후속 throw는 이 실패를 표시한 것이며
+      원인은 아니다. 이 결과만으로 Secret 값 오류·GCP 설정 오류·환경 이름 누락을 확정하지 않는다.
+    - AI 보정: 합성 Probe에 고정된 `phase`, `reason`, `httpStatus`만 추가했다. 환경 확인·두 Secret 조회·
+      URL/HMAC 검증·HTTP 전송 단계를 구분하며 예외 메시지·값·URL은 반환하지 않는다. 일반 게임 응답과
+      LogSink 7필드 schema, 4초 합성 전송 예산, 자동 재시도 없음은 유지했다.
+    - 보정 source의 Node 50파일 검사 통과. C# Module 진단 변경은 사용자 빌드·verification 재배포 대기다.
+      새 배포 뒤 같은 PowerShell 명령을 한 번 실행하고 안전한 FAIL 행으로 원인을 좁힌다.
+    - 후속 사용자 결과: `Status=Unavailable / Phase=EnvironmentCheck / Reason=Failed / HTTP=0`.
+      도구의 토큰 교환 대상 Project/Environment가 Client의 verification 설정과 일치함을 로컬 대조했다.
+      C# `EnvironmentName`이 허용한 두 표시 이름과 일치하지 않아 Secret 조회·Cloud Run HTTP 요청 전에
+      중단된 것으로 좁혀졌다. 실제 값의 누락/대소문자/다른 표기 여부는 이 결과로 구분되지 않는다.
+      verification이 잘못된 대상이거나 Production으로 바꿔야 한다는 의미가 아니다. 다음 진단·수정 대상은
+      환경 이름에 의존하는 Module 로직이며 Secret 값 또는 GCP 설정 변경의 근거로 사용하지 않는다.
+    - 환경 이름 처리 보정: context 이름을 Trim·소문자 정규화하고, 사용할 수 없으면 현재 호출 환경의
+      `FS_ENVIRONMENT_NAME_V1`에서 표시 이름을 보완한다. 설정도 유효하지 않으면 안전한
+      `EnvironmentConfigurationUnavailable` 사유로 거부한다. SecretManager 호출은 현재 context를
+      그대로 사용하며 실제 데이터 scope는 context의 Project/Environment ID를 유지한다.
+      별도 환경 ID 하드코딩·기본 Production 선택·공유 환경 cache·자동 재시도는 추가하지 않았다.
+    - 보정 검증: Node 회귀·정적 검사 50파일 통과. C# 컴파일·8-D-4 설정·verification 재배포와 Probe 재실행은
+      사용자 대기다. 이번 변경은 Client/Scene 변경이 없으며, 이미 보고한 Unity 테스트를 반복하도록 요구하지 않는다.
+    - 후속 최종 사용자 결과: `PASS / VERIFICATION_SAFE_LOG_PROBE / Status=Accepted`.
+      현재 Module은 Cloud Run 응답이 HTTP 202일 때만 `Accepted`를 반환하므로 환경 해석·URL/HMAC
+      조회·서명 전송·HTTP 202 수신을 확인했다. AI가 직접 원격 호출하거나 Secret을 열람하지 않았다.
+      설정 Secret을 읽었는지 context 정규화만으로 통과했는지는 이 출력만으로 구분하지 않는다.
+    - [x] 8-E-5-A 합성 호출 및 HTTP 202 수신 확인 — 사용자 성공 출력과 서버 반환 조건 대조.
+    - [x] 8-E-5-B Cloud Logging에서 이번 실행 시각의 합성 이벤트 jsonPayload 7필드 저장 확인.
+      2026-10-21 사용자 제공 stdout 이벤트의 시각은 2026-10-20 07:14:02 UTC다.
+      jsonPayload는 `environment`, `moduleReference`, `durationBucket`, `outcome`, `correlationId`,
+      `reason`, `rateLimitResult`의 정확히 7필드였다. 각각 verification, FlowStateVerification,
+      250, Accepted, 비어 있지 않은 합성 식별자, SyntheticProbe, Allowed를 확인했다.
+      GCP 기본 metadata는 7필드 제한 대상이 아니다. 원문 식별자·로그 전체는 복사하지 않는다.
+  - 2026-10-21 판정: 8-E 완료. 아래 실패·재배포 대기 서술은 해결 과정의 이전 이력이며 현재 대기가 아니다.
+    새 source commit 기록과 Production 준비는 별도 후속 항목으로 유지한다.
+  - AI 준비: 합성 Probe 전용 사용자 실행 도구와 로컬 HTTP 대역 테스트를 추가했다. credential은 숨김
+    입력으로 받고 token·Secret·요청 본문·endpoint를 출력하지 않는다. 실제 원격 호출은 AI가 수행하지 않았다.
+- [x] 8-F 사용자: Production LogSink·공통 서비스 Secret 세 개·환경 이름 설정 한 개를 준비한다. 첫 Production 배포는 8-C의
+  수정 후 재배포 기준으로만 진행한다.
+  - 2026-10-21 작업 계획 기록. 아래 번호로 한 항목씩 방법을 질문하고 완료 결과를 보고한다.
+    예: `8-F-1-1 수행 방법을 알려줘`. 각 항목의 완료 상태는 아래 사용자 보고를 기준으로 갱신한다.
+    상세 설정과 완료 기준은 [환경 중립 Module 구성의 8-F 절](../../../UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md)을 따른다.
+  - [x] 8-F-1 Production GCP 기반 준비
+    - [x] 8-F-1-1 Production LogSink 전용 GCP 프로젝트 생성·서울 지역 결정.
+      - [x] 프로젝트 생성·선택 — 2026-10-21 사용자 완료 보고.
+      - [x] 사용할 지역 결정 — 2026-10-21 사용자가 8-F-4-1 저장소의 서울 `asia-northeast3` 선택을 보고해 확인.
+        Cloud Run 지역의 실제 적용은 8-F-4-3에서 별도 확인한다.
+    - [x] 8-F-1-2 결제 계정 연결·예산 알림 설정 — 2026-10-21 사용자 완료 보고.
+    - [x] 8-F-1-3 Cloud Run Admin·Cloud Logging·Secret Manager·Artifact Registry API 활성화 — 2026-10-21 사용자 4개 활성화 완료 보고.
+  - [x] 8-F-2 Production 로그 수집 키 준비
+    - [x] 8-F-2-1 새 LogSink HMAC 생성 후 GCP와 UGS production에 같은 값을 저장.
+      두 곳의 이름은 `FS_LOG_SINK_HMAC_V1`, UGS 서비스 액세스는 Cloud Code만 사용.
+      2026-10-21 사용자 생성·양쪽 동일 값 저장·Cloud Code 전용 접근·클립보드 비우기 완료 보고.
+      실제 키 값은 수신·열람하지 않았으며, GCP 서비스 계정 권한은 8-F-3에서 별도 준비한다.
+  - [x] 8-F-3 Production LogSink 실행 계정 준비
+    - [x] 8-F-3-1 LogSink 전용 GCP 서비스 계정 생성 — 2026-10-21 사용자 생성 완료·사용 설정 상태 보고.
+    - [x] 8-F-3-2 해당 HMAC Secret에만 서비스 계정의 Secret Accessor 권한 부여.
+      2026-10-21 사용자 보고: `FS_LOG_SINK_HMAC_V1`에 Production LogSink 서비스 계정을 추가하고
+      Secret Manager Secret Accessor를 해당 Secret 범위로 부여했다. 실제 payload 읽기는 배포 시 확인한다.
+  - [x] 8-F-4 Production LogSink 배포
+    - [x] 8-F-4-1 Production Artifact Registry Docker 저장소 생성 — 2026-10-21 사용자 완료 보고.
+      이름 `flow-state-logsink-production`, Docker / 표준, 지역 `asia-northeast3` 확인.
+    - [x] 8-F-4-2 verification에서 성공한 정확한 이미지 digest를 확인하고 Production 저장소에 복사.
+      - [x] 2026-10-21 사용자 Production `safe-log-sink:production-v1` 업로드 보고.
+        verification의 단일 image manifest와 Production manifest의 digest가 동일함을 보고받았다.
+      - [x] 2026-10-21 사용자 `imagetools inspect` 결과에서 verification-v3 index의
+        linux/amd64 manifest가 Production manifest와 동일함을 확인했다. 8-F-4-2 완료.
+        unknown/unknown 항목은 같은 실행 manifest를 참조하는 attestation이며 별도 실행 이미지가 아니다.
+      - 판정 보정: OCI index와 단일 manifest는 서로 다른 객체이므로 digest를 직접 같다고 요구하지 않는다.
+        원본 index의 실행 플랫폼 manifest와 Production manifest를 대조한다. 재빌드·재업로드는 현재 필요하지 않다.
+    - [x] 8-F-4-3 Production Cloud Run 서비스 배포·전용 계정·HMAC Secret 연결 — 2026-10-21 사용자 완료 보고.
+      `safe-log-sink-production` / 서울 / production-v1 / 요청 기반 / 서비스 확장 최소 0·최대 1 /
+      Production LogSink 전용 계정 / `FLOW_STATE_LOG_SINK_HMAC` → `FS_LOG_SINK_HMAC_V1` 고정 버전 /
+      서비스 상태 정상 확인. 외부 health 응답은 8-F-4-4에서 별도 확인한다.
+    - [x] 8-F-4-4 Production 서비스의 `/health` HTTP 204 확인 — 2026-10-21 사용자 응답 보고.
+      상태 `204 No Content`와 빈 본문 확인. 외부 접속·서버 실행 확인이며 실제 서명 이벤트 수집 검증은 아니다.
+  - [x] 8-F-5 Production 로그 관리 설정
+    - [x] 8-F-5-1 `_Default` 버킷의 로그 보관 기간 30일 확인 — 2026-10-21 사용자 Production 설정 확인 보고.
+    - [x] 8-F-5-2 LogSink 로그를 다른 저장소로 내보내는 추가 경로 없음 확인.
+      - [x] 2026-10-21 사용자 확인: 프로젝트 싱크는 `_Default` / `_Required`만 있으며 대상은 현재 프로젝트의 동명 로그 버킷이다.
+      - [x] 프로젝트의 조직 소속 확인 — 2026-10-21 사용자 보고: 생성자 한 명만 있는 조직에 소속.
+      - [x] 상위 조직·중간 폴더 확인 — 2026-10-21 사용자 보고: 조직 싱크 없음, 중간 폴더 보이지 않음.
+        안내한 리소스 계층 확인 결과를 근거로 조직의 추가 경로 없음·중간 폴더 확인 해당 없음으로 기록한다.
+    - [x] 8-F-5-3 로그 조회를 운영 담당자로 제한하고 수집용 계정과 조회 권한 분리 — 2026-10-21 사용자 확인.
+      조회 가능한 사람·그룹은 생성자 한 명뿐이며, Production LogSink 서비스 계정에는 로그 조회 역할이 없다.
+      추가 검토할 권한 없음 보고. 별도 계정의 조회 실패 시험이나 신규 역할 부여는 수행하지 않았다.
+  - [x] 8-F-6 UGS production의 나머지 Secret 및 최종 준비 확인
+    - [x] 8-F-6-1 별도 계정 이전 HMAC을 `FS_TRANSFER_HMAC_V1`에 저장 — 2026-10-21 사용자 완료 보고.
+      새 Production 계정 이전 키 생성·UGS production 저장·Cloud Code 전용 접근·클립보드 비우기 완료.
+      값은 수신·열람하지 않았으며, LogSink 키와 별개로 준비한 사실을 기록한다.
+    - [x] 8-F-6-2 Production LogSink HTTPS base URL을 `FS_LOG_SINK_URL_V1`에 저장 — 2026-10-21 사용자 완료 보고.
+      UGS production에 기본 HTTPS URL만 저장하고 `/health`·`/v1/events`·포트 번호를 제외했으며
+      서비스 액세스를 Cloud Code만으로 설정했다. 실제 URL은 수신·문서 기록하지 않았다.
+    - [x] 8-F-6-3 `FS_ENVIRONMENT_NAME_V1`에 `production` 저장 — 2026-10-21 사용자 완료 보고.
+      UGS production 환경에 값 `production`, 서비스 액세스 Cloud Code만으로 설정했다.
+    - [x] 8-F-6-4 서비스 Secret 세 개·환경 설정 한 개의 이름과 Cloud Code 전용 접근 및 8-F 전체 결과 대조.
+      2026-10-21 AI 문서 대조: `FS_LOG_SINK_HMAC_V1`은 8-F-2-1, `FS_TRANSFER_HMAC_V1`은 8-F-6-1,
+      `FS_LOG_SINK_URL_V1`은 8-F-6-2, `FS_ENVIRONMENT_NAME_V1`은 8-F-6-3의 사용자 보고로 확인했다.
+      네 항목 모두 UGS production·Cloud Code 전용 접근이며 HMAC 두 용도 분리·GCP/UGS LogSink 키 동일 값
+      저장 보고와 일치한다. GCP/API·이미지·전용 계정·Secret 연결·health 204·30일 보관·전송 경로·조회 권한도
+      8-F-1~8-F-5의 완료 근거와 대조했다. 재설정·값 열람·재생성·추가 사용자 시험은 필요하지 않다.
+      최종 판정: 8-F 준비 범위 완료. Production Module 실제 연결·이벤트 수집 성공은 아직 미검증이다.
+  - 8-F의 완료 범위는 서버·설정 준비다. Production Cloud Code Module 배포와 실제 로그 전송 검증은
+    후속 배포 단계에서 수행한다. verification 전용 Probe 도구를 Production 확인에 사용하지 않는다.
+
+`UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md`는 이 전환의 단일 구성 기준이다. 8-D~8-F가
+완료되기 전까지 `PRODUCTION_DEPLOY_BLOCKED`를 유지한다.
+2026-10-21 8-D~8-F 준비는 완료했다. 이 상태만으로 Production 배포를 승인하지 않으며,
+새 source commit 연결·새 Module 기준 호환성 승인 등 후속 배포 전 조건의 판정까지 차단을 유지한다.
+
+#### 8-A 진행 기록 — 2026-10-20
+
+- [x] 8-A-1 AI: `UGS/CloudCode/execution-scope.js`에 환경 식별자 상수·전역 가변 상태 없이 호출별
+  `projectId`/`environmentId`를 생성·비교·저장값에 결합하는 공통 계약을 추가했다.
+- [x] 8-A-2 AI: `execution-scope-contracts.test.cjs`로 빈 scope 거부, immutable scope, scope 불일치 거부,
+  저장값의 명시적 scope 결합을 정적 검증했다.
+- [x] 8-A-3 AI: 호출별 scope 전달 구현과 전체 Node 회귀를 완료했다.
+  - [x] 8-A-3-1: 고정 scope 의존 경로를 대조했다. `account-store`가 Cloud Save API 대상과 저장값 검증의
+    기준이며, account provisioning·receipt store·legacy account store·ledger v2 migration·transfer
+    cryptography가 그 값을 사용한다. query/submit은 Leaderboard API 대상에도 같은 값을 사용한다.
+  - [x] 8-A-3-2: `account-store`를 호출별 immutable scope 소유자로 전환했다. account provisioning은
+    `store.scope`를 사용하고 receipt·legacy store 생성에도 예상 scope를 전달해 일치를 검사한다.
+  - [x] 8-A-3-3: transfer cryptography, transfer start/completion/verification, ledger v2 migration이 같은
+    `store.scope`를 HMAC 입력과 저장값 scope에 사용하도록 변경했다. 같은 scope와 같은 Secret 값이면
+    기존 credential digest가 유지됨을 검사했다. verification은 기존 Secret 이름과 값을 그대로 사용한다.
+  - [x] 8-A-3-4: query/submit의 Leaderboard API 대상과 C# `ServerServices` REST 대상을 호출별 scope로
+    전환했다. 요청 Project와 host Project가 다르면 REST 전송 전에 거부한다.
+  - [x] 8-A-3-5: C# Probe와 Safe LogSink를 현재 context로 전환하고 환경 중립 검사를 추가했다.
+    LogSink에는 Environment ID가 아닌 `EnvironmentName`의 `verification`/`production`만 허용한다.
+  - [x] 8-A-3-6: 8-A-3-2~8-A-3-5를 함께 검증했다. Node 49파일과 `git diff --check`를 통과했으며,
+    Unity Compilation·Test Runner·verification 재배포는 사용자 작업 8-E로 인계한다.
+
+#### 8-A-3 구현 개시 기준 — 2026-10-20
+
+이 작업은 조사 또는 문서화만으로 개시 완료로 보고하지 않는다. 다음 파일의 실제 코드 변경과 Node 회귀
+검사가 함께 있을 때만 `구현 진행`으로 기록한다.
+
+1. `account-store.js`와 `account-service.js`가 호출별 immutable `scope`를 명시적으로 소유·검증한다.
+2. `account-provisioning-service.js`, `receipt-store.js`, `legacy-account-store.js`, transfer 관련 service,
+   ledger migration, query/submit이 `store.scope` 또는 명시 인수만 사용한다.
+3. C# `ServerServices`와 embedded JavaScript의 Cloud Save·Leaderboard 대상, HMAC 입력, Probe·LogSink
+   환경 필드가 동일 호출 scope를 사용한다.
+4. verification/Production 식별자 상수는 runtime 경로에 남지 않으며, 전역 변수·module cache로 scope를
+   선택하지 않는다.
+5. Node 단위·정적 검사, `git diff --check`가 통과한다. 그 뒤에만 사용자가 Unity Compilation·Test Runner와
+   verification 재배포를 수행한다.
+
+구현을 지연한 원인: 영향 범위가 넓다는 사실을 확인한 뒤 원자적 변경을 적용하지 않고 설명으로 종료했다.
+이 기준 이후에는 위 코드 변경 또는 검증 결과가 없는 `작업 시작`·`진행` 보고를 하지 않는다.
+
+#### Step 8 실제 구현·검증 결과 — 2026-10-20
+
+- C# host, embedded JS의 account/receipt/legacy ledger·migration·transfer·query/submit 경로를 함께 변경했다.
+  runtime 경로에서 고정 Project/Environment ID를 제거했다. 검증 전용 도구의 식별자는
+  `UGS/Verification/verification-scope.cjs`로 옮겼으며 Module에는 포함되지 않는다.
+- 기존 C# host는 이미 호출마다 새 Jint Engine과 cache를 생성한다. 앞서 cache가 환경 간 공유된다고
+  단정한 설명은 부정확했다. 이 호출별 구조를 유지하고 JS는 함수 인수·store의 immutable scope만 사용한다.
+- `environment-neutral-module.test.cjs` 통과: 같은 Project의 다른 Environment를 병렬 실행해 계정 발급,
+  receipt/ledger migration, 계정 이전, HMAC 분리, 실제 embedded submit/query가 섞이지 않음을 검사했다.
+  같은 scope·같은 HMAC 값에서는 기존 digest 형식이 유지된다. schema·container/key·API 함수 이름은 유지했다.
+- 새 scope 검사, Module shim, 기존 record account integration 34사례, Step 1·2·5·6 정적 계약과 inventory
+  검사를 통과했다. C# SDK의 `IExecutionContext.EnvironmentName`은 설치된 Core 0.0.7 assembly의 속성 목록으로 확인했다.
+- 첫 Node 검사에서 49파일 중 44파일 통과, 5파일 실패였다. 실패 5파일은 수정 전 Git `935a8d` source를
+  읽기 전용으로 불러와 실행해도 같은 실패가 재현됐다. 현재 계약과 다른 테스트 자료·SDK 대역을 수정하고
+  다시 실행한 최종 결과는 **49파일 모두 통과**다.
+
+| 기존 실패 파일 | 확인된 실패 | 처리 상태 |
+| --- | --- | --- |
+| `account-service.test.cjs` | 20사례 중 3실패: LedgerConflict / SubmissionNotTerminal | fixture ledger의 version 누락 수정, 20/20 통과 |
+| `cloud-code.test.cjs` | 22사례 중 조회 2실패: 오래된 TOP 크기·SDK 대역 | 현행 TOP 10·PlayerRange/PlayerScore·안전 오류 계약 대조, 22/22 통과 |
+| `json-snapshot-consistency.test.cjs` | 존재하지 않는 owner mapping의 value 접근 | legacy 행을 포함하는 TOP 조회로 fixture 수정, 30개 중단 경계 통과 |
+| `live-transfer-storage-probe.test.cjs` | 9사례 중 3실패: LedgerConflict 및 주입 실패 분류 | probe fixture ledger version 수정, 로컬 9/9 통과·원격 실행 아님 |
+| `client-verification-tools-contracts.test.cjs` | `flow-state-phase3-new` 문자열 계약 불일치 | 인증 gateway에서 분리된 실제 설정 참조를 검사해 통과 |
+
+Step 8 판정은 `PRODUCTION_DEPLOY_BLOCKED`다. 사용자 Unity 검증·verification Module
+재배포, Production LogSink·Secret·보드 구성 및 호환성 승인이 남아 있다. 정적 검사에서 해결한 항목은
+사용자 수동 재현으로 넘기지 않는다. 현재 배포된 Module은 이번 로컬 source와 다르다.
+
+### Production 배포 준비 작업 순서 — 2026-10-20
+
+아래 순서는 Production 변경 승인 전의 준비 범위다. 각 단계의 확인 결과가 다음 단계의 입력이 된다.
+이 순서는 바로 위 **Step 8 후속 변경 — 환경 중립 Module 전환**의 실행 순서다. 대응 관계는 다음과 같다.
+
+| Production 준비 순서 | Step 8 후속 변경 | 완료 의미 |
+| --- | --- | --- |
+| 1~2 | 8-A, 8-B | 환경 중립 Module source와 정적 계약 준비 |
+| 3 | 8-D | verification 기존 Secret 이름·Cloud Code 접근 확인 |
+| 4 | 8-E | verification 재배포와 Unity·원격 확인 |
+| 5 | 8-F | Production LogSink·Secret 준비 — 완료 |
+| 6 | 8-G-1~8-G-4 / Step 8 재판정 | 보드·새 SHA·호환성 대조 후 `READY_FOR_APPROVAL` 또는 차단 유지 |
+| 7 | 8-G-5 / Step 9 | 승인된 첫 Production 배포 |
+
+1. **호출별 환경 scope 리팩터링 — AI (8-A)**
+   - `FlowStateVerification` C# host와 Module 내부에 포함된 `UGS/CloudCode/*.js`가 현재 호출의
+     Project/Environment scope를 명시적으로 전달하도록 바꾼다.
+   - C# host, account/receipt/legacy storage, Leaderboard, transfer HMAC, Safe LogSink Probe까지 같은
+     호출 scope를 사용한다.
+   - 전역 변수 또는 Module cache에 환경 scope를 저장하는 방식은 사용하지 않는다.
+2. **환경 중립 정적 검증 — AI (8-B)**
+   - Production 식별자가 source에 들어가지 않는지, verification scope가 Production 경로에 남지 않는지
+     검사한다.
+   - C#에서 embedded JavaScript를 거쳐 Cloud Save·Leaderboards로 전달되는 scope 일치와 첫 배포
+     수정 후 재배포 gate를 검사한다.
+3. **verification Secret 준비 — 사용자 (8-D)**
+   - verification의 기존 `_VERIFICATION_` 이름 세 개와 Cloud Code 전용 접근을 사용한다.
+   - 새 Module이 기존 이름을 읽으므로 값 복사·재생성은 필요하지 않다.
+   - 환경 이름 보완 설정 `FS_ENVIRONMENT_NAME_V1`에 값 `verification`을 추가한다(8-D-4).
+4. **verification 재배포와 Unity 검증 — 사용자 (8-E)**
+   - 변경된 `FlowStateVerification` Module을 verification에 배포한다.
+   - Unity Script Compilation, Unity Test Runner, Online Verification 읽기 전용 조회, 합성 LogSink
+     Probe를 순서대로 확인한다.
+5. **Production 운영 기반 준비 — 사용자 (8-F)**
+   - Production Cloud Run LogSink, 30일 보관·자동 삭제, 운영 조회 권한을 준비한다.
+   - Production에 공통 이름의 세 Secret을 만들고 Cloud Code 접근만 부여한다. 값은 verification과
+     공유하지 않는다.
+   - 보드 준비는 아래 8-G-1에서 별도 확인한다. Access Control은 Step 5의 완료 근거를 후속 gate에서 대조한다.
+6. **Production gate 재판정 — AI (Step 8)**
+   - inventory, 정적 검사, verification 결과, Secret 접근, LogSink 준비 상태, 호환성, 첫 배포
+     수정 후 재배포 기준을 대조한다.
+   - 모두 충족할 때만 `READY_FOR_APPROVAL`로 판정한다.
+7. **첫 Production 배포 — 사용자 (Step 9)**
+   - `READY_FOR_APPROVAL`과 명시적 승인 뒤에만 단일 Module을 배포한다.
+   - 첫 배포 실패 또는 최초 확인 실패 시 공개를 중단하고, 데이터 변경 없이 수정 commit으로 다시
+     배포한다. 첫 성공 배포 후부터 직전 Module reference를 rollback 후보로 기록한다.
+
+### 8-F 완료 후 남은 5개 작업 — 8-G 진행 체크리스트 (2026-10-21)
+
+이 절은 앞서 안내한 5개 후속 작업의 단일 진행표다. 8-A~8-F의 완료 상태를 유지하고,
+Step 8 재판정과 Step 9를 아래 번호로 연결한다. `8-G-1 수행 방법을 알려줘`처럼 한 항목씩 요청한다.
+아래 항목은 아직 미완료다. 문서 기록 자체가 원격 설정·커밋·배포 승인을 의미하지 않는다.
+5번은 준비 작업이 아니라 승인 이후 실제 배포이며, 완료된 뒤 Step 10에서 Phase 4 전체를 판정한다.
+
+- [x] **8-G-1 Production Leaderboards 두 개의 존재·설정 확인 — 사용자, AI 정적 대조**
+  - 대상: Stage `fs-stage-stage-001-r1`, Infinite `fs-infinite-v2`.
+  - 2026-10-21 사용자 production 확인 보고: 두 보드의 ID·정렬·Best score·리셋/버킷/티어 없음이
+    아래 계약과 일치했다. AI가 submit/query source의 Board ID와 배포 계약을 정적으로 대조해 완료 처리했다.
+  - 없다면 사용자가 해당 항목의 작업 방법을 요청해 설정을 준비한다. 기존 보드는 초기화하거나 덮어쓰지 않는다.
+  - Stage는 낮은 점수 우선, Infinite는 높은 점수 우선이며 Best score·리셋/버킷/티어 없음 계약과 대조한다.
+  - **완료 기준:** production의 두 Board ID·정렬·업데이트·리셋/버킷/티어 설정 확인 결과를 기록하고
+    AI가 현행 Client/Module 계약과 대조한다. verification 행 복사나 시험 점수 제출은 포함하지 않는다.
+- [ ] **8-G-2 환경 중립 Module 변경을 Git commit으로 고정하고 SHA 기록 — 사용자**
+  - C# host와 embedded JS 및 필요한 새 파일이 같은 source 기준에 포함되는지 커밋 전에 정적으로 검토한다.
+  - 현재 확인된 HEAD는 `935a8d01a08c1b1d882560c7fe5c5d3d4f366665`이며 환경 중립 변경은 미커밋 상태다.
+  - 사용자가 커밋하고 새 전체 SHA를 알려준다. AI가 임의로 커밋하거나 기존 변경을 stage하지 않는다.
+  - **완료 기준:** 새 SHA와 해당 commit의 Module source 경로를 기록한다. git commit만으로 원격 source 동일성을 증명하지 않는다.
+- [ ] **8-G-3 새 SHA에 verification 검증 결과 연결·호환성 표 갱신 및 검토 — AI·사용자**
+  - 8-E의 배포·Unity 컴파일/전체 테스트·계정 Ready·Stage/Infinite 조회·LogSink 결과를 새 SHA에 연결한다.
+  - 사용자는 마지막 verification 배포 후 Module source 변경 유무를 확인하고, AI는 로컬 commit/source를 대조한다.
+  - Client·Module·Local Save v7·Cloud Save schema·이전 credential·Secret 이름 계약의 호환성 표 v2 후보를 갱신한다.
+  - **완료 기준:** source와 검증 근거의 연결 및 호환성 검토 결과를 기록하고 사용자 승인을 받는다.
+    커밋만 새로 했거나 문서만 바뀐 경우 기존 검증을 반복하지 않는다. 실제 source 차이가 있을 때 영향 범위만 재판단한다.
+- [ ] **8-G-4 Production gate 재판정 — AI, Step 8**
+  - 8-G-1~8-G-3, 완료된 Step 1~7·8-A~8-F, Access Control·Secret·30일 로그/삭제 정책·첫 배포 복구 기준을 대조한다.
+  - 과거 대기·차단 서술과 최신 완료 근거를 구분하고 누락된 필수 근거가 있는지 확인한다.
+  - **완료 기준:** 근거와 함께 `READY_FOR_APPROVAL` 또는 `PRODUCTION_DEPLOY_BLOCKED`를 기록한다.
+    판정만으로 배포 권한이 생기지는 않는다.
+- [ ] **8-G-5 명시적 승인 후 첫 Production Module 배포 — 사용자, Step 9**
+  - **착수 조건:** 8-G-4가 `READY_FOR_APPROVAL`이고 사용자가 대상·배포 단위·변경 창을 명시 승인한다.
+  - 승인한 source 기준의 `FlowStateVerification` C# Module 하나를 production에 배포하고 게시 시각·가능한 reference를 기록한다.
+  - 첫 배포 실패 시 이전 버전 rollback이 아니라 공개 중단·원인 수정·수정 commit 재배포 기준을 적용한다.
+  - **완료 기준:** 아래 Step 9의 승인된 배포 또는 중단·복구 결과가 기록된다. AI는 Unity 빌드/Test Runner·Scene 수정·원격 배포를 수행하지 않는다.
+  - Production에서 Player 기능을 실행하는 통합 검증·Windows Player Build는 Phase 5의 별도 승인 범위를 유지한다.
+
+현재 다음 작업은 **8-G-2**다. Production Module 배포 및 Phase 4 전체 완료는 아직 선언하지 않는다.
 
 ## Step 9. 승인된 Production 적용과 복구 가능성을 기록한다 — 사용자
 
 이 Step은 Step 8의 `READY_FOR_APPROVAL`과 사용자의 명시적 Production 변경 승인이 모두 있을 때만 수행한다.
 
-1. 변경 직전에 Project/Environment·Module 이름·직전 rollback reference·로그 sink 상태를 다시 확인한다.
+1. 변경 직전에 Project/Environment·Module 이름·로그 sink 상태를 다시 확인한다. 첫 배포이면 수정 후
+   재배포 기준을, 기존 배포가 있으면 직전 rollback reference를 함께 확인한다.
 2. 승인된 단일 배포 단위만 적용한다. 대상 불일치·버전 불명·입력 정의 차이·예상 밖 경고가 있으면 즉시 중단한다.
 3. 배포 뒤에는 Dashboard가 제공하는 게시 시각/reference와 대상 Environment만 기록한다. 운영 데이터 생성, verification 자료 복사, 수동 ledger 생성, Board 초기화는 하지 않는다.
-4. 오류 또는 호환성 문제가 생기면 같은 Production 환경의 직전 확인 reference로 rollback하고, 데이터 삭제·환경 간 덮어쓰기·Secret 노출 없이 Step 7과 같은 읽기 전용 확인을 수행한다.
+4. 첫 배포에서 오류 또는 호환성 문제가 생기면 공개를 중단하고 수정 commit으로 재배포한다. 기존 배포가
+   있는 변경에서 오류가 생기면 같은 Production 환경의 직전 확인 reference로 rollback한다. 어느 경우에도
+   데이터 삭제·환경 간 덮어쓰기·Secret 노출 없이 읽기 전용 확인을 수행한다.
 5. Production에서 Player 기능을 실제로 실행하는 통합 검증과 Windows Player Build는 Phase 5에서 별도 승인 뒤 수행한다.
 
 ### 완료 조건

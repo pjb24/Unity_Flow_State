@@ -45,7 +45,7 @@ namespace FlowState.Server
         [CloudCodeFunction("EmitVerificationSafeLogProbe")]
         public object EmitVerificationSafeLogProbe(IExecutionContext context, IGameApiClient client)
         {
-            if (context.ProjectId != ServerServices.ProjectId || context.EnvironmentId != ServerServices.EnvironmentId)
+            if (context == null || string.IsNullOrWhiteSpace(context.ProjectId) || string.IsNullOrWhiteSpace(context.EnvironmentId))
                 throw new InvalidOperationException("ContextMismatch");
             if (!SyntheticLogProbeLimiter.TryReserve()) return new { status = "RateLimited" };
             using ServerServices services = new ServerServices(context);
@@ -53,8 +53,10 @@ namespace FlowState.Server
                 (name, remainingMilliseconds) => client.SecretManager.GetSecret(context, name)
                     .WaitAsync(TimeSpan.FromMilliseconds(remainingMilliseconds)).GetAwaiter().GetResult().Value,
                 SafeLogSinkClient.SyntheticProbeTelemetryMilliseconds)
-                .TryEmit("Accepted", "SyntheticProbe", "Allowed");
-            return new { status = accepted ? "Accepted" : "Unavailable" };
+                .TryEmit("Accepted", "SyntheticProbe", "Allowed",
+                    out string probePhase, out string probeReason, out int probeHttpStatus);
+            return new { status = accepted ? "Accepted" : "Unavailable",
+                phase = probePhase, reason = probeReason, httpStatus = probeHttpStatus };
         }
 
         private static object Run(string endpoint, IExecutionContext context, IGameApiClient client, object parameters)

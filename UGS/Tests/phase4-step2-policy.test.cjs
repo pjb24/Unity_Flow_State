@@ -68,15 +68,19 @@ assert.equal(policy.isSafePhase4StructuredLog({ ...safeLog, payload: "forbidden"
 assert.equal(policy.isSafePhase4StructuredLog({ ...safeLog, durationBucket: -1 }), false);
 
 const ready = {
-  verification, production, inventoryCaptured: true, rollbackReferenceCaptured: true, accessPolicyReviewed: true,
+  verification, production, deploymentKind: "Initial", inventoryCaptured: true, initialDeploymentRecoveryApproved: true, accessPolicyReviewed: true,
   secretAccessReviewed: true, logRetentionReady: true, logDeletionReady: true, compatibilityApproved: true,
   verificationRehearsed: true
 };
 assert.equal(policy.getProductionDeployGate(ready), "ReadyForApproval");
-for (const requirement of ["inventoryCaptured", "rollbackReferenceCaptured", "accessPolicyReviewed", "secretAccessReviewed",
+for (const requirement of ["inventoryCaptured", "initialDeploymentRecoveryApproved", "accessPolicyReviewed", "secretAccessReviewed",
   "logRetentionReady", "logDeletionReady", "compatibilityApproved", "verificationRehearsed"])
   assert.equal(policy.getProductionDeployGate({ ...ready, [requirement]: false }), "Blocked");
 assert.equal(policy.getProductionDeployGate({ ...ready, production: verification }), "BlockedEnvironment");
+assert.equal(policy.getProductionDeployGate({ ...ready, deploymentKind: undefined }), "Blocked");
+assert.equal(policy.getProductionDeployGate({ ...ready, deploymentKind: "Update" }), "Blocked");
+assert.equal(policy.getProductionDeployGate({ ...ready, deploymentKind: "Update", rollbackReferenceCaptured: true,
+  initialDeploymentRecoveryApproved: false }), "ReadyForApproval");
 
 const rollback = { target: production, previous: { ...production, moduleReference: "previous-reference" } };
 assert.equal(policy.getPhase4RollbackDisposition(rollback), "RepublishPreviousModule");

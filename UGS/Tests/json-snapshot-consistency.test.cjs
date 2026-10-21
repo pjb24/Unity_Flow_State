@@ -70,7 +70,7 @@ async function run() {
     await provision.ensure(f.context);
     const query = createRecordQueryService(store, f.leaderboard, playerId => provision.ensure({ ...f.context, playerId }));
     return { f, call: () => query({ context: f.context, params: { request:
-      JSON.stringify({ boardId: "fs-stage-stage-001-r1", kind: "me", limit: 1 }) } }) };
+      JSON.stringify({ boardId: "fs-stage-stage-001-r1", kind: "top", limit: 10 }) } }) };
   }
   const baseline = await prepare(), initialWrites = baseline.f.state.writes;
   assert.equal((await baseline.call()).status, "Success");

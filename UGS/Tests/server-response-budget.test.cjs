@@ -30,7 +30,7 @@ assert.ok(services.includes('parameters["rangeLimit"]'));
 assert.ok(services.includes("_deadline.Dispose()"));
 assert.ok(runtime.includes(".CancellationToken(services.DeadlineToken)"));
 assert.ok(runtime.includes(".TimeoutInterval(TimeSpan.FromMilliseconds(ServerServices.RequestBudgetMilliseconds))"));
-assert.ok(runtime.includes("getSecret(name, services.RemainingMilliseconds)"));
+assert.ok(runtime.includes("getSecret(services.ResolveSecretName(name), services.RemainingMilliseconds)"));
 assert.match(entry, /\(name, remainingMilliseconds\)[\s\S]*?WaitAsync\(TimeSpan.FromMilliseconds\(remainingMilliseconds\)\)/);
 assert.equal(/FromSeconds\((5|15)\)|12000|15000/.test(runtime + services + entry), false, "no independent or longer server budgets");
 assert.ok(runtime.lastIndexOf("services.ThrowIfExpired();", runtime.indexOf("return response;")) > runtime.indexOf("DeserializeObject<object>(result)"));

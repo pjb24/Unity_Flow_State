@@ -1,9 +1,8 @@
-const { validateContext, validateScope, fault, projectId, environmentId } = require("./account-store");
+const { validateContext, validateScope, fault } = require("./account-store");
 const number = require("./public-player-number-policy");
 const owner = require("./leaderboard-owner-policy");
 const { createAccountService } = require("./account-service");
 const { sameJsonValue } = require("./json-value-policy");
-const scope = { schemaVersion: 1, projectId, environmentId };
 const clone = value => JSON.parse(JSON.stringify(value));
 
 function generateId() {
@@ -16,6 +15,7 @@ function generateId() {
 }
 
 function createAccountProvisioningService(store, legacy, idGenerator = generateId) {
+  const scope = { schemaVersion: 1, ...store.scope };
   async function ensureMapping(kind, id, accountId) {
     const mapping = await store.create(kind, id, { ...scope, accountId });
     if (!mapping || mapping.value.accountId !== accountId) throw fault("AccountConflict");
@@ -37,7 +37,7 @@ function createAccountProvisioningService(store, legacy, idGenerator = generateI
   }
   return {
     async ensure(context) {
-      validateContext(context);
+      validateContext(context, store.scope);
       let binding = await store.read("player", context.playerId);
       if (!binding) {
         const accountId = owner.tryNormalizeGeneratedLeaderboardOwnerId(idGenerator());
@@ -48,7 +48,7 @@ function createAccountProvisioningService(store, legacy, idGenerator = generateI
         binding = await store.create("player", context.playerId, { ...scope,
           playerId: context.playerId, accountId, connectionRevision: 1, generatedOwner });
       }
-      validateScope(binding.value);
+      validateScope(binding.value, store.scope);
       if (binding.value.playerId !== context.playerId) throw fault("AccountConflict");
       const accountId = binding.value.accountId;
       let account = await store.read("account", accountId);

@@ -67,7 +67,7 @@ function createTransferLifecycleService(store, clock = Date.now) {
   async function readStatus(context, observedBinding) {
     // Lazy server expiry, no timer/Unity/Secret needed. No raw reconstruction
     // or credential activation on status reads, including inactive issuance.
-    validateContext(context);
+    validateContext(context, store.scope);
     const binding = observedBinding === undefined ? await store.read("player", context.playerId) : observedBinding;
 
     if (binding && !binding.value.transferOperation) {
@@ -102,12 +102,12 @@ function createTransferLifecycleService(store, clock = Date.now) {
     async expire(context, transferId) { return transition(context, transferId, "expire"); },
     async status(context) { return readStatus(context); },
     async inactiveStatus(context, observedBinding) {
-      validateContext(context);
+      validateContext(context, store.scope);
       const binding = observedBinding;
       if (!binding || binding.kind !== "player" || binding.id !== context.playerId ||
           binding.value.playerId !== context.playerId || binding.value.status !== "Inactive" ||
           binding.value.transferOperation) throw fault("AccountConflict");
-      validateScope(binding.value);
+      validateScope(binding.value, store.scope);
       return readStatus(context, binding);
     }
   };

@@ -8,7 +8,7 @@ const policy = require("./transfer-credential-policy");
 function createTransferVerificationService(store, secretProvider, clock = Date.now) {
   function current(account, lookup, digest, now) {
     if (!account) throw fault("InvalidTransferCredential");
-    validateScope(account.value);
+    validateScope(account.value, store.scope);
     const t = account.value.transfer;
     if (account.value.status !== "TransferPending" || !t || t.status !== "TransferPending" ||
         t.credentialActive !== true || t.codeDigest !== digest ||
@@ -28,14 +28,14 @@ function createTransferVerificationService(store, secretProvider, clock = Date.n
   }
   return {
     async verify(context, code, verificationValue) {
-      validateContext(context);
+      validateContext(context, store.scope);
       const normalized = policy.tryNormalizeTransferCode(code);
       if (!normalized) return { status: "InvalidCredential" };
-      const cryptography = createTransferCryptography(await secretProvider());
+      const cryptography = createTransferCryptography(await secretProvider(), undefined, store.scope);
       const digest = cryptography.codeDigest(normalized);
       const lookup = await store.read("t", digest);
       if (!lookup) return { status: "InvalidCredential" };
-      validateScope(lookup.value);
+      validateScope(lookup.value, store.scope);
       const account = await store.read("account", lookup.value.accountId);
       const now = clock();
       if (!Number.isSafeInteger(now) || now < 0) throw fault("InvalidServerTime");

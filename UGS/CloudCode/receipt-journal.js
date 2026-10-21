@@ -1,7 +1,7 @@
 // Receipt journal over receipt-store. A journal append only changes one
 // manifest/shard pair; locators are separate idempotent records for replay.
 const { fault } = require("./account-store");
-const { scope, shardKey } = require("./receipt-store");
+const { shardKey } = require("./receipt-store");
 const { isTerminalReceiptExpired } = require("./submission-retention-policy");
 const maximumReceiptBytes = 1024, targetShardBytes = 256 * 1024;
 // Jint's minimal Buffer shim intentionally has no byteLength; keep this
@@ -25,6 +25,7 @@ function terminalReceipt(entry) {
   return value;
 }
 function createReceiptJournal(receipts) {
+  const scope = receipts.scope;
   async function find(accountId, submissionId) {
     const locator = await receipts.readLocator(accountId, submissionId);
     if (!locator) return null;

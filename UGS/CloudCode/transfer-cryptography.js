@@ -1,9 +1,13 @@
 const crypto = require("crypto");
-const { fault, projectId, environmentId } = require("./account-store");
+const { fault } = require("./account-store");
+const { createExecutionScope } = require("./execution-scope");
 const policy = require("./transfer-credential-policy");
-const secretName = "FS_TRANSFER_HMAC_VERIFICATION_V1";
+const secretName = "FS_TRANSFER_HMAC_V1";
 const maximumRandomAttempts = 32;
-function createTransferCryptography(secretValue, randomBytes = crypto.randomBytes) {
+function createTransferCryptography(secretValue, randomBytes = crypto.randomBytes, executionScope) {
+  const scope = createExecutionScope(executionScope);
+  if (!scope) throw fault("ContextMismatch");
+  const { projectId, environmentId } = scope;
   // Require a canonical base64-encoded 256-bit server key. No default secret.
   if (typeof secretValue !== "string" || !/^[A-Za-z0-9+/]{43}=$/.test(secretValue))
     throw fault("TransferSecretUnavailable");

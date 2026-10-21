@@ -14,7 +14,7 @@ module.exports = async ({ context, logger }) => {
     if (!binding) {
       const { createLegacyAccountStore } = require("./legacy-account-store");
       const { createAccountProvisioningService } = require("./account-provisioning-service");
-      await createAccountProvisioningService(store, createLegacyAccountStore(context)).ensure(context);
+      await createAccountProvisioningService(store, createLegacyAccountStore(context, undefined, undefined, store.scope)).ensure(context);
     }
     const recovered = await createTransferCompletionService(store, null).recover(context);
     if (recovered) return recovered;

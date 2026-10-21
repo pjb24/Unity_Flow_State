@@ -1,9 +1,7 @@
-// verification only; bundle dependencies. Never expose storage/UGS identities.
+// Embedded Module endpoint. Never expose storage/UGS identities.
 const { createAccountStore, validateContext, fault } = require("./account-store");
 const { createAccountService } = require("./account-service");
 const { tryNormalizePublicPlayerNumber } = require("./public-player-number-policy");
-const project = "c76d55cf-7846-494b-9dce-a0797b179b36";
-const environment = "a20a46fa-1edb-4d79-9c35-02f2fed31896";
 const stage = "fs-stage-stage-001-r1";
 const infinite = "fs-infinite-v2";
 const fail = reason => ({ status: "TransientFailure", reason, entries: [] });
@@ -19,9 +17,10 @@ function unavailable(error, queryPhase) {
 }
 
 function createRecordQueryService(store, boards, provisionLegacyRow) {
+  const project = store.scope.projectId;
   const accounts = createAccountService(store);
   return async ({ params, context }) => {
-    try { validateContext(context); } catch (_) { return fail("ContextMismatch"); }
+    try { validateContext(context, store.scope); } catch (_) { return fail("ContextMismatch"); }
     let p;
     try { p = JSON.parse(params.request); } catch (_) { return fail("InvalidRequest"); }
     if (!p || ![stage, infinite].includes(p.boardId) || !["top", "around", "me"].includes(p.kind) ||
@@ -123,7 +122,7 @@ module.exports = async ({ params, context }) => {
     const { createLegacyAccountStore } = require("./legacy-account-store");
     const { createAccountProvisioningService } = require("./account-provisioning-service");
     const store = createAccountStore(context);
-    const provision = createAccountProvisioningService(store, createLegacyAccountStore(context));
+    const provision = createAccountProvisioningService(store, createLegacyAccountStore(context, undefined, undefined, store.scope));
     return await createRecordQueryService(store, new LeaderboardsApi(context),
       ownerId => provision.ensure({ ...context, playerId: ownerId }))({ params, context });
   } catch (error) { return unavailable(error, "EndpointSetup"); }

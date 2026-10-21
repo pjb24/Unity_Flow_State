@@ -1,10 +1,10 @@
 // Provider-neutral receipt persistence over Cloud Save Private Custom data.
 // It deliberately does not reuse account-store.locator: receipt containers use
 // their own bounded custom-ID layout and may contain many keys.
-const { projectId, environmentId, validateContext, fault } = require("./account-store");
+const { validateContext, validateScope, fault } = require("./account-store");
+const { createExecutionScope } = require("./execution-scope");
 const guardKey = "fs_receipt_guard_v1";
 const manifestKey = "manifest";
-const scope = () => ({ schemaVersion: 1, projectId, environmentId });
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function receiptContainerId(accountId, bucket, serial) {
@@ -26,13 +26,12 @@ function shardKey(serial) {
   if (!Number.isInteger(serial) || serial < 1 || serial > 999) throw fault("InvalidReceiptLocation");
   return `s-${String(serial).padStart(3, "0")}`;
 }
-function validateValue(value) {
-  if (!value || value.schemaVersion !== 1 || value.projectId !== projectId || value.environmentId !== environmentId)
-    throw fault("StoredScopeMismatch");
-}
-
-function createReceiptStore(context, api) {
-  validateContext(context);
+function createReceiptStore(context, api, expectedScope) {
+  validateContext(context, expectedScope);
+  const executionScope = createExecutionScope(context);
+  const { projectId } = executionScope;
+  const scope = () => ({ schemaVersion: 1, ...executionScope });
+  const validateValue = value => validateScope(value, executionScope);
   if (!api) {
     const { DataApi } = require("@unity-services/cloud-save-1.4");
     api = new DataApi(context);
@@ -100,4 +99,4 @@ function createReceiptStore(context, api) {
     scope
   };
 }
-module.exports = { createReceiptStore, receiptContainerId, locatorContainerId, receiptKey, shardKey, guardKey, manifestKey, scope };
+module.exports = { createReceiptStore, receiptContainerId, locatorContainerId, receiptKey, shardKey, guardKey, manifestKey };

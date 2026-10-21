@@ -29,7 +29,7 @@ assert.deepEqual(functionNames, [
 ]);
 for (const functionName of functionNames)
   assert.ok(moduleApiSpec.includes(`  /${functionName}:`), `Downloaded API spec is missing ${functionName}`);
-assert.ok(runtime.includes('name != "FS_TRANSFER_HMAC_VERIFICATION_V1"'));
+assert.ok(runtime.includes('name != "FS_TRANSFER_HMAC_V1"'));
 assert.ok(!runtime.includes("GetSecret(context, name).Result"));
 
 for (const resource of ["urn:ugs:leaderboards:/**", "urn:ugs:cloud-save:/**"]) {
@@ -44,11 +44,15 @@ assert.ok(!policy.statements.some(statement => statement.Principal === "Player" 
 
 const verificationProject = "c76d55cf-7846-494b-9dce-a0797b179b36";
 const verificationEnvironment = "a20a46fa-1edb-4d79-9c35-02f2fed31896";
-for (const source of [services, clientConfiguration, read("UGS/CloudCode/account-store.js")]) {
+for (const source of [clientConfiguration]) {
   assert.ok(source.includes(verificationProject));
   assert.ok(source.includes(verificationEnvironment));
   assert.ok(!source.includes("ProductionProjectId"));
   assert.ok(!source.includes("ProductionEnvironmentId"));
+}
+for (const source of [services, read("UGS/CloudCode/account-store.js")]) {
+  assert.ok(!source.includes(verificationProject));
+  assert.ok(!source.includes(verificationEnvironment));
 }
 
 assert.ok(deployment.indexOf("## 현재 적용 방식 — C# Module") < deployment.indexOf("## 과거 JavaScript 게시 절차 — 참고 이력"));

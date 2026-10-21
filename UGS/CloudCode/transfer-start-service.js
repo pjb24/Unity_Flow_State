@@ -1,4 +1,4 @@
-const { fault, projectId, environmentId } = require("./account-store");
+const { fault } = require("./account-store");
 const { readSourceAccount, validatePendingTransfer } = require("./transfer-state");
 const { createAccountService } = require("./account-service");
 const { generateId } = require("./account-provisioning-service");
@@ -6,9 +6,9 @@ const { createTransferCryptography } = require("./transfer-cryptography");
 const policy = require("./transfer-credential-policy");
 const ownerPolicy = require("./leaderboard-owner-policy");
 const maximumCodeAttempts = 8;
-const scope = { schemaVersion: 1, projectId, environmentId };
 
 function createTransferStartService(store, secretProvider, options = {}) {
+  const scope = { schemaVersion: 1, ...store.scope };
   const clock = options.clock || Date.now;
   const idGenerator = options.idGenerator || generateId;
   function time() {
@@ -88,7 +88,7 @@ function createTransferStartService(store, secretProvider, options = {}) {
       if (account.value.status !== "TransferPending") throw fault("TransferUnavailable");
       const current = validateTransfer(account);
       if (typeof secretProvider !== "function") throw fault("TransferSecretUnavailable");
-      const cryptography = createTransferCryptography(await secretProvider(), options.randomBytes);
+      const cryptography = createTransferCryptography(await secretProvider(), options.randomBytes, store.scope);
       const credentialRevision = current.credentialRevision + 1;
       if (!Number.isSafeInteger(credentialRevision)) throw fault("TransferUnavailable");
       const credential = cryptography.generateCredential();
@@ -112,7 +112,7 @@ function createTransferStartService(store, secretProvider, options = {}) {
       account = await createAccountService(store, clock).assertTransferCanStart(context);
       if (typeof secretProvider !== "function") throw fault("TransferSecretUnavailable");
       const secret = await secretProvider();
-      const cryptography = createTransferCryptography(secret, options.randomBytes);
+      const cryptography = createTransferCryptography(secret, options.randomBytes, store.scope);
       const transferId = ownerPolicy.tryNormalizeGeneratedLeaderboardOwnerId(idGenerator());
       const issuedAtMilliseconds = time();
       const expiresAtMilliseconds = issuedAtMilliseconds + policy.transferLifetimeMilliseconds;

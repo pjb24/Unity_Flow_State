@@ -165,7 +165,7 @@ function createTransferCompletionService(store, secretProvider, clock = Date.now
     async recover(context) {
       // Authentication + committed terminal ownership, not raw credentials,
       // recovers after a restart. No endpoint can choose an Account ID here.
-      validateContext(context);
+      validateContext(context, store.scope);
       const binding = await store.read("player", context.playerId);
       if (!binding || binding.value.playerId !== context.playerId) return null;
       const op = binding.value.transferOperation;
@@ -194,11 +194,11 @@ function createTransferCompletionService(store, secretProvider, clock = Date.now
       return { status: "TransferPending", reason: "TransferRecoveryPending" };
     },
     async complete(context, code, verificationValue) {
-      validateContext(context);
+      validateContext(context, store.scope);
       const normalized = policy.tryNormalizeTransferCode(code);
       const input = policy.tryNormalizeVerificationValue(verificationValue);
       if (!normalized) return { status: "InvalidCredential" };
-      const cryptography = createTransferCryptography(await secretProvider());
+      const cryptography = createTransferCryptography(await secretProvider(), undefined, store.scope);
       const digest = cryptography.codeDigest(normalized);
       const lookup = await store.read("t", digest);
       if (!lookup) return { status: "InvalidCredential" };

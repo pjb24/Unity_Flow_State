@@ -5,7 +5,7 @@ const vm = require("node:vm"), assert = require("node:assert/strict");
 const root = path.resolve(__dirname, "../..");
 const projectId = "c76d55cf-7846-494b-9dce-a0797b179b36";
 const environmentId = "a20a46fa-1edb-4d79-9c35-02f2fed31896";
-const secretName = "FS_TRANSFER_HMAC_VERIFICATION_V1";
+const secretName = "FS_TRANSFER_HMAC_V1";
 const expected = {
   "get-public-player-number": {},
   "get-account-transfer-status": {},
@@ -65,7 +65,8 @@ const endpoints = Object.keys(expected).map(name => inspect("UGS/CloudCode/" + n
 const bridge = inspect("UGS/Migration/legacy-barrier-submit.js", "submit-record", false);
 const store = read("UGS/CloudCode/account-store.js");
 const config = read("Assets/Scripts/Runtime/Features/OnlineRecordConfiguration.cs");
-for (const source of [store, config]) { assert.ok(source.includes(projectId)); assert.ok(source.includes(environmentId)); }
+assert.ok(!store.includes(projectId)); assert.ok(!store.includes(environmentId));
+assert.ok(config.includes(projectId)); assert.ok(config.includes(environmentId));
 assert.ok(read("UGS/CloudCode/transfer-cryptography.js").includes(secretName));
 const policy = JSON.parse(read("UGS/AccessControl/project-policy.json"));
 for (const sid of ["DenyPlayerLeaderboardWrites", "DenyPlayerCloudSaveWrites"])

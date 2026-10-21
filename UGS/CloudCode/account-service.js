@@ -5,13 +5,13 @@ const number = require("./public-player-number-policy");
 
 function createAccountService(store, clock = Date.now) {
   async function resolve(context, resumeSubmissionId = null) {
-    validateContext(context);
+    validateContext(context, store.scope);
     const binding = await store.read("player", context.playerId);
     if (!binding) throw fault("AccountUnavailable");
-    validateScope(binding.value);
+    validateScope(binding.value, store.scope);
     const account = await store.read("account", binding.value.accountId);
     if (!account) throw fault("AccountUnavailable");
-    validateScope(account.value);
+    validateScope(account.value, store.scope);
     if (binding.value.status === "Inactive" || binding.value.transferOperation &&
         (!resumeSubmissionId || !account.value.onlineOperation || account.value.onlineOperation.id !== resumeSubmissionId))
       throw fault("ActiveDeviceRequired");
@@ -31,11 +31,11 @@ function createAccountService(store, clock = Date.now) {
       const mapping = await store.read("number", value);
       if (!mapping || mapping.value.accountId !== account.value.accountId)
         throw fault("AccountConflict");
-      validateScope(mapping.value);
+      validateScope(mapping.value, store.scope);
       const ownerBinding = await store.read("owner", account.value.leaderboardOwnerId);
       if (!ownerBinding || ownerBinding.value.accountId !== account.value.accountId)
         throw fault("AccountConflict");
-      validateScope(ownerBinding.value);
+      validateScope(ownerBinding.value, store.scope);
       // Re-read authority after the mapping fetch; a late response may be stale.
       const current = await resolve(context);
       if (current.account.value.accountId !== account.value.accountId ||
@@ -66,7 +66,7 @@ function createAccountService(store, clock = Date.now) {
           operation.connectionRevision !== account.value.connectionRevision) throw fault("AccountBusy");
       const ledger = await store.read("ledger", account.value.accountId);
       if (!ledger) throw fault("LedgerUnavailable");
-      validateScope(ledger.value);
+      validateScope(ledger.value, store.scope);
       if (ledger.value.accountId !== account.value.accountId || ledger.value.active !== "") throw fault("LedgerConflict");
       if (ledger.value.version === 1) {
         const terminal = Array.isArray(ledger.value.entries) && ledger.value.entries.find(entry => entry.id === operation.id);
@@ -79,7 +79,7 @@ function createAccountService(store, clock = Date.now) {
       const { account, binding } = await resolve(context);
       const ledger = await store.read("ledger", account.value.accountId);
       if (!ledger) throw fault("LedgerUnavailable");
-      validateScope(ledger.value);
+      validateScope(ledger.value, store.scope);
       if (ledger.value.accountId !== account.value.accountId || typeof ledger.value.active !== "string" ||
           ![1, 2].includes(ledger.value.version))
         throw fault("LedgerConflict");

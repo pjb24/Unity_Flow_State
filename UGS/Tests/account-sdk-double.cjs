@@ -1,8 +1,11 @@
 const assert = require("node:assert/strict");
-const { projectId, environmentId } = require("../CloudCode/account-store");
+const { projectId, environmentId } = require("../Verification/verification-scope.cjs");
 const clone = value => JSON.parse(JSON.stringify(value));
 const context = { projectId, environmentId, playerId: "A", serviceToken: "local-double" };
-function fixture() {
+function fixture(executionScope = { projectId, environmentId }) {
+  const { projectId: scopeProject, environmentId: scopeEnvironment } = executionScope;
+  const projectId = scopeProject, environmentId = scopeEnvironment;
+  const context = { projectId, environmentId, playerId: "A", serviceToken: "local-double" };
   const privateItems = new Map();
   const protectedItems = new Map();
   const scores = new Map();

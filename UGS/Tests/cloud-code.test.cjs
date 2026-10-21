@@ -44,11 +44,21 @@ async function fixture() {
       if (state.failProjectionOnce) { state.failProjectionOnce = false; throw Error("response lost after commit"); }
     },
     async getLeaderboardScores(project, board, offset, limit, options) {
-      assert.equal(offset, 0); assert.equal(limit, 100); assert.equal(options.params.includeMetadata, true);
-      const scores = state.scores.filter(e => e.board === board);
-      return { data: { total: scores.length, results: clone(scores.slice(0, 100)) } };
+      assert.equal(offset, 0); assert.equal(limit, 10); assert.equal(options.params.includeMetadata, true);
+      syncScores();
+      return f.leaderboard.getLeaderboardScores(project, board, offset, limit);
+    },
+    async getLeaderboardPlayerScore(...args) {
+      syncScores(); return f.leaderboard.getLeaderboardPlayerScore(...args);
+    },
+    async getLeaderboardPlayerRange(...args) {
+      syncScores(); return f.leaderboard.getLeaderboardPlayerRange(...args);
     }
   };
+  function syncScores() {
+    f.scores.clear();
+    for (const row of state.scores) f.scores.set(`${row.board}/${row.playerId}`, clone(row));
+  }
   const submit = require("../CloudCode/submit-record").createRecordSubmissionService(store, boards);
   const query = require("../CloudCode/query-records").createRecordQueryService(store, boards, owner => {
     const row = state.scores.find(e => e.playerId === owner);
@@ -147,18 +157,21 @@ test("rank uses score then timestamp and shared competition rank", async () => {
   const f = await fixture();
   f.state.scores = [["a",100,10],["b",100,10],[f.ownerId,100,20],["d",200,5]].map(
     ([playerId,score,acceptedAt]) => ({ board:stage, playerId,score,metadata:{acceptedAt,submissionId:id(100)} }));
-  const top = await f.query({boardId:stage,kind:"top",limit:20});
+  const top = await f.query({boardId:stage,kind:"top",limit:10});
   assert.equal(top.status,"Success"); assert.equal(JSON.stringify(top.entries.map(e=>e.rank)),"[1,1,1,4]");
   const me = await f.query({boardId:stage,kind:"me",limit:1}); assert.equal(me.entries[0].rank,1);
   const around = await f.query({boardId:stage,kind:"around",limit:3}); assert.equal(around.entries.length,3);
 });
 test("empty boards succeed; unknown metadata and partial boards fail closed", async () => {
-  const f = await fixture(); const p = {boardId:stage,kind:"top",limit:20};
+  const f = await fixture(); const p = {boardId:stage,kind:"top",limit:10};
   assert.equal((await f.query(p)).status,"Success");
   f.state.scores = [{board:stage,playerId:"a",score:10}];
   assert.equal((await f.query(p)).reason,"MissingServerMetadata");
   f.state.scores = Array.from({length:101}, (_,i)=>({board:stage,playerId:String(i),score:i,metadata:{acceptedAt:1}}));
-  assert.equal((await f.query(p)).reason,"VerificationBoardCapacity");
+  const missingLegacyMetadata = await f.query(p);
+  assert.equal(missingLegacyMetadata.reason,"ServiceUnavailable");
+  assert.equal(missingLegacyMetadata.queryFault,"MissingServerMetadata");
+  assert.deepEqual(missingLegacyMetadata.entries,[]);
 });
 test("query guards and absent own score", async () => {
   const f = await fixture();

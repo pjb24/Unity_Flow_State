@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const { fixture } = require("./account-sdk-double.cjs");
-const { createAccountStore, projectId, environmentId } = require("../CloudCode/account-store");
+const { createAccountStore } = require("../CloudCode/account-store");
+const { projectId, environmentId } = require("../Verification/verification-scope.cjs");
 const { createReceiptStore, receiptContainerId, receiptKey } = require("../CloudCode/receipt-store");
 const { migrateV1Ledger } = require("../CloudCode/lazy-ledger-migration");
 (async () => {

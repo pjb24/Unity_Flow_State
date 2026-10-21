@@ -18,7 +18,7 @@ function runtime(f, options = {}) {
     __equals: (left, right) => crypto.timingSafeEqual(Buffer.from(left, "hex"), Buffer.from(right, "hex")),
     __encoding: (value, from, to) => Buffer.from(value, from).toString(to),
     __secret: name => {
-      assert.equal(name, "FS_TRANSFER_HMAC_VERIFICATION_V1");
+      assert.equal(name, "FS_TRANSFER_HMAC_V1");
       return options.noSecret ? JSON.stringify({ ok: false, status: 503 }) : JSON.stringify({ ok: true, value: { value: secret } });
     },
     async __service(method, argsJson) {
@@ -37,8 +37,8 @@ function runtime(f, options = {}) {
 }
 async function main() {
   const f = fixture(); const r = runtime(f);
-  const native = require("../CloudCode/transfer-cryptography").createTransferCryptography(secret);
-  const adapted = r.evaluate(`__load("transfer-cryptography").createTransferCryptography(${JSON.stringify(secret)})`);
+  const native = require("../CloudCode/transfer-cryptography").createTransferCryptography(secret, undefined, f.context);
+  const adapted = r.evaluate(`__load("transfer-cryptography").createTransferCryptography(${JSON.stringify(secret)}, undefined, ${JSON.stringify({projectId:f.context.projectId,environmentId:f.context.environmentId})})`);
   assert.equal(adapted.codeDigest("ABCD-EFGH"), native.codeDigest("ABCD-EFGH"));
   assert.equal(adapted.credentialHmac("test", 1, "ABCDEFGH", "000000007"), native.credentialHmac("test", 1, "ABCDEFGH", "000000007"));
   assert.equal(r.evaluate('Buffer.from("ffffffff", "hex").readUInt32BE(0)'), 4294967295);
@@ -155,4 +155,5 @@ async function main() {
   assert.ok(project.includes('Include="Jint" Version="4.16.4"'));
   console.log("PASS module shim: crypto parity, nine gameplay endpoints plus a synthetic LogSink probe, Stage submit/query/duplicate/worse score, transfer preserves row and denies old device, missing Secret, fixed client routes (offline Node VM; .NET build/runtime unverified)");
 }
-main().catch(error => { console.error(error); process.exitCode = 1; });
+if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
+module.exports = { runtime };

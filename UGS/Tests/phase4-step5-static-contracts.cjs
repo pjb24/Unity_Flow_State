@@ -19,9 +19,9 @@ assert.deepEqual(policy.statements, [
 ]);
 assert.ok(!policy.statements.some(statement => statement.Principal === "Player" && statement.Effect === "Allow"));
 
-const secretName = "FS_TRANSFER_HMAC_VERIFICATION_V1";
+const secretName = "FS_TRANSFER_HMAC_V1";
 assert.ok(runtime.includes('name != "' + secretName + '"'));
-assert.ok(runtime.includes("getSecret(name, services.RemainingMilliseconds)"));
+assert.ok(runtime.includes("getSecret(services.ResolveSecretName(name), services.RemainingMilliseconds)"));
 assert.ok(moduleSource.includes("client.SecretManager.GetSecret(context, name)"));
 assert.ok(transferCrypto.includes('const secretName = "' + secretName + '"'));
 assert.ok(transferCrypto.includes("secretManager.getSecret(secretName)"));

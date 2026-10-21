@@ -1,5 +1,9 @@
 # 6-3.2 최소 권한과 로그 수집 Secret 분리 — 사용자
 
+Step 8 환경 중립 source는 verification에서 아래 `_VERIFICATION_` 이름을 계속 사용한다.
+기존 UGS·GCP 이름과 값은 그대로 유지한다. Production에서는 `FS_LOG_SINK_HMAC_V1`과
+`FS_LOG_SINK_URL_V1`을 사용한다. 상세 환경별 구성은 `UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md`를 따른다.
+
 이 단계는 verification LogSink에 필요한 symmetric HMAC과 최소 IAM만 구성한다. Cloud Run service,
 Artifact Registry repository, Cloud Code Module 전송 연결은 아직 만들지 않는다.
 

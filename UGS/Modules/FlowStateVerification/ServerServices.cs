@@ -12,8 +12,10 @@ namespace FlowState.Server
 {
     internal sealed class ServerServices : IDisposable
     {
-        internal const string ProjectId = "c76d55cf-7846-494b-9dce-a0797b179b36";
-        internal const string EnvironmentId = "a20a46fa-1edb-4d79-9c35-02f2fed31896";
+        internal string ProjectId { get; }
+        internal string EnvironmentId { get; }
+        internal string EnvironmentName { get; private set; }
+        internal const string EnvironmentNameSecretName = "FS_ENVIRONMENT_NAME_V1";
         internal const int RequestBudgetMilliseconds = 5000;
         private const int MaximumResponseBytes = 8_000_000;
         // Reuse connections across invocations, but never share Player/service
@@ -26,6 +28,12 @@ namespace FlowState.Server
 
         internal ServerServices(IExecutionContext context)
         {
+            if (context == null || string.IsNullOrWhiteSpace(context.ProjectId) ||
+                string.IsNullOrWhiteSpace(context.EnvironmentId))
+                throw new InvalidOperationException("ContextMismatch");
+            ProjectId = context.ProjectId;
+            EnvironmentId = context.EnvironmentId;
+            EnvironmentName = NormalizeEnvironmentName(context.EnvironmentName);
             _clock = Stopwatch.StartNew();
             _deadline = new CancellationTokenSource(RequestBudgetMilliseconds);
             _serviceToken = context.ServiceToken;
@@ -39,6 +47,47 @@ namespace FlowState.Server
         internal CancellationToken DeadlineToken { get { return _deadline.Token; } }
         internal int ElapsedMilliseconds { get { return (int)_clock.ElapsedMilliseconds; } }
         internal int ServiceCalls { get; private set; }
+
+        private static string NormalizeEnvironmentName(string name)
+        {
+            string normalized = name == null ? null : name.Trim().ToLowerInvariant();
+            return normalized == "verification" || normalized == "production" ? normalized : null;
+        }
+
+        // Scope still comes exclusively from this invocation's Project/Environment ID.
+        // If optional display-name metadata is unusable, read the label from a Secret
+        // in that SAME scope. Cache only on this per-invocation instance.
+        internal void EnsureEnvironmentName(Func<string, int, string> getSecret, int remainingMilliseconds)
+        {
+            ThrowIfExpired();
+            if (EnvironmentName != null) return;
+            int remaining = Math.Min(remainingMilliseconds, RemainingMilliseconds);
+            if (remaining <= 0) throw new TimeoutException("Server response budget exhausted.");
+            string configuredName = getSecret(EnvironmentNameSecretName, remaining);
+            ThrowIfExpired();
+            string normalized = NormalizeEnvironmentName(configuredName);
+            if (normalized == null) throw new InvalidOperationException("EnvironmentConfigurationUnavailable");
+            EnvironmentName = normalized;
+        }
+
+        // Only trusted Cloud Code context selects names. Preserve the deployed
+        // verification secrets without reading, copying or rotating their values.
+        internal string ResolveSecretName(string logicalName)
+        {
+            if (EnvironmentName != "verification" && EnvironmentName != "production")
+                throw new InvalidOperationException("ContextMismatch");
+            switch (logicalName)
+            {
+                case "FS_TRANSFER_HMAC_V1":
+                    return EnvironmentName == "verification" ? "FS_TRANSFER_HMAC_VERIFICATION_V1" : logicalName;
+                case "FS_LOG_SINK_HMAC_V1":
+                    return EnvironmentName == "verification" ? "FS_LOG_SINK_HMAC_VERIFICATION_V1" : logicalName;
+                case "FS_LOG_SINK_URL_V1":
+                    return EnvironmentName == "verification" ? "FS_LOG_SINK_URL_VERIFICATION_V1" : logicalName;
+                default:
+                    throw new InvalidOperationException("UnsupportedSecret");
+            }
+        }
 
         internal void ThrowIfExpired()
         {
@@ -57,8 +106,9 @@ namespace FlowState.Server
                 string path;
                 string verb = "GET";
                 JToken body = null;
-                string saveRoot = "https://cloud-save.services.api.unity.com/v1/data/projects/" + ProjectId;
-                string boardRoot = "https://leaderboards.services.api.unity.com/v1/projects/" + ProjectId + "/leaderboards/";
+                string project = Uri.EscapeDataString(ProjectId);
+                string saveRoot = "https://cloud-save.services.api.unity.com/v1/data/projects/" + project;
+                string boardRoot = "https://leaderboards.services.api.unity.com/v1/projects/" + project + "/leaderboards/";
                 switch (method)
                 {
                     case "getPrivateCustomItems":

@@ -1,13 +1,12 @@
 // Internal library. Never publish as a player-callable script.
-const projectId = "c76d55cf-7846-494b-9dce-a0797b179b36";
-const environmentId = "a20a46fa-1edb-4d79-9c35-02f2fed31896";
+const { createExecutionScope, matchesExecutionScope } = require("./execution-scope");
 const key = "fs_account_v1";
 const guardKey = "fs_creation_guard_v1";
 const kinds = new Set(["account", "player", "owner", "number", "ledger", "allocator", "t", "receipt"]);
 
 function fault(reason) { return Object.assign(new Error(reason), { reason }); }
-function validateContext(context) {
-  if (!context || context.projectId !== projectId || context.environmentId !== environmentId ||
+function validateContext(context, expectedScope) {
+  if (!createExecutionScope(context) || (expectedScope && !matchesExecutionScope(context, expectedScope)) ||
       typeof context.playerId !== "string" || !context.playerId || !context.serviceToken)
     throw fault("ContextMismatch");
 }
@@ -17,18 +16,21 @@ function locator(kind, id) {
     throw fault("InvalidStorageKey");
   return `fs8-${kind}-${id}`;
 }
-function validateScope(value) {
-  if (!value || value.schemaVersion !== 1 || value.projectId !== projectId ||
-      value.environmentId !== environmentId) throw fault("StoredScopeMismatch");
+function validateScope(value, scope) {
+  if (!value || value.schemaVersion !== 1 || !matchesExecutionScope(value, scope)) throw fault("StoredScopeMismatch");
 }
 
 function createAccountStore(context, api) {
   validateContext(context);
+  const scope = createExecutionScope(context);
+  const { projectId, environmentId } = scope;
+  const checkValue = value => validateScope(value, scope);
   if (!api) {
     const { DataApi } = require("@unity-services/cloud-save-1.4");
     api = new DataApi(context);
   }
   return {
+    get scope() { return scope; },
     async read(kind, id) {
       const customId = locator(kind, id);
       const response = await api.getPrivateCustomItems(projectId, customId, [key]);
@@ -36,19 +38,19 @@ function createAccountStore(context, api) {
         throw fault("InvalidStorageResponse");
       const item = response.data.results.find(result => result.key === key);
       if (!item) return null;
-      validateScope(item.value);
+      checkValue(item.value);
       if (typeof item.writeLock !== "string" || !item.writeLock) throw fault("WriteLockUnavailable");
       return { kind, id, value: item.value, writeLock: item.writeLock };
     },
     async compareExchange(item, value) {
       if (!item || typeof item.writeLock !== "string" || !item.writeLock)
         throw fault("WriteLockUnavailable");
-      validateScope(value);
+      checkValue(value);
       await api.setPrivateCustomItem(projectId, locator(item.kind, item.id),
         { key, value, writeLock: item.writeLock });
     },
     async create(kind, id, value) {
-      validateScope(value);
+      checkValue(value);
       const customId = locator(kind, id);
       // Only this immutable guard is unconditionally initialized. A delayed
       // initializer may rotate its lock but never resets account/number data.
@@ -62,7 +64,7 @@ function createAccountStore(context, api) {
       guards = await api.getPrivateCustomItems(projectId, customId, [guardKey]);
       const guard = guards.data.results.find(item => item.key === guardKey);
       if (!guard || !guard.writeLock) throw fault("WriteLockUnavailable");
-      validateScope(guard.value);
+      checkValue(guard.value);
       const existing = await this.read(kind, id);
       if (existing) return existing;
       await api.setPrivateCustomItemBatch(projectId, customId, { data: [
@@ -74,4 +76,4 @@ function createAccountStore(context, api) {
   };
 }
 
-module.exports = { createAccountStore, validateContext, validateScope, fault, projectId, environmentId, key, guardKey };
+module.exports = { createAccountStore, validateContext, validateScope, fault, key, guardKey };

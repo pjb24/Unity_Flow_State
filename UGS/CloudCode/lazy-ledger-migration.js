@@ -7,7 +7,7 @@ const { createReceiptJournal } = require("./receipt-journal");
 
 async function migrateV1Ledger(store, receipts, ledgerItem) {
   const accountId = ledgerItem && ledgerItem.value && ledgerItem.value.accountId;
-  const prepared = plan(ledgerItem.value, accountId);
+  const prepared = plan(ledgerItem.value, accountId, store.scope);
   const journal = createReceiptJournal(receipts);
   for (const entry of prepared.receipts) await journal.append(accountId, entry.bucket, entry);
   prepared.ledger.migration = { ...prepared.ledger.migration, state: "Complete", cursor: prepared.receipts.length };

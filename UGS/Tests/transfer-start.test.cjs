@@ -4,7 +4,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 const { fixture, clone } = require("./account-sdk-double.cjs");
-const { createAccountStore, projectId, environmentId, key } = require("../CloudCode/account-store");
+const { createAccountStore, key } = require("../CloudCode/account-store");
+const { projectId, environmentId } = require("../Verification/verification-scope.cjs");
 const { createAccountService } = require("../CloudCode/account-service");
 const { createAccountProvisioningService } = require("../CloudCode/account-provisioning-service");
 const { createLegacyAccountStore } = require("../CloudCode/legacy-account-store");
@@ -41,7 +42,7 @@ function service(f, options = {}, provider = async () => secret) {
     { clock: () => f.now, idGenerator: () => transferId, randomBytes: randomForCode(), ...options });
 }
 function occupied(f, code) {
-  const digest = createTransferCryptography(secret).codeDigest(code);
+  const digest = createTransferCryptography(secret, undefined, f.context).codeDigest(code);
   f.seedPrivate(`fs8-t-${digest}`, key, { schemaVersion: 1, projectId, environmentId,
     accountId: "other", transferId: "other", credentialRevision: 1 });
   return digest;
@@ -99,7 +100,7 @@ test("uniform decimal generation rejects out-of-range samples then retains leadi
   const cryptography = createTransferCryptography(secret, size => {
     if (size === 8) return Buffer.alloc(8, 31);
     const bytes = Buffer.alloc(4); bytes.writeUInt32BE(calls++ === 0 ? 4294967295 : 7); return bytes;
-  });
+  }, { projectId, environmentId });
   assert.deepEqual(cryptography.generateCredential(), { code: "ZZZZZZZZ", verificationValue: "000000007" });
   assert.equal(calls, 2);
 });
@@ -109,7 +110,7 @@ test("repeated rejected entropy is bounded and fails before storage", async () =
   assert.equal(f.state.writes, 0);
 });
 test("real CSPRNG emits valid format and distinct credentials", () => {
-  const cryptography = createTransferCryptography(secret);
+  const cryptography = createTransferCryptography(secret, undefined, { projectId, environmentId });
   const values = new Set();
   for (let i = 0; i < 64; i++) {
     const value = cryptography.generateCredential();
@@ -120,14 +121,14 @@ test("real CSPRNG emits valid format and distinct credentials", () => {
   assert.equal(values.size, 64);
 });
 test("HMAC binds code aliases, credential, transfer, revision and key", () => {
-  const cryptography = createTransferCryptography(secret);
+  const cryptography = createTransferCryptography(secret, undefined, { projectId, environmentId });
   assert.equal(cryptography.codeDigest("ABCD-EFGH"), cryptography.codeDigest("abcdefgh"));
   const original = cryptography.credentialHmac(transferId, 1, "ABCDEFGH", "000000007");
   assert.notEqual(original, cryptography.credentialHmac(transferId, 1, "ABCDEFGH", "000000008"));
   assert.notEqual(original, cryptography.credentialHmac(transferId, 2, "ABCDEFGH", "000000007"));
   assert.notEqual(original, cryptography.credentialHmac("other", 1, "ABCDEFGH", "000000007"));
   assert.notEqual(cryptography.codeDigest("ABCDEFGH"),
-    createTransferCryptography(Buffer.alloc(32, 8).toString("base64")).codeDigest("ABCDEFGH"));
+    createTransferCryptography(Buffer.alloc(32, 8).toString("base64"), undefined, { projectId, environmentId }).codeDigest("ABCDEFGH"));
 });
 test("occupied code is regenerated without replacing another account's lookup", async () => {
   const f = await ready(); const digest = occupied(f, "ABCDEFGH"); const before = clone(f.value(`fs8-t-${digest}`));

@@ -3,7 +3,7 @@
 const fs = require("node:fs");
 const { parseSnapshot, compareLegacy } = require("./compare-service-snapshots.cjs");
 const { sameJsonValue } = require("../CloudCode/json-value-policy");
-const { projectId, environmentId } = require("../CloudCode/account-store");
+const { projectId, environmentId } = require("./verification-scope.cjs");
 const { boards } = require("../CloudCode/legacy-account-store");
 const scoped = value => !!(value && value.projectId === projectId && value.environmentId === environmentId);
 const object = value => !!(value && typeof value === "object" && !Array.isArray(value));

@@ -1,17 +1,16 @@
-// verification only. Never deploy into production.
+// Embedded Module endpoint. The store owns the invocation's environment scope.
 const { createAccountStore, validateContext, fault } = require("./account-store");
 const { createAccountService } = require("./account-service");
-const project = "c76d55cf-7846-494b-9dce-a0797b179b36";
-const environment = "a20a46fa-1edb-4d79-9c35-02f2fed31896";
 const stage = "fs-stage-stage-001-r1";
 const infinite = "fs-infinite-v2";
 const intMax = 2147483647;
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function createRecordSubmissionService(store, boards, clock = Date.now, receipts = null) {
+ const project = store.scope.projectId;
  const accounts = createAccountService(store, clock);
  return async ({ params, context }) => {
-  try { validateContext(context); } catch (_) { return reply("TransientFailure", "ContextMismatch"); }
+  try { validateContext(context, store.scope); } catch (_) { return reply("TransientFailure", "ContextMismatch"); }
   let p;
   try { p = JSON.parse(params.request); } catch (_) { return reply("Rejected", "InvalidRequest"); }
   if (!p || typeof p.submissionId !== "string" || !uuid.test(p.submissionId))
@@ -126,9 +125,9 @@ module.exports = async ({ params, context }) => {
     // A malformed request must not create storage. A syntactically valid first
     // submission, however, owns its account provisioning path end-to-end.
     if (hasSubmissionId(params))
-      await createAccountProvisioningService(store, createLegacyAccountStore(context)).ensure(context);
+      await createAccountProvisioningService(store, createLegacyAccountStore(context, undefined, undefined, store.scope)).ensure(context);
     const { createReceiptStore } = require("./receipt-store");
-    return await createRecordSubmissionService(store, new LeaderboardsApi(context), Date.now, createReceiptStore(context))({ params, context });
+    return await createRecordSubmissionService(store, new LeaderboardsApi(context), Date.now, createReceiptStore(context, undefined, store.scope))({ params, context });
   } catch (_) { return reply("TransientFailure", "ServiceUnavailable"); }
 };
 module.exports.createRecordSubmissionService = createRecordSubmissionService;

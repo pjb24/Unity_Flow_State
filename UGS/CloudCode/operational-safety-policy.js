@@ -98,7 +98,11 @@ function isSafePhase4StructuredLog(input) {
 
 function getProductionDeployGate(input) {
   if (!input || !isDistinctEnvironmentPair(input.verification, input.production)) return "BlockedEnvironment";
-  for (const requirement of ["inventoryCaptured", "rollbackReferenceCaptured", "accessPolicyReviewed",
+  if (!["Initial", "Update"].includes(input.deploymentKind)) return "Blocked";
+  const recoveryRequirement = input.deploymentKind === "Initial" ?
+    "initialDeploymentRecoveryApproved" : "rollbackReferenceCaptured";
+  if (input[recoveryRequirement] !== true) return "Blocked";
+  for (const requirement of ["inventoryCaptured", "accessPolicyReviewed",
     "secretAccessReviewed", "logRetentionReady", "logDeletionReady", "compatibilityApproved", "verificationRehearsed"])
     if (input[requirement] !== true) return "Blocked";
   return "ReadyForApproval";

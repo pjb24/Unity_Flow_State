@@ -12,8 +12,42 @@ Secret 값, access token, Player ID, Environment ID, 원격 source 본문, write
 
 ## 현재 판정
 
-`PRODUCTION_DEPLOY_BLOCKED` — Production의 배포 baseline, rollback reference, 최소 권한,
-Secret 접근, 30일 로그/삭제 절차, 호환성 승인, verification rehearsal이 준비되지 않았다.
+`PRODUCTION_DEPLOY_BLOCKED` — 2026-10-21 8-F 준비 완료. Production 전용 Safe LogSink 배포·health 204·
+30일 보관 정책·추가 전송 경로 없음·조회 권한 분리·Secret 연결 및 UGS production 네 항목 준비를
+사용자 보고와 문서 대조로 확인했다. 새 source commit 연결·새 Module 기준 호환성 승인 등은 남아 있다.
+Production Module 배포·실제 로그 전송/저장 성공은 이 준비 결과로 확인되지 않는다.
+환경 중립 C# host·embedded JS source 전환과 Node 49파일 검사를 완료했고, 사용자가 verification 배포·Unity
+Compilation·전체 Edit/Play Mode 테스트 성공을 보고했다. 후속 합성 Probe도 Accepted를 받았다.
+2026-10-21 사용자 계정 상태 정상·Leaderboard 조회·Cloud Logging의 정확히 7필드 합성 이벤트 저장
+확인으로 8-E를 완료했다. 아래 재배포·조회·로그 확인 대기 문구는 해결 이전의 진행 이력이다.
+초기 검사에서 발견한 기존 실패 5파일은 현행 계약과 다른 테스트 자료를 수정한 뒤 모두 통과했다.
+첫 배포의 수정 후 재배포 기준은 문서·정책에 반영했다. 남은 작업은 Phase 4 Manual Steps의 Step 8에 기록한다.
+
+새 source는 공통 논리 이름을 C# host에서 환경별로 해석한다. verification에서는 기존 `_VERIFICATION_`
+이름을 사용하고, Production에서는 `FS_TRANSFER_HMAC_V1`, `FS_LOG_SINK_HMAC_V1`, `FS_LOG_SINK_URL_V1`을 사용한다.
+
+2026-10-20 verification Secret 준비 보고: 사용자는 `FS_LOG_SINK_URL_VERIFICATION_V1`,
+`FS_LOG_SINK_HMAC_VERIFICATION_V1`, `FS_TRANSFER_HMAC_VERIFICATION_V1`의 존재와 Cloud Code 전용
+접근을 확인했다. 기존 항목을 그대로 읽으므로 값 복사 없이 8-D를 완료한다. 새 Module의 원격 접근과
+Cloud Run 연결 재확인은 8-E 대기이며, 이 보고는 Production Secret 준비의 근거가 아니다.
+
+2026-10-20 8-E 사용자 보고: 환경 중립 Module을 verification에 배포했고 Unity Compilation·전체 Edit Mode·
+Play Mode 테스트를 에러 없이 완료했다. 실행 개수·새 source commit은 미기록이다. 이번 배포 뒤의
+읽기 전용 계정/순위 확인과 LogSink 합성 Probe·Cloud Run 수집 확인은 대기한다.
+
+8-E LogSink 재검증 첫 결과는 `Unavailable`이다. 원인은 미확정이며, 합성 Probe에 안전한 실패 단계·
+사유·HTTP 코드만 추가한 로컬 보정 source가 사용자 재배포 대기다. 보정 후 Node 50파일 검사는 통과했다.
+기존 Unity 테스트 성공 보고는 이 진단 보정 이전 source에 대한 결과다.
+
+후속 진단은 `EnvironmentCheck / Failed / HTTP=0`으로 표시 이름 검사에서 중단됨을 확인했다.
+로컬 source는 EnvironmentName을 정규화하고, 인식하지 못하면 같은 호출 환경의 `FS_ENVIRONMENT_NAME_V1`을
+읽도록 보정했다. verification에는 값 `verification`, Production에는 값 `production`을 준비한다.
+실제 데이터 접근 scope는 context의 Project/Environment ID를 그대로 사용한다. 기존 HMAC·URL 세 값은
+유지하며, 새 설정·보정 Module 배포·Probe 재실행은 대기다. Node 회귀·정적 검사 50파일 통과를 확인했다.
+
+후속 최종 사용자 Probe 결과는 `Accepted`다. 서버가 HTTP 202를 받았을 때만 반환하는 상태이므로
+환경 해석·verification LogSink Secret 조회·전송 성공을 확인했다. 환경 설정 Secret의 실제 생성 여부는
+별도 보고되지 않아 추정하지 않는다. 8-D와 합성 호출 확인을 완료하고 Cloud Logging 저장 확인은 대기한다.
 
 ## Production 읽기 전용 baseline — 2026-10-09
 
@@ -30,6 +64,18 @@ Production에 변경을 가하지 않았으며, 이 기록은 생성·게시·�
 
 따라서 첫 Production 배포 전에는 rollback할 원격 버전이 없으며, 기존 데이터를 덮어쓰거나
 환경 간 자료를 복사해서는 안 된다.
+
+## Production Leaderboards 설정 확인 — 2026-10-21
+
+8-G-1 사용자 보고를 현행 submit/query Board ID 및 배포 계약과 대조해 완료했다.
+
+| 보드 | production ID | 정렬 | 업데이트 | 리셋 / 버킷 / 티어 |
+| --- | --- | --- | --- | --- |
+| Stage | `fs-stage-stage-001-r1` | Lowest to highest | Best score | None / None / None |
+| Infinite | `fs-infinite-v2` | Highest to lowest | Best score | None / None / None |
+
+위의 보드 없음 기록과 아래 과거 관찰 표는 생성 전 baseline이다. 이번 확인은 설정 준비이며
+시험 기록 제출·verification 행 복사·Production Module 실행 성공의 증거가 아니다.
 
 ## Production 최소 권한 설정 보고 — 2026-10-09
 
@@ -109,6 +155,8 @@ Production build profile은 Step 4의 명시 승인 전에는 추가하지 않�
 | Access Control artifact | `UGS/AccessControl/project-policy.json` |
 | Cloud Save namespace 설명 | `UGS/CLOUD_SAVE_DATA_REFERENCE.md` |
 | Production deploy gate | `UGS/CloudCode/operational-safety-policy.js`의 `getProductionDeployGate` |
+| 환경 중립 Module 구성 | `UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md` |
+| Production 준비 순서 | `AI/90_Tasks/Prototype_8/20261007_09_Phase4ManualSteps.md`의 `Production 배포 준비 작업 순서` |
 
 ## Step 3 호환성 연결 기록 — 2026-10-09
 
@@ -127,6 +175,20 @@ Production build profile은 Step 4의 명시 승인 전에는 추가하지 않�
 환경, schema 또는 Local Save writer를 사용하려면 이 표를 갱신하고 다시 대조해야 한다.
 
 ## 완료 전 필수 증거
+
+### 호환성 표 v2 후보 — Step 8 환경 중립 전환
+
+| 항목 | 변경 후 계약 | 확인 상태 |
+| --- | --- | --- |
+| Client | 이번 작업의 Unity Client source 변경 없음 | 기존 Module 함수·입력/응답 유지, Node 대조 통과 |
+| Module source | 현재 작업트리의 C# host 및 embedded JS | 환경 분리·transfer·제출/조회 로컬 검증 통과, 새 commit SHA와 verification 재배포 대기 |
+| Local Save | format v7 및 기존 환경별 scope 경로 유지 | writer/migration 변경 없음 |
+| Cloud Save | schemaVersion 1, 기존 account/receipt container·key·ledger v1/v2 계약 유지 | 환경별 저장값 검증 및 migration 검사 통과 |
+| Transfer credential | HMAC 입력 순서·encoding·format 유지 | 같은 scope·같은 Secret 값의 digest 호환 검사 통과 |
+| Secret | verification 기존 이름 유지·Production 공통 이름 3개, 값은 환경별 독립 | verification 이름·접근 권한 확인 완료, 새 Module 접근 및 Production 준비 대기 |
+
+이 표는 로컬 호환성 후보이며 Production 승인 완료를 뜻하지 않는다. 새 source의 commit과 사용자
+verification/Unity 검증 결과를 연결한 뒤 Step 8을 다시 판정한다.
 
 - [ ] Cloud Code·Cloud Save·Leaderboards·Access Control 대상이 같은 Production 환경임을 읽기 전용으로 대조했고, Authentication Identity Provider의 프로젝트 범위 상태를 별도로 기록했다.
 - [ ] 현재 Production baseline과 rollback 가능 여부를 내부 보관소에 기록했다.

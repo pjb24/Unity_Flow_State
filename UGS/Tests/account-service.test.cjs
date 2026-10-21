@@ -1,6 +1,7 @@
 // SDK double exercises the real store and service. No Unity or remote requests.
 const assert = require("node:assert/strict");
-const { createAccountStore, projectId, environmentId, key, guardKey } = require("../CloudCode/account-store");
+const { createAccountStore, key, guardKey } = require("../CloudCode/account-store");
+const { projectId, environmentId } = require("../Verification/verification-scope.cjs");
 const { createAccountService } = require("../CloudCode/account-service");
 const tests = [];
 const test = (name, run) => tests.push({ name, run });
@@ -21,7 +22,7 @@ function fixture() {
     status: "Active", publicPlayerNumber: "0000000001", leaderboardOwnerId: "fixed-owner" });
   seed("number", "0000000001", { accountId: "C" });
   seed("owner", "fixed-owner", { accountId: "C" });
-  seed("ledger", "C", { accountId: "C", active: "", entries: [], best: {} });
+  seed("ledger", "C", { version: 1, accountId: "C", active: "", entries: [], best: {} });
   const api = {
     async getPrivateCustomItems(project, customId, keys) {
       assert.equal(project, projectId);
@@ -68,7 +69,7 @@ test("guarded batch creates once and never overwrites the existing entity", asyn
 });
 test("context mismatch is rejected before storage access", async () => {
   const f = fixture();
-  for (const change of [{ projectId: "other" }, { environmentId: "other" }, { playerId: "" }, { serviceToken: "" }])
+  for (const change of [{ projectId: "" }, { environmentId: "" }, { playerId: "" }, { serviceToken: "" }])
     assert.throws(() => f.service({ ...context, ...change }), /ContextMismatch/);
 });
 test("missing binding fails closed without reconstructing another account", async () => {

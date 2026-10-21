@@ -7,12 +7,12 @@ function createPersonalBestSnapshotService(store) {
   const accounts = createAccountService(store);
   return async context => {
     try {
-      validateContext(context);
+      validateContext(context, store.scope);
       const initial = (await accounts.resolve(context)).account.value;
       const number = await accounts.getPublicNumber(context);
       const ledger = await store.read("ledger", initial.accountId);
       if (!ledger) throw fault("LedgerUnavailable");
-      validateScope(ledger.value);
+      validateScope(ledger.value, store.scope);
       const value = ledger.value;
       const pending = value.version === 1 ? Array.isArray(value.entries) && value.entries.some(e => e.status === "Pending") :
         value.version === 2 && value.pending !== null;

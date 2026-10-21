@@ -13,8 +13,9 @@
 한 번, 예외로 끝난 요청에서는 안전한 실패 분류로 한 번만 전송을 시도한다. 별도
 `EmitVerificationSafeLogProbe`는 입력을 받지 않고 Player·계정 자료를 읽거나 전송하지 않는 고정 합성
 이벤트용 verification 점검 함수이며, Module process마다 최소 60초 간격으로만 허용한다. Cloud Code의
-인증된 호출 경계는 유지하지만, 그 인증 주체 값은 이 함수·이벤트에서 사용하지 않는다. URL과 HMAC은 각각
-`FS_LOG_SINK_URL_VERIFICATION_V1`, `FS_LOG_SINK_HMAC_VERIFICATION_V1`에서만 런타임에 읽으며,
+인증된 호출 경계는 유지하지만, 그 인증 주체 값은 이 함수·이벤트에서 사용하지 않는다.
+URL과 HMAC의 논리 이름은 `FS_LOG_SINK_URL_V1`, `FS_LOG_SINK_HMAC_V1`이다. C# host는 verification에서
+기존 `_VERIFICATION_` 이름을 읽고 Production에서는 공통 이름을 읽으며,
 embedded JavaScript에는 이 두 Secret을 읽는 경로를 제공하지 않는다. 전송 경로는 `/v1/events`로
 고정하고, HTTPS Cloud Run URL·HTTP 202·250 ms 이내의 남은 요청 예산을 확인한다. 송신 실패는
 상수 `SafeLogSinkUnavailable`만 Cloud Code 로그에 남기며, 기존 게임 요청의 성공 응답을 실패로
@@ -23,6 +24,10 @@ embedded JavaScript에는 이 두 Secret을 읽는 경로를 제공하지 않는
 일반 게임 요청의 전송 시도는 최대 250 ms를 유지한다. Player·계정 자료를 사용하지 않는
 `EmitVerificationSafeLogProbe`만 Cloud Run 최소 인스턴스 0의 첫 기동과 Secret 조회를 확인할 수 있게
 최대 4000 ms를 사용하며, 전체 Cloud Code 요청 budget 5000 ms를 넘지 않는다.
+
+합성 Probe의 호출 응답에는 실패 위치를 구분하는 `phase`, `reason`, `httpStatus`를 추가할 수 있다.
+고정된 분류와 숫자 HTTP 상태만 반환하며 예외 메시지·Secret·URL은 반환하지 않는다. 이는 Probe 응답의
+진단 필드이고, Cloud Run으로 보내는 이벤트는 계속 아래 7필드만 사용한다.
 
 이 소스 변경은 verification Module 배포 전까지 원격 수집을 시작하지 않는다. 따라서 배포 및 합성
 이벤트 확인 전에는 Production 배포 gate를 열지 않는다.
@@ -42,7 +47,12 @@ embedded JavaScript에는 이 두 Secret을 읽는 경로를 제공하지 않는
 | `correlationId` | non-empty string | 서버가 생성한 불투명 상관관계 ID. Player/계정/공개 번호에서 유도하지 않는다. |
 | `rateLimitResult` | non-empty string | 허용 또는 제한 결과 분류. |
 
-현재 송신기는 `environment=verification`, `moduleReference=FlowStateVerification`,
+새 송신기는 `environment`에 현재 Cloud Code context의 EnvironmentName(`verification` 또는 `production`)을
+사용한다. 표시 이름은 정규화하며 context에서 인식할 수 없으면 같은 호출 환경의
+`FS_ENVIRONMENT_NAME_V1` 설정으로 보완한다. 보완 후에도 두 이름 외 값이면 전송을 거부한다.
+verification은 기존 `_VERIFICATION_` Secret 이름을 사용하며, 설정 절차는
+`UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md`를 따른다.
+`moduleReference=FlowStateVerification`,
 `outcome=Completed` 또는 `Failed`, `reason=ModuleInvocation` 또는 `ModuleFailure`,
 `rateLimitResult=NotApplied`만 만든다. `durationBucket`은 250 ms 단위이며 최대 5000 ms이고,
 `correlationId`는 매 전송마다 서버가 새로 만든 UUID다.

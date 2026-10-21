@@ -155,6 +155,19 @@ Phase 3 완료 — 2026-10-07. Step 1~10을 완료했다. 새 Phase3New 계정�
 
 ## Phase 4. 운영 환경·배포·복구 준비
 
+2026-10-20 Step 8 진행: C# Module과 embedded JS의 호출별 환경 scope 전환 및 공통 Secret 이름 구현을
+완료했다. 환경 분리·HMAC 호환·Module shim·기록 통합 검사를 포함해 Node 49파일을 모두 통과했다.
+기존 실패 5파일은 현행 계약에 맞춘 테스트 자료로 수정했다. 사용자가 verification 배포·Unity Compilation·
+전체 Edit/Play Mode 테스트 성공을 보고했다. 2026-10-21 계정 Ready·Leaderboard 정상 조회·합성 Probe
+Accepted/HTTP 202·Cloud Logging 7필드 저장 확인으로 8-E를 완료했다. 같은 날 Production Secret·LogSink
+배포/health·30일 보관·권한·경로 준비 및 최종 대조로 8-F를 완료했다. 새 source commit 연결·새 Module
+기준 호환성 승인 등은 남아 `PRODUCTION_DEPLOY_BLOCKED`를 유지한다. Production Module의 실제
+배포·이벤트 전송/저장 성공은 별도 후속 확인이다.
+구체적인 완료·대기 항목은 `20261007_09_Phase4ManualSteps.md` Step 8을 기준으로 한다.
+8-F 이후 남은 5개 작업은 같은 문서의 **8-G-1~8-G-5**에서 추적한다. 2026-10-21 Production
+Leaderboard 두 개의 설정 보고와 정적 대조로 8-G-1을 완료했다. 다음은 새 SHA 고정(8-G-2)이며,
+검증 연결/호환성 승인·gate 재판정·승인 후 Step 9 배포를 진행한다.
+
 실행 계획: [20261007_09_Phase4ManualSteps.md](../90_Tasks/Prototype_8/20261007_09_Phase4ManualSteps.md). Production ID·권한·Secret·로그 sink의 실제 값은 계획 문서에 추정해 넣지 않으며, 정적 검사·Unit Test와 사용자 수동 설정/확인 근거를 분리한다.
 
 ### 목표

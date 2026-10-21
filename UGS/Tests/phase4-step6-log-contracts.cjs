@@ -42,7 +42,7 @@ for (const marker of ["6-3.1", "run.googleapis.com", "logging.googleapis.com", "
 for (const marker of ["같은 `V`", "FS_LOG_SINK_HMAC_VERIFICATION_V1", "Secret Manager Secret Accessor", "Cloud Code만", "Logging Writer", "service account key(JSON key)는 만들거나 다운로드하지 않는다"])
   assert.ok(secretIam.includes(marker), `missing secret/IAM marker: ${marker}`);
 
-for (const name of ["FS_LOG_SINK_HMAC_VERIFICATION_V1", "FS_LOG_SINK_URL_VERIFICATION_V1"])
+for (const name of ["FS_LOG_SINK_HMAC_V1", "FS_LOG_SINK_URL_V1"])
   assert.ok(safeLogSink.includes(name), `missing LogSink secret name: ${name}`);
 for (const field of ["environment", "moduleReference", "outcome", "reason", "durationBucket", "correlationId", "rateLimitResult"])
   assert.ok(safeLogEvent.includes(`[JsonProperty(\"${field}\")]`), `missing exact safe field: ${field}`);
@@ -60,11 +60,15 @@ assert.ok(!safeLogSink.includes("requestBody"));
 assert.ok(runtime.includes('SafeLogSinkClient.NormalTelemetryMilliseconds'));
 assert.ok(runtime.includes('TryEmit("Completed", "ModuleInvocation", "NotApplied")'));
 assert.ok(runtime.includes('TryEmit("Failed", "ModuleFailure", "NotApplied")'));
-assert.ok(runtime.includes('if (name != "FS_TRANSFER_HMAC_VERIFICATION_V1")'));
-assert.ok(!runtime.includes("FS_LOG_SINK_HMAC_VERIFICATION_V1"));
-assert.ok(!runtime.includes("FS_LOG_SINK_URL_VERIFICATION_V1"));
+assert.ok(runtime.includes('if (name != "FS_TRANSFER_HMAC_V1")'));
+assert.ok(!runtime.includes("FS_LOG_SINK_HMAC_V1"));
+assert.ok(!runtime.includes("FS_LOG_SINK_URL_V1"));
 assert.ok(moduleSource.includes('[CloudCodeFunction("EmitVerificationSafeLogProbe")]'));
-assert.ok(moduleSource.includes('TryEmit("Accepted", "SyntheticProbe", "Allowed")'));
+assert.ok(moduleSource.includes('TryEmit("Accepted", "SyntheticProbe", "Allowed",'));
+assert.ok(moduleSource.includes('phase = probePhase, reason = probeReason, httpStatus = probeHttpStatus'));
+for (const stage of ["EnvironmentCheck", "UrlSecretRead", "HmacSecretRead", "UrlValidation", "HmacValidation", "EventPreparation", "HttpRequest", "Completed"])
+  assert.ok(safeLogSink.includes(`phase = "${stage}"`));
+assert.ok(!safeLogSink.includes("error.Message") && !safeLogSink.includes("error.ToString()"));
 assert.ok(moduleSource.includes('SafeLogSinkClient.SyntheticProbeTelemetryMilliseconds'));
 assert.ok(!moduleSource.includes("PlayerId"));
 assert.ok(!moduleSource.includes("ServiceToken"));

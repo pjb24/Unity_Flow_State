@@ -12,7 +12,7 @@ namespace FlowState.Server
     {
         internal object Run(string endpoint, IExecutionContext context, object parameters, Func<string, int, string> getSecret)
         {
-            if (context.ProjectId != ServerServices.ProjectId || context.EnvironmentId != ServerServices.EnvironmentId ||
+            if (context == null || string.IsNullOrWhiteSpace(context.ProjectId) || string.IsNullOrWhiteSpace(context.EnvironmentId) ||
                 string.IsNullOrEmpty(context.PlayerId) || string.IsNullOrEmpty(context.ServiceToken))
                 throw new InvalidOperationException("ContextMismatch");
             using ServerServices services = new ServerServices(context);
@@ -64,11 +64,12 @@ namespace FlowState.Server
 
         private static string ReadSecret(string name, Func<string, int, string> getSecret, ServerServices services)
         {
-            if (name != "FS_TRANSFER_HMAC_VERIFICATION_V1") return "{\"ok\":false,\"status\":403}";
+            if (name != "FS_TRANSFER_HMAC_V1") return "{\"ok\":false,\"status\":403}";
             try
             {
                 services.ThrowIfExpired();
-                string value = getSecret(name, services.RemainingMilliseconds);
+                services.EnsureEnvironmentName(getSecret, services.RemainingMilliseconds);
+                string value = getSecret(services.ResolveSecretName(name), services.RemainingMilliseconds);
                 services.ThrowIfExpired();
                 return JsonConvert.SerializeObject(new { ok = true, value = new { value } });
             }

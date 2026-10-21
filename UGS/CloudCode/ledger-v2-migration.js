@@ -1,6 +1,6 @@
 // Pure lazy-migration planner. Persistence is intentionally separate so every
 // write boundary can be retried with its own CAS/re-read recovery.
-const { fault, projectId, environmentId } = require("./account-store");
+const { fault, validateScope } = require("./account-store");
 const terminal = new Set(["Submitted", "Rejected"]);
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -11,13 +11,15 @@ function bucketFor(acceptedAt) {
   if (year < 2000 || year > 9999) throw fault("InvalidServerTime");
   return `${year}${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
 }
-function isV1(value, accountId) {
-  return value && value.schemaVersion === 1 && value.projectId === projectId && value.environmentId === environmentId &&
+function isV1(value, accountId, scope) {
+  try { validateScope(value, scope); } catch (_) { return false; }
+  return value &&
     value.version === 1 && value.accountId === accountId && Array.isArray(value.entries) && value.best &&
     !Array.isArray(value.best) && typeof value.active === "string";
 }
-function plan(value, accountId) {
-  if (!isV1(value, accountId)) throw fault("LedgerConflict");
+function plan(value, accountId, scope) {
+  if (!isV1(value, accountId, scope)) throw fault("LedgerConflict");
+  const { projectId, environmentId } = scope;
   const receipts = [];
   let pending = null;
   for (const entry of value.entries) {

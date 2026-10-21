@@ -3,7 +3,8 @@
 // Default is offline plan. No existing fs8 entities or Leaderboards are touched.
 const crypto = require("node:crypto");
 const { isDeepStrictEqual } = require("node:util");
-const { createAccountStore, projectId, environmentId } = require("../CloudCode/account-store");
+const { createAccountStore } = require("../CloudCode/account-store");
+const { projectId, environmentId } = require("./verification-scope.cjs");
 const { createAccountService } = require("../CloudCode/account-service");
 const { createTransferStartService } = require("../CloudCode/transfer-start-service");
 const { createTransferCompletionService } = require("../CloudCode/transfer-completion-service");
@@ -110,7 +111,7 @@ async function seed(store) {
       connectionRevision: 1, status: "Active", publicPlayerNumber: number, leaderboardOwnerId: owner };
     await store.create("account", accountId, account);
     await store.create("player", players[i], { ...scope, playerId: players[i], accountId, status: "Active", connectionRevision: 1 });
-    await store.create("ledger", accountId, { ...scope, accountId, active: "", entries: [], best: {} });
+    await store.create("ledger", accountId, { ...scope, version: 1, accountId, active: "", entries: [], best: {} });
     await store.create("number", number, { ...scope, accountId });
     await store.create("owner", owner, { ...scope, accountId });
     accounts.push(account);

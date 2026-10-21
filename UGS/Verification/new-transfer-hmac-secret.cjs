@@ -4,11 +4,13 @@ const assert = require("node:assert/strict");
 const { randomBytes } = require("node:crypto");
 const { spawnSync } = require("node:child_process");
 const { createTransferCryptography } = require("../CloudCode/transfer-cryptography");
+// Used only to validate key format; no remote scope is selected by this helper.
+const formatValidationScope = { projectId: "format-validation", environmentId: "format-validation" };
 if (process.argv.includes("--self-test")) {
   const synthetic = Buffer.alloc(32).toString("base64");
-  assert.doesNotThrow(() => createTransferCryptography(synthetic));
+  assert.doesNotThrow(() => createTransferCryptography(synthetic, undefined, formatValidationScope));
   for (const invalid of ["", "not-a-key", "A".repeat(43), "A".repeat(42) + "B=", synthetic + "\n"])
-    assert.throws(() => createTransferCryptography(invalid), error => error.reason === "TransferSecretUnavailable");
+    assert.throws(() => createTransferCryptography(invalid, undefined, formatValidationScope), error => error.reason === "TransferSecretUnavailable");
   console.log("PASS: production format validation with synthetic values. No deployment secret generated; clipboard untouched.");
 } else if (process.argv.length !== 2 || process.platform !== "win32") {
   console.error("Use on Windows without arguments, or use --self-test for synthetic format checks.");
@@ -18,7 +20,7 @@ if (process.argv.includes("--self-test")) {
   try {
     bytes = randomBytes(32);
     const value = bytes.toString("base64");
-    createTransferCryptography(value);
+    createTransferCryptography(value, undefined, formatValidationScope);
     // Value is stdin only, never command-line arguments, terminal output or a file.
     const result = spawnSync("powershell.exe", ["-NoProfile", "-NonInteractive", "-Command",
       "$clipboardSecretInput = [Console]::In.ReadToEnd(); Set-Clipboard -Value $clipboardSecretInput -ErrorAction Stop; $clipboardSecretInput = $null"],

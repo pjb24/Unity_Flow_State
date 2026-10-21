@@ -1,6 +1,6 @@
 const assert = require("node:assert/strict");
 const { fixture } = require("./account-sdk-double.cjs");
-const { createReceiptStore, receiptContainerId, locatorContainerId, receiptKey, shardKey, scope } = require("../CloudCode/receipt-store");
+const { createReceiptStore, receiptContainerId, locatorContainerId, receiptKey, shardKey } = require("../CloudCode/receipt-store");
 const accountId = "11111111-1111-4111-8111-111111111111";
 const submissionId = "22222222-2222-4222-8222-222222222222";
 (async () => {
@@ -9,7 +9,7 @@ const submissionId = "22222222-2222-4222-8222-222222222222";
   assert.equal(receiptKey(submissionId), `r-${submissionId}`);
   assert.equal(shardKey(1), "s-001");
   assert.throws(() => receiptContainerId(accountId, "20261", 1));
-  const f = fixture(), store = createReceiptStore(f.context, f.save);
+  const f = fixture(), store = createReceiptStore(f.context, f.save), scope = store.scope;
   const container = receiptContainerId(accountId, "202610", 1), key = receiptKey(submissionId);
   const first = await store.create(container, key, { ...scope(), status: "Submitted" });
   assert.equal(first.value.status, "Submitted");

@@ -1,9 +1,12 @@
 // Cutover barrier in the SAME Protected item used by the old submit path.
-const { projectId, environmentId, validateContext, fault, guardKey } = require("./account-store");
+const { validateContext, fault, guardKey } = require("./account-store");
+const { createExecutionScope } = require("./execution-scope");
 const ledgerKey = "fs_submission_ledger_v1";
 const boards = ["fs-stage-stage-001-r1", "fs-infinite-v2"];
-function createLegacyAccountStore(context, save, leaderboard) {
-  validateContext(context);
+function createLegacyAccountStore(context, save, leaderboard, expectedScope) {
+  validateContext(context, expectedScope);
+  const scope = createExecutionScope(context);
+  const { projectId, environmentId } = scope;
   if (!save) {
     const { DataApi } = require("@unity-services/cloud-save-1.4");
     save = new DataApi(context);
@@ -17,6 +20,7 @@ function createLegacyAccountStore(context, save, leaderboard) {
     return response.data.results.find(item => item.key === requestedKey);
   }
   return {
+    get scope() { return scope; },
     async freeze(playerId, accountId) {
       let item = await read(playerId, ledgerKey);
       if (!item) {

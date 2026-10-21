@@ -65,7 +65,8 @@ assert.ok(editor.includes("request.timeout = 5;"));
 assert.ok(editor.includes("WindowOperationTimeoutMs="));
 assert.ok(auth.includes("_initializedProfile != _profile"));
 assert.ok(auth.includes("AuthenticationService.Instance.Profile != _profile"));
-assert.ok(auth.includes("flow-state-phase3-new"));
+assert.ok(auth.includes("OnlineRecordConfiguration.IsAllowedAuthenticationProfile(_profile)"));
+assert.ok(read("Assets/Scripts/Runtime/Features/OnlineRecordConfiguration.cs").includes('profile == "flow-state-phase3-new"'));
 for (const failure of ["ProjectMismatch", "UnsupportedProfile", "InitializedProfileMismatch", "ExternalServicesInitialization", "SdkProfileMismatch"])
   assert.ok(auth.includes(`failure = "${failure}"`));
 assert.ok(auth.includes("requestError.ErrorCode"));

@@ -23,7 +23,9 @@ const operationalSafetyPolicy = read("UGS/CloudCode/operational-safety-policy.js
 const phase1Task = read("AI/90_Tasks/Prototype_8/20260930_01_Phase1ManualSteps.md");
 for (const value of ["c76d55cf-7846-494b-9dce-a0797b179b36", "a20a46fa-1edb-4d79-9c35-02f2fed31896",
   "fs-stage-stage-001-r1", "fs-infinite-v2"]) {
-  assert.ok(config.includes(value)); assert.ok(submit.includes(value)); assert.ok(query.includes(value));
+  assert.ok(config.includes(value));
+  if (value.startsWith("fs-")) { assert.ok(submit.includes(value)); assert.ok(query.includes(value)); }
+  else { assert.ok(!submit.includes(value)); assert.ok(!query.includes(value)); }
 }
 const policy = JSON.parse(read("UGS/AccessControl/project-policy.json"));
 for (const resource of ["urn:ugs:leaderboards:/**", "urn:ugs:cloud-save:/**"])
@@ -148,7 +150,7 @@ const transferEntry = read("UGS/CloudCode/start-account-transfer.js");
 assert.ok(transferCrypto.includes('require("crypto")'));
 assert.ok(transferCrypto.includes('crypto.createHmac("sha256", secret)'));
 assert.ok(transferCrypto.includes("crypto.randomBytes"));
-assert.ok(transferCrypto.includes("FS_TRANSFER_HMAC_VERIFICATION_V1"));
+assert.ok(transferCrypto.includes("FS_TRANSFER_HMAC_V1"));
 assert.ok(transferCrypto.includes("secretManager.getSecret(secretName)"));
 assert.ok(transferStart.includes('store.create("t", transfer.codeDigest'));
 assert.ok(transferStart.includes("assertTransferCanStart(context)"));
@@ -189,7 +191,7 @@ assert.ok(transferLifecycle.includes("store.compareExchange(account"));
 assert.ok(transferLifecycle.includes("delete terminal.codeDigest"));
 assert.ok(transferLifecycle.includes("delete terminal.credentialHmac"));
 assert.ok(transferLifecycle.includes("account.value.transfer.transferId !== expectedTransferId"));
-assert.ok(transferState.includes("validateContext(context)"));
+assert.ok(transferState.includes("validateContext(context, store.scope)"));
 assert.ok(transferState.includes("binding.value.connectionRevision"));
 for (const file of ["transfer-state", "transfer-lifecycle-service", "cancel-account-transfer", "get-account-transfer-status"]) {
   const content = read(`UGS/CloudCode/${file}.js`);

@@ -2,7 +2,7 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { adapter, exchange, run, main, failureLine } = require("../Verification/verify-live-transfer-storage.cjs");
-const { projectId, environmentId } = require("../CloudCode/account-store");
+const { projectId, environmentId } = require("../Verification/verification-scope.cjs");
 const runId = "0123456789abcdef0123456789abcdef";
 function network() {
   const entities = new Map(), calls = []; let serial = 0;

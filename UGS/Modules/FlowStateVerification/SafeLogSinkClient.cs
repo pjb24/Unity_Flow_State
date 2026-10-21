@@ -15,8 +15,8 @@ namespace FlowState.Server
     // a player value, request body, response body, or service token.
     internal sealed class SafeLogSinkClient
     {
-        internal const string LogSinkHmacSecretName = "FS_LOG_SINK_HMAC_VERIFICATION_V1";
-        internal const string LogSinkUrlSecretName = "FS_LOG_SINK_URL_VERIFICATION_V1";
+        internal const string LogSinkHmacSecretName = "FS_LOG_SINK_HMAC_V1";
+        internal const string LogSinkUrlSecretName = "FS_LOG_SINK_URL_V1";
         internal const int NormalTelemetryMilliseconds = 250;
         internal const int SyntheticProbeTelemetryMilliseconds = 4000;
         private const int MaximumDurationBucketMilliseconds = 5000;
@@ -36,18 +36,37 @@ namespace FlowState.Server
         }
 
         internal bool TryEmit(string outcome, string reason, string rateLimitResult)
+        { return TryEmit(outcome, reason, rateLimitResult, out _, out _, out _); }
+
+        // Diagnostics are fixed categories, never exception messages or data.
+        // Only the synthetic probe exposes these fields in its response.
+        internal bool TryEmit(string outcome, string reason, string rateLimitResult,
+            out string phase, out string failureReason, out int httpStatus)
         {
+            phase = "EnvironmentCheck";
+            failureReason = "Failed";
+            httpStatus = 0;
             try
             {
                 Stopwatch telemetryClock = Stopwatch.StartNew();
+                failureReason = "EnvironmentConfigurationUnavailable";
+                _services.EnsureEnvironmentName(_getSecret, GetRemainingTelemetryMilliseconds(telemetryClock));
+                failureReason = "Failed";
+                phase = "UrlSecretRead";
                 string sinkUrl = ReadSecret(LogSinkUrlSecretName, telemetryClock);
+                phase = "HmacSecretRead";
                 string hmacSecret = ReadSecret(LogSinkHmacSecretName, telemetryClock);
+                phase = "UrlValidation";
                 Uri endpoint = CreateEndpoint(sinkUrl);
-                if (endpoint == null || string.IsNullOrEmpty(hmacSecret) || hmacSecret.Length < 32)
+                if (endpoint == null)
+                    throw new InvalidOperationException("SafeLogSinkConfigurationUnavailable");
+                phase = "HmacValidation";
+                if (string.IsNullOrEmpty(hmacSecret) || hmacSecret.Length < 32)
                     throw new InvalidOperationException("SafeLogSinkConfigurationUnavailable");
 
+                phase = "EventPreparation";
                 SafeLogEvent safeEvent = new SafeLogEvent {
-                    Environment = "verification",
+                    Environment = _services.EnvironmentName,
                     ModuleReference = "FlowStateVerification",
                     Outcome = outcome,
                     Reason = reason,
@@ -58,6 +77,7 @@ namespace FlowState.Server
                 string body = JsonConvert.SerializeObject(safeEvent, Formatting.None);
                 string timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(CultureInfo.InvariantCulture);
                 string signature = CreateSignature(hmacSecret, timestamp, body);
+                phase = "HttpRequest";
                 int remaining = GetRemainingTelemetryMilliseconds(telemetryClock);
                 if (remaining <= 0) throw new TimeoutException("SafeLogSinkBudgetExhausted");
 
@@ -70,12 +90,20 @@ namespace FlowState.Server
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 using HttpResponseMessage response = SharedHttp.SendAsync(request, HttpCompletionOption.ResponseHeadersRead,
                     timeout.Token).GetAwaiter().GetResult();
+                httpStatus = (int)response.StatusCode;
                 if (response.StatusCode != HttpStatusCode.Accepted)
+                {
+                    failureReason = "HttpRejected";
                     throw new InvalidOperationException("SafeLogSinkRejected");
+                }
+                phase = "Completed";
+                failureReason = "None";
                 return true;
             }
-            catch (Exception)
+            catch (Exception error)
             {
+                if (error is TimeoutException || error is OperationCanceledException)
+                    failureReason = "Timeout";
                 // The message is intentionally constant: sink failures must be visible
                 // without exposing configuration, credentials, or event content.
                 Console.Error.WriteLine("SafeLogSinkUnavailable");
@@ -87,7 +115,7 @@ namespace FlowState.Server
         {
             int remaining = GetRemainingTelemetryMilliseconds(telemetryClock);
             if (remaining <= 0) throw new TimeoutException("SafeLogSinkBudgetExhausted");
-            return _getSecret(name, remaining);
+            return _getSecret(_services.ResolveSecretName(name), remaining);
         }
 
         private int GetRemainingTelemetryMilliseconds(Stopwatch telemetryClock)

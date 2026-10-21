@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const { fixture, clone } = require("./account-sdk-double.cjs");
-const { createAccountStore, guardKey, projectId, environmentId } = require("../CloudCode/account-store");
+const { createAccountStore, guardKey } = require("../CloudCode/account-store");
+const { projectId, environmentId } = require("../Verification/verification-scope.cjs");
 const { createLegacyAccountStore, ledgerKey, boards } = require("../CloudCode/legacy-account-store");
 const { createAccountProvisioningService } = require("../CloudCode/account-provisioning-service");
 const fs = require("node:fs");
