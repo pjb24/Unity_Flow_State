@@ -2,13 +2,16 @@
 
 ## 현재 적용 방식 — C# Module
 
-2026-10-20 Step 8의 로컬 source는 환경 중립 scope와 공통 Secret 이름으로 변경됐다. 현재 원격 배포본의
-Git 기준 `935a8d`와 다르다. verification Secret은 C# host에서 기존 `_VERIFICATION_` 이름으로 해석해
-현재 항목을 그대로 사용한다. 이름과 값 복사 없이 재배포할 수 있으며, 설정과 Phase 4 Step 8 회귀 결과는
+2026-10-21 현재 source 기준은 Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`다. 사용자는 마지막
+verification 배포 이후 Module source 변경 없음을 확인했고 기존 검증 결과를 해당 SHA에 연결했다.
+같은 source의 production 단일 Module 배포도 사용자 보고로 완료했다. 이는 원격 artifact를 내려받아 hash를 비교한 결과는 아니다.
+verification Secret은 C# host에서 기존 `_VERIFICATION_` 이름으로 해석해 현재 항목을 그대로 사용한다.
+이름과 값 복사 없이 재배포할 수 있으며, 설정과 Phase 4 Step 8 회귀 결과는
 `UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md`를 따른다.
 
-EnvironmentCheck 실패 보정에는 verification의 `FS_ENVIRONMENT_NAME_V1` 설정(값 `verification`, Cloud Code만
-접근)이 추가로 필요하다. context 표시 이름을 인식할 수 없을 때 현재 환경에서만 읽으며, 기존 세 Secret은 유지한다.
+context 표시 이름을 인식할 수 없을 때 verification의 `FS_ENVIRONMENT_NAME_V1` 설정(값 `verification`, Cloud Code만
+접근)으로 보완한다. 최종 Probe Accepted로 환경 해석·연결 성공은 확인했지만 표시 이름 정규화와 설정 보완 중
+어느 경로가 사용됐는지는 추정하지 않는다. 기존 세 Secret은 유지한다.
 
 게시 대상은 `Assets/CloudCode/FlowStateVerification.ccmr`이 가리키는 **FlowStateVerification Module 하나**다. Project는 `c76d55cf-7846-494b-9dce-a0797b179b36`, Environment는 `verification` (`a20a46fa-1edb-4d79-9c35-02f2fed31896`)이다.
 

@@ -155,18 +155,26 @@ Phase 3 완료 — 2026-10-07. Step 1~10을 완료했다. 새 Phase3New 계정�
 
 ## Phase 4. 운영 환경·배포·복구 준비
 
+**최신 상태: 완료 — 2026-10-21, Phase 4 Manual Steps Step 10 최종 대조·Phase 5 인계 완료.**
+준비·승인된 첫 Production Module 배포까지의 완료이며 Production 실서비스 동작·로그 수집·Windows Player
+Build·일반 사용자 공개 완료를 뜻하지 않는다. 아래 날짜별 진행 설명은 이전 단계의 이력이다.
+
 2026-10-20 Step 8 진행: C# Module과 embedded JS의 호출별 환경 scope 전환 및 공통 Secret 이름 구현을
 완료했다. 환경 분리·HMAC 호환·Module shim·기록 통합 검사를 포함해 Node 49파일을 모두 통과했다.
 기존 실패 5파일은 현행 계약에 맞춘 테스트 자료로 수정했다. 사용자가 verification 배포·Unity Compilation·
 전체 Edit/Play Mode 테스트 성공을 보고했다. 2026-10-21 계정 Ready·Leaderboard 정상 조회·합성 Probe
 Accepted/HTTP 202·Cloud Logging 7필드 저장 확인으로 8-E를 완료했다. 같은 날 Production Secret·LogSink
-배포/health·30일 보관·권한·경로 준비 및 최종 대조로 8-F를 완료했다. 새 source commit 연결·새 Module
-기준 호환성 승인 등은 남아 `PRODUCTION_DEPLOY_BLOCKED`를 유지한다. Production Module의 실제
+배포/health·30일 보관·권한·경로 준비 및 최종 대조로 8-F를 완료했다. 새 source commit 연결과 호환성 승인,
+로컬 Node 52파일 재검사·기존 근거 대조로 8-G-4의 최신 판정은 `READY_FOR_APPROVAL`이다. Production Module의 실제
 배포·이벤트 전송/저장 성공은 별도 후속 확인이다.
 구체적인 완료·대기 항목은 `20261007_09_Phase4ManualSteps.md` Step 8을 기준으로 한다.
 8-F 이후 남은 5개 작업은 같은 문서의 **8-G-1~8-G-5**에서 추적한다. 2026-10-21 Production
-Leaderboard 두 개의 설정 보고와 정적 대조로 8-G-1을 완료했다. 다음은 새 SHA 고정(8-G-2)이며,
-검증 연결/호환성 승인·gate 재판정·승인 후 Step 9 배포를 진행한다.
+Leaderboard 두 개의 설정 보고와 정적 대조로 8-G-1을 완료했다. 사용자 commit `8774b2db…`와 source
+대조로 8-G-2도 완료했다. 사용자의 배포 source 변경 없음 확인·호환성 승인으로 8-G-3을 완료했다.
+후속 사용자 명시 승인·이번 작업 시간 변경 창 지정·production Deploy Selected 성공·예상 밖 오류/경고
+없음 보고와 OpenAPI 10함수 계약 대조로 8-G-5 / Step 9를 완료했다. 후속 Step 10에서 Node 52파일 및
+로컬 LogSink HTTP 검사 통과·기존 사용자 결과를 대조하고 Phase 4 완료를 판정했다.
+실제 Production Module 호출·로그 수집 및 Player 통합 검증은 Phase 5의 미검증 항목으로 인계했다.
 
 실행 계획: [20261007_09_Phase4ManualSteps.md](../90_Tasks/Prototype_8/20261007_09_Phase4ManualSteps.md). Production ID·권한·Secret·로그 sink의 실제 값은 계획 문서에 추정해 넣지 않으며, 정적 검사·Unit Test와 사용자 수동 설정/확인 근거를 분리한다.
 
@@ -190,9 +198,14 @@ Leaderboard 두 개의 설정 보고와 정적 대조로 8-G-1을 완료했다. 
 
 ### 상태
 
-대기
+완료 (2026-10-21). 배포 기준 Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`.
+Phase 5 인계 목록과 확인 한계는 Phase 4 Manual Steps의 10-4를 따른다.
 
 ## Phase 5. 통합 검증과 공개 운영 후보 판정
+
+실행 계획: [20261021_01_Phase5ManualSteps.md](../90_Tasks/Prototype_8/20261021_01_Phase5ManualSteps.md).
+2026-10-21 수동 Task 문서 작성 완료. Step 1~13은 실행 미착수이며, 먼저 대상·QA 실행 공간·실제 요청 범위를
+승인한다. AI 정적/Unit Test와 사용자 Unity/Player/실서비스 확인을 분리하고 기존 검증을 불필요하게 반복하지 않는다.
 
 ### 목표
 
@@ -213,7 +226,9 @@ Leaderboard 두 개의 설정 보고와 정적 대조로 8-G-1을 완료했다. 
 
 ### 상태
 
-대기
+작업 계획 수립 완료 / 실제 검증 미착수. 다음은 Phase 5 Task Step 1이다.
+Production 점검 도구·격리 실행 준비 및 알려진 UI 문제 처리는 Step 2에서 확인한다.
+실제 복구/데이터 보존의 근거가 없으면 성공으로 처리하지 않으며 기준 변경은 명시 승인 후 기록한다.
 
 # 검증 책임
 
@@ -227,9 +242,17 @@ Leaderboard 두 개의 설정 보고와 정적 대조로 8-G-1을 완료했다. 
 
 ## 진행 중인 작업
 
-Prototype 8 Phase 1과 Phase 2는 완료했다. Phase 2는 Step 1~11의 로컬·Unity·verification 근거 및 Step 12의 실제 Cloud Save 저장 경계 20복구·경합 2사례를 대조했으며, 임시 Key 폐기·Cloud Save Editor 역할 회수·검사용 계정 삭제의 사용자 완료 보고까지 기록했다. 단일 실행 전체 PASS, 전체 transaction, 무제한 서비스 장애 보장 및 Production 승인을 주장하지 않는다. 다음 구현 작업은 Phase 3 Step 1이며 상세 근거는 각 Phase Task에서 관리한다.
+Prototype 8 Phase 1~4를 완료했다. 2026-10-21 Phase 4 Step 10에서 기존 검증·정책·Secret/로그 준비·호환성 승인·
+Production 단일 Module 첫 배포 결과를 최종 대조했다. Phase 5 Task 계획 문서는 작성했고 실제 검증은 아직 착수하지 않았다.
+Production 실서비스 기능·로그 전송·Player Build·일반 사용자 공개는 미검증/미승인 범위를 유지한다.
 
 ## 다음 작업
+
+**Prototype 8 Phase 5 Task Step 1 수행.** `20261021_01_Phase5ManualSteps.md`에 따라 대상·QA 계정/자료·
+실행 공간·실제 서비스 요청 범위를 확정하고 사용자 승인을 받는다. 이후 Step 2에서 안전 도구·Unit Test·알려진 UI 문제를 준비한다.
+AI는 정적 검사·도구/절차 준비만 수행하고 실제 UGS/GCP 요청·Unity 빌드/Test Runner·Scene 변경은 수행하지 않는다.
+
+### 과거 진행 이력 — 아래 Phase 2 다음 작업 문구는 당시 상태
 
 2026-10-06 사용자 보고로 Phase 2 검사에만 사용한 임시 Service Account Key 폐기, `Unity_Flow_State / Cloud Save Editor` 역할 회수, 검사용 계정 삭제를 확인했다. 이에 따라 Step 12와 Phase 2를 최종 완료로 갱신했다. 이 종료 처리는 verification 검증 자료나 Production 승인 상태를 변경하지 않는다.
 

@@ -6,6 +6,12 @@
 - 범위: Prototype 8 Phase 4
 - 담당: AI(정적 검사·Unit Test·문서·절차), 사용자(Unity/UGS Dashboard·CLI·외부 로그 sink·실제 배포·복구 확인)
 - 선행 조건: Phase 1~3 완료. Phase 3의 verification 환경 결과를 Production 완료 근거로 사용하지 않는다.
+- 최종 상태: **완료 — 2026-10-21, Step 10 최종 대조 및 Phase 5 인계 완료.**
+- 배포 기준: Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`, UGS production / `FlowStateVerification` 단일 Module.
+- 완료 범위: 환경·권한·로그 보관·호환성·첫 배포 복구 준비와 승인된 Production Module 첫 배포.
+  실제 Production Module 호출·로그 수집·Player 통합 동작·Windows Player Build·일반 사용자 공개는 완료 범위가 아니다.
+
+아래 진행 기록의 과거 미완료·차단 문구는 당시 이력이다. 현재 상태는 이 요약과 Step 10의 최종 판정을 따른다.
 
 ## 목적
 
@@ -18,7 +24,8 @@ verification과 Production을 환경, 데이터, 권한, 배포 이력, 로그 �
 - verification 대상은 Project `Unity_Flow_State`, Environment `verification`이며 C# Module `FlowStateVerification` 하나가 현재 게시 단위다.
 - Phase 3에서 verification의 신규 계정 제출, Offline Pending 복구, Stage/Infinite TOP·AROUND YOU를 확인했다.
 - Dashboard는 활성 C# Module source를 내려받아 로컬 Git source와 정확히 대조하는 기능을 제공하지 않았다. Git `b2953d9`는 과거 rollback 후보일 뿐 활성 원격 source의 동일성 증명이 아니다.
-- Production Project ID, Environment ID, 조직의 Secret/권한 담당자, 로그 sink 제품·접근 방식·30일 보존/삭제 설정은 아직 확인되지 않았다. 이 값들은 추정하거나 문서에 임의 입력하지 않는다.
+- Production 대상·Secret/권한 담당자·Cloud Run LogSink·30일 보관/삭제 정책은 Step 3~9의 사용자 보고와
+  설정/정적 대조로 확인했다. 실제 식별자·URL·비밀값은 승인된 로컬 설정과 비공개 보관 경계를 유지한다.
 - verification의 계정·Local Save·Cloud Save·Leaderboard 행·Secret 값은 Production으로 복사하지 않는다.
 
 ## 공통 안전 규칙
@@ -301,8 +308,11 @@ Production은 현재 정책과 Secret이 없는 첫 배포 전 baseline이다. �
 
 ### 완료 조건
 
-- [ ] 최소 구조화 로그의 허용 필드·접근 권한·30일 보존·삭제 절차가 문서와 설정으로 대조된다.
-- [ ] sink가 준비되지 않았으면 Production 배포가 명시적으로 차단된다.
+- [x] 최소 구조화 로그의 허용 필드·접근 권한·30일 보존·삭제 절차가 문서와 설정으로 대조된다.
+- [x] sink가 준비되지 않았으면 Production 배포가 명시적으로 차단된다.
+
+2026-10-21 Step 10 정리: 6-3.6과 8-E의 verification 합성 수집, 8-F의 Production 보관/권한/경로
+준비 완료를 근거로 체크를 동기화했다. 실제 Production 이벤트 전송 성공을 확인한 것으로 확대하지 않는다.
 
 ### Step 6 진행 기록 — 2026-10-09
 
@@ -400,9 +410,6 @@ Production은 현재 정책과 Secret이 없는 첫 배포 전 baseline이다. �
   `POST /v1/events`는 HTTP 202이었고, stdout에는 closed schema의 7개 필드만 기록됐다. 최소 인스턴스
   0에서 새 instance가 시작된 뒤 startup probe가 성공한 사실도 확인했다. URL·Project/환경 식별자·token·
   상관관계 값·event body는 기록하지 않았다.
-- [x] 6-3.6.4-A closed schema·운영 담당자 조회 확인 — 사용자 (2026-10-20): 운영 담당자 계정이
-  합성 이벤트를 조회했고, `environment`, `moduleReference`, `outcome`, `reason`, `durationBucket`,
-  `correlationId`, `rateLimitResult` 외 필드가 없음을 대조했다. 비운영 담당자 조회 거부 확인은 남아 있다.
 - [x] 6-3.6.4-A closed schema·운영 담당자 조회 확인 — 사용자 (2026-10-20): 운영 담당자 계정에서 Cloud Run
   request/stdout 로그를 조회해 허용된 7개 필드와 `Accepted`/`SyntheticProbe`/`Allowed`만 있음을 확인했다.
 - [x] 6-3.6.4 closed schema·조회 권한 점검 완료 — 6-3.6.4-A의 운영 담당자 조회와 closed schema 대조로
@@ -685,7 +692,8 @@ AI의 대조 결과가 `READY_FOR_APPROVAL`일 때에만 Production 적용 권�
 `UGS/ENVIRONMENT_NEUTRAL_MODULE_CONFIGURATION.md`는 이 전환의 단일 구성 기준이다. 8-D~8-F가
 완료되기 전까지 `PRODUCTION_DEPLOY_BLOCKED`를 유지한다.
 2026-10-21 8-D~8-F 준비는 완료했다. 이 상태만으로 Production 배포를 승인하지 않으며,
-새 source commit 연결·새 Module 기준 호환성 승인 등 후속 배포 전 조건의 판정까지 차단을 유지한다.
+당시 대기했던 source commit 연결·호환성 승인은 후속 8-G-3에서 완료했다.
+현재 판정은 아래 8-G-4의 최신 결과를 따른다.
 
 #### 8-A 진행 기록 — 2026-10-20
 
@@ -817,30 +825,65 @@ Step 8 재판정과 Step 9를 아래 번호로 연결한다. `8-G-1 수행 방�
   - Stage는 낮은 점수 우선, Infinite는 높은 점수 우선이며 Best score·리셋/버킷/티어 없음 계약과 대조한다.
   - **완료 기준:** production의 두 Board ID·정렬·업데이트·리셋/버킷/티어 설정 확인 결과를 기록하고
     AI가 현행 Client/Module 계약과 대조한다. verification 행 복사나 시험 점수 제출은 포함하지 않는다.
-- [ ] **8-G-2 환경 중립 Module 변경을 Git commit으로 고정하고 SHA 기록 — 사용자**
+- [x] **8-G-2 환경 중립 Module 변경을 Git commit으로 고정하고 SHA 기록 — 사용자**
   - C# host와 embedded JS 및 필요한 새 파일이 같은 source 기준에 포함되는지 커밋 전에 정적으로 검토한다.
-  - 현재 확인된 HEAD는 `935a8d01a08c1b1d882560c7fe5c5d3d4f366665`이며 환경 중립 변경은 미커밋 상태다.
+  - 2026-10-21 사용자 커밋 보고: `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`.
+    AI가 로컬 HEAD·61파일 변경과 C# host/embedded JS·신규 execution-scope.js·Module manifest 포함을 확인했다.
+    문서 갱신 직전 작업트리는 깨끗했으며, 이전 HEAD `935a8d01…`의 미커밋 상태를 대체한다.
   - 사용자가 커밋하고 새 전체 SHA를 알려준다. AI가 임의로 커밋하거나 기존 변경을 stage하지 않는다.
   - **완료 기준:** 새 SHA와 해당 commit의 Module source 경로를 기록한다. git commit만으로 원격 source 동일성을 증명하지 않는다.
-- [ ] **8-G-3 새 SHA에 verification 검증 결과 연결·호환성 표 갱신 및 검토 — AI·사용자**
+- [x] **8-G-3 새 SHA에 verification 검증 결과 연결·호환성 표 갱신 및 검토 — AI·사용자**
+  - [x] AI 준비: 위 SHA의 Client/Scene/Unity Test 변경 없음, 필수 Module source 포함을 정적으로 확인하고
+    `UGS/PRODUCTION_ENVIRONMENT_INVENTORY.md`의 호환성 표 v2 후보와 8-E 결과 연결표를 갱신했다.
+  - [x] 사용자: 마지막 verification 배포 이후 Module source 변경 없음 확인 — 2026-10-21 보고.
+  - [x] 사용자: 갱신한 호환성 기준 승인 — 2026-10-21 보고. 원격 source 다운로드 불가에 따른 한계는 유지한다.
   - 8-E의 배포·Unity 컴파일/전체 테스트·계정 Ready·Stage/Infinite 조회·LogSink 결과를 새 SHA에 연결한다.
   - 사용자는 마지막 verification 배포 후 Module source 변경 유무를 확인하고, AI는 로컬 commit/source를 대조한다.
   - Client·Module·Local Save v7·Cloud Save schema·이전 credential·Secret 이름 계약의 호환성 표 v2 후보를 갱신한다.
   - **완료 기준:** source와 검증 근거의 연결 및 호환성 검토 결과를 기록하고 사용자 승인을 받는다.
     커밋만 새로 했거나 문서만 바뀐 경우 기존 검증을 반복하지 않는다. 실제 source 차이가 있을 때 영향 범위만 재판단한다.
-- [ ] **8-G-4 Production gate 재판정 — AI, Step 8**
+- [x] **8-G-4 Production gate 재판정 — AI, Step 8**
   - 8-G-1~8-G-3, 완료된 Step 1~7·8-A~8-F, Access Control·Secret·30일 로그/삭제 정책·첫 배포 복구 기준을 대조한다.
   - 과거 대기·차단 서술과 최신 완료 근거를 구분하고 누락된 필수 근거가 있는지 확인한다.
   - **완료 기준:** 근거와 함께 `READY_FOR_APPROVAL` 또는 `PRODUCTION_DEPLOY_BLOCKED`를 기록한다.
     판정만으로 배포 권한이 생기지는 않는다.
-- [ ] **8-G-5 명시적 승인 후 첫 Production Module 배포 — 사용자, Step 9**
+  - 2026-10-21 최종 판정: **`READY_FOR_APPROVAL`**. 아래 근거표를 대조했으며 추가 사용자 재시험은 요구하지 않는다.
+- [x] **8-G-5 명시적 승인 후 첫 Production Module 배포 — 사용자, Step 9**
   - **착수 조건:** 8-G-4가 `READY_FOR_APPROVAL`이고 사용자가 대상·배포 단위·변경 창을 명시 승인한다.
   - 승인한 source 기준의 `FlowStateVerification` C# Module 하나를 production에 배포하고 게시 시각·가능한 reference를 기록한다.
   - 첫 배포 실패 시 이전 버전 rollback이 아니라 공개 중단·원인 수정·수정 commit 재배포 기준을 적용한다.
   - **완료 기준:** 아래 Step 9의 승인된 배포 또는 중단·복구 결과가 기록된다. AI는 Unity 빌드/Test Runner·Scene 수정·원격 배포를 수행하지 않는다.
   - Production에서 Player 기능을 실행하는 통합 검증·Windows Player Build는 Phase 5의 별도 승인 범위를 유지한다.
+  - 2026-10-21 사용자 명시 승인 및 production `FlowStateVerification` 단일 Module의 Deploy Selected 성공,
+    예상 밖 오류·경고 없음 보고. source SHA는 `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`다.
+    승인 변경 창은 이번 작업 시간이며 실제 빌드·게시 수행자는 사용자다. 상세 결과는 Step 9에 기록한다.
 
-현재 다음 작업은 **8-G-2**다. Production Module 배포 및 Phase 4 전체 완료는 아직 선언하지 않는다.
+#### 8-G-4 재판정 근거 — 2026-10-21
+
+| 판정 항목 | 확인 근거 | 결과 |
+| --- | --- | --- |
+| 환경·대상 inventory | Step 3·4, 호출별 scope, Production 설정/별도 Local Save 경계 | 준비 완료 |
+| 단일 배포 source | Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`, C# host 및 embedded JS, manifest 하나 | 고정 완료 |
+| 로컬 정적·회귀 검사 | `UGS/Tests`의 독립 실행 파일 52개(대역/helper 2개 제외), 실패 0 | 통과 |
+| source 변경 여부 | 위 SHA 이후 Module·Client·manifest·Access Control artifact 차이 없음, 사용자의 마지막 verification 배포 이후 source 변경 없음 보고 | 연결 완료 |
+| verification·Unity | 8-E의 사용자 컴파일/전체 테스트·계정 Ready·Stage/Infinite 조회·합성 로그 7필드 저장 | 완료 근거 유지 |
+| 최소 권한·보드 | Step 5의 Production 두 Write Deny와 verification 403, 8-G-1 Production 두 보드 설정 | 대조 완료 |
+| Secret·LogSink | 8-F의 Production 네 항목·Cloud Code 전용 접근·키 분리·서버 identity/고정 Secret 버전·health 204 | 준비 완료 |
+| 로그 보관·조회·삭제 정책 | 8-F-5: 30일 보관 정책·추가 내보내기 없음·조직 경로 없음·운영자 조회 제한 | 설정 근거 완료 |
+| 호환성 | 위 SHA 기준 v2, 8-G-3 사용자 승인 | 승인 완료 |
+| 첫 배포 복구 | 기존 Production Module 없음 baseline, 8-C의 공개 중단·수정 commit 재배포 기준 | 이전 reference 요구 해당 없음 |
+
+이 판정은 사용자 설정 보고와 로컬 검증에 근거한 **첫 Production Module 배포 승인 요청 가능 상태**다.
+AI가 원격 설정·Secret payload를 다시 조회하거나 Unity 빌드/Test Runner를 실행한 결과가 아니다.
+Production Module 실제 배포·Secret 읽기·로그 전송/저장 성공은 아직 미확인이다.
+이번 갱신은 문서만 변경했으므로 위 source SHA와 기존 Unity 결과를 유지한다.
+
+8-G-4 당시의 다음 작업은 8-G-5 / Step 9였다. 2026-10-21 사용자 승인·배포 성공 보고로 이를 완료했으며,
+Step 9 완료 당시 다음 작업은 Step 10이었다. 현재 Step 10까지 완료했으며 다음은 **Phase 5 통합 검증 계획과 승인 범위 확정**이다.
+승인 대상은 위 SHA의 `FlowStateVerification` Module 하나와 UGS production 환경이다.
+담당자는 사용자 1인이고 승인 변경 창은 이번 작업 시간이다. 첫 배포 실패·대상 불일치·예상 밖 오류 시
+공개를 중단하고 데이터 삭제·환경 간 복사 없이 수정 commit으로 재배포한다.
+Production Module 첫 배포는 사용자 보고로 완료했다. Phase 4 준비 범위의 최종 완료 판정은 아래 Step 10에 기록했다.
 
 ## Step 9. 승인된 Production 적용과 복구 가능성을 기록한다 — 사용자
 
@@ -857,18 +900,87 @@ Step 8 재판정과 Step 9를 아래 번호로 연결한다. `8-G-1 수행 방�
 
 ### 완료 조건
 
-- [ ] 승인된 단일 Production 변경이 대상·reference·복구 절차와 함께 기록되거나, 중단/rollback 결과가 안전하게 기록된다.
+- [x] 승인된 단일 Production 변경이 대상·reference·복구 절차와 함께 기록되거나, 중단/rollback 결과가 안전하게 기록된다.
 
-## Step 10. Phase 4 완료를 판정하고 Phase 5로 인계한다
+### Step 9 수행 결과 — 2026-10-21
+
+- 승인: 사용자 명시 승인, UGS production, `FlowStateVerification` Module 하나, 변경 창은 이번 작업 시간.
+- source reference: Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`.
+  해당 SHA 이후 Module·Client·manifest의 로컬 변경 없음도 확인했다.
+- 배포: 사용자가 Deploy Selected 성공·예상 밖 오류/경고 없음을 보고했다. AI는 원격 게시·Unity 빌드를 실행하지 않았다.
+- 제공 OpenAPI: POST endpoint 10개와 string 입력 이름/형식을 승인 commit의 C# 선언과 대조해 일치했다.
+  CancelAccountTransfer의 transferId, CompleteAccountTransfer의 code/verificationValue,
+  SubmitRecord·QueryRecords의 request 및 나머지 함수의 사용자 입력 없음 계약을 확인했다.
+- 증거 한계: OpenAPI URL에는 Environment 식별자가 없으므로 production 대상은 사용자의 명시 보고로 기록한다.
+  info.version=1.0.0은 OpenAPI 문서 버전이며 Module 게시 버전으로 사용하지 않는다.
+  원격 업로드 시각·별도 게시 reference는 미보고이며 추정하지 않는다. source SHA를 배포 보고와 연결했다.
+- 복구 기준: 첫 Production 배포에는 이전 Module이 없다. 실패 시 배포/공개 중단·원인 수정·수정 commit 재배포,
+  데이터 삭제·초기화·환경 간 복사 없음의 승인된 기준을 유지한다.
+- 판정: 8-G-5 / Step 9 완료. 실제 Production Module 호출·Secret 읽기·로그 전송/저장·Player 기능 성공을
+  확인한 것은 아니다. 다음은 Step 10이며 Production 통합 검증·Windows Player Build는 Phase 5의 별도 승인 범위다.
+
+## Step 10. Phase 4 완료를 판정하고 Phase 5로 인계한다 — 완료 (2026-10-21)
 
 다음을 모두 만족할 때만 완료 처리한다.
 
-- [ ] verification과 Production의 환경·계정·제출·조회·Local Save/Pending 경로가 섞이지 않음을 정적 검사·설정 inventory·Unit Test로 확인했다.
-- [ ] Player 직접 쓰기 차단, Cloud Code Secret 최소 접근, Server 검증 경계가 대상 설정과 verification 실제 거부 검사로 대조됐다.
-- [ ] 비밀값 없는 구조화 로그, 30일 보존, 삭제 절차, 1인 수동 장애 대응 및 테스트 자료 관리가 준비됐다.
-- [ ] 배포 전 backup, 단일 배포 단위, rollback reference, verification rehearsal, Production 승인 gate가 재현 가능하다.
-- [ ] Client/Module/Local Save 호환성 표와 데이터 보존·rollback 금지 조합이 문서·Unit Test로 대조됐다.
-- [ ] 최신 변경이 있으면 Unity Script Compilation, 전체 EditMode/PlayMode Test를 사용자가 통과시켰다.
+- [x] verification과 Production의 환경·계정·제출·조회·Local Save/Pending 경로가 섞이지 않음을 정적 검사·설정 inventory·Unit Test로 확인했다.
+- [x] Player 직접 쓰기 차단, Cloud Code Secret 최소 접근, Server 검증 경계가 대상 설정과 verification 실제 거부 검사로 대조됐다.
+- [x] 비밀값 없는 구조화 로그, 30일 보존, 삭제 절차, 1인 수동 장애 대응 및 테스트 자료 관리가 준비됐다.
+- [x] Git source 보존·단일 배포 단위·verification 검증·Production 승인 gate 및 첫 배포 복구 기준을 대조했다.
+  첫 배포 이전 rollback reference는 존재하지 않아 해당 없음이다. Step 7에서 제외한 실제 rollback 재배포 시험을 재도입하지 않는다.
+- [x] Client/Module/Local Save 호환성 표 v2의 사용자 승인과 데이터 보존·rollback 금지 조합을 문서·Unit Test로 대조했다.
+- [x] 사용자 Unity Script Compilation·전체 EditMode/PlayMode 성공 보고를 8-E 및 8-G-3으로 연결했다.
+  이후 Client/Scene 코드 변경은 없고 이번 Step은 문서 정리만 수행하므로 Unity 재실행을 요구하지 않는다.
+
+### 10-1. 완료 근거 최종 대조 — AI 완료
+
+| 최종 조건 | 근거 | 확인 범위·한계 |
+| --- | --- | --- |
+| 환경 분리 | Step 4, 8-A~8-B, environment-neutral-module/execution-scope/environment-data 검사 | 호출별 scope와 환경별 Local Save/Pending 정적·대역 검증. Production 실계정 전송 시험은 미수행 |
+| 최소 권한·서버 검증 | Step 5, 8-D~8-F, 8-G-1 및 입력/계정/receipt/transfer 검사 | Production 설정은 사용자 보고 대조, 직접 Write 403 실행 근거는 verification |
+| 안전 로그·보관 | Step 6, 8-E-5, 8-F-5 | verification 합성 이벤트 7필드 실제 저장, Production health 204·30일 보관/삭제 정책·권한/경로 설정 확인. Production 이벤트 수집은 미검증 |
+| 배포·복구 준비 | 8-C, 8-G-2~8-G-5, Step 9 | Git source 고정·첫 배포 중단/수정 재배포 기준·사용자 승인/게시 성공. 실제 rollback 배포 시험은 범위 제외 |
+| 호환성 | inventory v2, 8-G-3 사용자 승인, phase4-step2-policy 검사 | Local Save v7·Cloud Save schema 1·기존 credential 형식 유지, migration marker 무시 구버전 writer 복귀 금지 |
+| Unity 검증 | 8-E 사용자 컴파일/전체 EditMode·PlayMode 성공 보고 | 개수는 미보고. 서버 전용 진단/환경 이름 보정과 Client source 변경 없음을 구분하고 기존 결과 유지 |
+
+### 10-2. 최종 정적·로컬 회귀 검사 — AI 완료
+
+- 2026-10-21 `UGS/Tests`의 독립 실행 Node 검사 **52파일, 실패 0**.
+  대역/helper 두 파일은 별도 실행 대상에서 제외한다. Unity Test Runner·C# compiler 실행 결과가 아니다.
+- `node --test UGS/LogSink/test.cjs` 통과. 합성 키·로컬 HTTP 경계만 사용하며 외부 GCP/UGS 호출과 실제 Secret 접근은 없다.
+- 배포 SHA `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee` 이후 Module·Client·manifest·정책 artifact의 변경 없음 확인.
+- Source와 사용자 제공 OpenAPI의 10함수/string 입력 일치는 Step 9 근거를 유지한다.
+- 문서의 Step 6 미체크·중복 권한 기록과 로드맵의 오래된 상태를 정리했다. 원격 게시 시각이나 원격 artifact hash는 추정하지 않는다.
+- Unity Deployment가 변경한 `ProjectSettings/Packages/com.unity.services.core/Settings.json`은 사용자 변경으로 보존한다.
+  Editor의 배포 환경 선택과 Player의 `FLOW_STATE_PRODUCTION`/온라인 설정은 별도이며 Phase 5 시작 전 대상 설정을 대조한다.
+
+### 10-3. 완료 판정과 수동 작업 — 완료
+
+**Step 10 및 Prototype 8 Phase 4 완료 — 2026-10-21.**
+
+이 완료는 운영 기반·환경 분리·권한/로그·호환성·첫 배포 복구 준비와 승인된 첫 Production Module 배포에 한정한다.
+Production의 실제 Player 기능, Secret 읽기 및 로그 전달 성공, Windows Player Build, 일반 사용자 공개를 승인하거나 보증하지 않는다.
+추가 수동 작업은 없다. AI는 Unity Editor/Build/Test Runner·Scene 변경·원격 호출/배포·키 생성/열람을 수행하지 않았다.
+첫 배포 전 원격 Module 없음과 source 다운로드 불가, 업로드 시각/reference 미보고 한계를 유지한다.
+
+### 10-4. Phase 5 인계 — 기록 완료, 실행 미착수
+
+다음은 Phase 5에서 계획·승인 후 수행한다. 이 목록은 원격 쓰기·Player 계정 생성·공개 운영의 실행 승인이 아니다.
+
+| 순서 | 인계 항목 | 담당·착수 기준 |
+| --- | --- | --- |
+| 1 | 배포 SHA·Build Profile/온라인 대상·검증용 계정/데이터 범위·중단 기준 확정 | AI 정적 대조 + 사용자 승인. Editor의 production 배포 환경을 Player 실행 대상으로 오인하지 않음 |
+| 2 | Production Module의 Secret 읽기·서명 로그 전송·Cloud Logging 7필드 저장 실제 확인 | 사용자 승인 후 전용 절차 준비. verification 전용 Probe를 Production 검증에 사용하지 않음 |
+| 3 | Windows x64·1920×1080 Windowed Player Build 및 Keyboard/Mouse UI | 사용자 빌드·화면 조작. 최신 코드 변경이 있으면 사용자 Unity 컴파일/전체 테스트 결과 연결 |
+| 4 | 승인된 운영 대상의 신규/기존 계정·Stage/Infinite 제출/조회·Offline 및 재시작 Pending 복구 | 사용자 승인된 계정/데이터만 사용. 운영 계정 간 실제 이전·제출 등 쓰기는 별도 범위 확정 |
+| 5 | 첫 성공 배포 source 보존과 향후 업데이트 복구·데이터 보존 검증 | 첫 배포 이전 버전은 없음. 실제 이전 배포가 존재하는 변경 시 후보·절차·시험 범위를 승인하고 수행 |
+| 6 | 격리 실행 Notice 반복 표시의 UI 처리 | `IsolationArmed=True`에서 온라인 coordinator 없음으로 Continue가 동의를 저장하지 못하고 Notice 반복. 일반 Play 조회는 정상. 별도 개선/수용 판단을 Phase 5에서 수행 |
+
+운영 한계: 250 ms 일반 로그 전송은 제한된 최선 시도이며 모든 요청의 로그 전달을 보장하지 않는다.
+합성 Probe 성공을 Production의 실제 일반 요청·성능·무손실 수집 보장으로 해석하지 않는다.
+
+후속 계획은 [20261021_01_Phase5ManualSteps.md](20261021_01_Phase5ManualSteps.md)에 작성했다.
+다음은 해당 문서 **Step 1: 대상·QA 실행 공간·승인 범위 확정**이다. Phase 5의 실제 검증은 미착수다.
 
 Phase 5 인계 항목은 Windows x64 1920×1080 Player Build, Keyboard/Mouse UI, 승인된 운영 대상의 신규/기존 계정 및 Offline 복구, 운영 rollback 후 데이터 보존이다. verification 결과만으로 Production 검증 완료 또는 일반 사용자 공개를 선언하지 않는다.
 

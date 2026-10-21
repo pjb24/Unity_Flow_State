@@ -1,6 +1,18 @@
 # Account transfer 운영 적용 안내
 
-이 문서는 Prototype 8의 계정 이전 서비스가 구현된 뒤 verification과 production에 적용할 운영 경계를 기록한다. 현재 저장소에는 순수 정책만 있으며, 이 문서의 UGS Dashboard·CLI 변경은 AI가 실행하지 않는다.
+이 문서는 Prototype 8 계정 이전 서비스의 운영 경계를 기록한다. UGS Dashboard·CLI 변경은 AI가 실행하지 않는다.
+
+## 현재 적용 기준 — 2026-10-21
+
+- 배포 단위는 `FlowStateVerification` C# Module 하나이며 JavaScript는 DLL 내부 리소스다. 개별 JS Script 게시 절차를 사용하지 않는다.
+- 첫 Production 배포에는 이전 Module이 없으므로 실패 시 공개 중단·원인 수정·수정 commit 재배포를 적용한다.
+  계정·번호·Leaderboard·Cloud Save 자료 삭제나 환경 간 복사는 하지 않는다.
+- 첫 성공 배포 후 이전 source/reference를 확보한 업데이트부터 같은 환경의 직전 확인 Module로 복구한다.
+- 배포 후보는 Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`다. Step 8 판정은 READY_FOR_APPROVAL이며,
+  이후 사용자가 변경 창을 이번 작업 시간으로 명시 승인하고 production 단일 Module Deploy Selected 성공을 보고했다.
+  첫 배포 source reference로 위 SHA를 기록하되 실제 Module 동작 검증이나 원격 artifact hash 비교 완료를 뜻하지 않는다.
+  다음 변경의 복구 후보는 이 source와 후속 검증 결과를 함께 검토한다. 상세 진행은 Phase 4 Manual Steps Step 9·10을 따른다.
+- 아래 JS script version·source 백업·재게시 표현은 전환 이전의 참고 이력이며 위 현재 기준이 우선한다.
 
 ## 환경 경계
 

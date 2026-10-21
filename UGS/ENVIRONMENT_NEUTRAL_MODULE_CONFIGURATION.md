@@ -4,7 +4,10 @@
 
 로컬 `FlowStateVerification` source는 호출별 환경 scope를 사용하는 구조로 전환했다.
 원격 verification 배포본과 새 source는 같은 verification Secret을 사용한다. Production에는 아래
-공통 이름의 Secret을 준비한다. Step 8의 판정은 아직 `PRODUCTION_DEPLOY_BLOCKED`다.
+공통 이름의 Secret 준비를 완료했다. 2026-10-21 8-G-4 재판정은 `READY_FOR_APPROVAL`이며,
+후속 사용자 명시 승인(변경 창: 이번 작업 시간)과 Deploy Selected 성공 보고로 8-G-5 / Step 9도 완료했다.
+Step 10 최종 대조로 Phase 4를 완료했다. 실제 Production Module 호출·Secret 읽기·이벤트 전송 성공은
+별도 미검증이며 다음은 Phase 5 계획 준비다.
 
 ## 구현 순서와 의존 관계
 
@@ -219,11 +222,19 @@ AI는 문서·코드 정적 대조를 담당하고, GCP·UGS 설정·배포·키
 
 로컬 전용 환경 분리 검사와 Module shim을 포함해 전체 Node 49파일을 통과했다. 기존 실패 5파일의
 테스트 자료 수정 근거는 Step 8에 기록했다. 후속 Node 50파일 검사와 사용자 verification 검증은
-8-E 완료 결과를 따른다. 8-F 준비도 완료했다. 남은 작업은 Production 보드 확인 → 새 source commit SHA
+8-E 완료 결과를 따른다. 8-F 준비도 완료했다. 당시 후속 작업은 Production 보드 확인 → 새 source commit SHA
 고정 → verification 결과 연결·호환성 검토/승인 → gate 재판정 → 승인 후 단일 Module 배포 순서다.
 상태와 완료 기준은 [Phase 4 Manual Steps의 8-G-1~8-G-5](../AI/90_Tasks/Prototype_8/20261007_09_Phase4ManualSteps.md)에 모아 관리한다.
 2026-10-21 8-G-1은 사용자 production 두 보드 설정 보고와 로컬 Board ID·정렬/keepBest 계약 대조로 완료했다.
-다음 작업은 8-G-2의 새 source commit 고정이며, 원격 Module 배포 승인은 아직 아니다.
+8-G-2는 사용자 커밋 `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`와 로컬 source 포함 대조로 완료했다.
+8-G-3은 사용자의 마지막 배포 후 Module source 변경 없음 확인·호환성 승인으로 완료했다.
+8-G-4의 기존 근거·로컬 Node 52파일 검사 대조 결과는 READY_FOR_APPROVAL이다.
+8-G-5 / Step 9는 사용자의 명시적 승인·이번 작업 시간 변경 창 지정·production 배포 성공과 오류/경고 없음
+보고로 완료했다. 제공 OpenAPI의 10함수 입력 계약을 승인 commit과 대조해 일치함을 확인했다.
+대상 환경은 사용자 보고로 확인하고, OpenAPI 버전을 원격 게시 reference로 대체하지 않는다.
+이번 문서 갱신은 Module source를 바꾸지 않는다. Step 10 최종 대조·로컬 Node 52파일 및 LogSink HTTP 검사로
+Phase 4 준비·첫 배포 범위의 완료를 판정했고, 실제 운영 호출·로그 수집·Player Build·격리 Notice UI 한계를
+Phase 5에 인계했다. 추가 사용자 수동 작업이나 기존 Unity 검증 반복은 필요하지 않다.
 
 ## 8-E 현재 결과와 LogSink Probe 실행 방법
 

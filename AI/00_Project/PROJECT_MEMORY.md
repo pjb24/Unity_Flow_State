@@ -8,6 +8,23 @@
 
 # 프로젝트 결정 사항
 
+## Prototype 8 Phase 4 완료 (2026-10-21)
+
+- 배포 source는 Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`다. 환경 중립 C# Module/embedded JS,
+  기존 verification Secret 보존·Production 별도 Secret/보드·LogSink·30일 보관/삭제 정책·권한 분리 준비를 완료했다.
+- verification 계정/순위·합성 로그 수집·사용자 Unity 컴파일/전체 테스트 결과와 호환성 승인을 연결했다.
+  사용자가 UGS production의 `FlowStateVerification` 단일 Module 배포를 명시 승인하고 게시 성공·오류/경고 없음을 보고했다.
+- Step 10 최종 대조에서 Node 검사 52파일과 로컬 LogSink HTTP 검사가 통과했다. AI는 Unity 빌드/Test Runner·
+  Scene 변경·원격 호출/게시·실제 Secret 열람을 수행하지 않았다. 이후 변경은 문서이며 배포 source는 유지한다.
+- 첫 배포에는 이전 Module이 없으므로 실패 시 공개 중단·수정 commit 재배포 기준을 사용한다. 실제 rollback
+  재배포 시험은 Phase 4 완료 조건에서 제외한 결정을 유지한다. Git 기준은 원격 artifact hash 동일성 증명이 아니다.
+- Phase 4 완료는 운영 기반 준비·승인된 첫 배포 범위다. Production Module 실제 호출/Secret 읽기/로그 수집,
+  Player Build·계정/제출/조회·Offline 복구·향후 업데이트 복구 검증 및 일반 사용자 공개 판단은 Phase 5로 인계한다.
+- 격리 실행 `IsolationArmed=True`의 게임 화면에서는 온라인 coordinator가 없어 Continue 후 Notice가 반복된다.
+  일반 Play의 Leaderboard 조회는 사용자 정상 보고를 받았다. 격리 UI 개선/수용 판단은 Phase 5에 별도 인계한다.
+- Phase 5 계획은 `AI/90_Tasks/Prototype_8/20261021_01_Phase5ManualSteps.md`에 작성했다.
+  다음 작업은 해당 Task Step 1의 대상·QA 실행 공간·승인 범위 확정이다. 원격 검사나 Player Build는 미착수다.
+
 ## Prototype 8 Phase 2 완료 (2026-10-06)
 
 - Phase 2의 실제 Cloud Save 저장 경계 20복구·경합 2사례, 기존 Module/권한/UI 및 최신 Unity 909/257 근거를 대조했다.

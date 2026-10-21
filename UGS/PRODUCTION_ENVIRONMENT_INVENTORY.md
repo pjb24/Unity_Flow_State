@@ -12,16 +12,25 @@ Secret 값, access token, Player ID, Environment ID, 원격 source 본문, write
 
 ## 현재 판정
 
-`PRODUCTION_DEPLOY_BLOCKED` — 2026-10-21 8-F 준비 완료. Production 전용 Safe LogSink 배포·health 204·
+**Prototype 8 Phase 4 완료 — 2026-10-21 Step 10 최종 판정. 다음은 Phase 5 계획·승인이다.**
+Production Module 첫 배포는 사용자 보고로 완료했으며 운영 기반 준비와 배포 기록 범위에 한정한다.
+배포 전 8-G-4 판정은 `READY_FOR_APPROVAL`이었다. Production 전용 Safe LogSink 배포·health 204·
 30일 보관 정책·추가 전송 경로 없음·조회 권한 분리·Secret 연결 및 UGS production 네 항목 준비를
-사용자 보고와 문서 대조로 확인했다. 새 source commit 연결·새 Module 기준 호환성 승인 등은 남아 있다.
-Production Module 배포·실제 로그 전송/저장 성공은 이 준비 결과로 확인되지 않는다.
+사용자 보고와 문서 대조로 확인했다. 새 source commit 연결·호환성 v2 사용자 승인을 완료했고,
+독립 실행 Node 검사 52파일(대역/helper 2개 제외)이 모두 통과했다. 배포 후보 SHA는
+`8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`이며 이후 배포 source 차이는 없다.
+사용자가 위 SHA의 UGS production / FlowStateVerification 단일 Module 배포를 이번 작업 시간으로
+명시 승인하고 Deploy Selected 성공·예상 밖 오류/경고 없음을 보고해 8-G-5 / Step 9를 완료했다.
+제공 OpenAPI의 10 POST endpoint 및 string 입력 계약도 승인 source와 일치했다. 원격 업로드 시각·게시
+reference는 미보고다. OpenAPI의 1.0.0은 게시 버전으로 해석하지 않는다. production 대상은 사용자 보고에 근거한다.
+실제 Module 호출·Secret 읽기·로그 전송/저장 성공은 배포 성공이나 OpenAPI로 확인되지 않는다.
 환경 중립 C# host·embedded JS source 전환과 Node 49파일 검사를 완료했고, 사용자가 verification 배포·Unity
 Compilation·전체 Edit/Play Mode 테스트 성공을 보고했다. 후속 합성 Probe도 Accepted를 받았다.
 2026-10-21 사용자 계정 상태 정상·Leaderboard 조회·Cloud Logging의 정확히 7필드 합성 이벤트 저장
 확인으로 8-E를 완료했다. 아래 재배포·조회·로그 확인 대기 문구는 해결 이전의 진행 이력이다.
 초기 검사에서 발견한 기존 실패 5파일은 현행 계약과 다른 테스트 자료를 수정한 뒤 모두 통과했다.
-첫 배포의 수정 후 재배포 기준은 문서·정책에 반영했다. 남은 작업은 Phase 4 Manual Steps의 Step 8에 기록한다.
+첫 배포의 수정 후 재배포 기준은 문서·정책에 반영했다. Step 10에서 최종 근거·과거 기록을 정리하고
+추가 수동 작업 없이 완료했다. Production 실제 실행·로그 수집·통합 검증은 Task 10-4의 Phase 5 인계를 따른다.
 
 새 source는 공통 논리 이름을 C# host에서 환경별로 해석한다. verification에서는 기존 `_VERIFICATION_`
 이름을 사용하고, Production에서는 `FS_TRANSFER_HMAC_V1`, `FS_LOG_SINK_HMAC_V1`, `FS_LOG_SINK_URL_V1`을 사용한다.
@@ -176,28 +185,45 @@ Production build profile은 Step 4의 명시 승인 전에는 추가하지 않�
 
 ## 완료 전 필수 증거
 
-### 호환성 표 v2 후보 — Step 8 환경 중립 전환
+### 호환성 표 v2 — Step 8 환경 중립 전환, 2026-10-21 사용자 승인
 
 | 항목 | 변경 후 계약 | 확인 상태 |
 | --- | --- | --- |
 | Client | 이번 작업의 Unity Client source 변경 없음 | 기존 Module 함수·입력/응답 유지, Node 대조 통과 |
-| Module source | 현재 작업트리의 C# host 및 embedded JS | 환경 분리·transfer·제출/조회 로컬 검증 통과, 새 commit SHA와 verification 재배포 대기 |
+| Module source | Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`의 C# host 및 embedded JS | 8-G-2 완료. 필수 source 포함 및 사용자 마지막 verification 배포 뒤 source 변경 없음 확인으로 8-E 근거 연결 |
 | Local Save | format v7 및 기존 환경별 scope 경로 유지 | writer/migration 변경 없음 |
 | Cloud Save | schemaVersion 1, 기존 account/receipt container·key·ledger v1/v2 계약 유지 | 환경별 저장값 검증 및 migration 검사 통과 |
 | Transfer credential | HMAC 입력 순서·encoding·format 유지 | 같은 scope·같은 Secret 값의 digest 호환 검사 통과 |
-| Secret | verification 기존 이름 유지·Production 공통 이름 3개, 값은 환경별 독립 | verification 이름·접근 권한 확인 완료, 새 Module 접근 및 Production 준비 대기 |
+| Secret | verification 기존 이름 유지·Production 공통 서비스 이름 3개와 환경 표시 이름 설정 1개 | verification 접근은 8-E, Production 이름·Cloud Code 전용 접근 준비는 8-F 완료. Production Module의 실제 읽기는 후속 확인 |
 
-이 표는 로컬 호환성 후보이며 Production 승인 완료를 뜻하지 않는다. 새 source의 commit과 사용자
-verification/Unity 검증 결과를 연결한 뒤 Step 8을 다시 판정한다.
+이 표는 위 commit 기준이며 2026-10-21 사용자가 호환성을 승인했다. 8-G-4 재판정은 READY_FOR_APPROVAL이다.
+현재 Client/Scene/Unity Test source는 이 commit의 부모 대비 변경이 없으며, 문서 갱신 직전 Module source도
+commit과 차이가 없었다. 이 사실은 로컬 상태 확인이며 원격 배포본을 내려받아 hash 비교한 결과는 아니다.
 
-- [ ] Cloud Code·Cloud Save·Leaderboards·Access Control 대상이 같은 Production 환경임을 읽기 전용으로 대조했고, Authentication Identity Provider의 프로젝트 범위 상태를 별도로 기록했다.
-- [ ] 현재 Production baseline과 rollback 가능 여부를 내부 보관소에 기록했다.
-- [ ] Access Control과 필요한 Secret 이름/Cloud Code 읽기 권한을 대조했다.
-- [ ] 30일 안전 로그 sink와 삭제 절차를 대조했다.
-- [ ] Client/Module/Local Save 호환성 표를 승인했다.
-- [ ] verification 단일 Module 배포/rollback rehearsal 결과를 기록했다.
+### 8-G-3 verification 결과 연결 — 2026-10-21
 
-위 항목 중 하나라도 없으면 `PRODUCTION_DEPLOY_BLOCKED`를 유지한다.
+| 근거 | 기존 확인 결과 | 위 SHA에 연결할 때의 처리 |
+| --- | --- | --- |
+| verification Module | 사용자 배포 완료 및 후속 Probe Accepted | 2026-10-21 사용자 마지막 배포 뒤 Module source 변경 없음 확인 |
+| Unity 컴파일·전체 Edit/Play Mode | 사용자 완료·에러 없음 보고, 개수 미보고 | 기존 보고 유지. 이후 진단·환경 이름 보정은 서버 전용이며 Client 변경 없음 |
+| 계정 상태 | Ready / Reason=None, 인증 완료·공개 번호 응답 성공 | 8-E-4-A 완료 근거 재사용 |
+| Stage/Infinite TOP·AROUND YOU | 일반 Play에서 Loading 후 순위 정상 표시 | 8-E-4-B 완료 근거 재사용 |
+| verification LogSink | Probe Accepted/HTTP 202, Cloud Logging jsonPayload 정확히 7필드 | 8-E-5 완료 근거 재사용 |
+
+2026-10-21 사용자가 마지막 verification 배포 뒤 Module source 변경 없음과 위 호환성 기준 승인을 보고해 8-G-3을 완료했다.
+source 차이가 없다면 커밋·문서 기록만을 이유로 재빌드·Unity 테스트·원격 Probe를 반복하지 않는다.
+코드 차이가 보고되면 AI가 영향 범위를 먼저 대조한다. Production 실제 서비스 검증 완료로 확대하지 않는다.
+
+- [x] Step 3·4의 대상/Authentication 범위와 8-F·8-G-1의 production 설정 보고를 대조했다. 변경 직전 대상 재확인은 Step 9에서 수행한다.
+- [x] 첫 배포 baseline·이전 Module 없음·수정 후 재배포 복구 기준을 기록했다. 존재하지 않는 이전 reference의 rollback 배포는 요구하지 않는다.
+- [x] Step 5의 Access Control과 8-F의 필요한 Secret 이름/Cloud Code 접근 권한 준비를 대조했다.
+- [x] 8-F-5의 30일 보관/삭제 정책·조회 권한·추가 경로 없음 설정을 대조했다.
+- [x] 위 SHA의 Client/Module/Local Save 호환성 표 v2를 사용자가 승인했다.
+- [x] 8-E verification 단일 Module 배포·읽기 전용 확인·합성 로그 결과를 위 SHA와 연결했다. Step 7에서 제외한 실제 rollback 배포 검증을 다시 요구하지 않는다.
+
+위 필수 근거가 누락되거나 source/대상 설정이 바뀌면 `PRODUCTION_DEPLOY_BLOCKED`로 되돌려 재판정한다.
+배포 전 READY_FOR_APPROVAL 판정과 후속 사용자 승인·게시 성공 보고를 모두 기록했다.
+Step 10에서 준비 범위의 Phase 4 완료를 판정했다. Module 실행·운영 통합 검증을 완료한 것으로 확대하지 않는다.
 
 ## 관련 문서
 
