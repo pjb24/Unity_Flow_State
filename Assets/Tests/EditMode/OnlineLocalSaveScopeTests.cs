@@ -110,7 +110,7 @@ namespace FlowState.Tests.EditMode
             LocalSaveData activeOther = source.SelectOnlineScope(alternate);
             Assert.That(LocalSaveJsonCodec.TryDeserialize(LocalSaveJsonCodec.Serialize(activeOther),
                 out LocalSaveData restored), Is.True);
-            LocalSaveData original = restored.SelectOnlineScope(OnlineDataScope.CreateVerification());
+            LocalSaveData original = restored.SelectOnlineScope(source.OnlineScope);
             Assert.That(original.PendingSubmissions[0].SubmissionId, Is.EqualTo(SubmissionId));
             Assert.That(original.PersonalBests[0].RankingValue, Is.EqualTo(1250));
             Assert.That(original.OnlineAccount.PlayerId, Is.EqualTo("ugs-original"));
@@ -122,7 +122,8 @@ namespace FlowState.Tests.EditMode
         [Test]
         public async Task MigrationWriteFailure_KeepsOriginalFilePendingAndBlocksRequests()
         {
-            string before = LocalSaveJsonCodec.Serialize(Data(5));
+            // v6 carries the active build scope; v1-v5 belong to verification regardless of profile.
+            string before = LocalSaveJsonCodec.Serialize(Data(6));
             OnlineTestFileStore store = new OnlineTestFileStore { Contents = before, FailWrite = true };
             LocalRecordRepository local = Load(store);
             Assert.That(local.IsLocalSaveReady, Is.False);
@@ -327,7 +328,8 @@ namespace FlowState.Tests.EditMode
         [Test]
         public async Task ProductionQueryAndSubmissionGate_BlocksUnpersistedMigrationBeforeAuthentication()
         {
-            OnlineTestFileStore store = new OnlineTestFileStore { Contents = LocalSaveJsonCodec.Serialize(Data(5)), FailWrite = true };
+            // Exercise migration persistence in the configured scope, not legacy environment reassignment.
+            OnlineTestFileStore store = new OnlineTestFileStore { Contents = LocalSaveJsonCodec.Serialize(Data(6)), FailWrite = true };
             LocalRecordRepository local = Load(store);
             OnlineTestAuthentication auth = new OnlineTestAuthentication { Player = "ugs-original" };
             OnlineTestTransport transport = new OnlineTestTransport();

@@ -31,7 +31,7 @@ function createRecordQueryService(store, boards, provisionLegacyRow) {
       queryPhase = "ReadPublicNumber";
       await accounts.getPublicNumber(context);
       queryPhase = "ReadLeaderboard";
-      let response;
+      let response, noPersonalRecord = false;
       try {
         response = p.kind === "top" ? await boards.getLeaderboardScores(project, p.boardId, 0, 10,
           { params: { includeMetadata: true } }) : p.kind === "around" ?
@@ -40,9 +40,26 @@ function createRecordQueryService(store, boards, provisionLegacyRow) {
           await boards.getLeaderboardPlayerScore(project, p.boardId, initial.leaderboardOwnerId,
             { params: { includeMetadata: true } });
       } catch (error) {
-        if (p.kind === "me" && error && error.response && error.response.status === 404)
-          return { status: "Success", reason: "", entries: [] };
-        throw error;
+        if (!["me", "around"].includes(p.kind) || !error || !error.response || error.response.status !== 404) throw error;
+        if (p.kind === "around") {
+          // A range 404 alone cannot prove absence: a broken range endpoint may
+          // return 404 even though this player has a score.
+          let scoreMissing = false;
+          try {
+            await boards.getLeaderboardPlayerScore(project, p.boardId, initial.leaderboardOwnerId,
+              { params: { includeMetadata: true } });
+          } catch (scoreError) {
+            if (!scoreError.response || scoreError.response.status !== 404) throw scoreError;
+            scoreMissing = true;
+          }
+          if (!scoreMissing) throw error;
+        }
+        // Missing boards also return 404. Only a confirmed, readable board plus
+        // an absent personal score is a successful no-record state.
+        const board = await boards.getLeaderboardScores(project, p.boardId, 0, 1, { params: { includeMetadata: true } });
+        if (!board || !board.data || !Array.isArray(board.data.results)) return fail("InvalidLeaderboardPage");
+        noPersonalRecord = true;
+        response = { data: { results: [] } };
       }
       const data = response.data;
       const rows = Array.isArray(data.results) ? data.results : p.kind === "me" ? [data] : null;
@@ -104,14 +121,14 @@ function createRecordQueryService(store, boards, provisionLegacyRow) {
       queryPhase = "SortPublicRows";
       entries.sort((a, b) => a.rank - b.rank || a.acceptedAt - b.acceptedAt || (a.publicPlayerNumber < b.publicPlayerNumber ? -1 :
           a.publicPlayerNumber > b.publicPlayerNumber ? 1 : 0));
-      if (p.kind === "around" && !entries.some(entry => entry.isMe)) return fail("MissingServerMetadata");
+      if (p.kind === "around" && !noPersonalRecord && !entries.some(entry => entry.isMe)) return fail("MissingServerMetadata");
       const selected = entries.slice(0, p.limit);
       queryPhase = "RecheckAccount";
       const current = (await accounts.resolve(context)).account.value;
       if (current.accountId !== initial.accountId || current.connectionRevision !== initial.connectionRevision ||
           current.publicPlayerNumber !== initial.publicPlayerNumber || current.leaderboardOwnerId !== initial.leaderboardOwnerId)
         throw fault("AccountConflict");
-      return { status: "Success", reason: "", entries: selected };
+      return { status: "Success", reason: noPersonalRecord ? "NoPersonalRecord" : "", entries: selected };
     } catch (error) { return unavailable(error, queryPhase); }
   };
 }

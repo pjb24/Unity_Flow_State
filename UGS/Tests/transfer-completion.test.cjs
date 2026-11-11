@@ -37,6 +37,7 @@ function statusEndpoint(f, store = f.store) {
         createTransferLifecycleService: value => createTransferLifecycleService(value, () => f.now) };
       if (name === "./transfer-completion-service") return {
         createTransferCompletionService: (value, provider) => createTransferCompletionService(value, provider, () => f.now) };
+      if (name === "./leaderboard-owner-policy") return require("../CloudCode/leaderboard-owner-policy");
       throw Error("Unexpected dependency");
     }
   });

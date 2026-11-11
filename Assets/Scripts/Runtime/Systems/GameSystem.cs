@@ -50,6 +50,7 @@ namespace FlowState.Runtime.Systems
                 string.Empty, null);
         private NetworkReachability _lastReachability;
         private bool _shouldEnterLeaderboardAfterConsent;
+        private Task<bool> _onlineRecoveryPreparation;
         private bool _isResultPresentationDeferred;
         private bool _isCurrentResultRetryRunning;
         private bool _isLeaderboardPendingRetryRunning;
@@ -58,6 +59,7 @@ namespace FlowState.Runtime.Systems
         private int _lastResultLoadingSeconds = -1;
 #if UNITY_EDITOR
         internal static bool UseIsolatedRecordsForPlayModeTests;
+        private bool _hasIsolatedLocalState;
 
         private sealed class TestMemorySaveFileStore : ILocalSaveFileStore
         {
@@ -329,6 +331,7 @@ namespace FlowState.Runtime.Systems
         {
             ILocalSaveFileStore saveFileStore;
 #if UNITY_EDITOR
+            _hasIsolatedLocalState = UseIsolatedRecordsForPlayModeTests || VerificationSessionConfiguration.IsEditorIsolationArmed;
             saveFileStore = (UseIsolatedRecordsForPlayModeTests || VerificationSessionConfiguration.IsEditorIsolationArmed)
                 ? new TestMemorySaveFileStore()
                 : CreatePersistentSaveFileStore();
@@ -419,30 +422,44 @@ namespace FlowState.Runtime.Systems
             ApplyResultRecordPresentation();
         }
 
+        private bool TryConfirmOnlineRecoveryNotice()
+        {
+#if UNITY_EDITOR
+            // Isolated sessions have only an in-memory save and no online coordinator.
+            // Keep acknowledgement in that session so Continue does not reopen the notice.
+            if (_hasIsolatedLocalState)
+            {
+                return _localRecordRepository != null &&
+                    _localRecordRepository.TrySaveOnlineAccount(new OnlineAccountState(true));
+            }
+#endif
+            return _onlineRecords != null && _onlineRecords.TryConfirmRecoveryNotice();
+        }
+
         public async Task<bool> ConfirmOnlineRecoveryNoticeAsync()
         {
-            if (_onlineRecords == null) return false;
-            bool confirmed = await _onlineRecords.ConfirmRecoveryNoticeAsync();
-            if (confirmed)
-            {
-                await _onlineRecords.RetryPendingAsync();
-                RefreshResultRecordPresentation();
-            }
-            return confirmed;
+            if (!TryConfirmOnlineRecoveryNotice()) return false;
+            if (_onlineRecords == null) return true;
+            return await _onlineRecords.ConfirmRecoveryNoticeAsync();
         }
 
         // Inspector adapter: explicit user consent is required before any online request.
         public async void ConfirmOnlineRecoveryNotice()
         {
-            bool didConfirm = await ConfirmOnlineRecoveryNoticeAsync();
-            SetOnlineRecoveryNoticeVisible(false);
-            if (didConfirm && _shouldEnterLeaderboardAfterConsent)
-            {
-                _shouldEnterLeaderboardAfterConsent = false;
-                RequestNavigationSelection(_navigationState.CurrentSelection);
-                return;
-            }
+            if (!TryConfirmOnlineRecoveryNotice()) return;
+            bool shouldEnter = _shouldEnterLeaderboardAfterConsent;
             _shouldEnterLeaderboardAfterConsent = false;
+            SetOnlineRecoveryNoticeVisible(false);
+            bool joinsPreparation = _onlineRecoveryPreparation != null && !_onlineRecoveryPreparation.IsCompleted;
+            if (!joinsPreparation) _onlineRecoveryPreparation = ConfirmOnlineRecoveryNoticeAsync();
+            if (shouldEnter)
+                RequestNavigationSelection(_navigationState.CurrentSelection);
+            if (joinsPreparation) return;
+            if (await _onlineRecoveryPreparation && _onlineRecords != null)
+            {
+                await _onlineRecords.RetryPendingAsync();
+                RefreshResultRecordPresentation();
+            }
         }
 
         // Inspector adapter: cancellation performs no authentication or network request.
@@ -973,10 +990,16 @@ namespace FlowState.Runtime.Systems
         {
             if (_onlineRepository == null)
                 return new OnlineLeaderboardResult { status = "TransientFailure", reason = "AuthenticationUnavailable" };
+            Task<bool> preparation = _onlineRecoveryPreparation;
+            bool waitsForPreparation = preparation != null && !preparation.IsCompleted;
+            // Capture the selected board before waiting so a later tab switch cannot change this request.
+            E_GameMode requestedMode = _leaderboardViewState.GameMode;
+            if (waitsForPreparation && !await preparation)
+                return new OnlineLeaderboardResult { status = "TransientFailure", reason = "AuthenticationUnavailable" };
             if (Application.internetReachability == NetworkReachability.NotReachable)
                 return new OnlineLeaderboardResult { status = "TransientFailure", reason = "NotReachable" };
             RecordBoardKey key;
-            bool hasKey = _leaderboardViewState.GameMode == E_GameMode.Stage
+            bool hasKey = requestedMode == E_GameMode.Stage
                 ? RecordBoardKey.TryCreateStage("stage-001", 1, out key)
                 : RecordBoardKey.TryCreateInfinite(2, out key);
             if (!hasKey) return new OnlineLeaderboardResult { status = "TransientFailure", reason = "InvalidQuery" };

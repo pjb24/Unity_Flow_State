@@ -1069,7 +1069,9 @@ namespace FlowState.Runtime.Systems
             E_GameMode gameMode)
         {
             if (state == E_LeaderboardQueryState.Loading) return title + "\nLoading...";
-            if (state == E_LeaderboardQueryState.Empty) return title + "\nNo records.";
+            if (state == E_LeaderboardQueryState.Empty)
+                return title + (result != null && result.reason == "NoPersonalRecord"
+                    ? "\nNo online record yet. Submit a record to see your position." : "\nNo records.");
             if (state == E_LeaderboardQueryState.Offline) return title + "\nOffline. Retry when connected.";
             if (state == E_LeaderboardQueryState.Error)
                 return title + "\nError: " + GetSafeReason(result);

@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using FlowState.Runtime.Features;
 using NUnit.Framework;
 using UnityEngine;
@@ -31,8 +32,9 @@ namespace FlowState.Tests.PlayMode
 
     public sealed class PlayModeRecordIsolationTests
     {
-        [Test]
-        public void RecordInitialization_DoesNotUsePersistentSaveOrOnlineServices()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void RecordInitialization_DoesNotUsePersistentSaveOrOnlineServices(bool useEditorReservation)
         {
             Type gameSystemType = Type.GetType(
                 "FlowState.Runtime.Systems.GameSystem, Assembly-CSharp");
@@ -40,10 +42,17 @@ namespace FlowState.Tests.PlayMode
             Type settingsSystemType = Type.GetType(
                 "FlowState.Runtime.Systems.SettingsSystem, Assembly-CSharp");
             Assert.That(settingsSystemType, Is.Not.Null);
+            FieldInfo isolation = gameSystemType.GetField("UseIsolatedRecordsForPlayModeTests",
+                BindingFlags.Static | BindingFlags.NonPublic);
+            bool previousIsolation = (bool)isolation.GetValue(null);
+            string isolationKey = VerificationSessionConfiguration.EditorIsolationKey;
+            bool previousReservation = UnityEditor.SessionState.GetBool(isolationKey, false);
             GameObject probe = new GameObject("IsolatedRecordInitializationProbe");
             probe.SetActive(false);
             try
             {
+                isolation.SetValue(null, !useEditorReservation);
+                UnityEditor.SessionState.SetBool(isolationKey, useEditorReservation);
                 MonoBehaviour settings = (MonoBehaviour)probe.AddComponent(settingsSystemType);
                 MonoBehaviour gameSystem = (MonoBehaviour)probe.AddComponent(gameSystemType);
                 SetField(gameSystem, "_settingsSystem", settings);
@@ -59,11 +68,43 @@ namespace FlowState.Tests.PlayMode
                 Assert.That(GetField(gameSystem, "_onlineRecords"), Is.Null);
                 Assert.That(local.OnlineAccount.HasConfirmedRecoveryNotice, Is.False);
                 Assert.That(local.CreatePendingSnapshot().Count, Is.Zero);
+
+                MethodInfo confirm = gameSystemType.GetMethod("ConfirmOnlineRecoveryNoticeAsync");
+                Assert.That(confirm, Is.Not.Null);
+                Task<bool> confirmation = (Task<bool>)confirm.Invoke(gameSystem, null);
+                Assert.That(confirmation.IsCompleted, Is.True);
+                Assert.That(confirmation.Result, Is.True);
+                Assert.That(local.OnlineAccount.HasConfirmedRecoveryNotice, Is.True);
+                Assert.That(local.OnlineAccount.PlayerId, Is.Empty);
+                Assert.That(local.OnlineAccount.PublicNumberCache, Is.Empty);
+                Assert.That(GetField(gameSystem, "_onlineRecords"), Is.Null);
+                Assert.That(((Task<bool>)confirm.Invoke(gameSystem, null)).Result, Is.True);
+                Assert.That((bool)gameSystemType.GetMethod("HasConfirmedOnlineRecoveryNotice",
+                    BindingFlags.Instance | BindingFlags.NonPublic).Invoke(gameSystem, null), Is.True);
             }
             finally
             {
                 UnityEngine.Object.DestroyImmediate(probe);
+                isolation.SetValue(null, previousIsolation);
+                UnityEditor.SessionState.SetBool(isolationKey, previousReservation);
             }
+        }
+
+        [Test]
+        public void UninitializedNormalGame_ConsentCannotBypassOnlineCoordinator()
+        {
+            Type gameSystemType = Type.GetType("FlowState.Runtime.Systems.GameSystem, Assembly-CSharp");
+            GameObject probe = new GameObject("UninitializedConsentProbe");
+            probe.SetActive(false);
+            try
+            {
+                MonoBehaviour gameSystem = (MonoBehaviour)probe.AddComponent(gameSystemType);
+                Task<bool> result = (Task<bool>)gameSystemType.GetMethod("ConfirmOnlineRecoveryNoticeAsync").Invoke(gameSystem, null);
+                Assert.That(result.IsCompleted, Is.True);
+                Assert.That(result.Result, Is.False);
+                Assert.That(GetField(gameSystem, "_localRecordRepository"), Is.Null);
+            }
+            finally { UnityEngine.Object.DestroyImmediate(probe); }
         }
 
         private static object GetField(object target, string name)

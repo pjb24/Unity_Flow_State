@@ -89,6 +89,14 @@ terminal receipt는 제출 ID, 원본 payload의 동일성 판정 자료, Submit
 과정에서 삭제할 수 있다. Dashboard에서 shard·manifest·locator를 수동 수정하거나 하나만
 삭제하면 replay/cleanup 복구를 망가뜨릴 수 있다.
 
+## 초기 준비 참조 복구 경계
+
+서버 상태 조회가 재개하는 초기 provisioning에서 연결표는 있으나 그 계정은 없고, Protected frozen marker가
+같은 Player의 다른 Preparing 계정을 가리킬 수 있다. 원본 snapshot·범위·최초 소유권·기존 매핑·연결 write lock을
+검증한 경우에만 서버가 초기 연결표를 CAS로 복구한다. 이미 발급된 번호/고정 owner와 ledger/행은 보존한다.
+이 복구는 Active/Detached/이전 중 계정의 재연결이나 공개 번호 기반 복구를 허용하지 않는다.
+Dashboard에서 marker/연결표/account를 직접 수정·삭제해 조건을 만들지 않는다.
+
 ## 기존 Player Protected ledger
 
 | access class | key | 의미 |

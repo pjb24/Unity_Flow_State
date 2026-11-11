@@ -90,7 +90,7 @@ namespace FlowState.Tests.EditMode
             Assert.That(local.OnlineAccount.PlayerId, Is.EqualTo("ugs-player"));
             Assert.That(LocalSaveJsonCodec.TryDeserialize(store.Contents, out LocalSaveData restored), Is.True);
             Assert.That(restored.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
-            Assert.That(restored.OnlineScope.Matches(OnlineDataScope.CreateVerification()), Is.True);
+            Assert.That(restored.OnlineScope.Matches(OnlineDataScope.CreateConfigured()), Is.True);
         }
 
         [Test]

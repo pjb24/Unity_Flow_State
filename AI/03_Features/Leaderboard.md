@@ -35,6 +35,9 @@ Leaderboard
 - Stage와 Infinite Tab을 제공한다. Stage Tab은 현재 단일 Stage를 `Stage 1` 고정 선택 행으로 표시하며 변경 조작을 제공하지 않는다.
 - 제출 가능한 확정 기록이 없으면 온라인 조회 없이 기록 확정 안내를 표시한다. 온라인 요청은 RecordSubmission의 동의·계정 귀속 조건도 충족해야 한다.
 - Empty는 원격 조회가 성공하고 해당 목록이 0건일 때만 사용한다. 확정 기록 없음, 제출 대기, 내 온라인 기록 없음은 구분해 안내한다.
+- 내 주변/내 기록 조회의 404는 보드 존재·읽기 가능과 본인 행 부재를 확인한 경우에만 성공한 `NoPersonalRecord`로 처리한다.
+  내 주변은 `No online record yet. Submit a record to see your position.`으로 안내한다. 보드 누락·권한/서비스 오류나
+  본인 행이 존재하는데 발생한 range 404는 Error로 유지하며 모든 404를 빈 목록으로 바꾸지 않는다.
 - 네트워크 상태가 `NotReachable`이면 Offline으로 표시한다. Timeout·인증·서비스 실패 등은 Error로 표시하고 확인 가능한 원인과 안전한 오류 코드를 제공한다. 확인되지 않은 원인은 추측하지 않는다.
 - 실패한 조회를 다시 요청하는 Retry는 제출 Retry와 구분한다. 원본 예외·token·secret·전체 내부 Player ID는 오류 화면에 노출하지 않는다.
 - 상위·내 주변의 한 조회 응답은 스냅샷으로 유지한다. 최초 진입, 명시적 Retry·새로고침 또는 Leaderboard 재진입 때만 새 조회를 시작하며, 타이머·제출 완료만으로 자동 새로고침하지 않는다.

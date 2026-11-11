@@ -49,14 +49,21 @@ namespace FlowState.Runtime.Features
             return false;
         }
 
-        // Must only be called after the human has explicitly acknowledged the recovery notice.
-        public async Task<bool> ConfirmRecoveryNoticeAsync()
+        // Persist acknowledgement independently of slow authentication and server preparation.
+        public bool TryConfirmRecoveryNotice()
         {
             if (string.IsNullOrEmpty(_owner) || _local.AccountId != _owner ||
                 !_local.TryCheckpoint() || !_local.CanUseOnlineData) return false;
             OnlineAccountState state = _local.OnlineAccount;
             if (!state.HasConfirmedRecoveryNotice &&
                 !_local.TrySaveOnlineAccount(new OnlineAccountState(true))) return false;
+            return true;
+        }
+
+        // Must only be called after the human has explicitly acknowledged the recovery notice.
+        public async Task<bool> ConfirmRecoveryNoticeAsync()
+        {
+            if (!TryConfirmRecoveryNotice()) return false;
             try { return await BindAsync(); }
             catch (Exception)
             {

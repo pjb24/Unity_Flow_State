@@ -320,6 +320,49 @@ test("malformed request and invalid query keep safe endpoint response shapes", a
   for (const change of [{ boardId: "invalid" }, { kind: "invalid" }, { limit: 0 }, { limit: 21 }])
     assert.equal((await invoke(get, { ...query(), ...change }, f.context)).reason, "InvalidQuery");
 });
+
+for (const kind of ["around", "me"]) {
+  test("missing personal score on a readable board is a successful no-record state: " + kind, async () => {
+    const f = await configured();
+    const result = await f.query({ boardId: stage, kind, limit: kind === "around" ? 7 : 1 });
+    assert.equal(result.status, "Success"); assert.equal(result.reason, "NoPersonalRecord"); assert.deepEqual(result.entries, []);
+  });
+  for (const status of [403, 404, 503]) {
+    test("missing personal score does not mask unreadable or missing board: " + kind + "/" + status, async () => {
+      const f = await configured();
+      f.leaderboard.getLeaderboardScores = async () => { throw Object.assign(Error("private-body"), { response: { status } }); };
+      const result = await f.query({ boardId: stage, kind, limit: kind === "around" ? 7 : 1 });
+      assert.equal(result.status, "TransientFailure"); assert.equal(result.serviceStatus, status);
+      assert.equal(JSON.stringify(result).includes("private-body"), false);
+    });
+  }
+}
+test("range 404 with an existing personal score stays an error", async () => {
+  const f = await configured(); await f.submit();
+  f.leaderboard.getLeaderboardPlayerRange = async () => { throw Object.assign(Error("range-failed"), { response: { status: 404 } }); };
+  const result = await f.query({ boardId: stage, kind: "around", limit: 7 });
+  assert.equal(result.status, "TransientFailure"); assert.equal(result.serviceStatus, 404);
+});
+test("around record absence does not mask personal-score permission failures", async () => {
+  const f = await configured();
+  f.leaderboard.getLeaderboardPlayerScore = async () => { throw Object.assign(Error("private-body"), { response: { status: 403 } }); };
+  const result = await f.query({ boardId: stage, kind: "around", limit: 7 });
+  assert.equal(result.status, "TransientFailure"); assert.equal(result.serviceStatus, 403);
+});
+test("no-record response rechecks the active account before success", async () => {
+  const f = await configured(); const scores = f.leaderboard.getLeaderboardScores;
+  f.leaderboard.getLeaderboardScores = async (...args) => {
+    const result = await scores(...args); f.account().connectionRevision++; return result;
+  };
+  const result = await f.query({ boardId: stage, kind: "around", limit: 7 });
+  assert.equal(result.status, "TransientFailure"); assert.equal(result.queryFault, "ActiveDeviceRequired");
+});
+test("successful range without self is invalid metadata, not absence", async () => {
+  const f = await configured();
+  f.leaderboard.getLeaderboardPlayerRange = async () => ({ data: { results: [] } });
+  const result = await f.query({ boardId: stage, kind: "around", limit: 7 });
+  assert.equal(result.status, "TransientFailure"); assert.equal(result.reason, "MissingServerMetadata");
+});
 for (const code of [403, 404, 503, "private-response-placeholder"]) {
   test("query failure has safe phase/status only: " + (typeof code === "number" ? code : "invalid"), async () => {
     const f = await configured();

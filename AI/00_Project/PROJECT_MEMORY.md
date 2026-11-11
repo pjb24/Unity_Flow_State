@@ -8,6 +8,351 @@
 
 # 프로젝트 결정 사항
 
+## Prototype 8 Phase 5 Step 13·Phase 5 완료 / 공개 운영 후보 판정 (2026-11-11)
+
+- Service Account 역할 설명 후 사용자 Step13 처리 지시에 따라 기존 verification 합성 점검 계정은 재사용 목적으로 유지했다. 원격 계정/키/토큰/역할 변경은 없다.
+- 정확한 과거 키 동일성/Phase5 추가 변경 이력은 미확인 한계로 유지하며 신규 없음/회수 완료라고 추정하지 않는다. 실제 신규 임시 항목이 식별되면 별도 회수한다.
+- 최신 Warning 없음·실제 Unity/Player/Production 근거와 최종 Node48파일/82항목·transfer/recipient-detached/restart/server-restart PRESERVED를 연결해 Step13/Phase5를 완료했다.
+- Candidate01은 공개 운영 후보이며 일반 공개/Steam 승인은 별도다. Step6 지연 제외·Step11 수동 UI 면제·Step12 복구 시험 연기, 첫 Infinite 실패/legacy N/A·원격 artifact/장애/경합·원자성 한계는 유지한다.
+- 다음 실제 Module 업데이트 전 source 전체/artifact/reference/새 QA 기준 보존·호환성/시험/중단·재복구 범위 별도 승인 후 실제 복구 시험을 수행한다. QA 자료·계정/Secret/런타임 권한은 보존한다.
+- 이번에는 로컬 Node/비공개 비교와 문서만 갱신했다. source/Scene 변경·Unity Build/Runner·원격 배포·키 생성/삭제·commit은 없었다. 아래 대기 설명은 최종 처리 전 이력이다.
+
+- Phase4 Step6-3.6.3/8-E-5에 이미 verification Service Account/Stateless Token 합성 호출 성공이 있고, 환경 중립 안내는 이전 probe credential 재사용을 명시한다.
+  보고 계정은 기존 verification 점검 계정 유지 후보로 분류한다. 기존 키까지 무조건 회수하거나 외부 자동화 미사용 증명을 반복 요구하지 않는다.
+  과거 실제 계정명/키를 보관하지 않아 현재 키와 당시 키 동일성/Phase5 신규 변경을 완전 소급 확인할 수는 없다. 신규 없음/회수 완료로 바꾸지 않는다.
+  원격 변경 없이 기존 계정 유지·이 한계 수용 여부를 확인해 최종 판정한다. 아래 외부 사용 조사 안내는 재조사 전 이력이다.
+
+- 사용자 최신 컴파일/전체 테스트·Candidate01 Build의 예상 밖 Warning 없음을 확인했다. 점검 credential 신규 발급/임시 권한 여부는 기억 불명으로 남았다.
+  UGS Service Accounts의 Keys·조직/Project 역할을 읽기 전용으로 확인하고 실제 점검 전용 식별 후 필요한 항목만 회수한다. 불명확한 운영 키 삭제/Secret 수집·probe 재실행/새 키 발급은 요구하지 않는다.
+  현재 남은 최종 조건은 credential 식별/필요 정리이며 Step13/Phase5 최종 완료는 보류한다.
+
+- Step13-1~2 최종 근거·예외/위험 대조를 완료했다. Node48파일/82항목·읽기 전용 Build/Scene 설정·정적 계약/C# preflight·transfer/Detached/restart/server-restart PRESERVED를 확인했다.
+- Step12 source/DLL/QA 기준 hash 불변이며 최신 두 profile Unity/Player 성공·동일 Candidate01 실제 서비스 근거를 연결했다. 과거 테스트 횟수/고정 재빌드 안내를 최신 실행 결과로 대체하지 않는다.
+- Step6 지연 제외·Step11 UI 수동 면제·Step12 복구 시험 연기, 첫 Infinite 실패/legacy N/A·원격 artifact/모든 장애/원자성 미확인 한계를 유지한다.
+- 남은 13-3은 점검 전용 credential/임시 권한 신규 여부·회수 결과와 최신 Warning 보충 보고다. 새 테스트/빌드·게시/commit·추가 파일/플레이는 요구하지 않는다.
+- 사용자 보고 전 Step13/Phase5·공개 운영 후보 확정은 대기다. 일반 공개/Steam·QA 자료 삭제는 별도 승인이다.
+
+## Prototype 8 Phase 5 Step 12 완료 — 복구 시험 연기 승인 (2026-11-11)
+
+- 사용자가 다음 실제 업데이트로 복구 시험 연기를 명시 승인했다. 정적 준비·미검증 위험/후속 조건 기록을 연결해 Step 12를 기준 변경 승인으로 완료했다.
+- 실제 복구 배포 후 보존은 미실시/미검증이며 실행 PASS로 간주하지 않는다. 다음 실제 Module 업데이트 전에 성공 source 전체/artifact/hash·환경/게시 reference·새 QA 기준을 보존한다.
+- 호환성·시험/중단/재복구 범위·최종 유지 버전을 별도 승인받은 후 시험한다. 이번 승인은 미래 원격 배포의 포괄 승인이 아니다.
+- 다음은 Step 13 최종 근거 대조·공개 운영 후보 판정이다. Phase 5 전체는 미완료이며 아래 승인 대기는 이전 이력이다.
+
+- 최초 Production source 대비 현재 Module JS4개 차이를 확인했다. 이전 source 복구는 계정 초기 연결 중단 복구/미기록 안내 수정을 제거하므로 자동 승인하지 않는다.
+- source50파일/로컬 DLL/QA 기준3개 hash를 비공개로 기록했고 현재 JS39개 embedded bytes 일치를 확인했다. 원격 동일성/복구 source archive 확보를 뜻하지 않는다.
+- Node48파일/runner82항목·권한/Secret·안전 로그 정적 계약을 통과했다. schema/Local Save/Secret 계약은 유지하지만 과거 source 동작 안전성을 보장하지 않는다.
+- 현재 QA 보존 근거는 Step 10이며 실제 복구 후 보존은 미검증이다. 다음 실제 업데이트로 시험 연기(권장) 또는 지금 시험의 정확한 후보/중단·재복구 범위에 대한 사용자 승인이 필요하다.
+- Step 11 면제는 Step 12로 승계하지 않는다. 사용자 기준 변경 승인 전 Step 12/Phase 5는 미완료다. AI 빌드/Runner·Scene·원격 요청/배포·commit은 없었다.
+
+## Prototype 8 Phase 5 Step 11 완료 — 사용자 기준 변경 승인 (2026-11-11)
+
+- 사용자 지시로 기존 Editor PlayMode/실제 Player 검증 근거를 수용하고 별도 Player UI·Keyboard/Mouse 수동 검증 의무를 면제해 Step 11을 완료했다.
+- 미실시 항목의 실제 실행 PASS나 Editor/Player의 동일성 보장으로 간주하지 않는다. 빌드 전용 조건·입력/포커스·화면 차이의 미확인 위험은 사용자 수용으로 남긴다.
+- 추가 UI 수동 검증/빌드·Unity Runner·Scene 작업은 요구하지 않는다. 다음은 Step 12이며 실제 복구 배포는 별도 승인 전 수행하지 않는다. Phase 5 전체는 미완료다.
+
+## Prototype 8 Phase 5 Step 10 완료 (2026-11-11)
+
+- 사용자 재실행 후 Stage/Infinite 각각 이전받은 번호의 본인 표시·정상 조회와 Pending 없음 두 조건 정상 보고를 수신했다.
+  실제 이전/출발 연결 종료·새 계정 전환, transfer/recipient-detached/restart/server-restart PRESERVED와 수신 기기 설정 보존을 연결해 Step 10을 완료했다.
+  다음은 Step 11 Player 화면·Keyboard/Mouse 조작 확인이다. 기존 계정/빌드를 유지하고 추가 이전/플레이·초기화·빌드/게시/Unity Runner는 요구하지 않는다.
+  Phase 5 전체 완료나 원격 모든 장애/경합·cross-container 원자성 보장을 뜻하지 않는다. 아래 준비/미완료 기록은 최종 보고 전 이력이다.
+
+- 2026-11-11 재시작 4자료 capture·restart/server-restart PRESERVED를 확인했다. 이전 직후와 전체 수신 저장·서버 계정/연결/revision·두 행 점수/metadata가 같다.
+  재실행 후 Stage/Infinite 각각 본인 표시·기록 조회/Pending 없음의 실제 화면 결과는 미보고다. 추가 자료/플레이/이전 없이 그 결과만 확인한다.
+  Step 10 전체는 사용자 화면 결과 전까지 미완료이며 아래 재시작 자료 확보 대기는 이전 이력이다.
+
+- 2026-11-11 두 full 행 보완 후 server capture·transfer PRESERVED 및 recipient-detached PRESERVED를 확인해 10-5를 완료했다.
+  C/번호/고정 owner·Stage/Infinite 점수/metadata 전체 보존과 활성 Player 변경/revision+1·원 출발 Inactive/수신 Active를 확인했다.
+  다음은 10-6 같은 수신 재시작 화면·Pending 확인 및 새 raw/서버 account/두 full 행 4자료 확보 후 AI 보존 비교다.
+  새 플레이/이전·빌드/게시 없이 진행한다. Step 10 전체는 미완료며 아래 full 행 보완 대기는 이전 이력이다.
+
+- 2026-11-11 사후 부분 검증: C/번호/고정 owner 보존·revision+1·수신 Active·원 출발 Inactive/수신 Active binding,
+  Completed/Inactive/Detached의 동일 이전 marker를 확인했다. 원래 수신 Detached는 capture/recipient-detached PRESERVED다.
+  수신 raw capture·기기 owner/인증과 공개 번호/개인 최고 외 전체 저장 보존·출발 번호 cache·Pending 0을 확인했다.
+  두 보드 파일은 metadata만 있어 전체 capture/transfer 비교가 입력 불완전으로 실패했다. metadata는 일치하나 score/playerId는 미검증이다.
+  기존 파일을 보존하고 현재 전체 행 step10-stage-after-full.json / step10-infinite-after-full.json만 새 확보한다.
+  Step 10-5/전체는 미완료이며 새 이전/플레이/초기화·빌드/게시·재시작 검증은 아직 요구하지 않는다.
+
+- 2026-11-11 사용자 실제 이전 화면 결과: 수신은 출발 기존 번호·리더보드 `(You)` 표시, 출발은 Refresh Status 후 기존 연결 종료·새 번호의 새 계정 전환을 확인했다.
+  실제 번호/ID는 기록하지 않는다. Stage/Infinite 각각의 결과와 완료 문구·서버 사후 보존/연결·재시작까지 확인한 것으로 확대하지 않는다.
+  다음은 10-5 사후 서버/수신 저장 7개 자료 확보·AI 비교다. 이전 전 기준으로 정확한 container/고정 owner의 비공개 lookup을 생성했다.
+  새 Anonymous 출발이 아닌 원래 출발 binding을 검사한다. 새 이전/플레이/초기화·빌드/게시 없이 진행하며 Step 10 전체는 미완료다.
+  아래 실제 이전 대기는 사용자 화면 결과 전 이력이다.
+
+- 10-3 완료: 수신 현재 account export의 production/Active·기존 migration 계정/번호/고정 owner·같은 인증 Player/revision 1·이전 없음,
+  출발과 다른 계정/Player/owner·양쪽 Pending 0을 AI가 대조했다. 사용자 미플레이·두 보드 기록 없음 보고를 근거로 null manifest와 수신 server baseline을 생성했다.
+  보드 부재는 사용자 보고이며 AI가 원격 조회로 독립 확인한 것은 아니다. 출발은 Step 9 after 기준을 승계하고 기존 서버 PRESERVED·도구 회귀 10/10을 재확인했다.
+  다음은 10-4 같은 출발→수신 정상 이전 1회다. 실제 이전/사후 보존·재시작 전 Step 10 전체는 미완료다. 아래 서버 자료 대기는 이전 이력이다.
+
+- 사용자 수신 공개 번호 확인·step10-recipient-recovered-raw.json 복사를 보고받았다. AI가 Production v7 capture와 기존 진단 자료를 대조해
+  동일 수신 인증/로컬 owner·기발급 migration 번호 보존·출발 Player/번호와 구분·Pending 0을 확인했다.
+  최초 수신 raw 대비 공개 번호만 변경됐으며 나머지 저장은 그대로다. 별도 step10-recipient-before-validated.json을 생성했다.
+  다음은 10-3 현재 Active 계정 value·Stage/Infinite 본인 행 유무 확보/AI 서버 기준 검증이다. 로컬 개인 최고 0만으로 서버 행 부재를 추정하지 않는다.
+  양쪽 기준 통과 전 실제 이전/새 플레이는 하지 않는다. Step 10 전체는 미완료며 아래 게시/번호 준비 대기 안내는 이전 이력이다.
+
+- 최신 사용자 지시로 10-2-5 범용 초기 binding 참조 복구를 승인받아 구현했다. 기존 C/기발급 번호·고정 owner·원본을 보존한다.
+  현재 binding의 account 부재와 다른 marker의 같은 Player/환경 Preparing/revision1·원본/목적 ledger·번호/owner 매핑을 검증하고,
+  CAS 직전 source/account/binding write lock·내용/현재 대상 부재를 재확인한 뒤 binding만 복구한다. Protected marker는 바꾸지 않는다.
+  Active/Detached/이전 중/다른 소유권·잘못된 원본/매핑/읽기 실패는 거부한다. 실제 ID/번호를 조건/테스트에 하드코딩하지 않았다.
+- 새 복구 회귀 10/10(6개 합성 Player/환경·신규/legacy, 전후 중단/동시성/무쓰기 거부·번호 발급 전·실제 JS loader Node VM),
+  기존 status 회귀 9/9·전체 Node 48파일 실패0(runner82)·정적 계약/preflight를 통과했다.
+  이 검증은 실제 Production 지연/권한·.NET/Jint host·cross-container 원자성 성공을 뜻하지 않는다.
+- 이번 추가 서버 변경은 account-provisioning-service.js와 legacy-account-store.js다. 사용자 최신 Module 빌드/production 게시 후
+  같은 Candidate01·수신 인증/저장으로 번호 준비를 확인한다. 새 Player Build/Unity Runner·초기화/수동 서버 편집은 없다.
+  처음의 미생성 임시 C를 새로 만드는 것이 아니라 이미 번호가 있는 migration C로 참조를 복구하는 것이 성공 조건이다.
+  성공 시 step10-recipient-recovered-raw.json을 새 복사해 AI가 기존 번호/계정 기준을 대조한다. 실제 준비 전 Step 10은 미완료다.
+  아래 승인 대기/추가 수정 없음은 과거 이력이다.
+
+- 최신 binding은 이전과 같은 수신 Player/계정/owner/초기 revision이며 Protected migration 대상과 계속 다르다.
+  migration account는 같은 Player의 Preparing/revision1·기발급 유효 번호·유효 owner·이전/제출 작업 없음 상태다.
+  그 account의 migration.ledger는 이번 Protected ledger와 전체 일치하고 scores가 비어 있다. 데이터 관계 불일치는 확인했지만 발생 원인은 미확인이다.
+- 단순 account 재개로는 marker/binding 불일치를 해결하지 못한다. 기존 Preparing C/번호/원본을 보존하며 같은 Player/범위/초기 상태를
+  서버 재검증한 binding CAS 참조 복구는 별도 정책 변경이므로 사용자 명시 지시 전 추가 구현/적용하지 않는다.
+  다른 Player/환경·Active/Detached/이전 중·원본 불일치의 자동 연결은 허용하지 않는 범용 조건이 필요하다.
+  이번에는 코드/Module 추가 수정·재게시/원격 조작·초기화 없이 자료 관계만 확인했다. Step 10은 미완료다.
+
+- 사용자 추가 요구: 수정은 특정 실제 Player/계정 ID·공개 번호에 대한 예외가 아니라 일반 상태/실패 유형을 다룬다.
+  실제 식별자/원문을 production 조건문이나 회귀 테스트에 넣지 않으며 최초 revision 같은 프로토콜 상태 조건과 구분한다.
+- Protected 자료 검증상 ledger는 빈 v1·marker scope 유효·hadLegacyLedger=false이나 migration.accountId가 수신 binding.accountId와 다르다.
+  같은 최신 수신 Player의 자료라면 기존 freeze의 LedgerConflict 조건이다. 발생 시점/원인은 미확인이며 빈 자료도 임의 재귀속하지 않는다.
+- 합성 Player/Account/Owner/Project/Environment 6조합의 정상/불일치 사례를 추가해 회귀 9/9·전체 Node 47파일 실패 0(runner72)을 통과했다.
+  정상 marker는 준비하고 다른 marker는 반복에도 쓰기0/자료불변으로 거부한다. 이번 추가 source 변경은 테스트뿐이라 Module 재게시/Build는 없다.
+- 다음은 비공개 migration lookup으로 최신 연결표와 migration 대상 account를 읽기 전용 확인하는 것이다.
+  없으면 부재만 보고하며 서버 데이터 편집/초기화·반복 요청·이전은 하지 않는다. Step 10은 여전히 미완료다.
+
+- 최신 사용자 변경 Module 빌드/production 게시 후에도 수신 번호 unavailable·account 미생성을 보고했다. 실제 해결은 미확인이다.
+  로컬 Module DLL에는 수정 status JS 전체가 포함됨을 읽기 전용 확인했다. 원격 artifact 동일성 확인으로 확대하지 않는다.
+- account 생성 전에 legacy.freeze의 Protected ledger/guard·보드 조회가 있어 별도 실패 원인이 남을 수 있다.
+  아직 구체 API/권한/시간 원인은 미확정이다. 추가 수정/재게시·Refresh·초기화·이전으로 우회하지 않는다.
+- private step10-recipient-protected-lookup.json을 준비했다. 사용자 read-only Player Data/Protected의 ledger/guard value를
+  step10-recipient-protected-ledger.json / step10-recipient-protected-guard.json으로 보관하고 AI가 scope/migration/진행 상태를 비교한다.
+  없으면 부재만 보고하며 서버 키를 만들거나 편집하지 않는다. 10-2/Step 10 전체는 미완료다.
+
+- 사용자 수정 지시에 따라 get-account-transfer-status의 초기 binding/account 준비 재개 누락을 수정했다.
+  같은 Player·초기 revision/UUID 계정·owner·안전한 Preparing 경계만 기존 provisioning으로 재개한다.
+  Inactive/교체/이전·제출 진행/불일치/읽기 실패의 무단 재생성을 막고 기존 번호/legacy 행을 보존한다.
+- 새 endpoint 회귀 8/8·17 쓰기 경계의 before/after 34개 중단 지점 통과, 기존 completion 22/22,
+  전체 Node *.test.cjs 47파일 실패 0(Node runner 71항목)·계약/preflight/JS 문법 통과다. 실제 수신 binding도 재개 형태와 일치한다.
+  이번 추가 Module source 변경은 status JS 1파일이며 사용자 Module 빌드/게시가 필요하다. AI 원격/Unity Build/Runner는 없다.
+  Client/Scene 변경이 없어 같은 Candidate01 Player를 유지하고 새 Player Build/Unity 전체 Test 재실행은 요구하지 않는다.
+- 다음은 Task 10-2-2 게시 후 같은 수신에서 계정 화면/필요시 Refresh Status 1회로 번호 준비 확인,
+  성공 시 step10-recipient-ready-raw.json 복사다. 실제 번호 준비 전 10-2/Step 10 전체는 미완료다.
+  최초 중단/서비스 지연 원인은 여전히 미확인이다. 아래 수정 지시 대기/source 미수정 문구는 과거 이력이다.
+
+- 최신 수신 binding은 Production/Player 일치·revision 1 이상·generatedOwner를 보유하고 status/transferOperation이 없는 초기 provisioning 형식이다.
+  사용자가 해당 account container를 찾지 못했다고 보고했다. AI 원격 부재 확인으로 확대하지 않는다.
+- 실제 get-account-transfer-status는 binding이 없을 때만 ensure를 호출해 초기 binding만 남으면 생성 재개를 건너뛴다.
+  합성 SDK 대역에서 account 부재 상태의 실제 endpoint를 3회 호출해 모두 TransferUnavailable/ensure 0/쓰기 0을 재현했다.
+  복구 경로 누락은 확인했지만 최초 생성 중단 원인은 미확인이다. 조회 속도 문제 보류와 구분한다.
+- 서버 source는 아직 수정하지 않았다. 사용자 수정 지시 후 초기 상태만 안전하게 재개하는 수정/회귀·사용자 Module 게시로 진행한다.
+  수동 서버 자료 생성/삭제·연결표 편집·초기화·반복 재시도·이전은 하지 않으며 10-2/Step 10은 미완료다.
+
+- 최신 수신 Player.log 42행에서 안전한 인증/SDK·late failure·예외/Timeout/네트워크 실패 흔적을 찾지 못했다.
+  LastDiagnostic/일부 실패 reason이 로그에 남지 않는 구조여서 원인 판별 불충분이다. 로그 부재를 정상/서버 원인 배제 근거로 쓰지 않는다.
+- 수신 raw에서 private Dashboard lookup JSON을 생성했다. 읽기 전용 연결표 fs_account_v1 value와 그 accountId가 가리키는
+  계정 value를 step10-recipient-binding.json / step10-recipient-account-diagnostic.json으로 확보해 준비 상태를 구분한다.
+  원문/ID는 출력하지 않았고 파일은 Ignore/Phase5Private에만 둔다. 대상이 없으면 수동 생성/초기화·추가 요청 없이 부재만 보고한다.
+  번호 준비 전 10-2/Step 10은 미완료다. runtime/Module/Scene 수정이나 원격 호출은 없다.
+
+- 최신 사용자가 출발 Step 7~9와 동일 빌드임을 확인했다. 수신 번호 unavailable·일반 Could not verify the request 안내가 지속된다.
+  이 문구는 여러 실패/예외의 공통 안내라 원인을 특정하지 못한다. 5초 budget은 코드 사실이나 실제 Timeout 증거는 아직 없다.
+  추가 Refresh/재실행·초기화·새 플레이·이전 없이 현 Player.log 비공개 복사본을 받아 안전한 진단 유무부터 확인한다.
+  LastDiagnostic의 모든 값이 로그에 남는 것은 아니므로 로그만으로 원인 확정이 가능하다고 주장하지 않는다.
+  원문 로그는 채팅/Git에 올리지 않는다. 수신 번호 준비 전 10-2/Step 10은 미완료이며 source/Scene/Module 변경은 없다.
+
+- 사용자 수신 Candidate01 실행 후 공개 번호 확인 불가·raw 복사를 보고했다. AI 확인상 Production v7/동의 true,
+  출발과 다른 온라인 Player 값·Pending 0·로컬 최고 0이나 유효 공개 번호 캐시가 없어 10-2는 미완료다.
+  번호 준비나 서버 행 부재 성공을 추정하지 않는다. Candidate01 이름만으로 구버전 판정하지 않으며 출발과 동일 출력물인지 확인한다.
+  다음은 수신 계정 화면 결과/필요시 Refresh Status 1회다. 성공 후 step10-recipient-ready-raw.json으로 새 복사해 기존 raw를 보존한다.
+  추가 플레이/초기화/새 계정/반복 재시도·이전 발급/완료는 요구하지 않는다. 최초 조회 지연 보류 결정은 유지한다.
+
+- Step 10을 10-1 AI 정적/대역·도구, 10-2 수신 준비, 10-3 양쪽 기준 검증, 10-4 실제 정상 이전 1회,
+  10-5 이전 후 보존/연결 비교, 10-6 수신 재시작으로 세분화했다. 현재 10-1만 완료다.
+- Step 1 기존 QA 생성/정상 이전 승인을 유지하며 출발은 Step 6 최초 Notice 이후 유지한 신규 계정이다.
+  Step 9 after raw/서버 검증 snapshot을 출발 기준으로 승계한다. 보관된 원래 출발 상태를 복원/혼합하지 않는다.
+- 이전 정책/endpoint 대역/계약·도구 12파일 실패 0, C# preflight 7파일 통과.
+  start 20/20·reissue 24/24·lifecycle/completion/races 각 22/22를 확인했다. 실제 원격/Unity 실행은 없다.
+- 원래 수신 C는 이전 후 Detached가 돼 기존 server-restart로 검사할 수 없는 도구 누락을 발견했다.
+  비교기에 recipient-detached, capture에 server-detached 모드를 추가하고 긍정/변조 거부/CLI 사례를 보강해 도구 10/10 통과했다.
+  같은 원 C/번호/owner·행/metadata·Detached/revision+1을 검사한다. 런타임/Module/Scene 변경이 아니며 재게시/Build는 없다.
+- 다음은 같은 빌드를 Production QA 수신에서 동의/번호 준비·Pending 없음 확인 후 step10-recipient-before-raw.json 복사다.
+  기존 QA 기록은 삭제하거나 시험용 제출로 채우지 않는다. 양쪽 기준 검증 전 Start Transfer/Complete Transfer는 하지 않는다.
+  코드/9자리 검증값은 채팅/Git/파일/스크린샷/로그에 저장하지 않는다. 사용자 간 인증 캐시/Local Save 공유도 하지 않는다.
+- 성공 뒤 출발의 원 연결 Inactive/새 Anonymous 전환과 수신의 출발 C 적용을 구분하며, 원 수신 C/행은 Detached로 보존해야 한다.
+  실제 이전/보존·수신 재실행 근거 전 Step 10 전체는 미완료다.
+
+## Prototype 8 Phase 5 Step 9 완료 (2026-11-09)
+
+- 최신 사용자 보고로 재실행 후 계정/두 목록 정상 조회·기존 설정/입력 적용·튜토리얼 비반복 모두 정상을 확인했다.
+  로컬 restart/서버 server-restart PRESERVED와 연결해 Step 9를 완료했다. 아래 대기/준비 문구는 과거 이력이다.
+  실제 legacy service migration은 현 신규 v7 QA 상태에 N/A다. 다음은 Step 10 출발→수신 이전/자료 보존이다.
+  Step 9 after 기준을 유지하며 추가 제출/연결 변경이 있으면 이전 전 기준을 다시 확정한다. 이전/공개 승인으로 확대하지 않는다.
+
+- 최신 after 4파일을 capture 검증해 restart/server-restart 모두 PRESERVED를 확인했다. 9-4 완료다.
+  로컬 전체 저장·동일 계정/번호·두 서버 행 score/전체 metadata·활성 연결 revision 보존을 확인했고 원문/ID는 출력하지 않았다.
+  9-3의 실제 계정/두 목록 조회·설정/입력 적용·튜토리얼 반복 여부는 파일 준비 보고에 없어 결과만 추가 확인한다.
+  새 플레이/설정 변경·반복 재실행/자료 재수집은 요구하지 않는다. 화면 결과 확인 전 Step 9 전체는 미완료다.
+
+- 최신 추가 두 row-before JSON 검증/capture를 통과했다. 로컬/서버 Production 범위·활성 Player·공개 번호 일치,
+  두 행의 고정 owner 귀속·score/acceptedAt/submissionId 유효·로컬 Pending 0건을 확인해 9-2를 완료했다.
+  이전 형식 실패 기록은 이력이다. 기준은 step9-before-validated.json / step9-server-before-validated.json에 보관했다.
+  다음은 9-3 같은 계정 재실행/화면 적용·after 자료 확보 후 9-4 AI 전후 비교다. 새 제출/설정 변경/이전은 하지 않는다.
+
+- 9-2 사용자 4파일 준비 보고 후 로컬 save capture 통과, 서버 account(.json.txt) Production/Active/필수 형식 유효를 확인했다.
+  두 보드 .json.txt 파일은 JSON 해석 실패·playerId/score/metadata 필드 부재로 서버 baseline 조립은 실패했다.
+  원문은 출력/수정하지 않았다. 완전한 단일 행 JSON을 step9-stage-row-before.json /
+  step9-infinite-row-before.json으로 추가 확보해야 한다. 기준 확정 전 재실행은 아직 대기다.
+
+- Step 9를 9-1 AI 정적/비교 준비, 9-2 재실행 전 로컬/서버 기준 확보, 9-3 사용자 재실행/화면 확인,
+  9-4 AI 정확한 전후 보존 비교로 세분화했다. 현재 9-1만 완료다.
+- Production 도구 9/9·Local Save/Cloud Save 참조 계약·C# preflight 7파일 통과.
+  Step 8 online-after의 restart 자기 비교는 통과했으나 실제 새 재실행 검증으로 주장하지 않는다.
+- 같은 신규 출발 게임 계정을 유지한다. 원래 출발 보관본 복원/추가 플레이/설정 변경/이전은 하지 않는다.
+  사용자 실제 자료 복사·Dashboard 읽기 전용 내보내기만 필요하며 파일 내용/ID/시각 비교는 AI가 한다.
+  Ignore/Phase5Private에 step9-server-before/after-manifest.json을 준비했다. 파일명만 포함하며 원문/식별자는 포함하지 않는다.
+- Local Save 전체와 서버 C/고정 owner/활성 연결 revision·두 행 score/전체 metadata를 별도 비교해야 한다.
+  화면의 같은 점수로 acceptedAt/제출 ID 보존을 대체하지 않는다. 현 세션은 새 v7이므로 실제 legacy service migration은 N/A다.
+- 다음은 9-2의 step9-before-raw.json 및 step9-account/stage/infinite-before.json 확보와 AI 기준 검증이다.
+  source/Module/Scene 변경·빌드/Runner·재게시·원격 요청은 수행하지 않았다. Step 9 전체는 미완료다.
+
+## Prototype 8 Phase 5 Step 8 완료 (2026-11-09)
+
+- 추가 사용자 보고로 Pending 제출 후 Stage Leaderboard 조회 성공을 확인해 Step 8을 완료했다.
+  Offline 보존 PRESERVED·수동 1 submitted/0 rejected/0 pending·동일 계정 저장 제거 REMOVED_ONLY·제출 후 조회를 연결했다.
+  아래 대기 설명은 과거 이력이다. 자동 전송 검증 완료로 확대하지 않는다. 다음은 같은 출발 게임 계정의 Step 9 재실행·자료 보존이다.
+
+- 최신 사용자 Retry Pending (1) 실행 결과 **1 submitted, 0 rejected, 0 pending**을 보고했다.
+  AI가 online-after raw를 검증해 같은 계정·전 1건/후 0건·pending-removed REMOVED_ONLY를 확인했다.
+  수락은 사용자 수동 처리 결과, 제거는 저장 비교로 근거를 구분한다. 원래 Offline 후보의 보존/수동 수락/제거는 완료다.
+  자동 전송은 관찰되지 않았다는 사용자 보고를 유지하며 원인은 추정하지 않는다. 제출 후 Stage 목록 정상 조회 결과만 마지막 확인 대기다.
+  추가 플레이·제출 재시도·초기화·자동 전송 재현/재게시·Build를 요구하지 않는다.
+
+- 최신 사용자 Offline Pending 생성·재실행 1건·두 복사본 준비 보고를 받아 AI 읽기 전용 비교를 수행했다.
+  두 저장 capture 유효성 검증·Production 동일 계정·양쪽 Pending 정확히 1건·pending-restored PRESERVED를 확인했다.
+  원래 ID/시각/귀속/payload·전체 저장이 보존돼 8-2~3 완료다. raw는 보존하고 별도 validated 비공개 복사본만 생성했다.
+  다음은 8-4 온라인 수락/제거 확인이다. 아래 자료 대기 설명은 이전 이력이며 Step 8 전체는 아직 미완료다.
+
+- Step 8을 8-1 정적/로컬 대조, 8-2 Offline Stage Pending 1건 생성, 8-3 Offline 재실행/AI 보존 비교,
+  8-4 온라인 수락/제거 대조, 8-5 완료 판정으로 세분화했다. 8-1만 완료이며 실제 사용자 실행은 대기다.
+- Production 도구 9/9·endpoint 대역 46/46·retention/Local Save 계약·static contracts·C# preflight 7파일을 통과했다.
+  runtime/Module/Scene 변경·Unity Build/Runner·원격 호출은 없다. 기존 source의 사용자 두 profile 회귀를 유지한다.
+- 사용자는 같은 신규 출발 상태에서 Offline Stage를 한 번만 클리어하고 정상 종료 후 저장을 복사한다.
+  Offline 재실행/종료 후 두 번째 저장을 복사하고 AI가 원래 ID/시각/귀속/payload 보존을 비교한 뒤 온라인 복구한다.
+  복사본은 Ignore/Phase5Private의 step8-offline-before-raw.json / step8-offline-restarted-raw.json / step8-online-after-raw.json이다.
+  해당 위치가 Git 제외임을 확인했다. 원문은 채팅/Git에 올리지 않으며 사용자에게 JSON 내용 비교를 시키지 않는다.
+- 수동 제출 버튼은 Leaderboard의 Retry Pending (N)이다. 자동 전송이 앞설 수 있으므로 추가 Run/빠른 클릭은 요구하지 않는다.
+  REMOVED_ONLY/기존 행 조회는 이번 제출 수락 근거가 아니며 별도 Submitted/서버 receipt와 연결한다.
+  Step 8 전체는 실제 자료와 수락 근거 대기다. 최초 조회 지연 보류는 유지한다.
+
+## Prototype 8 Phase 5 Step 8 준비 (2026-11-09)
+
+- Step 8을 8-1 정적/로컬 대조, 8-2 Offline Stage Pending 1건 생성, 8-3 Offline 재실행/AI 보존 비교,
+  8-4 온라인 수락/제거 대조, 8-5 완료 판정으로 세분화했다. 8-1만 완료이며 실제 사용자 실행은 대기다.
+- Production 도구 9/9·endpoint 대역 46/46·retention/Local Save 계약·static contracts·C# preflight 7파일을 통과했다.
+  runtime/Module/Scene 변경·Unity Build/Runner·원격 호출은 없다. 기존 source의 사용자 두 profile 회귀를 유지한다.
+- 사용자는 같은 신규 출발 상태에서 Offline Stage를 한 번만 클리어하고 정상 종료 후 저장을 복사한다.
+  Offline 재실행/종료 후 두 번째 저장을 복사하고 AI가 원래 ID/시각/귀속/payload 보존을 비교한 뒤 온라인 복구한다.
+  복사본은 Ignore/Phase5Private의 step8-offline-before-raw.json / step8-offline-restarted-raw.json / step8-online-after-raw.json이다.
+  해당 위치가 Git 제외임을 확인했다. 원문은 채팅/Git에 올리지 않으며 사용자에게 JSON 내용 비교를 시키지 않는다.
+- 수동 제출 버튼은 Leaderboard의 Retry Pending (N)이다. 자동 전송이 앞설 수 있으므로 추가 Run/빠른 클릭은 요구하지 않는다.
+  REMOVED_ONLY/기존 행 조회는 이번 제출 수락 근거가 아니며 별도 Submitted/서버 receipt와 연결한다.
+  Step 8 전체는 실제 자료와 수락 근거 대기다. 최초 조회 지연 보류는 유지한다.
+
+## Prototype 8 Phase 5 Step 7 사용자 결과 (2026-11-09)
+
+- 최신 추가 사용자 보고로 현재 Pending 표시 없음·Leaderboard Back 정상 복귀를 확인해 Step 7을 완료했다.
+  아래 잔여 결과 대기 문구는 당시 이력이다. 첫 Infinite 실패 원인/최초 제출 ID 결과는 미확인으로 보존하며
+  후속 Run 성공과 혼동하지 않는다. 다음은 같은 출발 계정의 Step 8 Offline Pending 보존·재시작·재전송이다.
+
+- Production QA 출발에서 Stage Submitted·TOP/AROUND 본인 표시/번호 일치·조회 Retry 동일 결과를 확인했다.
+- Infinite 첫 제출 실패 후 새 플레이를 수행해 후속 Run 제출·두 목록 본인 표시가 성공했고 게임을 종료했다.
+  첫 제출 ID의 재전송 성공/제거 근거는 아니며 최초 실패 상태와 Pending 잔류 여부는 미보고다. 실제 공개 번호는 보관하지 않는다.
+- 두 Mode 제출/조회 핵심 조건은 확인했으나 첫 실패/Pending·Back 미보고 결과 대조 전 Step 7 전체 완료는 보류한다.
+  다음은 같은 계정에서 Pending 유무와 Back 결과 확인이다. 추가 플레이·초기화·재게시/Build나 원인 추정은 하지 않는다.
+  Step 8 Offline 후보 생성 전 Pending 없는 기준 상태가 필요하다. Step 6 지연 문제 보류 승인을 제출 실패로 확대하지 않는다.
+
+## Prototype 8 Phase 5 Step 6 Player 문제 수정 후보 (2026-10-22)
+
+- 사용자 Player에서 공개 번호 준비·Stage 본인 행을 확인했으나 Continue Notice가 인증/번호/Pending 완료를 기다려 닫히지 않는 문제와
+  본인 기록 없는 AROUND YOU의 HTTP404 오류 표시를 발견했다. UGS 계정 생성이 지연 원인이라는 추정은 미확인으로 유지한다.
+- GameSystem은 동의 저장 직후 Notice를 닫고 Leaderboard가 같은 계정 준비 Task를 Loading으로 기다리게 했다.
+  실제 서버 query는 보드 존재와 본인 score 부재를 확인한 경우에만 Success/NoPersonalRecord로 응답한다. 보드/권한 오류는 유지한다.
+- 로컬 Node 53파일·endpoint 대역 46/46·변경/신규 C# 5파일 정적 검사를 통과했고 PlayMode 6사례를 준비했다.
+  후속 사용자 보고로 두 profile Unity 회귀는 완료했으며 실제 서비스/UI 성공은 아직 미확인이다.
+- 이번 `UGS/CloudCode/query-records.js` 변경은 Module에 embedded되므로 회귀 뒤 Module 게시·새 Player Build가 필요하다.
+  기존 QA 출발 계정·Stage 기록은 보존하고 초기화/추가 제출로 최초 상태를 만들지 않는다. Step 6 전체는 미완료다.
+- 후속 사용자 컴파일 성공·EditMode 4실패 보고를 분석했다. Production define 활성 상태에서 테스트의 verification 고정 scope 가정이 원인이었다.
+  테스트 2파일의 캐시 기대 scope/왕복 복귀 scope/활성 scope v6 migration 입력을 보정했다. 런타임 격리 정책은 유지한다.
+  C# 7파일 정적/Local Save/account/환경 정책 검사는 통과했다.
+- 후속 사용자 보고로 Production·verification profile 각각 컴파일 성공·Error 없음·전체 Edit Mode/Play Mode 성공을 확인했다.
+  이번 실행 수/Warning 여부는 미보고다. Task 6-5-3-1 완료이며 다음은 수정 Module 게시·새 Production Player Build·같은 QA 계정 UI 확인이다.
+
+- 2026-10-23 사용자 수정 Module 게시·새 Player Build 성공 보고. 기존 QA 출발 로컬 자료가 유지되고 자동 Notice는 생략됐다.
+  첫 조회 Unavailable 후 대기/Retry로 공개 번호·기록 조회 성공. 최초 실패 원인은 미확인이다.
+  다음은 Settings Notice Continue 닫힘·Infinite 미기록 안내 확인이며 게시/Build를 반복 요구하지 않는다. Step 6 전체는 미완료다.
+
+- 후속 사용자 Settings Continue 닫힘·Infinite 미기록 안내·재실행 직후 Retry 없는 조회 성공을 확인했다.
+  Settings는 기존 동의/준비 상태이므로 최초 동의 실서비스 재현 근거가 아니다. 최초 경로는 지연 인증 대역 PlayMode Test 통과와 구분한다.
+  속도 차이가 서버 환경 때문이라는 추정은 미확인이다. Step 6은 최초 조건 검증 범위 판정 대기이며 추가 초기화/계정 생성은 승인 없이 하지 않는다.
+
+- 추가 사용자 실서비스 확인: QA 출발의 최초 조건에서 Notice 표시 → Continue → Leaderboard UI 진입 성공.
+  이후 Unavailable과 Retry 4회 후 복구를 보고했다. 최초 Notice 확인은 완료했으나 초기 계정 준비/조회 실패 원인은 미확인이다.
+  계정 생성 지연이라는 추정을 사실로 기록하지 않는다. Step 6은 이 문제 조사 대기이며 추가 초기화/신규 계정을 요구하지 않는다.
+
+- 2026-10-23 사용자 완료 기준 변경 승인: 최초 Unavailable·Retry 4회 문제는 보류하고 처리할 계획이 없으며 Step 6 완료를 지시했다.
+  원인 미확인·미해결 위험을 유지하되 조사/수정/재현을 완료 조건에서 제외하고 Step 6을 완료했다. 다음은 Step 7이다.
+  위 미완료/조사 대기 문구는 과거 이력이다. 후속 처리 일정을 자동 생성하지 않으며 Phase 5 전체/공개 승인으로 확대하지 않는다.
+
+## Prototype 8 Phase 5 Step 7 착수 (2026-10-23)
+
+- 사용자는 최초 Notice 확인에 사용한 신규 게임 계정 상태를 유지해 진행하기로 선택했다.
+  Windows 별칭은 Production QA 출발을 유지하며 Step 7~10은 이 신규 게임 계정을 동일 출발 기준으로 사용한다.
+  원래 출발의 Stage 기록/인증 보관본과 혼합·복원하지 않으며 과거 원래 계정의 Stage 행을 현 계정 증거로 사용하지 않는다.
+- Step 7-1 AI 정적/로컬 검증 완료: bundled 제출/조회 endpoint 46/46, query/owner 정책, 정적 계약,
+  C# preflight 7파일·Production Build 정적 검사를 통과했다. source/Scene 변경·원격 요청·Unity Build/Runner는 없다.
+- 다음은 신규 상태에서 Step 7-2 Stage·7-3 Infinite의 실제 Submitted·TOP/AROUND 본인 행과 7-4 결과 대조다.
+  TOP 밖의 본인 행은 오류가 아니며 정확한 순위/동점 정책은 자동 근거를 사용한다. Step 7 전체는 사용자 결과 대기다.
+  최초 Unavailable/Retry 문제는 기존 사용자 승인대로 처리 계획 없이 보류한다.
+
+## Prototype 8 Phase 5 Step 7 착수 (2026-10-23)
+
+- 사용자는 최초 Notice 확인에 사용한 신규 게임 계정 상태를 유지해 진행하기로 선택했다.
+  Windows 별칭은 Production QA 출발을 유지하며 Step 7~10은 이 신규 게임 계정을 동일 출발 기준으로 사용한다.
+  원래 출발의 Stage 기록/인증 보관본과 혼합·복원하지 않으며 과거 원래 계정의 Stage 행을 현 계정 증거로 사용하지 않는다.
+- Step 7-1 AI 정적/로컬 검증 완료: bundled 제출/조회 endpoint 46/46, query/owner 정책, 정적 계약,
+  C# preflight 7파일·Production Build 정적 검사를 통과했다. source/Scene 변경·원격 요청·Unity Build/Runner는 없다.
+- 다음은 신규 상태에서 Step 7-2 Stage·7-3 Infinite의 실제 Submitted·TOP/AROUND 본인 행과 7-4 결과 대조다.
+  TOP 밖의 본인 행은 오류가 아니며 정확한 순위/동점 정책은 자동 근거를 사용한다. Step 7 전체는 사용자 결과 대기다.
+  최초 Unavailable/Retry 문제는 기존 사용자 승인대로 처리 계획 없이 보류한다.
+
+## Prototype 8 Phase 5 Step 1~2 준비 (2026-10-22)
+
+- 사용자 승인으로 QA 실행 공간은 별도 로컬 Windows 표준 사용자 계정인 **Production QA 출발**과
+  **Production QA 수신**을 사용한다. 인증·Local Save 비공유를 확인했고 운영자는 사용자 1인이다.
+  실행 시간대는 별도 관리하지 않도록 완료 기준을 변경했다.
+- 합성 로그 1건·두 QA 계정/서버 자료 생성·정상 제출/조회·Offline 재전송·출발→수신 이전을 승인했다.
+  실패/대상 불일치/timeout·응답 미확인 시 추가 제출·이전을 중단한다. 자료 삭제와 Module 복구 배포는 별도 승인이다.
+- Step 2에서 별도 Production 합성 Probe와 로컬 비공개 캡처/비교 도구를 준비했다.
+  `GameSystem`의 Editor 격리 실행에서만 메모리 repository에 Notice 확인 상태를 저장하도록 보강하고 회귀 테스트를 준비했다.
+- Node 독립 53파일·Production 도구 9검사·로컬 LogSink·PowerShell wrapper 대역·변경 C# 2파일 정적 검사가 통과했다.
+  이후 사용자 컴파일 성공·EditMode 890/890·PlayMode 256/256 및 각 예상 밖 Error/Warning 없음 보고로 Step 3을 완료했다.
+  격리 Notice 자동 회귀는 검증 완료, 실제 Player 화면 확인은 Step 11이다. 다음은 Step 4 Player Build 준비다.
+  배포 기준 이후 Module host·embedded JS·manifest 변경이 없어 추가 commit·재배포를 요구하지 않는다.
+- Step 4-1에서 Windows-production의 x64 Player·기본 1920×1080 Windowed·Production 설정·Scene/저장/로그/테스트 경로를
+  읽기 전용으로 대조했다. `check-phase5-build.cjs` 통과, Step 3 source hash 동일성을 확인했다.
+  같은 날 사용자 Build 완료 보고로 Step 4를 완료했다. 출력물 관리 별칭은 Production-QA-Build-01이며
+  실제 경로/hash·Build 경고 여부는 별도 미보고다. 다음은 Step 5 합성 로그 연결 확인, QA Player 실행은 Step 6이다.
+- Step 5-1에서 Production 점검 도구의 불필요한 Editor selector 의존을 제거했다. 비공개 Production 설정·Cloud Project·
+  verification과 다른 환경 검사는 유지한다. 도구 로컬 9검사·PowerShell 대역·plan 통과 뒤,
+  사용자 Accepted/Completed/None/202 및 Production 실제 jsonPayload 정확히 7필드 저장을 대조해 Step 5를 완료했다.
+  원문 로그 식별자는 보관하지 않았으며 점검 credential 신규 발급/임시 권한 여부는 Step 13에서 확인한다. 다음은 Step 6이다.
+  Module/Player 변경이 없어 추가 commit·빌드·재배포는 요구하지 않는다.
+  AI는 Unity 빌드/Test Runner·Scene 수정·원격 요청/credential 발급을 수행하지 않았다.
+- Step 6-1에서 선행 승인/Build/로그 성공과 실제 계정 UI를 정적으로 대조했다.
+  Player의 공개 번호는 내부 Ready에서만 표시되므로 진단 Ready 문구 대신 번호·오류 안내로 확인한다.
+  Step 6-2~6-3은 Production QA 출발의 실제 Player 실행·동의·번호 표시 사용자 결과 대기다.
+
 ## Prototype 8 Phase 4 완료 (2026-10-21)
 
 - 배포 source는 Git `8774b2db2defa76c7e6a4ddd73f0f37f187c7cee`다. 환경 중립 C# Module/embedded JS,

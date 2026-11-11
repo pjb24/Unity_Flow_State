@@ -21,6 +21,10 @@ function createLegacyAccountStore(context, save, leaderboard, expectedScope) {
   }
   return {
     get scope() { return scope; },
+    async readFrozenLedger(playerId) {
+      if (playerId !== context.playerId) throw fault("ContextMismatch");
+      return read(playerId, ledgerKey);
+    },
     async freeze(playerId, accountId) {
       let item = await read(playerId, ledgerKey);
       if (!item) {
