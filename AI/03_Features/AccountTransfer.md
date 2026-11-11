@@ -12,6 +12,18 @@ Anonymous 계정 사용자가 외부 ID 없이 현재 기기에서 새 기기로
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- Infinite Pending 0건·내구 저장·활성 연결·진행 중 요청 보호의 기존 이전 조건을 유지한다.
+- 연결된 논리 계정의 전체 최고를 읽고 캐시를 교체한다. 이전 기기나 recipient의 이전 계정 기록과 합산/병합하지 않는다.
+- Stage 자료가 없다는 사용자 전제 아래 Stage 보관에 따른 gate 예외·이관 기능은 추가하지 않는다. Settings/Tutorial·환경 격리는 유지한다.
+
+검증 계약: P9-C07/P9-C08. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 기능 규칙
 
 - 공개 번호는 서버 소유 논리 계정에 귀속하며, Anonymous Player ID와 직접 동일시하지 않는다.

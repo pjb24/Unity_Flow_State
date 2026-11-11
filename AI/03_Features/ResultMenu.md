@@ -14,6 +14,19 @@ Stage Mode와 InfiniteMode의 결과 화면에서 다음 실행 흐름을 키보
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 2~3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- 생산 결과 화면은 InfiniteHUD와 Infinite 최종 결과만 제공한다. Stage 결과/시간 표시 소스는 남기되 사용자에게 노출하지 않는다.
+- Retry는 초기 Timer/점수/입력/Result를 가진 새 Infinite Run을 시작한다. 제출 Retry는 별개이며 Run을 생성하지 않는다.
+- 순위 보기는 Infinite Board를 연다. Back/Cancel은 원래 Result의 순위 보기로 복귀하고 Main Menu 선택은 Play로 돌아간다.
+- Infinite 로컬/온라인 최고·제출 상태·로딩·실패 표시의 기존 의미는 유지한다.
+
+검증 계약: P9-C03/P9-C04. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 기능 규칙
 
 - ResultMenu는 Stage Mode와 InfiniteMode의 결과 화면에서 활성화한다.

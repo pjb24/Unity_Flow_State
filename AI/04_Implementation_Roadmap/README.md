@@ -11,11 +11,11 @@ Implementation Roadmap 영역에 존재하는 문서의 역할과 책임을 정�
 ## Roadmap 9~14 확정 계획
 
 2026-11-11 사용자 요청으로 아래 여섯 Roadmap을 분리 유지하고 번호 순서대로 진행한다.
-**계획 확정·구현 미착수**이며 현재 구현/서비스의 동작을 변경한 것은 아니다.
+계획은 확정됐으며 Roadmap 9는 Phase 1 완료·Phase 2~4 대기, 10~14는 대기다. 현재 생산 구현/서비스의 동작을 변경한 것은 아니다.
 
 | 순서 | Roadmap | 목표 | 상태 |
 |---|---|---|---|
-| 9 | [InfiniteMode 단일화와 Stage Mode 접근 제거](IMPLEMENTATION_ROADMAP_009.md) | Stage 플레이/진입/기록 접근 제거와 기존 자료 호환 | 계획 확정·대기 |
+| 9 | [InfiniteMode 단일화와 Stage Mode 접근 제거](IMPLEMENTATION_ROADMAP_009.md) | Stage 접근 차단·Deprecated 소스 보존과 Infinite 계약 유지 | Phase 1 완료·Phase 2~4 대기 |
 | 10 | [Thirdparty 애셋 관리와 프로젝트 복원 체계](IMPLEMENTATION_ROADMAP_010.md) | 외부 원본 비추적·의존성/참조 복원 | 계획 확정·대기 |
 | 11 | [플레이어 피드백 강화](IMPLEMENTATION_ROADMAP_011.md) | 착지/획득/실패의 화면·사운드 결과 전달 | 계획 확정·대기 |
 | 12 | [캐릭터 그래픽과 동작 표현 강화](IMPLEMENTATION_ROADMAP_012.md) | 외형/동작의 가독성과 기존 판정 보존 | 계획 확정·대기 |
@@ -24,7 +24,10 @@ Implementation Roadmap 영역에 존재하는 문서의 역할과 책임을 정�
 
 ### 공통 의존성과 경계
 
-- Roadmap 8은 승인 예외/잔여 한계를 포함해 완료했다. 다음 착수 대상은 Roadmap 9 Phase 1이다.
+- Roadmap 8은 승인 예외/잔여 한계를 포함해 완료했다. Roadmap 9 Phase 1 Task Step 1~8과 최종 완료 판정을 마쳤고 다음은 Phase 2 작업 준비다. Phase 2에는 아직 착수하지 않았다.
+- Step 4에서 구 Client 미지원·Infinite 공통 계약 유지를 확정했다. 현재 전환 범위에 서버 계약 변경은 불필요하며 구 Client 강제 접근 차단이나 원격 변경은 수행하지 않았다.
+- Step 3 사용자 전제로 기존 Stage 기록과 추가 제출은 없는 것으로 처리하며 별도 Stage 보관/이관·Pending 호환 개발은 제외한다. 자료 삭제·보드 초기화는 수행하지 않는다.
+- Roadmap 9의 Stage 소스는 삭제하지 않고 Deprecated와 사유 주석으로 보존한다. 사용자 접근/명시적 실행 차단은 별도로 구현하고 Infinite 공통 기반·내부 자료 호환과 구분한다.
 - Stage Mode 접근 제거는 기존 자료/보드 삭제 승인이 아니다. 내부 읽기 호환과 공통 실행 기반은 사용자 기능 제거와 구분한다.
 - Roadmap 10은 사운드/그래픽/UI 외부 원본 도입 전에 완료한다. 현행 ignore 규칙만으로 추적 해제·이력 삭제·복원 성공을 선언하지 않는다.
 - Roadmap 11 Phase 1에서 캐릭터/맵/UI의 공통 색상·명암·분위기·위험 표시 방향을 확정하고 12~14에 인계한다.

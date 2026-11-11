@@ -14,6 +14,17 @@ RecordSubmissionSystem
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- 신규 Stage 제출 후보의 생산 진입을 차단하고 전용 소스를 비권장 표시·사유 주석으로 보존한다.
+- Infinite 후보/귀속/ID·대기열·제출 상태/재시도 경계를 유지한다. Stage 자료 보관/이관을 위한 새 책임은 추가하지 않는다.
+
+검증 계약: P9-C04/P9-C06/P9-C07. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 시스템 책임
 
 - 제출 후보와 제출 상태를 관리한다.

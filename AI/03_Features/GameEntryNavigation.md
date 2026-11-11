@@ -12,6 +12,19 @@ GameEntryNavigation
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 2 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- Boot 뒤 Main Menu/Play를 유지한다. Play는 Mode Select를 거치지 않고 Infinite 시작을 요청한다.
+- 기존 Tutorial 완료 상태를 보존한다. 미완료 사용자는 Infinite 자동 안내의 Start Run 전까지 Run을 만들지 않는다.
+- 과거 선택/대기 값은 Infinite로 정규화하고 명시적 Stage 선택/실행 요청은 거절한다. 일반 사용자 전환 팝업은 추가하지 않는다.
+- Main Menu 복귀 선택과 중복 요청 방지, Pause/Settings 복귀는 유지한다.
+
+검증 계약: P9-C01/P9-C02/P9-C03. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 ## 기능 규칙
 
 - Boot가 완료되면 Run 없이 Main Menu를 표시한다.

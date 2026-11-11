@@ -14,6 +14,18 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 2 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- 새 Client는 InfiniteMode만 시작/재시작하며 Stage Mode의 명시적 생산 실행 요청은 거절한다.
+- 과거 기본/선택/대기 Mode는 Infinite 시작 흐름으로 정규화한다. 기존 자료의 enum 값 변경이나 Stage 소스 삭제를 뜻하지 않는다.
+- Infinite의 이동·착지·점수·Pattern·공통 생명주기는 유지한다. 시작/안내와 Retry의 상세 규칙은 GameEntryNavigation/ResultMenu가 담당한다.
+
+검증 계약: P9-C02/P9-C09. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 기능 규칙
 
 - Stage Play는 시작 조건을 만족하면 시작된다.

@@ -8,6 +8,66 @@
 
 # 프로젝트 결정 사항
 
+## Prototype 9 Phase 1 Step 8·Phase 1 완료 — 최종 판정 (2026-11-11)
+
+- [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md) 8-1~8-5에서 세 완료 조건과 Step 1~7 근거를 대조해 Phase 1을 완료 처리했다. 정책/범위·필요 로컬 검증·후속 인계 완료이며 생산 전환 완료가 아니다.
+- 사용자 확정은 Infinite 단일 흐름·Stage 소스 Deprecated/사유 주석 보존·Stage 기록 처리 제외 전제·구 Client 미지원이다. 기록 부재/전체 Client 제출 중단을 실서비스 검증 PASS로 바꾸지 않는다.
+- Step 6의 제출/조회 28/28·snapshot 18/18 및 정책/정적 근거를 연결했다. 이후 실행 코드/Test 변경이 없어 최종 판정에서 반복 실행하지 않았다. Phase 1에 필요한 Unity 결과 미보고/미정 정책/실패는 없다.
+- Feature/System 미래 계약·Phase별 파일/Test·사용자 Scene 적용 및 Module 변경 시 보존/별도 승인·복구 시험 인계를 유지한다. 실제 Stage 차단/Deprecated 코드·Scene/Unity·빌드/원격/공개 작업은 미완료다.
+- 현재 사용자 수동 작업은 없고 다음은 Phase 2 준비/착수다. 이번 요청에서 Phase 2에 착수하지 않았으며 Phase 2~4는 대기, Roadmap 9 전체는 미완료다.
+
+## Prototype 9 Phase 1 Step 7 완료 — 문서 계약·후속 인계 반영 (2026-11-11)
+
+- [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md) 7-1~7-5와 Feature 8개/System 5개에 소유 범위별 Roadmap 9 적용 예정 계약·Phase·P9-C 검증 연결을 반영했다. 현행 규칙과 생산 전환 미구현 상태를 명시했다.
+- 현재 코드와 다른 HowToPlay의 Tutorial 저장/생산 안내 예정 설명, UIManagementSystem의 마스킹 계정 용어를 실제 복원·저장/공개 번호 표시로 바로잡았다.
+- Phase 2~4의 코드/정적/Unit·통합 Test와 사용자 Compile/Runner/Scene 절차를 연결했다. 실제 Module 변경 전 source/artifact/reference·QA 보존과 별도 승인·복구 시험 의무도 인계했다.
+- 기존 사용자 정책은 재질문하지 않는다. 이번에는 문서만 변경했고 Unit Test 재실행·생산/Scene·Unity/빌드·원격 작업은 없다. 현재 수동 작업은 없고 Step 1~7 완료, 다음은 Step 8이며 Phase 1 최종 판정은 대기다.
+
+## Prototype 9 Phase 1 Step 6 완료 — 정책 검증 계약·Infinite 대역 Test (2026-11-11)
+
+- [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md) 6-1~6-6에 P9-C01~10 정책/생산 경계/입력·기대 결과/실행 또는 후속 Phase를 고정했다. Stage 진입 거절·Deprecated/Scene 변경은 미구현이며 PASS로 기록하지 않는다.
+- Infinite 실제 제출·조회·snapshot, 동일 ID/충돌, 최고 갱신, 응답 유실·동시 요청의 Node SDK 대역 Test 6건을 추가했다. 실제 receipt store 주입과 v2 ledger 경로도 검증했다.
+- 제출/조회 28/28·snapshot 18/18, 수명/이전 정책 및 저장/이전/preflight/서버 정적 계약을 통과했다. C# 변경 0개이며 출력 EditMode/PlayMode 소스 수는 미실행 준비 수다.
+- 이번 변경은 Test/문서만이다. 생산 코드·Unity Compile/Runner·Build·Scene/원격 작업은 없다. 현재 사용자 수동 작업은 없고 Step 1~6 완료, 다음은 Step 7이다. Phase 1 전체는 진행 중이다.
+
+## Prototype 9 Phase 1 Step 5 완료 — 공통 경계·후속 변경 인계 (2026-11-11)
+
+- [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md) 5-1~5-5에 공통 실행 의존성, 생산/Editor 18파일과 Stage restart helper를 호출하는 13 Test의 변경 분류를 확정했다.
+- StageSystem의 Infinite 종료·Collectible/Pattern·World Rebase 경계와 Timer/Result/입력/카메라는 공통 유지다. Stage 전용 소스는 Deprecated/사유 주석으로 보존하고 생산 접근/원격 probe는 차단한다.
+- 읽기 전용 Scene 검사로 주요 참조 11개·GameSystem UnityEvent 9개·네 Pattern script GUID를 대조했다. Phase 2~3 사용자 Scene 적용 순서를 Task에 인계했으며 지금 수동 작업은 없다.
+- StageRoot/필수 UI 참조를 단독 삭제하지 않는다. Stage 시작 성공을 기대하는 공통 Test는 책임별 Infinite/독립 fixture로 전환하며 일괄 치환이나 Test용 생산 차단 예외를 넣지 않는다.
+- 이번 작업은 문서/정적 조사만 수행했다. 기존 Unit Test 반복·Unity 실행·생산/Test 소스·Scene/원격 변경은 없다. Step 1~5 완료, 다음은 Step 6이며 Phase 1은 진행 중이다.
+
+## Prototype 9 Phase 1 Step 4 완료 — 구 Client 미지원·Infinite 계약 유지 (2026-11-11)
+
+- 사용자가 구 Client 미지원을 확정했다. 구 버전 호환 수정/지원 검증은 추가하지 않는다. 미지원 정책과 원격 강제 차단 구현은 구분한다.
+- [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md) 4-1~4-5에 지원표·v7 저장/Infinite Board·snapshot·계정 이전·서버 계약 대조를 기록했다. 현재 전환 범위에서 서비스 계약 변경 필요성은 없다.
+- Infinite-only v1/v2 snapshot·기기 이전 후 연결 계정 최고 선택의 SDK 대역 Test 3건을 추가했다. snapshot 18/18·제출/조회 22/22·이전/저장 정적 계약을 통과했다. C# Test 실행 수로 기록하지 않는다.
+- Stage 기록 없음/추가 제출 없음 전제와 소스 Deprecated 보존 원칙을 유지한다. 생산 C#/서버 코드·Scene·원격/빌드·Unity Runner 변경/실행은 없다.
+- Step 1~4 완료, Phase 1 진행 중이다. 다음은 Step 5 공통 기반과 후속 변경 목록 확정이다.
+
+## Prototype 9 Phase 1 Step 3 완료 — Stage 기록 고려 범위 제외 (2026-11-11)
+
+- 사용자 지시: Stage 기록은 고려 사항에서 제외하며 구 Client에도 없고 모든 Client에서 앞으로 제출되지 않는다고 전제한다. 이는 작업 전제이며 실제 기기/원격 자료 부재나 제출 차단 검증 결과가 아니다.
+- [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md) 3-3에 확정했다. 앞선 별도 보관 권장안은 미채택이며 Stage 보관/이관·전용 만료/폐기·이전 gate 개편은 추가하지 않는다.
+- Infinite의 기존 Pending 재시도·180일 만료·명시적 폐기·저장 실패 보호·이전 0건 조건을 유지한다. Stage 소스 Deprecated 및 사유 주석, 신규 Stage 접근 차단 계획도 유지한다.
+- 자료 삭제·서버 보드 초기화·생산 코드/Scene·원격 변경은 수행하지 않았다. Step 1~3 완료, Phase 1 진행 중이다. 다음은 Step 4 Infinite/공통 계약 변경 필요 여부 확인이며 Stage 기록 정책 선택을 다시 요구하지 않는다.
+
+## Prototype 9 Phase 1 Step 2 완료 — Infinite 흐름·Stage Deprecated 보존 확정 (2026-11-11)
+
+- 사용자가 [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md) 2-2 권장안 전체를 선택했다. Boot/Main Menu 유지, Mode Select 없이 Play→Infinite, 기존 Tutorial 완료 상태 보존과 미완료 시 안내, Infinite Pause/Retry·진입 출처별 순위 복귀를 확정했다.
+- 과거 Inspector/Runtime Mode는 Infinite로 정규화하되 명시적 Stage 실행 요청은 거절한다. 일반 사용자 전환 팝업은 추가하지 않는다. 저장 후보/snapshot의 Stage 읽기는 별도 호환 경계다.
+- 추가 사용자 지시로 Stage 소스는 물리 삭제하지 않고 Deprecated와 비권장 이유 주석으로 보존한다. 실제 접근 차단은 별도로 구현하며 Infinite 공통 기반 전체를 Deprecated로 만들지 않는다.
+- 소스 표기·사유 주석·접근 차단의 실제 변경은 Phase 2~3에 인계했다. 현재는 정책/검증 전환표 확정이며 생산 구현·Unity 실행·Scene/원격 변경은 없다.
+- Step 1~2 완료, Phase 1 진행 중이다. 다음은 Step 3 Pending 정책 결정이며 구 Client 지원·자료 호환 정책은 아직 미정이다.
+
+## Prototype 9 Phase 1 Step 1 완료 — 경로·기준선 조사 (2026-11-11)
+
+- [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md)의 1-1~1-5에 생산/Editor/Test 경로·Scene 직렬화 연결·기록/호환 경계·기존 Test 대응을 기록했다.
+- 로컬 정적 계약·C# preflight와 서비스 대역 제출/조회 22/22·개인 최고 snapshot 15/15를 통과했다. Unity 컴파일·Test Runner·Build·Scene 변경·원격 변경은 수행하지 않았다.
+- Scene의 Infinite 직렬화 값만으로 Stage 접근은 차단되지 않는다. 기존 Stage Pending의 만료/재전송·이전 gate/폐기와 Stage 포함 snapshot 읽기를 후속 결정 대상으로 식별했다.
+- Step 1만 완료했고 Phase 1은 진행 중이다. 다음은 Step 2 사용자 흐름 결정이며 전환 정책·전환용 Test·생산 구현은 미착수다. 실제 구 Client 지원 현황과 원격 동일성은 미확인으로 남긴다.
+
 ## Roadmap 9~14 확정 — 계획 완료·구현 미착수 (2026-11-11)
 
 - 사용자 확정 순서는 9 Stage Mode 플레이/진입/기록 접근 제거, 10 Thirdparty 원본 비추적/프로젝트 복원,

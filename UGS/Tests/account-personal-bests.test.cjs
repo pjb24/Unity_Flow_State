@@ -25,6 +25,43 @@ test("empty success is explicit and read-only", async () => {
   assert.deepEqual(await f.snapshot(), { status: "Success", publicPlayerNumber: f.account().publicPlayerNumber, personalBests: [] });
   assert.equal(f.state.writes, writes);
 });
+for (const version of [1, 2]) {
+  test(`Infinite-only v${version} snapshot preserves its best and performs no writes`, async () => {
+    const f = await ready();
+    if (version === 2) {
+      f.ledger().version = 2; delete f.ledger().entries; f.ledger().pending = null;
+      f.ledger().receiptDirectory = { version: 1, buckets: [], cleanup: null };
+      f.ledger().migration = { sourceVersion: 1, state: "Complete", cursor: 0 };
+    }
+    f.ledger().best = { [infinite]: { score: 2147483647, id, acceptedAt: 2 } };
+    const before = clone(f.ledger()), writes = f.state.writes;
+    assert.deepEqual(await f.snapshot(), { status: "Success", publicPlayerNumber: f.account().publicPlayerNumber,
+      personalBests: [{ boardId: infinite, score: 2147483647, submissionId: id }] });
+    assert.deepEqual(f.ledger(), before); assert.equal(f.state.writes, writes);
+  });
+}
+
+test("Infinite-only transfer reads the connected account without merging the recipient best", async () => {
+  const f = await ready(), b = { ...f.context, playerId: "B" };
+  await f.provision.ensure(b);
+  const oldId = f.value("fs8-player-B").accountId;
+  f.ledger().best = { [infinite]: { score: 900, id, acceptedAt: 1 } };
+  f.value(`fs8-ledger-${oldId}`).best = { [infinite]: { score: 9900, id, acceptedAt: 2 } };
+  const number = f.account().publicPlayerNumber, owner = f.account().leaderboardOwnerId;
+  const secret = async () => Buffer.alloc(32, 7).toString("base64");
+  const credentials = await createTransferStartService(f.store, secret).start(f.context);
+  assert.equal(credentials.status, "Success");
+  assert.equal((await createTransferCompletionService(f.store, secret).complete(b,
+    credentials.code, credentials.verificationValue)).status, "Success");
+  const source = clone(f.ledger()), recipient = clone(f.value(`fs8-ledger-${oldId}`)), writes = f.state.writes;
+  assert.deepEqual(await f.snapshot(b), { status: "Success", publicPlayerNumber: number,
+    personalBests: [{ boardId: infinite, score: 900, submissionId: id }] });
+  assert.equal((await f.snapshot()).status, "TransientFailure");
+  assert.equal(f.account().leaderboardOwnerId, owner);
+  assert.deepEqual(f.ledger(), source); assert.deepEqual(f.value(`fs8-ledger-${oldId}`), recipient);
+  assert.equal(f.state.writes, writes); assert.equal(f.scores.size, 0);
+});
+
 test("both boards are returned as one whole snapshot with no internal owner", async () => {
   const f = await ready();
   f.ledger().best = { [stage]: { score: 9007199254740991, id, acceptedAt: 1 }, [infinite]: { score: 2147483647, id, acceptedAt: 2 } };

@@ -14,6 +14,17 @@ Stage 종료 결과를 기반으로 Result Data를 생성한다.
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 2~3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- Infinite 결과 생성/제공·Scoring Version·점수 구성과 공통 결과 생명주기를 유지한다.
+- Stage 전용 결과/TimeRecord 연결 소스는 비권장 표시/사유 주석으로 보존하며 생산 Stage 결과 생성 경로에 연결하지 않는다. 전체 System 삭제/비권장화는 하지 않는다.
+
+검증 계약: P9-C05/P9-C09. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 시스템 책임
 
 - Result Data를 생성한다.

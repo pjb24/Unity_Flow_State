@@ -12,6 +12,18 @@ RecordSubmission
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- 새 Client는 신규 Stage 후보를 만들거나 제출하지 않는다. 실제 생산/Editor 진입 차단과 Infinite 제출은 별도로 검증한다.
+- Stage 기록은 없고 모든 Client의 추가 Stage 제출도 없다는 사용자 전제를 적용한다. 별도 Stage 보관/이관·전용 만료/폐기 기능을 추가하지 않는다.
+- Infinite Pending의 ID/귀속/환경·재시도·확정 응답 후 정리·180일 만료·저장 실패 보호를 유지한다. 건수 0을 제출 성공으로 간주하지 않는다.
+
+검증 계약: P9-C04/P9-C06/P9-C07. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 기능 규칙
 
 - Stage는 `Cleared` 결과만 제출 후보가 된다.

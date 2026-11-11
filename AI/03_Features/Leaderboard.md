@@ -14,6 +14,18 @@ Leaderboard
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- 새 Client의 사용자 순위는 Infinite 단일 Board만 제공한다. Stage Tab·Stage 직접 조회/표시/조작 진입은 차단한다.
+- 상위 10·내 주변 7·Result의 최고 조회, competition rank·공개 번호·출처별 Back/Cancel을 유지한다.
+- Infinite Board/Scoring Version과 서버 요청/응답 계약을 유지한다. Stage 기록/구 Client 지원을 위한 보관·이관·서비스 변경은 추가하지 않는다.
+
+검증 계약: P9-C04/P9-C06/P9-C10. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 기능 규칙
 
 - Leaderboard는 제출 가능한 확정 기록이 존재하는 경우에만 조회할 수 있다.

@@ -12,12 +12,24 @@ HowToPlay
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 2 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- 자동 안내는 저장된 Tutorial 미완료 사용자의 Infinite 첫 시작 전에만 표시한다. 이미 완료한 사용자의 상태를 초기화하지 않는다.
+- 안내는 자동 이동·점프·관성 착지·Collectible·거리/점수·Pause·Infinite 종료 규칙을 설명하고 Stage Goal/Clear Time 설명은 제공하지 않는다.
+- Main Menu 재열람·Binding 표시·자동 안내 Cancel 무동작·Start Run 한 번 처리와 완료 상태 보존을 유지한다.
+
+검증 계약: P9-C01/P9-C03. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 ## 기능 규칙
 
 - How To Play는 Keyboard Navigate·Submit과 Mouse Point·Click으로 실행할 수 있는 Back UI 항목을 제공한다.
 - Main Menu에서 How To Play를 열면 Back UI Submit 또는 Cancel은 Main Menu의 How To Play 선택으로 복귀한다.
 - Main Menu 재열람은 Back을 기본 선택으로 사용하며, 자동 안내 처리 상태에 영향을 주지 않는다.
-- Application 실행 중 최초 Stage 또는 Infinite Run 시작 전 공용 단일 페이지 How To Play를 자동으로 표시하고 게임 진행을 시작하지 않는다.
+- Local Save에서 복원한 Tutorial 완료 상태가 미완료이면 Stage 또는 Infinite Run 시작 전 공용 단일 페이지 How To Play를 자동으로 표시하고 게임 진행을 시작하지 않는다.
 - 자동 안내는 Start Run만 기본 선택으로 제공한다. Start Run은 선택된 Mode의 Run을 시작하고 자동 안내 처리 완료로 기록한다.
 - 자동 안내에는 Back 또는 Skip UI를 제공하지 않으며 Cancel 입력은 동작하지 않는다.
 - 자동 안내 처리 완료 뒤에는 같은 Application 실행 중 다시 자동으로 표시하지 않는다.
@@ -55,8 +67,7 @@ HowToPlay
 
 ## 예외 사항
 
-- 단말기별 자동 표시 완료 상태의 영구 저장은 Roadmap 7에서 수행한다.
-- 영구 저장이 도입되기 전에는 Application 종료 후 자동 표시 완료 여부를 보장하지 않는다.
+- Tutorial 완료 상태는 Local Save에서 복원하며 일반 저장 흐름으로 보존한다. 저장이 실패하면 다음 실행의 복원 성공을 보장하지 않는다.
 - Start Run 뒤 Run 초기화에 실패해도 자동 안내 처리 완료 상태는 유지하고 기존 실패 복귀 경로를 사용한다.
 
 ---
@@ -71,7 +82,7 @@ HowToPlay
 
 ## 제약 사항
 
-- 실제 안내 내용과 첫 Run 안내 생산 연결은 Phase 4에서 구현한다.
+- 현재 안내와 첫 Run 안내는 생산 흐름에 연결돼 있다. Roadmap 9의 Infinite 전용 안내 변경은 Phase 2에서 적용한다.
 - 안내 완료 상태를 현재 Runtime Data에 영구 저장하지 않는다.
 
 ---

@@ -20,6 +20,17 @@ System 간의 실행 흐름을 연결한다.
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 2~3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- Infinite 단일 시작/Retry와 과거 선택값 정규화, 명시적 Stage 실행 거절을 공통 초기화 전에 연결한다.
+- Stage Result/기록 접근 연결은 생산 경로에서 차단한다. Stage 전용 소스는 비권장 표시와 사유 주석으로 남기고 공통 Timer/입력/Result/정리 순서는 유지한다.
+
+검증 계약: P9-C01/P9-C02/P9-C03/P9-C04. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 시스템 책임
 
 - 게임 시작을 관리한다.

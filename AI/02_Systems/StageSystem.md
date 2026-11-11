@@ -16,6 +16,18 @@ Stage 종료 시점을 판단하고 Stage 종료 이벤트를 발생시킨다.
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 2 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- Infinite의 시작·Pause/Resume·종료·이벤트·Root/Collectible/Pattern 연결을 계속 담당한다. System 전체를 Deprecated로 만들지 않는다.
+- 명시적 Stage 생산 초기화/실행은 거절하고 Goal/Cleared·Stage 추락 전용 책임의 소스는 비권장 표시/사유 주석으로 보존한다.
+- Stage Root/Goal 참조를 단독 삭제해 Infinite 초기화 계약을 깨뜨리지 않는다. Scene 적용은 후속 사용자 절차로 수행한다.
+
+검증 계약: P9-C02/P9-C05/P9-C09. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 시스템 책임
 
 - Stage를 시작한다.

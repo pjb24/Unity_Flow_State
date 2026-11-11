@@ -13,7 +13,7 @@ function request(n = 1, overrides = {}) {
     runDurationMilliseconds: 0, baseDistanceScore: 0, momentumBonus: 0,
     distanceScore: 0, collectibleScore: 0, totalScore: 0, maximumMomentumMultiplier: 1, ...overrides };
 }
-async function fixture() {
+async function fixture(useReceiptStore = false) {
   const f = require("./account-sdk-double.cjs").fixture();
   f.context = { ...f.context, playerId: "test-player" };
   const { createAccountStore } = require("../CloudCode/account-store");
@@ -59,7 +59,8 @@ async function fixture() {
     f.scores.clear();
     for (const row of state.scores) f.scores.set(`${row.board}/${row.playerId}`, clone(row));
   }
-  const submit = require("../CloudCode/submit-record").createRecordSubmissionService(store, boards);
+  const receipts = useReceiptStore ? require("../CloudCode/receipt-store").createReceiptStore(f.context, f.save) : null;
+  const submit = require("../CloudCode/submit-record").createRecordSubmissionService(store, boards, Date.now, receipts);
   const query = require("../CloudCode/query-records").createRecordQueryService(store, boards, owner => {
     const row = state.scores.find(e => e.playerId === owner);
     if (row) f.scores.set(`${row.board}/${owner}`, clone(row));
@@ -149,6 +150,83 @@ test("infinite exact maximum and over-limit, sum, multiplier, missing fields", a
     { maximumMomentumMultiplier: 3.1 }, { runDurationMilliseconds: undefined }, { totalScore: -1 }])
     assert.equal((await (await fixture()).submit({ ...base, ...change })).status, "Rejected");
 });
+// Infinite-only fixtures exercise the production service without a Stage run.
+function infiniteRequest(n = 1, score = 1000) {
+  return request(n, { boardId: infinite, rulesVersion: 2, score,
+    runDurationMilliseconds: 60000, baseDistanceScore: score, momentumBonus: 0,
+    distanceScore: score, collectibleScore: 0, totalScore: score, maximumMomentumMultiplier: 1 });
+}
+
+test("Infinite submission is shared by top, around, me and whole-account snapshot", async () => {
+  const f = await fixture();
+  assert.equal((await f.submit(infiniteRequest())).status, "Submitted");
+  for (const [kind, limit] of [["top", 10], ["around", 7], ["me", 1]]) {
+    const result = await f.query({ boardId: infinite, kind, limit });
+    assert.equal(result.status, "Success"); assert.equal(result.entries.length, 1);
+    assert.equal(result.entries[0].score, 1000); assert.equal(result.entries[0].rank, 1);
+    assert.equal(result.entries[0].isMe, true);
+  }
+  const snapshot = await require("../CloudCode/get-account-personal-bests")
+    .createPersonalBestSnapshotService(f.store)(f.context);
+  assert.equal(snapshot.status, "Success");
+  assert.deepEqual(snapshot.personalBests, [{ boardId: infinite, score: 1000, submissionId: id(1) }]);
+  assert.equal(f.state.scores.length, 1); assert.equal(f.state.scores[0].board, infinite);
+});
+
+test("Infinite v2 receipt submission replays without another projection and remains queryable", async () => {
+  const f = await fixture(true);
+  assert.equal((await f.submit(infiniteRequest())).status, "Submitted");
+  assert.equal(f.state.ledger.version, 2); assert.equal(f.state.ledger.pending, null);
+  assert.equal((await f.submit(infiniteRequest())).status, "Submitted");
+  assert.equal((await f.submit(infiniteRequest(1, 1100))).reason, "SubmissionIdConflict");
+  assert.equal(f.state.writes, 1); assert.equal(f.state.scores.length, 1);
+  const me = await f.query({ boardId: infinite, kind: "me", limit: 1 });
+  assert.equal(me.status, "Success"); assert.equal(me.entries[0].score, 1000);
+  const snapshot = await require("../CloudCode/get-account-personal-bests")
+    .createPersonalBestSnapshotService(f.store)(f.context);
+  assert.equal(snapshot.status, "Success");
+  assert.deepEqual(snapshot.personalBests, [{ boardId: infinite, score: 1000, submissionId: id(1) }]);
+});
+
+test("Infinite duplicate and changed payload keep one projection and original receipt", async () => {
+  const f = await fixture(), original = infiniteRequest();
+  assert.equal((await f.submit(original)).status, "Submitted");
+  const before = clone(f.state.ledger);
+  assert.equal((await f.submit(original)).status, "Submitted");
+  assert.equal((await f.submit(infiniteRequest(1, 1100))).reason, "SubmissionIdConflict");
+  assert.equal(f.state.writes, 1); assert.deepEqual(f.state.ledger, before);
+});
+
+test("Infinite worse score cannot replace best and higher score uses the same fixed owner", async () => {
+  const f = await fixture();
+  assert.equal((await f.submit(infiniteRequest(1, 1000))).status, "Submitted");
+  assert.equal((await f.submit(infiniteRequest(2, 900))).status, "Submitted");
+  assert.equal(f.state.writes, 1); assert.equal(f.state.ledger.best[infinite].score, 1000);
+  assert.equal((await f.submit(infiniteRequest(3, 1100))).status, "Submitted");
+  assert.equal(f.state.writes, 2); assert.equal(f.state.scores.length, 1);
+  assert.equal(f.state.scores[0].playerId, f.ownerId);
+  assert.equal(f.state.ledger.best[infinite].score, 1100);
+});
+
+test("Infinite lost projection response recovers the same ID without losing accepted time", async () => {
+  const f = await fixture(); f.state.failProjectionOnce = true;
+  assert.equal((await f.submit(infiniteRequest())).status, "TransientFailure");
+  const acceptedAt = f.state.ledger.entries[0].acceptedAt;
+  assert.equal((await f.submit(infiniteRequest(2))).reason, "EarlierSubmissionPending");
+  assert.equal((await f.submit(infiniteRequest())).status, "Submitted");
+  assert.equal(f.state.scores.length, 1);
+  assert.equal(f.state.scores[0].metadata.acceptedAt, acceptedAt);
+  assert.equal(f.state.ledger.entries.length, 1); assert.equal(f.state.ledger.active, "");
+});
+
+test("Infinite concurrent same-ID submissions converge to one terminal entry", async () => {
+  const f = await fixture();
+  await Promise.all([f.submit(infiniteRequest()), f.submit(infiniteRequest())]);
+  assert.equal((await f.submit(infiniteRequest())).status, "Submitted");
+  assert.equal(f.state.ledger.entries.length, 1); assert.equal(f.state.scores.length, 1);
+  assert.equal(f.state.ledger.entries[0].status, "Submitted");
+});
+
 test("ledger capacity retains old receipts without eviction", async () => {
   const f = await fixture(); f.state.ledger.entries = Array.from({ length: 128 }, (_, i) => ({ id: id(i + 10) }));
   assert.equal((await f.submit(request())).reason, "LedgerCapacity"); assert.equal(f.state.writes, 0);

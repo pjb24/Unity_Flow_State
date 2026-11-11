@@ -14,6 +14,17 @@ InfiniteMode
 
 ---
 
+## Roadmap 9 적용 예정 계약
+
+상태: Phase 2~4 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+
+- 새 Client에서 유일하게 제공하는 생산 플레이 Mode가 된다. 시작/복귀와 기록 접근은 해당 Feature의 전환 계약을 따른다.
+- 현재 Pattern 네 종류·Difficulty·Scoring Version 2·점수/물리·World Rebase·Collectible·종료 조건을 유지한다. StageSystem 등 공통 기반의 명칭만으로 삭제하지 않는다.
+
+검증 계약: P9-C06/P9-C09. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
+
+---
+
 # 기능 규칙
 
 - InfiniteMode는 Goal을 사용하지 않는다.
