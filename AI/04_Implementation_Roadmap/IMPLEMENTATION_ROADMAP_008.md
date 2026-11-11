@@ -270,6 +270,9 @@ Prototype 8 Phase 1~5를 완료했다(Phase 5는 승인 예외/잔여 한계 포
 
 ## 다음 작업
 
+**확정 후속 계획: [Roadmap 9 Phase 1](IMPLEMENTATION_ROADMAP_009.md) Stage 제거 범위와 자료 호환 정책 확정.**
+Roadmap 9~14의 분리/순서는 [로드맵 안내](README.md)를 따른다. 모두 계획 확정·구현 미착수다.
+
 **Phase 5 완료 — 공개 개시 여부는 사용자 별도 결정.** 기존 QA 자료/계정·점검 계정/런타임 권한을 유지한다.
 다음 실제 업데이트 전 복구 후보 source 전체/artifact/reference·새 QA 기준 보존/호환성/시험·중단/재복구 범위를 승인한 후 실제 복구 시험을 수행한다.
 2026-11-11 역할 확인 후 사용자 Step13 처리 지시로 기존 verification 점검 계정을 유지하는 결론을 기록했다. 원격 변경/credential 회수 완료를 주장하지 않는다.
