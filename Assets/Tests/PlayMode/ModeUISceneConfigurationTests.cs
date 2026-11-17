@@ -17,6 +17,94 @@ namespace FlowState.Tests.PlayMode
         private const string SceneName = "SampleScene";
 
         [UnityTest]
+        public IEnumerator UIComponents_AreSerializedBeforeUseAndNeverAddedAtRuntime()
+        {
+            yield return SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Single);
+            yield return null;
+            MonoBehaviour ui = FindRequiredBehaviour("UIManagementSystem", "UIManagementSystem");
+            Button stage = GetSerializedValue<Button>(ui, "_leaderboardStageButton");
+            Button infinite = GetSerializedValue<Button>(ui, "_leaderboardInfiniteButton");
+            Assert.That(infinite.GetComponent<Outline>(), Is.Not.Null, "Add the Outline in the Editor.");
+            int stageCount = stage.GetComponents<Component>().Length;
+            int infiniteCount = infinite.GetComponents<Component>().Length;
+            InvokePublicMethod(ui, "SetLeaderboardViewState", new LeaderboardViewState(), string.Empty, 0, false, string.Empty);
+            Assert.That(stage.GetComponents<Component>().Length, Is.EqualTo(stageCount));
+            Assert.That(infinite.GetComponents<Component>().Length, Is.EqualTo(infiniteCount));
+
+            MonoBehaviour settings = FindRequiredBehaviour("SettingsWindow", "SettingsUIController");
+            System.Type hoverType = System.Type.GetType("FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler, Assembly-CSharp");
+            System.Type rebindType = System.Type.GetType("FlowState.Runtime.Systems.SettingsRebindButtonFocusHandler, Assembly-CSharp");
+            Assert.That(hoverType, Is.Not.Null);
+            Assert.That(rebindType, Is.Not.Null);
+            foreach (Button button in settings.GetComponentsInChildren<Button>(true))
+            {
+                Component handler = button.GetComponent(hoverType);
+                Assert.That(handler, Is.Not.Null, button.name + " requires a serialized hover handler.");
+                Assert.That((bool)hoverType.GetMethod("IsConfiguredFor").Invoke(handler, new object[] { settings, button }), Is.True);
+            }
+            Button[] rebinds = GetSerializedValue<Button[]>(settings, "_rebindButtons");
+            for (int i = 0; i < rebinds.Length; i++)
+            {
+                Component handler = rebinds[i].GetComponent(rebindType);
+                Assert.That(handler, Is.Not.Null, "Add the rebind handler in the Editor.");
+                Assert.That((bool)rebindType.GetMethod("IsConfiguredFor").Invoke(handler, new object[] { settings, i }), Is.True);
+            }
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            Scene scene = SceneManager.GetSceneByName(SceneName);
+            if (!scene.isLoaded) yield break;
+            Scene cleanup = SceneManager.GetSceneByName("GameEntryTestCleanup");
+            if (!cleanup.isLoaded) cleanup = SceneManager.CreateScene("GameEntryTestCleanup");
+            SceneManager.SetActiveScene(cleanup);
+            yield return SceneManager.UnloadSceneAsync(scene);
+        }
+
+        [UnityTest]
+        public IEnumerator InfiniteUI_DoesNotRequireRetiredReferencesAndKeepsResultLayout()
+        {
+            yield return SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Single);
+            yield return null;
+            MonoBehaviour ui = FindRequiredBehaviour("UIManagementSystem", "UIManagementSystem");
+            string[] optional = { "_modeSelectPanel", "_modeSelectStageButton", "_modeSelectInfiniteButton",
+                "_modeSelectBackButton", "_stageHud", "_stageResultContent" };
+            object[] previous = new object[optional.Length];
+            for (int i = 0; i < optional.Length; i++)
+            {
+                FieldInfo field = ui.GetType().GetField(optional[i], BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That(field, Is.Not.Null);
+                previous[i] = field.GetValue(ui);
+                field.SetValue(ui, null);
+            }
+            try
+            {
+                PropertyInfo configuration = ui.GetType().GetProperty("HasNavigationUIConfiguration");
+                Assert.That(configuration, Is.Not.Null);
+                Assert.That((bool)configuration.GetValue(ui), Is.True);
+                GameRuntimeData runtime = new GameRuntimeData();
+                runtime.Initialize();
+                InvokePublicMethod(ui, "Initialize", runtime);
+                Assert.That((bool)InvokePublicMethod(ui, "SetResultData",
+                    new ResultData(ScoringVersion.Current, 12.9f, 100, 20, 120, 30, 150, 2.0)), Is.True);
+                SetUIState(ui, E_GameState.Ended, E_UIState.Result);
+                GameObject content = GetSerializedValue<GameObject>(ui, "_infiniteResultContent");
+                Assert.That(content.activeSelf, Is.True);
+                AssertResultWindowRect(content.transform.parent as RectTransform, new Vector2(520.0f, 740.0f));
+                AssertResultButtonRect(GetSerializedValue<Button>(ui, "_retryButton"), -432.0f);
+                Assert.That(GetSerializedValue<TMP_Text>(ui, "_infiniteResultTotalScoreText").text,
+                    Is.EqualTo("Total Score: 150"));
+            }
+            finally
+            {
+                for (int i = 0; i < optional.Length; i++)
+                    ui.GetType().GetField(optional[i], BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ui, previous[i]);
+            }
+        }
+
+
+        [UnityTest]
         public IEnumerator ModeUI_HasRequiredHierarchyComponentsAndReferences()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(
@@ -446,16 +534,20 @@ namespace FlowState.Tests.PlayMode
                 "LeaderboardStageButton").GetComponent<Outline>();
             Outline infiniteModeOutline = FindUniqueSceneObject(
                 "LeaderboardInfiniteButton").GetComponent<Outline>();
-            Assert.That(stageModeOutline, Is.Not.Null);
             Assert.That(infiniteModeOutline, Is.Not.Null);
-            Assert.That(stageModeOutline.enabled, Is.True);
-            Assert.That(infiniteModeOutline.enabled, Is.False);
+            if (stageModeOutline != null) Assert.That(stageModeOutline.enabled, Is.False);
+            Assert.That(stageModeButton.gameObject.activeSelf, Is.False);
+            Assert.That(stageModeButton.interactable, Is.False);
+            Assert.That(stageModeButton.navigation.mode, Is.EqualTo(Navigation.Mode.None));
+            Assert.That(infiniteModeOutline.enabled, Is.True);
             Assert.That(stageModeButton.colors.normalColor,
-                Is.Not.EqualTo(stageOriginalBackground));
-            Assert.That(stageModeText.color, Is.Not.EqualTo(stageOriginalText));
+                Is.EqualTo(stageOriginalBackground));
+            Assert.That(stageModeText.color, Is.EqualTo(stageOriginalText));
             Assert.That(infiniteModeButton.colors.normalColor,
-                Is.EqualTo(infiniteOriginalBackground));
-            Assert.That(infiniteModeText.color, Is.EqualTo(infiniteOriginalText));
+                Is.Not.EqualTo(infiniteOriginalBackground));
+            Assert.That(infiniteModeText.color, Is.Not.EqualTo(infiniteOriginalText));
+            Assert.That(queryRetryButton.navigation.selectOnUp, Is.SameAs(infiniteModeButton));
+            Assert.That(infiniteModeButton.navigation.selectOnLeft, Is.Null);
             Assert.That(pendingRetryButton.gameObject.activeSelf, Is.False);
             Assert.That(queryRetryButton.navigation.selectOnDown,
                 Is.SameAs(leaderboardBackButton));
@@ -484,10 +576,13 @@ namespace FlowState.Tests.PlayMode
                 leaderboardState, string.Empty, 1, false, "Retry unavailable; pending retained");
             Assert.That(pendingRetryButton.interactable, Is.True);
 
-            leaderboardState.SelectGameMode(E_GameMode.Infinite);
+            // A legacy Stage tab request cannot change the board or revive its UI.
+            leaderboardState.SelectGameMode(E_GameMode.Stage);
             InvokePublicMethod(uiManagementSystem, "SetLeaderboardViewState",
                 leaderboardState, string.Empty, 1, false, "No manual retry yet");
-            Assert.That(stageModeOutline.enabled, Is.False);
+            Assert.That(leaderboardState.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            if (stageModeOutline != null) Assert.That(stageModeOutline.enabled, Is.False);
+            Assert.That(stageModeButton.gameObject.activeSelf, Is.False);
             Assert.That(infiniteModeOutline.enabled, Is.True);
             Assert.That(stageModeButton.colors.normalColor,
                 Is.EqualTo(stageOriginalBackground));
@@ -570,75 +665,11 @@ namespace FlowState.Tests.PlayMode
             Assert.That(resultLeaderboardButton, Is.Not.Null);
             Assert.That(resultSubmissionRetryButton, Is.Not.Null);
 
-            GameRuntimeData stageRuntimeData = new GameRuntimeData();
-            stageRuntimeData.Initialize(E_GameMode.Stage);
-            InvokePublicMethod(
-                uiManagementSystem,
-                "Initialize",
-                stageRuntimeData);
-            SetUIState(
-                uiManagementSystem,
-                E_GameState.Playing,
-                E_UIState.StageHud);
-            AssertVisibility(
-                stageHud,
-                infiniteHud,
-                resultPanel,
-                pausePanel,
-                true,
-                false,
-                false,
-                false);
-            Assert.That(momentumHud.activeSelf, Is.False);
-
-            SetUIState(
-                uiManagementSystem,
-                E_GameState.Paused,
-                E_UIState.Pause);
-            AssertVisibility(
-                stageHud,
-                infiniteHud,
-                resultPanel,
-                pausePanel,
-                true,
-                false,
-                false,
-                true);
-            Assert.That(momentumHud.activeSelf, Is.False);
-
-            ResultData stageResultData = new ResultData(
-                E_StageResultType.Cleared,
-                12.345,
-                30);
-            Assert.That(
-                (bool)InvokePublicMethod(
-                    uiManagementSystem,
-                    "SetResultData",
-                    stageResultData),
-                Is.True);
-            SetUIState(
-                uiManagementSystem,
-                E_GameState.Ended,
-                E_UIState.Result);
-            AssertVisibility(
-                stageHud,
-                infiniteHud,
-                resultPanel,
-                pausePanel,
-                false,
-                false,
-                true,
-                false);
-            Assert.That(momentumHud.activeSelf, Is.False);
-            Assert.That(stageResultContent.activeSelf, Is.True);
-            Assert.That(infiniteResultContent.activeSelf, Is.False);
-            AssertResultWindowRect(resultWindow, new Vector2(520.0f, 620.0f));
-            AssertResultStatusRect(resultRecordStatusText, -204.0f);
-            AssertResultButtonRect(resultRetryButton, -302.0f);
-            AssertResultButtonRect(resultLeaderboardButton, -360.0f);
-            AssertResultButtonRect(resultSubmissionRetryButton, -418.0f);
-            AssertResultButtonRect(resultMainMenuButton, -476.0f);
-            AssertStageResultText(uiManagementSystem, stageResultData);
+            LogAssert.Expect(LogType.Warning, "[UIManagementSystem] Only Infinite Result Data can be displayed.");
+            Assert.That((bool)InvokePublicMethod(uiManagementSystem, "SetResultData",
+                new ResultData(E_StageResultType.Cleared, 12.345, 30)), Is.False);
+            Assert.That(stageHud.activeSelf, Is.False);
+            Assert.That(stageResultContent.activeSelf, Is.False);
 
             GameRuntimeData infiniteRuntimeData = new GameRuntimeData();
             infiniteRuntimeData.Initialize(E_GameMode.Infinite);

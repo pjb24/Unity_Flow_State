@@ -6,7 +6,9 @@ ScoreCollectible
 
 ## 목적
 
-Stage Mode와 InfiniteMode에서 Collectible로 점프 시작, 공중 이동 경로와 착지 지점을 안내하고 획득 점수를 제공한다.
+Infinite Run에서 Collectible로 점프 시작, 공중 이동 경로와 착지 지점을 안내하고 획득 점수를 제공한다.
+
+공통 수집물 자료형과 기존 Stage 배치/식별 규칙은 Deprecated 내부 자료·독립 합성 검증용으로 보존한다. 아래 Stage 전용 설명은 생산 Stage Mode 실행을 허용하지 않는다.
 
 ---
 
@@ -14,7 +16,7 @@ Stage Mode와 InfiniteMode에서 Collectible로 점프 시작, 공중 이동 경
 
 ## 점수
 
-- 두 Mode의 모든 Collectible은 동일하게 개당 10점을 제공한다.
+- 생산 Infinite Collectible은 개당 10점을 제공한다. 보존된 공통 설정/합성 모델에도 같은 점수 규칙을 사용한다.
 - 개당 점수는 공통 설정 한 곳에서 관리한다. 10점은 Prototype 3 기능 검증용 초기값이며 최종 밸런스 값은 아니다.
 - Collectible Score는 InfiniteMode의 기존 거리 Score와 독립적으로 누적한다.
 - HUD와 Result는 Collectible Score를 Distance Score와 별도로 표시하고, 두 점수의 합을 Total Score로 표시한다.
@@ -23,7 +25,7 @@ Stage Mode와 InfiniteMode에서 Collectible로 점프 시작, 공중 이동 경
 
 ## 식별과 중복 획득
 
-- Stage Collectible은 고정 고유 ID로 식별한다.
+- 보존된 Stage Collectible 형식은 고정 고유 ID로 식별한다. 생산 Infinite 식별자는 아래 구간 식별 규칙을 사용한다.
 - InfiniteMode Collectible은 구간 식별자와 구간 내부 고유 ID의 조합으로 식별한다.
 - 같은 Run의 동일 구간에 등장한 동일 Collectible은 한 번만 획득할 수 있다.
 - 같은 Pattern Object가 새 구간으로 재배치되면 별개의 획득 대상으로 취급한다.
@@ -63,7 +65,7 @@ Stage Mode와 InfiniteMode에서 Collectible로 점프 시작, 공중 이동 경
 
 # 시작 조건
 
-- Stage Mode 또는 InfiniteMode의 Run이 시작되고 Collectible 구성이 준비되었다.
+- 유효한 Infinite Run이 시작되고 Collectible 구성이 준비되었다.
 - 현재 Run의 Player가 Play 상태에서 획득 가능한 Collectible에 접촉한다.
 
 ---

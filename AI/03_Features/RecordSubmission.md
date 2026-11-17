@@ -12,9 +12,11 @@ RecordSubmission
 
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 현재 상태와 Phase 3 목표
 
-상태: Phase 3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+현재 생산 플레이는 Infinite 단일 흐름이며 Stage Run/결과의 사용자 진입은 Phase 2에서 차단했다. 기존 저장·온라인 제출·계정 이전 기능은 이미 존재한다. Phase 3의 잔여 작업은 Stage 후보 factory·직접 저장/Repository/Editor 경계의 차단과 Infinite 계약 회귀이며 아직 미착수다. 아래 지원 규칙과 별도 Deprecated 내부 계약을 구분한다.
+
+### Phase 3 목표 — 잔여 직접 경계는 미구현
 
 - 새 Client는 신규 Stage 후보를 만들거나 제출하지 않는다. 실제 생산/Editor 진입 차단과 Infinite 제출은 별도로 검증한다.
 - Stage 기록은 없고 모든 Client의 추가 Stage 제출도 없다는 사용자 전제를 적용한다. 별도 Stage 보관/이관·전용 만료/폐기 기능을 추가하지 않는다.
@@ -26,14 +28,12 @@ RecordSubmission
 
 # 기능 규칙
 
-- Stage는 `Cleared` 결과만 제출 후보가 된다.
-- Stage 후보는 불변 Stage ID, Stage Rules Version과 가장 가까운 밀리초로 반올림한 Clear Time을 포함한다.
 - InfiniteMode 후보는 유효하게 확정된 종료 Result의 Total Score, Score 구성 요소, Scoring Version과 Run 시간을 포함한다.
 - 제출 후보는 생성 시 UUID v4 제출 ID와 계정 귀속 정보를 받고 재시도·재실행 중 변경하지 않는다.
-- Phase 2는 최초 로컬 실행 때 생성해 Local Save에 보존한 UUID v4 계정 ID를 후보 귀속에 사용한다. 이 값은 Anonymous Authentication Player ID가 아니며, 다른 계정에 귀속된 Pending 후보를 자동 전송하지 않는다.
-- 온라인 조회 또는 첫 제출 요청 시 Anonymous 계정을 사용한다. 초기 버전은 계정 연결·복구를 제공하지 않는다.
-- 재설치·기기 변경 뒤 온라인 기록을 복구할 수 없다는 제한은 첫 온라인 요청 전 안내하고 Settings에서 다시 확인할 수 있다.
-- 사용자가 복구 제한을 확인하고 명시적으로 동의한 경우에만 현재 Anonymous Authentication Player ID를 제출 대상으로 1회 귀속한다. 로컬 UUID 후보를 묵시적으로 재귀속하거나 전송하지 않는다.
+- 후보의 로컬 소유 ID는 Local Save에 보존한 UUID v4이며 Anonymous Authentication Player ID나 서버의 고정 Leaderboard 소유 ID와 혼동하지 않는다. 다른 소유자/환경의 Pending을 자동 재귀속하거나 전송하지 않는다.
+- 온라인 요청에는 Anonymous 인증과 현재 활성 논리 계정 연결을 사용한다. 기존 기기에서 발급한 이전 코드/인증값으로 새 기기에 연결을 이전할 수 있으며 세부 규칙은 AccountTransfer Feature를 따른다. 외부 ID 연결은 지원하지 않는다.
+- 기존 기기를 사용할 수 없어 이전 자격 증명을 발급할 수 없으면 공개 번호만으로 복구할 수 없다. 이 제한은 첫 온라인 요청 전 안내하고 Settings에서 다시 확인할 수 있다.
+- 사용자가 복구 제한에 동의한 뒤 현재 인증 세션/계정 연결의 요청만 허용한다. 동의·연결 처리를 이유로 후보의 로컬 소유 ID나 제출 ID를 임의 변경하지 않는다.
 - 복구 제한 확인 상태가 저장되기 전에는 생산 온라인 조회와 제출을 시작하지 않는다. 검증 경로는 명시적으로 제공된 확인 상태에서만 요청할 수 있다.
 - 같은 계정과 제출 ID의 terminal receipt는 서버 수락 또는 거부 시각부터 180일 동안만 중복 판정에 사용한다.
 - Pending 후보는 Local Save에 생성 시각·동일 제출 ID·계정 귀속으로 보존하고 앱 재시작 시 복원한다. 생성 후 180일 전까지 Offline, Authentication 실패, Timeout과 서비스 실패는 Pending을 유지하며 게임 진행을 차단하지 않는다.
@@ -51,7 +51,7 @@ RecordSubmission
 - 복구 제한 Continue는 동의의 로컬 저장에 성공하면 인증/번호 준비·Pending 전송을 기다리지 않고 안내를 닫는다.
   저장 실패 시 동의 없는 온라인 요청은 시작하지 않는다. 이어진 Leaderboard는 계정 준비 동안 Loading을 표시한다.
 - 다른 계정에 귀속된 후보는 전송하지 않는다.
-- 기기 이전 뒤 현재 활성 연결이 아닌 Player ID에 귀속된 후보는 온라인 제출하지 않는다.
+- 기기 이전 뒤 활성 연결이 아닌 인증 Player ID의 요청은 온라인 제출하지 않는다. 후보의 로컬 소유와 서버 요청 권한은 별도로 검증한다.
 - 로컬 데이터 초기화는 제출 대기열을 삭제하며 온라인 순위와 서버 기록은 유지됨을 고지한다.
 - InfiniteMode 서버 검증은 Run 시간과 규칙 Version의 최대 배율·속도·Pattern·Collectible 한계로 계산한 논리적 최대 Total Score를 넘거나 상한 입력이 누락·불일치한 후보를 거부한다.
 - InfiniteMode 후보의 Run 시간은 시작부터 결과 확정까지 측정하고 Pause 시간을 제외한다. 측정 시간이 없으면 0초로 대체해 제출하지 않는다.
@@ -90,7 +90,7 @@ RecordSubmission
 
 # 예외 사항
 
-- `Fell` Stage Result는 제출 후보가 아니다.
+- 생산 Stage Result는 제출 대상으로 제공하지 않는다. 남은 Stage factory/직접 저장·전송의 거절 구현은 Phase 3 대상이며 완료 전부터 차단됐다고 기록하지 않는다.
 - 지원하지 않거나 일치하지 않는 규칙 Version은 제출하지 않는다.
 - 계정 귀속이 현재 계정과 다르면 제출하지 않는다.
 - 인증 토큰·서비스 Secret·개인정보는 제출 후보에 포함하지 않는다.
@@ -109,16 +109,25 @@ RecordSubmission
 
 - RecordSubmission은 Result Data와 Score를 다시 계산하거나 변경하지 않는다.
 - Leaderboard 조회와 순위 표시는 Leaderboard Feature가 담당한다.
-- 실제 로컬 저장은 Phase 2, 실제 Authentication과 온라인 전송은 Phase 3에서 연결한다.
+- 기존 로컬 저장·Authentication·온라인 전송을 유지한다. Roadmap 9 Phase 3은 이 연결을 새로 만드는 단계가 아니라 Stage 직접 접근을 닫고 Infinite 계약을 보존하는 단계다.
+
+---
+
+# 보존된 Stage 내부 계약 — Deprecated
+
+- 보존된 Stage 후보 형식은 `Cleared` 결과, 불변 Stage ID/Rules Version과 밀리초 Clear Time을 사용하며 `Fell`은 후보가 아니다. 이는 기존 자료형/정책 소스 설명이며 새 Client의 사용자 제출 기능이 아니다.
+- TryCreateStageCandidate와 일부 직접 경계가 현재 소스에 남아 있다. Phase 3에서 선언/이유와 내부 형식을 보존하면서 지원되는 실행 경계를 거절하도록 전환한다.
+- 순수 형식/변환 검증과 생산 Stage 요청 거절 검증을 구분한다. Stage 자료 보관/이관이나 별도 Pending 호환 기능을 추가하지 않는다.
 
 ---
 
 # 검증 항목
 
-- `Cleared` Stage와 유효 InfiniteMode Result만 후보가 되는지 확인한다.
-- Board Key 분리, 밀리초 시간 변환, Version 불일치와 점수 상한 거부를 확인한다.
+- 유효 InfiniteMode Result의 후보 생성과 무효 점수/Version/소유자 거절을 확인한다.
+- Phase 3에서 Stage 후보·직접 저장/조회/제출이 부작용 전에 거절되고 인증/전송/저장 호출이 발생하지 않는지 검증한다.
+- 보존된 Board Key/밀리초 형식의 독립 검증과 지원되는 Infinite 점수 상한 검증을 구분한다.
 - 더 나은 개인 최고 기록만 교체되고 동점 재제출은 유지되는지 확인한다.
-- 동일 제출 ID 거부, Pending·Submitted·Rejected 상태 전이와 재시도 상한을 확인한다.
+- 같은 제출 ID의 중복 Pending 등록 거절과 동일 payload 재호출의 기존 receipt 반환을 구분한다. payload 변조 거절·Pending/Submitted/Rejected 상태 전이와 재시도 상한을 확인한다.
 - 계정 귀속 불일치, Offline·Timeout·서비스 실패가 게임 진행을 차단하지 않는지 확인한다.
 
 ---

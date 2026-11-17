@@ -4,6 +4,7 @@ using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace FlowState.Tests.EditMode
 {
@@ -266,13 +267,17 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void StageLanding_DoesNotStartOrAdvanceMomentum()
+        public void RejectedStageInitialization_PreservesInfiniteLandingAndMomentum()
         {
-            StartRun(E_GameMode.Stage);
+            GameRuntimeData original = _runtimeData;
+            LogAssert.Expect(LogType.Warning, "[InfiniteModeSystem] Only Infinite Mode can be initialized.");
+            Assert.That(Invoke(_infiniteModeSystem, "Initialize", E_GameMode.Stage), Is.False);
             Assert.That(CompleteLanding(true), Is.EqualTo(8.0f));
-            Assert.That(Step(1.0), Is.False);
-            Assert.That(Multiplier, Is.EqualTo(1.0));
-            Assert.That(RemainingDuration, Is.Zero);
+            Assert.That(_runtimeData, Is.SameAs(original));
+            Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(Step(0.0), Is.True);
+            Assert.That(Multiplier, Is.EqualTo(1.25));
+            Assert.That(RemainingDuration, Is.EqualTo(10.0));
         }
 
         [Test]

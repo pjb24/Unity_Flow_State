@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
@@ -15,9 +14,6 @@ namespace FlowState.Tests.PlayMode
 {
     public class InfiniteHudIntegrationTests
     {
-        private readonly List<GameObject> _createdObjects =
-            new List<GameObject>();
-
         private MonoBehaviour _uiManagementSystem;
         private GameRuntimeData _runtimeData;
         private TMP_Text _distanceText;
@@ -34,99 +30,46 @@ namespace FlowState.Tests.PlayMode
         private TMP_Text _momentumMultiplierText;
         private Image _momentumDurationFillImage;
 
-        [SetUp]
-        public void SetUp()
+        [UnitySetUp]
+        public IEnumerator SetUp()
         {
-            GameObject eventSystemObject = CreateObject(
-                "InfiniteHudTests.EventSystem");
-            eventSystemObject.AddComponent<EventSystem>();
-
-            GameObject systemObject = CreateObject(
-                "InfiniteHudTests.UIManagementSystem");
-            Type systemType = FindType(
-                "FlowState.Runtime.Systems.UIManagementSystem");
-            _uiManagementSystem =
-                (MonoBehaviour)systemObject.AddComponent(systemType);
-
-            _stageHud = CreateObject("StageHUD");
-            _infiniteHud = CreateObject("InfiniteHUD");
-            GameObject resultPanel = CreateObject("ResultPanel");
-            GameObject pausePanel = CreateObject("PausePanel");
-            GameObject stageResultContent = CreateObject("StageResultContent");
-            GameObject infiniteResultContent =
-                CreateObject("InfiniteResultContent");
-
-            _distanceText = CreateText("DistanceText", _infiniteHud.transform);
-            _baseDistanceScoreText = CreateText(
-                "BaseDistanceScoreText", _infiniteHud.transform);
-            _momentumBonusText = CreateText(
-                "MomentumBonusText", _infiniteHud.transform);
-            _scoreText = CreateText("ScoreText", _infiniteHud.transform);
-            _stageCollectibleScoreText = CreateText(
-                "StageCollectibleScoreText",
-                _stageHud.transform);
-            _infiniteCollectibleScoreText = CreateText(
-                "InfiniteCollectibleScoreText",
-                _infiniteHud.transform);
-            _infiniteTotalScoreText = CreateText(
-                "InfiniteTotalScoreText",
-                _infiniteHud.transform);
-            _infiniteDifficultyText = CreateText(
-                "InfiniteDifficultyText",
-                _infiniteHud.transform);
-            _momentumHud = CreateObject("MomentumHUD");
-            _momentumMultiplierText = CreateText(
-                "MomentumMultiplierText", _momentumHud.transform);
-            GameObject fillObject = CreateObject("MomentumDurationFill");
-            fillObject.transform.SetParent(_momentumHud.transform);
-            _momentumDurationFillImage = fillObject.AddComponent<Image>();
-            fillObject.AddComponent<MomentumGradientEffect>();
-
-            SetPrivateField("_stageHud", _stageHud);
-            SetPrivateField("_infiniteHud", _infiniteHud);
-            SetPrivateField("_resultPanel", resultPanel);
-            SetPrivateField("_pausePanel", pausePanel);
-            SetPrivateField("_stageResultContent", stageResultContent);
-            SetPrivateField("_infiniteResultContent", infiniteResultContent);
-            SetPrivateField("_distanceText", _distanceText);
-            SetPrivateField("_baseDistanceScoreText", _baseDistanceScoreText);
-            SetPrivateField("_momentumBonusText", _momentumBonusText);
-            SetPrivateField("_scoreText", _scoreText);
-            SetPrivateField(
-                "_stageCollectibleScoreText",
-                _stageCollectibleScoreText);
-            SetPrivateField(
-                "_infiniteCollectibleScoreText",
-                _infiniteCollectibleScoreText);
-            SetPrivateField(
-                "_infiniteTotalScoreText",
-                _infiniteTotalScoreText);
-            SetPrivateField("_infiniteDifficultyText", _infiniteDifficultyText);
-            SetPrivateField("_momentumHud", _momentumHud);
-            SetPrivateField("_momentumMultiplierText", _momentumMultiplierText);
-            SetPrivateField(
-                "_momentumDurationFillImage",
-                _momentumDurationFillImage);
-            SetPrivateField(
-                "_momentumDurationGradient",
-                MomentumHudPresenter.CreateApprovedGradient());
-            SetPrivateField("_retryButton", CreateButton("ResultRetryButton"));
-            SetPrivateField("_pauseResumeButton", CreateButton("ResumeButton"));
-            SetPrivateField("_pauseRetryButton", CreateButton("PauseRetryButton"));
+            yield return SceneManager.LoadSceneAsync("SampleScene", LoadSceneMode.Single);
+            yield return null;
+            _uiManagementSystem = ProductionSceneGameModeTestUtility.FindSceneObject("UIManagementSystem")
+                .GetComponent(FindType("FlowState.Runtime.Systems.UIManagementSystem")) as MonoBehaviour;
+            Assert.That(_uiManagementSystem, Is.Not.Null);
+            _stageHud = GetPrivateField<GameObject>("_stageHud");
+            Assert.That(_stageHud, Is.Not.Null);
+            _infiniteHud = GetPrivateField<GameObject>("_infiniteHud");
+            Assert.That(_infiniteHud, Is.Not.Null);
+            _distanceText = GetPrivateField<TMP_Text>("_distanceText");
+            Assert.That(_distanceText, Is.Not.Null);
+            _baseDistanceScoreText = GetPrivateField<TMP_Text>("_baseDistanceScoreText");
+            Assert.That(_baseDistanceScoreText, Is.Not.Null);
+            _momentumBonusText = GetPrivateField<TMP_Text>("_momentumBonusText");
+            Assert.That(_momentumBonusText, Is.Not.Null);
+            _scoreText = GetPrivateField<TMP_Text>("_scoreText");
+            Assert.That(_scoreText, Is.Not.Null);
+            _stageCollectibleScoreText = GetPrivateField<TMP_Text>("_stageCollectibleScoreText");
+            Assert.That(_stageCollectibleScoreText, Is.Not.Null);
+            _infiniteCollectibleScoreText = GetPrivateField<TMP_Text>("_infiniteCollectibleScoreText");
+            Assert.That(_infiniteCollectibleScoreText, Is.Not.Null);
+            _infiniteTotalScoreText = GetPrivateField<TMP_Text>("_infiniteTotalScoreText");
+            Assert.That(_infiniteTotalScoreText, Is.Not.Null);
+            _infiniteDifficultyText = GetPrivateField<TMP_Text>("_infiniteDifficultyText");
+            Assert.That(_infiniteDifficultyText, Is.Not.Null);
+            _momentumHud = GetPrivateField<GameObject>("_momentumHud");
+            Assert.That(_momentumHud, Is.Not.Null);
+            _momentumMultiplierText = GetPrivateField<TMP_Text>("_momentumMultiplierText");
+            Assert.That(_momentumMultiplierText, Is.Not.Null);
+            _momentumDurationFillImage = GetPrivateField<Image>("_momentumDurationFillImage");
+            Assert.That(_momentumDurationFillImage, Is.Not.Null);
         }
 
-        [TearDown]
-        public void TearDown()
+        [UnityTearDown]
+        public IEnumerator TearDown()
         {
-            for (int index = _createdObjects.Count - 1; index >= 0; index--)
-            {
-                if (_createdObjects[index] != null)
-                {
-                    UnityEngine.Object.DestroyImmediate(_createdObjects[index]);
-                }
-            }
-
-            _createdObjects.Clear();
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
@@ -338,16 +281,23 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator StageMode_DoesNotActivateOrUpdateInfiniteHud()
+        public IEnumerator RejectedStageRuntime_PreservesInfiniteHud()
         {
-            StartRun(E_GameMode.Stage);
-
+            StartRun(E_GameMode.Infinite);
+            Assert.That(TryUpdateInfinite(12.0f, 120), Is.True);
             yield return null;
-
-            Assert.That(_stageHud.activeSelf, Is.True);
-            Assert.That(_infiniteHud.activeSelf, Is.False);
-            Assert.That(_distanceText.text, Is.EqualTo("Distance: --"));
-            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: --"));
+            string distance = _distanceText.text;
+            GameRuntimeData rejected = new GameRuntimeData();
+            rejected.Initialize(E_GameMode.Stage);
+            LogAssert.Expect(LogType.Warning,
+                "[UIManagementSystem] Only created Infinite runtime data can be displayed.");
+            InvokePublicMethod("Initialize", rejected);
+            yield return null;
+            Assert.That(rejected.IsCreated, Is.False);
+            Assert.That(_stageHud.activeSelf, Is.False);
+            Assert.That(_infiniteHud.activeSelf, Is.True);
+            Assert.That(_distanceText.text, Is.EqualTo(distance));
+            Assert.That(GetPrivateField<GameRuntimeData>("_runtimeData"), Is.SameAs(_runtimeData));
         }
 
         [UnityTest]
@@ -380,18 +330,15 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator StageRun_DisplaysOnlyCurrentCollectibleScore()
+        public IEnumerator InfiniteCollectibles_KeepDeprecatedStageHudHidden()
         {
-            StartRun(E_GameMode.Stage);
-            AwardCollectible("stage-coin");
-
+            StartRun(E_GameMode.Infinite);
+            AwardCollectible("infinite-coin");
             yield return null;
-
-            Assert.That(
-                _stageCollectibleScoreText.text,
-                Is.EqualTo("Collectibles: 10"));
-            Assert.That(_distanceText.text, Is.EqualTo("Distance: --"));
-            Assert.That(_scoreText.text, Is.EqualTo("Distance Score: --"));
+            Assert.That(_stageHud.activeSelf, Is.False);
+            Assert.That(_infiniteHud.activeSelf, Is.True);
+            Assert.That(_infiniteCollectibleScoreText.text, Is.EqualTo("Collectible Score: 10"));
+            Assert.That(_infiniteTotalScoreText.text, Is.EqualTo("Total Score: 10"));
         }
 
         private void StartRun(E_GameMode gameMode)
@@ -498,30 +445,12 @@ namespace FlowState.Tests.PlayMode
                 : first + second;
         }
 
-        private TMP_Text CreateText(string objectName, Transform parent)
+        private T GetPrivateField<T>(string name)
         {
-            GameObject textObject = CreateObject(objectName);
-            textObject.transform.SetParent(parent);
-            return textObject.AddComponent<TextMeshProUGUI>();
-        }
-
-        private Button CreateButton(string objectName)
-        {
-            GameObject buttonObject = new GameObject(
-                objectName,
-                typeof(RectTransform),
-                typeof(CanvasRenderer),
-                typeof(Image),
-                typeof(Button));
-            _createdObjects.Add(buttonObject);
-            return buttonObject.GetComponent<Button>();
-        }
-
-        private GameObject CreateObject(string objectName)
-        {
-            GameObject createdObject = new GameObject(objectName);
-            _createdObjects.Add(createdObject);
-            return createdObject;
+            FieldInfo field = _uiManagementSystem.GetType().GetField(name,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            return (T)field.GetValue(_uiManagementSystem);
         }
 
         private Type FindType(string fullTypeName)

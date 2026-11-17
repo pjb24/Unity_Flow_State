@@ -2,6 +2,7 @@ using System.Collections;
 using System.Reflection;
 using FlowState.Runtime.Core;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -33,15 +34,34 @@ namespace FlowState.Tests.PlayMode
             Assert.That(pausePanel.transform.parent, Is.EqualTo(uiRoot.transform));
             Assert.That(pausePanel.activeSelf, Is.False);
 
+            MonoBehaviour uiManagementSystem = FindRequiredBehaviour(
+                "UIManagementSystem",
+                "UIManagementSystem");
+            GameObject confirmation = GetPrivateField<GameObject>(uiManagementSystem, "_pauseMainMenuConfirmPanel");
+            Button confirm = FindDescendantButton(confirmation, "MainMenuButton");
+            Button cancel = FindDescendantButton(confirmation, "CancelButton");
+            TMP_Text title = confirmation.transform.Find("TitleText").GetComponent<TMP_Text>();
+            TMP_Text action = confirm.GetComponentInChildren<TMP_Text>(true);
+            Assert.That(GetPrivateField<TMP_Text>(uiManagementSystem, "_pauseConfirmationTitleText"), Is.SameAs(title));
+            Assert.That(GetPrivateField<TMP_Text>(uiManagementSystem, "_pauseConfirmationActionText"), Is.SameAs(action));
+            Assert.That(confirm.onClick.GetPersistentEventCount(), Is.EqualTo(1));
+            Assert.That(confirm.onClick.GetPersistentMethodName(0), Is.EqualTo("SelectPauseConfirmation"));
+            InvokeSetNavigationScreen(uiManagementSystem, E_NavigationScreen.PauseRetryConfirmation, E_NavigationItem.Cancel);
+            Assert.That(confirmation.activeSelf, Is.True);
+            Assert.That(pausePanel.activeSelf, Is.False);
+            Assert.That(title.text, Is.EqualTo("Retry this Run?"));
+            Assert.That(action.text, Is.EqualTo("Retry"));
+            Assert.That(EventSystem.current.currentSelectedGameObject, Is.SameAs(cancel.gameObject));
+            InvokeSetNavigationScreen(uiManagementSystem, E_NavigationScreen.PauseMainMenuConfirmation, E_NavigationItem.MainMenu);
+            Assert.That(title.text, Is.EqualTo("Return to Main Menu?"));
+            Assert.That(action.text, Is.EqualTo("Main Menu"));
+            Assert.That(EventSystem.current.currentSelectedGameObject, Is.SameAs(confirm.gameObject));
+
             Button resumeButton = FindDescendantButton(pausePanel, "ResumeButton");
             Button retryButton = FindDescendantButton(pausePanel, "RetryButton");
             Button mainMenuButton = FindDescendantButton(
                 pausePanel,
                 "MainMenuButton");
-            MonoBehaviour uiManagementSystem = FindRequiredBehaviour(
-                "UIManagementSystem",
-                "UIManagementSystem");
-
             Assert.That(
                 GetPrivateField<GameObject>(uiManagementSystem, "_pausePanel"),
                 Is.EqualTo(pausePanel));

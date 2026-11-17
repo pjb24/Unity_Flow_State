@@ -91,7 +91,7 @@ InfiniteMode Stage Play의 최종 이동 거리와 Mode별 Score를 기록으로
 - InfiniteMode Result Data에는 유효한 Scoring Version을 포함한다.
 - Stage Result와 InfiniteMode Result는 하나의 Result Data 구조에서 Mode에 따라 유효한 결과를 구분한다.
 - Stage 결과 필드와 InfiniteMode 결과 필드는 하나의 Result Data에서 동시에 유효할 수 없다.
-- 일반 Stage의 클리어 시간은 TimeRecord Feature에서 처리한다.
+- 보존된 Stage 클리어 시간 형식/합성 검증은 Deprecated TimeRecord Feature에서 다룬다. 생산 Stage 플레이/결과 기능을 제공하는 규칙이 아니다.
 - 기록 저장과 Leaderboard 반영은 다른 Feature 또는 System에서 수행한다.
 - 저장과 Leaderboard를 구현할 때 Game Mode와 Scoring Version을 함께 기록 구분 Key로 사용한다.
 - Scoring Version이 다른 기록끼리는 순위, 최고 점수와 동점 판정을 수행하지 않는다.
@@ -102,7 +102,7 @@ InfiniteMode Stage Play의 최종 이동 거리와 Mode별 Score를 기록으로
 
 # 검증 항목
 
-- InfiniteMode Stage 선택 후 Stage Play 종료 시 ScoreRecord가 수행되는지 확인한다.
+- 모드 선택 화면 없이 시작한 유효 Infinite Run 종료 시 ScoreRecord가 수행되는지 확인한다.
 - InfiniteMode Stage Play 종료 후 Base Distance Score, Momentum Bonus, Distance Score와 Collectible Score가 기록으로 정상 확정되는지 확인한다.
 - Distance Score가 Base Distance Score와 Momentum Bonus의 포화 합인지 확인한다.
 - Total Score가 두 Score의 합으로 계산되고 `int.MaxValue`에서 포화하는지 확인한다.

@@ -31,7 +31,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
 
             _gameSystem = FindRequiredBehaviour("GameSystem", "GameSystem");
             _uiInputSystem = FindRequiredBehaviour(
@@ -46,6 +46,12 @@ namespace FlowState.Tests.PlayMode
 
             InvokePublicMethod(_gameSystem, "EndGame");
             yield return null;
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
@@ -77,7 +83,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator ResultMenu_SubmitRetry_StartsNewStageOnce()
+        public IEnumerator ResultMenu_SubmitRetry_StartsNewInfiniteRunOnce()
         {
             SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
             SubmitSelectedRetryButton();
@@ -85,7 +91,7 @@ namespace FlowState.Tests.PlayMode
             yield return null;
 
             AssertGameState("Playing");
-            AssertRuntimeMode(E_GameMode.Stage);
+            AssertRuntimeMode(E_GameMode.Infinite);
             Assert.That(GetInputStateProperty<bool>("IsSubmitPressed"), Is.False);
             object restartedRuntimeData = GetPropertyValue(_runtimeDataSystem, "RuntimeData");
             yield return null;
@@ -94,12 +100,12 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator ResultMenu_MouseClickRetry_StartsNewStageOnce()
+        public IEnumerator ResultMenu_MouseClickRetry_StartsNewInfiniteRunOnce()
         {
             GameObject retryButton = FindResultMenuButton("RetryButton");
             retryButton.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
             AssertGameState("Playing");
-            AssertRuntimeMode(E_GameMode.Stage);
+            AssertRuntimeMode(E_GameMode.Infinite);
             object restartedRuntimeData = GetPropertyValue(_runtimeDataSystem, "RuntimeData");
 
             yield return null;

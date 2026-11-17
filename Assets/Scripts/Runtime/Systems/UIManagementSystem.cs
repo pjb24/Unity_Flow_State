@@ -2,6 +2,7 @@ using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -9,6 +10,8 @@ namespace FlowState.Runtime.Systems
 {
     public class UIManagementSystem : MonoBehaviour
     {
+        // Deprecated Stage play UI stays serialized for reference compatibility;
+        // Infinite-only display keeps these roots hidden and excludes their focus.
         [SerializeField] private GameObject _stageHud;
         [SerializeField] private GameObject _infiniteHud;
         [SerializeField] private GameObject _resultPanel;
@@ -45,8 +48,11 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private Button _pauseResumeButton;
         [SerializeField] private Button _pauseRetryButton;
         [SerializeField] private GameObject _mainMenuPanel;
+        // Deprecated selector source is preserved; Play starts Infinite directly.
         [SerializeField] private GameObject _modeSelectPanel;
         [SerializeField] private GameObject _pauseMainMenuConfirmPanel;
+        [SerializeField] private TMP_Text _pauseConfirmationTitleText;
+        [SerializeField] private TMP_Text _pauseConfirmationActionText;
         [SerializeField] private GameObject _leaderboardPanel;
         [SerializeField] private GameObject _howToPlayPanel;
         [SerializeField] private GameObject _settingsPanel;
@@ -68,6 +74,11 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private Button _leaderboardBackButton;
         [SerializeField] private Button _leaderboardStageButton;
         [SerializeField] private Button _leaderboardInfiniteButton;
+        [SerializeField] private Color _leaderboardActiveNormalColor = new Color(0.95f, 0.74f, 0.25f, 1f);
+        [SerializeField] private Color _leaderboardActiveHighlightedColor = new Color(1f, 0.82f, 0.35f, 1f);
+        [SerializeField] private Color _leaderboardActiveSelectedColor = new Color(1f, 0.94f, 0.65f, 1f);
+        [SerializeField] private Color _leaderboardActivePressedColor = new Color(0.85f, 0.62f, 0.16f, 1f);
+        [SerializeField] private Color _leaderboardActiveTextColor = new Color(0.09f, 0.12f, 0.18f, 1f);
         [SerializeField] private Button _leaderboardRetryButton;
         [SerializeField] private Button _leaderboardPendingRetryButton;
         [SerializeField] private TMP_Text _leaderboardPendingRetryText;
@@ -89,7 +100,7 @@ namespace FlowState.Runtime.Systems
         [SerializeField] private UIInputSystem _uiInputSystem;
 
         private E_UIState _currentUIState;
-        private E_GameMode _currentGameMode;
+        private E_GameMode _currentGameMode = E_GameMode.Infinite;
         private E_GameState _currentGameState;
         private readonly UIVisibilityState _visibilityState =
             new UIVisibilityState();
@@ -138,6 +149,7 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
+            DisableRetiredButton(_leaderboardStageButton);
             SetTextIfChanged(_leaderboardTopText,
                 FormatLeaderboardSection("TOP", state.TopState, state.TopResult,
                     state.GameMode));
@@ -187,21 +199,20 @@ namespace FlowState.Runtime.Systems
             if (_leaderboardStageButton != null)
             {
                 if (_leaderboardStageModeOutline == null)
-                    _leaderboardStageModeOutline = CreateLeaderboardModeOutline(
-                        _leaderboardStageButton);
-                bool isStage = gameMode == E_GameMode.Stage;
-                _leaderboardStageModeOutline.enabled = isStage;
+                    _leaderboardStageModeOutline = _leaderboardStageButton.GetComponent<Outline>();
+                // Retained Scene reference: no Outline is required for the retired tab.
+                if (_leaderboardStageModeOutline != null) _leaderboardStageModeOutline.enabled = false;
                 SetLeaderboardModeButtonColors(_leaderboardStageButton,
-                    _leaderboardStageOriginalColors, _leaderboardStageOriginalTextColor, isStage);
+                    _leaderboardStageOriginalColors, _leaderboardStageOriginalTextColor, false);
             }
 
             if (_leaderboardInfiniteButton != null)
             {
                 if (_leaderboardInfiniteModeOutline == null)
-                    _leaderboardInfiniteModeOutline = CreateLeaderboardModeOutline(
+                    _leaderboardInfiniteModeOutline = FindLeaderboardModeOutline(
                         _leaderboardInfiniteButton);
                 bool isInfinite = gameMode == E_GameMode.Infinite;
-                _leaderboardInfiniteModeOutline.enabled = isInfinite;
+                if (_leaderboardInfiniteModeOutline != null) _leaderboardInfiniteModeOutline.enabled = isInfinite;
                 SetLeaderboardModeButtonColors(_leaderboardInfiniteButton,
                     _leaderboardInfiniteOriginalColors, _leaderboardInfiniteOriginalTextColor,
                     isInfinite);
@@ -211,32 +222,30 @@ namespace FlowState.Runtime.Systems
             _hasHighlightedLeaderboardMode = true;
         }
 
-        private static void SetLeaderboardModeButtonColors(Button button,
+        private void SetLeaderboardModeButtonColors(Button button,
             ColorBlock originalColors, Color originalTextColor, bool isActive)
         {
             ColorBlock colors = originalColors;
             if (isActive)
             {
-                colors.normalColor = new Color(0.95f, 0.74f, 0.25f, 1f);
-                colors.highlightedColor = new Color(1f, 0.82f, 0.35f, 1f);
-                colors.selectedColor = new Color(1f, 0.94f, 0.65f, 1f);
-                colors.pressedColor = new Color(0.85f, 0.62f, 0.16f, 1f);
+                colors.normalColor = _leaderboardActiveNormalColor;
+                colors.highlightedColor = _leaderboardActiveHighlightedColor;
+                colors.selectedColor = _leaderboardActiveSelectedColor;
+                colors.pressedColor = _leaderboardActivePressedColor;
             }
             button.colors = colors;
             TMP_Text label = button.GetComponentInChildren<TMP_Text>(true);
             if (label != null)
-                label.color = isActive ? new Color(0.09f, 0.12f, 0.18f, 1f)
+                label.color = isActive ? _leaderboardActiveTextColor
                     : originalTextColor;
         }
 
-        private static Outline CreateLeaderboardModeOutline(Button button)
+        private static Outline FindLeaderboardModeOutline(Button button)
         {
+            // UI components and their appearance must be authored in the Scene.
             Outline outline = button.GetComponent<Outline>();
             if (outline == null)
-                outline = button.gameObject.AddComponent<Outline>();
-            outline.effectColor = new Color(1f, 0.82f, 0.25f, 1f);
-            outline.effectDistance = new Vector2(3f, -3f);
-            outline.useGraphicAlpha = false;
+                Debug.LogError("[UIManagementSystem] Leaderboard Outline is missing from Scene button: " + button.name);
             return outline;
         }
 
@@ -249,6 +258,7 @@ namespace FlowState.Runtime.Systems
                 ? _leaderboardPendingRetryButton : _leaderboardBackButton;
             Navigation retryNavigation = _leaderboardRetryButton.navigation;
             retryNavigation.mode = Navigation.Mode.Explicit;
+            retryNavigation.selectOnUp = _leaderboardInfiniteButton;
             retryNavigation.selectOnDown = nextButton;
             _leaderboardRetryButton.navigation = retryNavigation;
 
@@ -257,6 +267,17 @@ namespace FlowState.Runtime.Systems
             backNavigation.selectOnUp = nextButton == _leaderboardBackButton
                 ? _leaderboardRetryButton : _leaderboardPendingRetryButton;
             _leaderboardBackButton.navigation = backNavigation;
+
+            if (_leaderboardInfiniteButton != null)
+            {
+                Navigation infiniteNavigation = _leaderboardInfiniteButton.navigation;
+                infiniteNavigation.mode = Navigation.Mode.Explicit;
+                infiniteNavigation.selectOnUp = null;
+                infiniteNavigation.selectOnDown = _leaderboardRetryButton;
+                infiniteNavigation.selectOnLeft = null;
+                infiniteNavigation.selectOnRight = null;
+                _leaderboardInfiniteButton.navigation = infiniteNavigation;
+            }
 
             if (_leaderboardPendingRetryButton == null) return;
             Navigation pendingNavigation = _leaderboardPendingRetryButton.navigation;
@@ -277,8 +298,9 @@ namespace FlowState.Runtime.Systems
 
         public bool HasNavigationUIConfiguration =>
             _mainMenuPanel != null &&
-            _modeSelectPanel != null &&
             _pauseMainMenuConfirmPanel != null &&
+            _pauseConfirmationTitleText != null &&
+            _pauseConfirmationActionText != null &&
             _leaderboardPanel != null &&
             _howToPlayPanel != null &&
             _settingsPanel != null &&
@@ -287,9 +309,6 @@ namespace FlowState.Runtime.Systems
             _mainMenuLeaderboardButton != null &&
             _mainMenuSettingsButton != null &&
             _mainMenuQuitButton != null &&
-            _modeSelectStageButton != null &&
-            _modeSelectInfiniteButton != null &&
-            _modeSelectBackButton != null &&
             _pauseResumeButton != null &&
             _pauseRetryButton != null &&
             _pauseSettingsButton != null &&
@@ -308,6 +327,7 @@ namespace FlowState.Runtime.Systems
 
         private void Update()
         {
+            HideRetiredPlayUI();
             if (!_isInitialized)
             {
                 return;
@@ -319,6 +339,7 @@ namespace FlowState.Runtime.Systems
             }
 
             if (_runtimeData == null ||
+                _currentGameMode != E_GameMode.Infinite ||
                 _currentGameState != E_GameState.Playing)
             {
                 return;
@@ -336,6 +357,13 @@ namespace FlowState.Runtime.Systems
 
         public void Initialize(GameRuntimeData runtimeData)
         {
+            if (runtimeData != null &&
+                (!runtimeData.IsCreated || runtimeData.GameMode != E_GameMode.Infinite))
+            {
+                Debug.LogWarning("[UIManagementSystem] Only created Infinite runtime data can be displayed.");
+                return;
+            }
+
             _runtimeData = runtimeData;
 
             if (_runtimeData == null)
@@ -362,7 +390,7 @@ namespace FlowState.Runtime.Systems
         public void InitializeMenu()
         {
             _runtimeData = null;
-            _currentGameMode = E_GameMode.Stage;
+            _currentGameMode = E_GameMode.Infinite;
             _currentGameState = E_GameState.None;
             _visibilityState.Reset();
             ResetHudDisplay();
@@ -399,16 +427,34 @@ namespace FlowState.Runtime.Systems
             E_NavigationScreen screen,
             E_NavigationItem selection)
         {
+            // Deprecated ModeSelect references stay serialized, but cannot be reopened.
+            if (screen == E_NavigationScreen.ModeSelect)
+            {
+                screen = E_NavigationScreen.MainMenu;
+                selection = E_NavigationItem.Play;
+            }
+            if (screen == E_NavigationScreen.Leaderboard && selection == E_NavigationItem.Stage)
+                selection = E_NavigationItem.Infinite;
+            HideRetiredPlayUI();
             _currentNavigationScreen = screen;
             SetNavigationUIActive(
                 _mainMenuPanel,
                 screen == E_NavigationScreen.MainMenu);
             SetNavigationUIActive(
                 _modeSelectPanel,
-                screen == E_NavigationScreen.ModeSelect);
+                false);
             SetNavigationUIActive(
                 _pauseMainMenuConfirmPanel,
-                screen == E_NavigationScreen.PauseMainMenuConfirmation);
+                screen == E_NavigationScreen.PauseMainMenuConfirmation ||
+                screen == E_NavigationScreen.PauseRetryConfirmation);
+            if (screen == E_NavigationScreen.PauseMainMenuConfirmation ||
+                screen == E_NavigationScreen.PauseRetryConfirmation)
+            {
+                bool isRetry = screen == E_NavigationScreen.PauseRetryConfirmation;
+                SetTextIfChanged(_pauseConfirmationTitleText,
+                    isRetry ? "Retry this Run?" : "Return to Main Menu?");
+                SetTextIfChanged(_pauseConfirmationActionText, isRetry ? "Retry" : "Main Menu");
+            }
             SetNavigationUIActive(
                 _leaderboardPanel,
                 screen == E_NavigationScreen.Leaderboard);
@@ -465,12 +511,21 @@ namespace FlowState.Runtime.Systems
 
         public bool SetResultData(ResultData resultData)
         {
+            HideRetiredPlayUI();
             if (resultData == null)
             {
                 Debug.LogError("[UIManagementSystem] Result Data is null.");
                 return false;
             }
 
+            if (resultData.GameMode != E_GameMode.Infinite)
+            {
+                Debug.LogWarning("[UIManagementSystem] Only Infinite Result Data can be displayed.");
+                return false;
+            }
+
+            // Deprecated Stage formatter/source is kept for independent legacy tests.
+            // The production display guard above rejects Stage before touching text.
             if (ResultTextFormatter.TryFormatStageResult(
                     resultData,
                     out string resultStatusText,
@@ -583,6 +638,7 @@ namespace FlowState.Runtime.Systems
 
         private void ApplyUIState()
         {
+            HideRetiredPlayUI();
             if (!_visibilityState.Apply(
                     _currentGameMode,
                     _currentGameState,
@@ -592,12 +648,8 @@ namespace FlowState.Runtime.Systems
                     "[UIManagementSystem] UI visibility state is invalid.");
             }
 
-            ApplyResultLayoutForCurrentMode();
 
-            SetUIActive(
-                _stageHud,
-                _visibilityState.IsStageHudVisible,
-                nameof(_stageHud));
+            // Retired Stage roots are optional references and remain hidden.
             SetUIActive(
                 _infiniteHud,
                 _visibilityState.IsInfiniteHudVisible,
@@ -616,136 +668,9 @@ namespace FlowState.Runtime.Systems
                 _visibilityState.IsPausePanelVisible,
                 nameof(_pausePanel));
             SetUIActive(
-                _stageResultContent,
-                _visibilityState.IsStageResultContentVisible,
-                nameof(_stageResultContent));
-            SetUIActive(
                 _infiniteResultContent,
                 _visibilityState.IsInfiniteResultContentVisible,
                 nameof(_infiniteResultContent));
-        }
-
-        private void ApplyResultLayoutForCurrentMode()
-        {
-            if (!_visibilityState.IsResultPanelVisible ||
-                _stageResultContent == null ||
-                _infiniteResultContent == null ||
-                _retryButton == null ||
-                _resultMainMenuButton == null)
-            {
-                return;
-            }
-
-            RectTransform stageContent =
-                _stageResultContent.transform as RectTransform;
-            RectTransform infiniteContent =
-                _infiniteResultContent.transform as RectTransform;
-            RectTransform retryButton = _retryButton.transform as RectTransform;
-            RectTransform mainMenuButton =
-                _resultMainMenuButton.transform as RectTransform;
-            RectTransform resultWindow = stageContent?.parent as RectTransform;
-            if (stageContent == null || infiniteContent == null ||
-                retryButton == null || mainMenuButton == null ||
-                resultWindow == null ||
-                infiniteContent.parent != resultWindow ||
-                retryButton.parent != resultWindow ||
-                mainMenuButton.parent != resultWindow)
-            {
-                return;
-            }
-
-            if (TryApplyExpandedResultLayout(resultWindow, stageContent,
-                    infiniteContent, retryButton, mainMenuButton))
-            {
-                return;
-            }
-
-            if (_currentGameMode == E_GameMode.Stage)
-            {
-                SetResultRect(resultWindow, new Vector2(520.0f, 400.0f), 0.0f,
-                    new Vector2(0.5f, 0.5f));
-                SetResultRect(stageContent, new Vector2(472.0f, 150.0f), -36.0f);
-                SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -224.0f);
-                SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -282.0f);
-                return;
-            }
-
-            if (_currentGameMode == E_GameMode.Infinite)
-            {
-                SetResultRect(resultWindow, new Vector2(520.0f, 520.0f), 0.0f,
-                    new Vector2(0.5f, 0.5f));
-                SetResultRect(infiniteContent, new Vector2(472.0f, 278.0f), -36.0f);
-                SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -334.0f);
-                SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -392.0f);
-            }
-        }
-
-        private bool TryApplyExpandedResultLayout(
-            RectTransform resultWindow,
-            RectTransform stageContent,
-            RectTransform infiniteContent,
-            RectTransform retryButton,
-            RectTransform mainMenuButton)
-        {
-            if (_resultRecordStatusText == null || _resultLeaderboardButton == null ||
-                _resultSubmissionRetryButton == null)
-            {
-                return false;
-            }
-
-            RectTransform recordStatus = _resultRecordStatusText.transform as RectTransform;
-            RectTransform leaderboardButton = _resultLeaderboardButton.transform as RectTransform;
-            RectTransform submissionRetryButton =
-                _resultSubmissionRetryButton.transform as RectTransform;
-            if (recordStatus == null || leaderboardButton == null ||
-                submissionRetryButton == null || recordStatus.parent != resultWindow ||
-                leaderboardButton.parent != resultWindow ||
-                submissionRetryButton.parent != resultWindow)
-            {
-                return false;
-            }
-
-            if (_currentGameMode == E_GameMode.Stage)
-            {
-                SetResultRect(resultWindow, new Vector2(520.0f, 620.0f), 0.0f,
-                    new Vector2(0.5f, 0.5f));
-                SetResultRect(stageContent, new Vector2(472.0f, 150.0f), -36.0f);
-                SetResultRect(recordStatus, new Vector2(472.0f, 82.0f), -204.0f);
-                SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -302.0f);
-                SetResultRect(leaderboardButton, new Vector2(472.0f, 48.0f), -360.0f);
-                SetResultRect(submissionRetryButton, new Vector2(472.0f, 48.0f), -418.0f);
-                SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -476.0f);
-                return true;
-            }
-
-            if (_currentGameMode == E_GameMode.Infinite)
-            {
-                SetResultRect(resultWindow, new Vector2(520.0f, 740.0f), 0.0f,
-                    new Vector2(0.5f, 0.5f));
-                SetResultRect(infiniteContent, new Vector2(472.0f, 278.0f), -36.0f);
-                SetResultRect(recordStatus, new Vector2(472.0f, 82.0f), -334.0f);
-                SetResultRect(retryButton, new Vector2(472.0f, 48.0f), -432.0f);
-                SetResultRect(leaderboardButton, new Vector2(472.0f, 48.0f), -490.0f);
-                SetResultRect(submissionRetryButton, new Vector2(472.0f, 48.0f), -548.0f);
-                SetResultRect(mainMenuButton, new Vector2(472.0f, 48.0f), -606.0f);
-                return true;
-            }
-
-            return false;
-        }
-
-        private static void SetResultRect(
-            RectTransform rectTransform,
-            Vector2 size,
-            float yPosition,
-            Vector2? centerAnchor = null)
-        {
-            Vector2 anchor = centerAnchor ?? new Vector2(0.5f, 1.0f);
-            rectTransform.anchorMin = anchor;
-            rectTransform.anchorMax = anchor;
-            rectTransform.pivot = anchor;
-            rectTransform.anchoredPosition = new Vector2(0.0f, yPosition);
-            rectTransform.sizeDelta = size;
         }
 
         private void UpdateInfiniteHud()
@@ -1166,6 +1091,8 @@ namespace FlowState.Runtime.Systems
             E_NavigationScreen screen,
             E_NavigationItem selection)
         {
+            if (screen == E_NavigationScreen.ModeSelect) return null;
+
             switch (screen)
             {
                 case E_NavigationScreen.MainMenu:
@@ -1184,6 +1111,8 @@ namespace FlowState.Runtime.Systems
                     }
                     break;
 
+                // Deprecated mapping retained for serialized source history;
+                // the entry guard prevents returning these hidden controls.
                 case E_NavigationScreen.ModeSelect:
                     switch (selection)
                     {
@@ -1215,6 +1144,11 @@ namespace FlowState.Runtime.Systems
                         ? _pauseMainMenuConfirmButton
                         : _pauseMainMenuCancelButton;
 
+                case E_NavigationScreen.PauseRetryConfirmation:
+                    return selection == E_NavigationItem.Retry
+                        ? _pauseMainMenuConfirmButton
+                        : _pauseMainMenuCancelButton;
+
                 case E_NavigationScreen.Result:
                     if (selection == E_NavigationItem.Retry) return _retryButton;
                     if (selection == E_NavigationItem.ResultLeaderboard)
@@ -1225,7 +1159,7 @@ namespace FlowState.Runtime.Systems
 
                 case E_NavigationScreen.Leaderboard:
                     if (selection == E_NavigationItem.Stage)
-                        return _leaderboardStageButton;
+                        return _leaderboardInfiniteButton;
                     if (selection == E_NavigationItem.Infinite)
                         return _leaderboardInfiniteButton;
                     if (selection == E_NavigationItem.LeaderboardRetry)
@@ -1305,6 +1239,41 @@ namespace FlowState.Runtime.Systems
         {
             return screen == E_NavigationScreen.HowToPlay ||
                    screen == E_NavigationScreen.AutomaticHowToPlay;
+        }
+
+        private void HideRetiredPlayUI()
+        {
+            HideRetiredRoot(_modeSelectPanel);
+            HideRetiredRoot(_stageHud);
+            HideRetiredRoot(_stageResultContent);
+            DisableRetiredButton(_modeSelectStageButton);
+            DisableRetiredButton(_modeSelectInfiniteButton);
+            DisableRetiredButton(_modeSelectBackButton);
+            DisableRetiredButton(_leaderboardStageButton);
+        }
+
+        private void HideRetiredRoot(GameObject root)
+        {
+            if (root == null) return;
+            EventSystem eventSystem = EventSystem.current;
+            if (eventSystem != null && eventSystem.currentSelectedGameObject != null &&
+                eventSystem.currentSelectedGameObject.transform.IsChildOf(root.transform))
+                eventSystem.SetSelectedGameObject(null);
+            if (root.activeSelf) root.SetActive(false);
+        }
+
+        private void DisableRetiredButton(Button button)
+        {
+            if (button == null) return;
+            button.interactable = false;
+            Navigation navigation = button.navigation;
+            if (navigation.mode != Navigation.Mode.None)
+            {
+                navigation.mode = Navigation.Mode.None;
+                button.navigation = navigation;
+            }
+            // Also handles a retained button whose old panel reference is missing.
+            HideRetiredRoot(button.gameObject);
         }
 
         private void SetNavigationUIActive(GameObject uiObject, bool isActive)

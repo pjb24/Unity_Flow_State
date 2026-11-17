@@ -2,6 +2,7 @@ using System.Collections;
 using System.Reflection;
 using FlowState.Runtime.Core;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -31,7 +32,13 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            RestartInMode(E_GameMode.Stage);
+            RestartInMode(E_GameMode.Infinite);
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
@@ -48,12 +55,22 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator RetryButton_StartsOneIndependentRun()
+        public IEnumerator RetryButton_RequiresConfirmationThenStartsOneIndependentRun()
         {
             object previousRuntimeData = GetRuntimeData();
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
             yield return null;
             FindPauseButton("RetryButton").onClick.Invoke();
+
+            AssertState(E_GameState.Paused, E_UIState.Pause);
+            Assert.That(GetRuntimeData(), Is.SameAs(previousRuntimeData));
+            Assert.That(GetProperty<E_NavigationScreen>(_gameSystem, "CurrentNavigationScreen"),
+                Is.EqualTo(E_NavigationScreen.PauseRetryConfirmation));
+            Assert.That(EventSystem.current.currentSelectedGameObject,
+                Is.SameAs(FindConfirmationButton("CancelButton").gameObject));
+            Assert.That(FindSceneObject("PauseMainMenuConfirmPanel").transform.Find("TitleText")
+                .GetComponent<TMP_Text>().text, Is.EqualTo("Retry this Run?"));
+            FindConfirmationButton("MainMenuButton").onClick.Invoke();
 
             object restartedRuntimeData = GetRuntimeData();
             AssertState(E_GameState.Playing, E_UIState.StageHud);
@@ -66,6 +83,27 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetRuntimeData(), Is.SameAs(restartedRuntimeData));
         }
 
+        [UnityTest]
+        public IEnumerator RetryConfirmation_CancelButtonAndEscapePreservePausedRun()
+        {
+            object original = GetRuntimeData();
+            Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
+            foreach (bool useEscape in new[] { false, true })
+            {
+                FindPauseButton("RetryButton").onClick.Invoke();
+                Assert.That(GetRuntimeData(), Is.SameAs(original));
+                if (useEscape) SetPrivateField(_uiInputSystem, "_isCancelPressed", true);
+                else FindConfirmationButton("CancelButton").onClick.Invoke();
+                yield return null;
+                AssertState(E_GameState.Paused, E_UIState.Pause);
+                Assert.That(GetProperty<E_NavigationScreen>(_gameSystem, "CurrentNavigationScreen"),
+                    Is.EqualTo(E_NavigationScreen.Pause));
+                Assert.That(GetRuntimeData(), Is.SameAs(original));
+                Assert.That(EventSystem.current.currentSelectedGameObject,
+                    Is.SameAs(FindPauseButton("RetryButton").gameObject));
+            }
+        }
+
 
         [UnityTest]
         public IEnumerator PauseMainMenu_OpensConfirmationWithoutQuitting()
@@ -73,6 +111,10 @@ namespace FlowState.Tests.PlayMode
             FakeApplicationQuitService quitService = InjectFakeQuitService();
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
             FindPauseButton("MainMenuButton").onClick.Invoke();
+            Assert.That(FindSceneObject("PauseMainMenuConfirmPanel").transform.Find("TitleText")
+                .GetComponent<TMP_Text>().text, Is.EqualTo("Return to Main Menu?"));
+            Assert.That(FindConfirmationButton("MainMenuButton").GetComponentInChildren<TMP_Text>().text,
+                Is.EqualTo("Main Menu"));
 
             yield return null;
 
@@ -106,6 +148,7 @@ namespace FlowState.Tests.PlayMode
             object previousRuntimeData = GetRuntimeData();
             Assert.That(InvokeBool(_gameSystem, "PauseGame"), Is.True);
             FindPauseButton("RetryButton").onClick.Invoke();
+            FindConfirmationButton("MainMenuButton").onClick.Invoke();
 
             yield return null;
 
@@ -160,17 +203,25 @@ namespace FlowState.Tests.PlayMode
             SetPrivateField(_uiInputSystem, "_isSubmitPressed", true);
             Button retryButton = FindPauseButton("RetryButton");
             retryButton.onClick.Invoke();
-
-            object restartedRuntimeData = GetRuntimeData();
-            AssertState(E_GameState.Playing, E_UIState.StageHud);
-            Assert.That(restartedRuntimeData, Is.Not.SameAs(previousRuntimeData));
             ExecuteEvents.Execute(retryButton.gameObject, new BaseEventData(EventSystem.current),
                 ExecuteEvents.submitHandler);
+            retryButton.onClick.Invoke();
+            yield return null;
 
+            AssertState(E_GameState.Paused, E_UIState.Pause);
+            Assert.That(GetProperty<E_NavigationScreen>(_gameSystem, "CurrentNavigationScreen"),
+                Is.EqualTo(E_NavigationScreen.PauseRetryConfirmation));
+            Assert.That(GetRuntimeData(), Is.SameAs(previousRuntimeData));
+            Assert.That(GetInputStateBool("IsSubmitPressed"), Is.False);
+            Button confirm = FindConfirmationButton("MainMenuButton");
+            confirm.onClick.Invoke();
+            object restartedRuntimeData = GetRuntimeData();
+            confirm.onClick.Invoke();
             yield return null;
 
             AssertState(E_GameState.Playing, E_UIState.StageHud);
             Assert.That(GetRuntimeData(), Is.SameAs(restartedRuntimeData));
+            Assert.That(restartedRuntimeData, Is.Not.SameAs(previousRuntimeData));
             Assert.That(GetInputStateBool("IsSubmitPressed"), Is.False);
         }
 
@@ -192,6 +243,14 @@ namespace FlowState.Tests.PlayMode
             FakeApplicationQuitService service = new FakeApplicationQuitService();
             SetPrivateField(_gameSystem, "_applicationQuitService", service);
             return service;
+        }
+
+        private Button FindConfirmationButton(string buttonName)
+        {
+            foreach (Button button in FindSceneObject("PauseMainMenuConfirmPanel").GetComponentsInChildren<Button>(true))
+                if (button.name == buttonName) return button;
+            Assert.Fail(buttonName + " was not found under PauseMainMenuConfirmPanel.");
+            return null;
         }
 
         private Button FindPauseButton(string buttonName)

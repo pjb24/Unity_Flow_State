@@ -9,7 +9,7 @@ namespace FlowState.Runtime.Systems
     public class GameSystem : MonoBehaviour
     {
         private const int ResultOnlineWaitTimeoutMilliseconds = 8000;
-        [SerializeField] private E_GameMode _selectedGameMode = E_GameMode.Stage;
+        [SerializeField] private E_GameMode _selectedGameMode = E_GameMode.Infinite;
         [SerializeField] private RuntimeDataSystem _runtimeDataSystem;
         [SerializeField] private UIManagementSystem _uiManagementSystem;
         [SerializeField] private PlayerInputSystem _playerInputSystem;
@@ -159,6 +159,13 @@ namespace FlowState.Runtime.Systems
         [ContextMenu("Start Game")]
         public void StartGame()
         {
+            if (_selectedGameMode != E_GameMode.Stage &&
+                _selectedGameMode != E_GameMode.Infinite)
+            {
+                Debug.LogWarning("[GameSystem] Game Mode is invalid.");
+                return;
+            }
+
             if (CurrentGameState == E_GameState.Playing)
             {
                 Debug.LogWarning("[GameSystem] Game is already running.");
@@ -168,7 +175,7 @@ namespace FlowState.Runtime.Systems
             bool hasRunRequest = _navigationState.CurrentScreen ==
                                  E_NavigationScreen.Result
                 ? BeginRunFromResult()
-                : BeginRunFromMenu(_selectedGameMode);
+                : BeginRunFromMenu(E_GameMode.Infinite);
 
             if (!hasRunRequest)
             {
@@ -204,6 +211,11 @@ namespace FlowState.Runtime.Systems
 
                 case E_NavigationScreen.PauseMainMenuConfirmation:
                     HandlePauseMainMenuConfirmation(item);
+                    break;
+
+                case E_NavigationScreen.PauseRetryConfirmation:
+                    if (item == E_NavigationItem.Retry) RetryGame();
+                    else if (_navigationState.TrySubmit()) ApplyNavigationState();
                     break;
 
                 case E_NavigationScreen.Result:
@@ -270,9 +282,22 @@ namespace FlowState.Runtime.Systems
         public void SelectBack() => RequestNavigationSelection(E_NavigationItem.Back);
         public void SelectStartRun() => RequestNavigationSelection(E_NavigationItem.StartRun);
         public void SelectResume() => RequestNavigationSelection(E_NavigationItem.Resume);
-        public void SelectRetry() => RequestNavigationSelection(E_NavigationItem.Retry);
+        public void SelectRetry()
+        {
+            // A repeated event from the now-hidden Pause Retry button cannot confirm.
+            if (_navigationState.CurrentScreen != E_NavigationScreen.PauseRetryConfirmation)
+                RequestNavigationSelection(E_NavigationItem.Retry);
+        }
         public void SelectMainMenu() => RequestNavigationSelection(E_NavigationItem.MainMenu);
         public void SelectCancel() => RequestNavigationSelection(E_NavigationItem.Cancel);
+
+        public void SelectPauseConfirmation()
+        {
+            if (_navigationState.CurrentScreen == E_NavigationScreen.PauseRetryConfirmation)
+                RequestNavigationSelection(E_NavigationItem.Retry);
+            else if (_navigationState.CurrentScreen == E_NavigationScreen.PauseMainMenuConfirmation)
+                RequestNavigationSelection(E_NavigationItem.MainMenu);
+        }
         public void SelectLeaderboardTop() => RequestNavigationSelection(E_NavigationItem.LeaderboardTop);
         public void SelectLeaderboardAround() => RequestNavigationSelection(E_NavigationItem.LeaderboardAround);
         public void SelectLeaderboardRetry() => RequestNavigationSelection(E_NavigationItem.LeaderboardRetry);
@@ -531,6 +556,13 @@ namespace FlowState.Runtime.Systems
 
         private bool BeginRunFromMenu(E_GameMode gameMode)
         {
+            // Explicit Stage/unknown requests are rejected before navigation changes.
+            // StartGame is parameterless and uses the Infinite production default.
+            if (gameMode != E_GameMode.Infinite)
+            {
+                return false;
+            }
+
             if (_navigationState.CurrentScreen == E_NavigationScreen.Boot)
             {
                 _navigationState.CompleteBoot();
@@ -543,22 +575,21 @@ namespace FlowState.Runtime.Systems
                 return false;
             }
 
-            E_NavigationItem modeItem = gameMode == E_GameMode.Infinite
-                ? E_NavigationItem.Infinite
-                : E_NavigationItem.Stage;
-
-            if (!_navigationState.TrySelect(modeItem) ||
-                !_navigationState.TrySubmit())
-            {
-                return false;
-            }
-
-            _selectedGameMode = gameMode;
+            if (!_navigationState.IsRunStartRequested) ApplyNavigationState();
             return _navigationState.IsRunStartRequested;
         }
 
         private void StartRequestedRun()
         {
+            if (!_navigationState.IsRunStartRequested ||
+                _navigationState.SelectedGameMode != E_GameMode.Infinite)
+            {
+                return;
+            }
+
+            // Ignore former Inspector/runtime selection values at a valid start boundary.
+            _selectedGameMode = E_GameMode.Infinite;
+
             if (!HasRequiredSystems())
             {
                 CompleteRunInitialization(false);
@@ -744,7 +775,16 @@ namespace FlowState.Runtime.Systems
 
         public bool RetryGame()
         {
-            if (_navigationState.CurrentScreen == E_NavigationScreen.Pause &&
+            // Explicit lifecycle command. Pause UI opens the prompt separately and
+            // invokes this command only after confirmation; direct lifecycle callers
+            // retain their existing immediate-retry contract.
+            if (_navigationState.CurrentScreen == E_NavigationScreen.Pause)
+            {
+                if (!_navigationState.TrySelect(E_NavigationItem.Retry) ||
+                    !_navigationState.TrySubmit()) return false;
+            }
+
+            if (_navigationState.CurrentScreen == E_NavigationScreen.PauseRetryConfirmation &&
                 _navigationState.TrySelect(E_NavigationItem.Retry) &&
                 _navigationState.TrySubmit())
             {
@@ -886,10 +926,16 @@ namespace FlowState.Runtime.Systems
 
             if (_navigationState.TrySubmit())
             {
+                if (_navigationState.IsRunStartRequested)
+                {
+                    StartRequestedRun();
+                    return;
+                }
+
                 ApplyNavigationState();
                 if (_navigationState.CurrentScreen == E_NavigationScreen.Leaderboard)
                 {
-                    _leaderboardViewState.SelectGameMode(E_GameMode.Stage);
+                    _leaderboardViewState.SelectGameMode(E_GameMode.Infinite);
                     RefreshLeaderboardTop();
                     RefreshLeaderboardAround();
                 }
@@ -922,13 +968,10 @@ namespace FlowState.Runtime.Systems
                 RefreshLeaderboardAround();
             }
 
-            if (selection == E_NavigationItem.Stage ||
-                selection == E_NavigationItem.Infinite)
+            if (selection == E_NavigationItem.Infinite)
             {
                 if (!_navigationState.TrySubmit()) return;
-                _leaderboardViewState.SelectGameMode(
-                    selection == E_NavigationItem.Infinite
-                        ? E_GameMode.Infinite : E_GameMode.Stage);
+                _leaderboardViewState.SelectGameMode(E_GameMode.Infinite);
                 ApplyLeaderboardPresentation();
                 RefreshLeaderboardTop();
                 RefreshLeaderboardAround();
@@ -961,6 +1004,10 @@ namespace FlowState.Runtime.Systems
         private async Task RefreshResultOnlineBestAsync(
             RecordSubmissionCandidate expectedCandidate = null)
         {
+            E_GameMode resultMode = expectedCandidate == null
+                ? GetCurrentResultGameMode() : expectedCandidate.BoardKey.GameMode;
+            // Never use a retired Stage result to request an online record.
+            if (resultMode != E_GameMode.Infinite) return;
             int version = _leaderboardViewState.BeginPersonalBestRequest();
             if (_onlineRepository == null ||
                 Application.internetReachability == NetworkReachability.NotReachable)
@@ -972,11 +1019,7 @@ namespace FlowState.Runtime.Systems
             }
 
             RecordBoardKey key;
-            E_GameMode resultMode = expectedCandidate == null
-                ? GetCurrentResultGameMode() : expectedCandidate.BoardKey.GameMode;
-            bool hasKey = resultMode == E_GameMode.Stage
-                ? RecordBoardKey.TryCreateStage("stage-001", 1, out key)
-                : RecordBoardKey.TryCreateInfinite(2, out key);
+            bool hasKey = RecordBoardKey.TryCreateInfinite(2, out key);
             if (!hasKey) return;
             OnlineLeaderboardResult result = await _onlineRepository.GetPersonalBestAsync(key);
             if (expectedCandidate != null &&
@@ -992,16 +1035,13 @@ namespace FlowState.Runtime.Systems
                 return new OnlineLeaderboardResult { status = "TransientFailure", reason = "AuthenticationUnavailable" };
             Task<bool> preparation = _onlineRecoveryPreparation;
             bool waitsForPreparation = preparation != null && !preparation.IsCompleted;
-            // Capture the selected board before waiting so a later tab switch cannot change this request.
-            E_GameMode requestedMode = _leaderboardViewState.GameMode;
+            // User leaderboard queries always use the Infinite scoring-version board.
             if (waitsForPreparation && !await preparation)
                 return new OnlineLeaderboardResult { status = "TransientFailure", reason = "AuthenticationUnavailable" };
             if (Application.internetReachability == NetworkReachability.NotReachable)
                 return new OnlineLeaderboardResult { status = "TransientFailure", reason = "NotReachable" };
             RecordBoardKey key;
-            bool hasKey = requestedMode == E_GameMode.Stage
-                ? RecordBoardKey.TryCreateStage("stage-001", 1, out key)
-                : RecordBoardKey.TryCreateInfinite(2, out key);
+            bool hasKey = RecordBoardKey.TryCreateInfinite(2, out key);
             if (!hasKey) return new OnlineLeaderboardResult { status = "TransientFailure", reason = "InvalidQuery" };
             // Keep the runtime call contract explicit: optional interface
             // arguments are embedded at the call site by the C# compiler.
@@ -1069,12 +1109,9 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
-            if (selection == E_NavigationItem.Stage ||
-                selection == E_NavigationItem.Infinite)
+            if (selection == E_NavigationItem.Infinite)
             {
-                _selectedGameMode = selection == E_NavigationItem.Infinite
-                    ? E_GameMode.Infinite
-                    : E_GameMode.Stage;
+                _selectedGameMode = E_GameMode.Infinite;
 
                 if (_navigationState.IsRunStartRequested)
                 {
@@ -1098,13 +1135,12 @@ namespace FlowState.Runtime.Systems
                     break;
 
                 case E_NavigationItem.Retry:
-                    RetryGame();
-                    break;
-
                 case E_NavigationItem.Settings:
                 case E_NavigationItem.MainMenu:
                     if (_navigationState.TrySubmit())
                     {
+                        if (selection == E_NavigationItem.Retry)
+                            _uiInputSystem?.ConsumeTransientInput();
                         ApplyNavigationState();
                     }
                     break;
@@ -1149,11 +1185,9 @@ namespace FlowState.Runtime.Systems
             if (selection == E_NavigationItem.ResultLeaderboard &&
                 _navigationState.TrySubmit())
             {
-                E_GameMode resultMode = GetCurrentResultGameMode();
-                _navigationState.TrySelect(resultMode == E_GameMode.Stage
-                    ? E_NavigationItem.Stage : E_NavigationItem.Infinite);
+                _navigationState.TrySelect(E_NavigationItem.Infinite);
                 ApplyNavigationState();
-                _leaderboardViewState.SelectGameMode(resultMode);
+                _leaderboardViewState.SelectGameMode(E_GameMode.Infinite);
                 RefreshResultOnlineBest();
                 RefreshLeaderboardTop();
                 RefreshLeaderboardAround();
@@ -1319,12 +1353,20 @@ namespace FlowState.Runtime.Systems
                 return;
             }
 
+            if (_runtimeData == null || _runtimeData.GameMode != E_GameMode.Infinite)
+            {
+                Debug.LogWarning("[GameSystem] Only an Infinite Run can produce a gameplay result.");
+                return;
+            }
+
             StopRunTimer();
             _selectedGameMode = _runtimeData.GameMode;
             _leaderboardViewState.SelectGameMode(_selectedGameMode);
 
             if (_runtimeData.GameMode == E_GameMode.Stage)
             {
+                // Deprecated Stage-only result path is retained as source; production
+                // creation/start guards prevent Stage Runs. Infinite uses ScoreRecord.
                 E_StageResultType stageResultType = _stageSystem.IsCleared
                     ? E_StageResultType.Cleared
                     : E_StageResultType.Fell;

@@ -30,8 +30,14 @@ namespace FlowState.Tests.PlayMode
                 { "stage-jump-02-05", new Vector3(16.3f, 1.5f, 0.0f) }
             };
 
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
+        }
+
         [UnityTest]
-        public IEnumerator ProductionStage_HasReachableConfiguredCollectibleLayout()
+        public IEnumerator DeprecatedStageSource_PreservesReachableUnboundCollectibleLayout()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(
                 SceneName,
@@ -43,11 +49,11 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
-            yield return null;
-
-            GameObject stageRoot = GameObject.Find("StageModeRoot");
+            // Inspect preserved authoring without opening a production Stage Run.
+            ProductionSceneGameModeTestUtility.AssertNoProductionRuntime();
+            GameObject stageRoot = ProductionSceneGameModeTestUtility.FindSceneObject("StageModeRoot");
             Assert.That(stageRoot, Is.Not.Null);
+            Assert.That(stageRoot.activeSelf, Is.False);
             Transform collectibleRoot = stageRoot.transform.Find(
                 "StageCollectible");
             Assert.That(collectibleRoot, Is.Not.Null);
@@ -62,6 +68,7 @@ namespace FlowState.Tests.PlayMode
 
             foreach (ScoreCollectible collectible in collectibles)
             {
+                Assert.That(collectible.IsBound, Is.False);
                 string collectibleId = GetField<string>(
                     collectible,
                     "_collectibleId");

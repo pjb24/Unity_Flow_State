@@ -12,8 +12,7 @@ namespace FlowState.Tests.PlayMode
     public class CollectibleLifecycleIntegrationTests
     {
         private const string SceneName = "SampleScene";
-        private const string CollectibleName = "StageCollectible_Jump01_03";
-        private const int StageCollectibleCount = 10;
+        private const int InitialCollectibleCount = 2 * 5;
 
         private MonoBehaviour _gameSystem;
         private MonoBehaviour _runtimeDataSystem;
@@ -33,15 +32,14 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
             yield return null;
 
             _gameSystem = FindRequiredBehaviour("GameSystem", "GameSystem");
             _runtimeDataSystem = FindRequiredBehaviour(
                 "RuntimeDataSystem",
                 "RuntimeDataSystem");
-            _collectible = FindRequiredComponent<ScoreCollectible>(
-                CollectibleName);
+            _collectible = FindBoundCollectible();
             _player = FindRequiredComponent<Rigidbody>("Player");
         }
 
@@ -53,7 +51,13 @@ namespace FlowState.Tests.PlayMode
             Assert.That(CurrentCollectibleData.IsInitialized, Is.True);
             Assert.That(
                 CurrentCollectibleData.RegisteredCount,
-                Is.EqualTo(StageCollectibleCount));
+                Is.EqualTo(InitialCollectibleCount));
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
@@ -119,31 +123,53 @@ namespace FlowState.Tests.PlayMode
             Assert.That(CurrentCollectibleData.CurrentScore, Is.Zero);
             Assert.That(
                 CurrentCollectibleData.RegisteredCount,
-                Is.EqualTo(StageCollectibleCount));
+                Is.EqualTo(InitialCollectibleCount));
+            _collectible = FindBoundCollectible();
             Assert.That(_collectible.IsBound, Is.True);
             Assert.That(_collectible.IsCollected, Is.False);
             yield return null;
         }
 
         [UnityTest]
-        public IEnumerator ModeSwitch_CreatesPopulatedIndependentInfiniteRun()
+        public IEnumerator InfiniteRestart_CreatesIndependentScopesWithoutStageBindings()
         {
-            CollectibleRuntimeData stageData = CurrentCollectibleData;
+            CollectibleRuntimeData previousData = CurrentCollectibleData;
 
             ProductionSceneGameModeTestUtility.RestartInMode(
                 E_GameMode.Infinite);
-            yield return null;
 
+            // Observe the new Run before a physics step can collect a nearby coin.
             CollectibleRuntimeData infiniteData = CurrentCollectibleData;
-            Assert.That(infiniteData, Is.Not.SameAs(stageData));
+            Assert.That(infiniteData, Is.Not.SameAs(previousData));
+            Assert.That(previousData.IsInitialized, Is.False);
             Assert.That(infiniteData.IsInitialized, Is.True);
             Assert.That(infiniteData.CurrentScore, Is.Zero);
             Assert.That(
                 infiniteData.RegisteredCount,
                 Is.EqualTo(2 * 5));
             Assert.That(infiniteData.ActiveScopeCount, Is.EqualTo(2));
-            Assert.That(_collectible.IsBound, Is.False);
-            Assert.That(_collectible.gameObject.activeInHierarchy, Is.False);
+            GameObject stageRoot = ProductionSceneGameModeTestUtility.FindSceneObject("StageModeRoot");
+            Assert.That(stageRoot.activeSelf, Is.False);
+            foreach (ScoreCollectible coin in stageRoot.GetComponentsInChildren<ScoreCollectible>(true))
+            {
+                Assert.That(coin.IsBound, Is.False);
+            }
+            Assert.That(FindBoundCollectible().IsCollected, Is.False);
+            yield return null;
+        }
+
+        private ScoreCollectible FindBoundCollectible()
+        {
+            GameObject root = ProductionSceneGameModeTestUtility.FindSceneObject("InfiniteModeRoot");
+            foreach (ScoreCollectible coin in root.GetComponentsInChildren<ScoreCollectible>(true))
+            {
+                if (coin.IsBound && !coin.IsCollected && coin.gameObject.activeInHierarchy)
+                {
+                    return coin;
+                }
+            }
+            Assert.Fail("No active uncollected Infinite collectible was bound.");
+            return null;
         }
 
         private CollectibleRuntimeData CurrentCollectibleData =>

@@ -8,19 +8,19 @@ StagePlay
 
 ## 목적
 
-플레이어가 하나의 Stage를 선택하여 Stage Play를 시작하고 종료할 때까지의 플레이 흐름을 제공한다.
+Infinite Run을 시작하고 종료할 때까지의 공통 플레이 흐름을 제공한다.
 
-Stage Play를 하나의 플레이 경험으로 구성한다.
+문서명 StagePlay와 본문의 Stage Play는 공통 Run 생명주기를 뜻한다. 사용자에게 선택 가능한 Stage Mode를 제공한다는 의미가 아니며 현재 생산 플레이는 Infinite다.
 
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 적용 상태
 
-상태: Phase 2 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+Phase 2의 Infinite 시작/공통 실행·Stage 실행/표시 차단과 사용자 Compile/Scene/Test/Player 확인은 완료했다. 아래 생산 규칙은 Infinite 기준이며 Stage 전용 Goal/추락 소스는 Deprecated 독립 검증 대상으로 보존한다. 남은 기록 직접 접근은 Phase 3, 전체 후보 판정은 Phase 4 범위다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다.
 
 - 새 Client는 InfiniteMode만 시작/재시작하며 Stage Mode의 명시적 생산 실행 요청은 거절한다.
 - 과거 기본/선택/대기 Mode는 Infinite 시작 흐름으로 정규화한다. 기존 자료의 enum 값 변경이나 Stage 소스 삭제를 뜻하지 않는다.
-- Infinite의 이동·착지·점수·Pattern·공통 생명주기는 유지한다. 시작/안내와 Retry의 상세 규칙은 GameEntryNavigation/ResultMenu가 담당한다.
+- Infinite의 이동·착지·점수·Pattern·공통 생명주기는 유지한다. 시작/안내는 GameEntryNavigation, Pause Retry 확인은 GamePause, Result Retry는 ResultMenu 규칙을 따른다.
 
 검증 계약: P9-C02/P9-C09. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
 
@@ -29,10 +29,10 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 # 기능 규칙
 
 - Stage Play는 시작 조건을 만족하면 시작된다.
-- Stage Mode와 InfiniteMode를 서로 다른 게임 Mode로 구분한다.
-- 기본 게임 Mode는 Stage Mode이다.
-- Stage Play가 시작되면 플레이어는 선택한 Stage를 진행할 수 있다.
-- Stage Mode와 InfiniteMode는 Playing 중 PlayerMovementSystem의 직렬화된 이동 속도를 World +X 방향의 고정 수평 속도로 사용한다.
+- 내부 enum/자료형에서는 Stage Mode와 InfiniteMode 값을 구분해 보존하지만 사용자 Mode 선택은 제공하지 않는다.
+- 기본/생산 게임 Mode는 Infinite다. 명시적 Stage 생성·초기화/시작은 기존 상태와 공통 Run을 변경하지 않고 거절한다.
+- 유효한 Infinite Play 요청이 시작되면 플레이어는 Infinite 지형을 진행한다.
+- InfiniteMode는 Playing 중 PlayerMovementSystem의 직렬화된 이동 속도를 World +X 방향의 고정 수평 속도로 사용한다.
 - 수평 속도 증가, 지상/공중 가속, 최대 수평 속도 설정은 사용하지 않는다. Momentum Landing도 수평 속도를 변경하지 않는다.
 - 플레이어는 자동 이동 중 Jump와 Momentum Landing을 입력할 수 있다. Player 좌우 입력은 수평 이동 계산에 영향을 주지 않는다.
 - Jump와 Normal Landing은 수평 자동 이동을 별도로 초기화하지 않는다.
@@ -40,9 +40,7 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 - Ground와 Wall이 함께 검출되면 Ground 이동 계산을 우선하며 실제 장애물 충돌은 유지한다.
 - Playing 외 상태에서는 자동 이동 계산을 수행하지 않는다.
 - 점프는 Momentum Landing 또는 Normal Landing으로 연결된다.
-- 일반 Stage Play는 플레이어가 Stage의 Goal에 도달하면 종료된다.
-- 일반 Stage Play는 Player Rigidbody의 Y 위치가 추락 임계값 이하가 되면 추락 실패로 종료된다.
-- Goal 도달과 추락 요청이 같은 물리 구간에 발생하면 Goal 성공을 우선한다.
+- 보존된 Stage Goal/추락 판정은 생산 플레이에서 사용하지 않는다. 이전 Goal 우선·추락 경계는 독립 합성 Test로만 보존한다.
 - InfiniteMode Stage Play는 Goal을 사용하지 않는다.
 - InfiniteMode Stage Play는 플레이어가 진행 지속 조건을 잃으면 종료된다.
 
@@ -52,7 +50,7 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 
 다음 조건을 모두 만족하는 경우 Stage Play를 시작한다.
 
-- Stage Mode 또는 InfiniteMode가 선택되었다.
+- InfiniteMode의 유효한 시작 요청이 확정되었다.
 - Stage Play 시작 요청이 수행되었다.
 
 ---
@@ -61,8 +59,6 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 
 ## 정상 종료
 
-- 일반 Stage Play에서 플레이어가 Stage의 Goal에 도달하였다.
-- 일반 Stage Play에서 플레이어가 추락 임계값 이하에 도달하였다.
 - InfiniteMode Stage Play에서 플레이어가 진행 지속 조건을 잃었다.
 
 ## 강제 종료
@@ -101,9 +97,9 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 
 - Stage Play가 진행 중인 동안에는 동일한 Stage를 다시 시작할 수 없다.
 - 하나의 Stage Play는 하나의 종료 결과만 가진다.
-- 추락 임계값은 Player Rigidbody의 물리 위치 Y가 설정값 이하인지 판정한다.
+- 생산 Infinite 추락 종료 규칙은 InfiniteMode Feature에서 관리한다.
 - Stage Play 종료 이후에는 다시 진행 상태로 돌아갈 수 없다.
-- Retry를 실행하면 종료된 Stage Play와 같은 게임 Mode로 새로운 Stage Play를 시작한다.
+- Retry를 실행하면 Infinite Mode로 새로운 Stage Play를 시작한다.
 - Retry로 시작한 Stage Play는 이전 Stage Play의 Runtime 상태를 유지하지 않는다.
 - 진행 지속 조건은 InfiniteMode Feature에서 정의한다.
 - 결과 생성과 결과 화면 표시는 다른 Feature 또는 System에서 수행한다.
@@ -112,18 +108,16 @@ Stage Play를 하나의 플레이 경험으로 구성한다.
 
 # 검증 항목
 
-- Stage Mode 또는 InfiniteMode 선택 후 해당 Mode의 Stage Play가 정상적으로 시작되는지 확인한다.
+- Infinite 시작과 Stage/미정의 Mode 거절·기존 상태/수집 scope 불변을 확인한다.
 - Stage Play 진행 중 플레이어가 정상적으로 이동할 수 있는지 확인한다.
-- 두 Mode에서 Move 입력 없이 직렬화된 고정 수평 속도가 적용되고 Jump 및 Landing 후에도 유지되는지 확인한다.
+- Infinite에서 Move 입력 없이 직렬화된 고정 수평 속도가 적용되고 Jump 및 Landing 후에도 유지되는지 확인한다.
 - 중복 시작/초기화 요청이 같은 Run의 이동 및 Jump 상태를 변경하지 않는지 확인한다.
 - 종료 후 여러 물리 단계가 지나도 자동 이동이 재개되지 않는지 확인한다.
 - 점프가 Momentum Landing 또는 Normal Landing으로 정상 연결되는지 확인한다.
-- 일반 Stage Play에서 Stage의 Goal에 도달하면 종료되는지 확인한다.
-- 일반 Stage에서 추락 임계값 직전, 동일 값과 직후의 경계가 올바르게 판정되는지 확인한다.
-- Goal과 추락 요청이 같은 물리 구간에 발생하면 Goal 성공 하나만 확정되는지 확인한다.
+- 비권장 Stage Goal/추락 경계·같은 구간 Goal 우선의 독립 합성 검증과 생산 Stage 실행 거절 검증을 분리한다.
 - Pause 중에는 추락하지 않고 Resume 후 다시 평가하는지 확인한다.
 - InfiniteMode Stage Play에서 진행 지속 조건을 잃으면 종료되는지 확인한다.
-- Stage Play 종료 이후 Retry를 실행하면 같은 게임 Mode로 새로운 Stage Play를 시작하는지 확인한다.
+- Stage Play 종료 이후 Retry를 실행하면 Infinite Mode로 새로운 Stage Play를 시작하는지 확인한다.
 - Retry로 시작한 Stage Play에 이전 Stage Play의 Runtime 상태가 남지 않는지 확인한다.
 - Stage Play가 진행 중인 동안 동일한 Stage를 다시 시작할 수 없는지 확인한다.
 - Stage Play 종료만으로 결과 생성이나 결과 화면 표시가 수행되지 않는지 확인한다.

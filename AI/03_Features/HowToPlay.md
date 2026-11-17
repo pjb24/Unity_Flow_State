@@ -12,9 +12,9 @@ HowToPlay
 
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 적용 상태
 
-상태: Phase 2 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+상태: Phase 2의 Infinite 자동 안내 진입/시작·Tutorial 완료값 보존·UI 연결/문구는 적용·검증을 완료했다. 실행/화면 확인 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다.
 
 - 자동 안내는 저장된 Tutorial 미완료 사용자의 Infinite 첫 시작 전에만 표시한다. 이미 완료한 사용자의 상태를 초기화하지 않는다.
 - 안내는 자동 이동·점프·관성 착지·Collectible·거리/점수·Pause·Infinite 종료 규칙을 설명하고 Stage Goal/Clear Time 설명은 제공하지 않는다.
@@ -29,19 +29,19 @@ HowToPlay
 - How To Play는 Keyboard Navigate·Submit과 Mouse Point·Click으로 실행할 수 있는 Back UI 항목을 제공한다.
 - Main Menu에서 How To Play를 열면 Back UI Submit 또는 Cancel은 Main Menu의 How To Play 선택으로 복귀한다.
 - Main Menu 재열람은 Back을 기본 선택으로 사용하며, 자동 안내 처리 상태에 영향을 주지 않는다.
-- Local Save에서 복원한 Tutorial 완료 상태가 미완료이면 Stage 또는 Infinite Run 시작 전 공용 단일 페이지 How To Play를 자동으로 표시하고 게임 진행을 시작하지 않는다.
-- 자동 안내는 Start Run만 기본 선택으로 제공한다. Start Run은 선택된 Mode의 Run을 시작하고 자동 안내 처리 완료로 기록한다.
+- Local Save에서 복원한 Tutorial 완료 상태가 미완료이면 Play가 Infinite Run 시작 전 단일 페이지 How To Play를 자동으로 표시하고 Run을 생성하지 않는다. 완료 상태이면 Play가 안내 없이 Infinite 시작을 요청한다.
+- 자동 안내는 Start Run만 기본 선택으로 제공한다. Start Run은 Infinite Run을 요청하고 자동 안내 처리 완료로 기록한다. 과거 대기 Stage 값도 Infinite로 처리한다.
 - 자동 안내에는 Back 또는 Skip UI를 제공하지 않으며 Cancel 입력은 동작하지 않는다.
 - 자동 안내 처리 완료 뒤에는 같은 Application 실행 중 다시 자동으로 표시하지 않는다.
 - 자동 안내에는 마지막 Keyboard 또는 Mouse 입력 뒤 Keyboard Binding을, 마지막 Gamepad 입력 뒤 Gamepad Binding을 표시한다. Pause는 Keyboard/Mouse에서 Escape, Gamepad에서 Cancel Button의 구체적 Binding을 표시한다.
-- 안내 문구는 자동 이동, Jump, Momentum Landing, Collectible, Pause와 Mode별 목표 순서로 표시한다. Momentum Landing은 착지 직전 입력으로 수행하며 InfiniteMode의 연속 성공이 거리 Score 배율을 높임을 안내한다.
+- Infinite 전용 안내는 자동 이동, Jump, 착지 직전 Momentum Landing과 연속 성공의 거리 점수 배율, Collectible/거리/Total Score, Pause/Retry, 추락·전진 지속 실패에 따른 종료를 설명한다. Stage Goal/Clear Time 설명은 제공하지 않는다.
 
 ---
 
 ## 시작 조건
 
 - Main Menu에서 How To Play 요청이 수행되었다.
-- Application 실행 중 자동 안내 처리 전 Mode 선택 요청이 수행되었다.
+- 복원한 Tutorial 미완료 상태에서 Play 요청이 수행되었다.
 
 ---
 
@@ -82,7 +82,7 @@ HowToPlay
 
 ## 제약 사항
 
-- 현재 안내와 첫 Run 안내는 생산 흐름에 연결돼 있다. Roadmap 9의 Infinite 전용 안내 변경은 Phase 2에서 적용한다.
+- Infinite 자동 안내 진입은 생산 코드에 연결돼 있다. 현재 저장된 Scene에는 기존 Stage 목표 문구가 남아 있으며 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)의 Step 7-2 최종 Text를 사용자가 적용한다. 준비 문구를 이미 적용된 Scene으로 취급하지 않는다.
 - 안내 완료 상태를 현재 Runtime Data에 영구 저장하지 않는다.
 
 ---

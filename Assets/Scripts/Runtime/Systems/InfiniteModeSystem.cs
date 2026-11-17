@@ -115,6 +115,13 @@ namespace FlowState.Runtime.Systems
 
         public bool Initialize(E_GameMode gameMode)
         {
+            // Reject before clearing active Infinite progress, metrics or Pattern state.
+            if (gameMode != E_GameMode.Infinite)
+            {
+                Debug.LogWarning("[InfiniteModeSystem] Only Infinite Mode can be initialized.");
+                return false;
+            }
+
             if (_isInitialized && _gameRuntimeData != null &&
                 _gameRuntimeData.IsCreated && _gameRuntimeData.GameMode == gameMode &&
                 _state.GameMode == gameMode && _runtimeDataSystem != null &&

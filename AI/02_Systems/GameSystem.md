@@ -20,9 +20,9 @@ System 간의 실행 흐름을 연결한다.
 
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 적용 상태
 
-상태: Phase 2~3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+상태: Phase 2의 Infinite 시작/공통 실행·Stage 실행/결과 표시 차단과 Pause Retry 확인은 완료했다. Stage 전용 소스는 보존하며 직접 Repository/후보·제출/Editor 도구 경계는 Phase 3 잔여다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md), 다음 작업은 [Phase 3 Task](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)를 따른다.
 
 - Infinite 단일 시작/Retry와 과거 선택값 정규화, 명시적 Stage 실행 거절을 공통 초기화 전에 연결한다.
 - Stage Result/기록 접근 연결은 생산 경로에서 차단한다. Stage 전용 소스는 비권장 표시와 사유 주석으로 남기고 공통 Timer/입력/Result/정리 순서는 유지한다.
@@ -36,8 +36,8 @@ System 간의 실행 흐름을 연결한다.
 - 게임 시작을 관리한다.
 - 게임 종료를 관리한다.
 - 선택된 게임 Mode를 관리한다.
-- 게임 시작 시 선택된 게임 Mode를 RuntimeDataSystem과 StageSystem에 전달한다.
-- Retry 시 종료된 Stage Play와 같은 게임 Mode로 새로운 게임 실행 흐름을 시작한다.
+- 유효한 Infinite Navigation 시작 요청만 RuntimeDataSystem과 StageSystem의 공통 초기화로 연결한다.
+- Retry 시 Infinite Mode로 새로운 게임 실행 흐름을 시작한다.
 - 현재 게임 상태를 관리한다.
 - Playing과 Paused 사이의 상태 전환을 관리한다.
 - 현재 게임 상태에 따라 사용할 Action Map을 결정한다.
@@ -48,7 +48,7 @@ System 간의 실행 흐름을 연결한다.
 - SettingsSystem에 Settings 값 변경, Rebinding, 취소와 기본값 복원 요청을 전달한다.
 - 선택된 UI 항목에 해당하는 게임 실행 흐름을 시작한다.
 - Pause와 Resume 시 관련 System의 중단 및 재개 순서를 관리한다.
-- Pause 상태의 Retry를 기존 게임 시작 흐름에 연결한다.
+- Pause UI의 Retry 선택은 확인창을 열고 Run을 유지한다. 확인 동작은 기존 Retry 실행/게임 시작 흐름에 연결한다.
 - Pause와 Result의 Main Menu 복귀를 Run 정리와 Main Menu Navigation 흐름에 연결한다.
 - Main Menu의 Quit을 하나의 Application 종료 요청 흐름에 연결한다.
 - RuntimeDataSystem에 Runtime Data 생성 및 제거를 요청한다.
@@ -161,7 +161,7 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 - 현재 게임 상태 관리
 - 선택된 게임 Mode 관리
 - Application 실행 중 자동 How To Play 안내의 Navigation 전이와 보류된 선택 Mode 사용 여부 결정
-- Retry에서 게임 Mode 유지
+- Retry에서 Infinite Mode 시작 보장
 - Action Map 사용 여부 결정
 - 게임 전체 실행 순서 관리
 - System 간 실행 흐름 연결
@@ -209,9 +209,11 @@ GameSystem은 Paused 상태에서 UI 입력을 PausePanel 조작으로 해석한
 # 제약 사항
 
 - Feature의 규칙을 수행하지 않는다.
-- 기본 게임 Mode는 Stage Mode를 사용한다.
-- 게임 시작 시 선택된 게임 Mode를 Runtime Data에 반영한다.
-- Retry 시 선택된 게임 Mode를 유지하고 이전 Stage Play의 Runtime 상태는 유지하지 않는다.
+- 기본 게임 Mode는 Infinite다. 매개변수 없는 StartGame은 과거 Inspector Stage 선택을 Infinite 시작으로 처리하고 미정의 Mode는 경고 후 거절한다.
+- Play는 Mode Select 없이 Tutorial 완료 상태에 따라 Infinite 자동 안내 또는 시작 요청으로 연결한다. 명시적 Stage/미정의 Mode를 받은 메뉴 시작 요청은 Navigation 변경 전에 거절한다.
+- Navigation의 유효한 Infinite 시작 요청이 없으면 공통 Run 초기화를 수행하지 않는다.
+- Retry는 과거 Stage 선택값을 Infinite로 처리하고 이전 Run Runtime 상태는 유지하지 않는다.
+- Pause UI는 확인 전 RetryGame을 호출하지 않는다. RetryGame은 명시적인 생명주기 명령으로 기존 직접 호출자의 즉시 재시작 계약을 유지한다. UI 확인 버튼은 SelectPauseConfirmation을 통해 현재 확인 화면에 맞는 Retry/Main Menu 요청을 전달하고, 숨겨진 Pause Retry 버튼의 반복 SelectRetry 이벤트는 확인으로 사용하지 않는다.
 - Pause와 Result에는 Application 종료 요청을 연결하지 않는다. Application 종료 요청은 Main Menu의 Quit만 사용한다.
 - Pause에서 Main Menu 복귀를 확정하면 현재 Run을 정리하고 Result를 생성하지 않는다.
 - 초기화 실패 시 부분 생성된 Run을 정리하고 Main Menu Navigation 상태로 복귀한다.

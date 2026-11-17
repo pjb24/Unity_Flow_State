@@ -15,12 +15,12 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void Initialize_WithoutMode_UsesStageMode()
+        public void Initialize_WithoutMode_UsesInfiniteMode()
         {
             _runtimeData.Initialize();
 
-            Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Stage));
-            Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Null);
+            Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Not.Null);
             Assert.That(_runtimeData.IsCreated, Is.True);
         }
 
@@ -51,7 +51,7 @@ namespace FlowState.Tests.EditMode
 
             _runtimeData.Clear();
 
-            Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Stage));
+            Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Infinite));
             Assert.That(_runtimeData.GameState, Is.EqualTo(E_GameState.None));
             Assert.That(_runtimeData.UIState, Is.EqualTo(E_UIState.None));
             Assert.That(_runtimeData.PlayerMovementRuntimeData, Is.Null);
@@ -71,9 +71,9 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void SetGameState_Paused_PreservesStageMovementRuntimeData()
+        public void SetGameState_Paused_PreservesMovementRuntimeData()
         {
-            _runtimeData.Initialize(E_GameMode.Stage);
+            _runtimeData.Initialize(E_GameMode.Infinite);
             PlayerMovementRuntimeData movementData =
                 _runtimeData.PlayerMovementRuntimeData;
             movementData.UpdateState(
@@ -136,7 +136,6 @@ namespace FlowState.Tests.EditMode
             Assert.That(_runtimeData.IsCreated, Is.False);
         }
 
-        [TestCase(E_GameMode.Stage)]
         [TestCase(E_GameMode.Infinite)]
         public void Initialize_AfterClear_CreatesNewRunWithRequestedMode(
             E_GameMode gameMode)
@@ -186,21 +185,74 @@ namespace FlowState.Tests.EditMode
             Assert.That(currentInfiniteData.CurrentScore, Is.Zero);
         }
 
-        [Test]
-        public void Initialize_StageAfterInfiniteClear_DoesNotCreateInfiniteData()
+        [TestCase(E_GameMode.Stage)]
+        [TestCase((E_GameMode)999)]
+        public void Initialize_UnsupportedMode_BeforeCreationOrAfterClear_DoesNotCreateRun(E_GameMode mode)
         {
-            _runtimeData.Initialize(E_GameMode.Infinite);
-            UpdateCurrent(_runtimeData.InfiniteModeRuntimeData, 10.0f, 100, 0);
-            _runtimeData.Clear();
-
-            _runtimeData.Initialize(E_GameMode.Stage);
-
-            Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Stage));
+            _runtimeData.Initialize(mode);
+            Assert.That(_runtimeData.IsCreated, Is.False);
+            Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(_runtimeData.PlayerMovementRuntimeData, Is.Null);
+            Assert.That(_runtimeData.CollectibleRuntimeData, Is.Null);
             Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Null);
-            Assert.That(_runtimeData.IsCreated, Is.True);
+            _runtimeData.Initialize();
+            _runtimeData.Clear();
+            _runtimeData.Initialize(mode);
+            Assert.That(_runtimeData.IsCreated, Is.False);
+            Assert.That(_runtimeData.GameState, Is.EqualTo(E_GameState.None));
+            Assert.That(_runtimeData.UIState, Is.EqualTo(E_UIState.None));
+            Assert.That(_runtimeData.PlayerMovementRuntimeData, Is.Null);
+            Assert.That(_runtimeData.CollectibleRuntimeData, Is.Null);
+            Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Null);
         }
 
-        [TestCase(E_GameMode.Stage)]
+        [TestCase(E_GameState.None)]
+        [TestCase(E_GameState.Ready)]
+        [TestCase(E_GameState.Playing)]
+        [TestCase(E_GameState.Paused)]
+        [TestCase(E_GameState.Ended)]
+        public void Initialize_UnsupportedMode_PreservesRunAtEveryState(E_GameState state)
+        {
+            _runtimeData.Initialize();
+            PlayerMovementRuntimeData movement = _runtimeData.PlayerMovementRuntimeData;
+            InfiniteModeRuntimeData infinite = _runtimeData.InfiniteModeRuntimeData;
+            CollectibleRuntimeData collectibles = _runtimeData.CollectibleRuntimeData;
+            Assert.That(UpdateCurrent(infinite, 12.5f, 125, 0), Is.True);
+            Assert.That(collectibles.TryCreateScope(out long scope), Is.True);
+            Assert.That(collectibles.TryRegister(scope, "collected"), Is.True);
+            Assert.That(collectibles.TryRegister(scope, "pending"), Is.True);
+            Assert.That(collectibles.TryCollect(scope, "collected"), Is.True);
+            movement.UpdateState(E_PlayerMovementState.Airborne, 8.0f, 4.0f, false, true, true);
+            if (state == E_GameState.Ended) Assert.That(infinite.TryFinalize(), Is.True);
+            _runtimeData.SetGameState(state);
+            E_UIState uiState = state == E_GameState.Ended ? E_UIState.Result : E_UIState.StageHud;
+            _runtimeData.SetUIState(uiState);
+
+            foreach (E_GameMode mode in new[] { E_GameMode.Stage, (E_GameMode)999 })
+            {
+                _runtimeData.Initialize(mode);
+                Assert.That(_runtimeData.IsCreated, Is.True);
+                Assert.That(_runtimeData.GameMode, Is.EqualTo(E_GameMode.Infinite));
+                Assert.That(_runtimeData.GameState, Is.EqualTo(state));
+                Assert.That(_runtimeData.UIState, Is.EqualTo(uiState));
+                Assert.That(_runtimeData.PlayerMovementRuntimeData, Is.SameAs(movement));
+                Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.SameAs(infinite));
+                Assert.That(_runtimeData.CollectibleRuntimeData, Is.SameAs(collectibles));
+                Assert.That(movement.CurrentMovementState, Is.EqualTo(E_PlayerMovementState.Airborne));
+                Assert.That(movement.CurrentHorizontalSpeed, Is.EqualTo(8.0f));
+                Assert.That(movement.CurrentVerticalSpeed, Is.EqualTo(4.0f));
+                Assert.That(infinite.CurrentDistance, Is.EqualTo(12.5f));
+                Assert.That(infinite.CurrentScore, Is.EqualTo(125));
+                Assert.That(infinite.IsFinalized, Is.EqualTo(state == E_GameState.Ended));
+                Assert.That(collectibles.ActiveScopeCount, Is.EqualTo(1));
+                Assert.That(collectibles.RegisteredCount, Is.EqualTo(2));
+                Assert.That(collectibles.CurrentScore, Is.EqualTo(10));
+                Assert.That(collectibles.TryCollect(scope, "collected"), Is.False);
+            }
+            Assert.That(collectibles.TryCollect(scope, "pending"), Is.True);
+            Assert.That(collectibles.CurrentScore, Is.EqualTo(20));
+        }
+
         [TestCase(E_GameMode.Infinite)]
         public void CollectibleData_PauseAndClear_PreservesThenInvalidatesRun(
             E_GameMode gameMode)
@@ -222,9 +274,6 @@ namespace FlowState.Tests.EditMode
             Assert.That(data.TryCollect(scope, "coin"), Is.False);
         }
 
-        [TestCase(E_GameMode.Stage, E_GameMode.Infinite)]
-        [TestCase(E_GameMode.Infinite, E_GameMode.Stage)]
-        [TestCase(E_GameMode.Stage, E_GameMode.Stage)]
         [TestCase(E_GameMode.Infinite, E_GameMode.Infinite)]
         public void Initialize_NewRun_ReplacesAndInvalidatesCollectibleData(
             E_GameMode previousMode, E_GameMode nextMode)

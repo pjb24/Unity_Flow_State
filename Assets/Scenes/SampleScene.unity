@@ -1570,6 +1570,8 @@ GameObject:
   - component: {fileID: 94556471}
   - component: {fileID: 94556470}
   - component: {fileID: 94556469}
+  - component: {fileID: 94556473}
+  - component: {fileID: 94556472}
   m_Layer: 0
   m_Name: RebindButton
   m_TagString: Untagged
@@ -1691,6 +1693,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94556467}
   m_CullTransparentMesh: 1
+--- !u!114 &94556472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94556467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46805c93726b42ecbbcef36a2660f59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsRebindButtonFocusHandler
+  _controller: {fileID: 1615873151}
+  _index: 1
+--- !u!114 &94556473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94556467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 94556469}
 --- !u!1 &107985692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,6 +1926,8 @@ GameObject:
   - component: {fileID: 109202235}
   - component: {fileID: 109202234}
   - component: {fileID: 109202233}
+  - component: {fileID: 109202237}
+  - component: {fileID: 109202236}
   m_Layer: 0
   m_Name: RebindButton
   m_TagString: Untagged
@@ -2017,6 +2049,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109202231}
   m_CullTransparentMesh: 1
+--- !u!114 &109202236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109202231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46805c93726b42ecbbcef36a2660f59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsRebindButtonFocusHandler
+  _controller: {fileID: 1615873151}
+  _index: 3
+--- !u!114 &109202237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109202231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 109202233}
 --- !u!1 &121742470
 GameObject:
   m_ObjectHideFlags: 0
@@ -3396,7 +3456,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3479,6 +3539,7 @@ GameObject:
   - component: {fileID: 221472031}
   - component: {fileID: 221472030}
   - component: {fileID: 221472029}
+  - component: {fileID: 221472032}
   m_Layer: 0
   m_Name: OpenAccountTransferButton
   m_TagString: Untagged
@@ -3588,6 +3649,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221472027}
   m_CullTransparentMesh: 1
+--- !u!114 &221472032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221472027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 221472029}
 --- !u!1 &230248406
 GameObject:
   m_ObjectHideFlags: 0
@@ -5479,6 +5554,7 @@ GameObject:
   - component: {fileID: 354306741}
   - component: {fileID: 354306740}
   - component: {fileID: 354306739}
+  - component: {fileID: 354306742}
   m_Layer: 0
   m_Name: SettingsRecoveryNoticeButton
   m_TagString: Untagged
@@ -5600,6 +5676,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354306737}
   m_CullTransparentMesh: 1
+--- !u!114 &354306742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354306737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 354306739}
 --- !u!1 &383414366
 GameObject:
   m_ObjectHideFlags: 0
@@ -8135,6 +8225,7 @@ GameObject:
   - component: {fileID: 574333907}
   - component: {fileID: 574333906}
   - component: {fileID: 574333905}
+  - component: {fileID: 574333908}
   m_Layer: 0
   m_Name: RestoreDefaultsButton
   m_TagString: Untagged
@@ -8257,6 +8348,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574333903}
   m_CullTransparentMesh: 1
+--- !u!114 &574333908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574333903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 574333905}
 --- !u!1 &585629585
 GameObject:
   m_ObjectHideFlags: 0
@@ -8412,7 +8517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &593037428
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8446,7 +8551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 761562235}
     m_SelectOnDown: {fileID: 1247354411}
@@ -8472,7 +8577,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 593037430}
   m_OnClick:
     m_PersistentCalls:
@@ -10188,6 +10293,8 @@ GameObject:
   - component: {fileID: 725436444}
   - component: {fileID: 725436443}
   - component: {fileID: 725436442}
+  - component: {fileID: 725436446}
+  - component: {fileID: 725436445}
   m_Layer: 0
   m_Name: RebindButton
   m_TagString: Untagged
@@ -10309,6 +10416,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725436440}
   m_CullTransparentMesh: 1
+--- !u!114 &725436445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725436440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46805c93726b42ecbbcef36a2660f59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsRebindButtonFocusHandler
+  _controller: {fileID: 1615873151}
+  _index: 2
+--- !u!114 &725436446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725436440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 725436442}
 --- !u!1 &730713201
 GameObject:
   m_ObjectHideFlags: 0
@@ -10464,7 +10599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &761562234
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10498,7 +10633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 593037429}
@@ -10524,7 +10659,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 761562236}
   m_OnClick:
     m_PersistentCalls:
@@ -11650,7 +11785,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1202804280}
         m_TargetAssemblyTypeName: FlowState.Runtime.Systems.GameSystem, Assembly-CSharp
-        m_MethodName: SelectMainMenu
+        m_MethodName: SelectPauseConfirmation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12480,6 +12615,7 @@ GameObject:
   - component: {fileID: 897454323}
   - component: {fileID: 897454322}
   - component: {fileID: 897454321}
+  - component: {fileID: 897454324}
   m_Layer: 0
   m_Name: ConfirmButton
   m_TagString: Untagged
@@ -12602,6 +12738,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897454319}
   m_CullTransparentMesh: 1
+--- !u!114 &897454324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897454319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 897454321}
 --- !u!1 &899263185
 GameObject:
   m_ObjectHideFlags: 0
@@ -12754,7 +12904,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &901191968
 Transform:
   m_ObjectHideFlags: 0
@@ -17584,13 +17734,14 @@ GameObject:
   - component: {fileID: 1242588981}
   - component: {fileID: 1242588980}
   - component: {fileID: 1242588979}
+  - component: {fileID: 1242588982}
   m_Layer: 0
   m_Name: LeaderboardStageButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1242588978
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17624,7 +17775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 704930304}
@@ -17650,7 +17801,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1242588980}
   m_OnClick:
     m_PersistentCalls:
@@ -17705,6 +17856,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1242588977}
   m_CullTransparentMesh: 1
+--- !u!114 &1242588982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242588977}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 1, g: 0.82, b: 0.25, a: 1}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 0
 --- !u!1 &1247354409
 GameObject:
   m_ObjectHideFlags: 0
@@ -17723,7 +17889,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1247354410
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17757,7 +17923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 593037429}
     m_SelectOnDown: {fileID: 0}
@@ -17783,7 +17949,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1247354412}
   m_OnClick:
     m_PersistentCalls:
@@ -21057,6 +21223,8 @@ GameObject:
   - component: {fileID: 1402378045}
   - component: {fileID: 1402378044}
   - component: {fileID: 1402378043}
+  - component: {fileID: 1402378047}
+  - component: {fileID: 1402378046}
   m_Layer: 0
   m_Name: RebindButton
   m_TagString: Untagged
@@ -21178,6 +21346,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402378041}
   m_CullTransparentMesh: 1
+--- !u!114 &1402378046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402378041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46805c93726b42ecbbcef36a2660f59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsRebindButtonFocusHandler
+  _controller: {fileID: 1615873151}
+  _index: 4
+--- !u!114 &1402378047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402378041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 1402378043}
 --- !u!1 &1414463164
 GameObject:
   m_ObjectHideFlags: 0
@@ -22345,7 +22541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1501656894
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23585,26 +23781,25 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Your character moves automatically.
+  m_text: 'Move forward automatically. Use Jump to clear obstacles.
 
+    Press Momentum
+    Landing just before touching down.
 
+    Consecutive Momentum Landings boost the
+    distance score multiplier.
 
-    Use Jump to clear terrain and
-    obstacles.
+    Collectibles add to your Total Score.
 
-    Press Momentum Landing just before landing to perform the action.
+    Travel
+    farther to earn distance score.
 
-    Collectibles
-    add to your score.
+    Use Pause to pause or resume. Retry starts
+    a new Infinite Run.
 
-    Use Pause to pause the game.
+    The Run ends if you fall or cannot keep moving forward.
 
-
-    Stage Mode: finish
-    the stage as quickly as you can.
-
-    Infinite Mode: consecutive Momentum Landing
-    successes increase the distance score multiplier.'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -25790,6 +25985,8 @@ GameObject:
   - component: {fileID: 1684983056}
   - component: {fileID: 1684983055}
   - component: {fileID: 1684983054}
+  - component: {fileID: 1684983058}
+  - component: {fileID: 1684983057}
   m_Layer: 0
   m_Name: RebindButton
   m_TagString: Untagged
@@ -25911,6 +26108,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684983052}
   m_CullTransparentMesh: 1
+--- !u!114 &1684983057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684983052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46805c93726b42ecbbcef36a2660f59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsRebindButtonFocusHandler
+  _controller: {fileID: 1615873151}
+  _index: 0
+--- !u!114 &1684983058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684983052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 1684983054}
 --- !u!1 &1701613726
 GameObject:
   m_ObjectHideFlags: 0
@@ -29179,6 +29404,7 @@ GameObject:
   - component: {fileID: 1846830887}
   - component: {fileID: 1846830886}
   - component: {fileID: 1846830885}
+  - component: {fileID: 1846830888}
   m_Layer: 0
   m_Name: BackButton
   m_TagString: Untagged
@@ -29300,6 +29526,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846830883}
   m_CullTransparentMesh: 1
+--- !u!114 &1846830888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846830883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 1846830885}
 --- !u!1 &1861140802
 GameObject:
   m_ObjectHideFlags: 0
@@ -30481,6 +30721,8 @@ MonoBehaviour:
   _mainMenuPanel: {fileID: 176742822}
   _modeSelectPanel: {fileID: 1386715964}
   _pauseMainMenuConfirmPanel: {fileID: 1441134227}
+  _pauseConfirmationTitleText: {fileID: 661031891}
+  _pauseConfirmationActionText: {fileID: 1940924472}
   _leaderboardPanel: {fileID: 1783964699}
   _howToPlayPanel: {fileID: 1488054663}
   _settingsPanel: {fileID: 1268464421}
@@ -30502,6 +30744,11 @@ MonoBehaviour:
   _leaderboardBackButton: {fileID: 1224242491}
   _leaderboardStageButton: {fileID: 1242588979}
   _leaderboardInfiniteButton: {fileID: 2045885536}
+  _leaderboardActiveNormalColor: {r: 0.95, g: 0.74, b: 0.25, a: 1}
+  _leaderboardActiveHighlightedColor: {r: 1, g: 0.82, b: 0.35, a: 1}
+  _leaderboardActiveSelectedColor: {r: 1, g: 0.94, b: 0.65, a: 1}
+  _leaderboardActivePressedColor: {r: 0.85, g: 0.62, b: 0.16, a: 1}
+  _leaderboardActiveTextColor: {r: 0.09, g: 0.12, b: 0.18, a: 1}
   _leaderboardRetryButton: {fileID: 704930304}
   _leaderboardPendingRetryButton: {fileID: 655894281}
   _leaderboardPendingRetryText: {fileID: 1276565907}
@@ -31641,6 +31888,7 @@ GameObject:
   - component: {fileID: 2033557008}
   - component: {fileID: 2033557007}
   - component: {fileID: 2033557006}
+  - component: {fileID: 2033557009}
   m_Layer: 0
   m_Name: CancelButton
   m_TagString: Untagged
@@ -31763,6 +32011,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2033557004}
   m_CullTransparentMesh: 1
+--- !u!114 &2033557009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033557004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 2033557006}
 --- !u!1 &2040863079
 GameObject:
   m_ObjectHideFlags: 0
@@ -31823,6 +32085,7 @@ GameObject:
   - component: {fileID: 2045885538}
   - component: {fileID: 2045885537}
   - component: {fileID: 2045885536}
+  - component: {fileID: 2045885539}
   m_Layer: 0
   m_Name: LeaderboardInfiniteButton
   m_TagString: Untagged
@@ -31847,7 +32110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 104, y: -82}
+  m_AnchoredPosition: {x: 0, y: -82}
   m_SizeDelta: {x: 200, y: 48}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2045885536
@@ -31867,7 +32130,7 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 704930304}
-    m_SelectOnLeft: {fileID: 1242588979}
+    m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -31944,6 +32207,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045885534}
   m_CullTransparentMesh: 1
+--- !u!114 &2045885539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045885534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 1, g: 0.82, b: 0.25, a: 1}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 0
 --- !u!1 &2048432085
 GameObject:
   m_ObjectHideFlags: 0
@@ -33303,6 +33581,8 @@ GameObject:
   - component: {fileID: 2105477290}
   - component: {fileID: 2105477289}
   - component: {fileID: 2105477288}
+  - component: {fileID: 2105477292}
+  - component: {fileID: 2105477291}
   m_Layer: 0
   m_Name: RebindButton
   m_TagString: Untagged
@@ -33424,6 +33704,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105477286}
   m_CullTransparentMesh: 1
+--- !u!114 &2105477291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105477286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46805c93726b42ecbbcef36a2660f59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsRebindButtonFocusHandler
+  _controller: {fileID: 1615873151}
+  _index: 5
+--- !u!114 &2105477292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105477286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b522ce1881164b26ab5b2a502805db8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowState.Runtime.Systems.SettingsButtonHoverFocusHandler
+  _controller: {fileID: 1615873151}
+  _button: {fileID: 2105477288}
 --- !u!1 &2123521968
 GameObject:
   m_ObjectHideFlags: 0

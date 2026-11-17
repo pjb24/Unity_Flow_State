@@ -21,6 +21,7 @@ Runtime Data를 생성하고 필요한 System에 제공하며 게임 종료 시 
 - Runtime Data를 제공한다.
 - Runtime Data를 제거한다.
 - Runtime Data 생성 상태를 관리한다.
+- 기본 Infinite Run 생성과 명시적 Stage/미정의 Mode 거절 경계를 관리한다.
 
 ---
 
@@ -50,7 +51,7 @@ RuntimeDataSystem은 각 System의 내부 상태를 소유하지 않는다.
 ## Collectible Runtime Data 소유
 
 - `GameRuntimeData` 아래에서 현재 Run의 공통 Collectible 획득 상태와 Collectible Score를 소유한다.
-- Stage Mode와 InfiniteMode는 이 공통 소유 위치를 사용한다.
+- 생산 InfiniteMode는 이 공통 소유 위치를 사용한다. Stage 전용 생산 Run 생성은 거절하며 기존 공통 데이터 구조를 삭제하지 않는다.
 - Scene Object는 Run의 획득 상태와 Score의 최종 소유자가 아니다.
 - 기존 InfiniteMode 거리 Score의 소유 경계는 유지한다.
 - InfiniteMode Runtime Data는 Run 시작 시 확정된 Scoring Version을 소유한다.
@@ -158,6 +159,10 @@ RuntimeDataSystem은 각 System의 내부 상태를 소유하지 않는다.
 - Runtime Data의 변경 규칙을 정의하지 않는다.
 - Feature 규칙을 정의하지 않는다.
 - GameSystem의 요청에 따라 Runtime Data를 생성하거나 제거한다.
+- 무인자 GameRuntimeData 초기화·RuntimeDataSystem 생성의 기본 Mode는 Infinite다. GameRuntimeData의 초기/정리 후 Mode도 Infinite이며 생성 여부와 구분한다.
+- GameRuntimeData의 void 초기화는 Stage/미정의 Mode를 기존 데이터 변경 없이 거절한다. Core 데이터 계층은 Unity 진단에 의존하지 않는다.
+- RuntimeDataSystem은 Stage/미정의 Mode 생성 요청을 기존 Run 반환/새 객체 생성보다 앞에서 경고와 null로 거절한다. 기존 Run/상태/수집 scope를 변경하거나 요청 성공처럼 기존 객체를 반환하지 않는다.
+- 위 생성/거절 경계는 Roadmap 9 Phase 2에서 구현·검증을 완료했다. Compile/Scene/Test/Player 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다. Phase 3의 기록 직접 경계는 별도 범위다.
 - Runtime Data는 게임 실행 중에만 유지한다.
 - InfiniteMode Runtime Data의 Scoring Version은 Run 도중 변경하지 않는다.
 - Version `1`과 Version `2` 갱신 API를 서로 다른 Version의 Runtime Data에 적용하지 않는다.

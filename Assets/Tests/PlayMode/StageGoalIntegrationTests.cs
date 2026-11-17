@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,278 +12,105 @@ namespace FlowState.Tests.PlayMode
 {
     public class StageGoalIntegrationTests
     {
-        private const string SceneName = "SampleScene";
+        private StageGoal _goal;
+        private Collider _playerCollider;
 
         [UnitySetUp]
         public IEnumerator SetUp()
         {
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(
-                SceneName,
-                LoadSceneMode.Single);
-
-            while (!loadOperation.isDone)
-            {
-                yield return null;
-            }
-
+            yield return SceneManager.LoadSceneAsync("SampleScene", LoadSceneMode.Single);
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
-            yield return new WaitForFixedUpdate();
+            ProductionSceneGameModeTestUtility.AssertNoProductionRuntime();
+            _goal = ProductionSceneGameModeTestUtility.FindSceneObject("Goal").GetComponent<StageGoal>();
+            _playerCollider = ProductionSceneGameModeTestUtility.FindSceneObject("Player").GetComponent<Collider>();
+            Assert.That(_goal, Is.Not.Null);
+            Assert.That(_playerCollider, Is.Not.Null);
+            Assert.That(ProductionSceneGameModeTestUtility.FindSceneObject("StageModeRoot").activeSelf, Is.False);
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
+        }
+
+        // Synthetic trigger observations exercise the preserved component only.
+        // No Stage runtime, StageSystem start, clear result or production bypass.
+        [Test]
+        public void DeprecatedGoal_RequiresInitializeAndExactPlayer_NotifiesOnce()
+        {
+            int count = 0;
+            Action listener = () => count++;
+            _goal.AddListener(listener);
+            _goal.AddListener(listener);
+            ObserveTrigger(_playerCollider);
+            Assert.That(count, Is.Zero);
+            Assert.That(_goal.Initialize(), Is.True);
+            ObserveTrigger(_goal.GetComponent<Collider>());
+            Assert.That(count, Is.Zero);
+            ObserveTrigger(_playerCollider);
+            ObserveTrigger(_playerCollider);
+            Assert.That(_goal.IsReached, Is.True);
+            Assert.That(count, Is.EqualTo(1));
+            _goal.RemoveListener(listener);
+            ProductionSceneGameModeTestUtility.AssertNoProductionRuntime();
+        }
+
+        [Test]
+        public void DeprecatedGoal_ResetAndRemoveListener_PreserveIndependentBehavior()
+        {
+            int count = 0;
+            Action listener = () => count++;
+            Assert.That(_goal.Initialize(), Is.True);
+            _goal.AddListener(listener);
+            ObserveTrigger(_playerCollider);
+            _goal.ResetGoal();
+            Assert.That(_goal.IsReached, Is.False);
+            ObserveTrigger(_playerCollider);
+            Assert.That(count, Is.EqualTo(2));
+            _goal.RemoveListener(listener);
+            _goal.ResetGoal();
+            ObserveTrigger(_playerCollider);
+            Assert.That(count, Is.EqualTo(2));
         }
 
         [UnityTest]
-        public IEnumerator PlayerEntersGoal_ClearsStageAndEndsGameOnce()
+        public IEnumerator InfiniteRun_InitializedLegacyGoalCannotClearOrReplaceRun()
         {
-            GameObject player = FindSceneGameObject("Player");
-            GameObject goal = FindSceneGameObject("Goal");
-            Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
-            MonoBehaviour gameSystem = FindRequiredBehaviour(
-                "GameSystem",
-                "GameSystem");
-            MonoBehaviour stageSystem = FindRequiredBehaviour(
-                "StageSystem",
-                "StageSystem");
-            MonoBehaviour playerMovementSystem = FindRequiredBehaviour(
-                "PlayerMovementSystem",
-                "PlayerMovementSystem");
-            MonoBehaviour resultSystem = FindRequiredBehaviour(
-                "ResultSystem",
-                "ResultSystem");
-            MonoBehaviour clearTimeText = FindRequiredBehaviour(
-                "ClearTimeText",
-                "TextMeshProUGUI");
-            GameObject stageHud = FindSceneGameObject("StageHUD");
-            GameObject resultPanel = FindSceneGameObject("ResultPanel");
-            int clearCount = 0;
-            int endCount = 0;
-
-            AddListener(
-                stageSystem,
-                "AddStageClearedListener",
-                () => clearCount++);
-            AddListener(
-                stageSystem,
-                "AddStageEndedListener",
-                () => endCount++);
-
-            yield return new WaitForSeconds(0.02f);
-
-            player.transform.position = goal.transform.position;
-            playerRigidbody.linearVelocity = new Vector3(
-                GetPrivateField<float>(playerMovementSystem, "_moveSpeed"),
-                4.0f,
-                0.0f);
-            Physics.SyncTransforms();
-
-            yield return new WaitForFixedUpdate();
-            yield return null;
-
-            Assert.That(
-                GetProperty<bool>(stageSystem, "IsPlaying"),
-                Is.False);
-            Assert.That(
-                GetProperty<bool>(stageSystem, "IsCleared"),
-                Is.True);
-            Assert.That(
-                GetProperty<bool>(stageSystem, "HasEnded"),
-                Is.True);
-            Assert.That(clearCount, Is.EqualTo(1));
-            Assert.That(endCount, Is.EqualTo(1));
-            Assert.That(
-                GetProperty<bool>(resultSystem, "HasResultData"),
-                Is.True);
-            object resultData =
-                GetProperty<object>(resultSystem, "CurrentResultData");
-            Assert.That(resultData, Is.Not.Null);
-            Assert.That(
-                GetObjectProperty<object>(resultData, "GameMode").ToString(),
-                Is.EqualTo("Stage"));
-            Assert.That(
-                GetObjectProperty<bool>(resultData, "HasStageResult"),
-                Is.True);
-            Assert.That(
-                GetObjectProperty<bool>(resultData, "HasInfiniteModeResult"),
-                Is.False);
-            Assert.That(
-                GetObjectProperty<double>(resultData, "ElapsedTime"),
-                Is.GreaterThan(0.0));
-            string resultText =
-                GetProperty<string>(clearTimeText, "text");
-            Assert.That(
-                Regex.IsMatch(
-                    resultText,
-                    @"^Clear Time: \d+\.\d{3} s$"),
-                Is.True);
-            Assert.That(
-                GetProperty<object>(gameSystem, "CurrentGameState").ToString(),
-                Is.EqualTo("Ended"));
-            Assert.That(stageHud.activeSelf, Is.False);
-            if (!resultPanel.activeSelf)
-            {
-                GameObject loadingPanel = FindSceneGameObject("ResultSubmissionLoadingPanel");
-                Assert.That(loadingPanel.activeSelf, Is.True);
-                float deadline = Time.realtimeSinceStartup + 9.5f;
-                while (!resultPanel.activeSelf && Time.realtimeSinceStartup < deadline)
-                {
-                    yield return null;
-                }
-                Assert.That(loadingPanel.activeSelf, Is.False);
-            }
-            Assert.That(resultPanel.activeSelf, Is.True);
-            Assert.That(playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
-            Assert.That(playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
-
-            yield return new WaitForSeconds(0.1f);
-
-            Assert.That(
-                GetProperty<string>(clearTimeText, "text"),
-                Is.EqualTo(resultText));
-        }
-
-        [UnityTest]
-        public IEnumerator StartGame_AfterGoalClear_RestoresNewStagePlay()
-        {
-            GameObject player = FindSceneGameObject("Player");
-            GameObject goal = FindSceneGameObject("Goal");
-            GameObject startPoint = FindSceneGameObject("StartPoint");
-            Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
-            MonoBehaviour gameSystem = FindRequiredBehaviour(
-                "GameSystem",
-                "GameSystem");
-            MonoBehaviour stageSystem = FindRequiredBehaviour(
-                "StageSystem",
-                "StageSystem");
-            MonoBehaviour resultSystem = FindRequiredBehaviour(
-                "ResultSystem",
-                "ResultSystem");
-
-            player.transform.position = goal.transform.position;
-            Physics.SyncTransforms();
-            yield return new WaitForFixedUpdate();
-            yield return null;
-
-            InvokePublicMethod(gameSystem, "StartGame");
-            Assert.That(playerRigidbody.position, Is.EqualTo(startPoint.transform.position));
-            Assert.That(playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
-            yield return null;
-            yield return new WaitForFixedUpdate();
-
-            Assert.That(
-                GetProperty<object>(gameSystem, "CurrentGameState").ToString(),
-                Is.EqualTo("Playing"));
-            Assert.That(
-                GetProperty<bool>(stageSystem, "IsPlaying"),
-                Is.True);
-            Assert.That(
-                GetProperty<bool>(stageSystem, "IsCleared"),
-                Is.False);
-            Assert.That(
-                GetProperty<bool>(stageSystem, "HasEnded"),
-                Is.False);
-            Assert.That(
-                GetProperty<bool>(resultSystem, "HasResultData"),
-                Is.False);
-            Assert.That(playerRigidbody.position.x, Is.GreaterThan(startPoint.transform.position.x));
-            Assert.That(playerRigidbody.linearVelocity.x, Is.GreaterThan(0.0f));
-        }
-
-        private GameObject FindSceneGameObject(string gameObjectName)
-        {
-            GameObject[] gameObjects =
-                Resources.FindObjectsOfTypeAll<GameObject>();
-
-            foreach (GameObject gameObject in gameObjects)
-            {
-                if (gameObject.name == gameObjectName &&
-                    gameObject.scene.IsValid() &&
-                    gameObject.scene.isLoaded)
-                {
-                    return gameObject;
-                }
-            }
-
-            Assert.Fail($"{gameObjectName} was not found in the loaded Scene.");
-            return null;
-        }
-
-        private MonoBehaviour FindRequiredBehaviour(
-            string gameObjectName,
-            string typeName)
-        {
-            GameObject targetObject = FindSceneGameObject(gameObjectName);
-
-            foreach (MonoBehaviour behaviour in
-                     targetObject.GetComponents<MonoBehaviour>())
-            {
-                if (behaviour != null && behaviour.GetType().Name == typeName)
-                {
-                    return behaviour;
-                }
-            }
-
-            Assert.Fail(
-                $"{typeName} was not found on {gameObjectName}.");
-            return null;
-        }
-
-        private void AddListener(
-            MonoBehaviour targetBehaviour,
-            string methodName,
-            Action listener)
-        {
-            MethodInfo method = targetBehaviour.GetType().GetMethod(
-                methodName,
-                BindingFlags.Instance | BindingFlags.Public);
-
-            Assert.That(method, Is.Not.Null);
-            method.Invoke(targetBehaviour, new object[] { listener });
-        }
-
-        private T GetProperty<T>(
-            MonoBehaviour targetBehaviour,
-            string propertyName)
-        {
-            PropertyInfo property = targetBehaviour.GetType().GetProperty(
-                propertyName,
-                BindingFlags.Instance | BindingFlags.Public);
-
-            Assert.That(property, Is.Not.Null);
-            return (T)property.GetValue(targetBehaviour);
-        }
-
-        private T GetObjectProperty<T>(
-            object target,
-            string propertyName)
-        {
-            PropertyInfo property = target.GetType().GetProperty(
-                propertyName,
-                BindingFlags.Instance | BindingFlags.Public);
-
-            Assert.That(property, Is.Not.Null);
-            return (T)property.GetValue(target);
-        }
-
-        private T GetPrivateField<T>(
-            MonoBehaviour targetBehaviour,
-            string fieldName)
-        {
-            FieldInfo field = targetBehaviour.GetType().GetField(
-                fieldName,
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
+            MonoBehaviour game = FindSystem("GameSystem");
+            MonoBehaviour stage = FindSystem("StageSystem");
+            FieldInfo runtimeField = game.GetType().GetField("_runtimeData",
                 BindingFlags.Instance | BindingFlags.NonPublic);
-            Assert.That(field, Is.Not.Null);
-            return (T)field.GetValue(targetBehaviour);
+            Assert.That(runtimeField, Is.Not.Null);
+            GameRuntimeData runtime = (GameRuntimeData)runtimeField.GetValue(game);
+            Assert.That(_goal.Initialize(), Is.True);
+            ObserveTrigger(_playerCollider);
+            LogAssert.Expect(LogType.Warning, "[StageSystem] Stage Mode is no longer supported. Use Infinite Mode.");
+            Assert.That(stage.GetType().GetMethod("Initialize", new[] { typeof(E_GameMode) })
+                .Invoke(stage, new object[] { E_GameMode.Stage }), Is.False);
+            yield return null;
+            Assert.That(runtimeField.GetValue(game), Is.SameAs(runtime));
+            Assert.That(runtime.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(runtime.GameState, Is.EqualTo(E_GameState.Playing));
+            Assert.That(stage.GetType().GetProperty("IsCleared").GetValue(stage), Is.False);
         }
 
-        private void InvokePublicMethod(
-            MonoBehaviour targetBehaviour,
-            string methodName)
+        private void ObserveTrigger(Collider other)
         {
-            MethodInfo method = targetBehaviour.GetType().GetMethod(
-                methodName,
-                BindingFlags.Instance | BindingFlags.Public);
+            MethodInfo trigger = typeof(StageGoal).GetMethod("OnTriggerEnter",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(trigger, Is.Not.Null);
+            trigger.Invoke(_goal, new object[] { other });
+        }
 
-            Assert.That(method, Is.Not.Null);
-            method.Invoke(targetBehaviour, null);
+        private MonoBehaviour FindSystem(string name)
+        {
+            foreach (MonoBehaviour component in ProductionSceneGameModeTestUtility.FindSceneObject(name)
+                .GetComponents<MonoBehaviour>())
+                if (component.GetType().Name == name) return component;
+            Assert.Fail(name + " component was not found.");
+            return null;
         }
     }
 }

@@ -8,18 +8,19 @@ GameEntryNavigation
 
 ## 목적
 
-플레이어가 Main Menu에서 게임 Mode와 구현된 기능 화면으로 일관되게 이동할 수 있도록 한다.
+플레이어가 Main Menu에서 Infinite 플레이와 구현된 기능 화면으로 일관되게 이동할 수 있도록 한다.
 
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 적용 상태
 
-상태: Phase 2 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+상태: Phase 2의 Infinite 단일 시작/안내·과거 값 정규화·Stage 실행/표시 차단·Pause Retry 확인은 완료했다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다. Phase 3 잔여 기록 경계/Phase 4 통합 후보 판정은 별도다.
 
 - Boot 뒤 Main Menu/Play를 유지한다. Play는 Mode Select를 거치지 않고 Infinite 시작을 요청한다.
 - 기존 Tutorial 완료 상태를 보존한다. 미완료 사용자는 Infinite 자동 안내의 Start Run 전까지 Run을 만들지 않는다.
 - 과거 선택/대기 값은 Infinite로 정규화하고 명시적 Stage 선택/실행 요청은 거절한다. 일반 사용자 전환 팝업은 추가하지 않는다.
 - Main Menu 복귀 선택과 중복 요청 방지, Pause/Settings 복귀는 유지한다.
+- 2026-11-17 Player Candidate02 확인 중 사용자 요청으로 Pause Retry 확인 단계를 추가했다. PauseRetryConfirmation은 Cancel 기본 선택이며 취소 시 같은 Run의 Pause/Retry로 복귀한다. 확인 시에만 Infinite 초기화를 요청한다. 기존 Main Menu 확인 UI를 Scene에서 재사용하며 최종 Scene/Test/Player 검증은 Phase 2 Task 9-3/Step 10에서 완료했다.
 
 검증 계약: P9-C01/P9-C02/P9-C03. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
 
@@ -31,15 +32,14 @@ GameEntryNavigation
 - Main Menu 항목 순서는 Play, How To Play, Leaderboard, Settings, Quit이다.
 - Main Menu의 최초 기본 선택은 Play다.
 - Main Menu의 Cancel은 동작하지 않는다.
-- Mode Select 항목 순서는 Stage, Infinite, Back이다.
-- Mode Select는 최초에 Stage를 선택하고, 같은 Application 실행 중 다시 열면 마지막으로 선택한 Mode를 기본 선택으로 사용한다.
-- Mode Select에서 유효한 Mode를 Submit하면 별도 Start 확인 없이 해당 Mode의 Run 시작을 요청한다. 단, Application 실행 중 자동 안내 처리 전에는 선택 Mode를 보존하고 How To Play 자동 안내를 먼저 표시한다.
-- Mode Select의 Back Submit 또는 Cancel은 Main Menu의 Play 선택으로 복귀한다.
-- Main Menu, Mode Select와 모든 세로 메뉴의 Navigate 경계는 clamp다. 첫 항목에서 위로, 마지막 항목에서 아래로 Navigate해도 선택은 유지한다.
+- Play는 Mode Select를 열지 않는다. Tutorial 완료값이 true면 Infinite 초기화를 요청하고, false면 Infinite 자동 안내의 Start Run까지 Run 생성 요청을 보류한다.
+- Navigation 선택/대기 기본값은 Infinite다. 과거 Stage 선택/대기 값은 정상 Play·Start Run·Retry에서 Infinite로 처리한다.
+- 명시적 Stage 플레이 선택과 미정의 Navigation 항목은 거절한다. 보존된 Mode Select의 Stage Submit도 실행하지 않는다. 해당 화면의 Back/Cancel은 Main Menu의 Play로 복귀한다.
+- Main Menu와 세로 메뉴의 Navigate 경계는 clamp다. 첫 항목에서 위로, 마지막 항목에서 아래로 Navigate해도 선택은 유지한다.
 - Main Menu에서 How To Play, Leaderboard 또는 Settings를 열었다가 Back 또는 Cancel로 복귀하면 해당 Main Menu 항목을 다시 선택한다.
 - Main Menu의 Quit만 Application 종료를 요청한다.
 - 이전 화면으로 돌아갈 수 있는 모든 하위 화면은 Keyboard Navigate·Submit과 Mouse Point·Click으로 실행할 수 있는 Back UI 항목을 제공한다.
-- 화면 선택과 마지막 Mode 기억은 Application 실행 중 Runtime Navigation 상태로만 유지하며, Application 종료 후 저장하거나 복원하지 않는다.
+- 화면 선택은 Application 실행 중 Runtime Navigation 상태로 유지하며, 선택 Mode를 영구 저장하지 않는다. Tutorial 완료 여부는 기존 Local Save 계약으로 복원·보존한다.
 
 ---
 
@@ -64,8 +64,8 @@ GameEntryNavigation
 
 ## 수행 결과
 
-- Main Menu와 Mode Select에서 Run 생성 전의 Navigation을 제공한다.
-- 선택된 Mode의 Submit 요청이 성공한 경우 자동 안내가 필요하지 않으면 Run 시작 흐름으로 진행하고, 자동 안내가 필요하면 Start Run 요청까지 Run 시작을 보류한다.
+- Main Menu와 Infinite 자동 안내에서 Run 생성 전의 Navigation을 제공한다.
+- 유효한 Play/Start Run/Retry는 Infinite 시작 요청을 만들고 초기화 성공 때만 Run ID를 증가시킨다.
 
 ---
 
@@ -87,7 +87,8 @@ GameEntryNavigation
 
 ## 제약 사항
 
-- 실제 Scene UI와 Action Map 생산 연결은 Phase 2에서 수행한다.
+- Scene 적용·화면/포커스 차단과 Unity 검증은 Phase 2 후속 Step에 남아 있다.
+- Leaderboard의 Stage 선택은 Phase 3 대상이며 현재 플레이 요청과 구분해 유지한다.
 - Leaderboard 조회·제출과 Settings의 세부 기능은 이 Feature가 수행하지 않는다.
 
 ---
@@ -95,10 +96,10 @@ GameEntryNavigation
 ## 검증 항목
 
 - Boot 후 Main Menu가 Run 없이 표시되는지 확인한다.
-- Main Menu와 Mode Select의 기본 선택, clamp 경계, Back UI와 Cancel 복귀를 확인한다.
-- Mode Select Submit 전에는 Run 생성 요청이 없는지 확인한다.
-- 자동 안내가 필요한 Mode Select Submit은 Run을 생성하지 않고 Start Run 요청만 선택 Mode의 Run을 시작하는지 확인한다.
-- 마지막 Mode와 화면 선택이 Application 실행 중에만 복귀되는지 확인한다.
+- Main Menu의 기본 선택, clamp 경계, Back UI와 Cancel 복귀를 확인한다.
+- Tutorial 미완료 Play는 안내만 열고, 완료 Play는 Mode Select 없이 Infinite 초기화를 요청하는지 확인한다.
+- Start Run의 같은/인접 입력 sequence·중복 호출이 Run을 한 번만 생성하는지 확인한다.
+- 과거 Stage 선택/대기/Retry 정규화와 명시적 Stage 거절, 초기화 실패 후 복귀/재진입 및 Tutorial 완료 보존을 확인한다.
 
 ---
 

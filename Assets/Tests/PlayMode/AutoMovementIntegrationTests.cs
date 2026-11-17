@@ -30,7 +30,7 @@ namespace FlowState.Tests.PlayMode
             _timerSystem = FindSystem("TimerSystem", "TimerSystem");
             _playerRigidbody = GameObject.Find("Player").GetComponent<Rigidbody>();
             Assert.That(_playerRigidbody, Is.Not.Null);
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
         }
 
         [UnityTearDown]
@@ -43,12 +43,19 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
-        public IEnumerator StageStart_NoMoveInput_UsesFixedSerializedSpeed()
+        public IEnumerator StageRequest_IsRejectedWithoutReplacingAutomaticRun()
         {
-            yield return VerifyAutomaticStart(E_GameMode.Stage);
+            GameRuntimeData runtime = GetRuntimeData();
+            Vector3 velocity = _playerRigidbody.linearVelocity;
+            Assert.Throws<AssertionException>(() =>
+                ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage));
+            Assert.That(GetRuntimeData(), Is.SameAs(runtime));
+            Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(velocity));
+            yield return null;
         }
 
         [UnityTest]
@@ -57,9 +64,8 @@ namespace FlowState.Tests.PlayMode
             yield return VerifyAutomaticStart(E_GameMode.Infinite);
         }
 
-        [TestCase(E_GameMode.Stage)]
         [TestCase(E_GameMode.Infinite)]
-        public void PlayingStep_BothModes_UsesFixedSerializedSpeed(E_GameMode gameMode)
+        public void PlayingStep_Infinite_UsesFixedSerializedSpeed(E_GameMode gameMode)
         {
             ProductionSceneGameModeTestUtility.RestartInMode(gameMode);
             GameRuntimeData runtimeData = GetRuntimeData();
@@ -187,7 +193,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator StagePauseResume_FreezesPositionTimerAndClearsTransientInput()
+        public IEnumerator InfinitePauseResumeTimer_FreezesPositionTimerAndClearsTransientInput()
         {
             for (int step = 0; step < 8; step++)
             {
@@ -203,7 +209,7 @@ namespace FlowState.Tests.PlayMode
             double pausedTime = (double)Invoke(
                 _timerSystem,
                 "GetElapsedTime",
-                E_TimerKey.PlayTimer);
+                E_TimerKey.InfiniteRunTimer);
             SetField(_inputSystem, "_isJumpPressed", true);
             SetField(_inputSystem, "_isMomentumLandingPressed", true);
 
@@ -213,7 +219,7 @@ namespace FlowState.Tests.PlayMode
                 Assert.That(_playerRigidbody.position, Is.EqualTo(pausedPosition));
                 Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
                 Assert.That(
-                    (double)Invoke(_timerSystem, "GetElapsedTime", E_TimerKey.PlayTimer),
+                    (double)Invoke(_timerSystem, "GetElapsedTime", E_TimerKey.InfiniteRunTimer),
                     Is.EqualTo(pausedTime).Within(0.001));
             }
 
@@ -266,7 +272,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator StagePausedRetry_Twice_CreatesIndependentAutomaticRuns()
+        public IEnumerator InfinitePausedRetry_Twice_CreatesIndependentAutomaticRuns()
         {
             GameRuntimeData previousRuntimeData = GetRuntimeData();
 

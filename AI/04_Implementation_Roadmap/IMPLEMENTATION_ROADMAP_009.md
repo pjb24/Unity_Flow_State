@@ -12,7 +12,7 @@ Flow State
 
 Roadmap 9 — InfiniteMode 단일화와 Stage Mode 접근 제거.
 
-계획 확정일: 2026-11-11. **Phase 1 완료·생산 전환 구현 미착수**다. Phase 2~4는 대기다.
+계획 확정일: 2026-11-11. **Phase 1~2 완료(Phase 2: 2026-11-17, Step 1~10 완료)**다. Phase 3은 Leaderboard 사용자 접근 경계를 선행 반영했고 잔여 구현/검증은 대기다. Phase 4는 대기다.
 선행: [Roadmap 8](IMPLEMENTATION_ROADMAP_008.md) 완료 후 순차 착수한다.
 공통 순서·승인/검증 경계는 [로드맵 안내](README.md)를 따른다.
 
@@ -75,9 +75,11 @@ Stage 기록 보관/이관·Pending 호환은 고려 대상에서 제외한다. 
 
 ### 상태
 
-대기 — 구현/실행 검증 미착수.
+완료 — 2026-11-17. [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md) Step 1~10의 진입/실행/UI 경계·Deprecated 소스 보존·정적 검증과 사용자 Compile/Scene 적용, 최신 EditMode 919개/PlayMode 288개 전체 통과, Windows-production 최신 Candidate02 Player/화면 정상 보고를 연결했다. 추가 Pause Retry 확인창도 포함한다. 사용자가 기존 Candidate02에 덮어쓰기로 결정했으며 Build/ProductionQA/Candidate02의 최신 빌드가 최종 후보다. AI는 Unity 실행/빌드·Scene 편집을 하지 않았다.
 
 ## Phase 3. Stage 기록 접근 차단과 Infinite 기록 보존
+
+2026-11-17 사용자 확인으로 Leaderboard의 Stage 접근 제거도 전체 목표에 포함됨을 재확정했다. Phase 2 Step 7 인계 중 Stage 탭 비활성·Navigation/선택 거절·Main Menu/Result의 Infinite 진입·사용자 조회의 Infinite Board 고정을 선행 반영했다. 변경 후 사용자 Compile·Scene 적용과 AI 정적 확인은 완료했고 사용자 최신 EditMode 919개/PlayMode 288개 전체 통과를 보고받았다. Phase 3 전체(Repository/제출 후보/직접 제출/도구 경로)는 아직 완료하지 않았다.
 
 ### 목표
 
@@ -97,7 +99,7 @@ Stage 기록 보관/이관·Pending 호환은 고려 대상에서 제외한다. 
 
 ### 상태
 
-대기 — 구현/실행 검증 미착수.
+일부 선행 반영 — 사용자 Stage 탭/Navigation/Top·Around 경계는 Phase 2에서 적용·검증했다. Repository/후보·직접 제출/Editor 도구·Infinite 저장/계정 이전 회귀의 잔여 구현/검증은 대기다.
 
 ## Phase 4. 통합 회귀와 전환 후보 판정
 
@@ -125,12 +127,12 @@ Stage 기록 보관/이관·Pending 호환은 고려 대상에서 제외한다. 
 
 ## 진행 중인 작업
 
-없음. Phase 1 완료. Phase 2~4 생산 전환 구현은 대기다.
+Phase 2 완료. Step 1~10과 최신 확인창 변경까지 사용자 EditMode 919개/PlayMode 288개 전체 통과·Windows-production 최신 Candidate02의 Player/화면 정상 보고와 최종 정적 검사 592건으로 확인했다. Phase 3 잔여 구현/검증과 Phase 4는 미완료다.
 
 ## 다음 작업
 
-Phase 2의 Stage 플레이/진입 차단과 Infinite 시작/안내 흐름 구현을 준비한다.
-파일·Test·사용자 Scene 작업은 [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md)의 Step 5~7 인계를 따른다. 이번에는 Phase 2에 착수하지 않았다.
+[Phase 2 수동 작업 절차](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 작성했다.
+다음은 [Phase 3 실행 절차](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md) Step 1의 진입 경계/기준선 확정이다. 2026-11-17 Task 문서 작성·사전 조사만 완료했으며 구현 Step 1~11은 미착수다. 이후 Stage 기록 후보/직접 제출·Repository 우회 접근·Editor Stage 조회/제출/direct-write probe 차단과 Infinite 저장/Pending/개인 최고 snapshot·계정 이전 회귀를 진행한다. 선행 완료한 사용자 Leaderboard 탭/Navigation/Top·Around 경계를 재구현하지 않는다.
 
 ## 보류된 작업
 
@@ -139,7 +141,7 @@ Pattern 연결·난이도·위험 보상 개선은 Roadmap 9~14 범위 밖으로
 
 ## 완료된 단계
 
-Phase 1 완료(2026-11-11). 나머지 Phase 2~4는 대기이며 Roadmap 9 전체는 미완료다.
+Phase 1 완료(2026-11-11), Phase 2 완료(2026-11-17, Step 1~10). Phase 3 전체·Phase 4와 Roadmap 9 전체는 미완료다.
 
 # 구현 우선순위
 

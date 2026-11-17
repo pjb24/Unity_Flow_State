@@ -13,6 +13,7 @@ namespace FlowState.Runtime.Core
         Leaderboard,
         HowToPlay,
         AutomaticHowToPlay,
-        Settings
+        Settings,
+        PauseRetryConfirmation
     }
 }

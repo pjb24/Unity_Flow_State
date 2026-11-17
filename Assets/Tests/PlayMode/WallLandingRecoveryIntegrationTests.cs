@@ -38,7 +38,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
             yield return new WaitForFixedUpdate();
 
             _player = GameObject.Find("Player");
@@ -55,6 +55,7 @@ namespace FlowState.Tests.PlayMode
                 "RuntimeDataSystem");
 
             CreateFixture();
+            ProductionSceneGameModeTestUtility.DisableInfiniteProgressionForPhysicsFixture();
             MovePlayerToFixture();
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
@@ -78,6 +79,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
@@ -377,6 +379,7 @@ namespace FlowState.Tests.PlayMode
                 "InfiniteModeSystem",
                 "InfiniteModeSystem");
             SetPrivateField(infiniteModeSystem, "_minimumHorizontalSpeed", 0.0f);
+            infiniteModeSystem.enabled = true;
             SetPrivateField(infiniteModeSystem, "_startGraceDuration", 100.0f);
             SetPrivateField(
                 infiniteModeSystem,

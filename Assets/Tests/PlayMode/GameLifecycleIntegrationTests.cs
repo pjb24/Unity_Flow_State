@@ -20,7 +20,7 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _stageSystem;
         private MonoBehaviour _cameraFollow;
         private Rigidbody _playerRigidbody;
-        private GameObject _stageHud;
+        private GameObject _infiniteHud;
         private GameObject _resultPanel;
 
         [UnitySetUp]
@@ -36,7 +36,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
             yield return new WaitForFixedUpdate();
 
             _gameSystem = FindRequiredBehaviour(
@@ -63,8 +63,14 @@ namespace FlowState.Tests.PlayMode
             _playerRigidbody = FindSceneGameObject("Player")
                 .GetComponent<Rigidbody>();
             Assert.That(_playerRigidbody, Is.Not.Null);
-            _stageHud = FindSceneGameObject("StageHUD");
+            _infiniteHud = FindSceneGameObject("InfiniteHUD");
             _resultPanel = FindSceneGameObject("ResultPanel");
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
@@ -113,7 +119,7 @@ namespace FlowState.Tests.PlayMode
                 Is.False);
             Assert.That(_playerRigidbody.linearVelocity, Is.EqualTo(Vector3.zero));
             Assert.That(_playerRigidbody.angularVelocity, Is.EqualTo(Vector3.zero));
-            Assert.That(_stageHud.activeSelf, Is.False);
+            Assert.That(_infiniteHud.activeSelf, Is.False);
             Assert.That(_resultPanel.activeSelf, Is.True);
         }
 
@@ -282,7 +288,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 (bool)GetPropertyValue(_cameraFollow, "IsFollowing"),
                 Is.True);
-            Assert.That(_stageHud.activeSelf, Is.True);
+            Assert.That(_infiniteHud.activeSelf, Is.True);
             Assert.That(_resultPanel.activeSelf, Is.False);
         }
 

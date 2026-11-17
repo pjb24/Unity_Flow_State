@@ -103,55 +103,20 @@ namespace FlowState.Tests.PlayMode
             _cameraRig = FindSceneGameObject("CameraRig");
             _playerRigidbody = _player.GetComponent<Rigidbody>();
             _playerCollider = _player.GetComponent<Collider>();
-            _finalDistanceText = new GameObject(
-                "InfiniteModeIntegrationTests.FinalDistanceText")
-                .AddComponent<TextMeshProUGUI>();
-            _finalScoreText = new GameObject(
-                "InfiniteModeIntegrationTests.FinalScoreText")
-                .AddComponent<TextMeshProUGUI>();
-            _infiniteResultBaseDistanceScoreText = new GameObject(
-                "InfiniteModeIntegrationTests.BaseDistanceScoreText")
-                .AddComponent<TextMeshProUGUI>();
-            _infiniteResultMomentumBonusText = new GameObject(
-                "InfiniteModeIntegrationTests.MomentumBonusText")
-                .AddComponent<TextMeshProUGUI>();
-            _infiniteResultCollectibleScoreText = new GameObject(
-                "InfiniteModeIntegrationTests.CollectibleScoreText")
-                .AddComponent<TextMeshProUGUI>();
-            _infiniteResultTotalScoreText = new GameObject(
-                "InfiniteModeIntegrationTests.TotalScoreText")
-                .AddComponent<TextMeshProUGUI>();
-            _infiniteResultMaximumMomentumText = new GameObject(
-                "InfiniteModeIntegrationTests.MaximumMomentumText")
-                .AddComponent<TextMeshProUGUI>();
-            SetPrivateField(
-                _uiManagementSystem,
-                "_finalDistanceText",
-                _finalDistanceText);
-            SetPrivateField(
-                _uiManagementSystem,
-                "_finalScoreText",
-                _finalScoreText);
-            SetPrivateField(
-                _uiManagementSystem,
-                "_infiniteResultBaseDistanceScoreText",
-                _infiniteResultBaseDistanceScoreText);
-            SetPrivateField(
-                _uiManagementSystem,
-                "_infiniteResultMomentumBonusText",
-                _infiniteResultMomentumBonusText);
-            SetPrivateField(
-                _uiManagementSystem,
-                "_infiniteResultCollectibleScoreText",
-                _infiniteResultCollectibleScoreText);
-            SetPrivateField(
-                _uiManagementSystem,
-                "_infiniteResultTotalScoreText",
-                _infiniteResultTotalScoreText);
-            SetPrivateField(
-                _uiManagementSystem,
-                "_infiniteResultMaximumMomentumText",
-                _infiniteResultMaximumMomentumText);
+            _finalDistanceText = GetPrivateField<TMP_Text>(_uiManagementSystem, "_finalDistanceText");
+            Assert.That(_finalDistanceText, Is.Not.Null);
+            _finalScoreText = GetPrivateField<TMP_Text>(_uiManagementSystem, "_finalScoreText");
+            Assert.That(_finalScoreText, Is.Not.Null);
+            _infiniteResultBaseDistanceScoreText = GetPrivateField<TMP_Text>(_uiManagementSystem, "_infiniteResultBaseDistanceScoreText");
+            Assert.That(_infiniteResultBaseDistanceScoreText, Is.Not.Null);
+            _infiniteResultMomentumBonusText = GetPrivateField<TMP_Text>(_uiManagementSystem, "_infiniteResultMomentumBonusText");
+            Assert.That(_infiniteResultMomentumBonusText, Is.Not.Null);
+            _infiniteResultCollectibleScoreText = GetPrivateField<TMP_Text>(_uiManagementSystem, "_infiniteResultCollectibleScoreText");
+            Assert.That(_infiniteResultCollectibleScoreText, Is.Not.Null);
+            _infiniteResultTotalScoreText = GetPrivateField<TMP_Text>(_uiManagementSystem, "_infiniteResultTotalScoreText");
+            Assert.That(_infiniteResultTotalScoreText, Is.Not.Null);
+            _infiniteResultMaximumMomentumText = GetPrivateField<TMP_Text>(_uiManagementSystem, "_infiniteResultMaximumMomentumText");
+            Assert.That(_infiniteResultMaximumMomentumText, Is.Not.Null);
 
             Assert.That(_stageGoal, Is.Not.Null);
             Assert.That(_mapPattern, Is.Not.Null);
@@ -164,6 +129,12 @@ namespace FlowState.Tests.PlayMode
                 E_GameMode.Infinite);
             yield return null;
             yield return new WaitForFixedUpdate();
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]

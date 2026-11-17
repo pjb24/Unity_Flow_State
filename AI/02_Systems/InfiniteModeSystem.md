@@ -19,6 +19,8 @@ InfiniteMode 종료 시 StageSystem에 Stage 종료를 요청한다.
 # 시스템 책임
 
 - InfiniteMode 진행 상태를 초기화하고 종료한다.
+- 명시적 Stage/미정의 Mode 초기화는 기존 진행·점수·Pattern/World Rebase 상태 변경 전에 경고와 false로 거절한다.
+- 내부 InfiniteModeState의 초기 Stage 값은 비활성 sentinel이며 생산 Stage Run을 뜻하지 않는다. 유효한 생산 초기화는 Infinite 설정 후 Start하고, Reset은 선택된 Infinite Mode를 유지한다.
 - InfiniteMode의 Momentum 상태를 소유하고 실제 착지 성공 ID를 배율 규칙에 전달한다.
 - 같은 착지 성공 ID는 한 번만 반영하며, Playing에서만 Momentum 유지 시간을 진행한다.
 - Pause와 Resume에 Momentum 상태 보존·재개를 연결하고 종료 시 최종 상태를 고정한다.

@@ -57,7 +57,8 @@ namespace FlowState.Runtime.Core
                 IsStageHudVisible = false;
                 IsInfiniteHudVisible = false;
                 IsResultPanelVisible = true;
-                IsStageResultContentVisible = gameMode == E_GameMode.Stage;
+                // Deprecated Stage content is retained as a reference, never displayed.
+                IsStageResultContentVisible = false;
                 IsInfiniteResultContentVisible =
                     gameMode == E_GameMode.Infinite;
             }
@@ -77,14 +78,13 @@ namespace FlowState.Runtime.Core
 
         private void ApplyCurrentModeHud(E_GameMode gameMode)
         {
-            IsStageHudVisible = gameMode == E_GameMode.Stage;
+            IsStageHudVisible = false;
             IsInfiniteHudVisible = gameMode == E_GameMode.Infinite;
         }
 
         private bool IsValidGameMode(E_GameMode gameMode)
         {
-            return gameMode == E_GameMode.Stage ||
-                   gameMode == E_GameMode.Infinite;
+            return gameMode == E_GameMode.Infinite;
         }
 
         private bool IsValidGameState(E_GameState gameState)

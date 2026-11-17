@@ -3,7 +3,7 @@ namespace FlowState.Runtime.Core
     public class GameRuntimeData
     {
         private E_GameState _gameState;
-        private E_GameMode _gameMode;
+        private E_GameMode _gameMode = E_GameMode.Infinite;
         private E_UIState _uiState;
         private PlayerMovementRuntimeData _playerMovementRuntimeData;
         private InfiniteModeRuntimeData _infiniteModeRuntimeData;
@@ -29,11 +29,18 @@ namespace FlowState.Runtime.Core
 
         public void Initialize()
         {
-            Initialize(E_GameMode.Stage);
+            Initialize(E_GameMode.Infinite);
         }
 
         public void Initialize(E_GameMode gameMode)
         {
+            // Stage production Runs are retired. Keep this void API, rejecting
+            // explicit unsupported modes before clearing any existing Run data.
+            if (gameMode != E_GameMode.Infinite)
+            {
+                return;
+            }
+
             if (_collectibleRuntimeData != null)
             {
                 _collectibleRuntimeData.Clear();
@@ -84,7 +91,7 @@ namespace FlowState.Runtime.Core
         public void Clear()
         {
             _gameState = E_GameState.None;
-            _gameMode = E_GameMode.Stage;
+            _gameMode = E_GameMode.Infinite;
             _uiState = E_UIState.None;
             _playerMovementRuntimeData = null;
 

@@ -26,8 +26,9 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
-            yield return null;
+            // No Run is started. Configuration remains inspectable while inactive.
+            ProductionSceneGameModeTestUtility.AssertNoProductionRuntime();
+            Assert.That(FindSceneGameObject("StageModeRoot").activeSelf, Is.False);
         }
 
         [Test]
@@ -101,9 +102,18 @@ namespace FlowState.Tests.PlayMode
                 Is.EqualTo(0.0f));
         }
 
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
+        }
+
         [UnityTest]
         public IEnumerator StageTerrainSurfaces_ProvideActualGroundContact()
         {
+            // Enable preserved colliders only for this independent contact probe.
+            // GameSystem remains in the menu; no Stage runtime or listener is created.
+            FindSceneGameObject("StageModeRoot").SetActive(true);
             GameObject player = FindSceneGameObject("Player");
             Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
             Collider playerCollider = player.GetComponent<Collider>();
@@ -119,6 +129,7 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(playerRigidbody, Is.Not.Null);
             Assert.That(playerCollider, Is.Not.Null);
+            Assert.That(InvokeMethod(collisionSystem, "Initialize"), Is.True);
 
             foreach (string groundObjectName in groundObjectNames)
             {
@@ -149,6 +160,7 @@ namespace FlowState.Tests.PlayMode
                     $"{groundObjectName} returned an unexpected contact point.");
             }
 
+            ProductionSceneGameModeTestUtility.AssertNoProductionRuntime();
             yield return null;
         }
 
@@ -173,7 +185,6 @@ namespace FlowState.Tests.PlayMode
             foreach (GameObject gameObject in gameObjects)
             {
                 if (gameObject.name == gameObjectName &&
-                    gameObject.activeInHierarchy &&
                     gameObject.scene.IsValid() &&
                     gameObject.scene.isLoaded)
                 {

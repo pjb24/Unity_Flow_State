@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using FlowState.Runtime.Core;
+using FlowState.Runtime.Features;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -16,6 +18,148 @@ namespace FlowState.Tests.PlayMode
         private Collider _playerCollider;
         private MonoBehaviour _stageGoal;
         private MonoBehaviour _stageSystem;
+
+        [TestCase(E_GameState.None)]
+        [TestCase(E_GameState.Ready)]
+        [TestCase(E_GameState.Playing)]
+        [TestCase(E_GameState.Paused)]
+        [TestCase(E_GameState.Ended)]
+        public void UnsupportedInitializeAndStart_PreserveRunRootsListenersAndCollectibles(E_GameState state)
+        {
+            GameRuntimeData runtime = null;
+            ScoreCollectible collectible = null;
+            long scope = 0;
+            if (state != E_GameState.None)
+            {
+                Assert.That(InvokeBoolMethod(_stageSystem, "Initialize"), Is.True);
+                runtime = new GameRuntimeData();
+                runtime.Initialize();
+                runtime.SetGameState(state);
+                runtime.SetUIState(state == E_GameState.Ended ? E_UIState.Result : E_UIState.StageHud);
+                Rigidbody body = _playerObject.AddComponent<Rigidbody>();
+                body.useGravity = false;
+                Assert.That(InvokeBoolMethod(_stageSystem, "ConfigureCollectibles", runtime, body), Is.True);
+                if (state != E_GameState.Ready)
+                    Assert.That(InvokeBoolMethod(_stageSystem, "StartStage"), Is.True);
+
+                // An actual bound component/scope makes premature release observable.
+                GameObject coin = new GameObject("StageSystemTests.Coin");
+                coin.transform.SetParent(_systemObject.transform);
+                // ScoreCollectible binding/overlap checks require a sphere trigger.
+                SphereCollider trigger = coin.AddComponent<SphereCollider>();
+                trigger.isTrigger = true;
+                MeshRenderer visual = coin.AddComponent<MeshRenderer>();
+                collectible = coin.AddComponent<ScoreCollectible>();
+                SetPrivateField(collectible, "_collectibleId", "scope-coin");
+                SetPrivateField(collectible, "_triggerCollider", trigger);
+                SetPrivateField(collectible, "_visual", visual);
+                Assert.That(runtime.CollectibleRuntimeData.TryCreateScope(out scope), Is.True);
+                Assert.That(collectible.Bind(runtime, body, scope), Is.True);
+                ((IList)GetPrivateField(_stageSystem, "_collectibles")).Add(collectible);
+                SetPrivateField(_stageSystem, "_collectibleScopeId", scope);
+                if (state == E_GameState.Paused)
+                    Assert.That(InvokeBoolMethod(_stageSystem, "PauseStage"), Is.True);
+                if (state == E_GameState.Ended)
+                    Assert.That(InvokeBoolMethod(_stageSystem, "TryEndInfiniteStage"), Is.True);
+            }
+
+            GameObject stageRoot = new GameObject("StageSystemTests.PreservedStageRoot");
+            GameObject infiniteRoot = new GameObject("StageSystemTests.PreservedInfiniteRoot");
+            stageRoot.transform.SetParent(_systemObject.transform);
+            infiniteRoot.transform.SetParent(_systemObject.transform);
+            stageRoot.SetActive(false);
+            SetPrivateField(_stageSystem, "_stageModeRoot", stageRoot);
+            SetPrivateField(_stageSystem, "_infiniteModeRoot", infiniteRoot);
+            Assert.That(InvokeBoolMethod(_stageGoal, "Initialize"), Is.True);
+            MethodInfo handler = _stageSystem.GetType().GetMethod("HandleGoalReached",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Action goalListener = (Action)Delegate.CreateDelegate(typeof(Action), _stageSystem, handler);
+            InvokeMethod(_stageGoal, "AddListener", goalListener);
+            object goalListeners = GetPrivateField(_stageGoal, "GoalReached");
+            int scopeCount = runtime == null ? 0 : runtime.CollectibleRuntimeData.ActiveScopeCount;
+            int registeredCount = runtime == null ? 0 : runtime.CollectibleRuntimeData.RegisteredCount;
+            int bindingCount = ((IList)GetPrivateField(_stageSystem, "_collectibles")).Count;
+
+            foreach (E_GameMode mode in new[] { E_GameMode.Stage, (E_GameMode)999 })
+            {
+                Dictionary<string, object> snapshot = CaptureStageFields();
+                LogAssert.Expect(mode == E_GameMode.Stage ? LogType.Warning : LogType.Error,
+                    mode == E_GameMode.Stage
+                        ? "[StageSystem] Stage Mode is no longer supported. Use Infinite Mode."
+                        : "[StageSystem] Game Mode is invalid.");
+                Assert.That(InvokeBoolMethod(_stageSystem, "Initialize", mode), Is.False);
+                AssertStageFields(snapshot);
+
+                SetPrivateField(_stageSystem, "_currentGameMode", mode);
+                Dictionary<string, object> staleModeSnapshot = CaptureStageFields();
+                LogAssert.Expect(LogType.Warning, "[StageSystem] Only Infinite Mode can be started.");
+                Assert.That(InvokeBoolMethod(_stageSystem, "StartStage"), Is.False);
+                AssertStageFields(staleModeSnapshot);
+                SetPrivateField(_stageSystem, "_currentGameMode", E_GameMode.Infinite);
+
+                Assert.That(stageRoot.activeSelf, Is.False);
+                Assert.That(infiniteRoot.activeSelf, Is.True);
+                Assert.That(GetPrivateField(_stageGoal, "GoalReached"), Is.EqualTo(goalListeners));
+                Assert.That(((IList)GetPrivateField(_stageSystem, "_collectibles")).Count, Is.EqualTo(bindingCount));
+                if (runtime != null)
+                {
+                    Assert.That(runtime.GameState, Is.EqualTo(state));
+                    Assert.That(runtime.UIState, Is.EqualTo(state == E_GameState.Ended ? E_UIState.Result : E_UIState.StageHud));
+                    Assert.That(runtime.IsCreated, Is.True);
+                    Assert.That(runtime.CollectibleRuntimeData.ActiveScopeCount, Is.EqualTo(scopeCount));
+                    Assert.That(runtime.CollectibleRuntimeData.RegisteredCount, Is.EqualTo(registeredCount));
+                    Assert.That(collectible.IsBound, Is.EqualTo(state != E_GameState.Ended));
+                }
+            }
+            if (runtime != null && state != E_GameState.Ended)
+                Assert.That(runtime.CollectibleRuntimeData.TryCollect(scope, "scope-coin"), Is.True);
+        }
+
+        [TestCase(E_GameState.None)]
+        [TestCase(E_GameState.Ready)]
+        [TestCase(E_GameState.Playing)]
+        [TestCase(E_GameState.Paused)]
+        [TestCase(E_GameState.Ended)]
+        public void RuntimeDataSystem_UnsupportedCreation_ReturnsNullAndPreservesExistingRun(E_GameState state)
+        {
+            MonoBehaviour system = AddComponentByName(_systemObject, "RuntimeDataSystem");
+            GameRuntimeData runtime = null;
+            long scope = 0;
+            if (state != E_GameState.None)
+            {
+                runtime = (GameRuntimeData)InvokeMethod(system, "CreateRuntimeData");
+                Assert.That(runtime.GameMode, Is.EqualTo(E_GameMode.Infinite));
+                runtime.SetGameState(state);
+                runtime.SetUIState(state == E_GameState.Ended ? E_UIState.Result : E_UIState.StageHud);
+                Assert.That(runtime.CollectibleRuntimeData.TryCreateScope(out scope), Is.True);
+                Assert.That(runtime.CollectibleRuntimeData.TryRegister(scope, "preserved"), Is.True);
+            }
+            foreach (E_GameMode mode in new[] { E_GameMode.Stage, (E_GameMode)999 })
+            {
+                LogAssert.Expect(LogType.Warning, "[RuntimeDataSystem] Only Infinite Mode runtime data can be created.");
+                Assert.That(InvokeMethod(system, "CreateRuntimeData", mode), Is.Null);
+                Assert.That(GetPrivateField(system, "_runtimeData"), Is.SameAs(runtime));
+                Assert.That(GetBoolProperty(system, "HasRuntimeData"), Is.EqualTo(runtime != null));
+                if (runtime != null)
+                {
+                    Assert.That(runtime.GameState, Is.EqualTo(state));
+                    Assert.That(runtime.UIState, Is.EqualTo(state == E_GameState.Ended ? E_UIState.Result : E_UIState.StageHud));
+                    Assert.That(runtime.CollectibleRuntimeData.ActiveScopeCount, Is.EqualTo(1));
+                    Assert.That(runtime.CollectibleRuntimeData.RegisteredCount, Is.EqualTo(1));
+                }
+            }
+            if (runtime != null)
+            {
+                Assert.That(runtime.CollectibleRuntimeData.TryCollect(scope, "preserved"), Is.True);
+                Assert.That(InvokeMethod(system, "CreateRuntimeData", E_GameMode.Infinite), Is.SameAs(runtime));
+            }
+            else
+            {
+                runtime = (GameRuntimeData)InvokeMethod(system, "CreateRuntimeData");
+                Assert.That(runtime.IsCreated, Is.True);
+                Assert.That(runtime.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            }
+        }
 
         [SetUp]
         public void SetUp()
@@ -43,7 +187,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [Test]
-        public void Initialize_ValidReferences_PreparesStage()
+        public void Initialize_WithoutMode_PreparesInfinite()
         {
             bool didInitialize = InvokeBoolMethod(_stageSystem, "Initialize");
 
@@ -52,15 +196,17 @@ namespace FlowState.Tests.PlayMode
             Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.False);
             Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+            Assert.That(GetEnumProperty<E_GameMode>(_stageSystem, "CurrentGameMode"), Is.EqualTo(E_GameMode.Infinite));
+            Assert.That(GetPrivateField(_stageGoal, "_isInitialized"), Is.False);
         }
 
         [Test]
-        public void Initialize_StageModeWithoutGoal_IsRejected()
+        public void Initialize_StageModeWithoutGoal_IsRejectedBeforeGoalValidation()
         {
             SetPrivateField(_stageSystem, "_stageGoal", null);
             LogAssert.Expect(
-                LogType.Error,
-                "[StageSystem] Stage Goal is not assigned for Stage Mode.");
+                LogType.Warning,
+                "[StageSystem] Stage Mode is no longer supported. Use Infinite Mode.");
 
             bool didInitialize = InvokeBoolMethod(
                 _stageSystem,
@@ -89,7 +235,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [Test]
-        public void Initialize_StageModeWithRoots_ActivatesOnlyStageRoot()
+        public void Initialize_StageModeWithRoots_DoesNotChangeRoots()
         {
             GameObject stageRoot = new GameObject("StageSystemTests.StageRoot");
             GameObject infiniteRoot =
@@ -105,14 +251,16 @@ namespace FlowState.Tests.PlayMode
                     "_infiniteModeRoot",
                     infiniteRoot);
 
+                LogAssert.Expect(LogType.Warning,
+                    "[StageSystem] Stage Mode is no longer supported. Use Infinite Mode.");
                 bool didInitialize = InvokeBoolMethod(
                     _stageSystem,
                     "Initialize",
                     E_GameMode.Stage);
 
-                Assert.That(didInitialize, Is.True);
-                Assert.That(stageRoot.activeSelf, Is.True);
-                Assert.That(infiniteRoot.activeSelf, Is.False);
+                Assert.That(didInitialize, Is.False);
+                Assert.That(stageRoot.activeSelf, Is.False);
+                Assert.That(infiniteRoot.activeSelf, Is.True);
             }
             finally
             {
@@ -173,8 +321,7 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator GoalReached_PlayingStage_ClearsAndEndsOnce()
         {
-            InvokeBoolMethod(_stageSystem, "Initialize");
-            InvokeBoolMethod(_stageSystem, "StartStage");
+            PrepareDeprecatedStageSnapshot(true);
             int clearCount = 0;
             int endCount = 0;
             AddListener(_stageSystem, "AddStageClearedListener", () => clearCount++);
@@ -194,7 +341,7 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator GoalReached_BeforeStageStart_DoesNotClearStage()
         {
-            InvokeBoolMethod(_stageSystem, "Initialize");
+            PrepareDeprecatedStageSnapshot(false);
 
             InvokeTriggerEnter(_stageGoal, _playerCollider);
             yield return null;
@@ -211,8 +358,7 @@ namespace FlowState.Tests.PlayMode
 
             try
             {
-                InvokeBoolMethod(_stageSystem, "Initialize");
-                InvokeBoolMethod(_stageSystem, "StartStage");
+                PrepareDeprecatedStageSnapshot(true);
 
                 InvokeTriggerEnter(_stageGoal, otherCollider);
                 yield return null;
@@ -227,19 +373,18 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator StartStage_AfterClear_ResetsStageState()
+        public IEnumerator StartStage_DeprecatedClearedSnapshot_IsRejectedWithoutReset()
         {
-            InvokeBoolMethod(_stageSystem, "Initialize");
-            InvokeBoolMethod(_stageSystem, "StartStage");
+            PrepareDeprecatedStageSnapshot(true);
             InvokeTriggerEnter(_stageGoal, _playerCollider);
 
+            LogAssert.Expect(LogType.Warning, "[StageSystem] Only Infinite Mode can be started.");
             bool didRestart = InvokeBoolMethod(_stageSystem, "StartStage");
             yield return null;
-
-            Assert.That(didRestart, Is.True);
-            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
-            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
-            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
+            Assert.That(didRestart, Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
         }
 
         [UnityTest]
@@ -278,8 +423,7 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void TryEndInfiniteStage_StageMode_IsRejected()
         {
-            InvokeBoolMethod(_stageSystem, "Initialize");
-            InvokeBoolMethod(_stageSystem, "StartStage");
+            PrepareDeprecatedStageSnapshot(true);
 
             bool didEnd = InvokeBoolMethod(
                 _stageSystem,
@@ -340,8 +484,7 @@ namespace FlowState.Tests.PlayMode
         [Test]
         public void PauseStage_PlayingStage_BlocksGoalUntilResume()
         {
-            Assert.That(InvokeBoolMethod(_stageSystem, "Initialize"), Is.True);
-            Assert.That(InvokeBoolMethod(_stageSystem, "StartStage"), Is.True);
+            PrepareDeprecatedStageSnapshot(true);
 
             Assert.That(InvokeBoolMethod(_stageSystem, "PauseStage"), Is.True);
             InvokeMethod(_stageSystem, "HandleGoalReached");
@@ -439,31 +582,28 @@ namespace FlowState.Tests.PlayMode
         }
 
         [Test]
-        public void Retry_AfterFall_ResetsFallAndClearState()
+        public void StartStage_DeprecatedFallSnapshot_CannotRestart()
         {
             PrepareStageFallCheck(-3.0f);
             InvokeMethod(_stageSystem, "FixedUpdate");
             InvokeMethod(_stageSystem, "FixedUpdate");
             Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
-
-            PrepareStageFallCheck(1.5f);
-            InvokeMethod(_stageSystem, "FixedUpdate");
-
-            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            LogAssert.Expect(LogType.Warning, "[StageSystem] Only Infinite Mode can be started.");
+            Assert.That(InvokeBoolMethod(_stageSystem, "StartStage"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.False);
+            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.True);
             Assert.That(GetBoolProperty(_stageSystem, "IsCleared"), Is.False);
-            Assert.That(GetBoolProperty(_stageSystem, "HasEnded"), Is.False);
-            Assert.That(GetBoolProperty(_stageSystem, "HasPendingFall"), Is.False);
         }
 
         [TestCase(float.NaN)]
         [TestCase(float.PositiveInfinity)]
         [TestCase(float.NegativeInfinity)]
-        public void Initialize_InvalidFallThreshold_IsRejected(float threshold)
+        public void Initialize_StageMode_IsRejectedBeforeFallThresholdValidation(float threshold)
         {
             SetPrivateField(_stageSystem, "_fallThresholdY", threshold);
             LogAssert.Expect(
-                LogType.Error,
-                "[StageSystem] Fall Threshold Y is invalid.");
+                LogType.Warning,
+                "[StageSystem] Stage Mode is no longer supported. Use Infinite Mode.");
 
             bool didInitialize = InvokeBoolMethod(
                 _stageSystem,
@@ -487,6 +627,14 @@ namespace FlowState.Tests.PlayMode
             }
 
             playerRigidbody.position = new Vector3(0.0f, playerY, 0.0f);
+            if (gameMode == E_GameMode.Stage)
+            {
+                // Observe the retired fall component without creating/starting a Stage Run.
+                PrepareDeprecatedStageSnapshot(true);
+                SetPrivateField(_stageSystem, "_playerRigidbody", playerRigidbody);
+                return;
+            }
+
             GameRuntimeData runtimeData = new GameRuntimeData();
             runtimeData.Initialize(gameMode);
 
@@ -503,6 +651,24 @@ namespace FlowState.Tests.PlayMode
             Assert.That(
                 InvokeBoolMethod(_stageSystem, "StartStage"),
                 Is.True);
+        }
+
+        private void PrepareDeprecatedStageSnapshot(bool playing)
+        {
+            // A synthetic observation of the retired component, never a production Run.
+            // Stage Initialize/Start rejection is tested independently below.
+            Assert.That(InvokeBoolMethod(_stageGoal, "Initialize"), Is.True);
+            MethodInfo handler = _stageSystem.GetType().GetMethod("HandleGoalReached",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Action listener = (Action)Delegate.CreateDelegate(typeof(Action), _stageSystem, handler);
+            InvokeMethod(_stageGoal, "AddListener", listener);
+            SetPrivateField(_stageSystem, "_currentGameMode", E_GameMode.Stage);
+            SetPrivateField(_stageSystem, "_isInitialized", true);
+            SetPrivateField(_stageSystem, "_isPlaying", playing);
+            SetPrivateField(_stageSystem, "_isPaused", false);
+            SetPrivateField(_stageSystem, "_isCleared", false);
+            SetPrivateField(_stageSystem, "_hasEnded", false);
+            SetPrivateField(_stageSystem, "_hasPendingFall", false);
         }
 
         private MonoBehaviour AddComponentByName(
@@ -548,6 +714,29 @@ namespace FlowState.Tests.PlayMode
 
             Assert.That(field, Is.Not.Null);
             field.SetValue(target, value);
+        }
+
+        private object GetPrivateField(MonoBehaviour target, string name)
+        {
+            FieldInfo field = target.GetType().GetField(name,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            return field.GetValue(target);
+        }
+
+        private Dictionary<string, object> CaptureStageFields()
+        {
+            Dictionary<string, object> snapshot = new Dictionary<string, object>();
+            foreach (FieldInfo field in _stageSystem.GetType().GetFields(
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+                snapshot.Add(field.Name, field.GetValue(_stageSystem));
+            return snapshot;
+        }
+
+        private void AssertStageFields(Dictionary<string, object> snapshot)
+        {
+            foreach (KeyValuePair<string, object> entry in snapshot)
+                Assert.That(GetPrivateField(_stageSystem, entry.Key), Is.EqualTo(entry.Value), entry.Key);
         }
 
         private bool InvokeBoolMethod(

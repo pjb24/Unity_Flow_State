@@ -14,11 +14,13 @@ Stage의 시작과 종료를 관리한다.
 
 Stage 종료 시점을 판단하고 Stage 종료 이벤트를 발생시킨다.
 
+여기서 Stage는 Infinite에서도 사용하는 공통 Run 실행 단위를 뜻한다. StageSystem/이벤트 이름은 보존하며 사용자에게 Stage Mode를 시작시키는 책임은 없다.
+
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 적용 상태
 
-상태: Phase 2 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+상태: Phase 2의 Infinite 기본 초기화·명시적 Stage/무효 Mode 초기화/시작 거절과 상태 불변 검증은 완료했다. 공통 생명주기와 Deprecated Goal/소스를 유지한다. 실제 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다.
 
 - Infinite의 시작·Pause/Resume·종료·이벤트·Root/Collectible/Pattern 연결을 계속 담당한다. System 전체를 Deprecated로 만들지 않는다.
 - 명시적 Stage 생산 초기화/실행은 거절하고 Goal/Cleared·Stage 추락 전용 책임의 소스는 비권장 표시/사유 주석으로 보존한다.
@@ -31,14 +33,13 @@ Stage 종료 시점을 판단하고 Stage 종료 이벤트를 발생시킨다.
 # 시스템 책임
 
 - Stage를 시작한다.
-- 전달받은 게임 Mode에 해당하는 Stage Object 상태를 활성화한다.
+- 유효한 Infinite 초기화에서 Infinite Root를 활성화하고 보존된 Stage Root를 비활성화한다.
 - Stage 진행 상태를 관리한다.
 - Stage Object 상태를 관리한다.
 - GameSystem의 요청에 따라 Stage 진행 판정을 일시 중단하고 재개한다.
 - Stage 종료 시점을 판단한다.
 - Stage 종료 이벤트를 발생시킨다.
-- Stage Mode Playing 중 Player Rigidbody의 Y 위치로 추락 임계값 도달을 판단한다.
-- 추락 요청을 다음 물리 구간에 확정하여 같은 물리 구간의 Goal 도달을 먼저 반영한다.
+- 명시적 Stage Mode/미정의 Mode 초기화·시작 요청을 기존 Run·listener·Root·Collectible binding을 변경하기 전에 거절한다. 유효한 Infinite 공통 초기화/시작은 허용한다.
 
 ---
 
@@ -109,13 +110,13 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 ## 담당 범위
 
 - Stage 시작
-- 게임 Mode별 Stage Object 상태 활성화
+- Infinite Stage Object 상태 활성화
 - Stage 진행 상태 관리
 - Stage Object 상태 관리
 - Stage 종료 시점 판단
 - Stage 종료 이벤트 발생
 - Stage 진행 판정 중단 및 재개
-- Stage Mode 추락 임계값 판정과 종료 요청 보류 상태 관리
+- 비권장 Stage 컴포넌트/참조 소스 보존과 생산 실행 경계 구분
 
 ---
 
@@ -157,9 +158,9 @@ StageSystem은 Stage Object가 전달한 상태와 이벤트를 관리한다.
 - Stage 종료 시에는 반드시 Stage 종료 이벤트를 발생시킨다.
 - 일시 중단 중에는 Stage Object의 종료 요청을 확정하지 않는다.
 - 재개 시 일시 중단 이전의 Stage 진행 상태를 유지한다.
-- Stage Mode 추락 임계값은 Player Rigidbody의 Y 위치가 설정값 이하인지 판정한다.
-- Pause, Result와 Ended 상태에서는 추락 판정을 수행하지 않는다.
-- Goal 도달과 추락 요청이 같은 물리 구간에 발생하면 Goal 도달을 우선한다.
+- 무인자 초기화는 Infinite이며 Stage와 미정의 Mode는 해제/상태 변경 전에 실패한다. 보존된 Stage 상태의 StartStage도 초기화 상태/중복 실행 검사와 Reset/Goal/binding 작업 전에 거절한다.
+- 보존된 Stage 전용 Goal/Cleared·추락 판정 소스는 Deprecated/사유 주석과 독립 합성 Test 대상으로 남기며 생산 Stage Run을 열지 않는다.
+- StageSystem 전체와 StageStarted/StageEnded·Pause/Resume·Infinite Pattern/Collectible 생명주기는 공통 기반으로 유지한다.
 - InfiniteMode 추락 판정은 InfiniteModeSystem이 담당한다.
 
 ---

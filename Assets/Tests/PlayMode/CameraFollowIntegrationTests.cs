@@ -33,7 +33,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
             yield return new WaitForFixedUpdate();
             yield return new WaitForEndOfFrame();
 
@@ -60,6 +60,7 @@ namespace FlowState.Tests.PlayMode
         {
             Time.timeScale = 1.0f;
             yield return null;
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]

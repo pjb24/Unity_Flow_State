@@ -13,6 +13,8 @@ namespace FlowState.Runtime.Features
                 : value.ToString("N0", CultureInfo.InvariantCulture);
         }
 
+        // Deprecated Stage display vocabulary remains for independent legacy formatting.
+        // Production UI rejects Stage results; ranking access is a Phase 3 boundary.
         private const string StageClearStatus = "STAGE CLEAR";
         private const string StageFailedStatus = "STAGE FAILED";
         private const string ClearTimeFormat = "Clear Time: {0:F3} s";
@@ -38,6 +40,7 @@ namespace FlowState.Runtime.Features
         private const string TotalScoreFormat = "Total Score: {0}";
         private const string TotalScorePlaceholder = "Total Score: --";
 
+        // Deprecated Stage-only model formatting; use Infinite result formatting in play.
         public static string FormatStageResultStatus(
             E_StageResultType stageResultType)
         {
@@ -174,6 +177,7 @@ namespace FlowState.Runtime.Features
             return true;
         }
 
+        // Deprecated independent formatter retained without reopening production display.
         public static bool TryFormatStageResult(
             ResultData resultData,
             out string resultStatusText,

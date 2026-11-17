@@ -6,6 +6,8 @@ namespace FlowState.Runtime.Systems
 {
     public class ResultSystem : MonoBehaviour
     {
+        // Deprecated Stage result model is kept for synthetic/internal compatibility.
+        // Production Infinite result creation remains on the shared ScoreRecord path.
         private readonly TimeRecord _timeRecord = new TimeRecord();
         private readonly ScoreRecord _scoreRecord = new ScoreRecord();
 
@@ -22,6 +24,8 @@ namespace FlowState.Runtime.Systems
             _currentResultData = null;
         }
 
+        // Deprecated Stage-only result factory, not an execution entry point.
+        // Retained callers/fixtures and the UI boundary are handled separately.
         public bool CreateStageResultData(
             E_StageResultType stageResultType,
             double elapsedTime,

@@ -8,43 +8,44 @@ GamePause
 
 ## 목적
 
-플레이어가 Stage Play를 일시적으로 중단할 수 있도록 한다.
+플레이어가 Infinite Run을 일시적으로 중단할 수 있도록 한다.
 
-일시정지 중에는 현재 Stage Play의 진행 상태를 유지한다.
+일시정지 중에는 현재 Infinite Run의 진행 상태를 유지한다.
 
 ---
 
 # 기능 규칙
 
-- GamePause는 Stage Mode 또는 InfiniteMode의 Stage Play가 Playing 상태일 때만 수행한다.
+- GamePause는 생산 Infinite Run이 Playing 상태일 때만 시작한다. Deprecated Stage Mode의 실행을 허용하는 규칙이 아니다.
 - 키보드의 기본 Pause와 Resume 입력은 `Escape`를 사용한다.
 - Playing 상태의 Pause 입력은 GamePause를 시작한다.
-- Pause 상태의 동일한 입력은 Resume 요청으로 해석한다.
-- GamePause가 시작되면 Stage Play를 일시 중단한다.
-- GamePause 동안 현재 게임 Mode의 HUD와 PausePanel을 함께 표시한다.
+- PausePanel의 동일한 입력은 Resume 요청으로 해석한다. 확인창/Settings에서는 해당 화면의 취소/복귀 규칙을 따른다.
+- GamePause가 시작되면 Infinite Run을 일시 중단한다.
+- GamePause 동안 Infinite/Momentum HUD의 마지막 값과 현재 Pause UI를 표시한다. 확인창/Settings가 열리면 해당 화면을 표시하고 원래 PausePanel은 숨긴다.
 - GamePause 동안 HUD는 Pause 직전의 마지막 표시값을 유지한다.
 - GamePause 동안에는 플레이어를 조작할 수 없다.
-- GamePause 동안에는 Stage Play가 진행되지 않는다.
-- GamePause 동안에는 Stage Mode의 PlayTimer가 증가하지 않는다.
+- GamePause 동안에는 Infinite Run이 진행되지 않는다.
 - GamePause 동안에는 InfiniteMode 기록 제출용 Run 측정 시간도 증가하지 않는다.
 - GamePause 동안에는 InfiniteMode의 이동 거리와 Score가 증가하지 않는다.
 - GamePause 동안에는 InfiniteMode의 진행 지속 시간, 추락 종료 판정과 Map Pattern 재배치가 진행되지 않는다.
-- GamePause 동안에는 PausePanel의 Navigate, Submit, Cancel, Point와 Click 입력만 허용한다.
+- GamePause 동안에는 현재 PausePanel 또는 그 하위 확인창/Settings의 UI 입력만 허용한다. 플레이 입력은 허용하지 않는다.
 - PausePanel에는 Resume, Retry, Settings와 Main Menu 항목이 존재한다.
 - PausePanel이 활성화되면 Resume을 기본 선택 항목으로 사용한다.
 - Navigate 입력은 Resume, Retry, Settings와 Main Menu 사이의 선택을 변경한다. 목록 경계에서는 현재 선택을 유지한다.
 - Submit 입력은 현재 선택된 항목을 한 번 실행한다.
 - Point 입력은 마우스 포인터가 가리키는 항목을 선택한다.
 - Click 입력은 마우스 포인터가 가리키는 항목을 한 번 실행한다.
-- Cancel 입력은 현재 선택과 관계없이 Resume을 한 번 실행한다.
-- Resume은 Pause 직전의 같은 Mode와 Run을 유지한다.
-- Retry는 현재 Play 정보를 제거하고 같은 게임 Mode의 새로운 Stage Play를 시작한다.
+- PausePanel에서 Cancel 입력은 현재 선택과 관계없이 Resume을 한 번 실행한다. 확인창/Settings의 Cancel은 각 화면의 복귀 규칙을 따른다.
+- Resume은 Pause 직전의 같은 Infinite Run을 유지한다.
+- Pause의 Retry는 확인창을 먼저 열고 현재 Infinite Run과 일시정지를 유지한다. 기본 선택은 Cancel이다. Retry를 확인했을 때만 현재 Run을 정리하고 새 Infinite Run을 시작한다.
+- 확인창의 Cancel 버튼 또는 Escape/Cancel 입력은 Run을 변경하지 않고 Pause의 Retry 선택으로 복귀한다. 확인 전에는 Timer/점수/수집물/물리 상태를 초기화하지 않는다.
+- Main Menu 복귀 확인창과 Retry 확인창은 Scene의 기존 UI를 공유하고 제목/확인 버튼 문구·동작을 전환한다. Main Menu 확인의 기존 선택/복귀 규칙은 유지한다. Result의 Retry는 확인창 없이 즉시 재시작한다.
 - Settings는 같은 Settings 화면을 열고 Pause 상태와 현재 Run을 유지한다. Settings의 Back 또는 Cancel은 PausePanel의 Settings 선택으로 복귀한다.
 - Main Menu는 진행 중 Run의 폐기 확인을 표시한다. 확인 시 Run을 정리하고 Main Menu로 이동하며, 취소 또는 Cancel 시 Pause를 유지한다.
 - PausePanel의 한 입력으로 둘 이상의 항목을 실행하지 않는다.
 - GamePause 동안 발생한 플레이 입력은 Resume 후 플레이에 반영하지 않는다.
-- GamePause가 종료되면 일시정지 이전의 Stage Play를 이어서 진행한다.
-- GamePause가 종료되면 Pause 직전의 Player 위치, 속도와 이동 상태를 이어서 사용한다.
+- Resume으로 GamePause가 종료되면 일시정지 이전의 Infinite Run을 이어서 진행한다.
+- Resume 시 Pause 직전의 Player 위치, 속도와 이동 상태를 이어서 사용한다.
 
 ---
 
@@ -52,7 +53,7 @@ GamePause
 
 다음 조건을 모두 만족하는 경우 GamePause를 시작한다.
 
-- Stage Play가 진행 중이다.
+- Infinite Run이 진행 중이다.
 - 플레이어가 일시정지 요청을 수행하였다.
 
 ---
@@ -62,7 +63,7 @@ GamePause
 ## 정상 종료
 
 - 플레이어가 게임 재개 요청을 수행하였다.
-- 플레이어가 Retry를 수행하여 같은 게임 Mode의 새로운 Stage Play를 시작하였다.
+- 플레이어가 Retry 확인을 완료하여 새로운 Infinite Run을 시작하였다.
 - 플레이어가 Main Menu 복귀를 확인하여 현재 Run을 정리하고 Main Menu로 이동하였다.
 
 ## 강제 종료
@@ -73,14 +74,14 @@ GamePause
 
 # 수행 결과
 
-- Stage Play가 일시 중단된다.
-- GamePause 종료 후 기존 Stage Play를 이어서 진행한다.
+- Infinite Run이 일시 중단된다.
+- Resume은 기존 Infinite Run을 이어서 진행하고 Retry 확인은 새 Infinite Run을 시작한다.
 
 ---
 
 # 예외 사항
 
-- Stage Play가 진행 중이 아니면 수행하지 않는다.
+- Infinite Run이 진행 중이 아니면 수행하지 않는다.
 - GamePause가 이미 수행 중이면 다시 수행하지 않는다.
 - GamePause가 수행 중이 아니면 Resume을 수행하지 않는다.
 - Initializing, Ready, Ending, Ended와 Result 상태에서는 GamePause를 수행하지 않는다.
@@ -99,12 +100,12 @@ GamePause
 
 # 제약 사항
 
-- GamePause는 Stage Play 동안만 수행한다.
-- 하나의 Stage Play에서는 하나의 GamePause 상태만 유지할 수 있다.
-- GamePause는 Stage Play의 진행 상태를 초기화하지 않는다.
-- GamePause 종료 후에는 일시정지 이전의 Stage Play를 이어서 진행한다.
+- GamePause는 Infinite Run 동안만 수행한다.
+- 하나의 Infinite Run에서는 하나의 GamePause 상태만 유지할 수 있다.
+- GamePause는 Infinite Run의 진행 상태를 초기화하지 않는다.
+- Resume 후에는 일시정지 이전의 Infinite Run을 이어서 진행한다.
 - GamePause는 전역 시간 배율을 변경하지 않는다.
-- Pause 요청이 Stage 종료와 동시에 발생하면 확정된 Stage 종료를 우선한다.
+- Pause 요청이 Run 종료와 동시에 발생하면 확정된 Run 종료를 우선한다.
 - PausePanel에는 식별 가능한 `Pause` 제목과 세로로 배치된 Resume, Retry, Settings와 Main Menu를 표시한다.
 - PausePanel의 Text, 배경과 선택 상태는 최소한의 가독성을 제공해야 한다.
 - PausePanel의 Button은 서로 겹치거나 화면 밖으로 벗어나지 않아야 한다.
@@ -114,21 +115,22 @@ GamePause
 
 # 검증 항목
 
-- Stage Play 진행 중 GamePause가 시작되는지 확인한다.
+- Infinite Run 진행 중 GamePause가 시작되는지 확인한다.
 - GamePause 동안 플레이어를 조작할 수 없는지 확인한다.
-- GamePause 동안 Stage Play가 진행되지 않는지 확인한다.
-- GamePause 동안 클리어 시간이 증가하지 않는지 확인한다.
+- GamePause 동안 Infinite Run이 진행되지 않는지 확인한다.
+- GamePause 동안 Infinite Run 측정 시간이 증가하지 않는지 확인한다.
 - GamePause 동안 InfiniteMode의 이동 거리, Score와 종료 판정이 진행되지 않는지 확인한다.
-- GamePause 동안 현재 Mode의 HUD와 PausePanel이 함께 표시되고 HUD 값이 변경되지 않는지 확인한다.
-- GamePause 종료 후 Stage Play가 중단된 시점부터 이어서 진행되는지 확인한다.
-- GamePause 종료 후 Player 위치, 속도와 이동 상태가 보존되는지 확인한다.
+- GamePause 동안 Infinite/Momentum HUD 값이 유지되고 PausePanel/확인창/Settings가 현재 Navigation 화면에 맞게 표시되는지 확인한다.
+- Resume 후 Infinite Run이 중단된 시점부터 이어서 진행되는지 확인한다.
+- Resume 후 Player 위치, 속도와 이동 상태가 보존되는지 확인한다.
 - PausePanel에서 Keyboard와 Mouse로 Resume, Retry, Settings와 Main Menu를 각각 한 번만 수행하는지 확인한다.
 - Pause에서 Settings를 열고 닫아도 Run과 Paused 상태가 유지되는지 확인한다.
 - Pause에서 Main Menu를 선택했을 때 확인 전에는 Run이 유지되고, 확인 시에만 Run이 정리되는지 확인한다.
-- Cancel 입력이 Resume을 수행하는지 확인한다.
-- Retry 후 같은 Mode의 새로운 Stage Play가 초기화되어 시작되는지 확인한다.
+- PausePanel의 Cancel은 Resume, Retry 확인창의 Cancel/Escape는 같은 Run의 Pause/Retry 복귀를 수행하는지 확인한다.
+- Retry 확인 전에는 Run/Timer/점수/수집물 상태가 유지되고 Cancel이 기본 선택인지 확인한다.
+- Retry 확인 후에만 새 Infinite Run이 한 번 시작되며 숨겨진 버튼/중복 Submit이 추가 재시작을 만들지 않는지 확인한다.
 - Result 상태에서 GamePause가 수행되지 않는지 확인한다.
-- Stage Play가 진행 중이 아닐 때 GamePause가 수행되지 않는지 확인한다.
+- Infinite Run이 진행 중이 아닐 때 GamePause가 수행되지 않는지 확인한다.
 - GamePause가 수행 중일 때 다시 GamePause가 시작되지 않는지 확인한다.
 
 ---

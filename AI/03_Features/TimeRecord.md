@@ -8,13 +8,15 @@ TimeRecord
 
 ## 목적
 
-일반 Stage Play의 결과 원인, 경과 시간과 Collectible Score를 기록으로 확정한다.
+Deprecated Stage 결과의 원인·경과 시간·Collectible Score 자료형과 독립 합성 검증 범위를 정의한다.
 
-반복 플레이를 통한 클리어 시간 단축의 기준을 제공한다.
+사용자 클리어 시간 경쟁 기능은 제공하지 않는다. 생산 Infinite 결과는 ScoreRecord를 사용한다.
 
 ---
 
 # 기능 규칙
+
+아래 규칙은 보존된 독립 Stage 결과 생성/formatter·합성 Test에만 적용한다. 생산 Stage Run/결과 표시는 거절하고 Infinite의 공통 Run Timer는 유지한다. Phase 2의 Scene/Unity 검증은 완료했으며 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)에 근거가 있다. Phase 3의 기록 직접 접근 차단은 아직 미완료다.
 
 - TimeRecord는 일반 Stage에서만 수행한다.
 - TimeRecord는 Stage Play가 클리어되거나 추락 실패한 경우에 수행한다.

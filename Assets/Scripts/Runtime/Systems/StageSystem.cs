@@ -8,6 +8,8 @@ namespace FlowState.Runtime.Systems
 {
     public class StageSystem : MonoBehaviour
     {
+        // Deprecated Stage Goal/root references are retained for Scene GUID compatibility.
+        // Infinite still uses this System's shared lifecycle, Pattern and Collectible scope.
         [SerializeField] private StageGoal _stageGoal;
         [SerializeField] private GameObject _stageModeRoot;
         [SerializeField] private GameObject _infiniteModeRoot;
@@ -17,7 +19,7 @@ namespace FlowState.Runtime.Systems
         private event Action StageCleared;
         private event Action StageEnded;
 
-        private E_GameMode _currentGameMode;
+        private E_GameMode _currentGameMode = E_GameMode.Infinite;
         private bool _isInitialized;
         private bool _isPlaying;
         private bool _isCleared;
@@ -47,6 +49,7 @@ namespace FlowState.Runtime.Systems
 
         public InfiniteMapPattern InfiniteMapPattern => _infiniteMapPattern;
 
+        [Obsolete("Stage-only fall checks are retained for legacy component tests. InfiniteModeSystem handles Infinite falls.")]
         private void FixedUpdate()
         {
             if (!_isInitialized ||
@@ -83,11 +86,24 @@ namespace FlowState.Runtime.Systems
 
         public bool Initialize()
         {
-            return Initialize(E_GameMode.Stage);
+            return Initialize(E_GameMode.Infinite);
         }
 
         public bool Initialize(E_GameMode gameMode)
         {
+            // Validate before releasing bindings/listeners or changing Roots/state.
+            if (gameMode == E_GameMode.Stage)
+            {
+                Debug.LogWarning("[StageSystem] Stage Mode is no longer supported. Use Infinite Mode.");
+                return false;
+            }
+
+            if (gameMode != E_GameMode.Infinite)
+            {
+                Debug.LogError("[StageSystem] Game Mode is invalid.");
+                return false;
+            }
+
             ReleaseCollectibles();
 
             if (_stageGoal != null)
@@ -97,15 +113,10 @@ namespace FlowState.Runtime.Systems
 
             _isInitialized = false;
 
-            if (gameMode != E_GameMode.Stage &&
-                gameMode != E_GameMode.Infinite)
-            {
-                Debug.LogError("[StageSystem] Game Mode is invalid.");
-                return false;
-            }
-
             _currentGameMode = gameMode;
 
+            // Deprecated Stage initialization remains as source history; the guard
+            // above prevents production access. Infinite does not use Goal/Clear Time.
             if (_currentGameMode == E_GameMode.Stage &&
                 (float.IsNaN(_fallThresholdY) ||
                  float.IsInfinity(_fallThresholdY)))
@@ -137,6 +148,7 @@ namespace FlowState.Runtime.Systems
         {
             if (!_isInitialized || runtimeData == null ||
                 !runtimeData.IsCreated ||
+                runtimeData.GameMode != E_GameMode.Infinite ||
                 runtimeData.CollectibleRuntimeData == null ||
                 playerRigidbody == null)
             {
@@ -150,6 +162,13 @@ namespace FlowState.Runtime.Systems
 
         public bool StartStage()
         {
+            // Also reject stale Stage state before ResetStageState/Goal/bindings.
+            if (_currentGameMode != E_GameMode.Infinite)
+            {
+                Debug.LogWarning("[StageSystem] Only Infinite Mode can be started.");
+                return false;
+            }
+
             if (!_isInitialized)
             {
                 Debug.LogError("[StageSystem] StageSystem is not initialized.");
@@ -262,12 +281,14 @@ namespace FlowState.Runtime.Systems
             StageStarted -= listener;
         }
 
+        [Obsolete("Stage clear events are retired. Use the shared StageEnded lifecycle for Infinite.")]
         public void AddStageClearedListener(Action listener)
         {
             StageCleared -= listener;
             StageCleared += listener;
         }
 
+        [Obsolete("Stage clear events are retired. Use the shared StageEnded lifecycle for Infinite.")]
         public void RemoveStageClearedListener(Action listener)
         {
             StageCleared -= listener;

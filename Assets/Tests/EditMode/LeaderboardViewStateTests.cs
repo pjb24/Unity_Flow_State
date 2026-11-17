@@ -49,11 +49,11 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void ModeChange_InvalidatesInFlightRequests()
+        public void Invalidate_DiscardsInFlightRequests()
         {
             LeaderboardViewState state = new LeaderboardViewState();
             int request = state.BeginAroundRequest();
-            state.SelectGameMode(E_GameMode.Infinite);
+            state.Invalidate();
             state.CompleteAroundRequest(request, new OnlineLeaderboardResult
             {
                 status = "Success",
@@ -65,11 +65,11 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void ModeChange_InvalidatesInFlightPersonalBest()
+        public void Invalidate_DiscardsInFlightPersonalBest()
         {
             LeaderboardViewState state = new LeaderboardViewState();
             int request = state.BeginPersonalBestRequest();
-            state.SelectGameMode(E_GameMode.Infinite);
+            state.Invalidate();
             state.CompletePersonalBestRequest(request, new OnlineLeaderboardResult
             {
                 status = "Success",
@@ -77,6 +77,24 @@ namespace FlowState.Tests.EditMode
             });
 
             Assert.That(state.PersonalBestResult, Is.Null);
+        }
+
+        [TestCase(E_GameMode.Stage)]
+        [TestCase((E_GameMode)999)]
+        public void RetiredOrInvalidMode_CannotSelectBoardOrDiscardInfiniteRequest(E_GameMode mode)
+        {
+            LeaderboardViewState state = new LeaderboardViewState();
+            Assert.That(state.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            int request = state.BeginTopRequest();
+            state.SelectGameMode(mode);
+            Assert.That(state.GameMode, Is.EqualTo(E_GameMode.Infinite));
+            OnlineLeaderboardResult result = new OnlineLeaderboardResult
+            {
+                status = "Success", entries = new[] { new OnlineLeaderboardEntry { rank = 1 } }
+            };
+            state.CompleteTopRequest(request, result);
+            Assert.That(state.TopResult, Is.SameAs(result));
+            Assert.That(state.TopState, Is.EqualTo(E_LeaderboardQueryState.Success));
         }
 
         [Test]

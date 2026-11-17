@@ -11,11 +11,11 @@ Implementation Roadmap 영역에 존재하는 문서의 역할과 책임을 정�
 ## Roadmap 9~14 확정 계획
 
 2026-11-11 사용자 요청으로 아래 여섯 Roadmap을 분리 유지하고 번호 순서대로 진행한다.
-계획은 확정됐으며 Roadmap 9는 Phase 1 완료·Phase 2~4 대기, 10~14는 대기다. 현재 생산 구현/서비스의 동작을 변경한 것은 아니다.
+계획은 확정됐으며 Roadmap 9는 Phase 1~2 완료·Phase 3 잔여 구현/Phase 4 대기, 10~14는 대기다. Phase 2 Step 1~10과 추가 Pause Retry 확인창을 최신 EditMode 919개/PlayMode 288개 전체 통과·Windows-production 최신 Candidate02 Player/화면 정상 보고 및 정적 검사로 완료했다. Roadmap 9 전체는 미완료다.
 
 | 순서 | Roadmap | 목표 | 상태 |
 |---|---|---|---|
-| 9 | [InfiniteMode 단일화와 Stage Mode 접근 제거](IMPLEMENTATION_ROADMAP_009.md) | Stage 접근 차단·Deprecated 소스 보존과 Infinite 계약 유지 | Phase 1 완료·Phase 2~4 대기 |
+| 9 | [InfiniteMode 단일화와 Stage Mode 접근 제거](IMPLEMENTATION_ROADMAP_009.md) | Stage 접근 차단·Deprecated 소스 보존과 Infinite 계약 유지 | Phase 1~2 완료·Phase 3 잔여/Phase 4 대기 |
 | 10 | [Thirdparty 애셋 관리와 프로젝트 복원 체계](IMPLEMENTATION_ROADMAP_010.md) | 외부 원본 비추적·의존성/참조 복원 | 계획 확정·대기 |
 | 11 | [플레이어 피드백 강화](IMPLEMENTATION_ROADMAP_011.md) | 착지/획득/실패의 화면·사운드 결과 전달 | 계획 확정·대기 |
 | 12 | [캐릭터 그래픽과 동작 표현 강화](IMPLEMENTATION_ROADMAP_012.md) | 외형/동작의 가독성과 기존 판정 보존 | 계획 확정·대기 |
@@ -24,7 +24,13 @@ Implementation Roadmap 영역에 존재하는 문서의 역할과 책임을 정�
 
 ### 공통 의존성과 경계
 
-- Roadmap 8은 승인 예외/잔여 한계를 포함해 완료했다. Roadmap 9 Phase 1 Task Step 1~8과 최종 완료 판정을 마쳤고 다음은 Phase 2 작업 준비다. Phase 2에는 아직 착수하지 않았다.
+- 2026-11-17 [Roadmap 9 Phase 3 Task](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)를 작성했다. 후보/저장·Repository/전송·Pending·계정/snapshot·Editor 도구·UI/fixture·정적/로컬 검증·사용자 Compile/Scene/Runner·최종 인계를 Step 1~11로 구분했다. 문서 준비만 완료했고 구현은 미착수다. 다음은 해당 Step 1이며 Player 통합 후보 확인은 Phase 4에 인계한다.
+
+- 2026-11-17 Pause Retry 확인창 추가 후 사용자 EditMode 919개/PlayMode 288개 전체 통과와 Windows-production Candidate02의 정상 플레이/UI 확인 보고를 받아 Phase 2 Task 9-3/Step 10을 완료했다. 사용자가 기존 Candidate02 보존 불필요를 명시해 같은 Build/ProductionQA/Candidate02에 덮어쓴 최신 빌드를 최종 후보로 기록한다. 이전 916/287 결과나 덮어쓰기 전 후보를 최신 검증으로 대신하지 않는다.
+
+- 2026-11-17 사용자 요청으로 Roadmap 9 Phase 3 중 Leaderboard Stage 탭/사용자 조회 경계를 Phase 2 Step 7에 선행 반영했다. Stage 선택을 거절하고 Main Menu/Result의 진입·Top/Around 조회는 Infinite로 고정했다. 변경 후 사용자 Compile/Scene 적용·AI 정적 확인은 완료했고 사용자 최신 EditMode 919개/PlayMode 288개 전체 통과를 보고받았다. Phase 3 전체의 Repository/제출 후보/직접 제출/도구 차단은 아직 완료하지 않았다.
+
+- Roadmap 8은 승인 예외/잔여 한계를 포함해 완료했다. Roadmap 9 Phase 1~2 완료 후 다음은 Phase 3의 Repository/기록 후보/직접 제출/Editor 도구 우회 경계와 Infinite 저장/계정 이전 회귀다. 사용자 Leaderboard UI/조회 경계의 선행 반영을 Phase 3 전체 완료로 확대하지 않는다.
 - Step 4에서 구 Client 미지원·Infinite 공통 계약 유지를 확정했다. 현재 전환 범위에 서버 계약 변경은 불필요하며 구 Client 강제 접근 차단이나 원격 변경은 수행하지 않았다.
 - Step 3 사용자 전제로 기존 Stage 기록과 추가 제출은 없는 것으로 처리하며 별도 Stage 보관/이관·Pending 호환 개발은 제외한다. 자료 삭제·보드 초기화는 수행하지 않는다.
 - Roadmap 9의 Stage 소스는 삭제하지 않고 Deprecated와 사유 주석으로 보존한다. 사용자 접근/명시적 실행 차단은 별도로 구현하고 Infinite 공통 기반·내부 자료 호환과 구분한다.

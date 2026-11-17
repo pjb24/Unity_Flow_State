@@ -110,6 +110,13 @@
 
 # 금지 사항
 
+## Scene 기반 UI 구성
+
+- UI GameObject·표시/입력 컴포넌트는 Scene/Prefab에 미리 구성한다. 생산 UI에서 `new GameObject`, `Instantiate`, `AddComponent`로 UI를 동적 생성하거나 누락 참조를 자동 보충하지 않는다.
+- UI의 고정 배치·크기·Anchor·Pivot·부모/스타일 기본값은 Editor에서 유지한다. Runtime에서 하드코딩한 레이아웃으로 덮어쓰지 않아 Play 전에도 최종 화면을 예측할 수 있어야 한다.
+- Runtime은 기존 UI의 Text/점수·선택/포커스·활성/입력 가능 상태·스크롤 등 상태를 갱신한다. 필수 구성 누락은 진단하고 Editor 적용 항목으로 안내한다.
+- UI Test도 생산 Scene의 기존 객체/참조를 사용하며 생산 구성을 대신할 UI 생성 fixture를 추가하지 않는다. AI는 Scene/Prefab을 편집하지 않고 정확한 사용자 적용 방법과 정적 확인 결과를 제공한다.
+
 확인되지 않은 요구사항을 추측하여 구현하지 않는다.
 
 동일한 목적의 구조를 중복 구현하지 않는다.

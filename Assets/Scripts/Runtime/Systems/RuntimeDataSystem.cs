@@ -13,11 +13,18 @@ namespace FlowState.Runtime.Systems
 
         public GameRuntimeData CreateRuntimeData()
         {
-            return CreateRuntimeData(E_GameMode.Stage);
+            return CreateRuntimeData(E_GameMode.Infinite);
         }
 
         public GameRuntimeData CreateRuntimeData(E_GameMode gameMode)
         {
+            // A rejected request must not return an existing Run as if it succeeded.
+            if (gameMode != E_GameMode.Infinite)
+            {
+                Debug.LogWarning("[RuntimeDataSystem] Only Infinite Mode runtime data can be created.");
+                return null;
+            }
+
             if (HasRuntimeData)
             {
                 Debug.Log("[RuntimeDataSystem] Runtime Data already exists.");

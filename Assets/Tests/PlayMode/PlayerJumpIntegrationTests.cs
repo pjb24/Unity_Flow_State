@@ -38,7 +38,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
 
@@ -56,6 +56,7 @@ namespace FlowState.Tests.PlayMode
                 "PlayerMovementSystem");
 
             // A level runway keeps gravity comparisons independent of stage obstacles.
+            ProductionSceneGameModeTestUtility.DisableInfiniteProgressionForPhysicsFixture();
             _jumpGround = new GameObject("PlayerJumpIntegrationTests.Ground");
             _jumpGround.layer = 6;
             _jumpGround.transform.position = new Vector3(20000.0f, 0.0f, 0.0f);
@@ -81,6 +82,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]

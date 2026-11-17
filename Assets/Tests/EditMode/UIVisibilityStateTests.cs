@@ -20,18 +20,10 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void Apply_StagePlaying_ShowsOnlyStageHud()
+        public void Apply_StagePlaying_IsRejectedAndHidesEveryUI()
         {
-            Assert.That(
-                _state.Apply(
-                    E_GameMode.Stage,
-                    E_GameState.Playing,
-                    E_UIState.StageHud),
-                Is.True);
-
-            Assert.That(_state.IsStageHudVisible, Is.True);
-            Assert.That(_state.IsInfiniteHudVisible, Is.False);
-            AssertPanelsHidden();
+            Assert.That(_state.Apply(E_GameMode.Stage, E_GameState.Playing, E_UIState.StageHud), Is.False);
+            AssertEveryUIHidden();
         }
 
         [Test]
@@ -49,7 +41,6 @@ namespace FlowState.Tests.EditMode
             AssertPanelsHidden();
         }
 
-        [TestCase(E_GameMode.Stage)]
         [TestCase(E_GameMode.Infinite)]
         public void Apply_Paused_ShowsCurrentModeHudAndPausePanel(
             E_GameMode gameMode)
@@ -68,7 +59,6 @@ namespace FlowState.Tests.EditMode
             Assert.That(_state.IsInfiniteResultContentVisible, Is.False);
         }
 
-        [TestCase(E_GameMode.Stage)]
         [TestCase(E_GameMode.Infinite)]
         public void Apply_Ending_KeepsOnlyCurrentModeHud(E_GameMode gameMode)
         {
@@ -84,21 +74,10 @@ namespace FlowState.Tests.EditMode
         }
 
         [Test]
-        public void Apply_StageEnded_HidesStageHudAndShowsStageResult()
+        public void Apply_StageEnded_IsRejectedAndHidesEveryUI()
         {
-            Assert.That(
-                _state.Apply(
-                    E_GameMode.Stage,
-                    E_GameState.Ended,
-                    E_UIState.Result),
-                Is.True);
-
-            Assert.That(_state.IsStageHudVisible, Is.False);
-            Assert.That(_state.IsInfiniteHudVisible, Is.False);
-            Assert.That(_state.IsPausePanelVisible, Is.False);
-            Assert.That(_state.IsResultPanelVisible, Is.True);
-            Assert.That(_state.IsStageResultContentVisible, Is.True);
-            Assert.That(_state.IsInfiniteResultContentVisible, Is.False);
+            Assert.That(_state.Apply(E_GameMode.Stage, E_GameState.Ended, E_UIState.Result), Is.False);
+            AssertEveryUIHidden();
         }
 
         [Test]
@@ -138,7 +117,7 @@ namespace FlowState.Tests.EditMode
         public void Apply_PrePlayState_HidesEveryUI(E_GameState gameState)
         {
             _state.Apply(
-                E_GameMode.Stage,
+                E_GameMode.Infinite,
                 E_GameState.Ended,
                 E_UIState.Result);
 
@@ -153,7 +132,7 @@ namespace FlowState.Tests.EditMode
         public void Apply_NewRunAfterResult_ResetsPreviousModeVisibility()
         {
             _state.Apply(
-                E_GameMode.Stage,
+                E_GameMode.Infinite,
                 E_GameState.Ended,
                 E_UIState.Result);
 
@@ -173,7 +152,7 @@ namespace FlowState.Tests.EditMode
         public void Reset_VisibleState_HidesEveryUI()
         {
             _state.Apply(
-                E_GameMode.Stage,
+                E_GameMode.Infinite,
                 E_GameState.Ended,
                 E_UIState.Result);
 
@@ -186,7 +165,7 @@ namespace FlowState.Tests.EditMode
         public void Apply_InvalidMode_IsRejectedAndHidesEveryUI()
         {
             _state.Apply(
-                E_GameMode.Stage,
+                E_GameMode.Infinite,
                 E_GameState.Ended,
                 E_UIState.Result);
 
@@ -205,7 +184,7 @@ namespace FlowState.Tests.EditMode
         {
             Assert.That(
                 _state.Apply(
-                    E_GameMode.Stage,
+                    E_GameMode.Infinite,
                     (E_GameState)999,
                     E_UIState.StageHud),
                 Is.False);
@@ -218,7 +197,7 @@ namespace FlowState.Tests.EditMode
         {
             Assert.That(
                 _state.Apply(
-                    E_GameMode.Stage,
+                    E_GameMode.Infinite,
                     E_GameState.Playing,
                     (E_UIState)999),
                 Is.False);
@@ -226,11 +205,27 @@ namespace FlowState.Tests.EditMode
             AssertEveryUIHidden();
         }
 
+        [TestCase(E_GameState.None)]
+        [TestCase(E_GameState.Initializing)]
+        [TestCase(E_GameState.Ready)]
+        [TestCase(E_GameState.Playing)]
+        [TestCase(E_GameState.Paused)]
+        [TestCase(E_GameState.Ending)]
+        [TestCase(E_GameState.Ended)]
+        public void Apply_StageAtEveryState_ClearsPreviousInfiniteVisibility(E_GameState state)
+        {
+            Assert.That(_state.Apply(E_GameMode.Infinite, E_GameState.Ended, E_UIState.Result), Is.True);
+            Assert.That(_state.IsResultPanelVisible, Is.True);
+            E_UIState uiState = state == E_GameState.Ended ? E_UIState.Result : E_UIState.StageHud;
+            Assert.That(_state.Apply(E_GameMode.Stage, state, uiState), Is.False);
+            AssertEveryUIHidden();
+        }
+
         private void AssertCurrentModeHud(E_GameMode gameMode)
         {
             Assert.That(
                 _state.IsStageHudVisible,
-                Is.EqualTo(gameMode == E_GameMode.Stage));
+                Is.False);
             Assert.That(
                 _state.IsInfiniteHudVisible,
                 Is.EqualTo(gameMode == E_GameMode.Infinite));

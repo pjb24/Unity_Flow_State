@@ -14,9 +14,9 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 적용 상태
 
-상태: Phase 2~3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+상태: Phase 2의 Infinite UI/Result·Pause Retry 확인과 Stage/ModeSelect 표시·입력·Navigation 차단은 완료했다. 기존 Scene 기반 UI를 유지한다. 실제 Scene 적용값/참조·검증 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따르며 Phase 3의 직접 기록 경계는 별도다.
 
 - Infinite 단일 흐름에 맞는 화면/필수 참조/Focus를 반영하고 Mode Select·StageHUD/Result·Stage Tab의 생산 표시와 Navigation을 차단한다.
 - 비권장 UI 소스/직렬화 참조를 보존한다. 공통 Pause/Settings/안내·Result/InfiniteHUD·공개 번호/제출 상태는 유지하며 실행 차단 정책을 UI에서 결정하지 않는다.
@@ -33,13 +33,13 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - 현재 활성 UI를 관리한다.
 - UI State를 Unity UI에 반영한다.
 - GameNavigationState가 제공한 현재 Navigation 선택을 해당 Button Focus에 반영한다.
-- Boot, Main Menu, Mode Select와 Main Menu 복귀 확인의 Navigation 화면 상태를 표시한다.
+- Boot, Main Menu와 Main Menu 복귀 확인의 Navigation 화면 상태를 표시한다. 직접 ModeSelect 표시 요청은 MainMenu/Play 표시로 정규화한다.
 - Main Menu 재열람과 자동 How To Play 안내의 표시·버튼 구성·기본 Focus를 각각 반영한다.
 - Application 실행 중의 화면별 선택 복귀 상태와 마지막 선택 Game Mode를 표시한다.
 - GameSystem의 요청에 따라 Navigation 화면과 선택 표시를 갱신한다.
 - Settings 화면의 값, Binding 표시와 Rebinding 대기 안내를 관리한다.
 - 현재 게임 Mode와 게임 상태에 맞는 HUD, PausePanel, ResultPanel과 Result Content의 표시 조합을 관리한다.
-- Stage Mode Runtime Data의 Collectible Score를 StageHUD에 표시한다.
+- 비권장 ModeSelect·StageHUD·StageResultContent 참조는 보존하되 비활성화하고 선택 복원 대상에서 제외한다.
 - InfiniteMode Runtime Data의 현재 거리, Base Distance Score, Momentum Bonus, Distance Score, Collectible Score와 Total Score를 InfiniteHUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 Momentum 배율과 남은 유지 시간 비율을 기존 InfiniteHUD와 분리된 우측 하단 Momentum HUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 Difficulty Level을 개발 환경의 InfiniteHUD 별도 행에 표시한다. 일반 빌드에서는 이 행을 숨긴다.
@@ -94,6 +94,8 @@ UIManagementSystem은 GameSystem이 전달한 화면과 선택에 따라 해당 
 
 Pause에는 Resume, Retry, Settings와 Main Menu, Result에는 Retry, Main Menu와 순위 보기 항목이 존재하며 Pending 후보에는 제출 Retry를 제공한다. 각 화면의 기본 선택과 선택 복귀는 Runtime Navigation 상태로만 유지하며 Application 종료 후 저장하거나 복원하지 않는다.
 
+Pause Retry/Main Menu 확인은 기존 PauseMainMenuConfirmPanel을 재사용한다. Scene에서 _pauseConfirmationTitleText/_pauseConfirmationActionText와 기존 버튼 참조를 구성하고 UIManagementSystem이 화면에 맞춰 제목·확인 문구/포커스를 갱신한다. Retry 확인 기본 선택은 Cancel이며 확인창 동안 PausePanel은 숨긴다. 고정 배치/컴포넌트를 생성하거나 변경하지 않는다. 확인 버튼 OnClick은 GameSystem.SelectPauseConfirmation, 취소는 SelectCancel이다. 최종 Scene 적용·변경 후 검증 완료는 Phase 2 Task 9-3/Step 10에 기록한다.
+
 Pause와 Result의 구형 독립 선택 상태 및 Quit fallback은 사용하지 않는다.
 
 ---
@@ -102,7 +104,7 @@ Pause와 Result의 구형 독립 선택 상태 및 Quit fallback은 사용하지
 
 UIManagementSystem은 ResultSystem이 제공한 Result Data를 Result UI에 반영한다.
 
-일반 Stage의 성공은 Result Status, Clear Time과 Collectible Score를 표시한다.
+생산 화면은 Infinite Result만 수락한다. Stage Result 요청은 기존 Infinite Text를 변경하기 전에 경고와 false로 거절한다. 아래 Stage 문구 예시는 보존된 독립 formatter의 비권장 표현이며 생산 UI에는 표시하지 않는다.
 
 추락 실패는 Result Status, Run Time과 Collectible Score를 표시한다.
 
@@ -178,12 +180,12 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 # Mode와 상태별 표시 조합
 
 - Initializing과 Ready에서는 HUD, PausePanel과 ResultPanel을 표시하지 않는다.
-- Stage Mode Playing에서는 StageHUD만 표시한다.
+- Stage Mode 표시 조합은 거절하고 StageHUD/StageResultContent를 숨긴다.
 - InfiniteMode Playing에서는 InfiniteHUD만 표시한다.
 - Paused에서는 현재 Mode의 HUD와 PausePanel을 함께 표시한다.
 - Ending에서는 현재 Mode의 HUD를 유지한다.
 - Result와 Ended에서는 ResultPanel을 표시하고 Stage·Infinite·Momentum HUD를 모두 숨긴다. ResultData만 최종 점수 원천으로 사용한다.
-- Stage Result에서는 StageResultContent만 표시한다.
+- 비권장 ModeSelect와 Stage Result는 직접 요청·선택 복원으로 다시 표시하지 않는다.
 - InfiniteMode Result에서는 InfiniteResultContent만 표시한다.
 - PausePanel과 ResultPanel은 현재 Mode의 HUD보다 앞에 표시한다.
 - 현재 Mode가 아닌 HUD와 Result Content는 표시하지 않는다.
@@ -242,7 +244,7 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 | Navigation 화면과 선택 반영 요청 | GameSystem |
 | 결과 데이터 | ResultSystem |
 | 현재 게임 Mode와 상태 | GameSystem |
-| Stage Mode 현재 Collectible Score | Runtime Data |
+| Deprecated Stage 모델의 Collectible Score (독립 검증용, 생산 표시 금지) | 보존된 Runtime Data 형식 |
 | InfiniteMode 현재 이동 거리와 Mode별 Score | Runtime Data |
 | InfiniteMode 현재 Momentum 배율과 남은 유지 시간 비율 | Runtime Data |
 | InfiniteMode 현재 Difficulty Level | Runtime Data |
@@ -272,11 +274,11 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 - UI State 반영
 - 전달받은 Navigation 선택의 UI Focus 표시 반영
 - Settings 화면의 값, Binding, Rebinding 대기와 기본값 복원 확인 표시
-- Main Menu, Mode Select와 Main Menu 복귀 확인의 Navigation 상태·선택 표시 반영
+- Main Menu와 Main Menu 복귀 확인의 Navigation 상태·선택 표시 반영, 비권장 ModeSelect 표시 거절
 - 하위 화면 Back UI 항목의 선택 표시 반영
 - 자동 How To Play 안내의 Start Run 기본 선택과 Main Menu 재열람의 Back 기본 선택 표시 반영
 - Mode와 상태별 UI 표시 조합 관리
-- Stage Mode·InfiniteMode HUD, 우측 하단 Momentum HUD 및 Result Text 표시
+- InfiniteMode HUD, 우측 하단 Momentum HUD 및 Infinite Result Text 표시
 
 ---
 
@@ -313,7 +315,10 @@ Infinite Result는 최종 거리, Base Distance Score, Momentum Bonus, Distance 
 - 선택된 UI 항목이 수행할 게임 동작을 결정하지 않는다.
 - Navigation 선택 상태·마지막 선택 Mode·선택 복귀 상태를 별도로 소유하지 않는다.
 - 화면을 처음 열 때는 해당 화면의 기본 선택을 사용하고, Back 또는 Cancel 복귀 시에는 해당 화면을 떠나기 전의 선택을 복귀한다.
-- Mode Select의 최초 선택은 Stage이며, Application 실행 중 다시 열 때는 마지막으로 선택한 Game Mode를 사용한다.
+- ModeSelect 패널/세 버튼은 필수 Navigation 참조에서 제외한다. 보존된 버튼은 비활성·interactable=false·Navigation=None으로 유지하고 숨긴 Root/버튼의 현재 EventSystem 선택을 해제한다.
+- StageHUD/StageResultContent 참조가 없어도 Infinite 표시를 유지한다. Result의 위치/크기/Anchor/Pivot은 Scene 값을 그대로 사용하며 Runtime 레이아웃 보정을 하지 않는다. 공통 ResultPanel·InfiniteResultContent·버튼/Binding 참조는 유지한다.
+- UI 컴포넌트는 생성하지 않는다. Infinite Leaderboard Outline은 Scene에서 조회하고 enabled만 갱신한다. 색/거리/Graphic Alpha는 Inspector 값을 사용하며 누락은 Error로 진단한다. Deprecated Stage 탭은 비활성화하고 기존 Outline이 있으면 끈다. Stage Outline 누락은 오류로 취급하지 않는다.
+- 선택된 Leaderboard 버튼의 상태별 색과 Text 색은 UIManagementSystem의 직렬화된 Color 필드로 관리해 Editor에서 확인/수정할 수 있다. Runtime에서 숨겨진 고정 스타일/레이아웃을 새로 만들지 않는다.
 - 모든 세로 메뉴의 첫 항목에서 위로, 마지막 항목에서 아래로 Navigate해도 현재 선택을 유지한다.
 - 결과 데이터를 생성하지 않는다.
 - 이동 거리와 Score를 계산하지 않는다.

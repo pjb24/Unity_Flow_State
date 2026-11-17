@@ -21,6 +21,8 @@ namespace FlowState.Tests.PlayMode
         private MonoBehaviour _playerMovementSystem;
         private GameRuntimeData _runtimeData;
 
+        private GameObject _physicsGround;
+
         [UnitySetUp]
         public IEnumerator SetUp()
         {
@@ -34,7 +36,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Stage);
+            ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
 
@@ -56,6 +58,23 @@ namespace FlowState.Tests.PlayMode
                 runtimeDataSystem,
                 "RuntimeData");
             Assert.That(_runtimeData, Is.Not.Null);
+            ProductionSceneGameModeTestUtility.DisableInfiniteProgressionForPhysicsFixture();
+            _physicsGround = new GameObject("MomentumLandingTests.Runway");
+            _physicsGround.layer = LayerMask.NameToLayer("Ground");
+            _physicsGround.transform.position = new Vector3(20000.0f, 0.0f, 0.0f);
+            _physicsGround.AddComponent<BoxCollider>().size = new Vector3(200.0f, 1.0f, 4.0f);
+            _playerRigidbody.position = new Vector3(20000.0f, 1.5f, 0.0f);
+            _playerRigidbody.linearVelocity = Vector3.zero;
+            Physics.SyncTransforms();
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
+        }
+
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            if (_physicsGround != null) UnityEngine.Object.DestroyImmediate(_physicsGround);
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
@@ -112,6 +131,7 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator InfiniteMomentumLanding_PreservesSpeedAndUpdatesScoreAndHud()
         {
+            FindRequiredBehaviour("InfiniteModeSystem", "InfiniteModeSystem").enabled = true;
             ProductionSceneGameModeTestUtility.RestartInMode(E_GameMode.Infinite);
             MonoBehaviour runtimeDataSystem = FindRequiredBehaviour(
                 "RuntimeDataSystem",

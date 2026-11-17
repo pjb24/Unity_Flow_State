@@ -33,7 +33,11 @@ namespace FlowState.Tests.PlayMode
             public Task<OnlineSubmissionResult> SubmitAsync(RecordSubmissionCandidate candidate) { throw new InvalidOperationException(); }
             public Task<OnlineLeaderboardResult> GetPersonalBestAsync(RecordBoardKey key) { throw new InvalidOperationException(); }
             public Task<OnlineLeaderboardResult> GetTopAsync(RecordBoardKey key, int limit = 10)
-            { Queries++; return Task.FromResult(new OnlineLeaderboardResult { status = "Success" }); }
+            {
+                Assert.That(key.GameMode, Is.EqualTo(FlowState.Runtime.Core.E_GameMode.Infinite));
+                Queries++;
+                return Task.FromResult(new OnlineLeaderboardResult { status = "Success" });
+            }
             public Task<OnlineLeaderboardResult> GetAroundAsync(RecordBoardKey key, int limit = 7)
             { return GetTopAsync(key, limit); }
         }
@@ -74,6 +78,28 @@ namespace FlowState.Tests.PlayMode
                 Assert.That(panel.activeSelf, Is.False);
             }
             finally { UnityEngine.Object.DestroyImmediate(host); UnityEngine.Object.DestroyImmediate(panel); }
+        }
+
+        [Test]
+        public async Task RetiredStageResult_DoesNotRequestPersonalBest()
+        {
+            GameObject host = new GameObject("RetiredStageRecordProbe"); host.SetActive(false);
+            try
+            {
+                MonoBehaviour game = Add(host, "GameSystem");
+                Set(game, "_selectedGameMode", FlowState.Runtime.Core.E_GameMode.Stage);
+                Set(game, "_onlineRepository", new Records());
+                LeaderboardViewState state = (LeaderboardViewState)Get(game, "_leaderboardViewState");
+                int version = state.BeginPersonalBestRequest();
+                OnlineLeaderboardResult original = new OnlineLeaderboardResult { status = "Success" };
+                state.CompletePersonalBestRequest(version, original);
+                Task refresh = (Task)game.GetType()
+                    .GetMethod("RefreshResultOnlineBestAsync", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Invoke(game, new object[] { null });
+                await refresh;
+                Assert.That(state.PersonalBestResult, Is.SameAs(original));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(host); }
         }
 
         [Test]

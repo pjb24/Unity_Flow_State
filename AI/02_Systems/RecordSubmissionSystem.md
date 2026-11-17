@@ -14,9 +14,11 @@ RecordSubmissionSystem
 
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 현재 상태와 Phase 3 목표
 
-상태: Phase 3 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+기존 로컬 저장/온라인 제출·재시도·계정 연결은 구현돼 있다. Phase 2의 생산 Stage 플레이/결과 진입 차단은 완료했고, Phase 3의 Stage 후보 생성·직접 저장/Repository/Editor 실행 경계 차단과 Infinite 회귀는 미착수다. 아래 기존 공통 책임과 Phase 3의 목표를 구분한다.
+
+### Phase 3 목표 — 직접 실행 경계는 미구현
 
 - 신규 Stage 제출 후보의 생산 진입을 차단하고 전용 소스를 비권장 표시·사유 주석으로 보존한다.
 - Infinite 후보/귀속/ID·대기열·제출 상태/재시도 경계를 유지한다. Stage 자료 보관/이관을 위한 새 책임은 추가하지 않는다.
@@ -115,13 +117,13 @@ RecordSubmissionSystem
 # 제약 사항
 
 - 제출 후보는 Result Data를 변경하지 않는다.
-- Phase 2는 최초 로컬 실행에 생성해 Local Save에 보존한 UUID v4 계정 ID를 후보 귀속에 사용한다. 이 값은 Phase 3 Anonymous Authentication Player ID와 동일하다고 가정하지 않는다.
+- 후보의 로컬 소유 ID는 Local Save에 보존한 UUID v4다. Anonymous 인증 Player ID와 서버의 고정 Leaderboard 소유 ID는 별도 역할이며 동일하다고 가정하지 않는다.
 - 같은 계정과 제출 ID는 서버 terminal receipt 보관 기간 180일 안에서만 중복 판정한다.
 - terminal receipt가 180일 뒤 실제로 삭제된 경우에만 같은 제출 ID를 신규 제출로 허용한다. 삭제 실패·응답 유실은 기존 receipt가 남아 있는 것으로 처리한다.
 - 다른 계정에 귀속된 후보를 전송하지 않는다.
-- 활성 연결이 아닌 Player ID의 후보는 온라인 제출하지 않는다.
-- 로컬 UUID 후보는 사용자 명시적 동의 전에는 Anonymous Authentication Player ID로 재귀속하거나 전송하지 않는다.
-- 사용자 동의 뒤 현재 인증 Player ID를 제출 대상으로 귀속할 때에도 기존 제출 ID는 변경하지 않는다.
+- 현재 활성 연결이 아닌 인증 Player ID의 요청은 온라인 제출하지 않는다. 후보의 로컬 소유 ID와 인증 세션 권한은 별도로 검증한다.
+- 사용자 동의·활성 계정 연결 없이 후보를 전송하지 않으며 다른 로컬 소유자/환경의 후보를 자동 재귀속하지 않는다.
+- 동의·인증/연결 변경을 이유로 기존 후보의 소유 ID나 제출 ID를 임의 변경하지 않는다. 활성 연결 검증과 후보 소유 검증을 분리한다.
 - Offline·인증·Timeout·서비스 실패는 Pending 생성 뒤 180일 전까지 Pending으로 유지하고 게임 진행을 차단하지 않는다. 180일에 도달한 Pending은 `SubmissionExpired`로 제거한다.
 - C별 신규 제출은 60초에 최대 3회, 동일 제출 ID 재호출은 5초 간격으로 제한한다. `TooManyRequests`는 Client 자동 재시도 대상이 아니며 사용자 재시도 시각만 제공한다.
 - 제출 거부 후보는 자동 재시도하지 않는다.

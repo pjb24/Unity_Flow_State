@@ -14,6 +14,17 @@ namespace FlowState.Tests.PlayMode
 {
     public class HowToPlayIntegrationTests
     {
+        [UnityTearDown]
+        public IEnumerator TearDown()
+        {
+            Scene scene = SceneManager.GetSceneByName("SampleScene");
+            if (!scene.isLoaded) yield break;
+            Scene cleanup = SceneManager.GetSceneByName("GameEntryTestCleanup");
+            if (!cleanup.isLoaded) cleanup = SceneManager.CreateScene("GameEntryTestCleanup");
+            SceneManager.SetActiveScene(cleanup);
+            yield return SceneManager.UnloadSceneAsync(scene);
+        }
+
         [UnityTest]
         public IEnumerator HowToPlay_BindingText_UpdatesAndRestores()
         {
@@ -128,7 +139,7 @@ namespace FlowState.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator FirstModeSelection_BlocksRunUntilStartRun()
+        public IEnumerator FirstPlay_BlocksRunUntilStartRun()
         {
             SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
             yield return null;
@@ -144,7 +155,6 @@ namespace FlowState.Tests.PlayMode
             RestoreTutorialIncomplete(gameSystem);
 
             InvokePublicMethod(gameSystem, "SelectPlay");
-            InvokePublicMethod(gameSystem, "SelectInfinite");
 
             Assert.That(
                 GetPublicProperty<E_NavigationScreen>(

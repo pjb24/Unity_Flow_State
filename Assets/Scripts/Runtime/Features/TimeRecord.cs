@@ -2,6 +2,8 @@ using FlowState.Runtime.Core;
 
 namespace FlowState.Runtime.Features
 {
+    // Deprecated Stage Clear Time model, retained for independent legacy result tests.
+    // Production Infinite results use ScoreRecord; this model does not start a Run.
     public class TimeRecord
     {
         private ResultData _resultData;

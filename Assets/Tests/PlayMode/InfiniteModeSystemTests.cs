@@ -255,27 +255,23 @@ namespace FlowState.Tests.PlayMode
         }
 
         [Test]
-        public void Initialize_StageMode_DoesNotCreateOrUpdateInfiniteProgress()
+        public void Initialize_StageMode_IsRejectedWithoutClearingInfiniteProgress()
         {
-            InvokeMethod(_infiniteModeSystem, "Stop");
-            InvokeMethod(_runtimeDataSystem, "ClearRuntimeData");
-            _runtimeData = (GameRuntimeData)InvokeMethod(
-                _runtimeDataSystem,
-                "CreateRuntimeData",
-                E_GameMode.Stage);
-
-            bool didInitialize = InvokeBoolMethod(
-                _infiniteModeSystem,
-                "Initialize",
-                E_GameMode.Stage);
             _playerRigidbody.position = new Vector3(100.0f, 0.0f, 0.0f);
-            bool didProcess = InvokeBoolMethod(
-                _infiniteModeSystem,
-                "ProcessRunMetrics");
-
-            Assert.That(didInitialize, Is.True);
-            Assert.That(didProcess, Is.False);
-            Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.Null);
+            Assert.That(InvokeBoolMethod(_infiniteModeSystem, "ProcessRunMetrics"), Is.True);
+            object runMetrics = _runtimeData.InfiniteModeRuntimeData;
+            float distance = _runtimeData.InfiniteModeRuntimeData.CurrentDistance;
+            int score = _runtimeData.InfiniteModeRuntimeData.CurrentScore;
+            LogAssert.Expect(LogType.Warning, "[InfiniteModeSystem] Only Infinite Mode can be initialized.");
+            Assert.That(InvokeBoolMethod(_infiniteModeSystem, "Initialize", E_GameMode.Stage), Is.False);
+            Assert.That(_runtimeData.InfiniteModeRuntimeData, Is.SameAs(runMetrics));
+            Assert.That(_runtimeData.InfiniteModeRuntimeData.CurrentDistance, Is.EqualTo(distance));
+            Assert.That(_runtimeData.InfiniteModeRuntimeData.CurrentScore, Is.EqualTo(score));
+            Assert.That(GetBoolProperty(_infiniteModeSystem, "IsPlaying"), Is.True);
+            Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            _playerRigidbody.position = new Vector3(200.0f, 0.0f, 0.0f);
+            Assert.That(InvokeBoolMethod(_infiniteModeSystem, "ProcessRunMetrics"), Is.True);
+            Assert.That(_runtimeData.InfiniteModeRuntimeData.CurrentDistance, Is.GreaterThan(distance));
         }
 
         [Test]
@@ -413,6 +409,40 @@ namespace FlowState.Tests.PlayMode
                 BelowSpeedGraceDuration);
 
             Assert.That(endCount, Is.EqualTo(1));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Initialize_UnsupportedMode_PreservesActiveOrStoppedFields(bool stopped)
+        {
+            if (stopped) InvokeMethod(_infiniteModeSystem, "Stop");
+            FieldInfo[] fields = _infiniteModeSystem.GetType().GetFields(
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            object[] snapshot = new object[fields.Length];
+            for (int i = 0; i < fields.Length; i++) snapshot[i] = fields[i].GetValue(_infiniteModeSystem);
+            foreach (E_GameMode mode in new[] { E_GameMode.Stage, (E_GameMode)999 })
+            {
+                LogAssert.Expect(LogType.Warning, "[InfiniteModeSystem] Only Infinite Mode can be initialized.");
+                Assert.That(InvokeBoolMethod(_infiniteModeSystem, "Initialize", mode), Is.False);
+                for (int i = 0; i < fields.Length; i++)
+                    Assert.That(fields[i].GetValue(_infiniteModeSystem), Is.EqualTo(snapshot[i]), fields[i].Name);
+                Assert.That(GetBoolProperty(_infiniteModeSystem, "IsPlaying"), Is.EqualTo(!stopped));
+                Assert.That(GetBoolProperty(_stageSystem, "IsPlaying"), Is.True);
+            }
+        }
+
+        [Test]
+        public void Initialize_UnsupportedModeWithoutReferences_IsRejectedBeforePreparation()
+        {
+            GameObject target = new GameObject("InfiniteModeSystemTests.Unprepared");
+            try
+            {
+                MonoBehaviour system = AddComponentByName(target, "InfiniteModeSystem");
+                LogAssert.Expect(LogType.Warning, "[InfiniteModeSystem] Only Infinite Mode can be initialized.");
+                Assert.That(InvokeBoolMethod(system, "Initialize", E_GameMode.Stage), Is.False);
+                Assert.That(GetBoolProperty(system, "IsPlaying"), Is.False);
+            }
+            finally { UnityEngine.Object.DestroyImmediate(target); }
         }
 
         private void SetHorizontalSpeed(float horizontalSpeed)

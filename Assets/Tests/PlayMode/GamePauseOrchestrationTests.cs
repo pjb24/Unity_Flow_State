@@ -34,7 +34,7 @@ namespace FlowState.Tests.PlayMode
             }
 
             yield return null;
-            RestartInMode(E_GameMode.Stage);
+            RestartInMode(E_GameMode.Infinite);
         }
 
         [UnityTearDown]
@@ -42,10 +42,11 @@ namespace FlowState.Tests.PlayMode
         {
             Time.timeScale = 1.0f;
             yield return null;
+            yield return ProductionSceneGameModeTestUtility.UnloadProductionScene();
         }
 
         [UnityTest]
-        public IEnumerator StageMode_Pause_StopsTimerAndPlayerPhysicsUntilResume()
+        public IEnumerator InfiniteRunTimer_Pause_StopsTimerAndPlayerPhysicsUntilResume()
         {
             yield return new WaitForSecondsRealtime(0.05f);
             double elapsedBeforePause = GetPlayTimerElapsedTime();
@@ -194,7 +195,7 @@ namespace FlowState.Tests.PlayMode
             Assert.That(method, Is.Not.Null);
             return (double)method.Invoke(
                 _timerSystem,
-                new object[] { E_TimerKey.PlayTimer });
+                new object[] { E_TimerKey.InfiniteRunTimer });
         }
 
         private MonoBehaviour FindRequiredBehaviour(

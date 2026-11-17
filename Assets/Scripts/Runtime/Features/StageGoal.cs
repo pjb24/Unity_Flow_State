@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace FlowState.Runtime.Features
 {
+    // Deprecated: Infinite-only play has no Goal. Preserve the component/GUID and
+    // independent legacy trigger behavior; StageSystem no longer starts Stage Runs.
     public class StageGoal : MonoBehaviour
     {
         [SerializeField] private Collider _playerCollider;
@@ -44,6 +46,7 @@ namespace FlowState.Runtime.Features
             GoalReached -= listener;
         }
 
+        [Obsolete("Stage Goal completion is retired. Infinite ends through InfiniteModeSystem.")]
         private void OnTriggerEnter(Collider other)
         {
             if (!_isInitialized || _isReached || other != _playerCollider)

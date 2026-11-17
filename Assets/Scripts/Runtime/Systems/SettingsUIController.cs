@@ -31,7 +31,7 @@ namespace FlowState.Runtime.Systems
             if (_masterVolumeSlider != null)
                 _masterVolumeSlider.onValueChanged.AddListener(HandleVolumeChanged);
             _controlsScrollRect = GetComponentInChildren<ScrollRect>(true);
-            ConfigureButtonFocusHandlers();
+            ValidateButtonFocusHandlers();
             Refresh();
             SelectBackButton();
         }
@@ -119,33 +119,27 @@ namespace FlowState.Runtime.Systems
             }
         }
 
-        private void ConfigureButtonFocusHandlers()
+        private void ValidateButtonFocusHandlers()
         {
+            bool hasMissingHandler = false;
             foreach (Button button in GetComponentsInChildren<Button>(true))
             {
                 SettingsButtonHoverFocusHandler hoverHandler = button.GetComponent<SettingsButtonHoverFocusHandler>();
-                if (hoverHandler == null)
-                    hoverHandler = button.gameObject.AddComponent<SettingsButtonHoverFocusHandler>();
-                hoverHandler.Initialize(this, button);
-
-                if (_backButton == null && button.name == "BackButton")
-                    _backButton = button;
+                if (hoverHandler == null || !hoverHandler.IsConfiguredFor(this, button)) hasMissingHandler = true;
+                if (_backButton == null && button.name == "BackButton") _backButton = button;
             }
-
-            if (_rebindButtons == null)
-                return;
-
-            for (int i = 0; i < _rebindButtons.Length; i++)
+            if (_rebindButtons != null)
             {
-                Button rebindButton = _rebindButtons[i];
-                if (rebindButton == null)
-                    continue;
-
-                SettingsRebindButtonFocusHandler rebindHandler = rebindButton.GetComponent<SettingsRebindButtonFocusHandler>();
-                if (rebindHandler == null)
-                    rebindHandler = rebindButton.gameObject.AddComponent<SettingsRebindButtonFocusHandler>();
-                rebindHandler.Initialize(this, i);
+                for (int i = 0; i < _rebindButtons.Length; i++)
+                {
+                    Button button = _rebindButtons[i];
+                    if (button == null) continue;
+                    SettingsRebindButtonFocusHandler handler = button.GetComponent<SettingsRebindButtonFocusHandler>();
+                    if (handler == null || !handler.IsConfiguredFor(this, i)) hasMissingHandler = true;
+                }
             }
+            if (hasMissingHandler)
+                Debug.LogError("[SettingsUIController] Scene focus handlers or bindings are missing. Configure the hover/rebind handlers in the Editor.");
         }
 
         private void ScrollToRebindButton(int index)
@@ -183,40 +177,6 @@ namespace FlowState.Runtime.Systems
                 _restoreDefaultsConfirmationPanel.SetActive(false);
             if (_restoreDefaultsButton != null && EventSystem.current != null)
                 EventSystem.current.SetSelectedGameObject(_restoreDefaultsButton.gameObject);
-        }
-    }
-
-    public sealed class SettingsRebindButtonFocusHandler : MonoBehaviour, ISelectHandler
-    {
-        private SettingsUIController _controller;
-        private int _index;
-
-        public void Initialize(SettingsUIController controller, int index)
-        {
-            _controller = controller;
-            _index = index;
-        }
-
-        public void OnSelect(BaseEventData eventData)
-        {
-            _controller?.HandleRebindButtonSelected(_index);
-        }
-    }
-
-    public sealed class SettingsButtonHoverFocusHandler : MonoBehaviour, IPointerEnterHandler
-    {
-        private SettingsUIController _controller;
-        private Button _button;
-
-        public void Initialize(SettingsUIController controller, Button button)
-        {
-            _controller = controller;
-            _button = button;
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            _controller?.FocusButtonFromPointer(_button);
         }
     }
 }

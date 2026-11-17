@@ -55,6 +55,8 @@ namespace FlowState.Runtime.Features
             _startGraceDuration = startGraceDuration;
             _belowSpeedGraceDuration = belowSpeedGraceDuration;
             _wallSpeedGraceDuration = wallSpeedGraceDuration;
+            // Inactive sentinel for this independent state machine, not a Stage Run.
+            // Production InfiniteModeSystem sets Infinite before Start; Reset keeps it.
             _gameMode = E_GameMode.Stage;
             _isInitialized = true;
             ResetRunState();

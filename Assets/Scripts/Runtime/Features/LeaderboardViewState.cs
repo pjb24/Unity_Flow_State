@@ -9,7 +9,7 @@ namespace FlowState.Runtime.Features
         private int _aroundRequestVersion;
         private int _personalBestRequestVersion;
 
-        public E_GameMode GameMode { get; private set; } = E_GameMode.Stage;
+        public E_GameMode GameMode { get; private set; } = E_GameMode.Infinite;
         public E_LeaderboardQueryState TopState { get; private set; } =
             E_LeaderboardQueryState.NotRequested;
         public E_LeaderboardQueryState AroundState { get; private set; } =
@@ -20,6 +20,8 @@ namespace FlowState.Runtime.Features
 
         public void SelectGameMode(E_GameMode gameMode)
         {
+            // Deprecated Stage API values are retained, but cannot select a board.
+            if (gameMode != E_GameMode.Infinite) return;
             if (GameMode == gameMode)
             {
                 return;

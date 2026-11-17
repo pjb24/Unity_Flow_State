@@ -14,11 +14,11 @@ InfiniteMode
 
 ---
 
-## Roadmap 9 적용 예정 계약
+## Roadmap 9 적용 상태
 
-상태: Phase 2~4 적용 예정·생산 전환 미구현. 이 절은 확정한 미래 계약이며, 아래 기존 규칙/책임은 현재 구현 기준이다.
+Phase 2의 Infinite 단일 플레이 전환과 사용자 Compile/Scene/Test/Player 확인은 완료했다. 아래 Stage/Stage Play는 공통 Run을 뜻하며 Stage Mode는 Deprecated 자료형·거절/합성 검증 범위에서만 다룬다. Phase 3 기록 직접 경계와 Phase 4 통합 후보 판정은 미완료다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다.
 
-- 새 Client에서 유일하게 제공하는 생산 플레이 Mode가 된다. 시작/복귀와 기록 접근은 해당 Feature의 전환 계약을 따른다.
+- 새 Client에서 유일하게 제공하는 생산 플레이 Mode다. 시작/복귀와 기록 접근은 해당 Feature의 현행 규칙 및 Phase 3 잔여 범위를 따른다.
 - 현재 Pattern 네 종류·Difficulty·Scoring Version 2·점수/물리·World Rebase·Collectible·종료 조건을 유지한다. StageSystem 등 공통 기반의 명칭만으로 삭제하지 않는다.
 
 검증 계약: P9-C06/P9-C09. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
@@ -77,7 +77,7 @@ InfiniteMode
 
 - `AdvanceBoundaryPoint` Local Position은 `Flat` `(-4, 5.5, 0)`, `SingleRise` `(0, 5.5, 0)`, `LegacySteps` `(2, 5.5, 0)`, `InternalGap` `(4, 5.5, 0)`이다. Slot의 실제 Boundary는 활성 Pattern의 Point에 정렬되므로 위치가 Pattern마다 달라진다.
 - 실제 Boundary BoxCollider는 각 Slot의 `ContentRoot` 밖에 있으며 Size `(1, 10, 4)`, Center `(0, 0, 0)`, Is Trigger `true`이다. Slot ID와 Boundary ID는 각각 `0` 또는 `1`이며 두 Boundary와 Map Pattern은 Scene Root `Player`의 CapsuleCollider를 참조한다.
-- Phase 4에서는 네 `CollectibleRoot`에 각각 `Flat` 5개, `SingleRise` 15개, `LegacySteps` 20개, `InternalGap` 10개의 Collectible을 배치했다. 정확한 ID·좌표와 소유 경계는 `20260914_03_Phase4ManualSteps.md`의 Step 2 배치표에 따른다. Pattern 전환·Retry의 Collectible Scope 생성·해제·재연결 계약을 유지한다.
+- 네 `CollectibleRoot`는 각각 `Flat` 5개, `SingleRise` 15개, `LegacySteps` 20개, `InternalGap` 10개의 Collectible을 사용한다. 정확한 ID·좌표와 소유 경계의 제작 근거는 `20260914_03_Phase4ManualSteps.md` Step 2 배치표이며 Roadmap 9 Phase 4의 미구현 작업을 뜻하지 않는다. Pattern 전환·Retry의 Collectible Scope 생성·해제·재연결 계약을 유지한다.
 
 ## Pattern별 계약
 
@@ -187,7 +187,7 @@ InfiniteMode
 
 ## Run 초기화
 
-- Phase 2의 두 재사용 Slot은 `Flat`으로 시작한다. Phase 3은 Run의 첫 `Flat`을 Pattern 선택 이력에 포함하고, 다음 Pattern부터 D1 후보 선택 규칙을 적용한다.
+- 두 재사용 Slot은 `Flat`으로 시작한다. Run의 첫 `Flat`을 Pattern 선택 이력에 포함하고 다음 Pattern부터 D1 후보 선택 규칙을 적용한다.
 - Retry와 새 Run은 각각 새로운 난수 Seed를 사용한다.
 - Retry와 새 Run에서 진행도, Difficulty, 선택 이력, 연속 반복 횟수와 중복 진행 요청 상태를 초기화한다.
 - Pattern 배치, Boundary와 Pattern별 Collectible Scope를 초기화한다.
@@ -220,12 +220,12 @@ InfiniteMode
 - 전체 조합: 앞 Pattern EndAnchor에서 뒤 Pattern StartAnchor까지 16개 조합의 연결 및 통과
 - 공통 물리: Platform 전면과 모서리의 Wall 접촉 해제, Ground 상태 복구와 추락 임계값 도달
 
-## Phase별 검증 책임
+## 검증 책임
 
-- Phase 1은 Pattern ID와 개수, 연결 수치, 통과 계산 경계, Difficulty 경계, 후보 순서, 반복·대체·초기화 계약을 정적 검사와 Edit Mode Unit Test로 확정한다.
-- Phase 2는 생산 Scene의 네 Pattern 제작과 Anchor·Collider·Layer·Boundary 구성을 정적으로 검사하고, 각 Pattern 및 16개 연결 조합의 실제 Rigidbody 통과를 Play Mode Test로 검증한다.
-- Phase 3은 InfiniteModeSystem과 진행 구조에 Difficulty 및 Pattern 선택 상태를 연결하고, Retry·새 Run·Pause·Result 생명주기를 Edit Mode 상태 Test와 Play Mode 통합 Test로 검증한다.
-- Phase 4는 Pattern별 Collectible 경로, Difficulty 및 Pattern UI, Score 유지와 Stage Mode를 포함한 전체 회귀를 Play Mode Test로 검증하고 화면 표현만 수동으로 확인한다.
+- Pattern ID/개수·연결 수치·통과 계산/Difficulty 경계·후보 순서·반복/대체/초기화 계약은 정적 검사와 Edit Mode Unit Test로 검증한다.
+- 생산 Scene의 네 Pattern 제작과 Anchor·Collider·Layer·Boundary 구성은 정적으로 검사하고 각 Pattern 및 16개 연결 조합의 실제 Rigidbody 통과는 Play Mode Test로 검증한다.
+- Difficulty/Pattern 선택 상태와 진행 구조 연결, Retry·새 Run·Pause·Result 생명주기는 Edit Mode 상태 Test와 Play Mode 통합 Test로 검증한다.
+- Pattern별 Collectible 경로, Difficulty/Pattern UI와 Score 유지의 공통 회귀를 Play Mode Test로 검증한다. Deprecated Stage 모델의 독립 검증/생산 요청 거절은 사용자 Stage 플레이와 구분하며 화면 표현만 수동으로 확인한다.
 
 ---
 

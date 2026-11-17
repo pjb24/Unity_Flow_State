@@ -11,12 +11,11 @@ namespace FlowState.Runtime.Core
         private int _navigateDirection;
         private double _nextNavigateRepeatTime;
         private bool _isNavigateNeutral = true;
-        private bool _hasLastSelectedMode;
         private bool _hasAutomaticHowToPlayCompleted;
         private bool _hasPendingGameMode;
         private bool _isSubmissionRetryAvailable;
         private bool _isLeaderboardPendingRetryAvailable;
-        private E_GameMode _pendingGameMode = E_GameMode.Stage;
+        private E_GameMode _pendingGameMode = E_GameMode.Infinite;
 
         public E_NavigationScreen CurrentScreen { get; private set; } =
             E_NavigationScreen.Boot;
@@ -28,7 +27,7 @@ namespace FlowState.Runtime.Core
             E_GameState.None;
 
         public E_GameMode SelectedGameMode { get; private set; } =
-            E_GameMode.Stage;
+            E_GameMode.Infinite;
 
         public bool HasRun { get; private set; }
 
@@ -155,6 +154,12 @@ namespace FlowState.Runtime.Core
 
         public bool TrySelect(E_NavigationItem item)
         {
+            // Deprecated Stage selections cannot request play or records.
+            if (item == E_NavigationItem.Stage)
+            {
+                return false;
+            }
+
             if (!ContainsItem(CurrentScreen, item))
             {
                 return false;
@@ -179,6 +184,9 @@ namespace FlowState.Runtime.Core
 
                 case E_NavigationScreen.PauseMainMenuConfirmation:
                     return SubmitPauseMainMenuConfirmation();
+
+                case E_NavigationScreen.PauseRetryConfirmation:
+                    return SubmitPauseRetryConfirmation();
 
                 case E_NavigationScreen.Result:
                     return SubmitResult();
@@ -217,6 +225,10 @@ namespace FlowState.Runtime.Core
 
                 case E_NavigationScreen.PauseMainMenuConfirmation:
                     SetScreen(E_NavigationScreen.Pause, E_NavigationItem.MainMenu);
+                    return true;
+
+                case E_NavigationScreen.PauseRetryConfirmation:
+                    SetScreen(E_NavigationScreen.Pause, E_NavigationItem.Retry);
                     return true;
 
                 case E_NavigationScreen.Leaderboard:
@@ -306,12 +318,7 @@ namespace FlowState.Runtime.Core
             switch (CurrentSelection)
             {
                 case E_NavigationItem.Play:
-                    SetScreen(
-                        E_NavigationScreen.ModeSelect,
-                        _hasLastSelectedMode
-                            ? ToNavigationItem(SelectedGameMode)
-                            : E_NavigationItem.Stage);
-                    return true;
+                    return SubmitInfinitePlay();
 
                 case E_NavigationItem.HowToPlay:
                     SetScreen(E_NavigationScreen.HowToPlay, E_NavigationItem.Back);
@@ -321,7 +328,7 @@ namespace FlowState.Runtime.Core
                     _leaderboardReturnScreen = E_NavigationScreen.MainMenu;
                     SetScreen(
                         E_NavigationScreen.Leaderboard,
-                        E_NavigationItem.Stage);
+                        E_NavigationItem.Infinite);
                     return true;
 
                 case E_NavigationItem.Settings:
@@ -346,20 +353,23 @@ namespace FlowState.Runtime.Core
                 return true;
             }
 
-            if (CurrentSelection != E_NavigationItem.Stage &&
-                CurrentSelection != E_NavigationItem.Infinite)
+            // Deprecated play selection: retain the screen/API for serialized
+            // references, but only Infinite can use this legacy entry point.
+            if (CurrentSelection != E_NavigationItem.Infinite)
             {
                 return false;
             }
 
-            SelectedGameMode = CurrentSelection == E_NavigationItem.Stage
-                ? E_GameMode.Stage
-                : E_GameMode.Infinite;
-            _hasLastSelectedMode = true;
+            return SubmitInfinitePlay();
+        }
+
+        private bool SubmitInfinitePlay()
+        {
+            SelectedGameMode = E_GameMode.Infinite;
+            _pendingGameMode = E_GameMode.Infinite;
 
             if (!_hasAutomaticHowToPlayCompleted)
             {
-                _pendingGameMode = SelectedGameMode;
                 _hasPendingGameMode = true;
                 SetScreen(
                     E_NavigationScreen.AutomaticHowToPlay,
@@ -374,12 +384,16 @@ namespace FlowState.Runtime.Core
         private bool SubmitAutomaticHowToPlay()
         {
             if (CurrentSelection != E_NavigationItem.StartRun ||
-                !_hasPendingGameMode)
+                !_hasPendingGameMode ||
+                (_pendingGameMode != E_GameMode.Stage &&
+                 _pendingGameMode != E_GameMode.Infinite))
             {
                 return false;
             }
 
-            SelectedGameMode = _pendingGameMode;
+            // A pending Stage value from the former menu cannot revive a Stage Run.
+            SelectedGameMode = E_GameMode.Infinite;
+            _pendingGameMode = E_GameMode.Infinite;
             _hasPendingGameMode = false;
             _hasAutomaticHowToPlayCompleted = true;
             BeginInitialization();
@@ -394,8 +408,7 @@ namespace FlowState.Runtime.Core
                     return ResumeRun();
 
                 case E_NavigationItem.Retry:
-                    ClearRun();
-                    BeginInitialization();
+                    SetScreen(E_NavigationScreen.PauseRetryConfirmation, E_NavigationItem.Cancel);
                     return true;
 
                 case E_NavigationItem.Settings:
@@ -412,6 +425,23 @@ namespace FlowState.Runtime.Core
                 default:
                     return false;
             }
+        }
+
+        private bool SubmitPauseRetryConfirmation()
+        {
+            if (CurrentSelection == E_NavigationItem.Retry)
+            {
+                BeginInitialization();
+                return true;
+            }
+
+            if (CurrentSelection == E_NavigationItem.Cancel)
+            {
+                SetScreen(E_NavigationScreen.Pause, E_NavigationItem.Retry);
+                return true;
+            }
+
+            return false;
         }
 
         private bool SubmitPauseMainMenuConfirmation()
@@ -445,7 +475,7 @@ namespace FlowState.Runtime.Core
             {
                 _leaderboardReturnScreen = E_NavigationScreen.Result;
                 SetScreen(E_NavigationScreen.Leaderboard,
-                    ToNavigationItem(SelectedGameMode));
+                    E_NavigationItem.Infinite);
                 return true;
             }
 
@@ -522,8 +552,7 @@ namespace FlowState.Runtime.Core
                 return ReturnFromLeaderboard();
             }
 
-            return CurrentSelection == E_NavigationItem.Stage ||
-                   CurrentSelection == E_NavigationItem.Infinite ||
+            return CurrentSelection == E_NavigationItem.Infinite ||
                    CurrentSelection == E_NavigationItem.LeaderboardRetry ||
                    (CurrentSelection == E_NavigationItem.LeaderboardPendingRetry &&
                     _isLeaderboardPendingRetryAvailable);
@@ -543,6 +572,10 @@ namespace FlowState.Runtime.Core
 
         private void BeginInitialization()
         {
+            // Retry also migrates an old runtime selection before requesting a Run.
+            SelectedGameMode = E_GameMode.Infinite;
+            _pendingGameMode = E_GameMode.Infinite;
+            _hasPendingGameMode = false;
             ClearRun();
             HasInitializationFailureNotice = false;
             IsRunStartRequested = true;
@@ -577,13 +610,6 @@ namespace FlowState.Runtime.Core
             return true;
         }
 
-        private static E_NavigationItem ToNavigationItem(E_GameMode gameMode)
-        {
-            return gameMode == E_GameMode.Infinite
-                ? E_NavigationItem.Infinite
-                : E_NavigationItem.Stage;
-        }
-
         private void SetScreen(
             E_NavigationScreen screen,
             E_NavigationItem selection)
@@ -615,13 +641,14 @@ namespace FlowState.Runtime.Core
                     return 4;
 
                 case E_NavigationScreen.PauseMainMenuConfirmation:
+                case E_NavigationScreen.PauseRetryConfirmation:
                     return 2;
 
                 case E_NavigationScreen.Result:
                     return _isSubmissionRetryAvailable ? 4 : 3;
 
                 case E_NavigationScreen.Leaderboard:
-                    return _isLeaderboardPendingRetryAvailable ? 5 : 4;
+                    return _isLeaderboardPendingRetryAvailable ? 4 : 3;
                 case E_NavigationScreen.HowToPlay:
                 case E_NavigationScreen.AutomaticHowToPlay:
                 case E_NavigationScreen.Settings:
@@ -688,6 +715,9 @@ namespace FlowState.Runtime.Core
                         ? E_NavigationItem.MainMenu
                         : E_NavigationItem.Cancel;
 
+                case E_NavigationScreen.PauseRetryConfirmation:
+                    return index == 0 ? E_NavigationItem.Retry : E_NavigationItem.Cancel;
+
                 case E_NavigationScreen.Result:
                     if (index == 0) return E_NavigationItem.Retry;
                     if (index == 1) return E_NavigationItem.ResultLeaderboard;
@@ -696,10 +726,9 @@ namespace FlowState.Runtime.Core
                     return E_NavigationItem.MainMenu;
 
                 case E_NavigationScreen.Leaderboard:
-                    if (index == 0) return E_NavigationItem.Stage;
-                    if (index == 1) return E_NavigationItem.Infinite;
-                    if (index == 2) return E_NavigationItem.LeaderboardRetry;
-                    if (_isLeaderboardPendingRetryAvailable && index == 3)
+                    if (index == 0) return E_NavigationItem.Infinite;
+                    if (index == 1) return E_NavigationItem.LeaderboardRetry;
+                    if (_isLeaderboardPendingRetryAvailable && index == 2)
                         return E_NavigationItem.LeaderboardPendingRetry;
                     return E_NavigationItem.Back;
                 case E_NavigationScreen.HowToPlay:

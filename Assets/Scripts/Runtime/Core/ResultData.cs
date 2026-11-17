@@ -2,6 +2,7 @@ namespace FlowState.Runtime.Core
 {
     public enum E_StageResultType
     {
+        // Deprecated Stage-only values are kept at their original numeric identities.
         None = 0,
         Cleared = 1,
         Fell = 2
@@ -9,6 +10,8 @@ namespace FlowState.Runtime.Core
 
     public class ResultData
     {
+        // Deprecated Stage-only representation retained for synthetic/internal results.
+        // Use the Infinite score constructors for new production results.
         public ResultData(
             E_StageResultType stageResultType,
             double elapsedTime,
