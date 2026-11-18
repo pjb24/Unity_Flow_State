@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FlowState.Runtime.Core;
 using UnityEngine;
 
 namespace FlowState.Runtime.Features
@@ -13,6 +14,7 @@ namespace FlowState.Runtime.Features
         private readonly IOnlineAuthenticationGateway _authentication;
         private readonly IOnlineRecordRepository _online;
         private readonly Func<int, Task> _delay;
+        private readonly Func<long> _now;
         private readonly List<RuntimeSubmissionReceipt> _terminalReceipts =
             new List<RuntimeSubmissionReceipt>();
         private readonly System.Threading.SemaphoreSlim _retryGate =
@@ -20,13 +22,14 @@ namespace FlowState.Runtime.Features
 
         public OnlineRecordCoordinator(string owner, LocalRecordRepository local,
             IOnlineAuthenticationGateway authentication, IOnlineRecordRepository online,
-            Func<int, Task> delay = null)
+            Func<int, Task> delay = null, Func<long> now = null)
         {
             _owner = owner;
             _local = local;
             _authentication = authentication;
             _online = online;
             _delay = delay == null ? milliseconds => Task.Delay(milliseconds) : delay;
+            _now = now == null ? () => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() : now;
         }
 
         public int SubmittedCount => Count(E_RecordSubmissionResult.Submitted);
@@ -127,9 +130,13 @@ namespace FlowState.Runtime.Features
         {
             try
             {
-                if (!_local.TryExpirePending(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), out int expired) ||
+                // Expiry/checkpoint cover the whole queue, even for a single-ID retry.
+                // Unexpected records must not be deleted, rebound or counted as terminal.
+                if (!CanProcessPending()) return;
+                if (!_local.TryExpirePending(_now(), out int expired) ||
                     !_local.TryCheckpoint() || !await BindAsync()) return;
                 if (expired > 0) Debug.LogWarning("[OnlineRecordCoordinator] SubmissionExpired: old Pending records were removed.");
+                if (!CanProcessPending()) return;
                 var pending = _local.CreatePendingSnapshot();
                 for (int i = 0; i < pending.Count; i++)
                 {
@@ -139,6 +146,7 @@ namespace FlowState.Runtime.Features
                     for (int attempt = 0; attempt < RecordSubmissionQueue.MaximumAttemptsPerRetryTrigger; attempt++)
                     {
                         if (attempt > 0) await _delay(InitialRetryDelayMilliseconds << (attempt - 1));
+                        if (!CanProcessPending() || !_local.CanUseOnlineData) return;
                         OnlineSubmissionResult result = await _online.SubmitAsync(candidate);
                         if (result == null || (result.Result != E_RecordSubmissionResult.Submitted &&
                             result.Result != E_RecordSubmissionResult.Rejected)) continue;
@@ -157,6 +165,22 @@ namespace FlowState.Runtime.Features
             {
                 Debug.LogWarning("[OnlineRecordCoordinator] Retry deferred; local records retained.");
             }
+        }
+
+        private bool CanProcessPending()
+        {
+            if (string.IsNullOrEmpty(_owner) || _local.AccountId != _owner ||
+                !_local.ActiveScope.Matches(OnlineDataScope.CreateConfigured())) return false;
+            var pending = _local.CreatePendingSnapshot();
+            for (int i = 0; i < pending.Count; i++)
+            {
+                RecordSubmissionCandidate candidate = pending[i];
+                if (candidate == null || candidate.PlayerId != _owner ||
+                    candidate.BoardKey.GameMode != E_GameMode.Infinite ||
+                    candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                    candidate.BoardKey.StageId != string.Empty) return false;
+            }
+            return true;
         }
 
         private bool ContainsPending(string submissionId)

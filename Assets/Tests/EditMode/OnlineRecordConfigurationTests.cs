@@ -1,3 +1,4 @@
+using System;
 using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using NUnit.Framework;
@@ -22,6 +23,8 @@ namespace FlowState.Tests.EditMode
                     out string leaderboardId),
                 Is.True);
             Assert.That(leaderboardId, Is.EqualTo("fs-stage-stage-001-r1"));
+            Assert.Throws<NotSupportedException>(() => OnlineRecordConfiguration.ValidateRecordRequest(
+                "query-records", "{\"boardId\":\"" + leaderboardId + "\",\"kind\":\"me\",\"limit\":1}"));
         }
 
         [Test]

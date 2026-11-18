@@ -6,6 +6,31 @@ namespace FlowState.Tests.EditMode
 {
     public sealed class LeaderboardViewStateTests
     {
+        [TestCase("Success", "", 0, E_LeaderboardQueryState.Empty)]
+        [TestCase("Success", "", 1, E_LeaderboardQueryState.Success)]
+        [TestCase("TransientFailure", "NotReachable", 0, E_LeaderboardQueryState.Offline)]
+        [TestCase("TransientFailure", "Timeout", 0, E_LeaderboardQueryState.Error)]
+        [TestCase("TransientFailure", "StageModeUnsupported", 1, E_LeaderboardQueryState.Error)]
+        public void AroundOutcome_DoesNotReplaceTopOrPersonalBest(string status, string reason,
+            int rows, E_LeaderboardQueryState expected)
+        {
+            LeaderboardViewState state = new LeaderboardViewState();
+            OnlineLeaderboardResult top = new OnlineLeaderboardResult { status = "Success",
+                entries = new[] { new OnlineLeaderboardEntry { rank = 1, score = 321 } } };
+            state.CompleteTopRequest(state.BeginTopRequest(), top);
+            state.CompletePersonalBestRequest(state.BeginPersonalBestRequest(), top);
+            int request = state.BeginAroundRequest();
+            Assert.That(state.AroundState, Is.EqualTo(E_LeaderboardQueryState.Loading));
+            Assert.That(state.TopResult, Is.SameAs(top));
+            OnlineLeaderboardResult around = new OnlineLeaderboardResult { status = status, reason = reason,
+                entries = rows == 0 ? new OnlineLeaderboardEntry[0] : new[] { new OnlineLeaderboardEntry { score = 60000 } } };
+            state.CompleteAroundRequest(request, around);
+            Assert.That(state.AroundState, Is.EqualTo(expected));
+            Assert.That(state.TopState, Is.EqualTo(E_LeaderboardQueryState.Success));
+            Assert.That(state.TopResult, Is.SameAs(top));
+            Assert.That(state.PersonalBestResult, Is.SameAs(top));
+        }
+
         [Test]
         public void IndependentRequests_KeepSuccessfulTopWhenAroundFails()
         {

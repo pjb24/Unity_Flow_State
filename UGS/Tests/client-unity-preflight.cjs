@@ -54,5 +54,35 @@ for (const [folder, names] of [["EditMode", newEdit], ["PlayMode", newPlay]])
     if (folder === "EditMode") editCount += count; else playCount += count;
     console.log(`PREPARED / ${folder} / ${name} / ${count} source cases (NOT EXECUTED)`);
   }
-assert.equal(editCount, 183); assert.equal(playCount, 23);
+assert.equal(editCount, 254); assert.equal(playCount, 38);
+const integrationSuites = {
+  EditMode: ["LeaderboardViewStateTests", "GameNavigationStateTests", "ResultTextFormatterTests"],
+  PlayMode: ["OnlineRecoveryNoticeFlowTests", "ResultMenuIntegrationTests", "ModeResultDisplayIntegrationTests",
+    "ModeUISceneConfigurationTests", "PlayModeRecordIsolationTests"]
+};
+// Inspect serialized production references without launching or editing the Scene.
+const sceneBlocks = read("Assets/Scenes/SampleScene.unity").split(/^--- /m);
+const uiGuid = read("Assets/Scripts/Runtime/Systems/UIManagementSystem.cs.meta").match(/^guid: (\w+)/m)[1];
+const gameGuid = read("Assets/Scripts/Runtime/Systems/GameSystem.cs.meta").match(/^guid: (\w+)/m)[1];
+const uiBlock = sceneBlocks.find(block => block.includes("guid: " + uiGuid));
+const gameBlock = sceneBlocks.find(block => block.includes("guid: " + gameGuid));
+assert.ok(uiBlock); assert.ok(gameBlock);
+const gameId = gameBlock.split("\n")[0].match(/&(\d+)/)[1];
+for (const field of ["_resultRecordStatusText", "_resultSubmissionRetryButton", "_resultLeaderboardButton",
+  "_leaderboardTopText", "_leaderboardAroundText", "_leaderboardAccountText", "_leaderboardInfiniteButton",
+  "_leaderboardBackButton", "_leaderboardPendingRetryButton"]) {
+  const reference = uiBlock.match(new RegExp("  " + field + ": \\{fileID: (\\d+)\\}"));
+  assert.ok(reference, field); assert.notEqual(reference[1], "0", field);
+  assert.ok(sceneBlocks.some(block => new RegExp("^!u!\\d+ &" + reference[1] + "\\r?\\n").test(block)), field);
+}
+for (const method of ["SelectResultLeaderboard", "SelectLeaderboardRetry", "SelectLeaderboardPendingRetry",
+  "RetryPendingSubmission", "SelectMainMenu", "ConfirmOnlineRecoveryNotice", "CancelOnlineRecoveryNotice"])
+  assert.ok(sceneBlocks.some(block => block.includes("m_MethodName: " + method) && block.includes("m_Target: {fileID: " + gameId + "}")), method);
+console.log("PASS read-only SampleScene references: 9 UI targets and 7 GameSystem callbacks; no Scene edits.");
+for (const [folder, names] of Object.entries(integrationSuites))
+  for (const name of names) {
+    const source = read(`Assets/Tests/${folder}/${name}.cs`);
+    assert.deepEqual(duplicateMembers(source), [], name);
+    console.log(`PREPARED / integration / ${folder} / ${name} / ${[...source.matchAll(/\[Test\]|\[TestCase\(|\[UnityTest\]/g)].length} source cases (NOT EXECUTED)`);
+  }
 console.log(`PASS Unity preflight: ${changed.length} changed/new C# files, meta GUIDs, source delimiters, asmdefs, isolated setup; Edit ${editCount}/Play ${playCount} prepared. NO compile/Test Runner/Scene/build/remote execution.`);

@@ -12,6 +12,7 @@ namespace FlowState.Tests.EditMode
         public string Reason = "InvalidScore";
         public bool Timeout;
         public System.Exception Failure;
+        public System.Action BeforeResponse;
         public OnlineLeaderboardResult QueryResponse = new OnlineLeaderboardResult
         {
             status = "Success",
@@ -20,6 +21,7 @@ namespace FlowState.Tests.EditMode
         public Task<T> CallAsync<T>(string endpoint, string request)
         {
             Calls++; Endpoint = endpoint; Request = request;
+            if (BeforeResponse != null) BeforeResponse();
             if (Timeout) return Task.FromException<T>(new System.TimeoutException());
             if (Failure != null) return Task.FromException<T>(Failure);
             object value = endpoint == "submit-record"

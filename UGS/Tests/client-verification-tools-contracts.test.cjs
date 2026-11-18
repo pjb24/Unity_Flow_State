@@ -24,7 +24,7 @@ const pendingFixtureTests = read("Assets/Tests/EditMode/VerificationSessionTests
 const pendingFixture = pendingFixtureTests.slice(pendingFixtureTests.indexOf("private static LocalRecordRepository PendingLocal"),
   pendingFixtureTests.indexOf('[TestCase("Submitted", "PENDING_SUBMISSION_CONFIRMED"'));
 assert.ok(pendingFixture.indexOf('local.CreateSaveData("verification-local-owner"') >= 0);
-assert.ok(pendingFixture.indexOf("local.CreateSaveData") < pendingFixture.indexOf("TryCreateStageCandidate"),
+assert.ok(pendingFixture.indexOf("local.CreateSaveData") < pendingFixture.indexOf("TryCreateInfiniteCandidate"),
   "Pending fixture must initialize its local owner before creating a candidate");
 assert.ok(pendingFixtureTests.includes("LocalRecordRepository local = PendingLocal(false);"));
 const pendingRetry = read("Assets/Scripts/Runtime/Features/VerificationPendingRetry.cs");
@@ -150,17 +150,25 @@ assert.equal((compare.match(/public static bool IsSubmittedMe\(/g) || []).length
 assert.ok(compare.includes("entry.score == expectedScore && entry.acceptedAt > 0"));
 for (const failure of ["STAGE_PROBE_REQUIRES_EMPTY_ME", "STAGE_PROBE_QUERY_FAILED", "STAGE_PROBE_INVALID_ME"])
   assert.ok(compare.includes(failure));
-assert.ok(editor.includes("Stage 제출 전 조회만 확인 (기록 제출 없음)"));
+const phase6Ui = phase3Body(editor, "private void DrawPhase2()");
+const phase6LegacyUi = phase3Body(editor, "private void DrawWindowContents()");
+assert.ok(!/ProbePhase2\([2356]\)/.test(phase6Ui));
+assert.ok(!phase6Ui.includes("Infinite (해제: Stage)"));
+assert.ok(phase6Ui.includes("Record board: Infinite (fs-infinite-v2)"));
+assert.ok(phase6Ui.includes('if (!_infinite && DrawWrappedButton("Use Infinite board")) _infinite = true;'));
+assert.ok(!/Query\(game,\s*false\)|VerifyServerValidation\(game\)|VerifyDirectWriteDenied\(game\)|VerifyAccountMismatch\(game\)/.test(phase6LegacyUi));
+assert.ok(editor.includes('private bool _infinite = true;'));
+assert.ok(phase6Ui.includes("StageRecordsUnsupported") && phase6LegacyUi.includes("StageRecordsUnsupported"));
 assert.equal((editor.match(/private static string SafeQueryPhase\(/g) || []).length, 1);
 assert.ok(editor.includes("SafeQueryPhase(result.queryPhase)"));
 assert.equal((editor.match(/private static string SafeQueryFault\(/g) || []).length, 1);
 assert.ok(editor.includes("SafeQueryFault(result.queryFault)"));
 assert.ok(editor.includes("result.serviceStatus.ToString()"));
-assert.ok(editor.includes("GetStageProbeBlockReason(before, probe != 2)"));
-assert.ok(editor.indexOf("if (probe == 6)") < editor.indexOf("RecordSubmissionPolicy.TryCreateStageCandidate"));
-assert.ok(editor.includes("IsSubmittedMe(submitted, _account.ViewState.NumberText, expectedScore)"));
-assert.ok(editor.includes("submitted.entries[0].acceptedAt == before.entries[0].acceptedAt"));
-assert.ok(editor.includes("SERVER_SUBMITTED_AND_ME_VERIFIED"));
+const phase6Probe = phase3Body(editor, "private async void ProbePhase2(");
+assert.ok(phase6Probe.indexOf("GetProbeBlockReason(probe)") >= 0);
+for (const effect of ["CanRunPhase2()", "_busy = true", "_guard.BeginOperation(", "_guard.TryAuthenticateAsync()",
+  "_account.TryAuthenticateAsync()", "_records.GetPersonalBestAsync(", "Guid.NewGuid()"])
+  assert.ok(phase6Probe.indexOf("GetProbeBlockReason(probe)") < phase6Probe.indexOf(effect), effect);
 assert.ok(editor.includes("Leaderboard"));
 assert.ok(!compare.includes("before.rank == after.rank"));
 const cache = path.resolve(__dirname, "../../Library/PackageCache");
@@ -185,3 +193,120 @@ assert.ok(edit.includes("PermissionRevokedWhileAuthenticating_BlocksResultAndFol
 assert.ok(play.includes("VerificationWindow_AutomaticTestCannotPrepareSdkOrPersistentSession"));
 assert.ok(play.includes("VerificationWindow_MessageReportIncludesOnlyPermittedContent"));
 console.log(`PASS verification tool source contracts. Prepared only: Edit ${[...edit.matchAll(/\[Test\]|\[TestCase\(/g)].length}, Play ${[...play.matchAll(/\[UnityTest\]|\[Test\]|\[TestCase\(/g)].length}; Unity execution NOT performed.`);
+
+// Phase 3 Step 3: inspect the actual final SDK/HTTP boundaries, not just UI labels.
+function phase3Body(source, signature) {
+  const start = source.indexOf(signature); assert.ok(start >= 0, signature);
+  const open = source.indexOf("{", start); let end = open, depth = 1;
+  while (depth && ++end < source.length) {
+    if (source[end] === "{") depth++;
+    if (source[end] === "}") depth--;
+  }
+  assert.equal(depth, 0, signature); return source.slice(open + 1, end);
+}
+const phase3Repository = read("Assets/Scripts/Runtime/Features/CloudCodeRecordRepository.cs");
+for (const signature of ["public async Task<OnlineSubmissionResult> SubmitAsync(", "private async Task<OnlineLeaderboardResult> QueryAsync("]) {
+  const body = phase3Body(phase3Repository, signature);
+  assert.ok(body.indexOf('"StageModeUnsupported"') >= 0);
+  assert.ok(body.indexOf('"StageModeUnsupported"') < body.indexOf("await AuthenticateAsync()"));
+}
+const phase3Local = read("Assets/Scripts/Runtime/Features/LocalRecordRepository.cs");
+const phase3Best = phase3Body(phase3Local, "public bool TryGetPersonalBest(");
+assert.ok(phase3Best.indexOf("candidate = null") >= 0);
+assert.ok(phase3Best.indexOf("boardKey.GameMode != E_GameMode.Infinite") < phase3Best.indexOf("_memoryRepository.TryGetPersonalBest"));
+const phase3Config = read("Assets/Scripts/Runtime/Features/OnlineRecordConfiguration.cs");
+const phase3Validate = phase3Body(phase3Config, "public static void ValidateRecordRequest(");
+assert.ok(phase3Validate.includes('endpoint != "submit-record" && endpoint != "query-records"'));
+assert.ok(phase3Validate.indexOf("return;") < phase3Validate.indexOf("JsonUtility.FromJson"));
+assert.ok(phase3Validate.includes('StartsWith("fs-stage-", StringComparison.Ordinal)'));
+assert.ok(phase3Config.includes('StageLeaderboardId = "fs-stage-stage-001-r1"'));
+const phase3Sdk = phase3Body(transport, "private async Task<T> CallEndpointAsync<T>(");
+for (const firstEffect of ["++_requestSequence", "SetDiagnostic(", "CloudCodeService.Instance.CallModuleEndpointAsync"])
+  assert.ok(phase3Sdk.indexOf("ValidateRecordRequest(") >= 0 && phase3Sdk.indexOf("ValidateRecordRequest(") < phase3Sdk.indexOf(firstEffect));
+for (const signature of ["public Task<T> CallAsync<T>(string endpoint, string request)", "public Task<T> CallAsync<T>(string endpoint, IReadOnlyDictionary<string, string> parameters)"]) {
+  const body = phase3Body(guard, signature);
+  assert.ok(body.indexOf("ValidateRecordRequest(") > body.indexOf("if (!IsAllowed)"));
+  assert.ok(body.indexOf("ValidateRecordRequest(") < body.indexOf("return RunWithinOperationAsync("));
+}
+const phase3Http = phase3Body(editor, "private static async Task<long> PostJsonAsync(");
+assert.ok(phase3Http.indexOf('"/leaderboards/fs-stage-"') < phase3Http.indexOf("new UnityWebRequest("));
+assert.ok(phase3Http.indexOf('"StageModeUnsupported"') < phase3Http.indexOf("if (IsAutomatedExecution())"));
+console.log("PASS Phase 3 Step 3 source contracts: repository/local rejection, record-only raw validation before SDK/diagnostics, both permission wrappers, legacy Stage HTTP rejection. NOT C# execution.");
+
+const phase4Retry = phase3Body(pendingRetry, "public static async Task<string> RetryOnceAsync(");
+for (const guard of ["local.ActiveScope.Matches", "candidate.PlayerId != local.AccountId", '"PENDING_STAGE_UNSUPPORTED"', '"PENDING_RECORD_UNSUPPORTED"'])
+  assert.ok(phase4Retry.indexOf(guard) >= 0 && phase4Retry.indexOf(guard) < phase4Retry.indexOf("local.TryCheckpoint()"));
+assert.ok(phase4Retry.indexOf("local.TryCheckpoint()") < phase4Retry.indexOf("await online.SubmitAsync(candidate)"));
+for (const name of ["VerificationRetry_UnsupportedPending_DoesNotCheckpointAuthenticateOrTransmit",
+  "VerificationRetry_ForeignOwnerOrScope_DoesNotCheckpointOrSend", "VerificationRetry_LocalCommitFailure_ReplaysIdenticalIdAfterWriteRecovery"])
+  assert.ok(edit.includes(name));
+console.log("PASS Phase 3 Step 4 verification source contracts: unsupported/owner/scope/empty queue rejects before checkpoint, existing confirmed-only cleanup and stale-result protection. NOT C# execution.");
+
+const phase6Classify = phase3Body(editor, "private string GetProbeBlockReason(");
+assert.ok(phase6Classify.includes('probe < 0 || probe > 8'));
+assert.ok(phase6Classify.includes('probe == 2 || probe == 3 || probe == 5 || probe == 6'));
+assert.ok(phase6Classify.includes('!_infinite && (probe == 0 || probe == 1 || probe == 7)'));
+assert.ok(phase6Classify.includes('probe == 8 && _isolatedLocal != null'));
+assert.ok(phase6Classify.includes('candidate.GameMode == E_GameMode.Stage'));
+assert.ok(!/TryCheckpoint|TrySave|Authenticate|CallAsync|BeginOperation|new VerificationSessionConfiguration/.test(phase6Classify));
+assert.ok(phase3Body(editor, "private static bool IsStageRecordToolRetired(").includes("return true;"));
+for (const signature of ["private async void VerifyServerValidation(", "private async void VerifyDirectWriteDenied(",
+  "private async void VerifyAccountMismatch(", "private async Task ProbePhase2DirectWrites("]) {
+  const body = phase3Body(editor, signature);
+  assert.ok(body.indexOf("if (IsStageRecordToolRetired()) return;") >= 0);
+  assert.ok(body.indexOf("IsStageRecordToolRetired()") < body.indexOf("CanRun"), signature);
+}
+const phase6Query = phase3Body(editor, "private async void Query(");
+assert.ok(phase6Query.indexOf("if (!infinite) return;") < phase6Query.indexOf("CanRunLegacy"));
+const phase6Selected = phase3Body(editor, "private RecordBoardKey SelectedBoard(");
+assert.ok(phase6Selected.includes("if (!_infinite) throw new NotSupportedException(StageRecordsUnsupported)"));
+assert.ok(!phase6Selected.includes("TryCreateStage"));
+const phase6Submit = phase3Body(editor, "private static async Task<OnlineSubmissionResponse> CallSubmitAsync(");
+assert.ok(phase6Submit.indexOf("ValidateRecordRequest(") >= 0 &&
+  phase6Submit.indexOf("ValidateRecordRequest(") < phase6Submit.indexOf("if (IsAutomatedExecution())"));
+assert.ok(phase6Submit.indexOf("ValidateRecordRequest(") < phase6Submit.indexOf("transport.CallAsync"));
+assert.ok(edit.includes("EditorProbeClassification_RetainsNumbersAndSeparatesInfiniteFromRetiredStage"));
+assert.ok(edit.includes("EditorPendingProbe_UnsupportedRecordRejectsBeforeDeadlineOrStorage"));
+assert.ok(play.includes("RetiredEditorEntry_KeepsStateAndMakesZeroBoundaryCalls"));
+for (const probe of [0, 1, 4, 7, 8]) assert.ok(phase6Ui.includes(`ProbePhase2(${probe})`));
+console.log("PASS Phase 3 Step 6 source contracts: retired UI hidden, immutable legacy guard, all numeric/selection/pending gates before side effects, Infinite/account probes retained, raw helper guards; NOT C# execution.");
+
+// Phase 3 Step 7: production Result/UI callers must share the retired-record boundary.
+const phase7Ui = read("Assets/Scripts/Runtime/Systems/UIManagementSystem.cs");
+const phase7Result = phase3Body(phase7Ui, "public void SetResultRecordPresentation(");
+for (const token of ["_currentGameMode != E_GameMode.Infinite", "candidate.GameMode != E_GameMode.Infinite",
+  "candidate.BoardKey.RulesVersion != ScoringVersion.Current", "candidate.BoardKey.StageId != string.Empty"])
+  assert.ok(phase7Result.indexOf(token) >= 0 && phase7Result.indexOf(token) < phase7Result.indexOf("string text ="), token);
+for (const signature of ["private async void RetryCurrentResultSubmission(", "private void RefreshResultRecordPresentation(",
+  "private void ApplyResultRecordPresentation(", "private async Task RefreshResultOnlineBestAsync("]) {
+  const body = phase3Body(game, signature);
+  assert.ok(body.includes("candidate.GameMode != E_GameMode.Infinite"), signature);
+  assert.ok(body.includes("candidate.BoardKey.RulesVersion != ScoringVersion.Current"), signature);
+  assert.ok(body.includes("candidate.BoardKey.StageId != string.Empty"), signature);
+}
+for (const [signature, sideEffect] of [
+  ["private async void RetryCurrentResultSubmission(", "_isCurrentResultRetryRunning = true"],
+  ["private void RefreshResultRecordPresentation(", "ContainsPendingSubmission("],
+  ["private void ApplyResultRecordPresentation(", "SetResultSubmissionRetryAvailable("],
+  ["private async Task RefreshResultOnlineBestAsync(", "BeginPersonalBestRequest()"]]) {
+  const body = phase3Body(game, signature);
+  assert.ok(body.indexOf("candidate.GameMode != E_GameMode.Infinite") < body.indexOf(sideEffect), signature);
+}
+const phase7Best = phase3Body(game, "private async Task RefreshResultOnlineBestAsync(");
+assert.ok(phase7Best.indexOf("currentCandidate != expectedCandidate") < phase7Best.indexOf("BeginPersonalBestRequest()"));
+for (const token of ["_runtimeData != currentRuntime", "_resultRecordPresentation.Candidate != currentCandidate",
+  "_navigationState.CurrentScreen != currentScreen"])
+  assert.ok(phase7Best.indexOf(token) > phase7Best.indexOf("await _onlineRepository.GetPersonalBestAsync(key)"));
+for (const section of ["Top", "Around"]) {
+  const body = phase3Body(game, "public async void RefreshLeaderboard" + section + "(");
+  assert.ok(body.indexOf("_navigationState.CurrentScreen != screen") > body.indexOf("await QueryLeaderboardAsync("));
+  assert.ok(body.indexOf("_navigationState.CurrentScreen != screen") < body.indexOf("Complete" + section + "Request("));
+}
+const phase7Play = read("Assets/Tests/PlayMode/ResultMenuIntegrationTests.cs");
+for (const name of ["UnsupportedRecordPresentation_CannotDisplayRetryQueryOrRefresh",
+  "InfiniteRecordPresentation_KeepsPendingRetryAndSeparateOnlineBest",
+  "DelayedPersonalBest_AfterResultChangesOrNavigation_IsDiscarded", "DelayedLeaderboard_AfterNavigation_DoesNotCompleteHiddenSection"])
+  assert.ok(phase7Play.includes(name));
+assert.ok(phase7Play.includes("SceneManager.LoadSceneAsync("));
+assert.ok(!/new GameObject|AddComponent|new PersistentLocalSaveFileStore|new UgsOnline/.test(phase7Play));
+console.log("PASS Phase 3 Step 7 source contracts: Result candidate gates, screen/runtime/candidate response fences, production Scene fixtures; NOT C# execution.");

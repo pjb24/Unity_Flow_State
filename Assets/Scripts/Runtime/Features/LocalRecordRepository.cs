@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FlowState.Runtime.Core;
 using UnityEngine;
 
 namespace FlowState.Runtime.Features
@@ -108,6 +109,11 @@ namespace FlowState.Runtime.Features
         {
             if (_isTransferRequestInProgress || _isAccountTransitionInProgress) return false;
             if (candidate == null) return false;
+            // Reject new retired/invalid records before reading the clock or touching memory.
+            // RestoreMemoryRecords intentionally uses the shared memory repository directly.
+            if (candidate.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty) return false;
             if (candidate.CreatedAtMilliseconds <= 0)
                 candidate = new RecordSubmissionCandidate(candidate.PlayerId, candidate.SubmissionId,
                     candidate.BoardKey, candidate.RankingValue, candidate.RunDurationMilliseconds,
@@ -120,6 +126,9 @@ namespace FlowState.Runtime.Features
         public bool TryUpdatePersonalBest(RecordSubmissionCandidate candidate)
         {
             if (_isAccountTransitionInProgress) return false;
+            if (candidate == null || candidate.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty) return false;
             return _memoryRepository.TryUpdatePersonalBest(candidate);
         }
 
@@ -173,6 +182,11 @@ namespace FlowState.Runtime.Features
             RecordBoardKey boardKey,
             out RecordSubmissionCandidate candidate)
         {
+            candidate = null;
+            // User queries are Infinite-only. Whole-save/account restoration stays unfiltered.
+            if (boardKey.GameMode != E_GameMode.Infinite ||
+                boardKey.RulesVersion != ScoringVersion.Current ||
+                boardKey.StageId != string.Empty) return false;
             return _memoryRepository.TryGetPersonalBest(
                 playerId,
                 boardKey,

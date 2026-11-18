@@ -7,10 +7,12 @@ namespace FlowState.Tests.EditMode
     {
         public string Contents;
         public bool FailWrite;
+        public int WriteAttempts;
         public bool HasSave => Contents != null;
         public bool TryRead(out string contents) { contents = Contents; return HasSave; }
         public bool TryWriteAtomically(string contents)
         {
+            WriteAttempts++;
             if (FailWrite) return false;
             Contents = contents;
             return true;

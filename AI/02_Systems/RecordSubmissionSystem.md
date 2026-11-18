@@ -16,12 +16,17 @@ RecordSubmissionSystem
 
 ## Roadmap 9 현재 상태와 Phase 3 목표
 
-기존 로컬 저장/온라인 제출·재시도·계정 연결은 구현돼 있다. Phase 2의 생산 Stage 플레이/결과 진입 차단은 완료했고, Phase 3의 Stage 후보 생성·직접 저장/Repository/Editor 실행 경계 차단과 Infinite 회귀는 미착수다. 아래 기존 공통 책임과 Phase 3의 목표를 구분한다.
+기존 로컬 저장/온라인 제출·재시도·계정 연결을 유지하며 Phase 3의 Stage 후보/신규 저장·직접 Repository/raw 전송·재시도·Editor/UI 진입 차단을 완료했다. 내부 복원·전체 snapshot·Infinite 수명/계정 계약은 보존한다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 최종 정적/로컬 검증과 연결했다. Phase 3 완료이며 최신 Player 통합 후보 검증은 Phase 4에 남아 있다.
 
-### Phase 3 목표 — 직접 실행 경계는 미구현
+### 현재 신규 후보/저장 경계
 
-- 신규 Stage 제출 후보의 생산 진입을 차단하고 전용 소스를 비권장 표시·사유 주석으로 보존한다.
+- Stage 후보 factory는 false/out null을 반환한다. GameSystem은 Stage/무효 Result를 ID 생성 전에 거절하고, service/Local 신규 쓰기는 현재 Infinite Board만 받는다. Stage 전용 선언·비권장 사유·내부 자료형은 보존한다.
+- 공유 Memory/codec의 내부 복원은 신규 저장 거절과 분리하며 전체 snapshot/기존 자료를 필터링하거나 자동 삭제하지 않는다.
+- 직접 Stage 조회/제출은 인증 전에 로컬 지원 종료 사유로 거절하며, 제출 거절을 서버 terminal 영수증으로 취급하지 않는다. raw record SDK 요청도 공통 전송 경계에서 거절한다. 계정 endpoint와 전체 snapshot/내부 형식은 보존한다.
+- coordinator는 전체 Pending의 지원 Board·귀속/환경을 만료·checkpoint·인증 전에 확인한다. 미지원 요청은 원본과 terminal 집계를 바꾸지 않고 종료한다. 검증용 단일 재전송도 후보 검사 후 checkpoint/제출로 진행한다.
+- Editor는 Stage 버튼/선택을 제공하지 않으며 과거 Stage 메서드/probe는 busy·인증·기준선·저장/전송 전에 거절한다. Infinite/계정 도구와 권한·timeout·자동 격리 보호는 유지한다. 내부 Stage 형식/소스 보존을 실행 허용으로 해석하지 않는다.
 - Infinite 후보/귀속/ID·대기열·제출 상태/재시도 경계를 유지한다. Stage 자료 보관/이관을 위한 새 책임은 추가하지 않는다.
+- Result의 미지원 후보는 상태/Navigation Retry/조회 갱신 전에 거절한다. 조회 응답은 현재 화면/runtime/후보와 요청 세대가 유효할 때만 적용하며 온라인 최고와 제출 상태를 구분한다.
 
 검증 계약: P9-C04/P9-C06/P9-C07. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
 

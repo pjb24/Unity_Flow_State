@@ -74,8 +74,10 @@ namespace FlowState.Tests.EditMode
         }
         private static RecordSubmissionCandidate Candidate(string owner = "owner")
         {
-            RecordSubmissionPolicy.TryCreateStageCandidate(owner, Id, "stage-001", 1, E_StageResultType.Cleared, 1,
-                out RecordSubmissionCandidate candidate); return candidate;
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate(owner, Id,
+                ScoringVersion.Current, 60000, 1000, 0, 1000, 0, 1000, 1.0,
+                new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out RecordSubmissionCandidate candidate), Is.True);
+            return candidate;
         }
 
         private sealed class DelayedAuthentication : IOnlineAuthenticationGateway
@@ -239,9 +241,13 @@ namespace FlowState.Tests.EditMode
         {
             Fixture f = new Fixture(); await f.Controller.OpenAsync();
             if (action == E_AccountTransferAction.Complete) await f.Controller.ExecuteAsync(E_AccountTransferAction.OpenInput);
-            f.Local.TryEnqueuePending(Candidate("foreign")); int auth = f.Auth.Calls, calls = f.Service.Calls.Count;
+            f.Local.TryEnqueuePending(Candidate("foreign")); Assert.That(f.Local.TryCheckpoint(), Is.True);
+            int auth = f.Auth.Calls, calls = f.Service.Calls.Count, writes = f.File.WriteAttempts;
+            string before = f.File.Contents;
             await f.Controller.ExecuteAsync(action, "ABCD-2345", "000000007");
             Assert.That(f.Auth.Calls, Is.EqualTo(auth)); Assert.That(f.Service.Calls.Count, Is.EqualTo(calls)); Assert.That(f.Controller.State.Message, Does.Contain("pending records"));
+            Assert.That(f.File.WriteAttempts, Is.EqualTo(writes)); Assert.That(f.File.Contents, Is.EqualTo(before));
+            Assert.That(f.Local.CreatePendingSnapshot()[0].PlayerId, Is.EqualTo("foreign"));
         }
         [Test]
         public async Task DiscardRequiresConfirmation_CancelAndFailedSavePreservePending()

@@ -1,14 +1,14 @@
 # Project Memory
 
-최종 정리: 2026-11-17
+최종 정리: 2026-11-18
 
 현재 작업에 필요한 상태·사용자 결정·핵심 계약·남은 의무를 유지한다. 상세 규칙은 Rule/Feature/System, 실행 과정과 검증 근거는 Task/Roadmap을 따른다.
 정리 전 이력은 [원문 보관본](../90_Tasks/20261117_02_ProjectMemoryCleanup.md)에 보존했다. 보관본의 과거 대기/다음 작업 문구를 현재 지시로 사용하지 않는다.
 
 ## 현재 진행 상태
 
-- **Prototype 9 / Roadmap 9 Phase 1~2 완료.** Phase 3은 Task 작성·사전 조사 완료, 구현 Step 1~11 미착수다. Phase 4와 Roadmap 9 전체는 미완료다.
-- **다음 작업:** [Phase 3 Task Step 1](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)의 기록 진입 경계/기준선 확정. Stage 후보·직접 Repository/제출·Editor probe의 잔여 접근을 차단하고 Infinite Pending/저장/snapshot·계정 이전을 회귀 검증한다.
+- **Prototype 9 / Roadmap 9 Phase 1~3 완료.** Phase 3 Step 1~11의 기록/Editor/UI 경계·회귀 Test·최종 검증과 Phase 4 인계를 완료했다(2026-11-18). 사용자 최신 Script Compile 성공·EditMode **1031/1031**·PlayMode **316/316** 성공 및 각 예상 밖 Error/Warning 없음을 보고받았다. Scene 추가 적용은 없다. Phase 4와 Roadmap 9 전체는 미완료다.
+- **다음 작업:** [Phase 4 실행 절차 Step 1](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)의 기준선/필수 증거 확정. 문서 작성만 완료했으며 Phase 4 Step 1~10은 미착수다. Phase 3 최신 성공과 변경 영향에 따라 추가 Test 필요성을 판정하고 최신 Player 후보 검증/판정으로 진행한다. [Phase 3 Task 11-2](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)의 인계를 유지한다. AI가 Unity를 실행하거나 제공되지 않은 XML/Console 원문을 검토한 것으로 기록하지 않는다.
 - Phase 2 최신 사용자 검증은 **EditMode 919개 / PlayMode 288개 전체 통과**다. Windows-production으로 `Build/ProductionQA/Candidate02/`에 덮어쓴 최신 Player의 기존 기능·Pause Retry 확인·메뉴 복귀·UI/포커스/로그 정상 범위를 보고받았다. [최종 근거](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)
 - 이전 Candidate02 실물 보존은 사용자가 불필요하다고 결정했다. 같은 경로의 최신 빌드가 현재 기준선이다. 이 결과를 이후 Phase 3 변경의 통과로 승계하지 않는다. AI가 Runner/빌드/Player를 실행하거나 로그/XML을 직접 검증했다고 기록하지 않는다.
 
@@ -25,7 +25,7 @@
 
 - 사용자 플레이는 **Infinite 단일 흐름**이다. Stage 소스·enum 숫자·GUID/직렬화 참조는 삭제하지 않고 Deprecated/이유·대체 경로와 함께 보존한다. Infinite가 사용하는 공통 StageSystem/Pattern/수집물 기반은 이름만 보고 제거하지 않는다.
 - Phase 2에서 ModeSelect 없이 Infinite 시작, 과거 선택/대기 값 정규화, 명시적 Stage/무효 Mode 실행 거절, Stage HUD/Goal/결과 차단을 완료했다. 기존 Tutorial 완료 상태를 보존하며 미완료 사용자는 자동 안내의 Start Run 전까지 Run을 만들지 않는다.
-- Leaderboard Stage 탭/Navigation/선택과 사용자 Top/Around·Result 조회의 Stage 진입도 선행 차단했다. Repository/후보·직접 제출/Editor 도구 전체 차단은 **Phase 3 잔여 범위**다. 현재 UI 차단을 전체 기록 경계 완료로 확대하지 않는다.
+- Leaderboard Stage 탭/Navigation/선택과 사용자 Top/Around·Result 조회의 Stage 진입도 선행 차단했다. Step 2~4는 후보 factory·신규 쓰기/개인 최고 조회·직접 Repository/raw 전송·재시도에 거절을 반영했다. 재시도는 만료/checkpoint/인증 전에 지원 Board·귀속/환경을 확인하고 미지원 자료/terminal 집계를 바꾸지 않는다. 내부 Memory/codec·계정 전체 snapshot은 보존하고 Step 5에서 계정 회귀 Test를 보강했다. Step 6은 Stage Editor UI/직접 메서드와 과거 probe를 부작용 전에 거절한다. Step 7은 기존 Infinite UI/복귀를 유지하며 Result 미지원 후보/선택의 표시·Retry·Me 조회와 다른 화면/runtime/후보의 늦은 응답 적용을 차단했다. Infinite/계정 도구·자동 격리 보호는 보존한다. Step 8~11의 정적/로컬 검증·사용자 최신 Compile/Runner 성공 보고와 최종 완료 판정을 연결했다. Player 통합 후보 검증은 Phase 4에 남아 있다.
 - **기존 Stage 기록이 없고 앞으로도 제출되지 않는다는 사용자 전제**를 적용한다. Stage 자료 보관/이관·혼합 Pending 호환·전용 만료/폐기·이전 gate 예외 개발은 제외한다. 이 전제를 원격 전수조사 PASS로 바꾸지 않는다.
 - 구 Client는 미지원이다. 현재 전환에 서버 계약 변경은 불필요하다. 구 버전 원격 강제 차단·기존 보드/자료 삭제·Infinite 변환/병합을 추가하지 않는다.
 - Pause Retry는 기존 확인창을 재사용하고 Cancel 기본 선택이다. 취소/Escape는 같은 Run의 Pause/Retry로 복귀하고 확인만 새 Infinite Run을 만든다. Result Retry는 즉시 실행한다. 명시적 RetryGame 생명주기 API의 기존 직접 호출 계약과 UI 확인 단계를 구분한다.

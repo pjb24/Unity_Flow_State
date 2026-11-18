@@ -144,7 +144,7 @@ namespace FlowState.Runtime.Systems
             bool isPendingRetryRunning,
             string pendingRetryStatus)
         {
-            if (state == null)
+            if (state == null || state.GameMode != E_GameMode.Infinite)
             {
                 return;
             }
@@ -610,7 +610,12 @@ namespace FlowState.Runtime.Systems
 
         public void SetResultRecordPresentation(ResultRecordPresentation presentation)
         {
-            if (presentation == null) return;
+            if (presentation == null || _currentGameMode != E_GameMode.Infinite) return;
+            RecordSubmissionCandidate candidate = presentation.Candidate;
+            // Archived candidates must not restore a Stage status or Retry control.
+            if (candidate != null && (candidate.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty)) return;
             string text = presentation.IsNewLocalBest ? "Local best: New" : "Local best: No change";
             switch (presentation.SubmissionState)
             {

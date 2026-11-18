@@ -16,9 +16,268 @@ namespace FlowState.Tests.EditMode
         private static RecordSubmissionCandidate Candidate(string owner = Owner,
             string submissionId = SubmissionId)
         {
-            Assert.That(RecordSubmissionPolicy.TryCreateStageCandidate(owner, submissionId,
-                "stage-001", 1, E_StageResultType.Cleared, 1.25, out RecordSubmissionCandidate candidate), Is.True);
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate(owner, submissionId,
+                ScoringVersion.Current, 60000, 1250, 0, 1250, 0, 1250, 1.0,
+                new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out RecordSubmissionCandidate candidate), Is.True);
             return candidate;
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task RetiredStage_DirectRequests_DoNotAuthenticateTransmitOrMutateLocal(bool consent)
+        {
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(file);
+            if (consent) Assert.That(local.TrySaveOnlineAccount(new OnlineAccountState(true, "ugs-player")), Is.True);
+            OnlineTestAuthentication auth = new OnlineTestAuthentication();
+            OnlineTestTransport transport = new OnlineTestTransport();
+            CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner, () => local.OnlineAccount, auth, transport);
+            if (consent)
+            {
+                Assert.That((await online.GetTopAsync(Candidate().BoardKey)).IsSuccess, Is.True);
+                Assert.That(auth.Calls, Is.EqualTo(1));
+                auth.Calls = 0; transport.Calls = 0;
+            }
+            string before = file.Contents;
+            int writes = file.WriteAttempts;
+            Assert.That(RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey stage), Is.True);
+            foreach (OnlineLeaderboardResult result in new[] { await online.GetTopAsync(stage),
+                await online.GetAroundAsync(stage), await online.GetPersonalBestAsync(stage) })
+            {
+                Assert.That(result.IsSuccess, Is.False);
+                Assert.That(result.status, Is.EqualTo("TransientFailure"));
+                Assert.That(result.reason, Is.EqualTo("StageModeUnsupported"));
+            }
+            OnlineSubmissionResult submitted = await online.SubmitAsync(SyntheticCandidate(stage));
+            Assert.That(submitted.Result, Is.EqualTo(E_RecordSubmissionResult.TransientFailure));
+            Assert.That(submitted.Reason, Is.EqualTo("StageModeUnsupported"));
+            Assert.That(local.TryGetPersonalBest(Owner, stage, out RecordSubmissionCandidate hidden), Is.False);
+            Assert.That(hidden, Is.Null);
+            Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Calls, Is.Zero);
+            Assert.That(file.WriteAttempts, Is.EqualTo(writes)); Assert.That(file.Contents, Is.EqualTo(before));
+            Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            Assert.That(LocalSaveJsonCodec.Serialize(local.CreateSaveData(Owner,
+                new LocalSettingsData(75, true, null), true)), Is.EqualTo(before));
+        }
+
+        [TestCase((E_GameMode)999, 2, "")]
+        [TestCase(E_GameMode.Infinite, 1, "")]
+        [TestCase(E_GameMode.Infinite, 2, "stage-001")]
+        public async Task InvalidBoard_DirectRequests_DoNotAuthenticateOrTransmit(E_GameMode mode, int version, string stageId)
+        {
+            RecordBoardKey board = (RecordBoardKey)Activator.CreateInstance(typeof(RecordBoardKey),
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null,
+                new object[] { mode, stageId, version }, null);
+            OnlineTestAuthentication auth = new OnlineTestAuthentication();
+            OnlineTestTransport transport = new OnlineTestTransport();
+            CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner,
+                () => new OnlineAccountState(true, "ugs-player"), auth, transport);
+            foreach (OnlineLeaderboardResult result in new[] { await online.GetTopAsync(board),
+                await online.GetAroundAsync(board), await online.GetPersonalBestAsync(board) })
+                Assert.That(result.reason, Is.EqualTo("InvalidQuery"));
+            OnlineSubmissionResult resultSubmit = await online.SubmitAsync(SyntheticCandidate(board));
+            Assert.That(resultSubmit.Result, Is.EqualTo(E_RecordSubmissionResult.Rejected));
+            Assert.That(resultSubmit.Reason, Is.EqualTo("InvalidBoard"));
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(file);
+            string before = file.Contents;
+            int writes = file.WriteAttempts;
+            Assert.That(local.TryGetPersonalBest(Owner, board, out RecordSubmissionCandidate hidden), Is.False);
+            Assert.That(hidden, Is.Null);
+            Assert.That(file.Contents, Is.EqualTo(before)); Assert.That(file.WriteAttempts, Is.EqualTo(writes));
+            Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Calls, Is.Zero);
+        }
+
+        [Test]
+        public async Task InfiniteRequests_KeepSubmissionPayloadAndIndependentQueryWindows()
+        {
+            OnlineTestAuthentication auth = new OnlineTestAuthentication();
+            OnlineTestTransport transport = new OnlineTestTransport();
+            CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner,
+                () => new OnlineAccountState(true, "ugs-player"), auth, transport);
+            RecordSubmissionCandidate candidate = Candidate();
+            Assert.That((await online.SubmitAsync(candidate)).Result, Is.EqualTo(E_RecordSubmissionResult.Submitted));
+            Assert.That(transport.Endpoint, Is.EqualTo("submit-record"));
+            OnlineRecordRequest request = UnityEngine.JsonUtility.FromJson<OnlineRecordRequest>(transport.Request);
+            Assert.That(request.boardId, Is.EqualTo("fs-infinite-v2"));
+            Assert.That(request.rulesVersion, Is.EqualTo(ScoringVersion.Current));
+            Assert.That(request.submissionId, Is.EqualTo(candidate.SubmissionId));
+            Assert.That(request.score, Is.EqualTo(candidate.RankingValue));
+            Assert.That(request.runDurationMilliseconds, Is.EqualTo(candidate.RunDurationMilliseconds));
+            Assert.That(request.baseDistanceScore, Is.EqualTo(candidate.BaseDistanceScore));
+            Assert.That(request.momentumBonus, Is.EqualTo(candidate.MomentumBonus));
+            Assert.That(request.distanceScore, Is.EqualTo(candidate.DistanceScore));
+            Assert.That(request.collectibleScore, Is.EqualTo(candidate.CollectibleScore));
+            Assert.That(request.totalScore, Is.EqualTo(candidate.TotalScore));
+            Assert.That(request.maximumMomentumMultiplier, Is.EqualTo(candidate.MaximumMomentumMultiplier));
+            await online.GetTopAsync(candidate.BoardKey);
+            request = UnityEngine.JsonUtility.FromJson<OnlineRecordRequest>(transport.Request);
+            Assert.That(request.kind, Is.EqualTo("top")); Assert.That(request.limit, Is.EqualTo(10));
+            await online.GetAroundAsync(candidate.BoardKey);
+            request = UnityEngine.JsonUtility.FromJson<OnlineRecordRequest>(transport.Request);
+            Assert.That(request.kind, Is.EqualTo("around")); Assert.That(request.limit, Is.EqualTo(7));
+            await online.GetPersonalBestAsync(candidate.BoardKey);
+            request = UnityEngine.JsonUtility.FromJson<OnlineRecordRequest>(transport.Request);
+            Assert.That(request.kind, Is.EqualTo("me")); Assert.That(request.limit, Is.EqualTo(1));
+            Assert.That(request.boardId, Is.EqualTo("fs-infinite-v2"));
+            Assert.That(transport.Endpoint, Is.EqualTo("query-records")); Assert.That(transport.Calls, Is.EqualTo(4));
+        }
+
+        private static RecordSubmissionCandidate SyntheticCandidate(RecordBoardKey board, string owner = Owner, long createdAt = 0)
+        {
+            return (RecordSubmissionCandidate)Activator.CreateInstance(typeof(RecordSubmissionCandidate),
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null,
+                new object[] { owner, SubmissionId, board, 1250L, 60000L, 1250, 0, 1250, 0, 1250, 1.0, createdAt }, null);
+        }
+
+        private static LocalRecordRepository RestoredPending(OnlineTestFileStore file,
+            RecordSubmissionCandidate candidate, OnlineDataScope scope = null)
+        {
+            OnlineDataScope active = scope == null ? OnlineDataScope.CreateConfigured() : scope;
+            file.Contents = LocalSaveJsonCodec.Serialize(new LocalSaveData(LocalSaveData.CurrentVersion,
+                Owner, new LocalSettingsData(75, true, null), true, new[] { candidate },
+                new OnlineAccountState(true, "ugs-player"), new[] { candidate }, active));
+            LocalRecordRepository local = new LocalRecordRepository(file, active);
+            Assert.That(local.TryLoad(out LocalSaveData loaded), Is.True);
+            Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            return local;
+        }
+
+        [TestCase("background", true)]
+        [TestCase("single", true)]
+        [TestCase("all", true)]
+        [TestCase("background", false)]
+        [TestCase("single", false)]
+        [TestCase("all", false)]
+        public async Task UnsupportedPending_AllRetryEntries_KeepDataWithoutClockSaveAuthenticationOrTransport(
+            string trigger, bool stage)
+        {
+            RecordBoardKey board;
+            if (stage) Assert.That(RecordBoardKey.TryCreateStage("stage-001", 1, out board), Is.True);
+            else Assert.That(RecordBoardKey.TryCreateInfinite(ScoringVersion.LegacyDistanceScore, out board), Is.True);
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = RestoredPending(file, SyntheticCandidate(board, createdAt: 1000));
+            string before = file.Contents; int writes = file.WriteAttempts, clockCalls = 0;
+            OnlineTestAuthentication auth = new OnlineTestAuthentication();
+            OnlineTestTransport transport = new OnlineTestTransport();
+            OnlineRecordCoordinator coordinator = new OnlineRecordCoordinator(Owner, local, auth,
+                new CloudCodeRecordRepository(Owner, () => local.OnlineAccount, auth, transport),
+                milliseconds => { Assert.Fail("No retry delay expected."); return Task.CompletedTask; },
+                () => { clockCalls++; return 1000 + LocalRecordRepository.PendingRetentionMilliseconds; });
+            if (trigger == "background") await coordinator.RetryPendingAsync();
+            else if (trigger == "single") await coordinator.RetrySubmissionAsync(SubmissionId);
+            else await coordinator.RetryAllPendingAsync();
+            Assert.That(clockCalls, Is.Zero); Assert.That(file.WriteAttempts, Is.EqualTo(writes));
+            Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Calls, Is.Zero);
+            Assert.That(file.Contents, Is.EqualTo(before)); Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            Assert.That(coordinator.SubmittedCount, Is.Zero); Assert.That(coordinator.RejectedCount, Is.Zero);
+            Assert.That(coordinator.TryGetTerminalResult(SubmissionId, out OnlineSubmissionResult terminal), Is.False);
+            LocalRecordRepository restarted = new LocalRecordRepository(file);
+            Assert.That(restarted.TryLoad(out LocalSaveData restored), Is.True);
+            Assert.That(restored.PendingSubmissions[0].SubmissionId, Is.EqualTo(SubmissionId));
+            Assert.That(restored.PersonalBests[0].BoardKey, Is.EqualTo(board));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ForeignOwnerOrScope_RetryKeepsExpiredPendingBeforeAnySideEffect(bool foreignScope)
+        {
+            RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey board);
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = RestoredPending(file,
+                SyntheticCandidate(board, foreignScope ? Owner : "other-owner", 1000),
+                foreignScope ? new OnlineDataScope("other-project", "other-environment") : null);
+            string before = file.Contents; int writes = file.WriteAttempts, clockCalls = 0;
+            OnlineTestAuthentication auth = new OnlineTestAuthentication(); OnlineTestTransport transport = new OnlineTestTransport();
+            OnlineRecordCoordinator coordinator = new OnlineRecordCoordinator(Owner, local, auth,
+                new CloudCodeRecordRepository(Owner, () => local.OnlineAccount, auth, transport), now:
+                () => { clockCalls++; return 1000 + LocalRecordRepository.PendingRetentionMilliseconds; });
+            await coordinator.RetryAllPendingAsync();
+            Assert.That(clockCalls, Is.Zero); Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Calls, Is.Zero);
+            Assert.That(file.Contents, Is.EqualTo(before)); Assert.That(file.WriteAttempts, Is.EqualTo(writes));
+            Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public async Task TransientThenSuccess_ReusesSameIdAndCommitsOnce()
+        {
+            LocalRecordRepository local = Local(new OnlineTestFileStore());
+            OnlineTestAuthentication auth = new OnlineTestAuthentication();
+            OnlineTestTransport transport = new OnlineTestTransport { Status = "TransientFailure" };
+            List<int> delays = new List<int>(); string first = null;
+            OnlineRecordCoordinator coordinator = new OnlineRecordCoordinator(Owner, local, auth,
+                new CloudCodeRecordRepository(Owner, () => local.OnlineAccount, auth, transport), milliseconds =>
+                { delays.Add(milliseconds); first = transport.Request; transport.Status = "Submitted"; return Task.CompletedTask; });
+            Assert.That(await coordinator.ConfirmRecoveryNoticeAsync(), Is.True);
+            await coordinator.RetryAllPendingAsync();
+            Assert.That(transport.Calls, Is.EqualTo(2)); Assert.That(delays, Is.EqualTo(new[] { 1000 }));
+            Assert.That(transport.Request, Is.EqualTo(first)); Assert.That(local.CreatePendingSnapshot(), Is.Empty);
+            Assert.That(coordinator.SubmittedCount, Is.EqualTo(1)); Assert.That(coordinator.RejectedCount, Is.Zero);
+        }
+
+        [Test]
+        public async Task DuplicateBackgroundRetry_CoalescesWhileSubmissionIsInFlight()
+        {
+            LocalRecordRepository local = Local(new OnlineTestFileStore());
+            OnlineTestAuthentication auth = new OnlineTestAuthentication();
+            BlockingOldSubmissionRepository online = new BlockingOldSubmissionRepository();
+            OnlineRecordCoordinator coordinator = new OnlineRecordCoordinator(Owner, local, auth, online);
+            Assert.That(await coordinator.ConfirmRecoveryNoticeAsync(), Is.True);
+            Task first = coordinator.RetryPendingAsync();
+            Task duplicate = coordinator.RetryPendingAsync();
+            Assert.That(first.IsCompleted, Is.False); Assert.That(duplicate.IsCompleted, Is.True);
+            Assert.That(online.OldSubmissionCalls, Is.EqualTo(1));
+            online.ReleaseOldSubmission.SetResult(new OnlineSubmissionResult(E_RecordSubmissionResult.Submitted));
+            await first; await duplicate;
+            Assert.That(online.OldSubmissionCalls, Is.EqualTo(1)); Assert.That(coordinator.SubmittedCount, Is.EqualTo(1));
+        }
+
+        [TestCase(E_RecordSubmissionResult.Submitted)]
+        [TestCase(E_RecordSubmissionResult.Rejected)]
+        public async Task TerminalResponse_FailedLocalCommit_RetainsIdAndCountsOnlyAfterDurableRetry(E_RecordSubmissionResult terminal)
+        {
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(file);
+            OnlineTestAuthentication auth = new OnlineTestAuthentication();
+            BlockingOldSubmissionRepository online = new BlockingOldSubmissionRepository();
+            OnlineRecordCoordinator coordinator = new OnlineRecordCoordinator(Owner, local, auth, online);
+            Assert.That(await coordinator.ConfirmRecoveryNoticeAsync(), Is.True);
+            Task retry = coordinator.RetryPendingAsync();
+            Assert.That(retry.IsCompleted, Is.False);
+            string before = file.Contents; file.FailWrite = true;
+            online.ReleaseOldSubmission.SetResult(new OnlineSubmissionResult(terminal, "InvalidScore"));
+            await retry;
+            Assert.That(file.Contents, Is.EqualTo(before)); Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            Assert.That(coordinator.SubmittedCount, Is.Zero); Assert.That(coordinator.RejectedCount, Is.Zero);
+            Assert.That(coordinator.TryGetTerminalResult(SubmissionId, out OnlineSubmissionResult ignored), Is.False);
+            LocalRecordRepository restored = new LocalRecordRepository(file);
+            Assert.That(restored.TryLoad(out LocalSaveData loaded), Is.True);
+            Assert.That(restored.CreatePendingSnapshot()[0].SubmissionId, Is.EqualTo(SubmissionId));
+            file.FailWrite = false;
+            await coordinator.RetryPendingAsync();
+            Assert.That(online.OldSubmissionCalls, Is.EqualTo(2));
+            Assert.That(local.CreatePendingSnapshot(), Is.Empty);
+            Assert.That(coordinator.TryGetTerminalResult(SubmissionId, out OnlineSubmissionResult result), Is.True);
+            Assert.That(result.Result, Is.EqualTo(terminal));
+            Assert.That(coordinator.SubmittedCount + coordinator.RejectedCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public async Task ExpiredInfinitePending_EmptyQueueDoesNotCreateTerminalSuccess()
+        {
+            RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey board);
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = RestoredPending(file, SyntheticCandidate(board, createdAt: 1000));
+            OnlineTestAuthentication auth = new OnlineTestAuthentication(); OnlineTestTransport transport = new OnlineTestTransport();
+            OnlineRecordCoordinator coordinator = new OnlineRecordCoordinator(Owner, local, auth,
+                new CloudCodeRecordRepository(Owner, () => local.OnlineAccount, auth, transport),
+                now: () => 1000 + LocalRecordRepository.PendingRetentionMilliseconds);
+            UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType.Warning,
+                "[OnlineRecordCoordinator] SubmissionExpired: old Pending records were removed.");
+            await coordinator.RetryPendingAsync();
+            Assert.That(local.CreatePendingSnapshot(), Is.Empty); Assert.That(transport.Calls, Is.Zero);
+            Assert.That(coordinator.SubmittedCount, Is.Zero); Assert.That(coordinator.RejectedCount, Is.Zero);
+            Assert.That(coordinator.TryGetTerminalResult(SubmissionId, out OnlineSubmissionResult terminal), Is.False);
         }
 
         private static LocalRecordRepository Local(OnlineTestFileStore store)
@@ -170,10 +429,11 @@ namespace FlowState.Tests.EditMode
             public readonly TaskCompletionSource<OnlineSubmissionResult> ReleaseOldSubmission =
                 new TaskCompletionSource<OnlineSubmissionResult>();
             public int NewSubmissionCalls;
+            public int OldSubmissionCalls;
 
             public Task<OnlineSubmissionResult> SubmitAsync(RecordSubmissionCandidate candidate)
             {
-                if (candidate.SubmissionId == SubmissionId) return ReleaseOldSubmission.Task;
+                if (candidate.SubmissionId == SubmissionId) { OldSubmissionCalls++; return ReleaseOldSubmission.Task; }
                 NewSubmissionCalls++;
                 return Task.FromResult(new OnlineSubmissionResult(E_RecordSubmissionResult.Submitted));
             }
@@ -311,7 +571,7 @@ namespace FlowState.Tests.EditMode
             OnlineTestTransport transport = new OnlineTestTransport();
             CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner,
                 () => new OnlineAccountState(true, "ugs-player"), new OnlineTestAuthentication(), transport);
-            RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey key);
+            RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey key);
             Assert.That((await online.GetTopAsync(key)).IsSuccess, Is.True);
             Assert.That((await online.GetAroundAsync(key)).IsSuccess, Is.True);
             Assert.That((await online.GetPersonalBestAsync(key)).IsSuccess, Is.True);
@@ -331,7 +591,7 @@ namespace FlowState.Tests.EditMode
             };
             CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner,
                 () => new OnlineAccountState(true, "ugs-player"), new OnlineTestAuthentication(), transport);
-            RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey key);
+            RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey key);
 
             OnlineLeaderboardResult result = await online.GetTopAsync(key);
 
@@ -404,7 +664,7 @@ namespace FlowState.Tests.EditMode
             OnlineTestTransport transport = new OnlineTestTransport { Timeout = true };
             CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner,
                 () => new OnlineAccountState(true, "ugs-player"), new OnlineTestAuthentication(), transport);
-            RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey key);
+            RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey key);
             UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType.Warning,
                 "[CloudCodeRecordRepository] Query timed out.");
             OnlineLeaderboardResult top = await online.GetTopAsync(key);
@@ -424,7 +684,7 @@ namespace FlowState.Tests.EditMode
             };
             CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner,
                 () => new OnlineAccountState(true, "ugs-player"), new OnlineTestAuthentication(), transport);
-            RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey key);
+            RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey key);
             UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType.Warning,
                 "[CloudCodeRecordRepository] Query unavailable.");
 
@@ -441,7 +701,7 @@ namespace FlowState.Tests.EditMode
             CloudCodeRecordRepository online = new CloudCodeRecordRepository(Owner,
                 () => new OnlineAccountState(true, "ugs-player"),
                 new OnlineTestAuthentication { Success = false }, transport);
-            RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey key);
+            RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey key);
             Assert.That((await online.GetTopAsync(key)).reason, Is.EqualTo("AuthenticationUnavailable"));
             Assert.That(transport.Calls, Is.Zero);
         }

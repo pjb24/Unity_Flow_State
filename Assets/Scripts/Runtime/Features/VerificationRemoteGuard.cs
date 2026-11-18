@@ -65,11 +65,15 @@ namespace FlowState.Runtime.Features
         public Task<T> CallAsync<T>(string endpoint, string request)
         {
             if (!IsAllowed) throw new InvalidOperationException("Verification remote execution disabled.");
+            OnlineRecordConfiguration.ValidateRecordRequest(endpoint, request);
             return RunWithinOperationAsync(() => _records.CallAsync<T>(endpoint, request));
         }
         public Task<T> CallAsync<T>(string endpoint, IReadOnlyDictionary<string, string> parameters)
         {
             if (!IsAllowed) throw new InvalidOperationException("Verification remote execution disabled.");
+            string request = null;
+            if (parameters != null) parameters.TryGetValue("request", out request);
+            OnlineRecordConfiguration.ValidateRecordRequest(endpoint, request);
             return RunWithinOperationAsync(() => _accounts.CallAsync<T>(endpoint, parameters));
         }
     }

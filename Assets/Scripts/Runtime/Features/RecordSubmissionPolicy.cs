@@ -5,6 +5,8 @@ namespace FlowState.Runtime.Features
 {
     public static class RecordSubmissionPolicy
     {
+        // Deprecated: Stage record creation is retired. Keep the API for serialized/source
+        // compatibility; supported Runs must use TryCreateInfiniteCandidate instead.
         public static bool TryCreateStageCandidate(
             string playerId,
             string submissionId,
@@ -16,30 +18,7 @@ namespace FlowState.Runtime.Features
         {
             candidate = null;
 
-            if (!HasIdentity(playerId, submissionId) ||
-                stageResultType != E_StageResultType.Cleared ||
-                !TryConvertToMilliseconds(elapsedTime, out long clearTimeMilliseconds) ||
-                !RecordBoardKey.TryCreateStage(
-                    stageId,
-                    stageRulesVersion,
-                    out RecordBoardKey boardKey))
-            {
-                return false;
-            }
-
-            candidate = new RecordSubmissionCandidate(
-                playerId,
-                submissionId,
-                boardKey,
-                clearTimeMilliseconds,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                1.0);
-            return true;
+            return false;
         }
 
         public static bool TryCreateInfiniteCandidate(
@@ -136,6 +115,7 @@ namespace FlowState.Runtime.Features
             return submissionGuid.ToString("D")[14] == '4';
         }
 
+        // Deprecated Stage conversion retained with the retired source; no production caller.
         private static bool TryConvertToMilliseconds(
             double elapsedTime,
             out long clearTimeMilliseconds)

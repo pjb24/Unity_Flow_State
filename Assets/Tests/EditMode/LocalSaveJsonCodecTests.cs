@@ -95,7 +95,10 @@ namespace FlowState.Tests.EditMode
         [Test]
         public void TryLoad_PersonalBest_IsAvailableFromRepository()
         {
-            RecordSubmissionCandidate candidate = CreateStageCandidate();
+            RecordSubmissionCandidate candidate;
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate(PlayerId, SubmissionId,
+                ScoringVersion.Current, 60000, 60, 0, 60, 0, 60, 1.0,
+                new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out candidate), Is.True);
             LocalSaveData savedData = new LocalSaveData(
                 LocalSaveData.CurrentVersion,
                 PlayerId,
@@ -120,7 +123,10 @@ namespace FlowState.Tests.EditMode
             LocalRecordRepository repository = new LocalRecordRepository(
                 new InMemorySaveFileStore(null));
             RecordSubmissionService service = new RecordSubmissionService(repository);
-            RecordSubmissionCandidate candidate = CreateStageCandidate();
+            RecordSubmissionCandidate candidate;
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate(PlayerId, SubmissionId,
+                ScoringVersion.Current, 60000, 60, 0, 60, 0, 60, 1.0,
+                new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out candidate), Is.True);
 
             Assert.That(service.TryStoreCandidate(candidate), Is.True);
             Assert.That(service.TryStoreCandidate(candidate), Is.False);
@@ -139,13 +145,42 @@ namespace FlowState.Tests.EditMode
             Assert.That(restored.CreatePendingSnapshot()[0].SubmissionId, Is.EqualTo(SubmissionId));
         }
 
+        [Test]
+        public void InternalStageFormat_LoadAndCheckpoint_PreserveWholeRecordsWithoutNewStageWrites()
+        {
+            RecordSubmissionCandidate legacy = CreateStageCandidate();
+            LocalSaveData source = new LocalSaveData(LocalSaveData.CurrentVersion, PlayerId,
+                new LocalSettingsData(75, true, null), true, new[] { legacy }, null, new[] { legacy },
+                OnlineDataScope.CreateConfigured());
+            InMemorySaveFileStore file = new InMemorySaveFileStore(LocalSaveJsonCodec.Serialize(source));
+            LocalRecordRepository local = new LocalRecordRepository(file);
+            Assert.That(local.TryLoad(out LocalSaveData loaded), Is.True);
+            Assert.That(local.TryEnqueuePending(legacy), Is.False);
+            Assert.That(local.TryUpdatePersonalBest(legacy), Is.False);
+            Assert.That(local.TryGetPersonalBest(PlayerId, legacy.BoardKey, out RecordSubmissionCandidate hidden), Is.False);
+            Assert.That(hidden, Is.Null);
+            Assert.That(local.TryCheckpoint(), Is.True);
+            Assert.That(LocalSaveJsonCodec.TryDeserialize(file.Contents, out LocalSaveData saved), Is.True);
+            Assert.That(saved.PersonalBests.Count, Is.EqualTo(1));
+            Assert.That(saved.PendingSubmissions.Count, Is.EqualTo(1));
+            Assert.That(saved.PersonalBests[0].GameMode, Is.EqualTo(E_GameMode.Stage));
+            Assert.That(saved.PendingSubmissions[0].GameMode, Is.EqualTo(E_GameMode.Stage));
+            Assert.That(saved.PersonalBests[0].RankingValue, Is.EqualTo(legacy.RankingValue));
+            Assert.That(saved.PendingSubmissions[0].SubmissionId, Is.EqualTo(SubmissionId));
+            Assert.That(saved.Settings.MasterVolume, Is.EqualTo(75));
+            Assert.That(saved.HasCompletedTutorial, Is.True);
+            LocalRecordRepository restarted = new LocalRecordRepository(file);
+            Assert.That(restarted.TryLoad(out LocalSaveData restored), Is.True);
+            Assert.That(LocalSaveJsonCodec.Serialize(restored), Is.EqualTo(LocalSaveJsonCodec.Serialize(saved)));
+        }
+
         private static RecordSubmissionCandidate CreateStageCandidate()
         {
-            bool didCreate = RecordSubmissionPolicy.TryCreateStageCandidate(
-                PlayerId, SubmissionId, "stage-001", 1, E_StageResultType.Cleared,
-                12.0, out RecordSubmissionCandidate candidate);
-            Assert.That(didCreate, Is.True);
-            return candidate;
+            // Internal format fixture, not a supported Stage creation path.
+            Assert.That(RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey board), Is.True);
+            return (RecordSubmissionCandidate)System.Activator.CreateInstance(typeof(RecordSubmissionCandidate),
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null,
+                new object[] { PlayerId, SubmissionId, board, 12000L, 0L, 0, 0, 0, 0, 0, 1.0, 0L }, null);
         }
 
         [TestCase(1)]

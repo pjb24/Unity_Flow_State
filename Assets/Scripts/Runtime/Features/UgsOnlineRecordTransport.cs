@@ -28,6 +28,9 @@ namespace FlowState.Runtime.Features
 
         private async Task<T> CallEndpointAsync<T>(string endpoint, Dictionary<string, object> arguments)
         {
+            object request;
+            arguments.TryGetValue("request", out request);
+            OnlineRecordConfiguration.ValidateRecordRequest(endpoint, request as string);
             string function = GetModuleFunctionName(endpoint);
             int sequence = ++_requestSequence;
             bool clientTimedOut = false;

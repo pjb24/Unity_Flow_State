@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using FlowState.Runtime.Core;
 using Unity.Services.Core;
 using UnityEngine;
 
@@ -27,6 +28,9 @@ namespace FlowState.Runtime.Features
 
         public async Task<OnlineSubmissionResult> SubmitAsync(RecordSubmissionCandidate candidate)
         {
+            // Local support rejection is not a server terminal receipt.
+            if (candidate != null && candidate.BoardKey.GameMode == E_GameMode.Stage)
+                return new OnlineSubmissionResult(E_RecordSubmissionResult.TransientFailure, "StageModeUnsupported");
             if (candidate == null || candidate.PlayerId != _localOwner)
                 return new OnlineSubmissionResult(E_RecordSubmissionResult.TransientFailure);
             if (!OnlineRecordConfiguration.TryGetLeaderboardId(candidate.BoardKey, out string boardId))
@@ -95,6 +99,8 @@ namespace FlowState.Runtime.Features
 
         private async Task<OnlineLeaderboardResult> QueryAsync(RecordBoardKey boardKey, string kind, int limit)
         {
+            if (boardKey.GameMode == E_GameMode.Stage)
+                return new OnlineLeaderboardResult { status = "TransientFailure", reason = "StageModeUnsupported" };
             if (limit < 1 || limit > 20 ||
                 !OnlineRecordConfiguration.TryGetLeaderboardId(boardKey, out string boardId))
                 return new OnlineLeaderboardResult { status = "TransientFailure", reason = "InvalidQuery" };

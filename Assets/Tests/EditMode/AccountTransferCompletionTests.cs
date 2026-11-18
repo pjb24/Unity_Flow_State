@@ -77,13 +77,15 @@ namespace FlowState.Tests.EditMode
         {
             return new OnlinePersonalBestSnapshot { status = "Success", publicPlayerNumber = Number,
                 personalBests = new[] { new OnlinePersonalBestEntry
-                    { boardId = "fs-stage-stage-001-r1", score = 5000, submissionId = Id } } };
+                    { boardId = "fs-infinite-v2", score = 500, submissionId = Id } } };
         }
 
         private static RecordSubmissionCandidate Candidate(string owner = "owner", double seconds = 1)
         {
-            RecordSubmissionPolicy.TryCreateStageCandidate(owner, Id, "stage-001", 1,
-                E_StageResultType.Cleared, seconds, out RecordSubmissionCandidate candidate);
+            int score = (int)(seconds * 1000);
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate(owner, Id,
+                ScoringVersion.Current, 60000, score, 0, score, 0, score, 1.0,
+                new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out RecordSubmissionCandidate candidate), Is.True);
             return candidate;
         }
 
@@ -97,8 +99,8 @@ namespace FlowState.Tests.EditMode
             LocalRecordRepository local = new LocalRecordRepository(store); local.TryLoad(out LocalSaveData ignored); return local;
         }
 
-        private static RecordBoardKey Stage()
-        { RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey board); return board; }
+        private static RecordBoardKey InfiniteBoard()
+        { RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey board); return board; }
 
         private static void AssertPreservedDeviceData(OnlineTestFileStore store)
         {
@@ -108,6 +110,76 @@ namespace FlowState.Tests.EditMode
             Assert.That(saved.InactiveOnlineAreas.Count, Is.EqualTo(1));
             Assert.That(saved.InactiveOnlineAreas[0].PendingSubmissions.Count, Is.EqualTo(1));
             Assert.That(saved.InactiveOnlineAreas[0].Account.PlayerId, Is.EqualTo("other-player"));
+            Assert.That(saved.InactiveOnlineAreas[0].Account.PublicNumberCache, Is.EqualTo("0000000009"));
+            Assert.That(saved.InactiveOnlineAreas[0].PersonalBests.Count, Is.EqualTo(1));
+            Assert.That(saved.InactiveOnlineAreas[0].PersonalBests[0].RankingValue, Is.EqualTo(1000));
+            Assert.That(saved.InactiveOnlineAreas[0].PendingSubmissions[0].PlayerId, Is.EqualTo("other"));
+            Assert.That(saved.InactiveOnlineAreas[0].PendingSubmissions[0].SubmissionId, Is.EqualTo(Id));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task WholeSnapshot_KeepsInternalBoardsAndDeviceDataAcrossRestartAndScopeSwitch(bool includeStage)
+        {
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(file);
+            SettingsBindingOverride binding = new SettingsBindingOverride(new SettingsBindingTarget(
+                E_SettingsActionMap.Player, E_SettingsDeviceGroup.KeyboardAndMouse,
+                new Guid("f1ba0d36-48eb-4cd5-b651-1c94a6531f70"), new Guid("eb40bb66-4559-4dfa-9a2f-820438abb426"),
+                string.Empty), "<Keyboard>/q");
+            LocalSettingsData settings = new LocalSettingsData(63, true, new[] { binding });
+            Assert.That(local.TrySave(local.CreateSaveData("owner", settings, true)), Is.True);
+            LocalSaveData before = local.CreateSaveData("owner", settings, true);
+            OnlineLocalSaveData inactive = before.InactiveOnlineAreas[0];
+            Transport transport = new Transport();
+            if (includeStage) transport.Snapshot.personalBests = new[] { transport.Snapshot.personalBests[0],
+                new OnlinePersonalBestEntry { boardId = "fs-stage-stage-001-r1", score = 12000,
+                    submissionId = "22222222-2222-4222-8222-222222222222" } };
+            Session session = new Session();
+            OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, session, transport, () => true);
+            Assert.That((await service.CompleteTransferAsync("ABCD-EFGH", "000000007")).status, Is.EqualTo("Success"));
+            LocalSaveData applied = local.CreateSaveData("owner", settings, true);
+            Assert.That(applied.PersonalBests.Count, Is.EqualTo(includeStage ? 2 : 1));
+            Assert.That(applied.PendingSubmissions, Is.Empty);
+            Assert.That(applied.InactiveOnlineAreas[0], Is.SameAs(inactive));
+            Assert.That(applied.AccountId, Is.EqualTo("owner"));
+            Assert.That(applied.OnlineAccount.PlayerId, Is.EqualTo("B"));
+            Assert.That(applied.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
+            Assert.That(session.Resets, Is.Zero);
+            for (int i = 0; i < applied.PersonalBests.Count; i++)
+                Assert.That(applied.PersonalBests[i].PlayerId, Is.EqualTo("owner"));
+            Assert.That(local.TryGetPersonalBest("owner", InfiniteBoard(), out RecordSubmissionCandidate best), Is.True);
+            Assert.That(best.RankingValue, Is.EqualTo(500));
+            Assert.That(best.RunDurationMilliseconds, Is.Zero);
+            Assert.That(best.TotalScore, Is.Zero, "A ranking cache must not fabricate a new Run for submission.");
+            RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey stage);
+            Assert.That(local.TryGetPersonalBest("owner", stage, out RecordSubmissionCandidate hidden), Is.False);
+            Assert.That(hidden, Is.Null);
+            Assert.That(transport.Calls, Does.Not.Contain("query-records"));
+            Assert.That(transport.Calls, Does.Not.Contain("submit-record"));
+            Assert.That(local.TryCheckpoint(), Is.True);
+            LocalRecordRepository other = new LocalRecordRepository(file, inactive.Scope);
+            Assert.That(other.TryLoad(out LocalSaveData otherData), Is.True);
+            Assert.That(otherData.OnlineAccount.PlayerId, Is.EqualTo("other-player"));
+            Assert.That(otherData.PersonalBests[0].RankingValue, Is.EqualTo(1000));
+            Assert.That(otherData.PendingSubmissions[0].SubmissionId, Is.EqualTo(Id));
+            LocalRecordRepository restarted = new LocalRecordRepository(file);
+            Assert.That(restarted.TryLoad(out LocalSaveData restored), Is.True);
+            Assert.That(restored.PersonalBests.Count, Is.EqualTo(includeStage ? 2 : 1));
+            Assert.That(restored.OnlineAccount.PlayerId, Is.EqualTo("B"));
+            Assert.That(restored.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
+            Assert.That(restored.PendingSubmissions, Is.Empty);
+            Assert.That(restored.Settings.BindingOverrides.Count, Is.EqualTo(1));
+            Assert.That(restored.Settings.BindingOverrides[0].ControlPath, Is.EqualTo("<Keyboard>/q"));
+            Assert.That(restarted.TryGetPersonalBest("owner", InfiniteBoard(), out best), Is.True);
+            Assert.That(best.RankingValue, Is.EqualTo(500));
+            Assert.That(restarted.TryGetPersonalBest("owner", stage, out hidden), Is.False);
+            if (includeStage)
+            {
+                Assert.That(restored.PersonalBests[1].GameMode, Is.EqualTo(E_GameMode.Stage));
+                Assert.That(restored.PersonalBests[1].RankingValue, Is.EqualTo(12000));
+            }
+            AssertPreservedDeviceData(file);
         }
 
         [Test]
@@ -117,35 +189,57 @@ namespace FlowState.Tests.EditMode
             Transport transport = new Transport(); int changes = 0;
             OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, new Session(), transport, () => true, () => changes++);
             Assert.That((await service.CompleteTransferAsync("ABCD-EFGH", "000000007")).status, Is.EqualTo("Success"));
-            Assert.That(local.TryGetPersonalBest("owner", Stage(), out RecordSubmissionCandidate best), Is.True);
-            Assert.That(best.RankingValue, Is.EqualTo(5000)); Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
+            Assert.That(local.TryGetPersonalBest("owner", InfiniteBoard(), out RecordSubmissionCandidate best), Is.True);
+            Assert.That(best.RankingValue, Is.EqualTo(500)); Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
             Assert.That(local.CreatePendingSnapshot(), Is.Empty); Assert.That(changes, Is.EqualTo(1));
             Assert.That(transport.Calls, Does.Not.Contain("submit-record")); AssertPreservedDeviceData(store);
             LocalRecordRepository restarted = new LocalRecordRepository(store); restarted.TryLoad(out LocalSaveData ignored);
-            Assert.That(restarted.TryGetPersonalBest("owner", Stage(), out best), Is.True); Assert.That(best.RankingValue, Is.EqualTo(5000));
+            Assert.That(restarted.TryGetPersonalBest("owner", InfiniteBoard(), out best), Is.True); Assert.That(best.RankingValue, Is.EqualTo(500));
         }
 
         [Test]
         public async Task BEmptySuccess_ClearsAllPreviousBests()
         {
-            LocalRecordRepository local = Local(new OnlineTestFileStore()); Transport transport = new Transport();
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(file); Transport transport = new Transport();
             transport.Snapshot.personalBests = new OnlinePersonalBestEntry[0];
             OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, new Session(), transport, () => true);
             Assert.That((await service.RefreshStatusAsync()).status, Is.EqualTo("AlreadyCompleted"));
-            Assert.That(local.TryGetPersonalBest("owner", Stage(), out RecordSubmissionCandidate ignored), Is.False);
+            Assert.That(local.TryGetPersonalBest("owner", InfiniteBoard(), out RecordSubmissionCandidate ignored), Is.False);
+            LocalRecordRepository restarted = new LocalRecordRepository(file);
+            Assert.That(restarted.TryLoad(out LocalSaveData restored), Is.True);
+            Assert.That(restored.PersonalBests, Is.Empty); Assert.That(restored.PendingSubmissions, Is.Empty);
+            Assert.That(restored.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
+            AssertPreservedDeviceData(file);
         }
 
         [Test]
         public async Task BWholeSnapshot_IncludesInfiniteAndRemovesAbsentStage()
         {
-            LocalRecordRepository local = Local(new OnlineTestFileStore()); Transport transport = new Transport();
+            OnlineTestFileStore store = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(store); Transport transport = new Transport();
+            // Seed an internal legacy cache, without reopening the Stage creation/write API.
+            RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey retired);
+            RecordSubmissionCandidate legacy = (RecordSubmissionCandidate)Activator.CreateInstance(
+                typeof(RecordSubmissionCandidate), System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic, null,
+                new object[] { "owner", Id, retired, 1000L, 0L, 0, 0, 0, 0, 0, 1.0, 0L }, null);
+            LocalSaveData data = local.CreateSaveData("owner", new LocalSettingsData(63, true, null), true);
+            Assert.That(local.TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, data.AccountId,
+                data.Settings, data.HasCompletedTutorial, new[] { Candidate(), legacy }, data.OnlineAccount,
+                null, data.OnlineScope, data.InactiveOnlineAreas)), Is.True);
+            local = new LocalRecordRepository(store);
+            Assert.That(local.TryLoad(out LocalSaveData loaded), Is.True);
+            Assert.That(loaded.PersonalBests.Count, Is.EqualTo(2));
+            Assert.That(loaded.PersonalBests[1].GameMode, Is.EqualTo(E_GameMode.Stage));
             transport.Snapshot.personalBests = new[] { new OnlinePersonalBestEntry { boardId = "fs-infinite-v2", score = 42, submissionId = Id } };
             OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, new Session(), transport, () => true);
             await service.RefreshStatusAsync();
-            Assert.That(local.TryGetPersonalBest("owner", Stage(), out RecordSubmissionCandidate ignored), Is.False);
+            Assert.That(local.TryGetPersonalBest("owner", retired, out RecordSubmissionCandidate ignored), Is.False);
             RecordBoardKey.TryCreateInfinite(2, out RecordBoardKey infinite);
             Assert.That(local.TryGetPersonalBest("owner", infinite, out RecordSubmissionCandidate best), Is.True);
             Assert.That(best.RankingValue, Is.EqualTo(42)); Assert.That(local.CreatePendingSnapshot(), Is.Empty);
+            Assert.That(local.CreateSaveData("owner", data.Settings, true).PersonalBests.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -156,7 +250,7 @@ namespace FlowState.Tests.EditMode
             store.FailWrite = true;
             Assert.That((await service.RefreshStatusAsync()).status, Is.EqualTo("TransientFailure"));
             Assert.That(store.Contents, Is.EqualTo(before)); Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(OldNumber));
-            Assert.That(local.TryGetPersonalBest("owner", Stage(), out RecordSubmissionCandidate best), Is.True);
+            Assert.That(local.TryGetPersonalBest("owner", InfiniteBoard(), out RecordSubmissionCandidate best), Is.True);
             Assert.That(best.RankingValue, Is.EqualTo(1000)); Assert.That((await service.RetryPublicNumberAsync()).IsAuthenticated, Is.False);
             store.FailWrite = false; Assert.That((await service.RefreshStatusAsync()).status, Is.EqualTo("AlreadyCompleted"));
             Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
@@ -182,7 +276,7 @@ namespace FlowState.Tests.EditMode
         {
             OnlineTestFileStore store = new OnlineTestFileStore(); LocalRecordRepository local = Local(store, "A");
             Session session = new Session { Player = "A", BeforeReset = () => local.OnlineAccount.PlayerId == "" &&
-                !local.TryGetPersonalBest("owner", Stage(), out RecordSubmissionCandidate ignored) };
+                !local.TryGetPersonalBest("owner", InfiniteBoard(), out RecordSubmissionCandidate ignored) };
             Transport transport = new Transport { Status = Inactive() }; int changes = 0;
             OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, session, transport, () => true, () => changes++);
             Assert.That((await service.RefreshStatusAsync()).status, Is.EqualTo("Inactive"));
@@ -296,8 +390,8 @@ namespace FlowState.Tests.EditMode
             LocalRecordRepository local = Local(new OnlineTestFileStore()); Transport transport = new Transport
                 { Status = new OnlineAccountResponse { status = "Active", transferStatus = "Cancelled", transferId = Id } };
             Assert.That((await new OnlineAccountCoordinator(local, new Session(), transport, () => true).TryAuthenticateAsync()).IsAuthenticated, Is.True);
-            Assert.That(local.TryGetPersonalBest("owner", Stage(), out RecordSubmissionCandidate best), Is.True);
-            Assert.That(best.RankingValue, Is.EqualTo(5000)); Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
+            Assert.That(local.TryGetPersonalBest("owner", InfiniteBoard(), out RecordSubmissionCandidate best), Is.True);
+            Assert.That(best.RankingValue, Is.EqualTo(500)); Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
         }
 
         [Test]
@@ -321,15 +415,34 @@ namespace FlowState.Tests.EditMode
             Assert.That((await task).status, Is.EqualTo("TransientFailure")); Assert.That(store.Contents, Is.EqualTo(before));
         }
 
-        [Test]
-        public async Task TransitionBlocksNewPendingAndBestWritesUntilWholeSnapshotArrives()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task TransitionBlocksNewPendingAndBestWritesUntilWholeSnapshotArrives(bool writeFailure)
         {
-            LocalRecordRepository local = Local(new OnlineTestFileStore());
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(file);
+            string before = file.Contents;
             TaskCompletionSource<OnlinePersonalBestSnapshot> delayed = new TaskCompletionSource<OnlinePersonalBestSnapshot>();
-            OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, new Session(), new Transport { ReadSnapshot = () => delayed.Task }, () => true);
+            Transport transport = new Transport { ReadSnapshot = () => delayed.Task };
+            OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, new Session(), transport, () => true);
             Task<OnlineAccountResponse> task = service.RefreshStatusAsync();
+            Assert.That(task.IsCompleted, Is.False);
+            int writes = file.WriteAttempts, calls = transport.Calls.Count;
             Assert.That(local.TryEnqueuePending(Candidate()), Is.False); Assert.That(local.TryUpdatePersonalBest(Candidate()), Is.False);
-            Assert.That(local.TryDiscardPending(), Is.False); delayed.SetResult(BestSnapshot()); await task;
+            Assert.That(local.TryDiscardPending(), Is.False);
+            Assert.That((await service.RefreshStatusAsync()).reason, Is.EqualTo("RequestInProgress"));
+            Assert.That((await service.CompleteTransferAsync("ABCD-EFGH", "000000007")).reason, Is.EqualTo("CompletionHandoffRequired"));
+            Assert.That(file.WriteAttempts, Is.EqualTo(writes)); Assert.That(transport.Calls.Count, Is.EqualTo(calls));
+            file.FailWrite = writeFailure; delayed.SetResult(BestSnapshot());
+            OnlineAccountResponse response = await task;
+            if (writeFailure)
+            {
+                Assert.That(response.reason, Is.EqualTo("LocalSaveUnavailable"));
+                Assert.That(file.Contents, Is.EqualTo(before));
+                Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(OldNumber));
+            }
+            else Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
+            file.FailWrite = false;
             Assert.That(local.TryEnqueuePending(Candidate()), Is.True);
         }
 
@@ -339,6 +452,13 @@ namespace FlowState.Tests.EditMode
         [TestCase("unknown-board")]
         [TestCase("negative")]
         [TestCase("number-mismatch")]
+        [TestCase("null-snapshot")]
+        [TestCase("null-entry")]
+        [TestCase("invalid-number")]
+        [TestCase("invalid-id")]
+        [TestCase("legacy-id")]
+        [TestCase("infinite-overflow")]
+        [TestCase("too-many-boards")]
         public async Task InvalidSnapshot_PreservesWholeLocalArea(string invalid)
         {
             OnlineTestFileStore store = new OnlineTestFileStore(); LocalRecordRepository local = Local(store); string before = store.Contents;
@@ -349,8 +469,22 @@ namespace FlowState.Tests.EditMode
             if (invalid == "unknown-board") snapshot.personalBests[0].boardId = "other";
             if (invalid == "negative") snapshot.personalBests[0].score = -1;
             if (invalid == "number-mismatch") snapshot.publicPlayerNumber = "0000000003";
+            if (invalid == "null-snapshot") transport.Snapshot = null;
+            if (invalid == "null-entry") snapshot.personalBests = new OnlinePersonalBestEntry[] { null };
+            if (invalid == "invalid-number") snapshot.publicPlayerNumber = "0000000000";
+            if (invalid == "invalid-id") snapshot.personalBests[0].submissionId = "invalid";
+            if (invalid == "legacy-id") snapshot.personalBests[0].submissionId = "11111111-1111-1111-8111-111111111111";
+            if (invalid == "infinite-overflow") snapshot.personalBests[0].score = (long)int.MaxValue + 1;
+            if (invalid == "too-many-boards") snapshot.personalBests = new[] { snapshot.personalBests[0], snapshot.personalBests[0], snapshot.personalBests[0] };
+            int writes = store.WriteAttempts;
             Assert.That((await new OnlineAccountCoordinator(local, new Session(), transport, () => true).RefreshStatusAsync()).reason,
                 Is.EqualTo("PersonalBestUnavailable")); Assert.That(store.Contents, Is.EqualTo(before));
+            Assert.That(store.WriteAttempts, Is.EqualTo(writes));
+            Assert.That(local.TryGetPersonalBest("owner", InfiniteBoard(), out RecordSubmissionCandidate best), Is.True);
+            Assert.That(best.RankingValue, Is.EqualTo(1000));
+            Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(OldNumber));
+            Assert.That(local.CreatePendingSnapshot(), Is.Empty);
+            AssertPreservedDeviceData(store);
         }
 
         [Test]
@@ -360,7 +494,7 @@ namespace FlowState.Tests.EditMode
             local.TryEnqueuePending(Candidate()); local.TryCheckpoint(); string before = store.Contents;
             OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, new Session(), new Transport(), () => true);
             Assert.That((await service.TryAuthenticateAsync()).IsAuthenticated, Is.True);
-            Assert.That(local.TryGetPersonalBest("owner", Stage(), out RecordSubmissionCandidate best), Is.True);
+            Assert.That(local.TryGetPersonalBest("owner", InfiniteBoard(), out RecordSubmissionCandidate best), Is.True);
             Assert.That(best.RankingValue, Is.EqualTo(1000)); Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
             Assert.That(store.Contents, Is.EqualTo(before));
         }
@@ -390,7 +524,7 @@ namespace FlowState.Tests.EditMode
             }
             else
             {
-                Task<OnlineLeaderboardResult> task = repository.GetTopAsync(Stage());
+                Task<OnlineLeaderboardResult> task = repository.GetTopAsync(InfiniteBoard());
                 local.TrySaveOnlineAccount(new OnlineAccountState(true, "B", Number));
                 transport.Query.SetResult(new OnlineLeaderboardResult { status = "Success", entries = new OnlineLeaderboardEntry[0] });
                 Assert.That((await task).reason, Is.EqualTo("StaleResponse"));

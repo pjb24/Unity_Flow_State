@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using NUnit.Framework;
 using TMPro;
@@ -229,9 +230,9 @@ namespace FlowState.Tests.PlayMode
         [UnityTest]
         public IEnumerator SuccessfulDiscard_KeepsResultAndCompletionMessageVisibleUntilBack()
         {
-            Assert.That(RecordSubmissionPolicy.TryCreateStageCandidate("owner",
-                "22222222-2222-4222-8222-222222222222", "stage-001", 1,
-                FlowState.Runtime.Core.E_StageResultType.Cleared, 1, out RecordSubmissionCandidate candidate), Is.True);
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate("owner",
+                "22222222-2222-4222-8222-222222222222", ScoringVersion.Current,
+                60000, 60, 0, 60, 0, 60, 1.0, new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out RecordSubmissionCandidate candidate), Is.True);
             Assert.That(_local.TryEnqueuePending(candidate), Is.True);
             Assert.That(_local.TryCheckpoint(), Is.True);
             _open.onClick.Invoke(); yield return null;

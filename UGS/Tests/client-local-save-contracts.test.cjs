@@ -71,3 +71,66 @@ for (const forbidden of ["verificationValue", "credentialHmac", "codeDigest", "t
 const plain = (test.match(/\[Test\]/g) || []).length;
 const parameterized = (test.match(/\[TestCase\(/g) || []).length;
 console.log(`PASS client Local Save static contracts: scoped v7, created-at migration, fail-closed pending, persisted discard/gate, meta; ${plain + parameterized} Edit Mode cases prepared (not executed)`);
+
+// Phase 3 Step 2: source ordering complements the prepared C# counter/state tests.
+function methodBody(source, signature) {
+  const start = source.indexOf(signature);
+  assert.ok(start >= 0, signature);
+  const open = source.indexOf("{", start);
+  let end = open, depth = 1;
+  while (depth && ++end < source.length) {
+    if (source[end] === "{") depth++;
+    if (source[end] === "}") depth--;
+  }
+  assert.equal(depth, 0, signature);
+  return source.slice(open + 1, end);
+}
+const stageFactory = methodBody(feature("RecordSubmissionPolicy"), "public static bool TryCreateStageCandidate(");
+assert.ok(stageFactory.includes("candidate = null;"));
+assert.ok(stageFactory.includes("return false;"));
+assert.ok(!stageFactory.includes("new RecordSubmissionCandidate") && !stageFactory.includes("return true;"));
+for (const [source, signature, firstWrite] of [
+  [feature("RecordSubmissionService"), "public bool TryStoreCandidate(", "_recordRepository.TryEnqueuePending"],
+  [local, "public bool TryEnqueuePending(", "_now()"],
+  [local, "public bool TryUpdatePersonalBest(", "_memoryRepository.TryUpdatePersonalBest"]
+]) {
+  const body = methodBody(source, signature);
+  for (const guard of ["candidate.GameMode != E_GameMode.Infinite", "candidate.BoardKey.RulesVersion != ScoringVersion.Current", "candidate.BoardKey.StageId != string.Empty"])
+    assert.ok(body.indexOf(guard) >= 0 && body.indexOf(guard) < body.indexOf(firstWrite), signature + " before " + firstWrite);
+}
+const storeResult = methodBody(game, "private void TryStoreCurrentResultCandidate(");
+assert.ok(storeResult.indexOf("resultData.GameMode != E_GameMode.Infinite") < storeResult.indexOf("Guid.NewGuid()"));
+assert.ok(storeResult.indexOf("resultData.GameMode != E_GameMode.Infinite") >= 0);
+const restore = methodBody(local, "private void RestoreMemoryRecords(");
+assert.ok(restore.includes("_memoryRepository.TryUpdatePersonalBest") && restore.includes("_memoryRepository.TryEnqueuePending"));
+assert.ok(!restore.includes("E_GameMode.Infinite"));
+assert.ok(!codec.includes("TryCreateStageCandidate"));
+const policyTests = read("Assets/Tests/EditMode/RecordSubmissionPolicyTests.cs");
+for (const testName of ["StoreCandidate_UnsupportedRecord_DoesNotCallRepository", "LocalNewWrites_UnsupportedRecord_KeepClockMemoryAndFileUnchanged", "LocalNewWrites_Null_DoNotReadClockOrWriteFile"])
+  assert.ok(policyTests.includes(testName));
+assert.ok(read("Assets/Tests/EditMode/LocalSaveJsonCodecTests.cs").includes("InternalStageFormat_LoadAndCheckpoint_PreserveWholeRecordsWithoutNewStageWrites"));
+assert.ok(read("Assets/Tests/PlayMode/ResultMenuIntegrationTests.cs").includes("DirectResultCandidate_UnsupportedMode_KeepsRecordsAndPresentation"));
+for (const file of ["Assets/Tests/EditMode/VerificationSessionTests.cs", "Assets/Tests/PlayMode/AccountTransferUIIsolationTests.cs"])
+  assert.ok(read(file).includes("using FlowState.Runtime.Core;"));
+console.log("PASS Phase 3 Step 2 source contracts: retired factory, new-write/ID guard ordering, unfiltered internal restore, prepared counter/state tests; NOT C# execution.");
+
+const phase4Coordinator = feature("OnlineRecordCoordinator");
+const phase4Process = methodBody(phase4Coordinator, "private async Task ProcessPendingAsync(");
+const phase4Gate = methodBody(phase4Coordinator, "private bool CanProcessPending(");
+for (const effect of ["_local.TryExpirePending(", "_local.TryCheckpoint()", "await BindAsync()"])
+  assert.ok(phase4Process.indexOf("if (!CanProcessPending()) return;") >= 0 &&
+    phase4Process.indexOf("if (!CanProcessPending()) return;") < phase4Process.indexOf(effect));
+for (const guard of ["_local.AccountId != _owner", "_local.ActiveScope.Matches", "candidate.PlayerId != _owner",
+  "candidate.BoardKey.GameMode != E_GameMode.Infinite", "candidate.BoardKey.RulesVersion != ScoringVersion.Current", "candidate.BoardKey.StageId != string.Empty"])
+  assert.ok(phase4Gate.includes(guard));
+assert.ok(phase4Process.includes("TryExpirePending(_now()"));
+assert.ok(phase4Coordinator.includes("Func<long> now = null"));
+assert.ok(phase4Coordinator.includes("DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()"));
+assert.ok(phase4Process.indexOf("!_local.CanUseOnlineData") < phase4Process.indexOf("await _online.SubmitAsync(candidate)"));
+assert.ok(phase4Process.indexOf("_local.TryRemovePending") < phase4Process.indexOf("RememberTerminalResult"));
+assert.ok(phase4Process.includes("RecordSubmissionQueue.MaximumAttemptsPerRetryTrigger"));
+assert.ok(phase4Process.includes("InitialRetryDelayMilliseconds << (attempt - 1)"));
+for (const name of ["UnsupportedPending_AllRetryEntries_KeepDataWithoutClockSaveAuthenticationOrTransport",
+  "TerminalResponse_FailedLocalCommit_RetainsIdAndCountsOnlyAfterDurableRetry", "DuplicateBackgroundRetry_CoalescesWhileSubmissionIsInFlight"])
+  assert.ok(read("Assets/Tests/EditMode/OnlineRecordRepositoryTests.cs").includes(name));
+console.log("PASS Phase 3 Step 4 source contracts: pure whole-queue gate before expiry/checkpoint/bind, injected clock, bounded retry, durable terminal commit. NOT C# execution.");

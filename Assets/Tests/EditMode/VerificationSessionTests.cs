@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
+using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using NUnit.Framework;
 
@@ -8,6 +10,122 @@ namespace FlowState.Tests.EditMode
 {
     public sealed class VerificationSessionTests
     {
+        [TestCase(0, true, "")]
+        [TestCase(0, false, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(1, true, "")]
+        [TestCase(1, false, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(2, true, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(2, false, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(3, true, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(3, false, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(4, true, "")]
+        [TestCase(4, false, "")]
+        [TestCase(5, true, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(5, false, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(6, true, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(6, false, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(7, true, "")]
+        [TestCase(7, false, "STAGE_RECORDS_UNSUPPORTED")]
+        [TestCase(8, true, "")]
+        [TestCase(8, false, "")]
+        [TestCase(-1, true, "INVALID_PROBE")]
+        [TestCase(9, true, "INVALID_PROBE")]
+        public void EditorProbeClassification_RetainsNumbersAndSeparatesInfiniteFromRetiredStage(
+            int probe, bool infinite, string expected)
+        {
+            WithVerificationWindow((type, window) =>
+            {
+                BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+                type.GetField("_infinite", flags).SetValue(window, infinite);
+                MethodInfo method = type.GetMethod("GetProbeBlockReason", flags);
+                Assert.That(method, Is.Not.Null);
+                Assert.That(method.Invoke(window, new object[] { probe }), Is.EqualTo(expected));
+                Assert.That(type.GetField("_infinite", flags).GetValue(window), Is.EqualTo(infinite));
+                Assert.That(type.GetField("_configuration", flags).GetValue(window), Is.Null);
+                Assert.That(type.GetField("_account", flags).GetValue(window), Is.Null);
+            });
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void EditorSelectedBoard_RejectsOldStageWithoutReplacingIt(bool infinite)
+        {
+            WithVerificationWindow((type, window) =>
+            {
+                BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+                type.GetField("_infinite", flags).SetValue(window, infinite);
+                MethodInfo method = type.GetMethod("SelectedBoard", flags);
+                Assert.That(method, Is.Not.Null);
+                if (infinite)
+                {
+                    RecordBoardKey board = (RecordBoardKey)method.Invoke(window, null);
+                    Assert.That(board.GameMode, Is.EqualTo(E_GameMode.Infinite));
+                    Assert.That(board.RulesVersion, Is.EqualTo(ScoringVersion.Current));
+                }
+                else
+                {
+                    TargetInvocationException error = Assert.Throws<TargetInvocationException>(() => method.Invoke(window, null));
+                    Assert.That(error.InnerException, Is.TypeOf<NotSupportedException>());
+                    Assert.That(error.InnerException.Message, Is.EqualTo("STAGE_RECORDS_UNSUPPORTED"));
+                }
+                Assert.That(type.GetField("_infinite", flags).GetValue(window), Is.EqualTo(infinite));
+            });
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void EditorPendingProbe_UnsupportedRecordRejectsBeforeDeadlineOrStorage(bool stage)
+        {
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = PendingLocal(file: file);
+            RecordBoardKey board;
+            if (stage) Assert.That(RecordBoardKey.TryCreateStage("stage-001", 1, out board), Is.True);
+            else Assert.That(RecordBoardKey.TryCreateInfinite(ScoringVersion.LegacyDistanceScore, out board), Is.True);
+            RecordSubmissionCandidate candidate = (RecordSubmissionCandidate)Activator.CreateInstance(typeof(RecordSubmissionCandidate),
+                BindingFlags.Instance | BindingFlags.NonPublic, null, new object[] { local.AccountId,
+                    "00000000-0000-4000-8000-000000000001", board, 60L, 60000L, 60, 0, 60, 0, 60, 1.0, 1000L }, null);
+            LocalSaveData data = local.CreateSaveData(local.AccountId, new LocalSettingsData(100, false, null), false);
+            Assert.That(local.TrySave(new LocalSaveData(LocalSaveData.CurrentVersion, data.AccountId, data.Settings,
+                false, data.PersonalBests, data.OnlineAccount, new[] { candidate }, data.OnlineScope, data.InactiveOnlineAreas)), Is.True);
+            Assert.That(local.TryLoad(out LocalSaveData ignored), Is.True);
+            string before = file.Contents; int writes = file.WriteAttempts;
+            Boundary fake = new Boundary(); int deadlines = 0;
+            VerificationRemoteGuard guard = new VerificationRemoteGuard(() => true, fake, fake, fake,
+                milliseconds => { deadlines++; return new TaskCompletionSource<bool>().Task; });
+            WithVerificationWindow((type, window) =>
+            {
+                BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+                type.GetField("_isolatedLocal", flags).SetValue(window, local);
+                type.GetField("_guard", flags).SetValue(window, guard);
+                type.GetField("_account", flags).SetValue(window, new OnlineAccountCoordinator(local, fake, fake, () => true));
+                object summary = type.GetField("_summary", flags).GetValue(window);
+                string expected = stage ? "STAGE_RECORDS_UNSUPPORTED" : "UNSUPPORTED_PENDING_RECORD";
+                Assert.That(type.GetMethod("GetProbeBlockReason", flags).Invoke(window, new object[] { 8 }), Is.EqualTo(expected));
+                type.GetMethod("ProbePhase2", flags).Invoke(window, new object[] { 8 });
+                Assert.That(type.GetField("_busy", flags).GetValue(window), Is.EqualTo(false));
+                Assert.That(type.GetField("_summary", flags).GetValue(window), Is.SameAs(summary));
+                Assert.That(guard.OperationDeadline, Is.Null);
+            });
+            Assert.That(fake.Calls, Is.Zero); Assert.That(deadlines, Is.Zero);
+            Assert.That(file.WriteAttempts, Is.EqualTo(writes)); Assert.That(file.Contents, Is.EqualTo(before));
+            Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+        }
+
+        private static void WithVerificationWindow(Action<Type, UnityEngine.ScriptableObject> check)
+        {
+            Type type = Type.GetType("FlowState.Editor.OnlineRecordVerificationWindow, Assembly-CSharp-Editor");
+            Assert.That(type, Is.Not.Null);
+            string key = VerificationSessionConfiguration.EditorIsolationKey;
+            bool armed = UnityEditor.SessionState.GetBool(key, false);
+            UnityEngine.ScriptableObject window = UnityEngine.ScriptableObject.CreateInstance(type);
+            try
+            {
+                Assert.That(type.GetField("_infinite", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(window), Is.EqualTo(true));
+                check(type, window);
+            }
+            finally { UnityEngine.Object.DestroyImmediate(window); UnityEditor.SessionState.SetBool(key, armed); }
+        }
+
         [Test]
         public void AccountTimingDiagnostics_DefaultToUnknownAndDeserializeWithoutAuthorityChanges()
         {
@@ -30,14 +148,60 @@ namespace FlowState.Tests.EditMode
         private sealed class Boundary : IOnlineAuthenticationSession, IOnlineRecordTransport, IOnlineAccountTransport
         {
             public int Calls;
+            public string LastEndpoint;
+            public string LastRequest;
+            public IReadOnlyDictionary<string, string> LastParameters;
             public TaskCompletionSource<OnlineAuthenticationResult> Delayed;
             public TaskCompletionSource<object> DelayedTransport;
             public TaskCompletionSource<bool> DelayedClear;
             public Task<OnlineAuthenticationResult> TryAuthenticateAsync()
             { Calls++; return Delayed == null ? Task.FromResult(new OnlineAuthenticationResult(true, "fake-player")) : Delayed.Task; }
             public Task<bool> TryClearSessionAsync(string expectedPlayerId) { Calls++; return DelayedClear == null ? Task.FromResult(true) : DelayedClear.Task; }
-            public async Task<T> CallAsync<T>(string endpoint, string request) { Calls++; return DelayedTransport == null ? default(T) : (T)await DelayedTransport.Task; }
-            public async Task<T> CallAsync<T>(string endpoint, IReadOnlyDictionary<string, string> parameters) { Calls++; return DelayedTransport == null ? default(T) : (T)await DelayedTransport.Task; }
+            public async Task<T> CallAsync<T>(string endpoint, string request) { Calls++; LastEndpoint = endpoint; LastRequest = request; return DelayedTransport == null ? default(T) : (T)await DelayedTransport.Task; }
+            public async Task<T> CallAsync<T>(string endpoint, IReadOnlyDictionary<string, string> parameters) { Calls++; LastEndpoint = endpoint; LastParameters = parameters; return DelayedTransport == null ? default(T) : (T)await DelayedTransport.Task; }
+        }
+
+        [TestCase("submit-record")]
+        [TestCase("query-records")]
+        public void PermittedGuard_StageRawOverloads_DoNotCallAnyBoundary(string endpoint)
+        {
+            Boundary fake = new Boundary();
+            VerificationRemoteGuard guard = new VerificationRemoteGuard(() => true, fake, fake, fake);
+            const string stage = "{\"boardId\":\"fs-stage-stage-001-r1\"}";
+            Assert.Throws<NotSupportedException>(() => guard.CallAsync<object>(endpoint, stage));
+            Assert.Throws<NotSupportedException>(() => guard.CallAsync<object>(endpoint,
+                new Dictionary<string, string> { { "request", stage } }));
+            Assert.That(fake.Calls, Is.Zero);
+            Assert.That(guard.OperationDeadline, Is.Null);
+        }
+
+        [TestCase("submit-record", false)]
+        [TestCase("submit-record", true)]
+        [TestCase("query-records", false)]
+        [TestCase("query-records", true)]
+        public async Task PermittedGuard_InfiniteRawOverloads_PreserveRequest(string endpoint, bool dictionary)
+        {
+            Boundary fake = new Boundary();
+            VerificationRemoteGuard guard = new VerificationRemoteGuard(() => true, fake, fake, fake);
+            const string payload = "{\"boardId\":\"fs-infinite-v2\",\"rulesVersion\":2,\"kind\":\"top\",\"limit\":10}";
+            Dictionary<string, string> parameters = new Dictionary<string, string> { { "request", payload } };
+            if (dictionary) await guard.CallAsync<object>(endpoint, parameters);
+            else await guard.CallAsync<object>(endpoint, payload);
+            Assert.That(fake.Calls, Is.EqualTo(1));
+            Assert.That(fake.LastEndpoint, Is.EqualTo(endpoint));
+            if (dictionary) Assert.That(fake.LastParameters, Is.SameAs(parameters));
+            else Assert.That(fake.LastRequest, Is.EqualTo(payload));
+        }
+
+        [Test]
+        public async Task PermittedGuard_AccountSnapshot_PreservesParametersWithoutRecordFiltering()
+        {
+            Boundary fake = new Boundary();
+            VerificationRemoteGuard guard = new VerificationRemoteGuard(() => true, fake, fake, fake);
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            await guard.CallAsync<object>("get-account-personal-bests", parameters);
+            Assert.That(fake.Calls, Is.EqualTo(1));
+            Assert.That(fake.LastParameters, Is.SameAs(parameters));
         }
 
         [TestCase("authentication")]
@@ -101,8 +265,8 @@ namespace FlowState.Tests.EditMode
             file.Contents = LocalSaveJsonCodec.Serialize(new LocalSaveData(6, "owner", new LocalSettingsData(60, true, null),
                 true, null, new OnlineAccountState(true, "fake-player")));
             LocalRecordRepository local = new LocalRecordRepository(file); local.TryLoad(out LocalSaveData ignored);
-            Assert.That(RecordSubmissionPolicy.TryCreateStageCandidate("owner", "11111111-1111-4111-8111-111111111111",
-                "stage-001", 1, FlowState.Runtime.Core.E_StageResultType.Cleared, 60, out RecordSubmissionCandidate candidate), Is.True);
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate("owner", "11111111-1111-4111-8111-111111111111",
+                ScoringVersion.Current, 60000, 60, 0, 60, 0, 60, 1.0, new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out RecordSubmissionCandidate candidate), Is.True);
             Assert.That(local.TryEnqueuePending(candidate), Is.True);
             Boundary fake = new Boundary { DelayedTransport = new TaskCompletionSource<object>() };
             fake.DelayedTransport.SetResult(new OnlineSubmissionResponse { status = "TransientFailure", reason = "Timeout" });
@@ -190,9 +354,9 @@ namespace FlowState.Tests.EditMode
         private static OnlineLeaderboardResult Me(long score = 60000, long accepted = 100, string number = "0000000001")
         { return new OnlineLeaderboardResult { status = "Success", entries = new[] { new OnlineLeaderboardEntry { publicPlayerNumber = number, isMe = true, score = score, acceptedAt = accepted, rank = 1 } } }; }
 
-        private static LocalRecordRepository PendingLocal(bool consent = true)
+        private static LocalRecordRepository PendingLocal(bool consent = true, OnlineTestFileStore file = null)
         {
-            LocalRecordRepository local = new LocalRecordRepository(new OnlineTestFileStore());
+            LocalRecordRepository local = new LocalRecordRepository(file == null ? new OnlineTestFileStore() : file);
             Assert.That(local.TryLoad(out LocalSaveData ignored), Is.True);
             // An empty file loads with an empty local owner, not a generated
             // account. Seed the local owner before constructing its candidate.
@@ -201,12 +365,96 @@ namespace FlowState.Tests.EditMode
             Assert.That(local.AccountId, Is.Not.Empty);
             if (consent)
                 Assert.That(local.TrySaveOnlineAccount(new OnlineAccountState(true, "ugs-player")), Is.True);
-            Assert.That(RecordSubmissionPolicy.TryCreateStageCandidate(local.AccountId,
-                "00000000-0000-4000-8000-000000000001", "stage-001", 1,
-                FlowState.Runtime.Core.E_StageResultType.Cleared, 60, out RecordSubmissionCandidate candidate), Is.True);
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate(local.AccountId,
+                "00000000-0000-4000-8000-000000000001", ScoringVersion.Current,
+                60000, 60, 0, 60, 0, 60, 1.0, new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out RecordSubmissionCandidate candidate), Is.True);
             Assert.That(local.TryEnqueuePending(candidate), Is.True);
             Assert.That(local.TryCheckpoint(), Is.True);
             return local;
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task VerificationRetry_UnsupportedPending_DoesNotCheckpointAuthenticateOrTransmit(bool stage)
+        {
+            RecordBoardKey board;
+            if (stage) Assert.That(RecordBoardKey.TryCreateStage("stage-001", 1, out board), Is.True);
+            else Assert.That(RecordBoardKey.TryCreateInfinite(ScoringVersion.LegacyDistanceScore, out board), Is.True);
+            const string owner = "verification-local-owner";
+            RecordSubmissionCandidate candidate = (RecordSubmissionCandidate)Activator.CreateInstance(typeof(RecordSubmissionCandidate),
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null,
+                new object[] { owner, "00000000-0000-4000-8000-000000000001", board,
+                    60L, 60000L, 60, 0, 60, 0, 60, 1.0, 1000L }, null);
+            OnlineTestFileStore file = new OnlineTestFileStore { Contents = LocalSaveJsonCodec.Serialize(
+                new LocalSaveData(LocalSaveData.CurrentVersion, owner, new LocalSettingsData(100, false, null), false,
+                    new[] { candidate }, new OnlineAccountState(true, "ugs-player"), new[] { candidate },
+                    OnlineDataScope.CreateConfigured())) };
+            LocalRecordRepository local = new LocalRecordRepository(file);
+            Assert.That(local.TryLoad(out LocalSaveData ignored), Is.True);
+            string before = file.Contents; int writes = file.WriteAttempts;
+            OnlineTestAuthentication auth = new OnlineTestAuthentication(); OnlineTestTransport transport = new OnlineTestTransport();
+            CloudCodeRecordRepository online = new CloudCodeRecordRepository(owner, () => local.OnlineAccount, auth, transport);
+            Assert.That(await VerificationPendingRetry.RetryOnceAsync(local, online),
+                Is.EqualTo(stage ? "PENDING_STAGE_UNSUPPORTED" : "PENDING_RECORD_UNSUPPORTED"));
+            Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Calls, Is.Zero);
+            Assert.That(file.Contents, Is.EqualTo(before)); Assert.That(file.WriteAttempts, Is.EqualTo(writes));
+            Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            Assert.That(local.CreatePendingSnapshot()[0].SubmissionId, Is.EqualTo(candidate.SubmissionId));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task VerificationRetry_ForeignOwnerOrScope_DoesNotCheckpointOrSend(bool foreignScope)
+        {
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository original = PendingLocal(file: file);
+            LocalSaveData data = original.CreateSaveData(original.AccountId, new LocalSettingsData(100, false, null), false);
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate(foreignScope ? data.AccountId : "other-owner",
+                "00000000-0000-4000-8000-000000000001", ScoringVersion.Current, 60000,
+                60, 0, 60, 0, 60, 1.0, new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5),
+                out RecordSubmissionCandidate candidate), Is.True);
+            OnlineDataScope scope = foreignScope ? new OnlineDataScope("other-project", "other-environment") : data.OnlineScope;
+            file.Contents = LocalSaveJsonCodec.Serialize(new LocalSaveData(LocalSaveData.CurrentVersion, data.AccountId,
+                data.Settings, false, data.PersonalBests, data.OnlineAccount, new[] { candidate }, scope));
+            LocalRecordRepository local = new LocalRecordRepository(file, scope);
+            Assert.That(local.TryLoad(out LocalSaveData ignored), Is.True);
+            string before = file.Contents; int writes = file.WriteAttempts;
+            OnlineTestAuthentication auth = new OnlineTestAuthentication(); OnlineTestTransport transport = new OnlineTestTransport();
+            CloudCodeRecordRepository online = new CloudCodeRecordRepository(local.AccountId, () => local.OnlineAccount, auth, transport);
+            Assert.That(await VerificationPendingRetry.RetryOnceAsync(local, online),
+                Is.EqualTo(foreignScope ? "PENDING_LOCAL_NOT_READY" : "PENDING_OWNER_MISMATCH"));
+            Assert.That(file.Contents, Is.EqualTo(before)); Assert.That(file.WriteAttempts, Is.EqualTo(writes));
+            Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Calls, Is.Zero);
+        }
+
+        [Test]
+        public async Task VerificationRetry_LocalCommitFailure_ReplaysIdenticalIdAfterWriteRecovery()
+        {
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = PendingLocal(file: file);
+            OnlineTestTransport transport = new OnlineTestTransport { BeforeResponse = () => file.FailWrite = true };
+            CloudCodeRecordRepository online = new CloudCodeRecordRepository(local.AccountId, () => local.OnlineAccount,
+                new OnlineTestAuthentication(), transport, () => local.CanUseOnlineData);
+            string before = file.Contents;
+            Assert.That(await VerificationPendingRetry.RetryOnceAsync(local, online), Is.EqualTo("PENDING_LOCAL_COMMIT_FAILED"));
+            Assert.That(file.Contents, Is.EqualTo(before)); Assert.That(local.CreatePendingSnapshot().Count, Is.EqualTo(1));
+            string firstRequest = transport.Request;
+            file.FailWrite = false; transport.BeforeResponse = null;
+            Assert.That(await VerificationPendingRetry.RetryOnceAsync(local, online), Is.EqualTo("PENDING_SUBMISSION_CONFIRMED"));
+            Assert.That(transport.Calls, Is.EqualTo(2)); Assert.That(transport.Request, Is.EqualTo(firstRequest));
+            Assert.That(local.CreatePendingSnapshot(), Is.Empty);
+        }
+
+        [Test]
+        public async Task VerificationRetry_EmptyQueue_IsNotSubmissionSuccessAndDoesNotCheckpoint()
+        {
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = PendingLocal(file: file);
+            Assert.That(local.TryDiscardPending(), Is.True); int writes = file.WriteAttempts;
+            OnlineTestAuthentication auth = new OnlineTestAuthentication(); OnlineTestTransport transport = new OnlineTestTransport();
+            CloudCodeRecordRepository online = new CloudCodeRecordRepository(local.AccountId, () => local.OnlineAccount, auth, transport);
+            Assert.That(await VerificationPendingRetry.RetryOnceAsync(local, online), Is.EqualTo("PENDING_REQUIRES_EXACTLY_ONE"));
+            Assert.That(file.WriteAttempts, Is.EqualTo(writes)); Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Calls, Is.Zero);
         }
 
         [TestCase("Submitted", "PENDING_SUBMISSION_CONFIRMED", 0)]

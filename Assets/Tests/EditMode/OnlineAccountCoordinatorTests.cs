@@ -59,8 +59,9 @@ namespace FlowState.Tests.EditMode
 
         private static RecordSubmissionCandidate Candidate()
         {
-            RecordSubmissionPolicy.TryCreateStageCandidate("owner", TransferId, "stage-001", 1,
-                E_StageResultType.Cleared, 1, out RecordSubmissionCandidate result);
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate("owner", TransferId,
+                ScoringVersion.Current, 60000, 1000, 0, 1000, 0, 1000, 1.0,
+                new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out RecordSubmissionCandidate result), Is.True);
             return result;
         }
 
@@ -175,12 +176,39 @@ namespace FlowState.Tests.EditMode
         [Test]
         public async Task PendingBlocksStartAndCompleteBeforeAuthentication()
         {
-            LocalRecordRepository local = Local(new OnlineTestFileStore()); local.TryEnqueuePending(Candidate());
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(file); local.TryEnqueuePending(Candidate());
+            Assert.That(local.TryCheckpoint(), Is.True); string before = file.Contents; int writes = file.WriteAttempts;
             OnlineTestAuthentication auth = new OnlineTestAuthentication(); Transport transport = new Transport();
             OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, auth, transport, () => true);
             Assert.That((await service.StartTransferAsync()).reason, Is.EqualTo("PendingMustBeCleared"));
             Assert.That((await service.CompleteTransferAsync("ABCD-EFGH", "000000007")).status, Is.EqualTo("TransientFailure"));
             Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Endpoints, Is.Empty);
+            Assert.That(file.WriteAttempts, Is.EqualTo(writes)); Assert.That(file.Contents, Is.EqualTo(before));
+            Assert.That(local.CreatePendingSnapshot()[0].SubmissionId, Is.EqualTo(TransferId));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task EmptyPending_TransferCheckpointFailure_BlocksAuthenticationAndReleasesGate(bool complete)
+        {
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = Local(file, cache: Number);
+            string before = file.Contents; file.FailWrite = true;
+            OnlineTestAuthentication auth = new OnlineTestAuthentication(); Transport transport = new Transport();
+            OnlineAccountCoordinator service = new OnlineAccountCoordinator(local, auth, transport, () => true);
+            OnlineAccountResponse response = complete
+                ? await service.CompleteTransferAsync("ABCD-EFGH", "000000007") : await service.StartTransferAsync();
+            Assert.That(response.reason, Is.EqualTo("LocalSaveUnavailable"));
+            Assert.That(auth.Calls, Is.Zero); Assert.That(transport.Endpoints, Is.Empty);
+            Assert.That(file.Contents, Is.EqualTo(before)); Assert.That(local.CreatePendingSnapshot(), Is.Empty);
+            Assert.That(local.OnlineAccount.PublicNumberCache, Is.EqualTo(Number));
+            file.FailWrite = false;
+            int callbacks = 0;
+            Assert.That(await new AccountTransferPendingGate(local).TryRequestAsync(() =>
+                { callbacks++; return Task.FromResult(true); }), Is.True);
+            Assert.That(callbacks, Is.EqualTo(1));
+            Assert.That(local.TryEnqueuePending(Candidate()), Is.True);
         }
 
         [Test]
@@ -381,7 +409,7 @@ namespace FlowState.Tests.EditMode
             OnlineTestTransport records = new OnlineTestTransport();
             CloudCodeRecordRepository repository = new CloudCodeRecordRepository("owner", () => local.OnlineAccount,
                 service, records, () => local.CanUseOnlineData);
-            Assert.That(RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey key), Is.True);
+            Assert.That(RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey key), Is.True);
             Task<OnlineLeaderboardResult> top = repository.GetTopAsync(key);
             Task<OnlineLeaderboardResult> around = repository.GetAroundAsync(key);
             Assert.That(top.IsCompleted, Is.False);
@@ -419,7 +447,7 @@ namespace FlowState.Tests.EditMode
             OnlineTestTransport records = new OnlineTestTransport();
             CloudCodeRecordRepository repository = new CloudCodeRecordRepository("owner", () => local.OnlineAccount,
                 service, records, () => local.CanUseOnlineData);
-            Assert.That(RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey key), Is.True);
+            Assert.That(RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey key), Is.True);
             Task<OnlineLeaderboardResult> top = repository.GetTopAsync(key);
             Task<OnlineLeaderboardResult> around = repository.GetAroundAsync(key);
             service.Invalidate();

@@ -510,7 +510,10 @@ namespace FlowState.Runtime.Systems
         private async void RetryCurrentResultSubmission()
         {
             RecordSubmissionCandidate candidate = _resultRecordPresentation.Candidate;
-            if (_isCurrentResultRetryRunning || candidate == null || _onlineRecords == null ||
+            if (_isCurrentResultRetryRunning || candidate == null ||
+                candidate.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty || _onlineRecords == null ||
                 Application.internetReachability == NetworkReachability.NotReachable) return;
             _isCurrentResultRetryRunning = true;
             try
@@ -980,19 +983,25 @@ namespace FlowState.Runtime.Systems
 
         public async void RefreshLeaderboardTop()
         {
+            E_NavigationScreen screen = _navigationState.CurrentScreen;
+            GameRuntimeData runtime = _runtimeData;
             int version = _leaderboardViewState.BeginTopRequest();
             ApplyLeaderboardPresentation();
-            _leaderboardViewState.CompleteTopRequest(version,
-                await QueryLeaderboardAsync(true));
+            OnlineLeaderboardResult result = await QueryLeaderboardAsync(true);
+            if (this == null || _runtimeData != runtime || _navigationState.CurrentScreen != screen) return;
+            _leaderboardViewState.CompleteTopRequest(version, result);
             ApplyLeaderboardPresentation();
         }
 
         public async void RefreshLeaderboardAround()
         {
+            E_NavigationScreen screen = _navigationState.CurrentScreen;
+            GameRuntimeData runtime = _runtimeData;
             int version = _leaderboardViewState.BeginAroundRequest();
             ApplyLeaderboardPresentation();
-            _leaderboardViewState.CompleteAroundRequest(version,
-                await QueryLeaderboardAsync(false));
+            OnlineLeaderboardResult result = await QueryLeaderboardAsync(false);
+            if (this == null || _runtimeData != runtime || _navigationState.CurrentScreen != screen) return;
+            _leaderboardViewState.CompleteAroundRequest(version, result);
             ApplyLeaderboardPresentation();
         }
 
@@ -1004,6 +1013,14 @@ namespace FlowState.Runtime.Systems
         private async Task RefreshResultOnlineBestAsync(
             RecordSubmissionCandidate expectedCandidate = null)
         {
+            RecordSubmissionCandidate currentCandidate = _resultRecordPresentation.Candidate;
+            GameRuntimeData currentRuntime = _runtimeData;
+            E_NavigationScreen currentScreen = _navigationState.CurrentScreen;
+            if (expectedCandidate != null && currentCandidate != expectedCandidate) return;
+            RecordSubmissionCandidate candidate = expectedCandidate == null ? currentCandidate : expectedCandidate;
+            if (candidate != null && (candidate.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty)) return;
             E_GameMode resultMode = expectedCandidate == null
                 ? GetCurrentResultGameMode() : expectedCandidate.BoardKey.GameMode;
             // Never use a retired Stage result to request an online record.
@@ -1019,11 +1036,13 @@ namespace FlowState.Runtime.Systems
             }
 
             RecordBoardKey key;
-            bool hasKey = RecordBoardKey.TryCreateInfinite(2, out key);
+            bool hasKey = RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out key);
             if (!hasKey) return;
             OnlineLeaderboardResult result = await _onlineRepository.GetPersonalBestAsync(key);
-            if (expectedCandidate != null &&
-                _resultRecordPresentation.Candidate != expectedCandidate) return;
+            if (this == null || _runtimeData != currentRuntime ||
+                _navigationState.CurrentScreen != currentScreen ||
+                _resultRecordPresentation.Candidate != currentCandidate ||
+                GetCurrentResultGameMode() != E_GameMode.Infinite) return;
             _leaderboardViewState.CompletePersonalBestRequest(version,
                 result);
             RefreshResultRecordPresentation();
@@ -1139,8 +1158,8 @@ namespace FlowState.Runtime.Systems
                 case E_NavigationItem.MainMenu:
                     if (_navigationState.TrySubmit())
                     {
-                        if (selection == E_NavigationItem.Retry)
-                            _uiInputSystem?.ConsumeTransientInput();
+                        if (selection == E_NavigationItem.Retry && _uiInputSystem != null)
+                            _uiInputSystem.ConsumeTransientInput();
                         ApplyNavigationState();
                     }
                     break;
@@ -1501,7 +1520,10 @@ namespace FlowState.Runtime.Systems
 
         private void TryStoreCurrentResultCandidate(ResultData resultData)
         {
-            if (resultData == null || _runtimeData == null ||
+            // Direct callers must be rejected before allocating a submission ID or
+            // changing records, even when they bypass the retired Stage play guards.
+            if (resultData == null || resultData.GameMode != E_GameMode.Infinite) return;
+            if (_runtimeData == null ||
                 _candidateRuntimeData == _runtimeData ||
                 _recordSubmissionService == null || _localSaveData == null ||
                 string.IsNullOrEmpty(_localSaveData.AccountId))
@@ -1570,7 +1592,9 @@ namespace FlowState.Runtime.Systems
         private void RefreshResultRecordPresentation()
         {
             RecordSubmissionCandidate candidate = _resultRecordPresentation.Candidate;
-            if (candidate == null || _localRecordRepository == null) return;
+            if (candidate == null || candidate.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty || _localRecordRepository == null) return;
 
             E_ResultSubmissionState state = E_ResultSubmissionState.NotAvailable;
             string reason = string.Empty;
@@ -1608,6 +1632,10 @@ namespace FlowState.Runtime.Systems
 
         private void ApplyResultRecordPresentation()
         {
+            RecordSubmissionCandidate candidate = _resultRecordPresentation.Candidate;
+            if (candidate != null && (candidate.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty)) return;
             bool didChangeNavigation = _navigationState.SetResultSubmissionRetryAvailable(
                 _resultRecordPresentation.SubmissionState == E_ResultSubmissionState.Pending);
             if (_uiManagementSystem != null)

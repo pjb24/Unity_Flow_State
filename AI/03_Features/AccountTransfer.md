@@ -14,12 +14,13 @@ Anonymous 계정 사용자가 외부 ID 없이 현재 기기에서 새 기기로
 
 ## Roadmap 9 현재 상태와 Phase 3 목표
 
-기기 간 계정 연결 이전은 기존 지원 기능이다. Roadmap 9 Phase 3은 이전 기능의 신규 도입이 아니라 Stage 기록 경계 변경 후 Infinite Pending/저장/snapshot·이전 계약의 보존을 검증하는 단계이며 아직 미착수다. 아래 공통 이전 규칙은 유지한다.
+기기 간 계정 연결 이전은 기존 지원 기능이다. Roadmap 9 Phase 3에서 기존 계정 생산 코드와 Infinite Pending/저장/전체 snapshot·이전 계약을 유지하며 회귀 Test를 보강했다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 반영해 Phase 3을 완료했다. 최신 Player 통합 후보와 필요한 실서비스 확인은 Phase 4 범위이며 로컬 대역/자동 Test 성공으로 원격 성공을 대신하지 않는다. 아래 공통 이전 규칙은 유지한다.
 
 이 문서의 한국어 안내/오류 문장은 동작 의미를 설명한다. 현재 계정/이전 화면의 실제 표시 언어는 영어이며 한글 폰트 도입은 보류다. 한국어 설명을 Scene/Runtime의 고정 UI 문구로 적용하지 않는다.
 
 - Infinite Pending 0건·내구 저장·활성 연결·진행 중 요청 보호의 기존 이전 조건을 유지한다.
 - 연결된 논리 계정의 전체 최고를 읽고 캐시를 교체한다. 이전 기기나 recipient의 이전 계정 기록과 합산/병합하지 않는다.
+- 사용자 Stage 조회 거절은 계정 전체 snapshot parser의 내부 형식 제거와 구분한다. 전체 응답을 검증하고 내구 저장에 성공한 뒤 캐시/계정을 함께 반영하며, 잘못된·불완전한·중복/오래된 응답은 기존 전체 영역을 덮어쓰지 않는다.
 - Stage 자료가 없다는 사용자 전제 아래 Stage 보관에 따른 gate 예외·이관 기능은 추가하지 않는다. Settings/Tutorial·환경 격리는 유지한다.
 
 검증 계약: P9-C07/P9-C08. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).

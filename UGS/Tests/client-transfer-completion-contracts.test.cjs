@@ -77,3 +77,33 @@ for (const file of paths) {
 assert.equal(new Set(guids).size, guids.length);
 const cases = (tests.match(/\[Test\]/g) || []).length + (tests.match(/\[TestCase\(/g) || []).length;
 console.log(`PASS transfer completion client static contracts: atomic whole-best replacement, fenced session reset/restart, scoped idempotency, SDK API and presentation invalidation; ${cases} Edit Mode cases prepared (not executed)`);
+
+// Phase 3 Step 5: whole-account cache replacement remains separate from user Stage queries.
+function phase5Body(source, signature) {
+  const start = source.indexOf(signature); assert.ok(start >= 0, signature);
+  const open = source.indexOf("{", start); let end = open, depth = 1;
+  while (depth && ++end < source.length) {
+    if (source[end] === "{") depth++;
+    if (source[end] === "}") depth--;
+  }
+  assert.equal(depth, 0, signature); return source.slice(open + 1, end);
+}
+const phase5Gate = phase5Body(local, "internal bool TryBeginTransferRequest(");
+assert.ok(phase5Gate.indexOf("CreatePendingSnapshot().Count != 0") < phase5Gate.indexOf("TryCheckpoint()"));
+assert.ok(phase5Gate.indexOf("TryCheckpoint()") < phase5Gate.indexOf("_isTransferRequestInProgress = true"));
+const phase5Parser = phase5Body(account, "private bool TryReadSnapshot(");
+for (const contract of ['"fs-stage-stage-001-r1"', '"fs-infinite-v2"', "bests[j].BoardKey.Equals(board)", "new RecordSubmissionCandidate(_local.AccountId"])
+  assert.ok(phase5Parser.includes(contract));
+assert.ok(!phase5Parser.includes("TryEnqueuePending") && !phase5Parser.includes("TryCreateStageCandidate"));
+const phase5Finish = phase5Body(account, "private async Task<bool> FinishCompletionAsync(");
+const phase5Snapshot = phase5Finish.slice(phase5Finish.indexOf("OnlinePersonalBestSnapshot snapshot ="));
+for (const fence of ["!IsCurrent(player, generation)", "!ReferenceEquals(binding, _local.OnlineAccount)", "!TryReadSnapshot(snapshot", "snapshot.publicPlayerNumber != expectedNumber"])
+  assert.ok(phase5Snapshot.indexOf(fence) >= 0 && phase5Snapshot.indexOf(fence) < phase5Snapshot.indexOf("_local.TryApplyAccountTransition"));
+const phase5Restore = phase5Body(local, "private void RestoreMemoryRecords(");
+assert.ok(!phase5Restore.includes("E_GameMode.Infinite"));
+assert.ok(phase5Restore.includes("_memoryRepository.TryUpdatePersonalBest"));
+for (const name of ["WholeSnapshot_KeepsInternalBoardsAndDeviceDataAcrossRestartAndScopeSwitch",
+  "InvalidSnapshot_PreservesWholeLocalArea", "TransitionBlocksNewPendingAndBestWritesUntilWholeSnapshotArrives"])
+  assert.ok(tests.includes(name));
+assert.ok(read("Assets/Tests/EditMode/OnlineAccountCoordinatorTests.cs").includes("EmptyPending_TransferCheckpointFailure_BlocksAuthenticationAndReleasesGate"));
+console.log("PASS Phase 3 Step 5 source contracts: pending-before-auth gate, whole Stage/Infinite snapshot parser, stale/number fences before atomic apply, unfiltered internal restoration. NOT C# execution.");

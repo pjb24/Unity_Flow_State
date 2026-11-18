@@ -14,11 +14,13 @@ RecordSubmission
 
 ## Roadmap 9 현재 상태와 Phase 3 목표
 
-현재 생산 플레이는 Infinite 단일 흐름이며 Stage Run/결과의 사용자 진입은 Phase 2에서 차단했다. 기존 저장·온라인 제출·계정 이전 기능은 이미 존재한다. Phase 3의 잔여 작업은 Stage 후보 factory·직접 저장/Repository/Editor 경계의 차단과 Infinite 계약 회귀이며 아직 미착수다. 아래 지원 규칙과 별도 Deprecated 내부 계약을 구분한다.
+현재 생산 플레이는 Infinite 단일 흐름이며 Stage 후보/신규 저장·직접 전송/재시도·Editor/Result 진입 차단과 기존 Infinite 저장/이전·전체 snapshot 보존을 완료했다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 최종 정적/로컬 검증과 연결해 Phase 3을 완료했다. 최신 Player 통합 후보 검증은 Phase 4에 남아 있다. 아래 지원 규칙과 별도 Deprecated 내부 계약을 구분한다.
 
-### Phase 3 목표 — 잔여 직접 경계는 미구현
+### 신규 생성/저장 규칙
 
-- 새 Client는 신규 Stage 후보를 만들거나 제출하지 않는다. 실제 생산/Editor 진입 차단과 Infinite 제출은 별도로 검증한다.
+- Stage 후보 생성 API는 정상 Cleared 입력도 false/out null로 거절한다. Stage/무효 Result는 제출 ID 생성 전에 거절하고, 합성 Stage/무효 Mode·현재 계약과 다른 Board를 service/Local 신규 저장 API에 주입해도 시각 부여·최고/Pending 변경 전에 거절한다.
+- 내부 codec/Memory의 자료 복원은 보존하며 신규 저장 거절을 이유로 기존 항목을 지우거나 Infinite로 바꾸지 않는다. 직접 Stage 제출은 TransientFailure/StageModeUnsupported로 인증 전에 거절하고 raw SDK/Stage HTTP 요청도 전송 전에 거절한다. 계정 endpoint는 이 record 필터에서 제외한다. Editor의 Stage 도구/과거 probe도 인증·기준선·저장 전에 거절하며 Infinite 검증/계정 도구는 유지한다.
+- 재시도는 전체 Pending의 Board·귀속/환경을 시계/만료 정리·checkpoint·인증 전에 검사한다. 미지원 자료가 있으면 원본을 삭제/변환하거나 terminal로 집계하지 않고 해당 trigger를 종료한다. 정상 Infinite는 동일 ID·최대 3회·내구 저장 실패 보호를 유지한다. 이는 Stage 큐 이관/전용 수명 정책의 추가가 아니다.
 - Stage 기록은 없고 모든 Client의 추가 Stage 제출도 없다는 사용자 전제를 적용한다. 별도 Stage 보관/이관·전용 만료/폐기 기능을 추가하지 않는다.
 - Infinite Pending의 ID/귀속/환경·재시도·확정 응답 후 정리·180일 만료·저장 실패 보호를 유지한다. 건수 0을 제출 성공으로 간주하지 않는다.
 
@@ -46,6 +48,7 @@ RecordSubmission
 - terminal receipt가 삭제된 뒤 같은 제출 ID가 들어오면 새 제출로 처리한다. 따라서 180일 뒤 복원된 백업 또는 ID 재사용은 새 기록이 될 수 있다.
 - 서버 유효성 거부 후보는 Rejected가 되며 자동·수동 재시도하지 않는다. 거부 사유와 `재시도 불가`는 현재 Result에만 표시하고 제출 Retry 버튼은 Pending 후보에만 제공한다.
 - Pending은 `Submission pending — retrying when online`, Submitted는 `Submitted`로 표시한다. Submitted는 해당 제출 ID의 서버 수락을 뜻하며 최고 기록 갱신이나 순위 조회 성공을 뜻하지 않는다. Pending 0건만으로 제출 성공을 판정하지 않는다.
+- 과거 Stage/구 Version/미정의 후보나 선택은 Result 상태 표시·제출 Retry·개인 최고 조회로 다시 진입하지 않는다. 다른 Result/화면/runtime으로 이동한 뒤의 조회 응답은 현재 표시를 덮어쓰지 않는다. 정상 Infinite의 Local best·제출 상태와 별도 Online best는 유지한다.
 - 동의 취소 시 온라인 요청을 시작하지 않고 진입 화면으로 복귀한다. Settings에서 복구 제한 안내를 다시 확인할 수 있다.
 - Editor 격리 실행의 복구 제한 확인은 해당 실행의 메모리 저장소에만 남기며 온라인 인증·제출 권한으로 사용하지 않는다.
 - 복구 제한 Continue는 동의의 로컬 저장에 성공하면 인증/번호 준비·Pending 전송을 기다리지 않고 안내를 닫는다.
@@ -90,7 +93,7 @@ RecordSubmission
 
 # 예외 사항
 
-- 생산 Stage Result는 제출 대상으로 제공하지 않는다. 남은 Stage factory/직접 저장·전송의 거절 구현은 Phase 3 대상이며 완료 전부터 차단됐다고 기록하지 않는다.
+- 생산 Stage Result는 제출 대상으로 제공하지 않는다. 보존된 Stage factory와 직접 저장/전송 경계도 부작용 전에 거절한다.
 - 지원하지 않거나 일치하지 않는 규칙 Version은 제출하지 않는다.
 - 계정 귀속이 현재 계정과 다르면 제출하지 않는다.
 - 인증 토큰·서비스 Secret·개인정보는 제출 후보에 포함하지 않는다.
@@ -116,7 +119,7 @@ RecordSubmission
 # 보존된 Stage 내부 계약 — Deprecated
 
 - 보존된 Stage 후보 형식은 `Cleared` 결과, 불변 Stage ID/Rules Version과 밀리초 Clear Time을 사용하며 `Fell`은 후보가 아니다. 이는 기존 자료형/정책 소스 설명이며 새 Client의 사용자 제출 기능이 아니다.
-- TryCreateStageCandidate와 일부 직접 경계가 현재 소스에 남아 있다. Phase 3에서 선언/이유와 내부 형식을 보존하면서 지원되는 실행 경계를 거절하도록 전환한다.
+- TryCreateStageCandidate와 Deprecated 선언/이유·내부 형식은 소스에 남아 있다. factory는 false/out null이며 보존된 실행 본문은 지원 종료 guard로 차단한다.
 - 순수 형식/변환 검증과 생산 Stage 요청 거절 검증을 구분한다. Stage 자료 보관/이관이나 별도 Pending 호환 기능을 추가하지 않는다.
 
 ---

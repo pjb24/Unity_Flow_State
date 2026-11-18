@@ -1,4 +1,6 @@
+using System;
 using FlowState.Runtime.Core;
+using UnityEngine;
 
 namespace FlowState.Runtime.Features
 {
@@ -70,6 +72,31 @@ namespace FlowState.Runtime.Features
             }
 
             return false;
+        }
+
+        // Validate raw requests as well as repository calls. Account endpoints carry
+        // whole snapshots and must not be filtered by record-board execution policy.
+        public static void ValidateRecordRequest(string endpoint, string request)
+        {
+            if (endpoint != "submit-record" && endpoint != "query-records") return;
+            OnlineRecordRequest record;
+            try
+            {
+                record = JsonUtility.FromJson<OnlineRecordRequest>(request);
+            }
+            catch (ArgumentException)
+            {
+                throw new ArgumentException("InvalidRecordRequest");
+            }
+            if (record == null || string.IsNullOrEmpty(record.boardId))
+                throw new ArgumentException("InvalidRecordRequest");
+            if (record.boardId.StartsWith("fs-stage-", StringComparison.Ordinal))
+                throw new NotSupportedException("StageModeUnsupported");
+            if (record.boardId != InfiniteLeaderboardId ||
+                (endpoint == "submit-record" && record.rulesVersion != ScoringVersion.Current) ||
+                (endpoint == "query-records" && (record.limit < 1 || record.limit > 20 ||
+                    (record.kind != "top" && record.kind != "around" && record.kind != "me"))))
+                throw new ArgumentException("InvalidRecordRequest");
         }
     }
 }

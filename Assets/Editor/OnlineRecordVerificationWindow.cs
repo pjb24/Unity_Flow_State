@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using FlowState.Runtime.Core;
 using FlowState.Runtime.Features;
 using FlowState.Runtime.Systems;
 using UnityEditor;
@@ -22,6 +23,7 @@ namespace FlowState.Editor
         private const string DirectWriteProbeKey = "fs_verification_direct_write_probe";
         private const string VerificationProfile = "flow-state-verification";
         private const string MismatchProbeProfile = "flow-state-mismatch-probe";
+        private const string StageRecordsUnsupported = "STAGE_RECORDS_UNSUPPORTED";
         private const float WindowMinimumWidth = 520f;
         private const float WindowMinimumHeight = 420f;
         private const float ContentHorizontalPadding = 40f;
@@ -48,7 +50,7 @@ namespace FlowState.Editor
         private string _verificationValue = string.Empty;
         private string _baselineInput = string.Empty;
         private string _baselineExport = string.Empty;
-        private bool _infinite;
+        private bool _infinite = true;
         private string _summary = "Phase 2 격리 세션을 먼저 준비하세요. Scene은 변경하지 않습니다.";
 
         [MenuItem("Flow State/Online Record Verification")]
@@ -174,9 +176,10 @@ namespace FlowState.Editor
                 _phase2 = DrawWrappedToggle("Prototype 8 Phase 2 (Scene 없음)", _phase2);
             if (_phase2) { DrawPhase2(); return; }
             EditorGUILayout.LabelField("verification 전용 / 운영 환경 사용 금지");
+            DrawCopyableMessage(StageRecordsUnsupported + " / Stage record tools are retired. Use Infinite checks.", MessageType.Info);
             DrawCopyableMessage("구 Prototype 7 도구입니다. Phase 2 검증은 위 모드를 사용하세요. 자동 Test에서는 실행하지 않습니다.", MessageType.Warning);
             DrawCopyableMessage("익명 계정의 인증 정보를 잃으면 계정과 온라인 기록을 복구할 수 없습니다. " +
-                "기존 로컬 기록은 최초 인증 계정에 귀속되며 다른 계정으로 이전하지 않습니다.", MessageType.Warning);
+                "계정 이전 확인은 위 격리 세션의 계정 패널을 사용하세요.", MessageType.Warning);
             _confirmed = DrawWrappedToggle("복구 제한을 읽고 동의합니다", _confirmed);
             GameSystem game = Application.isPlaying ? UnityEngine.Object.FindFirstObjectByType<GameSystem>() : null;
             using (new EditorGUI.DisabledScope(game == null || _busy || IsAutomatedExecution()))
@@ -184,11 +187,7 @@ namespace FlowState.Editor
                 using (new EditorGUI.DisabledScope(!_confirmed))
                     if (DrawWrappedButton("동의 저장 및 인증 / Pending 재시도")) Authenticate(game);
                 if (DrawWrappedButton("Pending 재시도")) RetryPending(game);
-                if (DrawWrappedButton("Stage 상위·내 주변·내 최고 조회")) Query(game, false);
                 if (DrawWrappedButton("Infinite 상위·내 주변·내 최고 조회")) Query(game, true);
-                if (DrawWrappedButton("서버 중복·변조·버전 거부 검증")) VerifyServerValidation(game);
-                if (DrawWrappedButton("Player 직접 Write 403 검증")) VerifyDirectWriteDenied(game);
-                if (DrawWrappedButton("계정 불일치 차단 검증 (원래 계정 복구)")) VerifyAccountMismatch(game);
                 if (DrawWrappedButton("테스트 Player ID를 클립보드에 복사"))
                     EditorGUIUtility.systemCopyBuffer = game.OnlinePlayerId;
             }
@@ -218,6 +217,8 @@ namespace FlowState.Editor
 
         private async void Query(GameSystem game, bool infinite)
         {
+            // Deprecated Stage selection is rejected even when invoked directly.
+            if (!infinite) return;
             if (!CanRunLegacy(game)) return;
             _busy = true;
             try
@@ -280,6 +281,8 @@ namespace FlowState.Editor
 
         private async void VerifyServerValidation(GameSystem game)
         {
+            // Deprecated: preserve the legacy probe source, never its execution.
+            if (IsStageRecordToolRetired()) return;
             if (!CanRunLegacy(game)) return;
             _busy = true;
             try
@@ -315,6 +318,8 @@ namespace FlowState.Editor
 
         private async void VerifyDirectWriteDenied(GameSystem game)
         {
+            // Deprecated: reject before token access or either direct write.
+            if (IsStageRecordToolRetired()) return;
             if (!CanRunLegacy(game)) return;
             _busy = true;
             try
@@ -351,6 +356,8 @@ namespace FlowState.Editor
 
         private async void VerifyAccountMismatch(GameSystem game)
         {
+            // Deprecated: reject before changing the authentication profile/session.
+            if (IsStageRecordToolRetired()) return;
             if (!CanRunLegacy(game)) return;
             _busy = true;
             try
@@ -453,6 +460,8 @@ namespace FlowState.Editor
                 DrawSelectableValue(_configuration.SavePath, true);
             }
             if (_account != null) DrawCopyableMessage(DescribeAccountReadiness(), MessageType.Info);
+            // An old selection requires an explicit user choice, never an automatic request rewrite.
+            if (!_infinite && DrawWrappedButton("Use Infinite board")) _infinite = true;
             using (new EditorGUI.DisabledScope(!CanRunPhase2() || _transfer == null || _busy || (_screen != null && _screen.IsBusy)))
             {
                 if (DrawWrappedButton("계정 패널 열기 / 상태 확인")) ExecutePhase2(E_AccountTransferAction.Back, true);
@@ -474,14 +483,11 @@ namespace FlowState.Editor
                         using (new EditorGUI.DisabledScope(!_transfer.CanExecute(action)))
                             if (DrawWrappedButton(action.ToString())) ExecutePhase2(action, false);
                 }
-                _infinite = DrawWrappedToggle("Infinite (해제: Stage)", _infinite);
+                EditorGUILayout.LabelField("Record board: Infinite (fs-infinite-v2)");
+                DrawCopyableMessage(StageRecordsUnsupported + " / Use Infinite baseline and pending checks.", MessageType.Info);
                 if (DrawWrappedButton("내 최고 기준 저장 / 재조회 번호 비교")) ProbePhase2(0);
                 if (DrawWrappedButton("기준 자료와 번호·점수·수락 시각 비교")) ProbePhase2(1);
-                if (DrawWrappedButton("격리 Stage 기록 제출 (60초)")) ProbePhase2(2);
                 if (DrawWrappedButton("기존 Pending 1건 재전송 (새 기록 생성 없음)")) ProbePhase2(8);
-                if (DrawWrappedButton("Stage 제출 전 조회만 확인 (기록 제출 없음)")) ProbePhase2(6);
-                if (DrawWrappedButton("Step 10-1 신규 Stage 제출·서버 행 확인 (60초)")) ProbePhase2(5);
-                if (DrawWrappedButton("Player 직접 Write 403 검증")) ProbePhase2(3);
                 if (DrawWrappedButton("원래 A 상태만 확인 (복구 전에 / 제출 없음)")) ProbePhase2(4);
                 if (DrawWrappedButton("원래 A 기록 조회 거부만 확인 (복구 전에 / 제출 없음)")) ProbePhase2(7);
             }
@@ -559,8 +565,38 @@ namespace FlowState.Editor
 
         private RecordBoardKey SelectedBoard()
         {
-            if (_infinite) { RecordBoardKey.TryCreateInfinite(2, out RecordBoardKey infinite); return infinite; }
-            RecordBoardKey.TryCreateStage("stage-001", 1, out RecordBoardKey stage); return stage;
+            // Reject an old selection; do not silently run a different board instead.
+            if (!_infinite) throw new NotSupportedException(StageRecordsUnsupported);
+            RecordBoardKey.TryCreateInfinite(ScoringVersion.Current, out RecordBoardKey infinite);
+            return infinite;
+        }
+
+        private static bool IsStageRecordToolRetired()
+        {
+            // A method call keeps the archived bodies compilable without unreachable-code warnings.
+            // This is a permanent support boundary, not a configurable permission switch.
+            return true;
+        }
+
+        private string GetProbeBlockReason(int probe)
+        {
+            if (probe < 0 || probe > 8) return "INVALID_PROBE";
+            // Deprecated probe identities must never be reused for another operation.
+            if (probe == 2 || probe == 3 || probe == 5 || probe == 6) return StageRecordsUnsupported;
+            if (!_infinite && (probe == 0 || probe == 1 || probe == 7)) return StageRecordsUnsupported;
+            if (probe == 8 && _isolatedLocal != null)
+            {
+                var pending = _isolatedLocal.CreatePendingSnapshot();
+                for (int i = 0; i < pending.Count; i++)
+                {
+                    RecordSubmissionCandidate candidate = pending[i];
+                    if (candidate != null && candidate.GameMode == E_GameMode.Stage) return StageRecordsUnsupported;
+                    if (candidate == null || candidate.GameMode != E_GameMode.Infinite ||
+                        candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                        candidate.BoardKey.StageId != string.Empty) return "UNSUPPORTED_PENDING_RECORD";
+                }
+            }
+            return string.Empty;
         }
 
         private string DescribeAccountReadiness()
@@ -678,6 +714,8 @@ namespace FlowState.Editor
 
         private async void ProbePhase2(int probe)
         {
+            // No busy/deadline/baseline/authentication/storage changes for retired direct calls.
+            if (GetProbeBlockReason(probe).Length != 0) return;
             if (!CanRunPhase2() || _account == null || _busy || _screen != null && _screen.IsBusy) return;
             _busy = true;
             // Submission probes include bounded retry backoff and before/after
@@ -806,6 +844,8 @@ namespace FlowState.Editor
 
         private async Task ProbePhase2DirectWrites()
         {
+            // Deprecated: direct helper invocation must also stop before token access.
+            if (IsStageRecordToolRetired()) return;
             if (!CanRunPhase2()) return;
             string player = _isolatedLocal.OnlineAccount.PlayerId;
             string token = AuthenticationService.Instance.AccessToken;
@@ -834,6 +874,7 @@ namespace FlowState.Editor
 
         private static OnlineRecordRequest CreateStageProbe(string submissionId, long score, int rulesVersion)
         {
+            // Deprecated pure payload model; every execution boundary rejects Stage requests.
             return new OnlineRecordRequest
             {
                 boardId = StageLeaderboardId,
@@ -853,13 +894,18 @@ namespace FlowState.Editor
         private static async Task<OnlineSubmissionResponse> CallSubmitAsync(
             UgsOnlineRecordTransport transport, OnlineRecordRequest request)
         {
+            string payload = JsonUtility.ToJson(request);
+            OnlineRecordConfiguration.ValidateRecordRequest(SubmitRecordEndpoint, payload);
             if (IsAutomatedExecution()) throw new InvalidOperationException("Verification remote execution disabled.");
             return await transport.CallAsync<OnlineSubmissionResponse>(
-                SubmitRecordEndpoint, JsonUtility.ToJson(request));
+                SubmitRecordEndpoint, payload);
         }
 
         private static async Task<long> PostJsonAsync(string url, string body, string accessToken, Task deadline = null)
         {
+            // Also reject direct calls of the legacy HTTP helper, before allocating a request.
+            if (url != null && url.IndexOf("/leaderboards/fs-stage-", StringComparison.Ordinal) >= 0)
+                throw new NotSupportedException("StageModeUnsupported");
             if (IsAutomatedExecution()) throw new InvalidOperationException("Verification remote execution disabled.");
             if (deadline == null) deadline = Task.Delay(VerificationRemoteGuard.OperationTimeoutMilliseconds);
             if (deadline.IsCompleted) throw new TimeoutException();

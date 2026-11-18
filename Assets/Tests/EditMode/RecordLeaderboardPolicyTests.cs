@@ -257,16 +257,12 @@ namespace FlowState.Tests.EditMode
             int stageRulesVersion,
             double elapsedTime)
         {
-            bool didCreate = RecordSubmissionPolicy.TryCreateStageCandidate(
-                playerId,
-                submissionId,
-                stageId,
-                stageRulesVersion,
-                E_StageResultType.Cleared,
-                elapsedTime,
-                out RecordSubmissionCandidate candidate);
-            Assert.That(didCreate, Is.True);
-            return candidate;
+            // Synthetic model data only; the retired production factory must remain blocked.
+            Assert.That(RecordBoardKey.TryCreateStage(stageId, stageRulesVersion, out RecordBoardKey board), Is.True);
+            return (RecordSubmissionCandidate)System.Activator.CreateInstance(typeof(RecordSubmissionCandidate),
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null,
+                new object[] { playerId, submissionId, board, (long)System.Math.Round(elapsedTime * 1000),
+                    0L, 0, 0, 0, 0, 0, 1.0, 0L }, null);
         }
 
         private static RecordLeaderboardEntry CreateInfiniteEntry(

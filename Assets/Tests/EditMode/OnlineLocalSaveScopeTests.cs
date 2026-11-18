@@ -15,9 +15,9 @@ namespace FlowState.Tests.EditMode
 
         private static RecordSubmissionCandidate Candidate(string owner = Owner)
         {
-            Assert.That(RecordSubmissionPolicy.TryCreateStageCandidate(owner, SubmissionId,
-                "stage-001", 1, E_StageResultType.Cleared, 1.25,
-                out RecordSubmissionCandidate candidate), Is.True);
+            Assert.That(RecordSubmissionPolicy.TryCreateInfiniteCandidate(owner, SubmissionId,
+                ScoringVersion.Current, 60000, 1250, 0, 1250, 0, 1250, 1.0,
+                new InfiniteScoreLimit(ScoringVersion.Current, 2, 10, 3, 2, 1, 5), out RecordSubmissionCandidate candidate), Is.True);
             return candidate;
         }
 
@@ -323,6 +323,31 @@ namespace FlowState.Tests.EditMode
             store.FailWrite = false;
             Assert.That(local.TryExpirePending(expiry, out int removed), Is.True); Assert.That(removed, Is.EqualTo(1));
             Assert.That(local.CreatePendingSnapshot(), Is.Empty);
+        }
+
+        [TestCase(-1, 0)]
+        [TestCase(0, 1)]
+        [TestCase(1, 1)]
+        public void InfiniteExpiry_FakeClockBeforeAtAndAfterBoundary_PreservesBestAndRestart(int offset, int expectedExpired)
+        {
+            const long createdAt = 1000;
+            OnlineTestFileStore file = new OnlineTestFileStore();
+            LocalRecordRepository local = new LocalRecordRepository(file, now: () => createdAt);
+            Assert.That(local.TryLoad(out LocalSaveData ignored), Is.True);
+            Assert.That(local.TrySave(local.CreateSaveData(Owner, new LocalSettingsData(75, true, null), true)), Is.True);
+            RecordSubmissionCandidate candidate = Candidate();
+            Assert.That(new RecordSubmissionService(local).TryStoreCandidate(candidate), Is.True);
+            Assert.That(local.TryCheckpoint(), Is.True);
+            long now = createdAt + LocalRecordRepository.PendingRetentionMilliseconds + offset;
+            Assert.That(local.TryExpirePending(now, out int expired), Is.True);
+            Assert.That(expired, Is.EqualTo(expectedExpired));
+            Assert.That(local.TryGetPersonalBest(Owner, candidate.BoardKey, out RecordSubmissionCandidate best), Is.True);
+            Assert.That(best.SubmissionId, Is.EqualTo(SubmissionId));
+            LocalRecordRepository restarted = new LocalRecordRepository(file);
+            Assert.That(restarted.TryLoad(out LocalSaveData data), Is.True);
+            Assert.That(restarted.CreatePendingSnapshot().Count, Is.EqualTo(1 - expectedExpired));
+            Assert.That(data.PersonalBests.Count, Is.EqualTo(1));
+            Assert.That(data.Settings.MasterVolume, Is.EqualTo(75)); Assert.That(data.HasCompletedTutorial, Is.True);
         }
 
         [Test]

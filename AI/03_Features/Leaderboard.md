@@ -16,10 +16,11 @@ Leaderboard
 
 ## Roadmap 9 적용 계약
 
-사용자 Stage 탭/선택 차단과 Main Menu/Result의 Infinite 조회 전환은 Phase 2에서 완료했다. Phase 3의 직접 Repository 조회/제출·Editor 경계 차단은 미착수다. 아래 사용자 규칙과 별도 Deprecated 내부 계약을 구분하며, UI 차단을 모든 직접 호출의 차단 완료로 확대하지 않는다.
+사용자 Stage 탭/선택과 직접 Repository/로컬 최고 조회·raw SDK/Stage HTTP·재시도·Editor/Result 진입을 차단하고 Infinite 조회/복귀·계정 전체 snapshot을 보존했다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 최종 정적/로컬 검증과 연결해 Phase 3을 완료했다. 최신 Player 통합 후보 검증은 Phase 4에 남아 있다. 아래 사용자 규칙과 별도 Deprecated 내부 계약을 구분한다.
 
-- 새 Client의 사용자 순위는 Infinite 단일 Board만 제공한다. Stage Tab·사용자 선택/표시는 차단했고 남은 직접 조회/조작 경계는 Phase 3에서 차단한다.
+- 새 Client의 사용자 순위는 Infinite 단일 Board만 제공한다. Stage Tab·사용자 선택/표시는 차단했고 직접 Stage Top/Around/Me 요청은 인증/전송 전 TransientFailure/StageModeUnsupported로 거절한다. Local의 Stage 최고 조회는 false/out null이며 내부 전체 snapshot은 보존한다. Editor의 과거 Stage 선택도 인증/기준선 조회 전에 거절하고 지원 Board로 자동 변환하지 않는다. Result의 미지원 후보/선택과 과거 Mode의 직접 UI 표시도 거절한다.
 - 상위 10·내 주변 7·Result의 최고 조회, competition rank·공개 번호·출처별 Back/Cancel을 유지한다.
+- Top/Around의 Loading·Empty·Offline·Error는 독립적으로 갱신한다. 화면/runtime 변경 뒤의 응답과 오래된 요청 세대는 현재 행에 적용하지 않는다. Result 개인 최고도 현재 후보/결과와 연결되는 응답만 표시한다.
 - Infinite Board/Scoring Version과 서버 요청/응답 계약을 유지한다. Stage 기록/구 Client 지원을 위한 보관·이관·서비스 변경은 추가하지 않는다.
 
 검증 계약: P9-C04/P9-C06/P9-C10. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).
@@ -133,7 +134,7 @@ Leaderboard
 
 - Stage Board는 불변 Stage ID/Rules Version으로 구분하고 기존 Infinite Board와 섞거나 변환하지 않는다. 이는 내부 자료형/서버 계약 보존이며 사용자 Stage 탭/조회 기능을 제공한다는 뜻이 아니다.
 - 보존된 Stage 순위 값은 `Cleared`의 정수 밀리초 Clear Time 오름차순이며 형식은 `12.345 s`다. 내부 형식/formatter·순위 정책의 합성 검증은 생산 Stage 제출/표시와 분리한다.
-- 기존 보드/자료 삭제·Stage 기록 이관·구 Client 지원을 추가하지 않는다. 남은 직접 호출 차단은 Phase 3 Task의 실제 구현/검증 완료 후 반영한다.
+- 기존 보드/자료 삭제·Stage 기록 이관·구 Client 지원을 추가하지 않는다. 내부 Stage Board 형식 보존은 사용자/직접/Editor 실행 허용을 뜻하지 않는다.
 
 ---
 

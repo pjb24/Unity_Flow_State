@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using FlowState.Runtime.Core;
 
 namespace FlowState.Runtime.Features
 {
@@ -7,12 +8,18 @@ namespace FlowState.Runtime.Features
     {
         public static async Task<string> RetryOnceAsync(LocalRecordRepository local, IOnlineRecordRepository online)
         {
-            if (local == null || online == null || !local.TryCheckpoint() || !local.CanUseOnlineData ||
+            if (local == null || online == null ||
+                !local.ActiveScope.Matches(OnlineDataScope.CreateConfigured()) ||
                 !local.OnlineAccount.HasConfirmedRecoveryNotice) return "PENDING_LOCAL_NOT_READY";
             var pending = local.CreatePendingSnapshot();
             if (pending.Count != 1) return "PENDING_REQUIRES_EXACTLY_ONE";
             RecordSubmissionCandidate candidate = pending[0];
             if (candidate == null || candidate.PlayerId != local.AccountId) return "PENDING_OWNER_MISMATCH";
+            if (candidate.BoardKey.GameMode == E_GameMode.Stage) return "PENDING_STAGE_UNSUPPORTED";
+            if (candidate.BoardKey.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty) return "PENDING_RECORD_UNSUPPORTED";
+            if (!local.TryCheckpoint() || !local.CanUseOnlineData) return "PENDING_LOCAL_NOT_READY";
             OnlineAccountState binding = local.OnlineAccount;
             OnlineSubmissionResult result = await online.SubmitAsync(candidate);
             if (!local.CanUseOnlineData || !ReferenceEquals(binding, local.OnlineAccount)) return "PENDING_STALE_RESULT";

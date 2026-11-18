@@ -1,3 +1,5 @@
+using FlowState.Runtime.Core;
+
 namespace FlowState.Runtime.Features
 {
     public sealed class RecordSubmissionService
@@ -11,7 +13,10 @@ namespace FlowState.Runtime.Features
 
         public bool TryStoreCandidate(RecordSubmissionCandidate candidate)
         {
-            if (candidate == null || _recordRepository == null ||
+            // New writes are Infinite-only; shared memory/codec restoration is separate.
+            if (candidate == null || candidate.GameMode != E_GameMode.Infinite ||
+                candidate.BoardKey.RulesVersion != ScoringVersion.Current ||
+                candidate.BoardKey.StageId != string.Empty || _recordRepository == null ||
                 !_recordRepository.TryEnqueuePending(candidate))
             {
                 return false;
