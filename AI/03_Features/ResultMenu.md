@@ -16,7 +16,7 @@ InfiniteMode의 결과 화면에서 다음 실행 흐름을 키보드와 마우�
 
 ## Roadmap 9 적용 상태
 
-상태: Phase 2의 Infinite Result·Stage 결과 표시 거절·새 Run/Timer Retry는 적용·검증을 완료했다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다. Stage Leaderboard 탭은 차단했고 Repository/후보·제출/도구 전체 경계는 Phase 3 잔여다.
+상태: Phase 2의 Infinite Result·Stage 결과 표시 거절·새 Run/Timer Retry는 적용·검증을 완료했다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다. Stage 탭/직접 기록·후보/제출/도구 경계도 차단했고 Phase 4 QA 후보 판정을 완료했다. 최신 Player 정상 보고/한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다.
 
 - 생산 결과 화면은 Infinite 최종 결과를 제공하며 Stage·Infinite·Momentum HUD를 숨긴다. Stage 결과/시간 표시 소스는 남기되 사용자에게 노출하지 않는다.
 - Retry는 초기 Timer/점수/입력/Result를 가진 새 Infinite Run을 시작한다. 제출 Retry는 별개이며 Run을 생성하지 않는다.

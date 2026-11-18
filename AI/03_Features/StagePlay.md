@@ -16,7 +16,7 @@ Infinite Run을 시작하고 종료할 때까지의 공통 플레이 흐름을 �
 
 ## Roadmap 9 적용 상태
 
-Phase 2의 Infinite 시작/공통 실행·Stage 실행/표시 차단과 사용자 Compile/Scene/Test/Player 확인은 완료했다. 아래 생산 규칙은 Infinite 기준이며 Stage 전용 Goal/추락 소스는 Deprecated 독립 검증 대상으로 보존한다. 남은 기록 직접 접근은 Phase 3, 전체 후보 판정은 Phase 4 범위다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다.
+Phase 2의 Infinite 시작/공통 실행·Stage 실행/표시 차단과 사용자 Compile/Scene/Test/Player 확인은 완료했다. 아래 생산 규칙은 Infinite 기준이며 Stage 전용 Goal/추락 소스는 Deprecated 독립 검증 대상으로 보존한다. 기록 직접 접근 차단과 사용자 한정 QA 후보 판정도 완료했다. 최신 후보/검증 한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다.
 
 - 새 Client는 InfiniteMode만 시작/재시작하며 Stage Mode의 명시적 생산 실행 요청은 거절한다.
 - 과거 기본/선택/대기 Mode는 Infinite 시작 흐름으로 정규화한다. 기존 자료의 enum 값 변경이나 Stage 소스 삭제를 뜻하지 않는다.

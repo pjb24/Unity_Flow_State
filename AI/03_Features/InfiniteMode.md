@@ -16,9 +16,9 @@ InfiniteMode
 
 ## Roadmap 9 적용 상태
 
-Phase 2의 Infinite 단일 플레이 전환과 사용자 Compile/Scene/Test/Player 확인은 완료했다. 아래 Stage/Stage Play는 공통 Run을 뜻하며 Stage Mode는 Deprecated 자료형·거절/합성 검증 범위에서만 다룬다. Phase 3 기록 직접 경계와 Phase 4 통합 후보 판정은 미완료다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다.
+Phase 2의 Infinite 단일 플레이 전환과 사용자 Compile/Scene/Test/Player 확인은 완료했다. 아래 Stage/Stage Play는 공통 Run을 뜻하며 Stage Mode는 Deprecated 자료형·거절/합성 검증 범위에서만 다룬다. Phase 3 기록 직접 경계와 Phase 4 사용자 한정 QA 후보 판정도 완료했다. 최신 후보/검증 한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다.
 
-- 새 Client에서 유일하게 제공하는 생산 플레이 Mode다. 시작/복귀와 기록 접근은 해당 Feature의 현행 규칙 및 Phase 3 잔여 범위를 따른다.
+- 새 Client에서 유일하게 제공하는 생산 플레이 Mode다. 시작/복귀와 기록 접근은 해당 Feature의 현행 규칙과 완료된 Roadmap 9의 경계를 따른다.
 - 현재 Pattern 네 종류·Difficulty·Scoring Version 2·점수/물리·World Rebase·Collectible·종료 조건을 유지한다. StageSystem 등 공통 기반의 명칭만으로 삭제하지 않는다.
 
 검증 계약: P9-C06/P9-C09. [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md).

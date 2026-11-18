@@ -14,7 +14,7 @@ GameEntryNavigation
 
 ## Roadmap 9 적용 상태
 
-상태: Phase 2의 Infinite 단일 시작/안내·과거 값 정규화·Stage 실행/표시 차단·Pause Retry 확인은 완료했다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다. Phase 3 잔여 기록 경계/Phase 4 통합 후보 판정은 별도다.
+상태: Phase 2의 Infinite 단일 시작/안내·과거 값 정규화·Stage 실행/표시 차단·Pause Retry 확인은 완료했다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다. 기록 경계는 [Phase 3 Task](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)에서 완료했으며 Phase 4의 사용자 한정 QA 후보 판정도 완료했다. 최신 Player 정상 보고와 검증 한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다.
 
 - Boot 뒤 Main Menu/Play를 유지한다. Play는 Mode Select를 거치지 않고 Infinite 시작을 요청한다.
 - 기존 Tutorial 완료 상태를 보존한다. 미완료 사용자는 Infinite 자동 안내의 Start Run 전까지 Run을 만들지 않는다.
@@ -87,8 +87,8 @@ GameEntryNavigation
 
 ## 제약 사항
 
-- Scene 적용·화면/포커스 차단과 Unity 검증은 Phase 2 후속 Step에 남아 있다.
-- Leaderboard의 Stage 선택은 Phase 3 대상이며 현재 플레이 요청과 구분해 유지한다.
+- Phase 2의 Scene 적용·화면/포커스 차단과 Unity 검증은 완료했다. 최신 Player 정상 보고를 포함한 Phase 4 QA 후보 판정도 완료했다.
+- Leaderboard는 Infinite 선택만 제공하며 Stage 탭/직접 선택은 거절한다. 실제 조회/제출 정책은 Leaderboard/RecordSubmission Feature에서 관리한다.
 - Leaderboard 조회·제출과 Settings의 세부 기능은 이 Feature가 수행하지 않는다.
 
 ---

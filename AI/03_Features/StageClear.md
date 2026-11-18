@@ -16,7 +16,7 @@ Deprecated Stage Goal/Clear 소스의 보존된 동작과 독립 합성 검증 �
 
 # 기능 규칙
 
-아래 Stage Goal/Clear 규칙은 보존된 컴포넌트의 독립 합성 검증에만 적용한다. 소스/컴포넌트/GUID는 유지하며 생산 Stage Run은 생성/시작할 수 없다. Phase 2의 Scene/Unity 검증은 완료했고 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다. 기록 직접 경계의 Phase 3 잔여 작업과 구분한다.
+아래 Stage Goal/Clear 규칙은 보존된 컴포넌트의 독립 합성 검증에만 적용한다. 소스/컴포넌트/GUID는 유지하며 생산 Stage Run은 생성/시작할 수 없다. Phase 2의 Scene/Unity 검증은 완료했고 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따른다. 기록 직접 경계는 Phase 3에서 완료했고 최신 QA 후보 판정/한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다.
 
 - StageClear는 일반 Stage에서만 수행한다.
 - 플레이어가 Stage의 Goal에 도달하면 StageClear를 수행한다.

@@ -14,7 +14,7 @@ Anonymous 계정 사용자가 외부 ID 없이 현재 기기에서 새 기기로
 
 ## Roadmap 9 현재 상태와 Phase 3 목표
 
-기기 간 계정 연결 이전은 기존 지원 기능이다. Roadmap 9 Phase 3에서 기존 계정 생산 코드와 Infinite Pending/저장/전체 snapshot·이전 계약을 유지하며 회귀 Test를 보강했다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 반영해 Phase 3을 완료했다. 최신 Player 통합 후보와 필요한 실서비스 확인은 Phase 4 범위이며 로컬 대역/자동 Test 성공으로 원격 성공을 대신하지 않는다. 아래 공통 이전 규칙은 유지한다.
+기기 간 계정 연결 이전은 기존 지원 기능이다. Roadmap 9 Phase 3에서 기존 계정 생산 코드와 Infinite Pending/저장/전체 snapshot·이전 계약을 유지하며 회귀 Test를 보강했다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 반영해 Phase 3을 완료했다. Phase 4의 사용자 한정 QA 후보 판정도 완료했고 추가 실서비스 확인 불필요를 판정했다. 최신 실제 이전/원격 보존·복구는 미검증이며 로컬 대역/자동 Test로 원격 성공을 대신하지 않는다. 상세 근거/한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다. 아래 공통 이전 규칙은 유지한다.
 
 이 문서의 한국어 안내/오류 문장은 동작 의미를 설명한다. 현재 계정/이전 화면의 실제 표시 언어는 영어이며 한글 폰트 도입은 보류다. 한국어 설명을 Scene/Runtime의 고정 UI 문구로 적용하지 않는다.
 

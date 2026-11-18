@@ -16,7 +16,7 @@ RecordSubmissionSystem
 
 ## Roadmap 9 현재 상태와 Phase 3 목표
 
-기존 로컬 저장/온라인 제출·재시도·계정 연결을 유지하며 Phase 3의 Stage 후보/신규 저장·직접 Repository/raw 전송·재시도·Editor/UI 진입 차단을 완료했다. 내부 복원·전체 snapshot·Infinite 수명/계정 계약은 보존한다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 최종 정적/로컬 검증과 연결했다. Phase 3 완료이며 최신 Player 통합 후보 검증은 Phase 4에 남아 있다.
+기존 로컬 저장/온라인 제출·재시도·계정 연결을 유지하며 Phase 3의 Stage 후보/신규 저장·직접 Repository/raw 전송·재시도·Editor/UI 진입 차단을 완료했다. 내부 복원·전체 snapshot·Infinite 수명/계정 계약은 보존한다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 최종 정적/로컬 검증과 연결했다. Phase 4의 사용자 한정 QA 후보 판정도 완료했다. 실제 원격 제출/조회·이전/복구 미검증 한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다.
 
 ### 현재 신규 후보/저장 경계
 

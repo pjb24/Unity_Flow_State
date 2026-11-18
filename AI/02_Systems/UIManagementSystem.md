@@ -16,7 +16,7 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 
 ## Roadmap 9 적용 상태
 
-상태: Phase 2의 Infinite UI/Result·Pause Retry 확인과 Stage/ModeSelect 표시·입력·Navigation 차단은 완료했다. 기존 Scene 기반 UI를 유지한다. 실제 Scene 적용값/참조·검증 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따르며 Phase 3의 직접 기록 경계는 별도다.
+상태: Phase 2의 Infinite UI/Result·Pause Retry 확인과 Stage/ModeSelect 표시·입력·Navigation 차단은 완료했다. 기존 Scene 기반 UI를 유지한다. 실제 Scene 적용값/참조·검증 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 따르며 Phase 3의 직접 기록 경계와 Phase 4의 사용자 한정 QA 후보 판정도 완료했다. 최신 Player 정상 보고/검증 한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다.
 
 - Infinite 단일 흐름에 맞는 화면/필수 참조/Focus를 반영하고 Mode Select·StageHUD/Result·Stage Tab의 생산 표시와 Navigation을 차단한다.
 - 비권장 UI 소스/직렬화 참조를 보존한다. 공통 Pause/Settings/안내·Result/InfiniteHUD·공개 번호/제출 상태는 유지하며 실행 차단 정책을 UI에서 결정하지 않는다.
@@ -44,7 +44,7 @@ UI Configuration과 UI State를 관리하고 현재 UI State를 Unity UI에 반�
 - InfiniteMode Runtime Data의 현재 Momentum 배율과 남은 유지 시간 비율을 기존 InfiniteHUD와 분리된 우측 하단 Momentum HUD에 표시한다.
 - InfiniteMode Runtime Data의 현재 Difficulty Level을 개발 환경의 InfiniteHUD 별도 행에 표시한다. 일반 빌드에서는 이 행을 숨긴다.
 - Result Data의 Mode별 Result Status, 경과 시간, 최종 거리와 Score를 해당 Result Content에 표시한다.
-- Leaderboard의 상위·내 주변 영역별 조회 상태와 오류 원인, 고정 Stage 선택 및 공개 번호 표시를 반영한다.
+- Leaderboard의 상위·내 주변 영역별 조회 상태와 오류 원인, Infinite 선택 및 공개 번호 표시를 반영한다. 비권장 Stage 탭은 표시/포커스 대상에서 제외한다.
 - Result의 로컬 새 최고, 조회된 서버 최고·순위, 현재 Run 제출 상태·거부 사유 및 허용된 제출 Retry 표시를 반영한다. 순위·최고 기록·제출 상태를 UI에서 계산하지 않는다.
 
 ---

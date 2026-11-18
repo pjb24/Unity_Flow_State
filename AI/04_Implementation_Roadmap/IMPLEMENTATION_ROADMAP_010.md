@@ -12,8 +12,8 @@ Flow State
 
 Roadmap 10 — Thirdparty 애셋 관리와 프로젝트 복원 체계.
 
-계획 확정일: 2026-11-11. **계획 확정·구현 미착수**이며 각 Phase의 상태는 대기다.
-선행: [Roadmap 9](IMPLEMENTATION_ROADMAP_009.md) 완료 후 순차 착수한다.
+계획 확정일: 2026-11-11. **Phase 1 실행 절차 작성 완료·구현 미착수**다. 2026-11-18 작성한 [Phase 1 Task](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md) Step 1~10은 미착수이며 각 Phase는 대기다.
+선행: [Roadmap 9](IMPLEMENTATION_ROADMAP_009.md)는 2026-11-18 완료했다. Phase 4 Task의 QA 후보/미검증 한계·실제 Module 복구 의무를 인계받는다. 본 Roadmap의 구현/실행은 아직 미착수다.
 공통 순서·승인/검증 경계는 [로드맵 안내](README.md)를 따른다.
 
 ## 범위 밖
@@ -42,7 +42,7 @@ Thirdparty 구매/계약 체결의 자동 승인, 원본 삭제, Git 과거 이�
 
 ### 상태
 
-대기 — 구현/실행 검증 미착수.
+실행 절차 작성 완료 — [Phase 1 Task](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md)에 기준선/목록·의존성/출처·GUID/원본/파생 경계·정적 도구/Unit Test·필요 사용자 확인/조건부 Unity·최종 인계를 Step 1~10으로 정리했다. 실제 Step 실행·분류 확정/Phase 1 완료는 아니며 다음은 Step 1 기준선/범위 확정이다.
 
 ## Phase 2. 형상 관리 제외와 도입·복원 절차
 
@@ -92,11 +92,11 @@ Thirdparty 구매/계약 체결의 자동 승인, 원본 삭제, Git 과거 이�
 
 ## 진행 중인 작업
 
-없음. 계획 문서 확정은 구현 착수나 구현 완료가 아니다.
+없음. Phase 1 Task 작성만 완료했으며 실제 Step 1~10/구현은 미착수다.
 
 ## 다음 작업
 
-선행 Roadmap 완료 후 Phase 1의 범위/영향 대조와 세부 작업 계획을 준비한다.
+[Phase 1 Task](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md) Step 1 기준선/범위 확정부터 진행한다. 정적 검사/Unit Test로 목록·참조/출처·분류를 대조하고 실제 추적 해제/원본 이동은 Phase 2, 독립 복원은 Phase 3에 남긴다. 현재 사용자 수동 작업은 없다. 문서 작성은 원본/라이선스 삭제·Git 이력 재작성·복원 실행의 완료나 추가 승인이 아니다.
 
 ## 보류된 작업
 

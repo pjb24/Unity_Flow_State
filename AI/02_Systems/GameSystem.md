@@ -22,7 +22,7 @@ System 간의 실행 흐름을 연결한다.
 
 ## Roadmap 9 적용 상태
 
-상태: Phase 2의 Infinite 시작/공통 실행·Stage 실행/결과 표시 차단과 Pause Retry 확인은 완료했다. Stage 전용 소스는 보존하며 직접 Repository/후보·제출/Editor 도구 경계는 Phase 3 잔여다. 실행 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md), 다음 작업은 [Phase 3 Task](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)를 따른다.
+상태: Phase 2의 Infinite 시작/공통 실행·Stage 실행/결과 표시 차단과 Pause Retry 확인, Phase 3의 직접 Repository/후보·제출/Editor 도구 경계를 완료했다. Stage 전용 소스는 보존한다. 근거는 [Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)와 [Phase 3 Task](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)를 따르며 사용자 한정 QA 전환 후보 판정도 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)에서 완료했다. 실제 원격/복구·로그 원문 한계와 공개 승인 경계는 해당 Task를 따른다.
 
 - Infinite 단일 시작/Retry와 과거 선택값 정규화, 명시적 Stage 실행 거절을 공통 초기화 전에 연결한다.
 - Stage Result/기록 접근 연결은 생산 경로에서 차단한다. Stage 전용 소스는 비권장 표시와 사유 주석으로 남기고 공통 Timer/입력/Result/정리 순서는 유지한다.

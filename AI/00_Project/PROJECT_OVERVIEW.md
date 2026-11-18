@@ -95,13 +95,13 @@ Flow State
 
 ## 확정된 후속 방향 — Roadmap 9~14
 
-현재 구현 범위와 구분되는 향후 개발 계획이다. Stage Mode가 이미 제거됐거나 그래픽/피드백 변경이 완료된 것은 아니다.
+Roadmap 9의 Infinite 단일화/Stage 사용자 접근 차단과 QA 전환 후보 판정은 2026-11-18 완료했다. Stage 내부 소스/형식은 Deprecated로 보존하며 그래픽/피드백 변경은 후속 계획이다.
 
-InfiniteMode 단일화와 Stage 접근 제거 후 Thirdparty 관리·복원 체계를 정비하고,
+다음 Roadmap 10에서 Thirdparty 관리·복원 체계를 정비하고,
 플레이어 피드백 → 캐릭터 그래픽 → 맵 그래픽 → UI 스타일 순서로 완성도를 높인다.
 구현 순서/범위/완료 조건과 대기 상태는 [로드맵 안내](../04_Implementation_Roadmap/README.md)와 각 Roadmap에서 관리한다.
-Roadmap 9의 확정 정책과 후속 인계는 [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md)를 따른다.
-구 Client는 미지원이며 Stage 기록 처리 개발은 사용자 전제로 제외했다. Stage 소스는 비권장 상태로 보존하고 생산 접근을 차단하는 방향이다.
+Roadmap 9 정책은 [Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md), 최종 후보/검증 한계·후속 인계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다.
+구 Client는 미지원이며 Stage 기록 처리 개발은 사용자 전제로 제외했다. Stage 소스는 비권장 상태로 보존하고 생산 접근을 차단했다. QA 후보 판정은 최신 원격/복구 성공이나 일반 공개/Steam 승인이 아니다.
 
 ## 공통 개발 목표
 

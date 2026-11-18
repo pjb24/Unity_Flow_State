@@ -7,8 +7,8 @@
 
 ## 현재 진행 상태
 
-- **Prototype 9 / Roadmap 9 Phase 1~3 완료.** Phase 3 Step 1~11의 기록/Editor/UI 경계·회귀 Test·최종 검증과 Phase 4 인계를 완료했다(2026-11-18). 사용자 최신 Script Compile 성공·EditMode **1031/1031**·PlayMode **316/316** 성공 및 각 예상 밖 Error/Warning 없음을 보고받았다. Scene 추가 적용은 없다. Phase 4와 Roadmap 9 전체는 미완료다.
-- **다음 작업:** [Phase 4 실행 절차 Step 1](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)의 기준선/필수 증거 확정. 문서 작성만 완료했으며 Phase 4 Step 1~10은 미착수다. Phase 3 최신 성공과 변경 영향에 따라 추가 Test 필요성을 판정하고 최신 Player 후보 검증/판정으로 진행한다. [Phase 3 Task 11-2](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)의 인계를 유지한다. AI가 Unity를 실행하거나 제공되지 않은 XML/Console 원문을 검토한 것으로 기록하지 않는다.
+- **Prototype 9 / Roadmap 9 Phase 1~4 완료(2026-11-18).** [Phase 4 Task Step 10](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)의 완료 표에 Compile/1031·316 사용자 성공·16스크립트 exit 0과 최신 Windows-production Candidate02 빌드/Player 6항목 정상 보고를 연결했다. 최종 후보는 `Build/ProductionQA/Candidate02/Unity_Flow_State.exe`의 사용자 2026-11-18 15:55 KST 빌드다. 추가 코드/Test/Scene 수정·재실행 없이 사용자 한정 QA 전환 후보로 완료했으며 일반 공개/Steam 승인은 아니다. 최신 실제 원격 제출/조회·이전/복구·별도 Player 로그 원문 한계와 다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다. AI는 Unity/빌드/Player·원격을 실행하지 않았다.
+- **다음 작업:** [Prototype 10 Phase 1 Task](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md) Step 1 기준선/범위 확정. 실행 절차 문서만 작성했으며 Step 1~10과 Roadmap 10 구현/복원은 미착수다. 실제 목록/추적·의존성/출처·GUID/파생/meta 경계와 정적 도구/Unit Test·필요 사용자 확인을 순서대로 대조한다. 현재 사용자 수동 작업은 없다. 현재 추적 제외는 Phase 2, 독립 복원은 Phase 3이며 원본/라이선스 삭제·Git 이력 재작성/구매/공개는 이 문서로 승인하지 않는다.
 - Phase 2 최신 사용자 검증은 **EditMode 919개 / PlayMode 288개 전체 통과**다. Windows-production으로 `Build/ProductionQA/Candidate02/`에 덮어쓴 최신 Player의 기존 기능·Pause Retry 확인·메뉴 복귀·UI/포커스/로그 정상 범위를 보고받았다. [최종 근거](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)
 - 이전 Candidate02 실물 보존은 사용자가 불필요하다고 결정했다. 같은 경로의 최신 빌드가 현재 기준선이다. 이 결과를 이후 Phase 3 변경의 통과로 승계하지 않는다. AI가 Runner/빌드/Player를 실행하거나 로그/XML을 직접 검증했다고 기록하지 않는다.
 
@@ -25,7 +25,7 @@
 
 - 사용자 플레이는 **Infinite 단일 흐름**이다. Stage 소스·enum 숫자·GUID/직렬화 참조는 삭제하지 않고 Deprecated/이유·대체 경로와 함께 보존한다. Infinite가 사용하는 공통 StageSystem/Pattern/수집물 기반은 이름만 보고 제거하지 않는다.
 - Phase 2에서 ModeSelect 없이 Infinite 시작, 과거 선택/대기 값 정규화, 명시적 Stage/무효 Mode 실행 거절, Stage HUD/Goal/결과 차단을 완료했다. 기존 Tutorial 완료 상태를 보존하며 미완료 사용자는 자동 안내의 Start Run 전까지 Run을 만들지 않는다.
-- Leaderboard Stage 탭/Navigation/선택과 사용자 Top/Around·Result 조회의 Stage 진입도 선행 차단했다. Step 2~4는 후보 factory·신규 쓰기/개인 최고 조회·직접 Repository/raw 전송·재시도에 거절을 반영했다. 재시도는 만료/checkpoint/인증 전에 지원 Board·귀속/환경을 확인하고 미지원 자료/terminal 집계를 바꾸지 않는다. 내부 Memory/codec·계정 전체 snapshot은 보존하고 Step 5에서 계정 회귀 Test를 보강했다. Step 6은 Stage Editor UI/직접 메서드와 과거 probe를 부작용 전에 거절한다. Step 7은 기존 Infinite UI/복귀를 유지하며 Result 미지원 후보/선택의 표시·Retry·Me 조회와 다른 화면/runtime/후보의 늦은 응답 적용을 차단했다. Infinite/계정 도구·자동 격리 보호는 보존한다. Step 8~11의 정적/로컬 검증·사용자 최신 Compile/Runner 성공 보고와 최종 완료 판정을 연결했다. Player 통합 후보 검증은 Phase 4에 남아 있다.
+- Leaderboard Stage 탭/Navigation/선택과 사용자 Top/Around·Result 조회의 Stage 진입도 선행 차단했다. Step 2~4는 후보 factory·신규 쓰기/개인 최고 조회·직접 Repository/raw 전송·재시도에 거절을 반영했다. 재시도는 만료/checkpoint/인증 전에 지원 Board·귀속/환경을 확인하고 미지원 자료/terminal 집계를 바꾸지 않는다. 내부 Memory/codec·계정 전체 snapshot은 보존하고 Step 5에서 계정 회귀 Test를 보강했다. Step 6은 Stage Editor UI/직접 메서드와 과거 probe를 부작용 전에 거절한다. Step 7은 기존 Infinite UI/복귀를 유지하며 Result 미지원 후보/선택의 표시·Retry·Me 조회와 다른 화면/runtime/후보의 늦은 응답 적용을 차단했다. Infinite/계정 도구·자동 격리 보호는 보존한다. Step 8~11의 정적/로컬 검증·사용자 최신 Compile/Runner 성공 보고와 최종 완료 판정을 연결했다. 후속 Player 통합 QA 후보 판정은 Phase 4 Task에서 완료했다. 미검증 원격/복구 한계는 유지한다.
 - **기존 Stage 기록이 없고 앞으로도 제출되지 않는다는 사용자 전제**를 적용한다. Stage 자료 보관/이관·혼합 Pending 호환·전용 만료/폐기·이전 gate 예외 개발은 제외한다. 이 전제를 원격 전수조사 PASS로 바꾸지 않는다.
 - 구 Client는 미지원이다. 현재 전환에 서버 계약 변경은 불필요하다. 구 버전 원격 강제 차단·기존 보드/자료 삭제·Infinite 변환/병합을 추가하지 않는다.
 - Pause Retry는 기존 확인창을 재사용하고 Cancel 기본 선택이다. 취소/Escape는 같은 Run의 Pause/Retry로 복귀하고 확인만 새 Infinite Run을 만든다. Result Retry는 즉시 실행한다. 명시적 RetryGame 생명주기 API의 기존 직접 호출 계약과 UI 확인 단계를 구분한다.
@@ -77,7 +77,7 @@
 | 대상 | 문서 |
 | --- | --- |
 | 현재 개발 상태·Phase 완료 조건 | [Roadmap 9](../04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_009.md) |
-| 다음 실행 순서·정적/Unit Test 계획 | [Prototype 9 Phase 3 Task](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md) |
+| 최종 후보/검증 한계·다음 인계 | [Prototype 9 Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md) |
 | 최신 테스트·Player/Scene·Phase 2 완료 | [Prototype 9 Phase 2 Task](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md) |
 | Stage 처리 제외·구 Client·범위 결정 | [Prototype 9 Phase 1 Task](../90_Tasks/Prototype_9/20261111_02_Phase1ManualSteps.md) |
 | 운영 후보·승인 예외·차기 복구 시험 | [Prototype 8 Phase 5 Task](../90_Tasks/Prototype_8/20261021_01_Phase5ManualSteps.md) |

@@ -16,7 +16,7 @@ Leaderboard
 
 ## Roadmap 9 적용 계약
 
-사용자 Stage 탭/선택과 직접 Repository/로컬 최고 조회·raw SDK/Stage HTTP·재시도·Editor/Result 진입을 차단하고 Infinite 조회/복귀·계정 전체 snapshot을 보존했다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 최종 정적/로컬 검증과 연결해 Phase 3을 완료했다. 최신 Player 통합 후보 검증은 Phase 4에 남아 있다. 아래 사용자 규칙과 별도 Deprecated 내부 계약을 구분한다.
+사용자 Stage 탭/선택과 직접 Repository/로컬 최고 조회·raw SDK/Stage HTTP·재시도·Editor/Result 진입을 차단하고 Infinite 조회/복귀·계정 전체 snapshot을 보존했다. 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 최종 정적/로컬 검증과 연결해 Phase 3을 완료했다. Phase 4의 사용자 한정 QA 후보 판정도 완료했다. 실제 원격 조회/제출 미검증과 로그 원문 한계는 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다. 아래 사용자 규칙과 별도 Deprecated 내부 계약을 구분한다.
 
 - 새 Client의 사용자 순위는 Infinite 단일 Board만 제공한다. Stage Tab·사용자 선택/표시는 차단했고 직접 Stage Top/Around/Me 요청은 인증/전송 전 TransientFailure/StageModeUnsupported로 거절한다. Local의 Stage 최고 조회는 false/out null이며 내부 전체 snapshot은 보존한다. Editor의 과거 Stage 선택도 인증/기준선 조회 전에 거절하고 지원 Board로 자동 변환하지 않는다. Result의 미지원 후보/선택과 과거 Mode의 직접 UI 표시도 거절한다.
 - 상위 10·내 주변 7·Result의 최고 조회, competition rank·공개 번호·출처별 Back/Cancel을 유지한다.

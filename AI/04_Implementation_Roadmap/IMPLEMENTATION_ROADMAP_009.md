@@ -12,7 +12,7 @@ Flow State
 
 Roadmap 9 — InfiniteMode 단일화와 Stage Mode 접근 제거.
 
-계획 확정일: 2026-11-11. **Phase 1~3 완료**다. Phase 2는 2026-11-17, Phase 3 Step 1~11은 2026-11-18 완료했다. Phase 3의 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고를 최종 정적/로컬 검증에 연결했다. Phase 4와 Roadmap 9 전체는 미완료다.
+계획 확정일: 2026-11-11. **Phase 1~4 / Roadmap 9 완료(2026-11-18).** Phase 3 Compile/1031·316 사용자 성공 보고·정적/오프라인 검증과 최신 Windows-production Candidate02 빌드/Player 정상 보고를 연결해 사용자 한정 QA 전환 후보로 판정했다. 최신 실제 원격 제출/조회·이전/복구와 별도 Player 로그 원문은 미검증/미제공이며 공개/Steam 승인은 포함하지 않는다.
 선행: [Roadmap 8](IMPLEMENTATION_ROADMAP_008.md) 완료 후 순차 착수한다.
 공통 순서·승인/검증 경계는 [로드맵 안내](README.md)를 따른다.
 
@@ -79,7 +79,7 @@ Stage 기록 보관/이관·Pending 호환은 고려 대상에서 제외한다. 
 
 ## Phase 3. Stage 기록 접근 차단과 Infinite 기록 보존
 
-2026-11-17 사용자 확인으로 Leaderboard의 Stage 접근 제거도 전체 목표에 포함됨을 재확정했다. Phase 2 Step 7 인계 중 Stage 탭 비활성·Navigation/선택 거절·Main Menu/Result의 Infinite 진입·사용자 조회의 Infinite Board 고정을 선행 반영했다. 변경 후 사용자 Compile·Scene 적용과 AI 정적 확인은 완료했고 사용자 최신 EditMode 919개/PlayMode 288개 전체 통과를 보고받았다. Phase 3 전체(Repository/제출 후보/직접 제출/도구 경로)는 아직 완료하지 않았다.
+2026-11-17 사용자 확인으로 Leaderboard의 Stage 접근 제거도 전체 목표에 포함됨을 재확정했다. Phase 2 Step 7 인계 중 Stage 탭 비활성·Navigation/선택 거절·Main Menu/Result의 Infinite 진입·사용자 조회의 Infinite Board 고정을 선행 반영했다. 변경 후 사용자 Compile·Scene 적용과 AI 정적 확인은 완료했고 사용자 최신 EditMode 919개/PlayMode 288개 전체 통과를 보고받았다. 이는 선행 반영 당시 범위다. 후속 Phase 3 전체와 Phase 4 QA 후보 판정은 아래 완료 근거를 따른다.
 
 ### 목표
 
@@ -99,7 +99,7 @@ Stage 기록 보관/이관·Pending 호환은 고려 대상에서 제외한다. 
 
 ### 상태
 
-완료 — 2026-11-18. Phase 3 Task Step 1~11의 기록/Editor/UI 경계·Infinite 저장/수명/이전·전체 snapshot 보존과 최종 정적/로컬 16스크립트 통과를 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고에 연결했다. 추가 Scene 적용·서버/Module 변경은 없다. 실제 Player 통합 후보 확인은 Phase 4에 남아 있다.
+완료 — 2026-11-18. Phase 3 Task Step 1~11의 기록/Editor/UI 경계·Infinite 저장/수명/이전·전체 snapshot 보존과 최종 정적/로컬 16스크립트 통과를 사용자 최신 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 및 각 예상 밖 Error/Warning 없음 보고에 연결했다. 추가 Scene 적용·서버/Module 변경은 없다. 후속 Player 통합 후보/잔여 한계 판정은 완료된 Phase 4 Task를 따른다.
 
 ## Phase 4. 통합 회귀와 전환 후보 판정
 
@@ -121,20 +121,19 @@ Stage 기록 보관/이관·Pending 호환은 고려 대상에서 제외한다. 
 
 ### 상태
 
-실행 절차 작성 완료 — [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)에 정적 감사·회귀 Test 공백/오프라인 검증·필요한 사용자 Unity 실행·최신 Player 후보·온라인 증거 구분/최종 판정을 Step 1~10으로 정리했다. 실제 Step 실행은 미착수이며 Phase 4는 미완료다.
+완료 — 2026-11-18. [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md) Step 1~10의 기준선/호출망·직렬화/회귀 공백 대조·16스크립트 exit 0·동일 조건 Compile/1031·316 재사용과 사용자 최신 빌드/Player 6항목 정상 보고를 최종 조건에 연결했다. 추가 코드/Test/Scene 수정·서버/자료 변경 없이 사용자 한정 QA 전환 후보로 판정했다. 원격/복구·로그 원문 한계와 차기 실제 Module 복구 시험 의무는 유지한다.
 
 # 현재 개발 진행 상태
 
 ## 진행 중인 작업
 
-Phase 1~3 완료. Phase 2의 919/288·Windows-production Candidate02는 당시 기준선이며 Phase 3의 최신 사용자 Compile 성공·EditMode 1031/1031·PlayMode 316/316 성공 보고와 구분한다. Phase 4의 최신 Player 통합 후보 검증/판정은 미완료다.
+없음. Phase 1~4/Roadmap 9 완료. 최종 후보는 Windows-production `Build/ProductionQA/Candidate02/Unity_Flow_State.exe`, 사용자 2026-11-18 15:55 KST 빌드다. Phase 2의 과거 후보/919·288과 Phase 3의 Compile/1031·316, Phase 4의 실제 빌드/Player 보고를 구분한다. 세부 근거·한계는 Phase 4 Task 10-1~10-3을 따른다.
 
 ## 다음 작업
 
-[Phase 2 수동 작업 절차](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)를 작성했다.
-[Phase 3 실행 절차](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md) Step 1~11 완료(2026-11-18). 다음은 **Phase 4 최신 Player 통합 후보 검증/판정**이며 구체적 잔여 범위는 Task 11-2에 기록했다. 사용자 최신 Compile/1031·316 성공 보고 이후 코드/Test/Scene을 추가 수정하지 않았다. AI가 Unity를 실행하거나 제공되지 않은 XML/Console 원문을 검토한 것으로 기록하지 않는다. Phase 2 Candidate02는 Phase 3 최신 소스를 대표하지 않으며 후보 경로/덮어쓰기·보존은 사용자의 최신 지시를 따른다.
+[Roadmap 10](IMPLEMENTATION_ROADMAP_010.md) Phase 1의 Thirdparty 원본·프로젝트 소유 자료 경계 조사/세부 작업 준비로 인계한다. Roadmap 10은 아직 구현 미착수다. 추가 Unity/빌드/Player 반복 확인이나 원격 변경은 요구하지 않는다.
 
-Phase 4의 실제 실행 순서는 [20261118_01_Phase4ManualSteps.md](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다. 다음은 Step 1 기준선/필수 증거 확정이며 문서 작성 완료를 구현/Runner·빌드/Player 성공으로 해석하지 않는다.
+최신 후보/검증 범위·미검증 원격/로그 및 남은 실제 Module 복구 의무는 [Phase 4 Task 10-3~10-4](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)를 따른다. QA 후보 완료를 일반 공개/Steam 승인·실제 원격 보존/복구 성공으로 확대하지 않는다.
 
 ## 보류된 작업
 
@@ -143,7 +142,7 @@ Pattern 연결·난이도·위험 보상 개선은 Roadmap 9~14 범위 밖으로
 
 ## 완료된 단계
 
-Phase 1 완료(2026-11-11), Phase 2 완료(2026-11-17, Step 1~10), Phase 3 완료(2026-11-18, Step 1~11). Phase 4와 Roadmap 9 전체는 미완료다.
+Phase 1 완료(2026-11-11), Phase 2 완료(2026-11-17, Step 1~10), Phase 3 완료(2026-11-18, Step 1~11), Phase 4 완료(2026-11-18, Step 1~10). Roadmap 9 전체 완료이며 범위/한계를 기록한 사용자 한정 QA 후보 판정이다.
 
 # 구현 우선순위
 
