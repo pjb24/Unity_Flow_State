@@ -36,6 +36,8 @@ PROJECT_OVERVIEW.md
 ARCHITECTURE.md
 
 PROJECT_MEMORY.md
+
+ASSET_DEPENDENCIES.md
 ```
 
 ---
@@ -79,6 +81,8 @@ PROJECT_MEMORY.md
 ---
 
 # 문서 확인 순서
+
+외부 애셋/의존성 작업에서는 [ASSET_DEPENDENCIES.md](ASSET_DEPENDENCIES.md)를 추가 확인한다. 현재 제품 기록·사용처/경계·상태를 관리하며 규칙은 Rules, 빈 형식은 Templates, 상세 이력은 Tasks에서 관리한다.
 
 새로운 작업을 시작하는 경우 아래 순서로 문서를 확인한다.
 

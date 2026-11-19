@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "mode": "preservation-only",
+  "purpose": "Step 8 applicability assessment of existing preservation defaults; not a user answer or use/exclusion approval",
+  "adoptedThirdPartyAssets": 0,
+  "userInputRequired": false,
+  "userAnswers": [],
+  "decisionAuthority": "existing user scope (future management; no new asset adoption) and recorded preservation rule; no new policy preference attributed to user",
+  "phase1ExclusionCandidates": [],
+  "requestedGitChanges": [],
+  "requestedAssetChanges": [],
+  "rightsClearance": false,
+  "phase1Complete": false,
+  "evidence": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_01_Phase1Step5Provenance.json",
+      "sha256": "4ff1ca2daced6cc584a47fc2d7a8263b93de0ec3eba5a851d491dad0604057c7"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261118_02_Phase1Step4References.json",
+      "sha256": "2f99432e40f21db40f626d389a26deaa5b5def472c65ce0eaf69ebface7b7a0b"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_02_Phase1Step7Check.json",
+      "sha256": "6eea4c0faa4bc5161ef649c8c67327c8ad5b1aaa4c07d8f83bc58eae7929587d"
+    },
+    {
+      "path": "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "sha256": "1b53c7f32395a53c9ae88025d12d764b9b796e01d056f3d9f0f4d8247bd6c892"
+    }
+  ],
+  "subjects": [
+    {
+      "id": "modified-tmp-fonts",
+      "targets": [
+        "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+        "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+      ],
+      "known": "two byte-changed font assets; same local distribution meta/GUID; already ignored",
+      "missing": "author/intent and validated reproduction or separate preservation implementation",
+      "boundary": "retain current files, do not discard/reimport/convert ownership; not an exclusion candidate",
+      "classificationInput": {
+        "kind": "modified",
+        "sourceVerified": true,
+        "rightsVerified": false,
+        "metaReproducible": true,
+        "importReproducible": false
+      },
+      "requiresNewUserDecision": false,
+      "reason": "preserving existing content does not depend on whether modification was intentional; no destructive/exclusion choice is proposed",
+      "next": "Phase 2 preserve/reapply with evidence; ask only if an actual implementation tradeoff needs owner choice"
+    },
+    {
+      "id": "legacy-emojione",
+      "targets": [
+        "Assets/TextMesh Pro/Sprites/EmojiOne.png",
+        "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+        "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset"
+      ],
+      "known": "local provider/attribution present; exact legacy license/version unresolved",
+      "missing": "version-specific provider use/change/distribution evidence",
+      "boundary": "preserve current baseline; hold new adoption/redistribution decision until evidence exists",
+      "classificationInput": {
+        "kind": "unknown",
+        "sourceVerified": false,
+        "rightsVerified": false,
+        "metaReproducible": true,
+        "importReproducible": false
+      },
+      "requiresNewUserDecision": false,
+      "reason": "no current new acquisition/publishing or removal requested; user receipts cannot be inferred or required for metadata policy preparation",
+      "next": "actual adoption/distribution gate; revisit only if needed for Phase 2/3 scope"
+    },
+    {
+      "id": "tmp-project-connection-role",
+      "targets": [
+        "Assets/TextMesh Pro/Resources/TMP Settings.asset"
+      ],
+      "known": "matches local distribution bytes but configures font/sprite/resource paths used by project",
+      "missing": "fresh-environment importer/type/loading validation",
+      "boundary": "preserve current settings/GUID/resource names and reapplication obligation; no relocation now",
+      "classificationInput": {
+        "kind": "unknown",
+        "projectSettings": true,
+        "sourceVerified": true,
+        "rightsVerified": false,
+        "metaReproducible": true,
+        "importReproducible": false
+      },
+      "requiresNewUserDecision": false,
+      "reason": "existing rule already preserves connection settings independent of folder location",
+      "next": "Step 9 actual-interpretation need; Phase 2 procedure / Phase 3 independent restoration"
+    },
+    {
+      "id": "auxiliary-package-conditions",
+      "targets": [
+        "Packages/manifest.json",
+        "Packages/packages-lock.json",
+        "package.json",
+        "package-lock.json",
+        "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+        "UGS/LogSink/package.json"
+      ],
+      "known": "declarations and exact provider/version metadata; some license/feed/portable path evidence incomplete",
+      "missing": "user Engine/service entitlement, some NuGet license bodies/resolved graph, portable cache/archive restoration",
+      "boundary": "retain declarations/server inputs and evidence; do not infer rights or execute deployment",
+      "classificationInput": {
+        "kind": "unknown",
+        "sourceVerified": true,
+        "rightsVerified": false,
+        "metaReproducible": false,
+        "importReproducible": false
+      },
+      "requiresNewUserDecision": false,
+      "reason": "retention of declarations is existing boundary; no current server packaging/service change or Unity raw-asset exclusion requested",
+      "next": "reacquisition/packaging/license checks before corresponding actual Phase 2/3 action"
+    },
+    {
+      "id": "future-asset-admission",
+      "targets": [],
+      "known": "no adopted Third Party asset entries; registration/template and independent states exist",
+      "missing": "product-specific evidence will exist only when a real candidate is selected",
+      "boundary": "leave product register empty; require registration/conditions/GUID/import evidence before adoption",
+      "classificationInput": {
+        "kind": "unknown",
+        "sourceVerified": false,
+        "rightsVerified": false,
+        "metaReproducible": false,
+        "importReproducible": false
+      },
+      "requiresNewUserDecision": false,
+      "reason": "do not invent a product, license, purchase or operator choice to finish a preparation step",
+      "next": "register real candidate and resolve only its required information before actual adoption"
+    }
+  ],
+  "nonPolicyFollowup": {
+    "step9": "URP 11 distinct GUIDs/15 occurrences + TMP graph 1 distinct texture GUID/16 occurrences and package sample orphan; not a new user licensing/preservation preference",
+    "phase2": "actual tracked/raw source exclusion and preservation/reapplication procedure",
+    "phase3": "independent restore; current policy replay is not restore success"
+  },
+  "reassessmentTriggers": [
+    "a real candidate acquisition/adoption",
+    "proposed original modification/discard or Git exclusion affecting unknown content",
+    "license-based redistribution/packaging action",
+    "restore implementation requires choosing among preservation options"
+  ],
+  "completionReason": "required current boundary is preservation with no requested exclusion; unresolved rights/reproduction remain explicitly separate, not silently approved"
+}

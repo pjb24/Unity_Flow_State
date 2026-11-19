@@ -1,6 +1,6 @@
 # Project Memory
 
-최종 정리: 2026-11-18
+최종 정리: 2026-11-19
 
 현재 작업에 필요한 상태·사용자 결정·핵심 계약·남은 의무를 유지한다. 상세 규칙은 Rule/Feature/System, 실행 과정과 검증 근거는 Task/Roadmap을 따른다.
 정리 전 이력은 [원문 보관본](../90_Tasks/20261117_02_ProjectMemoryCleanup.md)에 보존했다. 보관본의 과거 대기/다음 작업 문구를 현재 지시로 사용하지 않는다.
@@ -8,7 +8,7 @@
 ## 현재 진행 상태
 
 - **Prototype 9 / Roadmap 9 Phase 1~4 완료(2026-11-18).** [Phase 4 Task Step 10](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)의 완료 표에 Compile/1031·316 사용자 성공·16스크립트 exit 0과 최신 Windows-production Candidate02 빌드/Player 6항목 정상 보고를 연결했다. 최종 후보는 `Build/ProductionQA/Candidate02/Unity_Flow_State.exe`의 사용자 2026-11-18 15:55 KST 빌드다. 추가 코드/Test/Scene 수정·재실행 없이 사용자 한정 QA 전환 후보로 완료했으며 일반 공개/Steam 승인은 아니다. 최신 실제 원격 제출/조회·이전/복구·별도 Player 로그 원문 한계와 다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다. AI는 Unity/빌드/Player·원격을 실행하지 않았다.
-- **다음 작업:** [Prototype 10 Phase 1 Task](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md) Step 1 기준선/범위 확정. 실행 절차 문서만 작성했으며 Step 1~10과 Roadmap 10 구현/복원은 미착수다. 실제 목록/추적·의존성/출처·GUID/파생/meta 경계와 정적 도구/Unit Test·필요 사용자 확인을 순서대로 대조한다. 현재 사용자 수동 작업은 없다. 현재 추적 제외는 Phase 2, 독립 복원은 Phase 3이며 원본/라이선스 삭제·Git 이력 재작성/구매/공개는 이 문서로 승인하지 않는다.
+- **다음 작업:** [Prototype 10 Phase 2 Task](../90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md) Step 1 기준선/허용 변경 범위 확정. 실행 절차 문서만 작성했으며 Step 1~10/Phase 2·3 실제 실행은 미착수다. Phase 1 완료 근거·현재 도입/제외 후보 0개·기록/규칙·TMP 변경본/조건 미확인 보존과 실제 적용/복원 전 gate를 인계한다. 정책 포함 Unit Test 55개/기존 inventory exit 1은 선행 근거이며 Phase 2 통과로 승계하지 않는다. 사용자 수동 작업은 현재 없다. 실제 원본 제외/독립 복원과 Roadmap 10 전체는 미완료다.
 - Phase 2 최신 사용자 검증은 **EditMode 919개 / PlayMode 288개 전체 통과**다. Windows-production으로 `Build/ProductionQA/Candidate02/`에 덮어쓴 최신 Player의 기존 기능·Pause Retry 확인·메뉴 복귀·UI/포커스/로그 정상 범위를 보고받았다. [최종 근거](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)
 - 이전 Candidate02 실물 보존은 사용자가 불필요하다고 결정했다. 같은 경로의 최신 빌드가 현재 기준선이다. 이 결과를 이후 Phase 3 변경의 통과로 승계하지 않는다. AI가 Runner/빌드/Player를 실행하거나 로그/XML을 직접 검증했다고 기록하지 않는다.
 
@@ -57,6 +57,8 @@
 - 근거: [Prototype 8 Phase 4 운영 기반](../90_Tasks/Prototype_8/20261007_09_Phase4ManualSteps.md), [Phase 5 최종 판정·예외/복구 의무](../90_Tasks/Prototype_8/20261021_01_Phase5ManualSteps.md), [검증 배포 문서](../../UGS/VERIFICATION_DEPLOYMENT.md).
 
 ## 후속 Roadmap의 확정 순서
+
+- 2026-11-18 사용자 확정: 현재 사용 중인 Third Party 애셋은 없으며 Roadmap 10은 향후 도입 애셋의 관리 방안을 마련한다. 기존 UPM/TMP는 기술적 기준선으로 구분한다. Phase 1 Step 6에서 출처·라이선스·복사/수정·게임 사용처·Git/복원 정보를 계속 기록할 형식·위치·갱신 기준을 마련했다. 실제 기록은 ASSET_DEPENDENCIES.md, 형식은 Templates, 규칙은 Implementation Rule을 따른다. 실제 애셋 도입/구매는 이 준비 작업의 착수 조건이 아니다.
 
 - [Roadmap 9~14 안내](../04_Implementation_Roadmap/README.md)의 여섯 문서를 분리 유지하고 번호 순서대로 진행한다.
 - 9 Infinite 단일화/Stage 접근 제거 → 10 Thirdparty 원본 비추적·의존성/복원 체계 → 11 플레이어 피드백 → 12 캐릭터 그래픽/동작 → 13 맵 그래픽/가독성 → 14 UI 스타일 통합이다.

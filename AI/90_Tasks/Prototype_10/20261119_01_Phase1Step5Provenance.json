@@ -1,0 +1,2662 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Step 5 provenance/change/license evidence for future asset-management policy; no purchased/adopted asset register entries fabricated",
+  "userPremise": "no currently adopted Third Party assets; UPM/TMP/auxiliary packages are technical baselines",
+  "initialGit": {
+    "head": "8e2c6e9588161bbfd7b57cca18343c378a018337",
+    "indexSha256": "4a8bd75fbe5e93cd73c3f7cee5957310859c648cc15557d67e6e016523504a31",
+    "statusPorcelainV1Nul": " M AI/00_Project/PROJECT_MEMORY.md\u0000 M AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md\u0000 M AI/04_Implementation_Roadmap/README.md\u0000 M AI/90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md\u0000?? AI/90_Tasks/Prototype_10/20261118_02_Phase1Step1Baseline.json\u0000?? AI/90_Tasks/Prototype_10/20261118_02_Phase1Step2Inventory.json\u0000?? AI/90_Tasks/Prototype_10/20261118_02_Phase1Step3Dependencies.json\u0000?? AI/90_Tasks/Prototype_10/20261118_02_Phase1Step4References.json\u0000"
+  },
+  "inputEvidence": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261118_02_Phase1Step1Baseline.json",
+      "sha256": "2e4f0ca5552a61688c27000cbba0e1037cd01c158c305e3711836cffade73029"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261118_02_Phase1Step3Dependencies.json",
+      "sha256": "8db2ad655d1caa8bf1e098f22d5d25b73f769148ec2c11a6c00d32181a2e0ca4"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261118_02_Phase1Step4References.json",
+      "sha256": "2f99432e40f21db40f626d389a26deaa5b5def472c65ce0eaf69ebface7b7a0b"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+      "sha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48"
+    },
+    {
+      "path": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+      "sha256": "4b65f8960e4f4c5c8b35fd139e369265e9bb45667fc16461b2ba01188d464d93"
+    }
+  ],
+  "upmPackages": [
+    {
+      "id": "com.unity.burst",
+      "version": "1.8.27",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.burst@973857688024/LICENSE.md",
+          "sha256": "9bd567d6de754ab7396a8e3022758c617b78d7115bf1585bdb29ae0de464d059",
+          "bytes": 574,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.burst@973857688024/Third Party Notices.md",
+          "sha256": "01b366462da89d104fc7db01309b69de07cee05400ec429e2ea9e4c23fa5f085",
+          "bytes": 29559,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.cinemachine",
+      "version": "3.1.7",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.cinemachine@f3f96bcb59af/LICENSE.md",
+          "sha256": "d230a6127c9f61f68e34821e6cfb7f2e72a7d1dfe523a5e6da89e37ca5f9fa07",
+          "bytes": 467,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.cinemachine@f3f96bcb59af/Third Party Notices.md",
+          "sha256": "b1d297db15dea9d4ba6f6c8487f3469677b1b27e615267092634e6e89c75fb4a",
+          "bytes": 1539,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.cinemachine@f3f96bcb59af/license.txt",
+          "sha256": "46ba23bc2197fa1c7ff5e35c2a5bb04861cdb6ac76a7b9197d776a30e56a3595",
+          "bytes": 5725,
+          "kind": "license",
+          "declaredFamily": "Unity Companion Cinemachine Code License 1.0",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.collections",
+      "version": "2.6.2",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.collections@aea9d3bd5e19/LICENSE.md",
+          "sha256": "4947f647c031b0fec440237f8136386a606dd998089bb1df67316ee693f568f5",
+          "bytes": 448,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.ext.nunit",
+      "version": "2.0.5",
+      "source": "builtin",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.ext.nunit@d8c07649098d/LICENSE.md",
+          "sha256": "ea14f98ba99afcc079ec2a8a6c38461b5bc4ca3d184aa87ad7c60de9134c4d43",
+          "bytes": 433,
+          "kind": "license",
+          "declaredFamily": "Unity Package Distribution License",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.ext.nunit@d8c07649098d/Third Party Notices.md",
+          "sha256": "ef37b1ccbae5e9b641482cbd77a74ee96193a39d232cc8d856b9044f37db9244",
+          "bytes": 1249,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.ide.rider",
+      "version": "3.0.38",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.ide.rider@1f60b3138684/LICENSE.md",
+          "sha256": "49d8e39c5ba9fa2e7b8403d994162ffc49dc7a366b0691fdfa4c06bbaadc4d81",
+          "bytes": 1193,
+          "kind": "license",
+          "declaredFamily": "MIT-text declaration",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.ide.visualstudio",
+      "version": "2.0.27",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.ide.visualstudio@dc1ddd4f09b6/LICENSE.md",
+          "sha256": "af294e2812515c3569252d3ca7e2cb2519d82572df764529ac45ca72359e4995",
+          "bytes": 1178,
+          "kind": "license",
+          "declaredFamily": "MIT-text declaration",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.ide.visualstudio@dc1ddd4f09b6/ThirdPartyNotices.md",
+          "sha256": "08f3213e8b9842a65a58bcc6893a9eedcfb47bb74c89c5764627b7cc3e1a2763",
+          "bytes": 1940,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.inputsystem",
+      "version": "1.17.0",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.inputsystem@02433b2481ab/LICENSE.md",
+          "sha256": "419718e59cd6c1f9c3ed80bd004394504bed368c23ad8665cce1792a33c8a02c",
+          "bytes": 510,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.mathematics",
+      "version": "1.3.3",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.mathematics@19a9377c4ffa/LICENSE.md",
+          "sha256": "5b1a26ff2ca6e6e7d9fd2b6df151e1a43c671fdf49c05dcee1227f20dcf25fde",
+          "bytes": 450,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.modules.accessibility",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.adaptiveperformance",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.ai",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.androidjni",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.animation",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.assetbundle",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.audio",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.cloth",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.director",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.hierarchycore",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.imageconversion",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.imgui",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.jsonserialize",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.particlesystem",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.physics",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.physics2d",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.screencapture",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.subsystems",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.terrain",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.terrainphysics",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.tilemap",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.ui",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.uielements",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.umbra",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.unityanalytics",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.unitywebrequest",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.unitywebrequestassetbundle",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.unitywebrequestaudio",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.unitywebrequesttexture",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.unitywebrequestwww",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.vectorgraphics",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.vehicles",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.video",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.modules.wind",
+      "version": "1.0.0",
+      "source": "builtin",
+      "evidence": [],
+      "status": "no root license file found; Editor/module terms require provider evidence, not a new license inferred",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.nuget.mono-cecil",
+      "version": "1.11.6",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/LICENSE.md",
+          "sha256": "76101254034fbea9afc4169e98ce15382b0f130e3bf15e7da1ca599d940e1cda",
+          "bytes": 486,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Third Party Notices.md",
+          "sha256": "99966d24b32096a2a1963d9ccec993cf1c729fafd359179ee727762b2dd2b4ba",
+          "bytes": 1277,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.nuget.newtonsoft-json",
+      "version": "3.2.2",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/LICENSE.md",
+          "sha256": "a5177bfecfea04d225e4a26a631db86721a03b4080350867847e71dc26b44f85",
+          "bytes": 481,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/Third Party Notices.md",
+          "sha256": "f07d2ea4af53fd1c9800b345bb4fbfa3ab0181d8c87625d6c265cd65142df097",
+          "bytes": 4719,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.render-pipelines.core",
+      "version": "17.3.0",
+      "source": "builtin",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.render-pipelines.core@ce614113b3ba/LICENSE.md",
+          "sha256": "39691adc5fdaf614d951f53637e22501baf46fcc535a69ab8a21ebaa8b9e9cb4",
+          "bytes": 491,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.render-pipelines.core@ce614113b3ba/THIRD PARTY NOTICES.md",
+          "sha256": "fdfacc9a242bda05b26eace324033b467b7d70e83a2761cd03337b612affc339",
+          "bytes": 3587,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.render-pipelines.universal",
+      "version": "17.3.0",
+      "source": "builtin",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/LICENSE.md",
+          "sha256": "4be520a425e06c8de56fa8aee1ce957cfe610406456278172a2d18b7c388c2cf",
+          "bytes": 496,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Third Party Notices.md",
+          "sha256": "0652509dfc81a1a3d9e037e59bd047b305155fc5c4abeef69e2fc078488035fd",
+          "bytes": 1794,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.render-pipelines.universal-config",
+      "version": "17.0.3",
+      "source": "builtin",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d/LICENSE.md",
+          "sha256": "fa2dcbc8ff967f49342c6c61854909ba4bbcc70b27f07d25538b8eaf7be5be3c",
+          "bytes": 503,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.searcher",
+      "version": "4.9.4",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.searcher@d45a78918735/LICENSE.md",
+          "sha256": "9086cf20ede8c45e5c1fec53884c852459e55681f3bb88ada7c8850a975d6854",
+          "bytes": 5842,
+          "kind": "license",
+          "declaredFamily": "Unity Companion Package License v1.0",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.services.authentication",
+      "version": "3.8.0",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.services.authentication@6613d5ec6ae8/LICENSE.md",
+          "sha256": "3fc2121cb513394f8fe3cfc56956b5cd1a647d7d03d0f38880304e254ee1106e",
+          "bytes": 515,
+          "kind": "license",
+          "declaredFamily": "Unity Terms of Service referenced",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.authentication@6613d5ec6ae8/Third Party Notices.md",
+          "sha256": "b784d8059bdca4d04d4a1171030330a9244a4e7d03c56879e868c6a7f466af18",
+          "bytes": 2871,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.services.cloudcode",
+      "version": "2.10.4",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/LICENSE.md",
+          "sha256": "3944ca1ab59df27b8d8a9a0e523ae6dbac123a4fa8c41d9669443df1602ceb4d",
+          "bytes": 508,
+          "kind": "license",
+          "declaredFamily": "Unity Terms of Service referenced",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/Third Party Notices.md",
+          "sha256": "c75d4e1eb1d060585ef6ac289530a337feca11ddac53c7d0d457b4513ca05432",
+          "bytes": 1293,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.services.core",
+      "version": "1.18.0",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.services.core@3464cb68d709/LICENSE.md",
+          "sha256": "4d420941694555cbb3309715dd852d78f18daea5e5a758f39433d7070ffefb62",
+          "bytes": 505,
+          "kind": "license",
+          "declaredFamily": "Unity Terms of Service referenced",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.services.deployment",
+      "version": "1.6.2",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.services.deployment@3b0f19f59670/LICENSE.md",
+          "sha256": "ce7d44ea0c33d23113ad3062f5aad9d21487f539b1ba442ba48f00cb3e96ff9d",
+          "bytes": 510,
+          "kind": "license",
+          "declaredFamily": "Unity Terms of Service referenced",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.deployment@3b0f19f59670/Third Party Notices.md",
+          "sha256": "5f251da912d8614147f50c0f56438995a301bd15779bdc59e867f040b6c34bf7",
+          "bytes": 1322,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.services.deployment.api",
+      "version": "1.1.3",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.services.deployment.api@9becf6da0f1a/LICENSE.md",
+          "sha256": "e3b65b52943f53c647bc2e3a667399c2a43367c5e0141c56b575f4fe46a65b79",
+          "bytes": 514,
+          "kind": "license",
+          "declaredFamily": "Unity Terms of Service referenced",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.services.wire",
+      "version": "1.4.1",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.services.wire@9a73acde80cc/LICENSE.md",
+          "sha256": "e488cf7084c094613e70ade7a4bf3f1f309ad29c6391c88aa265dcd45be39033",
+          "bytes": 510,
+          "kind": "license",
+          "declaredFamily": "Unity Terms of Service referenced",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.wire@9a73acde80cc/Third Party Notices.md",
+          "sha256": "2dfe4f3de7987f1926ba050166479054d66f49cf8bccfa47992a3abe0f84fb0a",
+          "bytes": 2133,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.settings-manager",
+      "version": "2.1.1",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.settings-manager@0b8638c5ce86/LICENSE.md",
+          "sha256": "a3e5f04ac956baf993de51da35968ce8721ad3684952ce0160e1af1e7bda5739",
+          "bytes": 485,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.shadergraph",
+      "version": "17.3.0",
+      "source": "builtin",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.shadergraph@ea01319cfd98/LICENSE.md",
+          "sha256": "364b0c08b7fe15b70c4777dccb26fc21d02ae831c2f707dbe29879ac15ece353",
+          "bytes": 481,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.splines",
+      "version": "2.8.2",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.splines@1cb7d86fc7ff/LICENSE.md",
+          "sha256": "1de0a79eecd1732049e1110216f1ad735fec4e965a8a7b2fd2e63e339cbfb6c1",
+          "bytes": 467,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.test-framework",
+      "version": "1.6.0",
+      "source": "builtin",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/LICENSE.md",
+          "sha256": "d3b09e9683afbc8d468a83000308f18e7133eaf7879af870747000a66e3c0693",
+          "bytes": 475,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    },
+    {
+      "id": "com.unity.test-framework.performance",
+      "version": "3.2.0",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.test-framework.performance@0840f58e4562/LICENSE.md",
+          "sha256": "202adffac8b9d21d3b148a294d241894f3bcef85724c01b6a0bd52269a3798c8",
+          "bytes": 496,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.test-framework.performance@0840f58e4562/Third Party Notices.md",
+          "sha256": "361cdb83b8f7c4868ad5c61d8014ab423d9229919219f77bae1eb36084e0227a",
+          "bytes": 1317,
+          "kind": "third-party-notice",
+          "declaredFamily": "per-component obligations; not replaced by parent package license",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.timeline",
+      "version": "1.8.12",
+      "source": "registry",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.timeline@8cd8509afae5/LICENSE.md",
+          "sha256": "73111ef76bd8a502c29b167865620de787af612b5f0ba6b3a517ade3b9519853",
+          "bytes": 464,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": "https://packages.unity.com",
+        "evidence": "packages-lock.json url",
+        "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+      }
+    },
+    {
+      "id": "com.unity.ugui",
+      "version": "2.0.0",
+      "source": "builtin",
+      "evidence": [
+        {
+          "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/LICENSE.md",
+          "sha256": "a8e0cae87b2edb8c205ae6c308f20b89a09f32d62bd4a3ff0343bb4724a4201e",
+          "bytes": 457,
+          "kind": "license",
+          "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+          "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+        }
+      ],
+      "status": "local evidence indexed; not legal/entitlement clearance",
+      "reacquisition": {
+        "location": null,
+        "evidence": "packages-lock.json source=builtin",
+        "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+      }
+    }
+  ],
+  "tmp": {
+    "provider": "com.unity.ugui@2.0.0",
+    "licenseEvidence": [
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+        "sha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+        "sha256": "4b65f8960e4f4c5c8b35fd139e369265e9bb45667fc16461b2ba01188d464d93"
+      }
+    ],
+    "conditions": [
+      {
+        "component": "uGUI/TMP package",
+        "license": "Unity Companion License referenced in local LICENSE.md",
+        "source": [
+          {
+            "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/LICENSE.md",
+            "sha256": "a8e0cae87b2edb8c205ae6c308f20b89a09f32d62bd4a3ff0343bb4724a4201e",
+            "bytes": 457,
+            "kind": "license",
+            "declaredFamily": "Unity Companion License (local version not inferred from current web version)",
+            "conditionsStatus": "evidence marker only; per-version terms and bundled notices must be retained; entitlement not established"
+          }
+        ],
+        "summary": "retain supplied terms/notices; evaluate exact supplied version; current official UCL v1.4 does not retroactively establish local version or user Engine license"
+      },
+      {
+        "component": "LiberationSans.ttf and font-derived assets",
+        "license": "SIL Open Font License 1.1 declared",
+        "source": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+        "summary": "record copyright/license retention, font-only sale restriction and Reserved Font Name rules for modified fonts; do not conclude that a byte-changed font atlas is legally a renamed/cleared derivative",
+        "status": "local declared license verified; modification treatment/packaging not yet determined"
+      },
+      {
+        "component": "EmojiOne sprite sample",
+        "license": null,
+        "source": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+        "summary": "attribution redirects to vendor website without specifying version/license grant; current emojione.com redirects to JoyPixels. Do not apply current JoyPixels terms retroactively to legacy sample",
+        "status": "unresolved; preserve/hold rights conclusion pending provider/version evidence"
+      }
+    ],
+    "classification": [
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+        "sha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48",
+        "originalSha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta",
+        "sha256": "5dbec32c014c17d94674af5f1494d49b42ba00edd50397f895f088c868ccbf86",
+        "originalSha256": "5dbec32c014c17d94674af5f1494d49b42ba00edd50397f895f088c868ccbf86",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+        "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49",
+        "originalSha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta",
+        "sha256": "e2e35a015703584fb119355fa02631764d111c3e112d32519801d46bd697b596",
+        "originalSha256": "e2e35a015703584fb119355fa02631764d111c3e112d32519801d46bd697b596",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts.meta",
+        "sha256": "11e80153fa39b86efadb8917ecde12a0402fe0729f2c88f6f8d1999f3fb04748",
+        "originalSha256": "11e80153fa39b86efadb8917ecde12a0402fe0729f2c88f6f8d1999f3fb04748",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+        "sha256": "b6b65c34e4907dd3006c2217fc8a4cef81b6da24df0a3de8e2288199eb6c5a9d",
+        "originalSha256": "b6b65c34e4907dd3006c2217fc8a4cef81b6da24df0a3de8e2288199eb6c5a9d",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta",
+        "sha256": "ef2eee63b288d47823da38109e3e8c879f4717a82dc662ac2d5e2460dacde698",
+        "originalSha256": "ef2eee63b288d47823da38109e3e8c879f4717a82dc662ac2d5e2460dacde698",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+        "sha256": "d63f8a5a5a7797fec144afab9ffb996c428cf9cdb4ae8f53cf434526c133c63b",
+        "originalSha256": "e2d77876f2b90d98ba2424f6fc32b1403ea701de8fd24a8fe8e571ecc3cdc10a",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "modified-from-local-distribution; cause/author/intent unknown",
+        "metaGuidMatches": null,
+        "action": "preserve; never auto-exclude/discard; define maintenance/reapplication in Steps 6/8 and Phase 2",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta",
+        "sha256": "d6d86504040cf6e736767fda9bdef494afb06d5304384243e2dd703eba3a4a3d",
+        "originalSha256": "d6d86504040cf6e736767fda9bdef494afb06d5304384243e2dd703eba3a4a3d",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+        "sha256": "25874340976d40e9f9e8abf731b7f32e5a478541dead9288140bd60c7a3287d9",
+        "originalSha256": "25874340976d40e9f9e8abf731b7f32e5a478541dead9288140bd60c7a3287d9",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta",
+        "sha256": "a8cf0ee9888a163e892368b4660b9c62a7375e7f8afdb8ee02e5c91ca1cdb355",
+        "originalSha256": "a8cf0ee9888a163e892368b4660b9c62a7375e7f8afdb8ee02e5c91ca1cdb355",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+        "sha256": "a44c806bbf6d3c87d080d14e6467859ce15c3e6744311f0fdfe2bcd3b69da2d7",
+        "originalSha256": "c3ff50e3133d989180b187748ffc67903f1fede099a5b85b4fcbd8cb6e8be958",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "modified-from-local-distribution; cause/author/intent unknown",
+        "metaGuidMatches": null,
+        "action": "preserve; never auto-exclude/discard; define maintenance/reapplication in Steps 6/8 and Phase 2",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta",
+        "sha256": "37233890984555987cb585551bc885069f2849a9b0d1c2191af073b9376aa10f",
+        "originalSha256": "37233890984555987cb585551bc885069f2849a9b0d1c2191af073b9376aa10f",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials.meta",
+        "sha256": "8917470a9265beb1ef55a28c6a3718eb12ec8004554499998cc345056247995f",
+        "originalSha256": "8917470a9265beb1ef55a28c6a3718eb12ec8004554499998cc345056247995f",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+        "sha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6",
+        "originalSha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+        "sha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490",
+        "originalSha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+        "sha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c",
+        "originalSha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+        "sha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4",
+        "originalSha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+        "sha256": "155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54",
+        "originalSha256": "155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta",
+        "sha256": "097525b164260b0fb34b4e0c73b3187c693f4dfe2991f475b5b416dbf07dfbbc",
+        "originalSha256": "097525b164260b0fb34b4e0c73b3187c693f4dfe2991f475b5b416dbf07dfbbc",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Sprite Assets.meta",
+        "sha256": "5605affac803b81f876f35577f075c9b7e5ea73cf812fdfcc74277bf0f40140e",
+        "originalSha256": "5605affac803b81f876f35577f075c9b7e5ea73cf812fdfcc74277bf0f40140e",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+        "sha256": "93e073cdb91b7e3d2fa31e2dd13626d7b9d2f327904ba8c3c2b97a3eecfbabac",
+        "originalSha256": "93e073cdb91b7e3d2fa31e2dd13626d7b9d2f327904ba8c3c2b97a3eecfbabac",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta",
+        "sha256": "b832663ca09ec7af8c8e816fd91a718b2af6c21ab4f126fa818871ad53bce763",
+        "originalSha256": "b832663ca09ec7af8c8e816fd91a718b2af6c21ab4f126fa818871ad53bce763",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Style Sheets.meta",
+        "sha256": "1fdf0423552f46284fb97894f36adcd34d32e595aaf5c7cf1ce38a2349faaf89",
+        "originalSha256": "1fdf0423552f46284fb97894f36adcd34d32e595aaf5c7cf1ce38a2349faaf89",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+        "sha256": "7be438062cdc296835a1258b68bcbeb8e9fdc4b01ea27c05a24a1074260f7424",
+        "originalSha256": "7be438062cdc296835a1258b68bcbeb8e9fdc4b01ea27c05a24a1074260f7424",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+        "sha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45",
+        "originalSha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources.meta",
+        "sha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805",
+        "originalSha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl",
+        "sha256": "88cf0f62e4000b71750c059d0886b19504cd1cf10f39bb61ddc11b77a882d417",
+        "originalSha256": "88cf0f62e4000b71750c059d0886b19504cd1cf10f39bb61ddc11b77a882d417",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl.meta",
+        "sha256": "e1d0c5347b3c55930759f5bc0985e11611a4b2ff22eef24523eb108687bd1642",
+        "originalSha256": "e1d0c5347b3c55930759f5bc0985e11611a4b2ff22eef24523eb108687bd1642",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader",
+        "sha256": "42892a52f22bdde6d482cf2da5f35e4b813063fc6fe42189eee5562080079494",
+        "originalSha256": "42892a52f22bdde6d482cf2da5f35e4b813063fc6fe42189eee5562080079494",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta",
+        "sha256": "91be1d5618a7da33c878e20cf2be3e13b897d4976c70bde0cda7a67dbd502cd2",
+        "originalSha256": "91be1d5618a7da33c878e20cf2be3e13b897d4976c70bde0cda7a67dbd502cd2",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader",
+        "sha256": "b50afc7edc8a710f8b4159149b2391e7238b5e4076cc0ea2119090ed29e13b4a",
+        "originalSha256": "b50afc7edc8a710f8b4159149b2391e7238b5e4076cc0ea2119090ed29e13b4a",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta",
+        "sha256": "7430f3e97ae1b46f34e1ca75508705bb7b944307c41dc568ea728011f327086d",
+        "originalSha256": "7430f3e97ae1b46f34e1ca75508705bb7b944307c41dc568ea728011f327086d",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader",
+        "sha256": "1d32f34c71276c1321aa0540a2410e15808743a38b2026923045a4dec4a79b58",
+        "originalSha256": "1d32f34c71276c1321aa0540a2410e15808743a38b2026923045a4dec4a79b58",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta",
+        "sha256": "3d462e6f8ba57f45dc5e6000020db066c36ed5a1a24f74f749727812373c2325",
+        "originalSha256": "3d462e6f8ba57f45dc5e6000020db066c36ed5a1a24f74f749727812373c2325",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader",
+        "sha256": "a0d318756cba0f95a7052c387e629d0add3e9a4125c8333f1d1ed591af5f17cb",
+        "originalSha256": "a0d318756cba0f95a7052c387e629d0add3e9a4125c8333f1d1ed591af5f17cb",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta",
+        "sha256": "fb8fc84b612e19c169cdf3596195b416e68d227a8987a0eaa90d8c137fb69797",
+        "originalSha256": "fb8fc84b612e19c169cdf3596195b416e68d227a8987a0eaa90d8c137fb69797",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader",
+        "sha256": "2a991951b00b0c052363a1025f655450054325437b3d13c2623a987c8ec77c30",
+        "originalSha256": "2a991951b00b0c052363a1025f655450054325437b3d13c2623a987c8ec77c30",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta",
+        "sha256": "bea74d576f181a8bb04b8cf02eedd0136540325ecb2824928a3aa52c75adcb13",
+        "originalSha256": "bea74d576f181a8bb04b8cf02eedd0136540325ecb2824928a3aa52c75adcb13",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+        "sha256": "bf68062f68b38b588abd1c354f64e905f824d9a2c47f92ebdd70a32989eb2097",
+        "originalSha256": "bf68062f68b38b588abd1c354f64e905f824d9a2c47f92ebdd70a32989eb2097",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph.meta",
+        "sha256": "d1b70558e8b974d918e13c010db6d375fef815ba530bc2421ab031aa3a784ee8",
+        "originalSha256": "d1b70558e8b974d918e13c010db6d375fef815ba530bc2421ab031aa3a784ee8",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+        "sha256": "8a969c2d775079cce4e1c45d5eb6d3964b27d44dc884178363050c74fd5e9742",
+        "originalSha256": "8a969c2d775079cce4e1c45d5eb6d3964b27d44dc884178363050c74fd5e9742",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph.meta",
+        "sha256": "8cd498ce8f6ed2e7c0560d605eb912455cd6fdaf09a4d545d9743f63b3426bd0",
+        "originalSha256": "8cd498ce8f6ed2e7c0560d605eb912455cd6fdaf09a4d545d9743f63b3426bd0",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader",
+        "sha256": "41cff58473557bf760d03513a8c098f43a24e4eeb4c8ccd7d828c045a338a9ed",
+        "originalSha256": "41cff58473557bf760d03513a8c098f43a24e4eeb4c8ccd7d828c045a338a9ed",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta",
+        "sha256": "3744d078f9a8b6d3c5d9bca51e43f9223544fcafaf9396e121f49ea84a0609d3",
+        "originalSha256": "3744d078f9a8b6d3c5d9bca51e43f9223544fcafaf9396e121f49ea84a0609d3",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader",
+        "sha256": "fb286386d0592ce6d63eb736f180b4b0f638ec538b0855aa54767a438ebd1173",
+        "originalSha256": "fb286386d0592ce6d63eb736f180b4b0f638ec538b0855aa54767a438ebd1173",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta",
+        "sha256": "1eeca1536c7506f79d4d877b866a5fb88db8f402634e091b6d78aa9d21c9d18b",
+        "originalSha256": "1eeca1536c7506f79d4d877b866a5fb88db8f402634e091b6d78aa9d21c9d18b",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader",
+        "sha256": "8b30c140f6af9134392fe6ecf4c0676db73f873489ac52adfb47bbd288cb51b8",
+        "originalSha256": "8b30c140f6af9134392fe6ecf4c0676db73f873489ac52adfb47bbd288cb51b8",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta",
+        "sha256": "e3412891b9306b017e60cba4ae4f6d258ee8b161d986dcde9cefb3d60345514d",
+        "originalSha256": "e3412891b9306b017e60cba4ae4f6d258ee8b161d986dcde9cefb3d60345514d",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader",
+        "sha256": "4bc2db64befbd0e37e23539f21096ad2fcd9d61b36d2174d208a7d831a0883f7",
+        "originalSha256": "4bc2db64befbd0e37e23539f21096ad2fcd9d61b36d2174d208a7d831a0883f7",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader.meta",
+        "sha256": "65ecbce6f1621f2d7ddc5e6004dda5e55e1f58ec6e01178f3691e1e81e01de55",
+        "originalSha256": "65ecbce6f1621f2d7ddc5e6004dda5e55e1f58ec6e01178f3691e1e81e01de55",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+        "sha256": "44c39aabc7e88e7e1feffc1880df754f4adf86b62e9512aa89e9d2d65171aff4",
+        "originalSha256": "44c39aabc7e88e7e1feffc1880df754f4adf86b62e9512aa89e9d2d65171aff4",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+        "sha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d",
+        "originalSha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader",
+        "sha256": "f9fae5906dd37d89298338953294459975de58a5421e68dd9e82a79794b95509",
+        "originalSha256": "f9fae5906dd37d89298338953294459975de58a5421e68dd9e82a79794b95509",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta",
+        "sha256": "95aa060f371ee503a22c0a0b018e029c0328bd82b9317feaa784432b0a787343",
+        "originalSha256": "95aa060f371ee503a22c0a0b018e029c0328bd82b9317feaa784432b0a787343",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader",
+        "sha256": "5dadb68b56429547918b392626e9af8fd5173936d20bb43cfca58dfa00947257",
+        "originalSha256": "5dadb68b56429547918b392626e9af8fd5173936d20bb43cfca58dfa00947257",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta",
+        "sha256": "42439f5ac7491998f562e8ede73d64c3512953eb99fb1b49e833f5d9999a7660",
+        "originalSha256": "42439f5ac7491998f562e8ede73d64c3512953eb99fb1b49e833f5d9999a7660",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+        "sha256": "e0148ce8e5904232a4e711376a45b7af2a007fb9690c5a69c1cb4952a696cdbf",
+        "originalSha256": "e0148ce8e5904232a4e711376a45b7af2a007fb9690c5a69c1cb4952a696cdbf",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph.meta",
+        "sha256": "4c36abf5f2611c9d2cb04e7da8c30e42077503a17cb218020e171b6d3ff664f7",
+        "originalSha256": "4c36abf5f2611c9d2cb04e7da8c30e42077503a17cb218020e171b6d3ff664f7",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+        "sha256": "dc15b6819ad87a4b34ed888ae2c274624efc0ada902d1a9e7752d87922414dcc",
+        "originalSha256": "dc15b6819ad87a4b34ed888ae2c274624efc0ada902d1a9e7752d87922414dcc",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph.meta",
+        "sha256": "f1ef815e2672fd770f47ee424c64f7ecdbdc642b7475828c29db032586aa10b6",
+        "originalSha256": "f1ef815e2672fd770f47ee424c64f7ecdbdc642b7475828c29db032586aa10b6",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+        "sha256": "10efe6d4728474a09970b857faf37913793e168dc13dbd4d7316b54b37615d97",
+        "originalSha256": "10efe6d4728474a09970b857faf37913793e168dc13dbd4d7316b54b37615d97",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+        "sha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6",
+        "originalSha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+        "sha256": "af669bb9ae136c8099f8e0a94a6933fd2f1e1fb0a6842129939a319fab4b8dbb",
+        "originalSha256": "af669bb9ae136c8099f8e0a94a6933fd2f1e1fb0a6842129939a319fab4b8dbb",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta",
+        "sha256": "9609584c5249687f3765f0018a93dfd6445c7e35d5aee4e87556f111c8852819",
+        "originalSha256": "9609584c5249687f3765f0018a93dfd6445c7e35d5aee4e87556f111c8852819",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc",
+        "sha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e",
+        "originalSha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+        "sha256": "a9cf9d5431b809e36b8ffff4377b5ebda7d386a36d48838cd134bc09f3caec6c",
+        "originalSha256": "a9cf9d5431b809e36b8ffff4377b5ebda7d386a36d48838cd134bc09f3caec6c",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc",
+        "sha256": "d9d43ddd9810476162f21b42477d9ce2cdc4e6cc7571d354c3253aafc6673ead",
+        "originalSha256": "d9d43ddd9810476162f21b42477d9ce2cdc4e6cc7571d354c3253aafc6673ead",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta",
+        "sha256": "2e16fa15ef884a60a402d8b696f8b09e5315cbb468ba223d256030c7fe2b0667",
+        "originalSha256": "2e16fa15ef884a60a402d8b696f8b09e5315cbb468ba223d256030c7fe2b0667",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+        "sha256": "66db1f03e8d7a413eba79bcb6602fdb2de710b586f34a6f2584ed6f68f028e90",
+        "originalSha256": "66db1f03e8d7a413eba79bcb6602fdb2de710b586f34a6f2584ed6f68f028e90",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+        "sha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5",
+        "originalSha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc",
+        "sha256": "244b442520282a66363d121c8d2aeeb30bb1e72cbbadbf41ce68d9100322ade5",
+        "originalSha256": "244b442520282a66363d121c8d2aeeb30bb1e72cbbadbf41ce68d9100322ade5",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta",
+        "sha256": "247746f3a4e39dd24d1ad99e4fae03ae8976586307948b2846529a876dcb0a63",
+        "originalSha256": "247746f3a4e39dd24d1ad99e4fae03ae8976586307948b2846529a876dcb0a63",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders.meta",
+        "sha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30",
+        "originalSha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+        "sha256": "4b65f8960e4f4c5c8b35fd139e369265e9bb45667fc16461b2ba01188d464d93",
+        "originalSha256": "4b65f8960e4f4c5c8b35fd139e369265e9bb45667fc16461b2ba01188d464d93",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta",
+        "sha256": "9fffc8ac513116b8ac394d86d81ca9ac4ec52ee92c63c114d355808384ea16fc",
+        "originalSha256": "9fffc8ac513116b8ac394d86d81ca9ac4ec52ee92c63c114d355808384ea16fc",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne.json",
+        "sha256": "b85c4b3001b6ba82d175f4cd5dab83da467bbc2527d3d447b66919d2d20c4faf",
+        "originalSha256": "b85c4b3001b6ba82d175f4cd5dab83da467bbc2527d3d447b66919d2d20c4faf",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne.json.meta",
+        "sha256": "ac2c551b5bc7f7d636d54ded634dfc3493e249567283b2efc06d1299f9360061",
+        "originalSha256": "ac2c551b5bc7f7d636d54ded634dfc3493e249567283b2efc06d1299f9360061",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne.png",
+        "sha256": "a87b965a701de3dc31d7401e542b1fc946587f912c51d7a26e46ade9f098bd1a",
+        "originalSha256": "a87b965a701de3dc31d7401e542b1fc946587f912c51d7a26e46ade9f098bd1a",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": null,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne.png.meta",
+        "sha256": "eb63c0321658b980b138ce5f675d44689b8c7144df43976931e132e7706d1e1a",
+        "originalSha256": "eb63c0321658b980b138ce5f675d44689b8c7144df43976931e132e7706d1e1a",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites.meta",
+        "sha256": "41e002b97ba2235689fba502d1ee4419f50ea0095cd3632cdc50bc90ca8a94de",
+        "originalSha256": "41e002b97ba2235689fba502d1ee4419f50ea0095cd3632cdc50bc90ca8a94de",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      },
+      {
+        "path": "Assets/TextMesh Pro.meta",
+        "sha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3",
+        "originalSha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3",
+        "source": "installed uGUI 2.0.0 TMP Essential Resources archive (Step 3 hash)",
+        "category": "same-local-distribution-bytes",
+        "metaGuidMatches": true,
+        "action": "retain/reacquire verified version and GUID; project connection role still matters",
+        "rightsStatus": "byte equality does not establish redistribution rights"
+      }
+    ],
+    "newDerivedAssetConfirmed": false,
+    "projectConnectionRole": [
+      "TMP Settings is byte-identical to local distribution but configures default fonts/sprite/line breaking; preserve/reapply settings role",
+      "Scene/Material/Prefab/render settings ownership not established merely by project path; use preserve/pending where no comparable original exists"
+    ]
+  },
+  "auxiliary": {
+    "rootNpm": {
+      "directArchiveDeclarations": [
+        {
+          "name": "@unity-services/cloud-save",
+          "version": "0.0.5",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-0.0.5.tgz",
+          "archiveSha256": "40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/cloud-save-1.0",
+          "version": "1.0.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.0.1.tgz",
+          "archiveSha256": "ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/cloud-save-1.1",
+          "version": "1.1.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.1.0.tgz",
+          "archiveSha256": "709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/cloud-save-1.2",
+          "version": "1.2.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.0.tgz",
+          "archiveSha256": "3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/cloud-save-1.2.1",
+          "version": "1.2.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.1.tgz",
+          "archiveSha256": "695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/cloud-save-1.3",
+          "version": "1.3.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.3.0.tgz",
+          "archiveSha256": "a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/cloud-save-1.4",
+          "version": "1.4.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.4.0.tgz",
+          "archiveSha256": "2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.0",
+          "version": "2.0.2",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.0.2.tgz",
+          "archiveSha256": "59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.1",
+          "version": "2.1.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.1.1.tgz",
+          "archiveSha256": "8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.2",
+          "version": "2.2.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.0.tgz",
+          "archiveSha256": "cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.2.1",
+          "version": "2.2.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.1.tgz",
+          "archiveSha256": "b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.3",
+          "version": "2.3.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.0.tgz",
+          "archiveSha256": "dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.3.1",
+          "version": "2.3.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.1.tgz",
+          "archiveSha256": "b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.3.2",
+          "version": "2.3.2",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.2.tgz",
+          "archiveSha256": "0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.4",
+          "version": "2.4.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.0.tgz",
+          "archiveSha256": "7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/economy-2.4.1",
+          "version": "2.4.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.1.tgz",
+          "archiveSha256": "a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/remote-config",
+          "version": "0.0.4",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-0.0.4.tgz",
+          "archiveSha256": "a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/remote-config-1.0",
+          "version": "1.0.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.0.1.tgz",
+          "archiveSha256": "e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/remote-config-1.1.0",
+          "version": "1.1.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.0.tgz",
+          "archiveSha256": "d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/remote-config-1.1.1",
+          "version": "1.1.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.1.tgz",
+          "archiveSha256": "3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/remote-config-1.1.2",
+          "version": "1.1.2",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.2.tgz",
+          "archiveSha256": "ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/vivox-0.1",
+          "version": "0.1.6",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/vivox-0.1.6.tgz",
+          "archiveSha256": "9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/lobby-1.0",
+          "version": "1.0.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.0.1.tgz",
+          "archiveSha256": "e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/lobby-1.1",
+          "version": "1.1.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.0.tgz",
+          "archiveSha256": "1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/lobby-1.1.1",
+          "version": "1.1.1",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.1.tgz",
+          "archiveSha256": "7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/lobby-1.1.2",
+          "version": "1.1.2",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.2.tgz",
+          "archiveSha256": "d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        },
+        {
+          "name": "@unity-services/lobby-1.2",
+          "version": "1.2.0",
+          "licenseLabel": "Unlicense",
+          "evidenceArchive": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.2.0.tgz",
+          "archiveSha256": "f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e",
+          "status": "archive package.json declaration only; do not generalize to dependencies or assume user rights"
+        }
+      ],
+      "lockLicenseLabels": [
+        {
+          "path": "node_modules/@types/lodash",
+          "version": "4.17.25",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@types/lodash-4.17",
+          "version": "4.17.25",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save",
+          "version": "0.0.5",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.0",
+          "version": "1.0.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.1",
+          "version": "1.1.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.2",
+          "version": "1.2.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.2.1",
+          "version": "1.2.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.3",
+          "version": "1.3.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.3/node_modules/axios",
+          "version": "0.27.2",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.4",
+          "version": "1.4.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.4/node_modules/axios",
+          "version": "0.27.2",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.0",
+          "version": "2.0.2",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.1",
+          "version": "2.1.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.2",
+          "version": "2.2.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.2.1",
+          "version": "2.2.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.3",
+          "version": "2.3.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.3.1",
+          "version": "2.3.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.3.2",
+          "version": "2.3.2",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.4",
+          "version": "2.4.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.4.1",
+          "version": "2.4.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.0",
+          "version": "1.0.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.1",
+          "version": "1.1.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.1.1",
+          "version": "1.1.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.1.2",
+          "version": "1.1.2",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.2",
+          "version": "1.2.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config",
+          "version": "0.0.4",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config-1.0",
+          "version": "1.0.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config-1.1.0",
+          "version": "1.1.0",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config-1.1.1",
+          "version": "1.1.1",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config-1.1.2",
+          "version": "1.1.2",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/@unity-services/vivox-0.1",
+          "version": "0.1.6",
+          "licenseLabel": "Unlicense",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/asynckit",
+          "version": "0.4.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/axios",
+          "version": "0.21.4",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/axios-0.21",
+          "version": "0.21.4",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/call-bind-apply-helpers",
+          "version": "1.0.2",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/combined-stream",
+          "version": "1.0.8",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/crypto-js",
+          "version": "4.1.1",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/delayed-stream",
+          "version": "1.0.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/dunder-proto",
+          "version": "1.0.1",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/es-define-property",
+          "version": "1.0.1",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/es-errors",
+          "version": "1.3.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/es-object-atoms",
+          "version": "1.1.2",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/es-set-tostringtag",
+          "version": "2.1.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/follow-redirects",
+          "version": "1.16.1",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/form-data",
+          "version": "4.0.6",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/function-bind",
+          "version": "1.1.2",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/get-intrinsic",
+          "version": "1.3.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/get-proto",
+          "version": "1.0.1",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/gopd",
+          "version": "1.2.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/has-symbols",
+          "version": "1.1.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/has-tostringtag",
+          "version": "1.0.2",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/hasown",
+          "version": "2.0.4",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/lodash",
+          "version": "4.17.21",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/lodash-4.17",
+          "version": "4.18.1",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/math-intrinsics",
+          "version": "1.1.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/mime-db",
+          "version": "1.52.0",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        },
+        {
+          "path": "node_modules/mime-types",
+          "version": "2.1.35",
+          "licenseLabel": "MIT",
+          "status": "lock metadata only; missing label is unresolved, not no restrictions"
+        }
+      ],
+      "ownProjectLicense": "root package.json ISC label is not a license grant over external components"
+    },
+    "nuget": [
+      {
+        "id": "Com.Unity.Services.CloudCode.Core",
+        "version": "0.0.7",
+        "officialLocation": "https://www.nuget.org/packages/Com.Unity.Services.CloudCode.Core/0.0.7",
+        "checkedDateKST": "2026-11-19",
+        "declaredLicense": null,
+        "licenseEvidence": "pinned version exists; License Info fetch cache-miss; license body not verified",
+        "feedAndRestore": "official catalog availability checked; configured NuGet feed/transitives/restore not verified"
+      },
+      {
+        "id": "Com.Unity.Services.CloudCode.Apis",
+        "version": "0.0.27",
+        "officialLocation": "https://www.nuget.org/packages/Com.Unity.Services.CloudCode.Apis/0.0.27",
+        "checkedDateKST": "2026-11-19",
+        "declaredLicense": null,
+        "licenseEvidence": "pinned version exists; License Info fetch cache-miss; license body not verified",
+        "feedAndRestore": "official catalog availability checked; configured NuGet feed/transitives/restore not verified"
+      },
+      {
+        "id": "Jint",
+        "version": "4.16.4",
+        "officialLocation": "https://www.nuget.org/packages/Jint/4.16.4",
+        "checkedDateKST": "2026-11-19",
+        "declaredLicense": "BSD-2-Clause",
+        "licenseEvidence": "pinned-version NuGet Gallery license label",
+        "feedAndRestore": "official catalog availability checked; configured NuGet feed/transitives/restore not verified"
+      },
+      {
+        "id": "Newtonsoft.Json",
+        "version": "13.0.3",
+        "officialLocation": "https://www.nuget.org/packages/Newtonsoft.Json/13.0.3",
+        "checkedDateKST": "2026-11-19",
+        "declaredLicense": "MIT",
+        "licenseEvidence": "pinned-version NuGet Gallery license label",
+        "feedAndRestore": "official catalog availability checked; configured NuGet feed/transitives/restore not verified"
+      }
+    ],
+    "logSink": "own-source manifest has no external npm deps; Node/container distribution terms remain separate from Unity asset policy"
+  },
+  "reacquisition": {
+    "operator": "project owner/user; AI prepares records and static checks",
+    "upm": "preserve manifest/lock/Editor version; official registry/builtin source from Step 3; account/terms/network/offline cache availability not proved",
+    "tmp": "same uGUI version -> locate archive by metadata -> preserve GUID/import/settings/modified assets; do not download/import or delete caches in this Step",
+    "npm": "27 local archive paths rely on Cloud Code cache; portable reconnection/hash verification remains Phase 2",
+    "nuget": "exact-version official pages verified; configured feeds/resolved graph/restore still pending",
+    "futureAssets": "record vendor/product/version, public source, license/version evidence, permitted use/change/distribution and notices, non-secret acquisition method/operator/account/offline constraints, copy/modification/use/Git/GUID/restore mapping before adoption"
+  },
+  "pending": [
+    {
+      "item": "two TMP font asset byte changes",
+      "direction": "preserve/pending; require reproduction or explicit preservation boundary",
+      "next": "Steps 6/8; Phase 2"
+    },
+    {
+      "item": "legacy EmojiOne license/version",
+      "direction": "preserve; no right-to-use/redistribute conclusion",
+      "next": "Steps 6/8: choose evidence acquisition or hold/exclusion from adoption; not current deletion approval"
+    },
+    {
+      "item": "Unity package terms/version and user Engine/service access",
+      "direction": "preserve local per-version terms; do not infer entitlement",
+      "next": "Step 6 registration rule and actual adoption/release check"
+    },
+    {
+      "item": "Cloud Code NuGet License Info unavailable",
+      "direction": "retain exact-version official page; license unknown",
+      "next": "record as auxiliary dependency obligation before actual server packaging/restore"
+    },
+    {
+      "item": "URP/TMP graph unresolved GUIDs and sample orphan",
+      "direction": "unchanged from Step 4",
+      "next": "Step 9 impact assessment"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Unity Companion License current web v1.4",
+      "url": "https://unity.com/legal/licenses/unity-companion-license",
+      "checkedDateKST": "2026-11-19"
+    },
+    {
+      "title": "OFL official text 1.1",
+      "url": "https://openfontlicense.org/open-font-license-official-text/",
+      "checkedDateKST": "2026-11-19"
+    },
+    {
+      "title": "legacy EmojiOne landing page",
+      "url": "https://www.emojione.com/",
+      "redirectedTo": "https://joypixels.com/",
+      "checkedDateKST": "2026-11-19"
+    }
+  ],
+  "summary": {
+    "upmPackages": 61,
+    "rootLicenseAndNoticeFiles": 41,
+    "packagesWithRootEvidence": 27,
+    "tmpCompared": 82,
+    "tmpSame": 80,
+    "tmpChanged": 2,
+    "npmArchiveLicenseDeclarations": 27,
+    "nugetVersionPages": 4
+  }
+}

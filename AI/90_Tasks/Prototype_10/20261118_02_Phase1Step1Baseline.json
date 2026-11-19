@@ -1,0 +1,493 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Prototype 10 Phase 1 Step 1 baseline; not a complete asset inventory or restoration result",
+  "dateKST": "2026-11-18",
+  "head": "8e2c6e9588161bbfd7b57cca18343c378a018337",
+  "gitVersion": "git version 2.55.0.windows.2",
+  "nodeVersion": "v24.21.0",
+  "initialGit": {
+    "statusPorcelainV1": "",
+    "stagedNameStatus": "",
+    "unstagedNameStatus": "",
+    "nonIgnoredUntracked": [],
+    "trackedPathCount": 919,
+    "trackedPathsNulSha256": "f1289890ed05fafdb56bd538d781f782fef7cacb90c8e25ddf7879477ab242a5",
+    "indexSha256": "4a8bd75fbe5e93cd73c3f7cee5957310859c648cc15557d67e6e016523504a31"
+  },
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 3245,
+      "sha256": "48ed8087ee8035cf940711a6107cb4f9f7ad802ac444e601d627af9e13817e2e",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Scenes/SampleScene.unity",
+      "bytes": 995252,
+      "sha256": "cf7a5e3d6de482d88a614eca3e620d1dcc4f3fd642c8e5cb03e4f91551e2d3e7",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Scenes/SampleScene.unity.meta",
+      "bytes": 162,
+      "sha256": "baf1a15df993d52223ce52daa6bf340fd183fb7e5c3c173ed76fd7f614d6e7f0",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Scripts/Runtime/Core/FlowState.Runtime.Core.asmdef",
+      "bytes": 84,
+      "sha256": "3f3bf0bde2d86da8c664ade69c0d48cc62c4367eb84f156f6186ccef56b6732f",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Scripts/Runtime/Core/FlowState.Runtime.Core.asmdef.meta",
+      "bytes": 60,
+      "sha256": "d274c3690b991a89e0c62c283f299c095fc36cbf293f2cc991c1234b3708c3df",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Scripts/Runtime/Features/FlowState.Runtime.Features.asmdef",
+      "bytes": 305,
+      "sha256": "7210d76825064f9683d28e477ef92b3c944ca98a9e74aa2b1bd501348e3eab96",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Scripts/Runtime/Features/FlowState.Runtime.Features.asmdef.meta",
+      "bytes": 60,
+      "sha256": "6ac05b96992b78f860668bece5666c6cd7356262ba04e4a321eae4893d724723",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/Build Profiles.meta",
+      "bytes": 172,
+      "sha256": "973de7f50e82b8b6018a8187c2b26f645b2c01952503984553b04a81e6e3da4b",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/Build Profiles/Windows-production.asset",
+      "bytes": 1698,
+      "sha256": "f62210afd97f53a180252a1a2a22149625e03012948bc6e7feb23d054713f6f8",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/Build Profiles/Windows-production.asset.meta",
+      "bytes": 189,
+      "sha256": "ab10a1aeeba9613aa6df09b6e9c94976d0bb15e41aa3762f45dedc533d81769c",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/DefaultVolumeProfile.asset",
+      "bytes": 24969,
+      "sha256": "a0b4fb3aa39824c793c33a099b26ba3ce5396006e3c1daaa0f24dc329f1e90b8",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/DefaultVolumeProfile.asset.meta",
+      "bytes": 197,
+      "sha256": "43e8f7bed8f99da631d74ee652953c230594e150ce305d313ec0844e312d574f",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/Mobile_RPAsset.asset",
+      "bytes": 4793,
+      "sha256": "e43e61f3ca54aa12d1d4774e00ea7549623d8b2d2a287a7173fe1fc8f2d93c65",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/Mobile_RPAsset.asset.meta",
+      "bytes": 197,
+      "sha256": "4718cab1245b68049fc0c4e0acd26ac7c4a7e8eb7dcdb8f357159a129ca615ec",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/Mobile_Renderer.asset",
+      "bytes": 1765,
+      "sha256": "76431dd5dd9db51e5c515b8efe45db0b0ae9c26081ced605a29abbc608b11344",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/Mobile_Renderer.asset.meta",
+      "bytes": 197,
+      "sha256": "da2404303c1d6f6af244a6bb7ac7d65cc8cbdd741c804cc913be8be861e65379",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/PC_RPAsset.asset",
+      "bytes": 4669,
+      "sha256": "70b76a59fb5b3ee0bbc0269df512833053efb96fd7abd681fd0b064a6c5cb564",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/PC_RPAsset.asset.meta",
+      "bytes": 197,
+      "sha256": "dd77ab3eb523c6e234943bc07250360e2ae934ced15c075a56168f2f7a3b5ce4",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/PC_Renderer.asset",
+      "bytes": 3534,
+      "sha256": "13f85fba57a55e3a68efd59b3016f0c6f2d971b99f5e213ed52a7b84dd679789",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/PC_Renderer.asset.meta",
+      "bytes": 197,
+      "sha256": "0f063b81db6817db7ec416712a575dd3e9960330e241de389115f02ed5b3ffbd",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/SampleSceneProfile.asset",
+      "bytes": 3862,
+      "sha256": "14f72f9e3356a20316fc7dedb062cef5160afb00023c5500e65b72bea640cdfc",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/SampleSceneProfile.asset.meta",
+      "bytes": 190,
+      "sha256": "0b8036af967c670deb9c96912e7efda0895418ad3b2eeb4612b016a4d76a25c8",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+      "bytes": 22937,
+      "sha256": "b62ef6cc2f26d71692603d90ce07682ddc1ac87a7450cfa684e40daa6ae27dec",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset.meta",
+      "bytes": 197,
+      "sha256": "9f7756af7860ade1e88db1b5cffa7dff8cc535f6ac08819a4e26164bf4018717",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Tests/EditMode/FlowState.EditModeTests.asmdef",
+      "bytes": 297,
+      "sha256": "d290f30d930d48be9ea988bfcfb16fc9b2d601d5444e0b316690fb581431745d",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Tests/EditMode/FlowState.EditModeTests.asmdef.meta",
+      "bytes": 60,
+      "sha256": "52e803c66a22d6a496247a6cd29c6207af6ea2e0b7e485cac623fa4920e3843a",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Tests/PlayMode/FlowState.PlayModeTests.asmdef",
+      "bytes": 298,
+      "sha256": "789b42385a034b533906fde71d6329b662ac3e44d2ec455223465accc6a32bda",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/Tests/PlayMode/FlowState.PlayModeTests.asmdef.meta",
+      "bytes": 60,
+      "sha256": "e81e21fea742b5c33825c12a88f586fa1df8132becdf601ab363df5f36d3f6a3",
+      "indexTracked": true
+    },
+    {
+      "path": "Assets/TextMesh Pro.meta",
+      "bytes": 172,
+      "sha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3",
+      "indexTracked": false
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "bytes": 1852,
+      "sha256": "7be438062cdc296835a1258b68bcbeb8e9fdc4b01ea27c05a24a1074260f7424",
+      "indexTracked": false
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+      "bytes": 179,
+      "sha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45",
+      "indexTracked": false
+    },
+    {
+      "path": "Packages/manifest.json",
+      "bytes": 1958,
+      "sha256": "47fb3dd6c1d57af7081549db75a4f761255a9247c5be8c3a937c71f461ec8f18",
+      "indexTracked": true
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "bytes": 14057,
+      "sha256": "d06d939dcb9ca070f2fe476971b7e9bf6610d245ce402d5f55ebef835a4a4b73",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/AudioManager.asset",
+      "bytes": 432,
+      "sha256": "282586eacd02fca9b7b803b93641647abee5a9d1a7369381025546f0c9808ccf",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/ClusterInputManager.asset",
+      "bytes": 114,
+      "sha256": "40e65dd214bf254955d2c8829ca8ce2130fd3510485560ce012e9a1ddd93e623",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/DynamicsManager.asset",
+      "bytes": 1290,
+      "sha256": "7bf32032957eb76dea137d4521b8f057ffdb55259acbf130d0954c2d201eec68",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/EditorBuildSettings.asset",
+      "bytes": 401,
+      "sha256": "348ba1eca4b0698957f264f877f76227b78583acd3138fd5fc85be92f158e261",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/EditorSettings.asset",
+      "bytes": 1635,
+      "sha256": "1542f5afa07e387e04e72bda4fd9d1f34b68544b23c95ff11e3b0de9a486e2a4",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/GraphicsSettings.asset",
+      "bytes": 2615,
+      "sha256": "6736f33dc62c35b0e7a88e275242080bc7a1d94c91154d18fceb332b661a6bce",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/InputManager.asset",
+      "bytes": 10218,
+      "sha256": "776c8b6c71e1101973e1f3ab569cf9058b857372a8a19210b50b3c1c6a1a42a6",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/MemorySettings.asset",
+      "bytes": 1192,
+      "sha256": "1e8379a461b10ae09f3f696911088c16875d63e87ed5f2d95df9e1892703f9fd",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/MultiplayerManager.asset",
+      "bytes": 232,
+      "sha256": "ce4075d7a7dd8ac7ffe55de2427692c63f90dae398208bd80cec0f27cbe09f4b",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/NavMeshAreas.asset",
+      "bytes": 1361,
+      "sha256": "7ebbf8f53b8033104e1878b95ca07a28d0954092d81c220f14196a42f651e658",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/PackageManagerSettings.asset",
+      "bytes": 1046,
+      "sha256": "6a05ef78104cc0f3d23af145e478955bf980709437e91bfbddb7196457eb80c5",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/Packages/com.unity.dedicated-server/MultiplayerRolesSettings.asset",
+      "bytes": 540,
+      "sha256": "66f5310616983159b47ac6b1dfa249b1ea29385b1cecf077e5d596132fc5f0d8",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/Packages/com.unity.services.core/Settings.json",
+      "bytes": 99,
+      "sha256": "05378ddf2ae372702f43ff8ff8ba42546323fd2f220fee8cfc8cdd81e061cc10",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/Physics2DSettings.asset",
+      "bytes": 2084,
+      "sha256": "f8853353aac1bc6a33d1999b08ec2661abc374402ed4790a0b82eb64585b731e",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/PresetManager.asset",
+      "bytes": 146,
+      "sha256": "29c125923fe6e29f90190d4fce1c82d660e7051546e2c9d02908d18c9cf2436c",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/ProjectSettings.asset",
+      "bytes": 25576,
+      "sha256": "bc021a7cc32180accb1a59ca6e3ac44e63897141f311b54f4c8172f53baaf0cc",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/ProjectVersion.txt",
+      "bytes": 85,
+      "sha256": "9ef257cbec7e3aeeb46ec16caf6a237240475a5bf13bbb7f830bf3081c7c9696",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/QualitySettings.asset",
+      "bytes": 3796,
+      "sha256": "231535dcfdcdf9fe8eed24cd1d5891696cff9cb526fbf80a463ae2d815065329",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/SceneTemplateSettings.json",
+      "bytes": 3535,
+      "sha256": "bb9098b3bfcde78d93e264b96f7b77b5430e64e8c57a7aad7f5a5d9c3945e16a",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/ShaderGraphSettings.asset",
+      "bytes": 556,
+      "sha256": "cdba1e5d65bcf6e3269d76ed3e60b6c21f98322002996642c9d74f1eb89f6b91",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/TagManager.asset",
+      "bytes": 543,
+      "sha256": "8ecc1b0973fbaf07290a703e0eb26daf4fdb46b69dceb217a39b4f52f5a985a1",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/TimeManager.asset",
+      "bytes": 211,
+      "sha256": "6c320ee59ae1e55aa74558f012437f63cb9de59d69fda62fc321c4f1971c52cb",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/TimelineSettings.asset",
+      "bytes": 498,
+      "sha256": "955934c553600f4e99cab2bd97d5a45cb37933d6ea37928f43b641108674d347",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/URPProjectSettings.asset",
+      "bytes": 461,
+      "sha256": "c317fe22b9488785c0611f0642429922e5d324430d929bffb41648130f30c218",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/UnityConnectSettings.asset",
+      "bytes": 1063,
+      "sha256": "11251dae0356b6f43dd2c67bb511f6b7ecda4e5de425186bba3297e6f3dc1c6f",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/VFXManager.asset",
+      "bytes": 525,
+      "sha256": "2973a6af930e142f62cde00076beda8a3cc3a66d9bfcde7a58ba7d4be2251c26",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/VersionControlSettings.asset",
+      "bytes": 172,
+      "sha256": "e199cdfa6a8f2bf33cfd47e549198f13e3eb2a5099e908fdb4e0f14d939ccc6b",
+      "indexTracked": true
+    },
+    {
+      "path": "ProjectSettings/filelist.txt",
+      "bytes": 501,
+      "sha256": "fe45b2f2c788900502730c5a884fe2fc795334134db6b7bfe7f6bd5062b50fbf",
+      "indexTracked": true
+    },
+    {
+      "path": "UGS/LogSink/package.json",
+      "bytes": 288,
+      "sha256": "5b462a929bdb0f444f3549107501f4f26d91abccd545df20416a427e63c35cf8",
+      "indexTracked": true
+    },
+    {
+      "path": "UGS/Modules/FlowStateVerification/.gitignore",
+      "bytes": 40,
+      "sha256": "b73475f14dc7526c2eec546e5653a33a7236e947d81cc2bbaee8e00c991b3e1f",
+      "indexTracked": true
+    },
+    {
+      "path": "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+      "bytes": 732,
+      "sha256": "14323b3d1848731eec724a2d3cc0b59db0049019188f7fdcff23636210042763",
+      "indexTracked": true
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 30458,
+      "sha256": "7f7611dcf4723de241a6d42daf7202e782033649aa1b053893beea7f8a7eec73",
+      "indexTracked": true
+    },
+    {
+      "path": "package.json",
+      "bytes": 5037,
+      "sha256": "af7aef3ed0a399a299641c1b2a899b619d154396a6bc45d37a4658f111e7f291",
+      "indexTracked": true
+    }
+  ],
+  "priorRoadmap9InputComparison": [
+    {
+      "path": "Assets/Scenes/SampleScene.unity",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/EditorBuildSettings.asset",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/Build Profiles/Windows-production.asset",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/ProjectVersion.txt",
+      "matches": true
+    },
+    {
+      "path": "Packages/manifest.json",
+      "matches": true
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "matches": true
+    }
+  ],
+  "candidate": {
+    "path": "Build/ProductionQA/Candidate02/Unity_Flow_State.exe",
+    "bytes": 667648,
+    "sha256": "b5235db37d5bb3b7b78c5def87e439c98d99e3b4b98e72c7b6c0bdf9db5da7dd",
+    "execution": "not executed; prior user QA report only"
+  },
+  "scopeTraversal": {
+    "roots": [
+      "Assets",
+      "Packages",
+      "ProjectSettings",
+      "Tools",
+      "UGS"
+    ],
+    "kind": "directory/reparse boundary inspection only; no full file inventory or content audit",
+    "excludedDirectoryNames": [
+      ".agents",
+      ".aws",
+      ".codex",
+      ".git",
+      ".vs",
+      ".vscode",
+      "bin",
+      "build",
+      "builds",
+      "ignore",
+      "library",
+      "logs",
+      "node_modules",
+      "obj",
+      "temp",
+      "usersettings"
+    ],
+    "skippedDirectories": [
+      "UGS/Modules/FlowStateVerification/.vs",
+      "UGS/Modules/FlowStateVerification/bin",
+      "UGS/Modules/FlowStateVerification/obj"
+    ],
+    "symlinkOrJunction": [],
+    "errors": []
+  },
+  "excludedSensitiveContent": [
+    "user saves",
+    "Secret/credentials/account/receipt payload",
+    "UGS/LogSink/.env",
+    "local production configuration content"
+  ],
+  "futureOutputs": {
+    "task": "AI/90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md",
+    "metadataDirectory": "AI/90_Tasks/Prototype_10/",
+    "toolProposal": "Tools/DependencyAudit/ (Step 7 only)"
+  }
+}

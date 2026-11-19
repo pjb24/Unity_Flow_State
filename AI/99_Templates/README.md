@@ -34,6 +34,8 @@ FEATURE_TASK_TEMPLATE.md
 GENERAL_TASK_TEMPLATE.md
 
 BUGFIX_TASK_TEMPLATE.md
+
+ASSET_DEPENDENCY_TEMPLATE.md
 ```
 
 ---
@@ -67,6 +69,10 @@ Feature 문서 작성 형식을 정의한다.
 생성 대상은 Features 영역의 문서이다.
 
 ---
+
+# 애셋·의존성 등록 형식
+
+[ASSET_DEPENDENCY_TEMPLATE.md](ASSET_DEPENDENCY_TEMPLATE.md)는 영구 제품/의존성 항목의 빈 형식이다. 실제 항목은 [Project 관리 기록](../00_Project/ASSET_DEPENDENCIES.md)에 작성하며 Task 템플릿과 구분한다. 도입 애셋이 없으면 실제 항목을 만들지 않는다.
 
 # 작업 기록 템플릿
 

@@ -1,0 +1,4314 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Phase 1 Step 3 metadata; future asset management baseline, not adopted third-party asset register/restore success",
+  "dateKST": "2026-11-18",
+  "editor": [
+    "m_EditorVersion: 6000.3.5f2",
+    "m_EditorVersionWithRevision: 6000.3.5f2 (3fa8bc678cb0)"
+  ],
+  "manifestConfiguration": {
+    "scopedRegistries": [],
+    "registry": null,
+    "enableLockFile": "default",
+    "resolutionStrategy": "default"
+  },
+  "upm": {
+    "rows": [
+      {
+        "id": "com.unity.burst",
+        "product": "Burst",
+        "direct": false,
+        "requested": null,
+        "resolved": "1.8.27",
+        "depth": 2,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.burst@1.8/manual/index.html",
+        "minimumEditorDeclared": "2022.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.burst@973857688024/package.json",
+        "cacheMetadataSha256": "2b83129a25e2043d489de32357e4dabcbcf6b18cb770bdb5bde6214eec0e599b",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.cinemachine",
+        "product": "Cinemachine",
+        "direct": true,
+        "requested": "3.1.7",
+        "resolved": "3.1.7",
+        "depth": 0,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/index.html",
+        "minimumEditorDeclared": "2022.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.cinemachine@f3f96bcb59af/package.json",
+        "cacheMetadataSha256": "1eba118969b1b25b7f75398ce82c996718c604adf6655040145344ef60d37552",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.collections",
+        "product": "Collections",
+        "direct": false,
+        "requested": null,
+        "resolved": "2.6.2",
+        "depth": 2,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.collections@2.6/manual/index.html",
+        "minimumEditorDeclared": "2022.3.20f1",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.collections@aea9d3bd5e19/package.json",
+        "cacheMetadataSha256": "f2e265e507e7803f40a8f98d9fd582c74af01f059b2c9b42723bdb9ff082fe27",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.ext.nunit",
+        "product": "Custom NUnit",
+        "direct": false,
+        "requested": null,
+        "resolved": "2.0.5",
+        "depth": 1,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.ext.nunit@2.0/manual/index.html",
+        "minimumEditorDeclared": "2019.4",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.ext.nunit@d8c07649098d/package.json",
+        "cacheMetadataSha256": "260aacf3355a3cb19174608b247d86501fe31b4679b9dc00dc4d01eb8b15ef59",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.ide.rider",
+        "product": "JetBrains Rider Editor",
+        "direct": true,
+        "requested": "3.0.38",
+        "resolved": "3.0.38",
+        "depth": 0,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.ide.rider@3.0/manual/index.html",
+        "minimumEditorDeclared": "2021.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.ide.rider@1f60b3138684/package.json",
+        "cacheMetadataSha256": "58be2f7a7194310e2e5d87d5b3f8ce2a0da545ba37856925abc413a6f62fff2b",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.ide.visualstudio",
+        "product": "Visual Studio Editor",
+        "direct": true,
+        "requested": "2.0.27",
+        "resolved": "2.0.27",
+        "depth": 0,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.ide.visualstudio@2.0/manual/index.html",
+        "minimumEditorDeclared": "2021.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.ide.visualstudio@dc1ddd4f09b6/package.json",
+        "cacheMetadataSha256": "e1303c40d96d6a341aec0456d6c6d4dd9adf590c98eefd734c893d5b773f4c3e",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.inputsystem",
+        "product": "Input System",
+        "direct": true,
+        "requested": "1.17.0",
+        "resolved": "1.17.0",
+        "depth": 0,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.inputsystem@1.17/manual/index.html",
+        "minimumEditorDeclared": "2022.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.inputsystem@02433b2481ab/package.json",
+        "cacheMetadataSha256": "3769fd75b9aee5fc7fe08af9fff2ffae817c32cad7e126272d723e3cdb6af80a",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.mathematics",
+        "product": "Mathematics",
+        "direct": false,
+        "requested": null,
+        "resolved": "1.3.3",
+        "depth": 2,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.mathematics@1.3/manual/index.html",
+        "minimumEditorDeclared": "2021.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.mathematics@19a9377c4ffa/package.json",
+        "cacheMetadataSha256": "0b648adeed5de37436eb9aac3b36f9bfd4d55198f203b25d12d856c1bc3f16d6",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.accessibility",
+        "product": "Accessibility",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.accessibility/package.json",
+        "cacheMetadataSha256": "8f4e1af72060ad7035cdd9689c64431597ff8c543af3d6e664648fcd7bd8061d",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.adaptiveperformance",
+        "product": "Adaptive Performance",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.adaptiveperformance/package.json",
+        "cacheMetadataSha256": "588ce2a334b6d65135d5334059919efa6fedaf6b5ce11d07a87099bd3d2b08f8",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.ai",
+        "product": "AI",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.ai/package.json",
+        "cacheMetadataSha256": "3164f729c35cab8919b462503de1af8957b93d30b8be3d7bc4020b1312f34b80",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.androidjni",
+        "product": "Android JNI",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.androidjni/package.json",
+        "cacheMetadataSha256": "9bfac0cf176cbe7f88dcd26a086e8ee493f8371e944d254776e7ec8eb0875c08",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.animation",
+        "product": "Animation",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.animation/package.json",
+        "cacheMetadataSha256": "b5a19f81a554d6c11aa25791ed7c5308507ccf4f3510e6d5f6179159678ea1f6",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.assetbundle",
+        "product": "Asset Bundle",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.assetbundle/package.json",
+        "cacheMetadataSha256": "4e5db4790a51fe0bf21396d3f6ce1d20532e01873a37a2bf0dccda702675f0f2",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.audio",
+        "product": "Audio",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.audio/package.json",
+        "cacheMetadataSha256": "5a967e46cb1259d8a9d40e1890f669003d0f092a24a80f479af14c1cfbee0841",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.cloth",
+        "product": "Cloth",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.cloth/package.json",
+        "cacheMetadataSha256": "c45dd41c10a7e169912dc0818a37ad3fb99e2a478865aaa4995d0d6addbab65d",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.director",
+        "product": "Director",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.director/package.json",
+        "cacheMetadataSha256": "e862533f382231050b6be5ecc3e4692119e398bf2beb9cd582878c0ff5151c63",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.hierarchycore",
+        "product": "Hierarchy Core",
+        "direct": false,
+        "requested": null,
+        "resolved": "1.0.0",
+        "depth": 1,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.hierarchycore/package.json",
+        "cacheMetadataSha256": "4569bb960af453888434660deaf8166f781543ce2b5df5def57df8cf40040ab5",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.imageconversion",
+        "product": "Image Conversion",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.imageconversion/package.json",
+        "cacheMetadataSha256": "436abe06359efcf828e2d0e769e7eadef78e25b2a29dcf1674df62646ad70634",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.imgui",
+        "product": "IMGUI",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.imgui/package.json",
+        "cacheMetadataSha256": "9703f8b246fae1c2b2f2643fca9e58a48526c5c879c3aba9af21baac25f6c426",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.jsonserialize",
+        "product": "JSONSerialize",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.jsonserialize/package.json",
+        "cacheMetadataSha256": "5720d2b33d0615f9d4bcec067e8f2dd2f5c338e7638f241fa3dc04120b3413ae",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.particlesystem",
+        "product": "Particle System",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.particlesystem/package.json",
+        "cacheMetadataSha256": "4b7787b632c31a2f621cadcb4388b56b6f33c3801ec7044d9497e7fee0a297b0",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.physics",
+        "product": "Physics",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.physics/package.json",
+        "cacheMetadataSha256": "e4cefcb8500f00e939d80ff99bee7086a79abb075d5a51cf1be050345ebcee37",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.physics2d",
+        "product": "Physics 2D",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.physics2d/package.json",
+        "cacheMetadataSha256": "13dbe8c092d727ace512731fcf102f7c71989d7e566994084a2a6255d809c0a6",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.screencapture",
+        "product": "Screen Capture",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.screencapture/package.json",
+        "cacheMetadataSha256": "e45e41f0a7df456749caa73228c014489cfdb138a5cb6918a9c7824aeda4cdd2",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.subsystems",
+        "product": "Subsystems",
+        "direct": false,
+        "requested": null,
+        "resolved": "1.0.0",
+        "depth": 1,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.subsystems/package.json",
+        "cacheMetadataSha256": "7fe587e4449d85c639d6541600b56e90f583e1a3e67f06d6dbdfb127c067052d",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.terrain",
+        "product": "Terrain",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.terrain/package.json",
+        "cacheMetadataSha256": "b077317d040890af0e47bbda53ebead870136fc3834d384b9ca429e4cae2df89",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.terrainphysics",
+        "product": "Terrain Physics",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.terrainphysics/package.json",
+        "cacheMetadataSha256": "19cb6c340fe59bec2eb3b5a6d65b5ee16b40a5298facb89da02d48be7f082f15",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.tilemap",
+        "product": "Tilemap",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.tilemap/package.json",
+        "cacheMetadataSha256": "be0c2244ca504b99a1dd3e87f21f903f4b5cf5d8f6cb88978d3dcb5395f1cd67",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.ui",
+        "product": "UI",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.ui/package.json",
+        "cacheMetadataSha256": "5ee23fd81c1b0fc62a0d970b4e7b18157024f0972bc3b3104610fc6fa9dc8814",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.uielements",
+        "product": "UIElements",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.uielements/package.json",
+        "cacheMetadataSha256": "2c975e342bf6ba0a1cfff34559ffae744677ad1db7867ed2a7bb58e64d40c8b8",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.umbra",
+        "product": "Umbra",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.umbra/package.json",
+        "cacheMetadataSha256": "9abee73c940d677d7aee5e5c1275d084459056e618a4a0640dea86c0dc8723b1",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.unityanalytics",
+        "product": "Unity Analytics",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.unityanalytics/package.json",
+        "cacheMetadataSha256": "4ae5a8c3137d6bbecf968018fa020b758a0366a034569b5732c75c92bb5db976",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.unitywebrequest",
+        "product": "Unity Web Request",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.unitywebrequest/package.json",
+        "cacheMetadataSha256": "d7455a18dd347af0cb4b35c431fb495d6fdd9c9f808a825b81afa77612644701",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.unitywebrequestassetbundle",
+        "product": "Unity Web Request Asset Bundle",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.unitywebrequestassetbundle/package.json",
+        "cacheMetadataSha256": "b30a85f99b6159f3a4020670e293d40802a7ea789342bd0b2ca23f50ba9569b6",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.unitywebrequestaudio",
+        "product": "Unity Web Request Audio",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.unitywebrequestaudio/package.json",
+        "cacheMetadataSha256": "9b8761fb4d470f95bcea00744cc0614a9874297db69dd25c57111179008b5f85",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.unitywebrequesttexture",
+        "product": "Unity Web Request Texture",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.unitywebrequesttexture/package.json",
+        "cacheMetadataSha256": "3782187b52564dec13c39e690623f2c9ab499939407c63467c619348fe3731e1",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.unitywebrequestwww",
+        "product": "Unity Web Request WWW",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.unitywebrequestwww/package.json",
+        "cacheMetadataSha256": "6c2501da4cc1dd3f4166019b90962b1b3fa5b7895fa52a04d6bd798d470bc685",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.vectorgraphics",
+        "product": "Vector Graphics",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.vectorgraphics/package.json",
+        "cacheMetadataSha256": "e57d6e9fe9ff873d7b1b5a3f09282a8bd330cb2797ed43ac33c181131adc92b2",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.vehicles",
+        "product": "Vehicles",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.vehicles/package.json",
+        "cacheMetadataSha256": "d22bda2ff2b2cf415f710e3c5356b57d15775e60feb0a04b015ca7db05995d2e",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.video",
+        "product": "Video",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.video/package.json",
+        "cacheMetadataSha256": "8eba84cece85e832096d8a16ef69d023a659098c49f8f8605e2ae1bfe1e85913",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.modules.wind",
+        "product": "Wind",
+        "direct": true,
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": null,
+        "cacheMetadataPath": "Library/PackageCache/com.unity.modules.wind/package.json",
+        "cacheMetadataSha256": "9bbabfbce26eb60853f13bc4aba0e7953521e961036a49d5ff8ff2317694e044",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.nuget.mono-cecil",
+        "product": "Mono Cecil",
+        "direct": false,
+        "requested": null,
+        "resolved": "1.11.6",
+        "depth": 3,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.nuget.mono-cecil@1.11/manual/index.html",
+        "minimumEditorDeclared": "2019.4",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/package.json",
+        "cacheMetadataSha256": "36fad1b3680dfc0afd6c6a2a193959e7d4532dd15ddfc35016519d0cdf27cb25",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.nuget.newtonsoft-json",
+        "product": "Newtonsoft Json",
+        "direct": false,
+        "requested": null,
+        "resolved": "3.2.2",
+        "depth": 1,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": "2018.4",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/package.json",
+        "cacheMetadataSha256": "29c4661a6f9d6839813f2ead6a232c890aaf67eaf44faf8ea2da85e816368558",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.render-pipelines.core",
+        "product": "Scriptable Render Pipeline Core",
+        "direct": false,
+        "requested": null,
+        "resolved": "17.3.0",
+        "depth": 1,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": "6000.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.render-pipelines.core@ce614113b3ba/package.json",
+        "cacheMetadataSha256": "04cebdf076779d12c3d755dc4b16d852ddc4a150cfedf000d4a8e3f3997cbee3",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.render-pipelines.universal",
+        "product": "Universal Render Pipeline",
+        "direct": true,
+        "requested": "17.3.0",
+        "resolved": "17.3.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": "6000.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/package.json",
+        "cacheMetadataSha256": "c48bbf7ed72032532656a083a818c44b14fe31d3fe763f2dff6acbb4a2e3956d",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.render-pipelines.universal-config",
+        "product": "Universal Render Pipeline Config",
+        "direct": false,
+        "requested": null,
+        "resolved": "17.0.3",
+        "depth": 1,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": "6000.0",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d/package.json",
+        "cacheMetadataSha256": "ba5082b6c32161b374389816ab771ed1339b22b61f889e50f2a65937180f816b",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.searcher",
+        "product": "Searcher",
+        "direct": false,
+        "requested": null,
+        "resolved": "4.9.4",
+        "depth": 2,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.searcher@4.9/manual/index.html",
+        "minimumEditorDeclared": "2019.1",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.searcher@d45a78918735/package.json",
+        "cacheMetadataSha256": "a9bb2ac308fcaa563e9faa856e5d87728fe18ba1ddc76476e930703b9693451f",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.services.authentication",
+        "product": "Authentication",
+        "direct": true,
+        "requested": "3.8.0",
+        "resolved": "3.8.0",
+        "depth": 0,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.services.authentication@3.8/manual/index.html",
+        "minimumEditorDeclared": "2022.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.services.authentication@6613d5ec6ae8/package.json",
+        "cacheMetadataSha256": "ae3cdffe518d4393fe4448cff77d0bd0d6cdc9d3d443e6a6e0f0e81990329336",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.services.cloudcode",
+        "product": "Cloud Code",
+        "direct": true,
+        "requested": "2.10.4",
+        "resolved": "2.10.4",
+        "depth": 0,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.services.cloudcode@2.10/manual/index.html",
+        "minimumEditorDeclared": "2021.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/package.json",
+        "cacheMetadataSha256": "3b9027170a084ef22da2c6337f202031c7cbc030777d5c78a749c2bc4aa808f9",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.services.core",
+        "product": "Services Core",
+        "direct": false,
+        "requested": null,
+        "resolved": "1.18.0",
+        "depth": 1,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.services.core@1.18/manual/index.html",
+        "minimumEditorDeclared": "2022.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.services.core@3464cb68d709/package.json",
+        "cacheMetadataSha256": "e3fb33ea64f9f6a2f275a6667b763778bd70b3afacf1da9c392ca9aa46ff414e",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.services.deployment",
+        "product": "Deployment",
+        "direct": true,
+        "requested": "1.6.2",
+        "resolved": "1.6.2",
+        "depth": 0,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.services.deployment@1.6/manual/index.html",
+        "minimumEditorDeclared": "2021.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.services.deployment@3b0f19f59670/package.json",
+        "cacheMetadataSha256": "752574f3a192716fb5310e870a7c579a5058e0eb8432abe096105cad3728ed87",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.services.deployment.api",
+        "product": "Deployment API",
+        "direct": false,
+        "requested": null,
+        "resolved": "1.1.3",
+        "depth": 1,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.services.deployment.api@1.1/manual/index.html",
+        "minimumEditorDeclared": "2021.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.services.deployment.api@9becf6da0f1a/package.json",
+        "cacheMetadataSha256": "9b2833a782d31a901af75a971929d74b686222c8be8a4ca29e45ac4139b1e661",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.services.wire",
+        "product": "Wire",
+        "direct": false,
+        "requested": null,
+        "resolved": "1.4.1",
+        "depth": 1,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.services.wire@1.4/manual/index.html",
+        "minimumEditorDeclared": "2021.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.services.wire@9a73acde80cc/package.json",
+        "cacheMetadataSha256": "c97b9ac858aa7693fc6f7aae36eed6de896acdfb30b9e7c5cc1334982853284b",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.settings-manager",
+        "product": "Settings Manager",
+        "direct": false,
+        "requested": null,
+        "resolved": "2.1.1",
+        "depth": 2,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.settings-manager@2.1/manual/index.html",
+        "minimumEditorDeclared": "2022.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.settings-manager@0b8638c5ce86/package.json",
+        "cacheMetadataSha256": "f40f8cfe928f47797a46c8463416d32a85655a75afc70ed7c801a2dbec281207",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.shadergraph",
+        "product": "Shader Graph",
+        "direct": false,
+        "requested": null,
+        "resolved": "17.3.0",
+        "depth": 1,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": "6000.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.shadergraph@ea01319cfd98/package.json",
+        "cacheMetadataSha256": "c3eaad777a2dc6b52768aae1fc397450ee682a5363d1af82af960e96f291ec18",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.splines",
+        "product": "Splines",
+        "direct": false,
+        "requested": null,
+        "resolved": "2.8.2",
+        "depth": 1,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.splines@2.8/manual/index.html",
+        "minimumEditorDeclared": "2022.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.splines@1cb7d86fc7ff/package.json",
+        "cacheMetadataSha256": "a35fc803c75247ff1e7f663776dc48e5a1b0db905d0eb6568e7f254e592b1b7e",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.test-framework",
+        "product": "Test Framework",
+        "direct": true,
+        "requested": "1.6.0",
+        "resolved": "1.6.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": "6000.0.44f1",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/package.json",
+        "cacheMetadataSha256": "23a35e1a6ee4a90a3f225319058af3d4bcdb1be101317e00807f98e6598e0657",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.test-framework.performance",
+        "product": "Performance testing API",
+        "direct": false,
+        "requested": null,
+        "resolved": "3.2.0",
+        "depth": 3,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.test-framework.performance@3.2/manual/index.html",
+        "minimumEditorDeclared": "2020.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.test-framework.performance@0840f58e4562/package.json",
+        "cacheMetadataSha256": "d0a1e26a0cd08ea8160567d3e0f10b75a6e1a34c66ea2c1d9fbcdcee88d39e9d",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.timeline",
+        "product": "Timeline",
+        "direct": true,
+        "requested": "1.8.12",
+        "resolved": "1.8.12",
+        "depth": 0,
+        "source": "registry",
+        "registry": "https://packages.unity.com",
+        "acquisition": {
+          "location": "https://packages.unity.com",
+          "evidence": "packages-lock.json url",
+          "method": "UPM with retained manifest/lock and Editor version; endpoint availability not tested"
+        },
+        "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.timeline@1.8/manual/index.html",
+        "minimumEditorDeclared": "2022.3",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.timeline@8cd8509afae5/package.json",
+        "cacheMetadataSha256": "5454ac066b789dc0a11fc6ab0b12d723a73327bca664ded2ba230019e559530a",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      },
+      {
+        "id": "com.unity.ugui",
+        "product": "uGUI",
+        "direct": true,
+        "requested": "2.0.0",
+        "resolved": "2.0.0",
+        "depth": 0,
+        "source": "builtin",
+        "registry": null,
+        "acquisition": {
+          "location": null,
+          "evidence": "packages-lock.json source=builtin",
+          "method": "matching Unity Editor and its built-in package set; cache is not the acquisition contract"
+        },
+        "documentationUrl": null,
+        "minimumEditorDeclared": "2019.2",
+        "cacheMetadataPath": "Library/PackageCache/com.unity.ugui@1890c14c96ff/package.json",
+        "cacheMetadataSha256": "e6ae8d5d04ab62beaa49ed3a08ce7def4c8e6467ffadd94420fa20f7d2a1b86e",
+        "cacheVersionMatches": true,
+        "cacheDependenciesMatch": true,
+        "preserve": [
+          "Packages/manifest.json",
+          "Packages/packages-lock.json",
+          "ProjectSettings/ProjectVersion.txt"
+        ],
+        "status": "local declaration/cache metadata verified; entitlement/license Step 5; fresh restore Phase 3"
+      }
+    ],
+    "edges": [
+      {
+        "from": "com.unity.burst",
+        "to": "com.unity.mathematics",
+        "requested": "1.2.1",
+        "resolved": "1.3.3",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.burst",
+        "to": "com.unity.modules.jsonserialize",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.cinemachine",
+        "to": "com.unity.splines",
+        "requested": "2.0.0",
+        "resolved": "2.8.2",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.cinemachine",
+        "to": "com.unity.modules.imgui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.collections",
+        "to": "com.unity.burst",
+        "requested": "1.8.23",
+        "resolved": "1.8.27",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.collections",
+        "to": "com.unity.mathematics",
+        "requested": "1.3.2",
+        "resolved": "1.3.3",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.collections",
+        "to": "com.unity.test-framework",
+        "requested": "1.4.6",
+        "resolved": "1.6.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.collections",
+        "to": "com.unity.nuget.mono-cecil",
+        "requested": "1.11.5",
+        "resolved": "1.11.6",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.collections",
+        "to": "com.unity.test-framework.performance",
+        "requested": "3.0.3",
+        "resolved": "3.2.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.ide.rider",
+        "to": "com.unity.ext.nunit",
+        "requested": "1.0.6",
+        "resolved": "2.0.5",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.ide.visualstudio",
+        "to": "com.unity.test-framework",
+        "requested": "1.1.33",
+        "resolved": "1.6.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.inputsystem",
+        "to": "com.unity.modules.uielements",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.adaptiveperformance",
+        "to": "com.unity.modules.subsystems",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.cloth",
+        "to": "com.unity.modules.physics",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.director",
+        "to": "com.unity.modules.audio",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.director",
+        "to": "com.unity.modules.animation",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.screencapture",
+        "to": "com.unity.modules.imageconversion",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.subsystems",
+        "to": "com.unity.modules.jsonserialize",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.terrainphysics",
+        "to": "com.unity.modules.physics",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.terrainphysics",
+        "to": "com.unity.modules.terrain",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.tilemap",
+        "to": "com.unity.modules.physics2d",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.uielements",
+        "to": "com.unity.modules.ui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.uielements",
+        "to": "com.unity.modules.imgui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.uielements",
+        "to": "com.unity.modules.jsonserialize",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.uielements",
+        "to": "com.unity.modules.hierarchycore",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.uielements",
+        "to": "com.unity.modules.physics",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unityanalytics",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unityanalytics",
+        "to": "com.unity.modules.jsonserialize",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestassetbundle",
+        "to": "com.unity.modules.assetbundle",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestassetbundle",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestaudio",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestaudio",
+        "to": "com.unity.modules.audio",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequesttexture",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequesttexture",
+        "to": "com.unity.modules.imageconversion",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestwww",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestwww",
+        "to": "com.unity.modules.unitywebrequestassetbundle",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestwww",
+        "to": "com.unity.modules.unitywebrequestaudio",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestwww",
+        "to": "com.unity.modules.audio",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestwww",
+        "to": "com.unity.modules.assetbundle",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.unitywebrequestwww",
+        "to": "com.unity.modules.imageconversion",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.vectorgraphics",
+        "to": "com.unity.modules.uielements",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.vectorgraphics",
+        "to": "com.unity.modules.imageconversion",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.vectorgraphics",
+        "to": "com.unity.modules.imgui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.vehicles",
+        "to": "com.unity.modules.physics",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.video",
+        "to": "com.unity.modules.audio",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.video",
+        "to": "com.unity.modules.ui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.modules.video",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.render-pipelines.core",
+        "to": "com.unity.burst",
+        "requested": "1.8.14",
+        "resolved": "1.8.27",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.render-pipelines.core",
+        "to": "com.unity.mathematics",
+        "requested": "1.3.2",
+        "resolved": "1.3.3",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.render-pipelines.core",
+        "to": "com.unity.ugui",
+        "requested": "2.0.0",
+        "resolved": "2.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.render-pipelines.core",
+        "to": "com.unity.collections",
+        "requested": "2.4.3",
+        "resolved": "2.6.2",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.render-pipelines.core",
+        "to": "com.unity.modules.physics",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.render-pipelines.core",
+        "to": "com.unity.modules.terrain",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.render-pipelines.core",
+        "to": "com.unity.modules.jsonserialize",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.render-pipelines.universal",
+        "to": "com.unity.render-pipelines.core",
+        "requested": "17.3.0",
+        "resolved": "17.3.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.render-pipelines.universal",
+        "to": "com.unity.shadergraph",
+        "requested": "17.3.0",
+        "resolved": "17.3.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.render-pipelines.universal",
+        "to": "com.unity.render-pipelines.universal-config",
+        "requested": "17.0.3",
+        "resolved": "17.0.3",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.render-pipelines.universal-config",
+        "to": "com.unity.render-pipelines.core",
+        "requested": "17.0.3",
+        "resolved": "17.3.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.authentication",
+        "to": "com.unity.ugui",
+        "requested": "1.0.0",
+        "resolved": "2.0.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.authentication",
+        "to": "com.unity.services.core",
+        "requested": "1.18.0",
+        "resolved": "1.18.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.services.authentication",
+        "to": "com.unity.nuget.newtonsoft-json",
+        "requested": "3.2.2",
+        "resolved": "3.2.2",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.services.authentication",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.services.cloudcode",
+        "to": "com.unity.services.core",
+        "requested": "1.15.1",
+        "resolved": "1.18.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.cloudcode",
+        "to": "com.unity.services.wire",
+        "requested": "1.2.3",
+        "resolved": "1.4.1",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.cloudcode",
+        "to": "com.unity.nuget.newtonsoft-json",
+        "requested": "3.0.2",
+        "resolved": "3.2.2",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.cloudcode",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.services.cloudcode",
+        "to": "com.unity.services.authentication",
+        "requested": "3.5.1",
+        "resolved": "3.8.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.core",
+        "to": "com.unity.modules.androidjni",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.services.core",
+        "to": "com.unity.nuget.newtonsoft-json",
+        "requested": "3.2.2",
+        "resolved": "3.2.2",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.services.core",
+        "to": "com.unity.modules.unitywebrequest",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.services.deployment",
+        "to": "com.unity.services.core",
+        "requested": "1.15.1",
+        "resolved": "1.18.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.deployment",
+        "to": "com.unity.services.deployment.api",
+        "requested": "1.1.2",
+        "resolved": "1.1.3",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.wire",
+        "to": "com.unity.services.core",
+        "requested": "1.12.5",
+        "resolved": "1.18.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.wire",
+        "to": "com.unity.nuget.newtonsoft-json",
+        "requested": "3.2.1",
+        "resolved": "3.2.2",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.services.wire",
+        "to": "com.unity.services.authentication",
+        "requested": "2.7.4",
+        "resolved": "3.8.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.shadergraph",
+        "to": "com.unity.render-pipelines.core",
+        "requested": "17.3.0",
+        "resolved": "17.3.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.shadergraph",
+        "to": "com.unity.searcher",
+        "requested": "4.9.3",
+        "resolved": "4.9.4",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.splines",
+        "to": "com.unity.mathematics",
+        "requested": "1.2.1",
+        "resolved": "1.3.3",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.splines",
+        "to": "com.unity.modules.imgui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.splines",
+        "to": "com.unity.settings-manager",
+        "requested": "1.0.3",
+        "resolved": "2.1.1",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.test-framework",
+        "to": "com.unity.ext.nunit",
+        "requested": "2.0.3",
+        "resolved": "2.0.5",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.test-framework",
+        "to": "com.unity.modules.imgui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.test-framework",
+        "to": "com.unity.modules.jsonserialize",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.test-framework.performance",
+        "to": "com.unity.test-framework",
+        "requested": "1.1.33",
+        "resolved": "1.6.0",
+        "equal": false,
+        "interpretation": "resolved different; priority/resolution metadata, not an exact equality failure or runtime compatibility proof"
+      },
+      {
+        "from": "com.unity.test-framework.performance",
+        "to": "com.unity.modules.jsonserialize",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.timeline",
+        "to": "com.unity.modules.audio",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.timeline",
+        "to": "com.unity.modules.director",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.timeline",
+        "to": "com.unity.modules.animation",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.timeline",
+        "to": "com.unity.modules.particlesystem",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.ugui",
+        "to": "com.unity.modules.ui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      },
+      {
+        "from": "com.unity.ugui",
+        "to": "com.unity.modules.imgui",
+        "requested": "1.0.0",
+        "resolved": "1.0.0",
+        "equal": true,
+        "interpretation": "exact"
+      }
+    ],
+    "diagnostics": [],
+    "cycles": [],
+    "summary": {
+      "direct": 43,
+      "total": 61,
+      "transitiveOnly": 18,
+      "registry": 20,
+      "builtin": 41,
+      "edges": 91,
+      "differentRequestedResolvedEdges": 28,
+      "cacheMetadata": 61,
+      "cacheVersionAndDependencyMatches": 61
+    }
+  },
+  "tmp": {
+    "provider": "com.unity.ugui@2.0.0",
+    "archives": [
+      {
+        "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Package Resources/TMP Essential Resources.unitypackage",
+        "bytes": 941722,
+        "sha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431",
+        "importedOrExtracted": false
+      },
+      {
+        "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Package Resources/TMP Examples & Extras.unitypackage",
+        "bytes": 2108788,
+        "sha256": "d4091e271f4e93f1cf42bad0ad92d9d347f4cb603200daafdcd484a83f6c2df0",
+        "importedOrExtracted": false
+      }
+    ],
+    "importerSource": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Editor/TMP/TMP_PackageUtilities.cs",
+    "target": "Assets/TextMesh Pro",
+    "relationship": "provider contains TMP archives and importer targets package resources; local equality/GUID/importer changes pending Steps 4-5",
+    "restore": "separate Assets import/reapplication contract needed; UPM resolution alone does not preserve project settings"
+  },
+  "auxiliary": {
+    "rootNpm": {
+      "manifest": "package.json",
+      "lock": "package-lock.json",
+      "lockfileVersion": 3,
+      "lockPackageEntries": 58,
+      "manifestLockRootDrift": [],
+      "direct": [
+        {
+          "group": "dependencies",
+          "name": "axios",
+          "requested": "^0.21.2",
+          "lockVersion": "0.21.4",
+          "lockResolved": "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz",
+          "source": "registry",
+          "localPath": null,
+          "localExists": null,
+          "archiveMetadata": null,
+          "archiveSha256": null,
+          "provider": null,
+          "restore": "retain npm declaration+lock; registry retrieval not tested"
+        },
+        {
+          "group": "dependencies",
+          "name": "axios-0.21",
+          "requested": "npm:axios@^0.21.2",
+          "lockVersion": "0.21.4",
+          "lockResolved": "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz",
+          "source": "registry-alias",
+          "localPath": null,
+          "localExists": null,
+          "archiveMetadata": null,
+          "archiveSha256": null,
+          "provider": null,
+          "restore": "retain npm declaration+lock; registry retrieval not tested"
+        },
+        {
+          "group": "dependencies",
+          "name": "lodash",
+          "requested": "4.17.21",
+          "lockVersion": "4.17.21",
+          "lockResolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz",
+          "source": "registry",
+          "localPath": null,
+          "localExists": null,
+          "archiveMetadata": null,
+          "archiveSha256": null,
+          "provider": null,
+          "restore": "retain npm declaration+lock; registry retrieval not tested"
+        },
+        {
+          "group": "dependencies",
+          "name": "lodash-4.17",
+          "requested": "npm:lodash@^4.17",
+          "lockVersion": "4.18.1",
+          "lockResolved": "https://registry.npmjs.org/lodash/-/lodash-4.18.1.tgz",
+          "source": "registry-alias",
+          "localPath": null,
+          "localExists": null,
+          "archiveMetadata": null,
+          "archiveSha256": null,
+          "provider": null,
+          "restore": "retain npm declaration+lock; registry retrieval not tested"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/cloud-save",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-0.0.5.tgz",
+          "lockVersion": "0.0.5",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-0.0.5.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-0.0.5.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/cloud-save",
+            "version": "0.0.5",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/cloud-save-1.0",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.0.1.tgz",
+          "lockVersion": "1.0.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.0.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.0.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/cloud-save",
+            "version": "1.0.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/cloud-save-1.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.1.0.tgz",
+          "lockVersion": "1.1.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.1.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.1.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/cloud-save",
+            "version": "1.1.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/cloud-save-1.2",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.2.0.tgz",
+          "lockVersion": "1.2.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/cloud-save",
+            "version": "1.2.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/cloud-save-1.2.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.2.1.tgz",
+          "lockVersion": "1.2.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/cloud-save",
+            "version": "1.2.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/cloud-save-1.3",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.3.0.tgz",
+          "lockVersion": "1.3.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.3.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.3.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/cloud-save",
+            "version": "1.3.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/cloud-save-1.4",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.4.0.tgz",
+          "lockVersion": "1.4.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.4.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.4.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/cloud-save",
+            "version": "1.4.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.0",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.0.2.tgz",
+          "lockVersion": "2.0.2",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.0.2.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.0.2.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.0.2",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.1.1.tgz",
+          "lockVersion": "2.1.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.1.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.1.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.1.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.2",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.2.0.tgz",
+          "lockVersion": "2.2.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.2.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.2.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.2.1.tgz",
+          "lockVersion": "2.2.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.2.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.3",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.0.tgz",
+          "lockVersion": "2.3.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.3.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.3.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.1.tgz",
+          "lockVersion": "2.3.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.3.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.3.2",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.2.tgz",
+          "lockVersion": "2.3.2",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.2.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.2.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.3.2",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.4",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.4.0.tgz",
+          "lockVersion": "2.4.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.4.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/economy-2.4.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.4.1.tgz",
+          "lockVersion": "2.4.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/economy",
+            "version": "2.4.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/remote-config",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-0.0.4.tgz",
+          "lockVersion": "0.0.4",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-0.0.4.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-0.0.4.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/remote-config",
+            "version": "0.0.4",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/remote-config-1.0",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.0.1.tgz",
+          "lockVersion": "1.0.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.0.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.0.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/remote-config",
+            "version": "1.0.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/remote-config-1.1.0",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.0.tgz",
+          "lockVersion": "1.1.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/remote-config",
+            "version": "1.1.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/remote-config-1.1.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.1.tgz",
+          "lockVersion": "1.1.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/remote-config",
+            "version": "1.1.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/remote-config-1.1.2",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.2.tgz",
+          "lockVersion": "1.1.2",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.2.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.2.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/remote-config",
+            "version": "1.1.2",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/vivox-0.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\vivox-0.1.6.tgz",
+          "lockVersion": "0.1.6",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/vivox-0.1.6.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/vivox-0.1.6.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/vivox",
+            "version": "0.1.6",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/lobby-1.0",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.0.1.tgz",
+          "lockVersion": "1.0.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.0.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.0.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/lobby",
+            "version": "1.0.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/lobby-1.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.0.tgz",
+          "lockVersion": "1.1.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/lobby",
+            "version": "1.1.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/lobby-1.1.1",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.1.tgz",
+          "lockVersion": "1.1.1",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.1.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.1.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/lobby",
+            "version": "1.1.1",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/lobby-1.1.2",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.2.tgz",
+          "lockVersion": "1.1.2",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.2.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.2.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/lobby",
+            "version": "1.1.2",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "dependencies",
+          "name": "@unity-services/lobby-1.2",
+          "requested": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.2.0.tgz",
+          "lockVersion": "1.2.0",
+          "lockResolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.2.0.tgz",
+          "source": "local-tarball",
+          "localPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.2.0.tgz",
+          "localExists": true,
+          "archiveMetadata": {
+            "name": "@unity-services/lobby",
+            "version": "1.2.0",
+            "license": "Unlicense"
+          },
+          "archiveSha256": "f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e",
+          "provider": "com.unity.services.cloudcode@2.10.4 / UnityServicesNpmLocal~",
+          "restore": "rediscover provider by ID/version; verify archive hash; current cache suffix/Windows path not portable restoration proof"
+        },
+        {
+          "group": "devDependencies",
+          "name": "@types/lodash",
+          "requested": "^4.14.177",
+          "lockVersion": "4.17.25",
+          "lockResolved": "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.25.tgz",
+          "source": "registry",
+          "localPath": null,
+          "localExists": null,
+          "archiveMetadata": null,
+          "archiveSha256": null,
+          "provider": null,
+          "restore": "retain npm declaration+lock; registry retrieval not tested"
+        },
+        {
+          "group": "devDependencies",
+          "name": "@types/lodash-4.17",
+          "requested": "npm:@types/lodash@^4.14.177",
+          "lockVersion": "4.17.25",
+          "lockResolved": "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.25.tgz",
+          "source": "registry-alias",
+          "localPath": null,
+          "localExists": null,
+          "archiveMetadata": null,
+          "archiveSha256": null,
+          "provider": null,
+          "restore": "retain npm declaration+lock; registry retrieval not tested"
+        }
+      ],
+      "status": "declaration root matches",
+      "lockPackages": [
+        {
+          "path": "node_modules/@types/lodash",
+          "name": null,
+          "version": "4.17.25",
+          "resolved": "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.25.tgz",
+          "integrity": "sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": true,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/@types/lodash-4.17",
+          "name": "@types/lodash",
+          "version": "4.17.25",
+          "resolved": "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.25.tgz",
+          "integrity": "sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": true,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save",
+          "name": null,
+          "version": "0.0.5",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-0.0.5.tgz",
+          "integrity": "sha512-/ZLiOKbv7PE01EADsGFEwgCOe/4d6F/bLHHbWJ8JfcIxFvRECX5TD5eqHsmK5sV3GbQzCFTcLyRddwxCQi6EFA==",
+          "dependencies": {
+            "axios": "^0.21.1"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.0",
+          "name": "@unity-services/cloud-save",
+          "version": "1.0.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.0.1.tgz",
+          "integrity": "sha512-/V7oEJ/mMDVckVo1PQE/gTCVGw31bX+h5O0wSFRpNsc1Mrsv9siW3709UP+cEactu3iAeRgc/On0BvVrJeAQ9w==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.1",
+          "name": "@unity-services/cloud-save",
+          "version": "1.1.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.1.0.tgz",
+          "integrity": "sha512-j7+/YQVO6d43dnhw8KkfjIEAkmauUU8cGCGK/XpRrU6DEb8KJ4t4IdBHf10VHn5X210n6WENLiwAJuzd7sRQVQ==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.2",
+          "name": "@unity-services/cloud-save",
+          "version": "1.2.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.0.tgz",
+          "integrity": "sha512-fP4pv4aGRJ0/9p9EHiyhy6SPT1E/cRP6R4nvNmC4okywc8QH2p9v9dl63FqVK5M8p7S45kW4+AuAPhv5SPedaQ==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.2.1",
+          "name": "@unity-services/cloud-save",
+          "version": "1.2.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.1.tgz",
+          "integrity": "sha512-gvY5/C+TF0JB/8Ef+itEJeUFEFZdAluXy1x2f+QDs50uogPjlpRIGD9D7WlPK0CzUCnaeKuCc6I/3VEXhT0mog==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.3",
+          "name": "@unity-services/cloud-save",
+          "version": "1.3.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.3.0.tgz",
+          "integrity": "sha512-IaywDFaWiC8a6RDf7paU9CFSfsv0SxlNiflvCcm46N8KdJxV2ZNSurksW0DEBXzJFJHEjONn3IdfkII00rbjqQ==",
+          "dependencies": {
+            "axios": "^0.27.2"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.3/node_modules/axios",
+          "name": null,
+          "version": "0.27.2",
+          "resolved": "https://registry.npmjs.org/axios/-/axios-0.27.2.tgz",
+          "integrity": "sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==",
+          "dependencies": {
+            "follow-redirects": "^1.14.9",
+            "form-data": "^4.0.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.4",
+          "name": "@unity-services/cloud-save",
+          "version": "1.4.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.4.0.tgz",
+          "integrity": "sha512-AKe5Dd85BGdZ2CTBL5Oe3edbjjKJMgDOSZLZX0PDDjuqUBWYjfOmm9qEp+Ccj9l4WC6OpGskoUihjGw/FiChZg==",
+          "dependencies": {
+            "axios": "^0.27.2"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/cloud-save-1.4/node_modules/axios",
+          "name": null,
+          "version": "0.27.2",
+          "resolved": "https://registry.npmjs.org/axios/-/axios-0.27.2.tgz",
+          "integrity": "sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==",
+          "dependencies": {
+            "follow-redirects": "^1.14.9",
+            "form-data": "^4.0.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.0",
+          "name": "@unity-services/economy",
+          "version": "2.0.2",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.0.2.tgz",
+          "integrity": "sha512-fe1qRDnT5ykfVABlZ4+0+9nd6uACMXVIJdglerkzrDY39zOM289QtXYdN7+cohslYK8lqIKajch+Xrwl2dS/2w==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.1",
+          "name": "@unity-services/economy",
+          "version": "2.1.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.1.1.tgz",
+          "integrity": "sha512-ueCrJ9fROgC6K7VApguFUlnp8sddBowdUXlbn1STip5QJ+6yo1LDOs5AuxfsxiGwB3Hs5R8HZ48vEXRCJWuc0A==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.2",
+          "name": "@unity-services/economy",
+          "version": "2.2.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.0.tgz",
+          "integrity": "sha512-pf6kiMrvEuwzsGBWqab+2tTSqybI3jAaDEMS4iwM9xm54UImpieHa5azjpoHp96iBK4mT0QWHCdXLceWKB5hhg==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.2.1",
+          "name": "@unity-services/economy",
+          "version": "2.2.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.1.tgz",
+          "integrity": "sha512-RmPiCLkJHIZS32RyKgZlMq1vEyD8ejyOjTEV8NtqmIPhqBLXniSNoWZyEBSNHx8ZRtTnSmhpGoCw6MqBicyt0w==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.3",
+          "name": "@unity-services/economy",
+          "version": "2.3.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.0.tgz",
+          "integrity": "sha512-+z03B/srqhnWH/6HCsJOeRw8heqKMobdnuiQh5QVaqlYVPDighf/Ln/JDU9WrKigSgeTs1lhYHDSkJVef+nJ+g==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.3.1",
+          "name": "@unity-services/economy",
+          "version": "2.3.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.1.tgz",
+          "integrity": "sha512-Y7wDjS46Sg2D42/DBOC9Yhumek3v/qC8M5Od9v5q7yjD4yAzVYeK+CKZm7TK+7DqUaN4Pdix8n23eFsHtbKrzA==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.3.2",
+          "name": "@unity-services/economy",
+          "version": "2.3.2",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.2.tgz",
+          "integrity": "sha512-mJvEfvrAdZbInjmav9VVcoO4NaGNc91yeWXIkQGqOcKP8HNDA/zli7IlrxV9glie2KSr6/ki7OlHA8HqvLQ3/A==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.4",
+          "name": "@unity-services/economy",
+          "version": "2.4.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.0.tgz",
+          "integrity": "sha512-sdQQnFsfx2QTELsj1NzHKlZ4cf1QGU/fwlsTt5PJv2ZcEd6JpE5C/mvY0EovIBY+xX51w7Rpz2LwywHrl9JBeQ==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/economy-2.4.1",
+          "name": "@unity-services/economy",
+          "version": "2.4.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.1.tgz",
+          "integrity": "sha512-PalvW4gbCQAieQ/hfJNXs6TOkQQ3gwFtZWV8ot9PvLDCpbCkuXph8QbbmlxC/Ia7YRgVjXAsGNIct51RecDmqw==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.0",
+          "name": "@unity-services/lobby",
+          "version": "1.0.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.0.1.tgz",
+          "integrity": "sha512-1pLZWJRDPUxwynrmPTglA0dCRVhw1AmaTMXBeIvz9ZWk/wLgLQhqcAuyEFhSFObbF9iJ3lut9XyyNNSGtbF2HQ==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.1",
+          "name": "@unity-services/lobby",
+          "version": "1.1.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.0.tgz",
+          "integrity": "sha512-dcA+VH0RucY206nhSaQLeunOmRsHJXmJjQKatIuFYfyFQouXX75K1SldU3eUuIzDoahvTz96pxwnI4Wm8HvMzQ==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.1.1",
+          "name": "@unity-services/lobby",
+          "version": "1.1.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.1.tgz",
+          "integrity": "sha512-z+mjk9ZaDP2TdswOkrcu4+szfWYtiqW8mLOBW+fUDWKRIQGL53htbL3RUPFJpD9fW2teFjNL9LHnvkaaud8BKg==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.1.2",
+          "name": "@unity-services/lobby",
+          "version": "1.1.2",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.2.tgz",
+          "integrity": "sha512-4tsTvyJAHPOB+V8ZtJ6OVFK8d9414qHSqDJ/Hlusgf+7Wayg4ALhf4YEgsK3P6zmr0TfxKNOmuqVnXt8UvuX+Q==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/lobby-1.2",
+          "name": "@unity-services/lobby",
+          "version": "1.2.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.2.0.tgz",
+          "integrity": "sha512-FIFe02MKglh5/pm+7V7ZxkgCd8esFNHlmpGxEkxrUdZHhEMILsPpeyungg5K7GcIG6yOBOLlEpNnZY09NqSItA==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config",
+          "name": null,
+          "version": "0.0.4",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-0.0.4.tgz",
+          "integrity": "sha512-Q1vMA8rF7vqkHGJx97m2Kwszjq0OQXQsKGj87Ct1o9TWKlN61C91axSKCuKM8dxAs+DEXldd87AyzqWVTwJcrw==",
+          "dependencies": {
+            "axios": "^0.21.1"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config-1.0",
+          "name": "@unity-services/remote-config",
+          "version": "1.0.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.0.1.tgz",
+          "integrity": "sha512-dXeNTMRbhAuoOQO6YkdDb0cSPhenkepVJRkaFEbq3JVm/ojoO7hH2PqiXGJ9/Rw4p6nE29UZLgMU6LVRvM4oww==",
+          "dependencies": {
+            "axios": "^0.21.2"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config-1.1.0",
+          "name": "@unity-services/remote-config",
+          "version": "1.1.0",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.0.tgz",
+          "integrity": "sha512-Z18RC7Np9PNLatED1ew2fV9UC9TCwrCxHTYMKI3MhMdD1jF9NZQG3pnIwdhK44IOwXeGJ5aunQgnBmp4bZlPTQ==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config-1.1.1",
+          "name": "@unity-services/remote-config",
+          "version": "1.1.1",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.1.tgz",
+          "integrity": "sha512-TMA6FvX7RwNJER18U652Sz+QbrdpmbKFwiZa3fU+R9zeQmEFz/UOMuM7kUuumNIiCoRMRytAw1FOfB/dnYM4ig==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/remote-config-1.1.2",
+          "name": "@unity-services/remote-config",
+          "version": "1.1.2",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.2.tgz",
+          "integrity": "sha512-jF0J5glXjIkEKD03rOtT4DnlzLFJlbjbdT8eFs/sHk0pTY4+eftn5UTogOXkR4hxaw8cukOUuCgbr4e7nSsqVA==",
+          "dependencies": {
+            "axios": "^0.21.4"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/@unity-services/vivox-0.1",
+          "name": "@unity-services/vivox",
+          "version": "0.1.6",
+          "resolved": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/vivox-0.1.6.tgz",
+          "integrity": "sha512-12FcPiwqtopBLxHzcK7FFhVKq8wlolr85xcnRnaldOzGH83eKvnmSopfKHLaLcFZ5QIs2yaC4kHEoRFYCgRnKA==",
+          "dependencies": {
+            "axios": "^0.21.4",
+            "crypto-js": "4.1.1"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "local-tarball"
+        },
+        {
+          "path": "node_modules/asynckit",
+          "name": null,
+          "version": "0.4.0",
+          "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",
+          "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/axios",
+          "name": null,
+          "version": "0.21.4",
+          "resolved": "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz",
+          "integrity": "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==",
+          "dependencies": {
+            "follow-redirects": "^1.14.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/axios-0.21",
+          "name": "axios",
+          "version": "0.21.4",
+          "resolved": "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz",
+          "integrity": "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==",
+          "dependencies": {
+            "follow-redirects": "^1.14.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/call-bind-apply-helpers",
+          "name": null,
+          "version": "1.0.2",
+          "resolved": "https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz",
+          "integrity": "sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==",
+          "dependencies": {
+            "es-errors": "^1.3.0",
+            "function-bind": "^1.1.2"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/combined-stream",
+          "name": null,
+          "version": "1.0.8",
+          "resolved": "https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz",
+          "integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==",
+          "dependencies": {
+            "delayed-stream": "~1.0.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/crypto-js",
+          "name": null,
+          "version": "4.1.1",
+          "resolved": "https://registry.npmjs.org/crypto-js/-/crypto-js-4.1.1.tgz",
+          "integrity": "sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/delayed-stream",
+          "name": null,
+          "version": "1.0.0",
+          "resolved": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz",
+          "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/dunder-proto",
+          "name": null,
+          "version": "1.0.1",
+          "resolved": "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz",
+          "integrity": "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==",
+          "dependencies": {
+            "call-bind-apply-helpers": "^1.0.1",
+            "es-errors": "^1.3.0",
+            "gopd": "^1.2.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/es-define-property",
+          "name": null,
+          "version": "1.0.1",
+          "resolved": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+          "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/es-errors",
+          "name": null,
+          "version": "1.3.0",
+          "resolved": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+          "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/es-object-atoms",
+          "name": null,
+          "version": "1.1.2",
+          "resolved": "https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.2.tgz",
+          "integrity": "sha512-HWcBoN6NileqtSydK2FqHbS/LoDd2pqrnQHLyJzBj4kOp/ky2MWMN694xOfkK8/SnUsW2DH7EfyVlydKCsm1Zw==",
+          "dependencies": {
+            "es-errors": "^1.3.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/es-set-tostringtag",
+          "name": null,
+          "version": "2.1.0",
+          "resolved": "https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz",
+          "integrity": "sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==",
+          "dependencies": {
+            "es-errors": "^1.3.0",
+            "get-intrinsic": "^1.2.6",
+            "has-tostringtag": "^1.0.2",
+            "hasown": "^2.0.2"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/follow-redirects",
+          "name": null,
+          "version": "1.16.1",
+          "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.16.1.tgz",
+          "integrity": "sha512-FNvFGzoMLWmE6Yj9spb/zjd7yiNCHiAW9/Tg9CXrQ8wuu32HtlJOwWO11OJafl5FfY3DxTdQ0vj42zU1kvv5jg==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/form-data",
+          "name": null,
+          "version": "4.0.6",
+          "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.6.tgz",
+          "integrity": "sha512-vKatAh4SlVfgbv+YtmhiRjhEMJsYpsG1Y2rMQtR+SVSbytsSD1YGzDIcrAJmdFec88u/+VoGmxnl+80gL1tRCQ==",
+          "dependencies": {
+            "asynckit": "^0.4.0",
+            "combined-stream": "^1.0.8",
+            "es-set-tostringtag": "^2.1.0",
+            "hasown": "^2.0.4",
+            "mime-types": "^2.1.35"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/function-bind",
+          "name": null,
+          "version": "1.1.2",
+          "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+          "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/get-intrinsic",
+          "name": null,
+          "version": "1.3.0",
+          "resolved": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz",
+          "integrity": "sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==",
+          "dependencies": {
+            "call-bind-apply-helpers": "^1.0.2",
+            "es-define-property": "^1.0.1",
+            "es-errors": "^1.3.0",
+            "es-object-atoms": "^1.1.1",
+            "function-bind": "^1.1.2",
+            "get-proto": "^1.0.1",
+            "gopd": "^1.2.0",
+            "has-symbols": "^1.1.0",
+            "hasown": "^2.0.2",
+            "math-intrinsics": "^1.1.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/get-proto",
+          "name": null,
+          "version": "1.0.1",
+          "resolved": "https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz",
+          "integrity": "sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==",
+          "dependencies": {
+            "dunder-proto": "^1.0.1",
+            "es-object-atoms": "^1.0.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/gopd",
+          "name": null,
+          "version": "1.2.0",
+          "resolved": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+          "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/has-symbols",
+          "name": null,
+          "version": "1.1.0",
+          "resolved": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz",
+          "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/has-tostringtag",
+          "name": null,
+          "version": "1.0.2",
+          "resolved": "https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz",
+          "integrity": "sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==",
+          "dependencies": {
+            "has-symbols": "^1.0.3"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/hasown",
+          "name": null,
+          "version": "2.0.4",
+          "resolved": "https://registry.npmjs.org/hasown/-/hasown-2.0.4.tgz",
+          "integrity": "sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==",
+          "dependencies": {
+            "function-bind": "^1.1.2"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/lodash",
+          "name": null,
+          "version": "4.17.21",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz",
+          "integrity": "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/lodash-4.17",
+          "name": "lodash",
+          "version": "4.18.1",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.18.1.tgz",
+          "integrity": "sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/math-intrinsics",
+          "name": null,
+          "version": "1.1.0",
+          "resolved": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
+          "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/mime-db",
+          "name": null,
+          "version": "1.52.0",
+          "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz",
+          "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==",
+          "dependencies": {},
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        },
+        {
+          "path": "node_modules/mime-types",
+          "name": null,
+          "version": "2.1.35",
+          "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz",
+          "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",
+          "dependencies": {
+            "mime-db": "1.52.0"
+          },
+          "optionalDependencies": {},
+          "dev": false,
+          "source": "npm-registry"
+        }
+      ],
+      "lockDiagnostics": [],
+      "lockEdges": [
+        {
+          "from": "node_modules/@unity-services/cloud-save",
+          "to": "node_modules/axios",
+          "requested": "^0.21.1",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.0",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.2",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.2.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.3",
+          "to": "node_modules/@unity-services/cloud-save-1.3/node_modules/axios",
+          "requested": "^0.27.2",
+          "resolved": "0.27.2"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.3/node_modules/axios",
+          "to": "node_modules/follow-redirects",
+          "requested": "^1.14.9",
+          "resolved": "1.16.1"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.3/node_modules/axios",
+          "to": "node_modules/form-data",
+          "requested": "^4.0.0",
+          "resolved": "4.0.6"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.4",
+          "to": "node_modules/@unity-services/cloud-save-1.4/node_modules/axios",
+          "requested": "^0.27.2",
+          "resolved": "0.27.2"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.4/node_modules/axios",
+          "to": "node_modules/follow-redirects",
+          "requested": "^1.14.9",
+          "resolved": "1.16.1"
+        },
+        {
+          "from": "node_modules/@unity-services/cloud-save-1.4/node_modules/axios",
+          "to": "node_modules/form-data",
+          "requested": "^4.0.0",
+          "resolved": "4.0.6"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.0",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.2",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.2.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.3",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.3.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.3.2",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.4",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/economy-2.4.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/lobby-1.0",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/lobby-1.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/lobby-1.1.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/lobby-1.1.2",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/lobby-1.2",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/remote-config",
+          "to": "node_modules/axios",
+          "requested": "^0.21.1",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/remote-config-1.0",
+          "to": "node_modules/axios",
+          "requested": "^0.21.2",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/remote-config-1.1.0",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/remote-config-1.1.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/remote-config-1.1.2",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/vivox-0.1",
+          "to": "node_modules/axios",
+          "requested": "^0.21.4",
+          "resolved": "0.21.4"
+        },
+        {
+          "from": "node_modules/@unity-services/vivox-0.1",
+          "to": "node_modules/crypto-js",
+          "requested": "4.1.1",
+          "resolved": "4.1.1"
+        },
+        {
+          "from": "node_modules/axios",
+          "to": "node_modules/follow-redirects",
+          "requested": "^1.14.0",
+          "resolved": "1.16.1"
+        },
+        {
+          "from": "node_modules/axios-0.21",
+          "to": "node_modules/follow-redirects",
+          "requested": "^1.14.0",
+          "resolved": "1.16.1"
+        },
+        {
+          "from": "node_modules/call-bind-apply-helpers",
+          "to": "node_modules/es-errors",
+          "requested": "^1.3.0",
+          "resolved": "1.3.0"
+        },
+        {
+          "from": "node_modules/call-bind-apply-helpers",
+          "to": "node_modules/function-bind",
+          "requested": "^1.1.2",
+          "resolved": "1.1.2"
+        },
+        {
+          "from": "node_modules/combined-stream",
+          "to": "node_modules/delayed-stream",
+          "requested": "~1.0.0",
+          "resolved": "1.0.0"
+        },
+        {
+          "from": "node_modules/dunder-proto",
+          "to": "node_modules/call-bind-apply-helpers",
+          "requested": "^1.0.1",
+          "resolved": "1.0.2"
+        },
+        {
+          "from": "node_modules/dunder-proto",
+          "to": "node_modules/es-errors",
+          "requested": "^1.3.0",
+          "resolved": "1.3.0"
+        },
+        {
+          "from": "node_modules/dunder-proto",
+          "to": "node_modules/gopd",
+          "requested": "^1.2.0",
+          "resolved": "1.2.0"
+        },
+        {
+          "from": "node_modules/es-object-atoms",
+          "to": "node_modules/es-errors",
+          "requested": "^1.3.0",
+          "resolved": "1.3.0"
+        },
+        {
+          "from": "node_modules/es-set-tostringtag",
+          "to": "node_modules/es-errors",
+          "requested": "^1.3.0",
+          "resolved": "1.3.0"
+        },
+        {
+          "from": "node_modules/es-set-tostringtag",
+          "to": "node_modules/get-intrinsic",
+          "requested": "^1.2.6",
+          "resolved": "1.3.0"
+        },
+        {
+          "from": "node_modules/es-set-tostringtag",
+          "to": "node_modules/has-tostringtag",
+          "requested": "^1.0.2",
+          "resolved": "1.0.2"
+        },
+        {
+          "from": "node_modules/es-set-tostringtag",
+          "to": "node_modules/hasown",
+          "requested": "^2.0.2",
+          "resolved": "2.0.4"
+        },
+        {
+          "from": "node_modules/form-data",
+          "to": "node_modules/asynckit",
+          "requested": "^0.4.0",
+          "resolved": "0.4.0"
+        },
+        {
+          "from": "node_modules/form-data",
+          "to": "node_modules/combined-stream",
+          "requested": "^1.0.8",
+          "resolved": "1.0.8"
+        },
+        {
+          "from": "node_modules/form-data",
+          "to": "node_modules/es-set-tostringtag",
+          "requested": "^2.1.0",
+          "resolved": "2.1.0"
+        },
+        {
+          "from": "node_modules/form-data",
+          "to": "node_modules/hasown",
+          "requested": "^2.0.4",
+          "resolved": "2.0.4"
+        },
+        {
+          "from": "node_modules/form-data",
+          "to": "node_modules/mime-types",
+          "requested": "^2.1.35",
+          "resolved": "2.1.35"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/call-bind-apply-helpers",
+          "requested": "^1.0.2",
+          "resolved": "1.0.2"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/es-define-property",
+          "requested": "^1.0.1",
+          "resolved": "1.0.1"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/es-errors",
+          "requested": "^1.3.0",
+          "resolved": "1.3.0"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/es-object-atoms",
+          "requested": "^1.1.1",
+          "resolved": "1.1.2"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/function-bind",
+          "requested": "^1.1.2",
+          "resolved": "1.1.2"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/get-proto",
+          "requested": "^1.0.1",
+          "resolved": "1.0.1"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/gopd",
+          "requested": "^1.2.0",
+          "resolved": "1.2.0"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/has-symbols",
+          "requested": "^1.1.0",
+          "resolved": "1.1.0"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/hasown",
+          "requested": "^2.0.2",
+          "resolved": "2.0.4"
+        },
+        {
+          "from": "node_modules/get-intrinsic",
+          "to": "node_modules/math-intrinsics",
+          "requested": "^1.1.0",
+          "resolved": "1.1.0"
+        },
+        {
+          "from": "node_modules/get-proto",
+          "to": "node_modules/dunder-proto",
+          "requested": "^1.0.1",
+          "resolved": "1.0.1"
+        },
+        {
+          "from": "node_modules/get-proto",
+          "to": "node_modules/es-object-atoms",
+          "requested": "^1.0.0",
+          "resolved": "1.1.2"
+        },
+        {
+          "from": "node_modules/has-tostringtag",
+          "to": "node_modules/has-symbols",
+          "requested": "^1.0.3",
+          "resolved": "1.1.0"
+        },
+        {
+          "from": "node_modules/hasown",
+          "to": "node_modules/function-bind",
+          "requested": "^1.1.2",
+          "resolved": "1.1.2"
+        },
+        {
+          "from": "node_modules/mime-types",
+          "to": "node_modules/mime-db",
+          "requested": "1.52.0",
+          "resolved": "1.52.0"
+        }
+      ],
+      "lockChecks": {
+        "directEntriesPresent": true,
+        "localArchiveVersionsMatchLock": true,
+        "requiredDependencyEdgesPresent": 65,
+        "semverRangeAndRuntimeCompatibility": "not asserted by this structural metadata check"
+      }
+    },
+    "cloudCode": {
+      "manifest": "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+      "framework": "net9.0",
+      "nuget": [
+        {
+          "id": "Com.Unity.Services.CloudCode.Core",
+          "requested": "0.0.7",
+          "resolved": null,
+          "source": "NuGet PackageReference; repository feed configuration not declared here",
+          "reacquisitionStatus": "restore not run; resolved transitives/remote availability not verified"
+        },
+        {
+          "id": "Com.Unity.Services.CloudCode.Apis",
+          "requested": "0.0.27",
+          "resolved": null,
+          "source": "NuGet PackageReference; repository feed configuration not declared here",
+          "reacquisitionStatus": "restore not run; resolved transitives/remote availability not verified"
+        },
+        {
+          "id": "Jint",
+          "requested": "4.16.4",
+          "resolved": null,
+          "source": "NuGet PackageReference; repository feed configuration not declared here",
+          "reacquisitionStatus": "restore not run; resolved transitives/remote availability not verified"
+        },
+        {
+          "id": "Newtonsoft.Json",
+          "requested": "13.0.3",
+          "resolved": null,
+          "source": "NuGet PackageReference; repository feed configuration not declared here",
+          "reacquisitionStatus": "restore not run; resolved transitives/remote availability not verified"
+        }
+      ],
+      "embedded": [
+        {
+          "include": "../../CloudCode/*.js",
+          "logicalName": "server/%(Filename)%(Extension)"
+        },
+        {
+          "include": "runtime.js",
+          "logicalName": "runtime.js"
+        }
+      ],
+      "preserve": "csproj + server source/embedded resource inputs; not Unity third-party exclusion candidates",
+      "embeddedInputPaths": [
+        "UGS/CloudCode/account-provisioning-service.js",
+        "UGS/CloudCode/account-service.js",
+        "UGS/CloudCode/account-store.js",
+        "UGS/CloudCode/active-connection-policy.js",
+        "UGS/CloudCode/cancel-account-transfer.js",
+        "UGS/CloudCode/complete-account-transfer.js",
+        "UGS/CloudCode/environment-data-policy.js",
+        "UGS/CloudCode/execution-scope.js",
+        "UGS/CloudCode/get-account-personal-bests.js",
+        "UGS/CloudCode/get-account-transfer-status.js",
+        "UGS/CloudCode/get-public-player-number.js",
+        "UGS/CloudCode/json-value-policy.js",
+        "UGS/CloudCode/lazy-ledger-migration.js",
+        "UGS/CloudCode/leaderboard-owner-policy.js",
+        "UGS/CloudCode/leaderboard-query-policy.js",
+        "UGS/CloudCode/ledger-v2-migration.js",
+        "UGS/CloudCode/legacy-account-migration-policy.js",
+        "UGS/CloudCode/legacy-account-store.js",
+        "UGS/CloudCode/operational-safety-policy.js",
+        "UGS/CloudCode/public-number-display-policy.js",
+        "UGS/CloudCode/public-player-number-policy.js",
+        "UGS/CloudCode/query-records.js",
+        "UGS/CloudCode/receipt-journal.js",
+        "UGS/CloudCode/receipt-store.js",
+        "UGS/CloudCode/reissue-account-transfer.js",
+        "UGS/CloudCode/start-account-transfer.js",
+        "UGS/CloudCode/submission-retention-policy.js",
+        "UGS/CloudCode/submit-record-v2.js",
+        "UGS/CloudCode/submit-record.js",
+        "UGS/CloudCode/transfer-client-state-policy.js",
+        "UGS/CloudCode/transfer-completion-service.js",
+        "UGS/CloudCode/transfer-credential-policy.js",
+        "UGS/CloudCode/transfer-cryptography.js",
+        "UGS/CloudCode/transfer-lifecycle-service.js",
+        "UGS/CloudCode/transfer-operations-policy.js",
+        "UGS/CloudCode/transfer-resolution-policy.js",
+        "UGS/CloudCode/transfer-start-service.js",
+        "UGS/CloudCode/transfer-state.js",
+        "UGS/CloudCode/transfer-verification-service.js",
+        "UGS/Modules/FlowStateVerification/runtime.js"
+      ]
+    },
+    "logSink": {
+      "manifest": "UGS/LogSink/package.json",
+      "name": "flow-state-safe-log-sink",
+      "version": "1.0.0",
+      "dependencies": {},
+      "devDependencies": {},
+      "scripts": {
+        "start": "node index.js",
+        "test": "node test.cjs"
+      },
+      "dockerBase": "node:22-alpine",
+      "dockerEvidence": "UGS/LogSink/Dockerfile",
+      "status": "no external npm dependency declaration; Docker tag not digest-pinned; image retrieval/service not tested"
+    }
+  },
+  "followup": {
+    "phase2": [
+      "preserve dependency/build declarations",
+      "root npm manifest/lock currently match; replace cache-specific local tarball path assumptions with a validated portable restoration procedure in Phase 2",
+      "record NuGet sources/resolved graph when preparing actual module restoration",
+      "retain source and embedded resources; do not start deployment"
+    ],
+    "phase3": [
+      "independent UPM/TMP/auxiliary restoration; current caches not evidence of independent success"
+    ],
+    "step5": [
+      "license/usage-condition evidence by metadata path; no entitlement assumptions"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Unity 6000.3 dependencies",
+      "url": "https://docs.unity.com/en-us/engine/6000.3/manual/packages-list/dependencies-lp/upm-dependencies"
+    },
+    {
+      "title": "Unity 6000.3 resolution priority",
+      "url": "https://docs.unity.com/en-us/engine/6000.3/manual/packages-list/dependencies-lp/upm-conflicts"
+    },
+    {
+      "title": "Unity 6000.3 lock files",
+      "url": "https://docs.unity.com/en-us/engine/6000.3/manual/packages-list/dependencies-lp/upm-conflicts-auto"
+    }
+  ],
+  "inputHashes": [
+    {
+      "path": "Packages/manifest.json",
+      "sha256": "47fb3dd6c1d57af7081549db75a4f761255a9247c5be8c3a937c71f461ec8f18"
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "sha256": "d06d939dcb9ca070f2fe476971b7e9bf6610d245ce402d5f55ebef835a4a4b73"
+    },
+    {
+      "path": "ProjectSettings/ProjectVersion.txt",
+      "sha256": "9ef257cbec7e3aeeb46ec16caf6a237240475a5bf13bbb7f830bf3081c7c9696"
+    },
+    {
+      "path": "package.json",
+      "sha256": "af7aef3ed0a399a299641c1b2a899b619d154396a6bc45d37a4658f111e7f291"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "7f7611dcf4723de241a6d42daf7202e782033649aa1b053893beea7f8a7eec73"
+    },
+    {
+      "path": "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+      "sha256": "14323b3d1848731eec724a2d3cc0b59db0049019188f7fdcff23636210042763"
+    },
+    {
+      "path": "UGS/LogSink/package.json",
+      "sha256": "5b462a929bdb0f444f3549107501f4f26d91abccd545df20416a427e63c35cf8"
+    },
+    {
+      "path": "UGS/LogSink/Dockerfile",
+      "sha256": "327065fe1106bd128373c2c227183e622603ed83ff3ef2f4467714a37fa04d51"
+    },
+    {
+      "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Editor/TMP/TMP_PackageUtilities.cs",
+      "sha256": "1e11cd39c93ba46636b5b0b6d1e06aa0a87ea59a00802d0b60a868e880f6b1c9"
+    }
+  ]
+}
