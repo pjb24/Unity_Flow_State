@@ -1,0 +1,4165 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "TMP local ignored preservation plus temporary byte/meta/name reapplication; not independent Unity restoration or rights clearance",
+  "expected": {
+    "id": "tmp-baseline",
+    "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+    "editorVersion": "6000.3.5f2",
+    "providerId": "com.unity.ugui",
+    "providerVersion": "2.0.0",
+    "archiveSha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431"
+  },
+  "spec": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json",
+    "sha256": "d5dc8dacce140271c6957f1541f89344f43c13416cd9340d3e8921784ea38d79"
+  },
+  "output": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+  "check": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-preservation.cjs",
+      "--check",
+      "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json"
+    ],
+    "exitCode": 0,
+    "report": {
+      "manifest": {
+        "schemaVersion": 2,
+        "id": "tmp-baseline",
+        "editorVersion": "6000.3.5f2",
+        "provider": {
+          "id": "com.unity.ugui",
+          "version": "2.0.0",
+          "archivePath": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Package Resources/TMP Essential Resources.unitypackage",
+          "archiveSha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431"
+        },
+        "files": [
+          {
+            "path": "Assets/TextMesh Pro.meta",
+            "bytes": 172,
+            "sha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3",
+            "guid": "f54d1bd14bd3ca042bd867b519fee8cc",
+            "folderMeta": true,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Fonts.meta",
+            "bytes": 172,
+            "sha256": "11e80153fa39b86efadb8917ecde12a0402fe0729f2c88f6f8d1999f3fb04748",
+            "guid": "6ab70aee4d56447429c680537fbf93ed",
+            "folderMeta": true,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+            "bytes": 4469,
+            "sha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta",
+            "bytes": 177,
+            "sha256": "5dbec32c014c17d94674af5f1494d49b42ba00edd50397f895f088c868ccbf86",
+            "guid": "6e59c59b81ab47f9b6ec5781fa725d2c",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+            "bytes": 350200,
+            "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta",
+            "bytes": 414,
+            "sha256": "e2e35a015703584fb119355fa02631764d111c3e112d32519801d46bd697b596",
+            "guid": "e3265ab4bf004d28a9537516768c1c75",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources.meta",
+            "bytes": 172,
+            "sha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805",
+            "guid": "243e06394e614e5d99fab26083b707fa",
+            "folderMeta": true,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials.meta",
+            "bytes": 191,
+            "sha256": "8917470a9265beb1ef55a28c6a3718eb12ec8004554499998cc345056247995f",
+            "guid": "731f1baa9d144a9897cb1d341c2092b8",
+            "folderMeta": true,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+            "bytes": 2975,
+            "sha256": "b6b65c34e4907dd3006c2217fc8a4cef81b6da24df0a3de8e2288199eb6c5a9d",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "Fonts & Materials/LiberationSans SDF - Drop Shadow",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta",
+            "bytes": 179,
+            "sha256": "ef2eee63b288d47823da38109e3e8c879f4717a82dc662ac2d5e2460dacde698",
+            "guid": "e73a58f6e2794ae7b1b7e50b7fb811b0",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+            "bytes": 21139,
+            "sha256": "d63f8a5a5a7797fec144afab9ffb996c428cf9cdb4ae8f53cf434526c133c63b",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "Fonts & Materials/LiberationSans SDF - Fallback",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta",
+            "bytes": 179,
+            "sha256": "d6d86504040cf6e736767fda9bdef494afb06d5304384243e2dd703eba3a4a3d",
+            "guid": "2e498d1c8094910479dc3e1b768306a4",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+            "bytes": 2889,
+            "sha256": "25874340976d40e9f9e8abf731b7f32e5a478541dead9288140bd60c7a3287d9",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "Fonts & Materials/LiberationSans SDF - Outline",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta",
+            "bytes": 179,
+            "sha256": "a8cf0ee9888a163e892368b4660b9c62a7375e7f8afdb8ee02e5c91ca1cdb355",
+            "guid": "79459efec17a4d00a321bdcc27bbc385",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+            "bytes": 2264670,
+            "sha256": "a44c806bbf6d3c87d080d14e6467859ce15c3e6744311f0fdfe2bcd3b69da2d7",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "Fonts & Materials/LiberationSans SDF",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta",
+            "bytes": 179,
+            "sha256": "37233890984555987cb585551bc885069f2849a9b0d1c2191af073b9376aa10f",
+            "guid": "8f586378b4e144a9851e7b34d9b748ee",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+            "bytes": 269,
+            "sha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "LineBreaking Following Characters",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+            "bytes": 179,
+            "sha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490",
+            "guid": "fade42e8bc714b018fac513c043d323b",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+            "bytes": 95,
+            "sha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "LineBreaking Leading Characters",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+            "bytes": 179,
+            "sha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4",
+            "guid": "d82c1b31c7e74239bff1220585707d2b",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Sprite Assets.meta",
+            "bytes": 191,
+            "sha256": "5605affac803b81f876f35577f075c9b7e5ea73cf812fdfcc74277bf0f40140e",
+            "guid": "512a49d95c0c4332bdd98131869c23c9",
+            "folderMeta": true,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+            "bytes": 13441,
+            "sha256": "155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "Sprite Assets/EmojiOne",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta",
+            "bytes": 179,
+            "sha256": "097525b164260b0fb34b4e0c73b3187c693f4dfe2991f475b5b416dbf07dfbbc",
+            "guid": "c41005c129ba4d66911b75229fd70b45",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Style Sheets.meta",
+            "bytes": 191,
+            "sha256": "1fdf0423552f46284fb97894f36adcd34d32e595aaf5c7cf1ce38a2349faaf89",
+            "guid": "4aecb92fff08436c8303b10eab8da368",
+            "folderMeta": true,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+            "bytes": 5539,
+            "sha256": "93e073cdb91b7e3d2fa31e2dd13626d7b9d2f327904ba8c3c2b97a3eecfbabac",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "Style Sheets/Default Style Sheet",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta",
+            "bytes": 181,
+            "sha256": "b832663ca09ec7af8c8e816fd91a718b2af6c21ab4f126fa818871ad53bce763",
+            "guid": "f952c082cb03451daed3ee968ac6c63e",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+            "bytes": 1852,
+            "sha256": "7be438062cdc296835a1258b68bcbeb8e9fdc4b01ea27c05a24a1074260f7424",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": "TMP Settings",
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+            "bytes": 179,
+            "sha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45",
+            "guid": "3f5b5dff67a942289a9defa416b206f3",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders.meta",
+            "bytes": 172,
+            "sha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30",
+            "guid": "e9f693669af91aa45ad615fc681ed29f",
+            "folderMeta": true,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl",
+            "bytes": 6021,
+            "sha256": "88cf0f62e4000b71750c059d0886b19504cd1cf10f39bb61ddc11b77a882d417",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl.meta",
+            "bytes": 230,
+            "sha256": "e1d0c5347b3c55930759f5bc0985e11611a4b2ff22eef24523eb108687bd1642",
+            "guid": "96de908384869cd409c75efa351d5edf",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader",
+            "bytes": 3836,
+            "sha256": "42892a52f22bdde6d482cf2da5f35e4b813063fc6fe42189eee5562080079494",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Bitmap Custom Atlas"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta",
+            "bytes": 204,
+            "sha256": "91be1d5618a7da33c878e20cf2be3e13b897d4976c70bde0cda7a67dbd502cd2",
+            "guid": "48bb5f55d8670e349b6e614913f9d910",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader",
+            "bytes": 4071,
+            "sha256": "b50afc7edc8a710f8b4159149b2391e7238b5e4076cc0ea2119090ed29e13b4a",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Mobile/Bitmap"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta",
+            "bytes": 204,
+            "sha256": "7430f3e97ae1b46f34e1ca75508705bb7b944307c41dc568ea728011f327086d",
+            "guid": "1e3b057af24249748ff873be7fafee47",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader",
+            "bytes": 3839,
+            "sha256": "1d32f34c71276c1321aa0540a2410e15808743a38b2026923045a4dec4a79b58",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Bitmap"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta",
+            "bytes": 204,
+            "sha256": "3d462e6f8ba57f45dc5e6000020db066c36ed5a1a24f74f749727812373c2325",
+            "guid": "128e987d567d4e2c824d754223b3f3b0",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader",
+            "bytes": 11054,
+            "sha256": "a0d318756cba0f95a7052c387e629d0add3e9a4125c8333f1d1ed591af5f17cb",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Distance Field Overlay"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta",
+            "bytes": 204,
+            "sha256": "fb8fc84b612e19c169cdf3596195b416e68d227a8987a0eaa90d8c137fb69797",
+            "guid": "dd89cf5b9246416f84610a006f916af7",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader",
+            "bytes": 12438,
+            "sha256": "2a991951b00b0c052363a1025f655450054325437b3d13c2623a987c8ec77c30",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Distance Field SSD"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta",
+            "bytes": 204,
+            "sha256": "bea74d576f181a8bb04b8cf02eedd0136540325ecb2824928a3aa52c75adcb13",
+            "guid": "14eb328de4b8eb245bb7cea29e4ac00b",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+            "bytes": 287427,
+            "sha256": "bf68062f68b38b588abd1c354f64e905f824d9a2c47f92ebdd70a32989eb2097",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph.meta",
+            "bytes": 285,
+            "sha256": "d1b70558e8b974d918e13c010db6d375fef815ba530bc2421ab031aa3a784ee8",
+            "guid": "ca2ed216f98028c4dae6c5224a952b3c",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+            "bytes": 279909,
+            "sha256": "8a969c2d775079cce4e1c45d5eb6d3964b27d44dc884178363050c74fd5e9742",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph.meta",
+            "bytes": 285,
+            "sha256": "8cd498ce8f6ed2e7c0560d605eb912455cd6fdaf09a4d545d9743f63b3426bd0",
+            "guid": "f63d574838ccfb44f84acc05fed0af48",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader",
+            "bytes": 8273,
+            "sha256": "41cff58473557bf760d03513a8c098f43a24e4eeb4c8ccd7d828c045a338a9ed",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Mobile/Distance Field - Masking"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta",
+            "bytes": 204,
+            "sha256": "3744d078f9a8b6d3c5d9bca51e43f9223544fcafaf9396e121f49ea84a0609d3",
+            "guid": "bc1ede39bf3643ee8e493720e4259791",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader",
+            "bytes": 8081,
+            "sha256": "fb286386d0592ce6d63eb736f180b4b0f638ec538b0855aa54767a438ebd1173",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Mobile/Distance Field Overlay"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta",
+            "bytes": 204,
+            "sha256": "1eeca1536c7506f79d4d877b866a5fb88db8f402634e091b6d78aa9d21c9d18b",
+            "guid": "a02a7d8c237544f1962732b55a9aebf1",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader",
+            "bytes": 3064,
+            "sha256": "8b30c140f6af9134392fe6ecf4c0676db73f873489ac52adfb47bbd288cb51b8",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Mobile/Distance Field SSD"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta",
+            "bytes": 204,
+            "sha256": "e3412891b9306b017e60cba4ae4f6d258ee8b161d986dcde9cefb3d60345514d",
+            "guid": "c8d12adcee749c344b8117cf7c7eb912",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader",
+            "bytes": 11795,
+            "sha256": "4bc2db64befbd0e37e23539f21096ad2fcd9d61b36d2174d208a7d831a0883f7",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Mobile/Distance Field - 2 Pass"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader.meta",
+            "bytes": 204,
+            "sha256": "65ecbce6f1621f2d7ddc5e6004dda5e55e1f58ec6e01178f3691e1e81e01de55",
+            "guid": "0178fcb869bafef4690d177d31d17db8",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+            "bytes": 8074,
+            "sha256": "44c39aabc7e88e7e1feffc1880df754f4adf86b62e9512aa89e9d2d65171aff4",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Mobile/Distance Field"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+            "bytes": 204,
+            "sha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d",
+            "guid": "fe393ace9b354375a9cb14cdbbc28be4",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader",
+            "bytes": 3523,
+            "sha256": "f9fae5906dd37d89298338953294459975de58a5421e68dd9e82a79794b95509",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Mobile/Distance Field (Surface)"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta",
+            "bytes": 204,
+            "sha256": "95aa060f371ee503a22c0a0b018e029c0328bd82b9317feaa784432b0a787343",
+            "guid": "85187c2149c549c5b33f0cdb02836b17",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader",
+            "bytes": 4353,
+            "sha256": "5dadb68b56429547918b392626e9af8fd5173936d20bb43cfca58dfa00947257",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Distance Field (Surface)"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta",
+            "bytes": 204,
+            "sha256": "42439f5ac7491998f562e8ede73d64c3512953eb99fb1b49e833f5d9999a7660",
+            "guid": "f7ada0af4f174f0694ca6a487b8f543d",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+            "bytes": 283866,
+            "sha256": "e0148ce8e5904232a4e711376a45b7af2a007fb9690c5a69c1cb4952a696cdbf",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph.meta",
+            "bytes": 285,
+            "sha256": "4c36abf5f2611c9d2cb04e7da8c30e42077503a17cb218020e171b6d3ff664f7",
+            "guid": "a3d800b099a06e0478fb790c5e79057a",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+            "bytes": 277012,
+            "sha256": "dc15b6819ad87a4b34ed888ae2c274624efc0ada902d1a9e7752d87922414dcc",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph.meta",
+            "bytes": 285,
+            "sha256": "f1ef815e2672fd770f47ee424c64f7ecdbdc642b7475828c29db032586aa10b6",
+            "guid": "124c112a6e8f1a54e8b0870e881b56d8",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+            "bytes": 11027,
+            "sha256": "10efe6d4728474a09970b857faf37913793e168dc13dbd4d7316b54b37615d97",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Distance Field"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+            "bytes": 204,
+            "sha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6",
+            "guid": "68e6db2ebdc24f95958faec2be5558d6",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+            "bytes": 3446,
+            "sha256": "af669bb9ae136c8099f8e0a94a6933fd2f1e1fb0a6842129939a319fab4b8dbb",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": [
+              "TextMeshPro/Sprite"
+            ]
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta",
+            "bytes": 204,
+            "sha256": "9609584c5249687f3765f0018a93dfd6445c7e35d5aee4e87556f111c8852819",
+            "guid": "cf81c85f95fe47e1a27f6ae460cf182c",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc",
+            "bytes": 2277,
+            "sha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+            "bytes": 215,
+            "sha256": "a9cf9d5431b809e36b8ffff4377b5ebda7d386a36d48838cd134bc09f3caec6c",
+            "guid": "407bc68d299748449bbf7f48ee690f8d",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc",
+            "bytes": 5453,
+            "sha256": "d9d43ddd9810476162f21b42477d9ce2cdc4e6cc7571d354c3253aafc6673ead",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta",
+            "bytes": 204,
+            "sha256": "2e16fa15ef884a60a402d8b696f8b09e5315cbb468ba223d256030c7fe2b0667",
+            "guid": "c334973cef89a9840b0b0c507e0377ab",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+            "bytes": 2707,
+            "sha256": "66db1f03e8d7a413eba79bcb6602fdb2de710b586f34a6f2584ed6f68f028e90",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+            "bytes": 204,
+            "sha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5",
+            "guid": "3997e2241185407d80309a82f9148466",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc",
+            "bytes": 3515,
+            "sha256": "244b442520282a66363d121c8d2aeeb30bb1e72cbbadbf41ce68d9100322ade5",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta",
+            "bytes": 204,
+            "sha256": "247746f3a4e39dd24d1ad99e4fae03ae8976586307948b2846529a876dcb0a63",
+            "guid": "d930090c0cd643c7b55f19a38538c162",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Sprites.meta",
+            "bytes": 172,
+            "sha256": "41e002b97ba2235689fba502d1ee4419f50ea0095cd3632cdc50bc90ca8a94de",
+            "guid": "d0603b6d5186471b96c778c3949c7ce2",
+            "folderMeta": true,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+            "bytes": 185,
+            "sha256": "4b65f8960e4f4c5c8b35fd139e369265e9bb45667fc16461b2ba01188d464d93",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta",
+            "bytes": 158,
+            "sha256": "9fffc8ac513116b8ac394d86d81ca9ac4ec52ee92c63c114d355808384ea16fc",
+            "guid": "381dcb09d5029d14897e55f98031fca5",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Sprites/EmojiOne.json",
+            "bytes": 3966,
+            "sha256": "b85c4b3001b6ba82d175f4cd5dab83da467bbc2527d3d447b66919d2d20c4faf",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Sprites/EmojiOne.json.meta",
+            "bytes": 177,
+            "sha256": "ac2c551b5bc7f7d636d54ded634dfc3493e249567283b2efc06d1299f9360061",
+            "guid": "8f05276190cf498a8153f6cbe761d4e6",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Sprites/EmojiOne.png",
+            "bytes": 112319,
+            "sha256": "a87b965a701de3dc31d7401e542b1fc946587f912c51d7a26e46ade9f098bd1a",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Assets/TextMesh Pro/Sprites/EmojiOne.png.meta",
+            "bytes": 9784,
+            "sha256": "eb63c0321658b980b138ce5f675d44689b8c7144df43976931e132e7706d1e1a",
+            "guid": "dffef66376be4fa480fb02b19edbe903",
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          },
+          {
+            "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Package Resources/TMP Essential Resources.unitypackage",
+            "bytes": 941722,
+            "sha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431",
+            "guid": null,
+            "folderMeta": false,
+            "resourcesName": null,
+            "shaderNames": []
+          }
+        ]
+      },
+      "output": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "expected": {
+        "id": "tmp-baseline",
+        "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+        "editorVersion": "6000.3.5f2",
+        "providerId": "com.unity.ugui",
+        "providerVersion": "2.0.0",
+        "archiveSha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431"
+      },
+      "indexUnchanged": true,
+      "files": 83,
+      "applied": false,
+      "independentRestore": false
+    }
+  },
+  "create": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-preservation.cjs",
+      "--create",
+      "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json",
+      "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c"
+    ],
+    "exitCode": 0,
+    "report": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false,
+      "output": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "sourceUnchanged": true,
+      "indexUnchanged": true
+    }
+  },
+  "temporaryReapply": {
+    "reappliedToTemporary": true,
+    "files": 83,
+    "contentHashesGuidsImportAndNamesMatch": true,
+    "unityExecuted": false,
+    "independentRestore": false,
+    "folderMetaCount": 8,
+    "targetKind": "Isolated os.tmpdir child with flowstate-preservation-reapply- prefix; removed after containment check",
+    "temporaryTargetRemoved": true
+  },
+  "sourceComparison": {
+    "files": 83,
+    "tmpFiles": 82,
+    "changedFonts": [
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+        "sha256": "d63f8a5a5a7797fec144afab9ffb996c428cf9cdb4ae8f53cf434526c133c63b"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+        "sha256": "a44c806bbf6d3c87d080d14e6467859ce15c3e6744311f0fdfe2bcd3b69da2d7"
+      }
+    ],
+    "allSourceHashesUnchanged": true
+  },
+  "contracts": {
+    "resourceContract": {
+      "settingsKey": "TMP Settings",
+      "settingsPath": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "defaultFontPath": "Fonts & Materials/",
+      "defaultSpritePath": "Sprite Assets/",
+      "defaultGradientPath": "Color Gradient Presets/",
+      "settingsFallbackList": "empty",
+      "fontFallbackPath": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+      "shaderNames": [
+        {
+          "name": "TextMeshPro/Mobile/Distance Field",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader"
+        },
+        {
+          "name": "TextMeshPro/Mobile/Bitmap",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader"
+        },
+        {
+          "name": "TextMeshPro/Sprite",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader"
+        }
+      ],
+      "implication": "preserve Resources names/relative paths, font/shader names and import settings; GUID-only scan is insufficient"
+    },
+    "incomingReferencesFromPhase1": [
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 526,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 527,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 796,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 797,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 1140,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 1141,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 1277,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 1278,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 1483,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 1484,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 1839,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 1840,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 2229,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 2230,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 2366,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 2367,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 2552,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 2553,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 3029,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 3452,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 3453,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 3725,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 3726,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 3862,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 3863,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 4332,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 4333,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 4477,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 4478,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 4606,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 4607,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 4864,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 4865,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 5001,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 5002,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 5176,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 5177,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 5807,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 5808,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 6233,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 6234,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 6580,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 6581,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 6838,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 6839,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 6975,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 6976,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 7112,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 7113,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 7249,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 7250,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 7386,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 7387,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 7694,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 7695,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 8138,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 8139,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 8424,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 8425,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 9183,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 9184,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 9320,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 9321,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 9723,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 9724,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 10506,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 10507,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 11196,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 11197,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 11488,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 11489,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 11625,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 11626,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 12028,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 12029,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 12290,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 12291,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 12427,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 12428,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 12814,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 12815,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 12986,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 12987,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 13123,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 13124,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 13260,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 13261,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 13397,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 13398,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 13840,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 13841,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 14060,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 14061,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 14197,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 14198,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 14411,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 14412,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 14548,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 14549,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 14723,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 14724,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 14860,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 14861,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 14997,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 14998,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 15211,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 15212,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 15645,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 15646,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 15782,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 15783,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 15919,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 15920,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 16056,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 16057,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 16225,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 16226,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 16362,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 16363,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 16499,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 16500,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 16636,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 16637,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 16832,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 16833,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 17045,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 17046,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 17391,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 17392,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 17603,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 17604,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 18339,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 18340,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 18476,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 18477,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 18807,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 18808,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 19140,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 19141,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 19277,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 19278,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 19545,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 19546,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 19682,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 19683,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 19819,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 19820,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 19977,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 19978,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 20114,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 20115,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 20251,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 20252,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 20836,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 20837,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 21436,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 21437,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 21788,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 21789,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 21925,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 21926,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 22231,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 22232,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 22451,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 22452,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 22624,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 22625,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 22761,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 22762,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 22898,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 22899,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 23035,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 23036,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 23172,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 23173,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 23400,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 23401,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 23649,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 23650,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 23804,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 23805,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 23941,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 23942,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 24114,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 24115,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 24405,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 24406,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 24542,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 24543,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 24679,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 24680,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 24911,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 24912,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 25343,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 25344,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 25805,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 25806,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 26280,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 26281,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 26417,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 26418,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 26877,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 26878,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 27276,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 27277,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 27413,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 27414,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 27872,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 27873,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 28133,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 28134,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 28415,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 28416,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 28553,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 28554,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 29180,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 29181,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 29317,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 29318,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 30013,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 30202,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 30203,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 30503,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 30504,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 30932,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 30933,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 31269,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 31270,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 31527,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 31528,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 31664,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 31665,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 31801,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 31802,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 32775,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 32776,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 32943,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 32944,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 33236,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 33237,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 33494,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 33495,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 34026,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/Scenes/SampleScene.unity",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "2180264",
+        "line": 34027,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+        "guid": "fe393ace9b354375a9cb14cdbbc28be4",
+        "fileID": "4800000",
+        "line": 11,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "28684132378477856",
+        "line": 35,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+        "guid": "fe393ace9b354375a9cb14cdbbc28be4",
+        "fileID": "4800000",
+        "line": 11,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+        "guid": "e3265ab4bf004d28a9537516768c1c75",
+        "fileID": "12800000",
+        "line": 214,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Fonts/LiberationSans.ttf"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+        "guid": "fe393ace9b354375a9cb14cdbbc28be4",
+        "fileID": "4800000",
+        "line": 11,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "28684132378477856",
+        "line": 35,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+        "guid": "fe393ace9b354375a9cb14cdbbc28be4",
+        "fileID": "4800000",
+        "line": 11,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+        "guid": "2e498d1c8094910479dc3e1b768306a4",
+        "fileID": "11400000",
+        "line": 7974,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+        "guid": "cf81c85f95fe47e1a27f6ae460cf182c",
+        "fileID": "4800000",
+        "line": 11,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+        "guid": "dffef66376be4fa480fb02b19edbe903",
+        "fileID": "2800000",
+        "line": 23,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Sprites/EmojiOne.png"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+        "guid": "dffef66376be4fa480fb02b19edbe903",
+        "fileID": "2800000",
+        "line": 74,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Sprites/EmojiOne.png"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+        "guid": "cf81c85f95fe47e1a27f6ae460cf182c",
+        "fileID": "4800000",
+        "line": 647,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+        "guid": "8f586378b4e144a9851e7b34d9b748ee",
+        "fileID": "11400000",
+        "line": 27,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+        "guid": "c41005c129ba4d66911b75229fd70b45",
+        "fileID": "11400000",
+        "line": 39,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+        "guid": "f952c082cb03451daed3ee968ac6c63e",
+        "fileID": "11400000",
+        "line": 46,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+        "guid": "d82c1b31c7e74239bff1220585707d2b",
+        "fileID": "4900000",
+        "line": 49,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt"
+        ],
+        "availability": "local-ignored-assets-required"
+      },
+      {
+        "from": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+        "guid": "fade42e8bc714b018fac513c043d323b",
+        "fileID": "4900000",
+        "line": 50,
+        "resolution": "resolved",
+        "targets": [
+          "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt"
+        ],
+        "availability": "local-ignored-assets-required"
+      }
+    ],
+    "contractStatus": "Historical edge/name evidence tied to preserved unchanged bytes; no fresh Unity type/fileID interpretation"
+  },
+  "relatedTrackedInputs": [
+    {
+      "path": "Assets/Scenes/SampleScene.unity",
+      "sha256": "cf7a5e3d6de482d88a614eca3e620d1dcc4f3fd642c8e5cb03e4f91551e2d3e7",
+      "matches": true
+    },
+    {
+      "path": "Assets/Scenes/SampleScene.unity.meta",
+      "sha256": "baf1a15df993d52223ce52daa6bf340fd183fb7e5c3c173ed76fd7f614d6e7f0",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/Build Profiles.meta",
+      "sha256": "973de7f50e82b8b6018a8187c2b26f645b2c01952503984553b04a81e6e3da4b",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/Build Profiles/Windows-production.asset",
+      "sha256": "f62210afd97f53a180252a1a2a22149625e03012948bc6e7feb23d054713f6f8",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/Build Profiles/Windows-production.asset.meta",
+      "sha256": "ab10a1aeeba9613aa6df09b6e9c94976d0bb15e41aa3762f45dedc533d81769c",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/DefaultVolumeProfile.asset",
+      "sha256": "a0b4fb3aa39824c793c33a099b26ba3ce5396006e3c1daaa0f24dc329f1e90b8",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/DefaultVolumeProfile.asset.meta",
+      "sha256": "43e8f7bed8f99da631d74ee652953c230594e150ce305d313ec0844e312d574f",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/Mobile_RPAsset.asset",
+      "sha256": "e43e61f3ca54aa12d1d4774e00ea7549623d8b2d2a287a7173fe1fc8f2d93c65",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/Mobile_RPAsset.asset.meta",
+      "sha256": "4718cab1245b68049fc0c4e0acd26ac7c4a7e8eb7dcdb8f357159a129ca615ec",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/Mobile_Renderer.asset",
+      "sha256": "76431dd5dd9db51e5c515b8efe45db0b0ae9c26081ced605a29abbc608b11344",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/Mobile_Renderer.asset.meta",
+      "sha256": "da2404303c1d6f6af244a6bb7ac7d65cc8cbdd741c804cc913be8be861e65379",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/PC_RPAsset.asset",
+      "sha256": "70b76a59fb5b3ee0bbc0269df512833053efb96fd7abd681fd0b064a6c5cb564",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/PC_RPAsset.asset.meta",
+      "sha256": "dd77ab3eb523c6e234943bc07250360e2ae934ced15c075a56168f2f7a3b5ce4",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/PC_Renderer.asset",
+      "sha256": "13f85fba57a55e3a68efd59b3016f0c6f2d971b99f5e213ed52a7b84dd679789",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/PC_Renderer.asset.meta",
+      "sha256": "0f063b81db6817db7ec416712a575dd3e9960330e241de389115f02ed5b3ffbd",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/SampleSceneProfile.asset",
+      "sha256": "14f72f9e3356a20316fc7dedb062cef5160afb00023c5500e65b72bea640cdfc",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/SampleSceneProfile.asset.meta",
+      "sha256": "0b8036af967c670deb9c96912e7efda0895418ad3b2eeb4612b016a4d76a25c8",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+      "sha256": "b62ef6cc2f26d71692603d90ce07682ddc1ac87a7450cfa684e40daa6ae27dec",
+      "matches": true
+    },
+    {
+      "path": "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset.meta",
+      "sha256": "9f7756af7860ade1e88db1b5cffa7dff8cc535f6ac08819a4e26164bf4018717",
+      "matches": true
+    },
+    {
+      "path": "Packages/manifest.json",
+      "sha256": "47fb3dd6c1d57af7081549db75a4f761255a9247c5be8c3a937c71f461ec8f18",
+      "matches": true
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "sha256": "d06d939dcb9ca070f2fe476971b7e9bf6610d245ce402d5f55ebef835a4a4b73",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/AudioManager.asset",
+      "sha256": "282586eacd02fca9b7b803b93641647abee5a9d1a7369381025546f0c9808ccf",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/ClusterInputManager.asset",
+      "sha256": "40e65dd214bf254955d2c8829ca8ce2130fd3510485560ce012e9a1ddd93e623",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/DynamicsManager.asset",
+      "sha256": "7bf32032957eb76dea137d4521b8f057ffdb55259acbf130d0954c2d201eec68",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/EditorBuildSettings.asset",
+      "sha256": "348ba1eca4b0698957f264f877f76227b78583acd3138fd5fc85be92f158e261",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/EditorSettings.asset",
+      "sha256": "1542f5afa07e387e04e72bda4fd9d1f34b68544b23c95ff11e3b0de9a486e2a4",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/GraphicsSettings.asset",
+      "sha256": "6736f33dc62c35b0e7a88e275242080bc7a1d94c91154d18fceb332b661a6bce",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/InputManager.asset",
+      "sha256": "776c8b6c71e1101973e1f3ab569cf9058b857372a8a19210b50b3c1c6a1a42a6",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/MemorySettings.asset",
+      "sha256": "1e8379a461b10ae09f3f696911088c16875d63e87ed5f2d95df9e1892703f9fd",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/MultiplayerManager.asset",
+      "sha256": "ce4075d7a7dd8ac7ffe55de2427692c63f90dae398208bd80cec0f27cbe09f4b",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/NavMeshAreas.asset",
+      "sha256": "7ebbf8f53b8033104e1878b95ca07a28d0954092d81c220f14196a42f651e658",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/PackageManagerSettings.asset",
+      "sha256": "6a05ef78104cc0f3d23af145e478955bf980709437e91bfbddb7196457eb80c5",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/Packages/com.unity.dedicated-server/MultiplayerRolesSettings.asset",
+      "sha256": "66f5310616983159b47ac6b1dfa249b1ea29385b1cecf077e5d596132fc5f0d8",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/Packages/com.unity.services.core/Settings.json",
+      "sha256": "05378ddf2ae372702f43ff8ff8ba42546323fd2f220fee8cfc8cdd81e061cc10",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/Physics2DSettings.asset",
+      "sha256": "f8853353aac1bc6a33d1999b08ec2661abc374402ed4790a0b82eb64585b731e",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/PresetManager.asset",
+      "sha256": "29c125923fe6e29f90190d4fce1c82d660e7051546e2c9d02908d18c9cf2436c",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/ProjectSettings.asset",
+      "sha256": "bc021a7cc32180accb1a59ca6e3ac44e63897141f311b54f4c8172f53baaf0cc",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/ProjectVersion.txt",
+      "sha256": "9ef257cbec7e3aeeb46ec16caf6a237240475a5bf13bbb7f830bf3081c7c9696",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/QualitySettings.asset",
+      "sha256": "231535dcfdcdf9fe8eed24cd1d5891696cff9cb526fbf80a463ae2d815065329",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/SceneTemplateSettings.json",
+      "sha256": "bb9098b3bfcde78d93e264b96f7b77b5430e64e8c57a7aad7f5a5d9c3945e16a",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/ShaderGraphSettings.asset",
+      "sha256": "cdba1e5d65bcf6e3269d76ed3e60b6c21f98322002996642c9d74f1eb89f6b91",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/TagManager.asset",
+      "sha256": "8ecc1b0973fbaf07290a703e0eb26daf4fdb46b69dceb217a39b4f52f5a985a1",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/TimeManager.asset",
+      "sha256": "6c320ee59ae1e55aa74558f012437f63cb9de59d69fda62fc321c4f1971c52cb",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/TimelineSettings.asset",
+      "sha256": "955934c553600f4e99cab2bd97d5a45cb37933d6ea37928f43b641108674d347",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/URPProjectSettings.asset",
+      "sha256": "c317fe22b9488785c0611f0642429922e5d324430d929bffb41648130f30c218",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/UnityConnectSettings.asset",
+      "sha256": "11251dae0356b6f43dd2c67bb511f6b7ecda4e5de425186bba3297e6f3dc1c6f",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/VFXManager.asset",
+      "sha256": "2973a6af930e142f62cde00076beda8a3cc3a66d9bfcde7a58ba7d4be2251c26",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/VersionControlSettings.asset",
+      "sha256": "e199cdfa6a8f2bf33cfd47e549198f13e3eb2a5099e908fdb4e0f14d939ccc6b",
+      "matches": true
+    },
+    {
+      "path": "ProjectSettings/filelist.txt",
+      "sha256": "fe45b2f2c788900502730c5a884fe2fc795334134db6b7bfe7f6bd5062b50fbf",
+      "matches": true
+    }
+  ],
+  "tests": [
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-preservation.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 20,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-adoption.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 36,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-registry.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 49,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-audit.test.cjs",
+        "--policy",
+        "AI/90_Tasks/Prototype_10/20261119_03_Phase1Step8Policy.json"
+      ],
+      "exitCode": 0,
+      "passed": 55,
+      "failed": 0
+    }
+  ],
+  "sources": [
+    {
+      "path": "Tools/DependencyAudit/dependency-preservation.cjs",
+      "sha256": "e6c892566f23577afb110639646666b8d3100513126f189de41163ca6b8ae27f"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-preservation.test.cjs",
+      "sha256": "740432dd63ee9af687b41b5b20ee4106a8eb9acd484300f43135d3def77a999b"
+    }
+  ],
+  "limits": {
+    "independentRestore": false,
+    "rightsGranted": false,
+    "unityExecuted": false,
+    "scenePrefabEdited": false,
+    "gitIngressChecked": false,
+    "manualWorkRequired": []
+  },
+  "verify": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-preservation.cjs",
+      "--verify",
+      "AI/90_Tasks/Prototype_10/20261119_14_Phase2Step4Check.json",
+      "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c"
+    ],
+    "exitCode": 0,
+    "report": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    }
+  },
+  "superseded": [
+    {
+      "output": "Ignore/DependencyPreservation/tmp-baseline/b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581",
+      "expected": {
+        "id": "tmp-baseline",
+        "manifestSha256": "b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581",
+        "editorVersion": "6000.3.5f2",
+        "providerId": "com.unity.ugui",
+        "providerVersion": "2.0.0",
+        "archiveSha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431"
+      },
+      "manifestSchema": 1,
+      "status": "superseded; lacks empty folder pairing/reapplication contract; retained locally, do not use as final restore input",
+      "initialCreate": {
+        "command": [
+          "node",
+          "Tools/DependencyAudit/dependency-preservation.cjs",
+          "--create",
+          "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json",
+          "Ignore/DependencyPreservation/tmp-baseline/b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581"
+        ],
+        "exitCode": 0,
+        "report": {
+          "verified": true,
+          "files": 83,
+          "manifestSha256": "b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581",
+          "storageIgnoredUntracked": true,
+          "independentRestore": false,
+          "rightsGranted": false,
+          "output": "Ignore/DependencyPreservation/tmp-baseline/b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581",
+          "sourceUnchanged": true,
+          "indexUnchanged": true
+        }
+      },
+      "initialVerify": {
+        "command": [
+          "node",
+          "Tools/DependencyAudit/dependency-preservation.cjs",
+          "--verify",
+          "AI/90_Tasks/Prototype_10/20261119_14_Phase2Step4Check.json",
+          "Ignore/DependencyPreservation/tmp-baseline/b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581"
+        ],
+        "exitCode": 0,
+        "report": {
+          "verified": true,
+          "files": 83,
+          "manifestSha256": "b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581",
+          "storageIgnoredUntracked": true,
+          "independentRestore": false,
+          "rightsGranted": false
+        }
+      },
+      "sourceHashesAtInitialCheck": [
+        {
+          "path": "Tools/DependencyAudit/dependency-preservation.cjs",
+          "sha256": "ef9c63f5f8698526e33389a77973001c1298bcfd900415791d1c7666ca788f9d"
+        },
+        {
+          "path": "Tools/DependencyAudit/dependency-preservation.test.cjs",
+          "sha256": "1c5abfad166639acbea70d4418ab23d69460b8825bfff465810a49c6821b3354"
+        }
+      ]
+    }
+  ],
+  "manifestSchema": 2,
+  "folderMetaCount": 8
+}

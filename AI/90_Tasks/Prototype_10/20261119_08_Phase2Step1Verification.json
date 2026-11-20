@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Phase 2 Step 1 final static verification; no Unity execution or restoration claim",
+  "baseline": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+    "sha256": "1ff675d47fb0a2c7c1803e780cbcbc51576851b9dd99b9eb75d9f84bfd6c199c"
+  },
+  "audit": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_07_Phase2Step1Audit.json",
+    "sha256": "7bde759d01d6f582f7ed76b2e7233a8c5b889c79703d1f91e7d2db08995c3ccc",
+    "exitCode": 1,
+    "collectionComplete": true,
+    "errors": 0,
+    "findingsUnchangedFromPhase1Step9": true
+  },
+  "preservation": {
+    "checkedFiles": 1007,
+    "unchangedFiles": 1003,
+    "allowedChangedFiles": [
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md"
+    ],
+    "unexpectedChangedFiles": [],
+    "headUnchanged": true,
+    "indexUnchanged": true,
+    "trackedPathsUnchanged": true,
+    "stagedChanges": 0,
+    "initialWorktreeClean": true,
+    "untrackedBeforeVerificationWrite": [
+      "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+      "AI/90_Tasks/Prototype_10/20261119_07_Phase2Step1Audit.json"
+    ],
+    "candidateCoverage": "Executable hash only; full candidate directory not traversed; no execution or new QA claim",
+    "priorInputsMatching": 66,
+    "tmpInputsMatching": 82,
+    "excludedSensitive": 10
+  },
+  "documents": {
+    "utf8Valid": true,
+    "diffCheckExitCode": 0,
+    "localLinksChecked": 79,
+    "brokenLinks": [],
+    "completionCheckboxes": {
+      "complete": 1,
+      "incomplete": 9
+    },
+    "hashes": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+        "sha256": "84cc0acbb537b512545dbf502bcfd982b12d3e8e9af8802f5bdc2277c1d8c902"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "aa367c9dbda0b635497b9b3bb7f37cce8ff50bcd1e0b6b37502f7b949bb41565"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "ec44ce72e7ac46e156bf49b08b59b439fc5260ad4768d5284f55f57679f996f1"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "e759e77eb3ab61344069bfd496e12b7dba1e7e83684cc1053c7dbde0c79ea286"
+      }
+    ],
+    "selfLink": "Existence checked immediately after exclusive output creation"
+  },
+  "execution": {
+    "unityCompile": false,
+    "unityBuild": false,
+    "unityTestRunner": false,
+    "scenePrefabEdited": false,
+    "dependencyInstall": false,
+    "originalCopy": false,
+    "unitTests": false,
+    "reason": "Only metadata and progress documents changed; existing audit CLI reused without code changes"
+  },
+  "completion": {
+    "step1Complete": true,
+    "phase2Complete": false,
+    "independentRestore": false,
+    "referenceHealthPass": false,
+    "nextStep": 2,
+    "currentUserManualWork": []
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Phase 2 Step 2 final evidence/preservation reconciliation; includes pre-existing Step 1 changes",
+  "parentBaseline": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+    "sha256": "1ff675d47fb0a2c7c1803e780cbcbc51576851b9dd99b9eb75d9f84bfd6c199c"
+  },
+  "check": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_09_Phase2Step2Check.json",
+    "sha256": "03e6446a12bbcbfa67eaae10d3bb3b3f3eb8feb9bcb049b8bcdd5d9f39770de9"
+  },
+  "preservation": {
+    "checkedBaselineFiles": 1007,
+    "unchangedBaselineFiles": 999,
+    "allowedChangedDocuments": [
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "Tools/DependencyAudit/README.md"
+    ],
+    "unexpectedChanges": [],
+    "preservedStep1Evidence": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+        "sha256": "1ff675d47fb0a2c7c1803e780cbcbc51576851b9dd99b9eb75d9f84bfd6c199c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_07_Phase2Step1Audit.json",
+        "sha256": "7bde759d01d6f582f7ed76b2e7233a8c5b889c79703d1f91e7d2db08995c3ccc",
+        "exitCode": 1,
+        "collectionComplete": true,
+        "errors": 0,
+        "findingsUnchangedFromPhase1Step9": true
+      }
+    ],
+    "headUnchanged": true,
+    "indexUnchanged": true,
+    "trackedPathsUnchanged": true,
+    "stagedChanges": 0,
+    "existingStep1OutputsRetained": [
+      "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+      "AI/90_Tasks/Prototype_10/20261119_07_Phase2Step1Audit.json",
+      "AI/90_Tasks/Prototype_10/20261119_08_Phase2Step1Verification.json"
+    ],
+    "priorBaselineMatching": 66,
+    "tmpInputsMatching": 82,
+    "candidateCoverage": "Executable hash only; full candidate directory not traversed; no execution or new QA claim",
+    "sensitiveContentRead": false,
+    "userSavesRead": false
+  },
+  "validation": {
+    "newSuitePassed": 49,
+    "existingPolicySuitePassed": 55,
+    "registryExit": 0,
+    "registryRecordCount": 0,
+    "inventoryExit": 1,
+    "inventoryDiagnosticsMatchStep1": true,
+    "utf8Valid": true,
+    "diffCheckExitCode": 0,
+    "newFileWhitespaceValid": true,
+    "localLinksChecked": 94,
+    "brokenLinks": [],
+    "checkboxes": {
+      "complete": 2,
+      "incomplete": 8
+    },
+    "productionCLIFileWrites": false,
+    "requireSideEffects": false,
+    "gitIngressImplemented": false,
+    "actualTransitionCompared": false
+  },
+  "files": [
+    {
+      "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "sha256": "052357df67caf338443155d975662ce902ed75557e3f0b581493d7439d53f604"
+    },
+    {
+      "path": "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "sha256": "791c2267eb84126d3c58308e4c184ef9879ab933373bf513c33c59bba5d50eec"
+    },
+    {
+      "path": "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "sha256": "6785c73fff47988c64ae13918c3d0ee584dd95b153b88d710aa013dff8e12f79"
+    },
+    {
+      "path": "Tools/DependencyAudit/README.md",
+      "sha256": "d498a3b578687e859fb17bb4673117f08ce5e582e2c10937384b224a7f26af3f"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "fbe4b76006f033673e4657b8761972da0e01cff4932fdfe39dc265799673dca8"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "bb4fae60a1f9d2c8195528598cfb242c536c80c85be81855e9cb2802a759e2d6"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "a0e102d0d29a7e203be78e403c3b9ddb442c959dfc7a6a97988c50464881fd2a"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "sha256": "86f0ebc572b619048cdfb0fa07a0d86dd1cde647d3bbaed8ccec412323dd32af"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-registry.cjs",
+      "sha256": "d2e33578ae5ff63d644e10a5a53f014d4af3edef2a9e087bd597c59c5c64b98c"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-registry.test.cjs",
+      "sha256": "02f2e5d4abb57517895a8c759e9fc11b7d861826eca97b37dcfaf54d13ab2f52"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-policy.json",
+      "sha256": "7609ee0b5b67cf0e81536b6ff7e203177465389fb0ad8674ab93ed32cf670de5"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_09_Phase2Step2Check.json",
+      "sha256": "03e6446a12bbcbfa67eaae10d3bb3b3f3eb8feb9bcb049b8bcdd5d9f39770de9"
+    }
+  ],
+  "completion": {
+    "step2Complete": true,
+    "phase2Complete": false,
+    "nextStep": 3,
+    "rightsGranted": false,
+    "independentRestore": false,
+    "currentUserManualWork": [],
+    "unityCompileExecuted": false,
+    "unityBuildExecuted": false,
+    "unityTestRunnerExecuted": false,
+    "scenePrefabEdited": false,
+    "dependencyInstalled": false
+  }
+}

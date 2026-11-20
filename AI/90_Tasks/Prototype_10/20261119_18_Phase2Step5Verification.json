@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Step 5 final original-ingress/static verification; no source untracking, runtime or independent restoration claim",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_15_Phase2Step4Verification.json",
+    "sha256": "dcf75fc1bbc65330b73abad5e0eb3b6db7805023a1d82dafbbbc4b86ebcfdc91"
+  },
+  "evidence": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_16_Phase2Step5KnownOrigins.json",
+    "sha256": "9dfd29fe43cd58e9a6f7f236fed045d7e7fbe6a0a5900f3b0c68dd2da4896a04"
+  },
+  "check": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_17_Phase2Step5Check.json",
+    "sha256": "c6103b69ff4e405c1bfa5e9a85bd8805d8c70a2b523b3611e781827b5720bbe8"
+  },
+  "preservation": {
+    "baselineFiles": 1007,
+    "unchangedBaselineFiles": 999,
+    "cumulativeChangedDocuments": [
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "Tools/DependencyAudit/README.md"
+    ],
+    "changedSinceStep4": [
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "Tools/DependencyAudit/README.md",
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md"
+    ],
+    "unexpectedChanges": [],
+    "preservedMetadata": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+        "sha256": "1ff675d47fb0a2c7c1803e780cbcbc51576851b9dd99b9eb75d9f84bfd6c199c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_07_Phase2Step1Audit.json",
+        "sha256": "7bde759d01d6f582f7ed76b2e7233a8c5b889c79703d1f91e7d2db08995c3ccc"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_08_Phase2Step1Verification.json",
+        "sha256": "5bdf6fabf73b77faaf4b2b72ad99d202f63b5ff3d0d1d999a6838ce13088a698"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_09_Phase2Step2Check.json",
+        "sha256": "03e6446a12bbcbfa67eaae10d3bb3b3f3eb8feb9bcb049b8bcdd5d9f39770de9"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_10_Phase2Step2Verification.json",
+        "sha256": "b60e383c3df52e17ba47049cc7de72f16e2070c22930e3b9e8e82bb126eb9bb4"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_11_Phase2Step3Check.json",
+        "sha256": "005d33c2c6f0c7ef682dc8818efbdab63273548198e9b9d9d55406b5ccc7b488"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_12_Phase2Step3Verification.json",
+        "sha256": "5c001e67f19aecb89d1067ba79340fde347cb36f0710c712425331aa79b93ba1"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json",
+        "sha256": "d5dc8dacce140271c6957f1541f89344f43c13416cd9340d3e8921784ea38d79"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_14_Phase2Step4Check.json",
+        "sha256": "1529157cb60a4d76d5274dcbb8a4ba20192b07a6eabd55d12b7a2eb1afec2a2c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_15_Phase2Step4Verification.json",
+        "sha256": "dcf75fc1bbc65330b73abad5e0eb3b6db7805023a1d82dafbbbc4b86ebcfdc91"
+      }
+    ],
+    "preservedOldTools": [
+      {
+        "path": "Tools/DependencyAudit/dependency-policy.json",
+        "sha256": "7609ee0b5b67cf0e81536b6ff7e203177465389fb0ad8674ab93ed32cf670de5"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-registry.cjs",
+        "sha256": "d2e33578ae5ff63d644e10a5a53f014d4af3edef2a9e087bd597c59c5c64b98c"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-registry.test.cjs",
+        "sha256": "02f2e5d4abb57517895a8c759e9fc11b7d861826eca97b37dcfaf54d13ab2f52"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-adoption.cjs",
+        "sha256": "11bc6261649fddedf996e0e5c602f4847e367300d321b616bea5b4332effd6bd"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-adoption.test.cjs",
+        "sha256": "1869fe880714ff39ea9b14d7d0efbde9fbb85ac7f9f5ddecc8711da24e8c3ab2"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-preservation.cjs",
+        "sha256": "e6c892566f23577afb110639646666b8d3100513126f189de41163ca6b8ae27f"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-preservation.test.cjs",
+        "sha256": "740432dd63ee9af687b41b5b20ee4106a8eb9acd484300f43135d3def77a999b"
+      }
+    ],
+    "tmpAndArchiveUnchanged": 83,
+    "bundle": {
+      "output": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "verification": {
+        "verified": true,
+        "files": 83,
+        "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+        "storageIgnoredUntracked": true,
+        "independentRestore": false,
+        "rightsGranted": false
+      }
+    },
+    "headUnchanged": true,
+    "indexUnchanged": true,
+    "trackedPathsUnchanged": true,
+    "stagedChanges": 0,
+    "gitignoreUnchanged": true,
+    "candidateCoverage": "Executable hash only; full candidate directory not traversed; no execution or new QA claim"
+  },
+  "validation": {
+    "ingressTests": 27,
+    "registryTests": 49,
+    "existingPolicyTests": 55,
+    "managedExit": 0,
+    "stagedExit": 0,
+    "headEntries": 933,
+    "indexEntries": 933,
+    "knownOrigins": 83,
+    "headIssues": 0,
+    "indexIssues": 0,
+    "actualPreservationExceptions": 0,
+    "registryExit": 0,
+    "inventoryExit": 1,
+    "inventoryDiagnosticsMatchStep1": true,
+    "utf8Valid": true,
+    "newFileWhitespaceValid": true,
+    "diffCheckExitCode": 0,
+    "localLinksChecked": 107,
+    "brokenLinks": [],
+    "checkboxes": {
+      "complete": 5,
+      "incomplete": 5
+    }
+  },
+  "files": [
+    {
+      "path": "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "sha256": "6e17be95c58fcec41454d3b26b0f7f2dd7ba4251afe07205b5d446b1c925b558"
+    },
+    {
+      "path": "Tools/DependencyAudit/README.md",
+      "sha256": "e0b00162421ec034c8645a1c0ff37df2244bfa127cfeed4cb8d3b566dceba63f"
+    },
+    {
+      "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "sha256": "3557daeaae1f9c7b82fc1dca1024c127e9e4f3e9af2ad2a8c1ea0654560287e6"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "99b4f35837052bfc49f81e37f9bbb48039561d3a968e88619e12aaacab73faaa"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "61254b34e922d0a7662ddc97b19c910c362580be7a5bbf1e79ad3a03266c9207"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "5450288d9d3f9cf5ea0be2480e2ca8caa648dd03d120ebce04a0113169e82529"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "sha256": "7893ec0bd857a2df0faaef137537b4953a6fa1a3f50803a151588bdad2461d69"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-ingress.cjs",
+      "sha256": "4dc2d60622b09bd3f511b99bf7e2a1abd56077b62ae06d931bd0b6d11379dea8"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-ingress.test.cjs",
+      "sha256": "f68ffe7e88ddd7d5c99aa9fa0d02353d78e8645e342f9a2186d8242fc5b21b5d"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_16_Phase2Step5KnownOrigins.json",
+      "sha256": "9dfd29fe43cd58e9a6f7f236fed045d7e7fbe6a0a5900f3b0c68dd2da4896a04"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_17_Phase2Step5Check.json",
+      "sha256": "c6103b69ff4e405c1bfa5e9a85bd8805d8c70a2b523b3611e781827b5720bbe8"
+    }
+  ],
+  "completion": {
+    "step5Complete": true,
+    "phase2Complete": false,
+    "nextStep": 6,
+    "currentUserManualWork": [],
+    "actualUntrackingPerformed": false,
+    "gitRulesChanged": false,
+    "hooksOrGlobalGitSettingsInstalled": false,
+    "unityCompile": false,
+    "unityBuild": false,
+    "unityTestRunner": false,
+    "scenePrefabEdited": false,
+    "dependencyInstalled": false,
+    "rightsGranted": false,
+    "independentRestore": false,
+    "referenceHealthPass": false
+  }
+}

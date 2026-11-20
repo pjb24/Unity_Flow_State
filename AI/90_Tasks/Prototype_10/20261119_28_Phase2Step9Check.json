@@ -1,0 +1,348 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Step 9 required user action and Unity verification applicability decision; no application/installation",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_27_Phase2Step8Verification.json",
+    "sha256": "ff4f6df9b1df1d538a2c60e7d914aa5d8de7a672fd7555d9976066a593998f58"
+  },
+  "facts": {
+    "registeredProducts": 0,
+    "actualAssetOrLifecycleRequests": 0,
+    "cumulativeChangedBaselineFiles": [
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "Tools/DependencyAudit/README.md"
+    ],
+    "productionInventoryEntries": 864,
+    "productionInventoryMatchesStep8": true,
+    "productionBaselineFilesChecked": 476,
+    "productionAssetSettingsCSharpOrDeclarationChanges": [],
+    "scenePrefabChanges": [],
+    "newUnityTests": [],
+    "head": "5a9b34d583bb744209a4444f69cd051ae88523df",
+    "tracked": 933,
+    "staged": 0,
+    "indexSha256": "cd4bf5c22225acd6108e9200f8cdd17914e6ac96ea300e5e4076292e092eb674"
+  },
+  "decisions": [
+    {
+      "id": "9-1",
+      "target": "Current adoption/exclusion/lifecycle ownership decision",
+      "requiredNow": false,
+      "facts": "No registered products or actual operation; existing unknown technical baseline stays preserved",
+      "missing": "Future acquisition/account/license/ownership facts are not asserted",
+      "choice": "Preserve without re-requesting prior confirmation",
+      "impact": "No new exclusion, redistribution or rights grant; future real operation requires fresh evidence"
+    },
+    {
+      "id": "9-2",
+      "target": "Unity Compile, EditMode/PlayMode Runner and Build",
+      "requiredNow": false,
+      "facts": "Only docs/Node Tools/metadata changed since initial baseline; production paths and bytes unchanged",
+      "missing": "Actual Unity interpretation/dynamic/binary and existing unresolved references remain unverified",
+      "choice": "No new Unity suite or user execution for this Step",
+      "impact": "No Unity health/build/runtime success claimed; reassess after actual code/import/settings/reference changes"
+    },
+    {
+      "id": "9-3",
+      "target": "Scene/Prefab application",
+      "requiredNow": false,
+      "facts": "No scene/prefab diff, import or lifecycle request",
+      "missing": "No actual changed target to populate an application table",
+      "choice": "No invented Hierarchy/component/field/onClick/Navigation edits",
+      "impact": "When a real target changes, prepare exact before/after, save/rollback and static verification table; user applies"
+    },
+    {
+      "id": "9-4",
+      "target": "npm path migration, regenerated lock and NuGet restore/lock",
+      "requiredNow": false,
+      "facts": "Current declarations/locks preserved; exact archives and preparation/mapping check proven; management/procedure scope and no adoption request",
+      "missing": "Real relocated checkout lock regeneration/install and NuGet fresh restore are unexecuted",
+      "choice": "Retain reviewed Step 6 patch/mapping as proposal; conditional owner execution in isolated Phase 3 environment",
+      "impact": "Current Step 9 may finish on applicability evidence; Step 10 must assess Phase 2 conditions, actual independent restore remains incomplete; actual required execution must never be waived"
+    }
+  ],
+  "conditionalWork": {
+    "notCurrentUserTasks": true,
+    "npm": {
+      "trigger": "Actual relocation/migration or independent restore needs a new package-lock.json",
+      "environment": "Separate project root with original workspace/QA/save/Secret protected and exact provider/archive inputs; pin npm/toolchain before execution",
+      "procedure": "Tools/DependencyAudit/README.md: actual migration sequence and candidate verification; Phase 2 Task Step 6",
+      "commandsForOwner": [
+        "npm install --package-lock-only --ignore-scripts --no-audit --no-fund",
+        "npm ci --ignore-scripts --no-audit --no-fund"
+      ],
+      "aiCandidateVerification": "node Tools/DependencyAudit/dependency-restore.cjs --verify-migration AI/90_Tasks/Prototype_10/20261119_19_Phase2Step6RestoreSpec.json Ignore/DependencyRestoreCandidate/package.json Ignore/DependencyRestoreCandidate/package-lock.json",
+      "expected": "Exit 0 plus alias/version/integrity/graph unchanged; only reviewed path edits; capture actual candidate metadata and logs",
+      "stop": "Missing/unlicensed input, command nonzero, unexpected logs or unplanned graph/version/integrity/source fields; retain failed outputs",
+      "rollback": "Use preserved before hashes to restore only that attempt package.json/package-lock.json in isolated environment; keep new outputs for review; no reset/clean/cache deletion",
+      "executed": false
+    },
+    "nuget": {
+      "trigger": "Actual separate environment requires fresh .NET graph/lock",
+      "ownerCommand": "dotnet restore UGS/Modules/FlowStateVerification/FlowStateVerification.csproj --use-lock-file",
+      "expected": "Owner result and actual generated graph/lock compared to pinned net9.0/direct4/transitive13/feed/resources; do not substitute local obj as new success",
+      "stop": "Command failure, version/feed/resource drift or unexpected logs; preserve outputs for review",
+      "rollback": "Preserve csproj/sources; restore only attempt changes from verified before state, retaining generated output for review",
+      "executed": false
+    },
+    "unity": {
+      "trigger": "Actual C#/Import/settings/linked asset change, or Unity type/subasset/rendering interpretation is necessary",
+      "responsibility": "AI prepares minimal relevant test/application table and static comparison; owner runs Editor/Runner/Build and reports actual result/failures/unexpected logs",
+      "executed": false
+    }
+  },
+  "validation": {
+    "registry": {
+      "command": "node Tools/DependencyAudit/dependency-registry.cjs --check",
+      "exitCode": 0,
+      "report": {
+        "schemaVersion": 1,
+        "registryValid": true,
+        "policyValid": true,
+        "recordCount": 0,
+        "boundaries": [],
+        "transitionCompared": false,
+        "gitIngressChecked": false,
+        "rightsGranted": false,
+        "independentRestore": false,
+        "limitations": [
+          "Metadata assertions are not license authentication or user identity verification",
+          "Git ingress enforcement is Step 5",
+          "Unity and independent restoration are not executed"
+        ],
+        "indexUnchanged": true,
+        "inputs": [
+          {
+            "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+            "sha256": "409360031f86ac1b1f501f812b40de48668ffc64f2b3f75af71947eb8638a440"
+          },
+          {
+            "path": "Tools/DependencyAudit/dependency-policy.json",
+            "sha256": "7609ee0b5b67cf0e81536b6ff7e203177465389fb0ad8674ab93ed32cf670de5"
+          }
+        ]
+      }
+    },
+    "inventory": {
+      "command": "node Tools/DependencyAudit/dependency-audit.cjs --check",
+      "exitCode": 1,
+      "collectionComplete": true,
+      "summary": {
+        "actualFiles": 841,
+        "directories": 50,
+        "ignoredFiles": 85,
+        "packages": 61,
+        "packageEdges": 91,
+        "metaCount": 11816,
+        "serializedFiles": 56,
+        "referenceOccurrences": 1299,
+        "unresolvedOccurrences": 31,
+        "baselineHashes": 0
+      },
+      "diagnostics": [
+        {
+          "code": "ORPHAN_META",
+          "path": "Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/Samples~/15_TestCases_15.meta",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/DefaultVolumeProfile.asset -> 0fd9ee276a1023e439cf7a9c393195fa",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/DefaultVolumeProfile.asset -> 5a00a63fdd6bd2a45ab1f2d869305ffd",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/DefaultVolumeProfile.asset -> 60f3b30c03e6ba64d9a27dc9dba8f28d",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/DefaultVolumeProfile.asset -> 74955a4b0b4243bc87231e8b59ed9140",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 03cfc4915c15d504a9ed85ecc404e607",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 24ec0e140fb444a44ab96ee80844e18e",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 53a11f4ebaebf4049b3638ef78dc9664",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 57d7c4c16e2765b47a4d2069b311bffe",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 8f96cd657dc40064aa21efcc7e50a2e7",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> b9a23f869c4fd45f19c5ada54dd82176",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> e5c6678ed2aaa91408dd3df699057aae",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 0fd9ee276a1023e439cf7a9c393195fa",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 5a00a63fdd6bd2a45ab1f2d869305ffd",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 60f3b30c03e6ba64d9a27dc9dba8f28d",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 74955a4b0b4243bc87231e8b59ed9140",
+          "severity": "finding"
+        }
+      ],
+      "diagnosticsMatchStep8": true
+    },
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "archiveTargetsChecked": 27,
+    "protectedFilesComparedBeforeAfter": 1043,
+    "previousMetadataAndToolsMatchStep8": true,
+    "headIndexTrackedUnchanged": true
+  },
+  "tests": {
+    "newTestsOrReruns": 0,
+    "reason": "Production/Test Tools unchanged; Step 8 pinned full suite evidence retained; static applicability/document verification only",
+    "prior": {
+      "path": "AI/90_Tasks/Prototype_10/20261119_26_Phase2Step8Check.json",
+      "sha256": "79c7dfaf090b96f39669bf381972772837523121c5f5e8b4ebb2bcbd7e8c17ae"
+    },
+    "totalPreviouslyPassed": 261
+  },
+  "completion": {
+    "step9ApplicabilitySatisfied": true,
+    "requiredUserActionsNow": 0,
+    "mandatoryUnexecutedActionsWithinStep9": 0,
+    "phase2Complete": false,
+    "nextStep": 10,
+    "independentRestore": false,
+    "rightsGranted": false,
+    "unityExecuted": false,
+    "scenePrefabEdited": false,
+    "packageInstalled": false,
+    "lockRegenerated": false
+  }
+}

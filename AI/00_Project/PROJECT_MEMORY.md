@@ -1,6 +1,6 @@
 # Project Memory
 
-최종 정리: 2026-11-19
+최종 정리: 2026-11-20
 
 현재 작업에 필요한 상태·사용자 결정·핵심 계약·남은 의무를 유지한다. 상세 규칙은 Rule/Feature/System, 실행 과정과 검증 근거는 Task/Roadmap을 따른다.
 정리 전 이력은 [원문 보관본](../90_Tasks/20261117_02_ProjectMemoryCleanup.md)에 보존했다. 보관본의 과거 대기/다음 작업 문구를 현재 지시로 사용하지 않는다.
@@ -8,7 +8,7 @@
 ## 현재 진행 상태
 
 - **Prototype 9 / Roadmap 9 Phase 1~4 완료(2026-11-18).** [Phase 4 Task Step 10](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)의 완료 표에 Compile/1031·316 사용자 성공·16스크립트 exit 0과 최신 Windows-production Candidate02 빌드/Player 6항목 정상 보고를 연결했다. 최종 후보는 `Build/ProductionQA/Candidate02/Unity_Flow_State.exe`의 사용자 2026-11-18 15:55 KST 빌드다. 추가 코드/Test/Scene 수정·재실행 없이 사용자 한정 QA 전환 후보로 완료했으며 일반 공개/Steam 승인은 아니다. 최신 실제 원격 제출/조회·이전/복구·별도 Player 로그 원문 한계와 다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다. AI는 Unity/빌드/Player·원격을 실행하지 않았다.
-- **다음 작업:** [Prototype 10 Phase 2 Task](../90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md) Step 1 기준선/허용 변경 범위 확정. 실행 절차 문서만 작성했으며 Step 1~10/Phase 2·3 실제 실행은 미착수다. Phase 1 완료 근거·현재 도입/제외 후보 0개·기록/규칙·TMP 변경본/조건 미확인 보존과 실제 적용/복원 전 gate를 인계한다. 정책 포함 Unit Test 55개/기존 inventory exit 1은 선행 근거이며 Phase 2 통과로 승계하지 않는다. 사용자 수동 작업은 현재 없다. 실제 원본 제외/독립 복원과 Roadmap 10 전체는 미완료다.
+- **다음 작업:** [Prototype 10 Phase 3 Task](../90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md) Step 1 현재성/원래 작업본 보호 기준선을 고정한다. Phase 3 Task 작성은 완료(2026-11-20)했으며 Step 1~10 실제 실행은 미착수다. [인계](../90_Tasks/Prototype_10/20261120_02_Phase3Handoff.md)의 별도 환경·안전 전달/필수 입력·정적 검사/Unit Test·실제 복원/사용자 검증·최종 판정을 순서대로 진행한다. [Phase 2 Task](../90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md) Step 1~10과 Phase 2는 완료(2026-11-20)다. 관리/보존·유입/누락/버전/lifecycle·조건부 사용자 실행 절차와 Step 8 Node Test 261개·오늘 CLI 7개/세 조건 판정·보존/인계를 연결했다. 생산 자산/설정·C#·Scene/Prefab·선언/lock·HEAD/index는 보존했으며 실제 도입/제외·lifecycle 요청은 0개다. TMP schema 2의 83파일/폴더 meta 8개·정확한 tgz 27개/지문 110개를 유지한다. Phase 3에는 미커밋 Tools/문서와 최초 안전 hash 기준선 밖 추적 경로 11개의 필요성/안전한 제공 여부도 확인한다. 기존 URP/TMP graph 미해결 31회와 sample orphan의 inventory exit 1은 그대로이며 실제 관련 도입/복원 전 영향/필수 여부를 재검증한다. 실제 manifest/lock 경로 적용·새 lock/설치·취득 권리/계정·Unity 해석·독립 복원은 미검증이다. 현재 사용자 수동 작업은 없다. Phase 3/실제 독립 복원과 Roadmap 10 전체는 미완료이며 Roadmap 11~14 실제 원본 도입 전 전체 완료 및 다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다.
 - Phase 2 최신 사용자 검증은 **EditMode 919개 / PlayMode 288개 전체 통과**다. Windows-production으로 `Build/ProductionQA/Candidate02/`에 덮어쓴 최신 Player의 기존 기능·Pause Retry 확인·메뉴 복귀·UI/포커스/로그 정상 범위를 보고받았다. [최종 근거](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)
 - 이전 Candidate02 실물 보존은 사용자가 불필요하다고 결정했다. 같은 경로의 최신 빌드가 현재 기준선이다. 이 결과를 이후 Phase 3 변경의 통과로 승계하지 않는다. AI가 Runner/빌드/Player를 실행하거나 로그/XML을 직접 검증했다고 기록하지 않는다.
 

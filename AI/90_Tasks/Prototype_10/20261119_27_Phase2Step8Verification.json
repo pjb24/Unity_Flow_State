@@ -1,0 +1,680 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Step 8 final documentation, immutable inputs and preserved outputs verification",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_25_Phase2Step7Verification.json",
+    "sha256": "7328ec53d076ae0a41d134519ce5ad9b33c655ecc361c9132800c2c2314ded43"
+  },
+  "check": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_26_Phase2Step8Check.json",
+    "sha256": "79c7dfaf090b96f39669bf381972772837523121c5f5e8b4ebb2bcbd7e8c17ae"
+  },
+  "preservation": {
+    "baselineFiles": 1007,
+    "unchangedBaselineFiles": 999,
+    "cumulativeChangedDocuments": [
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "Tools/DependencyAudit/README.md"
+    ],
+    "changedDocumentsSinceStep7": [
+      "Tools/DependencyAudit/README.md",
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md"
+    ],
+    "productionOrTestCodeChangedThisStep": [],
+    "unexpectedChanges": [],
+    "previousMetadata": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+        "sha256": "1ff675d47fb0a2c7c1803e780cbcbc51576851b9dd99b9eb75d9f84bfd6c199c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_07_Phase2Step1Audit.json",
+        "sha256": "7bde759d01d6f582f7ed76b2e7233a8c5b889c79703d1f91e7d2db08995c3ccc"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_08_Phase2Step1Verification.json",
+        "sha256": "5bdf6fabf73b77faaf4b2b72ad99d202f63b5ff3d0d1d999a6838ce13088a698"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_09_Phase2Step2Check.json",
+        "sha256": "03e6446a12bbcbfa67eaae10d3bb3b3f3eb8feb9bcb049b8bcdd5d9f39770de9"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_10_Phase2Step2Verification.json",
+        "sha256": "b60e383c3df52e17ba47049cc7de72f16e2070c22930e3b9e8e82bb126eb9bb4"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_11_Phase2Step3Check.json",
+        "sha256": "005d33c2c6f0c7ef682dc8818efbdab63273548198e9b9d9d55406b5ccc7b488"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_12_Phase2Step3Verification.json",
+        "sha256": "5c001e67f19aecb89d1067ba79340fde347cb36f0710c712425331aa79b93ba1"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json",
+        "sha256": "d5dc8dacce140271c6957f1541f89344f43c13416cd9340d3e8921784ea38d79"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_14_Phase2Step4Check.json",
+        "sha256": "1529157cb60a4d76d5274dcbb8a4ba20192b07a6eabd55d12b7a2eb1afec2a2c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_15_Phase2Step4Verification.json",
+        "sha256": "dcf75fc1bbc65330b73abad5e0eb3b6db7805023a1d82dafbbbc4b86ebcfdc91"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_16_Phase2Step5KnownOrigins.json",
+        "sha256": "9dfd29fe43cd58e9a6f7f236fed045d7e7fbe6a0a5900f3b0c68dd2da4896a04"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_17_Phase2Step5Check.json",
+        "sha256": "c6103b69ff4e405c1bfa5e9a85bd8805d8c70a2b523b3611e781827b5720bbe8"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_18_Phase2Step5Verification.json",
+        "sha256": "5b8fd036d9f433a2bd71e527aa353f268a0ab31eacd989c0e40ab977705421d1"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_19_Phase2Step6RestoreSpec.json",
+        "sha256": "11e638789e8ec0f71b453d3ad75910db5588251af7ced6d84ceb022455f65d65"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_20_Phase2Step6Check.json",
+        "sha256": "aa18674e7bab6fbbf2e9c6861c0ae99a846b7475c46d5b312aed26e83ed87225"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_21_Phase2Step6NpmPathMigration.patch",
+        "sha256": "2d0e61461fa62066f2ee7a33a0fd01da554f4789d708623f7ec0c7ae2f95fd7a"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_22_Phase2Step6KnownOrigins.json",
+        "sha256": "2d364ea56e768c78a8b1dfe9fa29b15e5f37f2c8300938dd4e2797e60bfadd5c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_23_Phase2Step6Verification.json",
+        "sha256": "2657b21e3efc76a095434ef81c114ac9eabd4b0db36d1f686b3a1b533e76d43a"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_24_Phase2Step7Check.json",
+        "sha256": "7aab5a08230c38cd74c60b09f84febb88ce45aa523246578c09d2cb52aa86b51"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_25_Phase2Step7Verification.json",
+        "sha256": "7328ec53d076ae0a41d134519ce5ad9b33c655ecc361c9132800c2c2314ded43"
+      }
+    ],
+    "archiveTargetsUnchanged": 27,
+    "archiveTargets": [
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4/cloud-save-0.0.5.tgz",
+        "sha256": "40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4",
+        "bytes": 22937
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7/cloud-save-1.0.1.tgz",
+        "sha256": "ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7",
+        "bytes": 29765
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2/cloud-save-1.1.0.tgz",
+        "sha256": "709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2",
+        "bytes": 22486
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d/cloud-save-1.2.0.tgz",
+        "sha256": "3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d",
+        "bytes": 22331
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108/cloud-save-1.2.1.tgz",
+        "sha256": "695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108",
+        "bytes": 23147
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21/cloud-save-1.3.0.tgz",
+        "sha256": "a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21",
+        "bytes": 29480
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47/cloud-save-1.4.0.tgz",
+        "sha256": "2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47",
+        "bytes": 51277
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3/economy-2.0.2.tgz",
+        "sha256": "59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3",
+        "bytes": 33015
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba/economy-2.1.1.tgz",
+        "sha256": "8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba",
+        "bytes": 33016
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910/economy-2.2.0.tgz",
+        "sha256": "cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910",
+        "bytes": 34654
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5/economy-2.2.1.tgz",
+        "sha256": "b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5",
+        "bytes": 37485
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14/economy-2.3.0.tgz",
+        "sha256": "dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14",
+        "bytes": 37188
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab/economy-2.3.1.tgz",
+        "sha256": "b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab",
+        "bytes": 37804
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5/economy-2.3.2.tgz",
+        "sha256": "0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5",
+        "bytes": 37886
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6/economy-2.4.0.tgz",
+        "sha256": "7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6",
+        "bytes": 37924
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf/economy-2.4.1.tgz",
+        "sha256": "a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf",
+        "bytes": 37998
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb/remote-config-0.0.4.tgz",
+        "sha256": "a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb",
+        "bytes": 14361
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c/remote-config-1.0.1.tgz",
+        "sha256": "e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c",
+        "bytes": 14656
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89/remote-config-1.1.0.tgz",
+        "sha256": "d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89",
+        "bytes": 13135
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45/remote-config-1.1.1.tgz",
+        "sha256": "3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45",
+        "bytes": 13629
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b/remote-config-1.1.2.tgz",
+        "sha256": "ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b",
+        "bytes": 13615
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a/vivox-0.1.6.tgz",
+        "sha256": "9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a",
+        "bytes": 11468
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb/lobby-1.0.1.tgz",
+        "sha256": "e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb",
+        "bytes": 34418
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa/lobby-1.1.0.tgz",
+        "sha256": "1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa",
+        "bytes": 28691
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974/lobby-1.1.1.tgz",
+        "sha256": "7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974",
+        "bytes": 29042
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1/lobby-1.1.2.tgz",
+        "sha256": "d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1",
+        "bytes": 29036
+      },
+      {
+        "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e/lobby-1.2.0.tgz",
+        "sha256": "f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e",
+        "bytes": 33309
+      }
+    ],
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "folderMetaCount": 8,
+    "supersededRetained": [
+      {
+        "output": "Ignore/DependencyPreservation/tmp-baseline/b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581",
+        "manifestSha256": "b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581",
+        "payloadHashesMatch": true,
+        "files": 83,
+        "status": "superseded; lacks empty folder pairing/reapplication contract; retained locally, do not use as final restore input",
+        "notFinalRestoreInput": true
+      }
+    ],
+    "declarationsAndLockUnchanged": true,
+    "gitignoreUnchanged": true,
+    "headUnchanged": true,
+    "indexUnchanged": true,
+    "trackedPathsUnchanged": true,
+    "head": "5a9b34d583bb744209a4444f69cd051ae88523df",
+    "indexSha256": "cd4bf5c22225acd6108e9200f8cdd17914e6ac96ea300e5e4076292e092eb674",
+    "trackedPaths": 933,
+    "stagedChanges": 0,
+    "untrackedPathsKnown": 34,
+    "candidateCoverage": "Executable hash only; full candidate directory not traversed; no execution or new QA claim"
+  },
+  "tests": [
+    {
+      "module": "audit",
+      "command": "node Tools/DependencyAudit/dependency-audit.test.cjs --policy AI/90_Tasks/Prototype_10/20261119_03_Phase1Step8Policy.json",
+      "passed": 55,
+      "failed": 0,
+      "exitCode": 0
+    },
+    {
+      "module": "registry",
+      "command": "node Tools/DependencyAudit/dependency-registry.test.cjs",
+      "passed": 50,
+      "failed": 0,
+      "exitCode": 0
+    },
+    {
+      "module": "adoption",
+      "command": "node Tools/DependencyAudit/dependency-adoption.test.cjs",
+      "passed": 36,
+      "failed": 0,
+      "exitCode": 0
+    },
+    {
+      "module": "preservation",
+      "command": "node Tools/DependencyAudit/dependency-preservation.test.cjs",
+      "passed": 20,
+      "failed": 0,
+      "exitCode": 0
+    },
+    {
+      "module": "ingress",
+      "command": "node Tools/DependencyAudit/dependency-ingress.test.cjs",
+      "passed": 28,
+      "failed": 0,
+      "exitCode": 0
+    },
+    {
+      "module": "restore",
+      "command": "node Tools/DependencyAudit/dependency-restore.test.cjs",
+      "passed": 30,
+      "failed": 0,
+      "exitCode": 0
+    },
+    {
+      "module": "lifecycle",
+      "command": "node Tools/DependencyAudit/dependency-lifecycle.test.cjs",
+      "passed": 42,
+      "failed": 0,
+      "exitCode": 0
+    }
+  ],
+  "validation": {
+    "totalPassed": 261,
+    "totalFailed": 0,
+    "actualReadOnlyCliChecks": 7,
+    "actualChecksRepeatedAndDeterministic": true,
+    "checksCapturedBeforeFinalDocumentationUpdates": true,
+    "finalRegistry": {
+      "exitCode": 0,
+      "report": {
+        "schemaVersion": 1,
+        "registryValid": true,
+        "policyValid": true,
+        "recordCount": 0,
+        "boundaries": [],
+        "transitionCompared": false,
+        "gitIngressChecked": false,
+        "rightsGranted": false,
+        "independentRestore": false,
+        "limitations": [
+          "Metadata assertions are not license authentication or user identity verification",
+          "Git ingress enforcement is Step 5",
+          "Unity and independent restoration are not executed"
+        ],
+        "indexUnchanged": true,
+        "inputs": [
+          {
+            "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+            "sha256": "409360031f86ac1b1f501f812b40de48668ffc64f2b3f75af71947eb8638a440"
+          },
+          {
+            "path": "Tools/DependencyAudit/dependency-policy.json",
+            "sha256": "7609ee0b5b67cf0e81536b6ff7e203177465389fb0ad8674ab93ed32cf670de5"
+          }
+        ]
+      }
+    },
+    "finalInventory": {
+      "exitCode": 1,
+      "collectionComplete": true,
+      "summary": {
+        "actualFiles": 841,
+        "directories": 50,
+        "ignoredFiles": 85,
+        "packages": 61,
+        "packageEdges": 91,
+        "metaCount": 11816,
+        "serializedFiles": 56,
+        "referenceOccurrences": 1299,
+        "unresolvedOccurrences": 31,
+        "baselineHashes": 0
+      },
+      "diagnostics": [
+        {
+          "code": "ORPHAN_META",
+          "path": "Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/Samples~/15_TestCases_15.meta",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/DefaultVolumeProfile.asset -> 0fd9ee276a1023e439cf7a9c393195fa",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/DefaultVolumeProfile.asset -> 5a00a63fdd6bd2a45ab1f2d869305ffd",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/DefaultVolumeProfile.asset -> 60f3b30c03e6ba64d9a27dc9dba8f28d",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/DefaultVolumeProfile.asset -> 74955a4b0b4243bc87231e8b59ed9140",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 03cfc4915c15d504a9ed85ecc404e607",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 24ec0e140fb444a44ab96ee80844e18e",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 53a11f4ebaebf4049b3638ef78dc9664",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 57d7c4c16e2765b47a4d2069b311bffe",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> 8f96cd657dc40064aa21efcc7e50a2e7",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> b9a23f869c4fd45f19c5ada54dd82176",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/Settings/PC_Renderer.asset -> e5c6678ed2aaa91408dd3df699057aae",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 0fd9ee276a1023e439cf7a9c393195fa",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 5a00a63fdd6bd2a45ab1f2d869305ffd",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 60f3b30c03e6ba64d9a27dc9dba8f28d",
+          "severity": "finding"
+        },
+        {
+          "code": "REFERENCE_UNRESOLVED",
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 74955a4b0b4243bc87231e8b59ed9140",
+          "severity": "finding"
+        }
+      ],
+      "diagnosticsMatchStep1AndStep8": true
+    },
+    "utf8JsonAndSourceWhitespaceValid": true,
+    "gitDiffCheckExitCode": 0,
+    "localMarkdownLinks": 129,
+    "stepCheckboxes": {
+      "complete": 8,
+      "pending": 2
+    }
+  },
+  "files": [
+    {
+      "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "sha256": "409360031f86ac1b1f501f812b40de48668ffc64f2b3f75af71947eb8638a440"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "0cc52b099a7d7449a0dc2cee1200a1d69c9341ce14f8cf2779ccd8c4f236f9c5"
+    },
+    {
+      "path": "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "sha256": "cf9d0a299b11184e9086443a91d9d130c3e85c59b55b985c854f15b080a55315"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "fa98b0e4535434c658d0d36abd4a5919569d6cd5d55b75fa74d7002e6533f0af"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "0fc3e130bec692f6485140ab4bad4ef614fd4e9ad3a6a9fed11891d85df7b917"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "sha256": "f4ad49d2ffa0ae27dc3c11b1a67d8e38410889a7f09286504401dd0053c6c990"
+    },
+    {
+      "path": "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "sha256": "c14d578ce007e3bbfd552aca25082e76119107c916d59a440c8100e3da18e545"
+    },
+    {
+      "path": "Tools/DependencyAudit/README.md",
+      "sha256": "bc4bf7d221fdae5610904ac697b65d3a8838fddbf7b384b2f09782cbb7943a72"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-audit.cjs",
+      "sha256": "6cc8dc74f38a7a2a69f9245e23409c6541e8dad28fe02800e09734e99ee911ce"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-audit.test.cjs",
+      "sha256": "d751128c39c4730c23f484df413380a9facaf5f570baa0764c4384d64bbc068c"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-registry.cjs",
+      "sha256": "a7b07fdd583f4a4c8b547a718099106e33ef1d09b59a14e5e03f76e98e2481cc"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-registry.test.cjs",
+      "sha256": "6a92084438beb7fa9e5a8cd7818912d0708b98c8e57d8607b63440523bb090ed"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-adoption.cjs",
+      "sha256": "11bc6261649fddedf996e0e5c602f4847e367300d321b616bea5b4332effd6bd"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-adoption.test.cjs",
+      "sha256": "1869fe880714ff39ea9b14d7d0efbde9fbb85ac7f9f5ddecc8711da24e8c3ab2"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-preservation.cjs",
+      "sha256": "e6c892566f23577afb110639646666b8d3100513126f189de41163ca6b8ae27f"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-preservation.test.cjs",
+      "sha256": "740432dd63ee9af687b41b5b20ee4106a8eb9acd484300f43135d3def77a999b"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-ingress.cjs",
+      "sha256": "0554179d406a62e64cb1ceb6cb2a88b7f8b385f9a2b6a092feb5592528a2792a"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-ingress.test.cjs",
+      "sha256": "b2eeac4f754ba9966c283484d68f5aeed9eab9a8f734b0fc20f694488326fd72"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-restore.cjs",
+      "sha256": "dddd1c917edf2a9411af85d5002487817deda391c7be03635831591a71a98691"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-restore.test.cjs",
+      "sha256": "36f5a82765845bb5f5fd1539dab2d079d32f1820f2775f708a395c19f3c58d9f"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-lifecycle.cjs",
+      "sha256": "7e225be3b506b9b1d53944a91caf05442011b8215159b43ad6313e092d7dd8b5"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-lifecycle.test.cjs",
+      "sha256": "bc7fa6c0e2652c7c9da48d17fdacfbc1afdf8cdab8806716f4a1b02a3284637a"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-policy.json",
+      "sha256": "7609ee0b5b67cf0e81536b6ff7e203177465389fb0ad8674ab93ed32cf670de5"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_26_Phase2Step8Check.json",
+      "sha256": "79c7dfaf090b96f39669bf381972772837523121c5f5e8b4ebb2bcbd7e8c17ae"
+    }
+  ],
+  "completion": {
+    "step8Complete": true,
+    "phase2Complete": false,
+    "nextStep": 9,
+    "manualWorkRequired": false,
+    "unityExecuted": false,
+    "buildExecuted": false,
+    "testRunnerExecuted": false,
+    "sceneOrPrefabChanged": false,
+    "actualAssetApplied": false,
+    "packageInstalled": false,
+    "lockRegenerated": false,
+    "rightsGranted": false,
+    "independentRestore": false,
+    "limits": [
+      "Existing unresolved GUID occurrences and sample orphan remain raw diagnostics; Unity/dynamic/binary references remain unverified",
+      "Current adopted product records and actual lifecycle requests are zero",
+      "Preserved source/archive bytes and Node preparation checks do not prove independent restoration or grant rights",
+      "Full QA candidate directory and sensitive/user save bodies were not inspected"
+    ]
+  }
+}

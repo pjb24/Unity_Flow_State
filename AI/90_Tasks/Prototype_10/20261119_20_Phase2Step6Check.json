@@ -1,0 +1,1538 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Step 6 offline provider/archive restoration inputs and reviewable path migration; no installs or regenerated lock",
+  "spec": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_19_Phase2Step6RestoreSpec.json",
+    "sha256": "11e638789e8ec0f71b453d3ad75910db5588251af7ced6d84ceb022455f65d65"
+  },
+  "check": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-restore.cjs",
+      "--check",
+      "AI/90_Tasks/Prototype_10/20261119_19_Phase2Step6RestoreSpec.json"
+    ],
+    "exitCode": 0,
+    "report": {
+      "schemaVersion": 1,
+      "staticInputsValid": true,
+      "editorVersion": "6000.3.5f2",
+      "upm": {
+        "packages": 61,
+        "edges": 91,
+        "metadataMatched": true
+      },
+      "providers": [
+        {
+          "id": "com.unity.ugui",
+          "version": "2.0.0",
+          "discoveredPath": "Library/PackageCache/com.unity.ugui@1890c14c96ff"
+        },
+        {
+          "id": "com.unity.services.cloudcode",
+          "version": "2.10.4",
+          "discoveredPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b"
+        }
+      ],
+      "tmpArchive": {
+        "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Package Resources/TMP Essential Resources.unitypackage",
+        "sha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431"
+      },
+      "archives": [
+        {
+          "alias": "@unity-services/cloud-save",
+          "name": "@unity-services/cloud-save",
+          "version": "0.0.5",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-0.0.5.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4/cloud-save-0.0.5.tgz",
+          "sha256": "40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4",
+          "integrity": "sha512-/ZLiOKbv7PE01EADsGFEwgCOe/4d6F/bLHHbWJ8JfcIxFvRECX5TD5eqHsmK5sV3GbQzCFTcLyRddwxCQi6EFA==",
+          "bytes": 22937
+        },
+        {
+          "alias": "@unity-services/cloud-save-1.0",
+          "name": "@unity-services/cloud-save",
+          "version": "1.0.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.0.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7/cloud-save-1.0.1.tgz",
+          "sha256": "ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7",
+          "integrity": "sha512-/V7oEJ/mMDVckVo1PQE/gTCVGw31bX+h5O0wSFRpNsc1Mrsv9siW3709UP+cEactu3iAeRgc/On0BvVrJeAQ9w==",
+          "bytes": 29765
+        },
+        {
+          "alias": "@unity-services/cloud-save-1.1",
+          "name": "@unity-services/cloud-save",
+          "version": "1.1.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.1.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2/cloud-save-1.1.0.tgz",
+          "sha256": "709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2",
+          "integrity": "sha512-j7+/YQVO6d43dnhw8KkfjIEAkmauUU8cGCGK/XpRrU6DEb8KJ4t4IdBHf10VHn5X210n6WENLiwAJuzd7sRQVQ==",
+          "bytes": 22486
+        },
+        {
+          "alias": "@unity-services/cloud-save-1.2",
+          "name": "@unity-services/cloud-save",
+          "version": "1.2.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d/cloud-save-1.2.0.tgz",
+          "sha256": "3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d",
+          "integrity": "sha512-fP4pv4aGRJ0/9p9EHiyhy6SPT1E/cRP6R4nvNmC4okywc8QH2p9v9dl63FqVK5M8p7S45kW4+AuAPhv5SPedaQ==",
+          "bytes": 22331
+        },
+        {
+          "alias": "@unity-services/cloud-save-1.2.1",
+          "name": "@unity-services/cloud-save",
+          "version": "1.2.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108/cloud-save-1.2.1.tgz",
+          "sha256": "695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108",
+          "integrity": "sha512-gvY5/C+TF0JB/8Ef+itEJeUFEFZdAluXy1x2f+QDs50uogPjlpRIGD9D7WlPK0CzUCnaeKuCc6I/3VEXhT0mog==",
+          "bytes": 23147
+        },
+        {
+          "alias": "@unity-services/cloud-save-1.3",
+          "name": "@unity-services/cloud-save",
+          "version": "1.3.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.3.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21/cloud-save-1.3.0.tgz",
+          "sha256": "a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21",
+          "integrity": "sha512-IaywDFaWiC8a6RDf7paU9CFSfsv0SxlNiflvCcm46N8KdJxV2ZNSurksW0DEBXzJFJHEjONn3IdfkII00rbjqQ==",
+          "bytes": 29480
+        },
+        {
+          "alias": "@unity-services/cloud-save-1.4",
+          "name": "@unity-services/cloud-save",
+          "version": "1.4.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.4.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47/cloud-save-1.4.0.tgz",
+          "sha256": "2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47",
+          "integrity": "sha512-AKe5Dd85BGdZ2CTBL5Oe3edbjjKJMgDOSZLZX0PDDjuqUBWYjfOmm9qEp+Ccj9l4WC6OpGskoUihjGw/FiChZg==",
+          "bytes": 51277
+        },
+        {
+          "alias": "@unity-services/economy-2.0",
+          "name": "@unity-services/economy",
+          "version": "2.0.2",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.0.2.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3/economy-2.0.2.tgz",
+          "sha256": "59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3",
+          "integrity": "sha512-fe1qRDnT5ykfVABlZ4+0+9nd6uACMXVIJdglerkzrDY39zOM289QtXYdN7+cohslYK8lqIKajch+Xrwl2dS/2w==",
+          "bytes": 33015
+        },
+        {
+          "alias": "@unity-services/economy-2.1",
+          "name": "@unity-services/economy",
+          "version": "2.1.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.1.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba/economy-2.1.1.tgz",
+          "sha256": "8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba",
+          "integrity": "sha512-ueCrJ9fROgC6K7VApguFUlnp8sddBowdUXlbn1STip5QJ+6yo1LDOs5AuxfsxiGwB3Hs5R8HZ48vEXRCJWuc0A==",
+          "bytes": 33016
+        },
+        {
+          "alias": "@unity-services/economy-2.2",
+          "name": "@unity-services/economy",
+          "version": "2.2.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910/economy-2.2.0.tgz",
+          "sha256": "cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910",
+          "integrity": "sha512-pf6kiMrvEuwzsGBWqab+2tTSqybI3jAaDEMS4iwM9xm54UImpieHa5azjpoHp96iBK4mT0QWHCdXLceWKB5hhg==",
+          "bytes": 34654
+        },
+        {
+          "alias": "@unity-services/economy-2.2.1",
+          "name": "@unity-services/economy",
+          "version": "2.2.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5/economy-2.2.1.tgz",
+          "sha256": "b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5",
+          "integrity": "sha512-RmPiCLkJHIZS32RyKgZlMq1vEyD8ejyOjTEV8NtqmIPhqBLXniSNoWZyEBSNHx8ZRtTnSmhpGoCw6MqBicyt0w==",
+          "bytes": 37485
+        },
+        {
+          "alias": "@unity-services/economy-2.3",
+          "name": "@unity-services/economy",
+          "version": "2.3.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14/economy-2.3.0.tgz",
+          "sha256": "dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14",
+          "integrity": "sha512-+z03B/srqhnWH/6HCsJOeRw8heqKMobdnuiQh5QVaqlYVPDighf/Ln/JDU9WrKigSgeTs1lhYHDSkJVef+nJ+g==",
+          "bytes": 37188
+        },
+        {
+          "alias": "@unity-services/economy-2.3.1",
+          "name": "@unity-services/economy",
+          "version": "2.3.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab/economy-2.3.1.tgz",
+          "sha256": "b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab",
+          "integrity": "sha512-Y7wDjS46Sg2D42/DBOC9Yhumek3v/qC8M5Od9v5q7yjD4yAzVYeK+CKZm7TK+7DqUaN4Pdix8n23eFsHtbKrzA==",
+          "bytes": 37804
+        },
+        {
+          "alias": "@unity-services/economy-2.3.2",
+          "name": "@unity-services/economy",
+          "version": "2.3.2",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.2.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5/economy-2.3.2.tgz",
+          "sha256": "0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5",
+          "integrity": "sha512-mJvEfvrAdZbInjmav9VVcoO4NaGNc91yeWXIkQGqOcKP8HNDA/zli7IlrxV9glie2KSr6/ki7OlHA8HqvLQ3/A==",
+          "bytes": 37886
+        },
+        {
+          "alias": "@unity-services/economy-2.4",
+          "name": "@unity-services/economy",
+          "version": "2.4.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6/economy-2.4.0.tgz",
+          "sha256": "7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6",
+          "integrity": "sha512-sdQQnFsfx2QTELsj1NzHKlZ4cf1QGU/fwlsTt5PJv2ZcEd6JpE5C/mvY0EovIBY+xX51w7Rpz2LwywHrl9JBeQ==",
+          "bytes": 37924
+        },
+        {
+          "alias": "@unity-services/economy-2.4.1",
+          "name": "@unity-services/economy",
+          "version": "2.4.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf/economy-2.4.1.tgz",
+          "sha256": "a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf",
+          "integrity": "sha512-PalvW4gbCQAieQ/hfJNXs6TOkQQ3gwFtZWV8ot9PvLDCpbCkuXph8QbbmlxC/Ia7YRgVjXAsGNIct51RecDmqw==",
+          "bytes": 37998
+        },
+        {
+          "alias": "@unity-services/remote-config",
+          "name": "@unity-services/remote-config",
+          "version": "0.0.4",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-0.0.4.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb/remote-config-0.0.4.tgz",
+          "sha256": "a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb",
+          "integrity": "sha512-Q1vMA8rF7vqkHGJx97m2Kwszjq0OQXQsKGj87Ct1o9TWKlN61C91axSKCuKM8dxAs+DEXldd87AyzqWVTwJcrw==",
+          "bytes": 14361
+        },
+        {
+          "alias": "@unity-services/remote-config-1.0",
+          "name": "@unity-services/remote-config",
+          "version": "1.0.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.0.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c/remote-config-1.0.1.tgz",
+          "sha256": "e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c",
+          "integrity": "sha512-dXeNTMRbhAuoOQO6YkdDb0cSPhenkepVJRkaFEbq3JVm/ojoO7hH2PqiXGJ9/Rw4p6nE29UZLgMU6LVRvM4oww==",
+          "bytes": 14656
+        },
+        {
+          "alias": "@unity-services/remote-config-1.1.0",
+          "name": "@unity-services/remote-config",
+          "version": "1.1.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89/remote-config-1.1.0.tgz",
+          "sha256": "d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89",
+          "integrity": "sha512-Z18RC7Np9PNLatED1ew2fV9UC9TCwrCxHTYMKI3MhMdD1jF9NZQG3pnIwdhK44IOwXeGJ5aunQgnBmp4bZlPTQ==",
+          "bytes": 13135
+        },
+        {
+          "alias": "@unity-services/remote-config-1.1.1",
+          "name": "@unity-services/remote-config",
+          "version": "1.1.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45/remote-config-1.1.1.tgz",
+          "sha256": "3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45",
+          "integrity": "sha512-TMA6FvX7RwNJER18U652Sz+QbrdpmbKFwiZa3fU+R9zeQmEFz/UOMuM7kUuumNIiCoRMRytAw1FOfB/dnYM4ig==",
+          "bytes": 13629
+        },
+        {
+          "alias": "@unity-services/remote-config-1.1.2",
+          "name": "@unity-services/remote-config",
+          "version": "1.1.2",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.2.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b/remote-config-1.1.2.tgz",
+          "sha256": "ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b",
+          "integrity": "sha512-jF0J5glXjIkEKD03rOtT4DnlzLFJlbjbdT8eFs/sHk0pTY4+eftn5UTogOXkR4hxaw8cukOUuCgbr4e7nSsqVA==",
+          "bytes": 13615
+        },
+        {
+          "alias": "@unity-services/vivox-0.1",
+          "name": "@unity-services/vivox",
+          "version": "0.1.6",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/vivox-0.1.6.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a/vivox-0.1.6.tgz",
+          "sha256": "9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a",
+          "integrity": "sha512-12FcPiwqtopBLxHzcK7FFhVKq8wlolr85xcnRnaldOzGH83eKvnmSopfKHLaLcFZ5QIs2yaC4kHEoRFYCgRnKA==",
+          "bytes": 11468
+        },
+        {
+          "alias": "@unity-services/lobby-1.0",
+          "name": "@unity-services/lobby",
+          "version": "1.0.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.0.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb/lobby-1.0.1.tgz",
+          "sha256": "e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb",
+          "integrity": "sha512-1pLZWJRDPUxwynrmPTglA0dCRVhw1AmaTMXBeIvz9ZWk/wLgLQhqcAuyEFhSFObbF9iJ3lut9XyyNNSGtbF2HQ==",
+          "bytes": 34418
+        },
+        {
+          "alias": "@unity-services/lobby-1.1",
+          "name": "@unity-services/lobby",
+          "version": "1.1.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa/lobby-1.1.0.tgz",
+          "sha256": "1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa",
+          "integrity": "sha512-dcA+VH0RucY206nhSaQLeunOmRsHJXmJjQKatIuFYfyFQouXX75K1SldU3eUuIzDoahvTz96pxwnI4Wm8HvMzQ==",
+          "bytes": 28691
+        },
+        {
+          "alias": "@unity-services/lobby-1.1.1",
+          "name": "@unity-services/lobby",
+          "version": "1.1.1",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.1.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974/lobby-1.1.1.tgz",
+          "sha256": "7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974",
+          "integrity": "sha512-z+mjk9ZaDP2TdswOkrcu4+szfWYtiqW8mLOBW+fUDWKRIQGL53htbL3RUPFJpD9fW2teFjNL9LHnvkaaud8BKg==",
+          "bytes": 29042
+        },
+        {
+          "alias": "@unity-services/lobby-1.1.2",
+          "name": "@unity-services/lobby",
+          "version": "1.1.2",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.2.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1/lobby-1.1.2.tgz",
+          "sha256": "d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1",
+          "integrity": "sha512-4tsTvyJAHPOB+V8ZtJ6OVFK8d9414qHSqDJ/Hlusgf+7Wayg4ALhf4YEgsK3P6zmr0TfxKNOmuqVnXt8UvuX+Q==",
+          "bytes": 29036
+        },
+        {
+          "alias": "@unity-services/lobby-1.2",
+          "name": "@unity-services/lobby",
+          "version": "1.2.0",
+          "source": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.2.0.tgz",
+          "target": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e/lobby-1.2.0.tgz",
+          "sha256": "f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e",
+          "integrity": "sha512-FIFe02MKglh5/pm+7V7ZxkgCd8esFNHlmpGxEkxrUdZHhEMILsPpeyungg5K7GcIG6yOBOLlEpNnZY09NqSItA==",
+          "bytes": 33309
+        }
+      ],
+      "proposal": {
+        "status": "path-mapping-only; not an installable regenerated lock",
+        "manifestOperations": [
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-0.0.5.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4/cloud-save-0.0.5.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7/cloud-save-1.0.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2/cloud-save-1.1.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d/cloud-save-1.2.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.2.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.2.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108/cloud-save-1.2.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.3",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.3.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21/cloud-save-1.3.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.4",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.4.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47/cloud-save-1.4.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.0.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3/economy-2.0.2.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba/economy-2.1.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910/economy-2.2.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.2.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.2.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5/economy-2.2.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.3",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14/economy-2.3.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.3.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab/economy-2.3.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.3.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5/economy-2.3.2.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.4",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.4.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6/economy-2.4.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.4.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.4.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf/economy-2.4.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-0.0.4.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb/remote-config-0.0.4.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config-1.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c/remote-config-1.0.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config-1.1.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89/remote-config-1.1.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config-1.1.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45/remote-config-1.1.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config-1.1.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b/remote-config-1.1.2.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/vivox-0.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\vivox-0.1.6.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a/vivox-0.1.6.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb/lobby-1.0.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa/lobby-1.1.0.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.1.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974/lobby-1.1.1.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.1.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1/lobby-1.1.2.tgz"
+          },
+          {
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e/lobby-1.2.0.tgz"
+          }
+        ],
+        "lockOperations": [
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-0.0.5.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4/cloud-save-0.0.5.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/cloud-save",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-0.0.5.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4/cloud-save-0.0.5.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7/cloud-save-1.0.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/cloud-save-1.0",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7/cloud-save-1.0.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2/cloud-save-1.1.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/cloud-save-1.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2/cloud-save-1.1.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d/cloud-save-1.2.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/cloud-save-1.2",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d/cloud-save-1.2.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.2.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.2.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108/cloud-save-1.2.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/cloud-save-1.2.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108/cloud-save-1.2.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.3",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.3.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21/cloud-save-1.3.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/cloud-save-1.3",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.3.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21/cloud-save-1.3.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/cloud-save-1.4",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\cloud-save-1.4.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47/cloud-save-1.4.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/cloud-save-1.4",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.4.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47/cloud-save-1.4.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.0.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3/economy-2.0.2.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.0",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.0.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3/economy-2.0.2.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba/economy-2.1.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba/economy-2.1.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910/economy-2.2.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.2",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910/economy-2.2.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.2.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.2.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5/economy-2.2.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.2.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5/economy-2.2.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.3",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14/economy-2.3.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.3",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14/economy-2.3.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.3.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab/economy-2.3.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.3.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab/economy-2.3.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.3.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.3.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5/economy-2.3.2.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.3.2",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5/economy-2.3.2.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.4",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.4.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6/economy-2.4.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.4",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6/economy-2.4.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/economy-2.4.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\economy-2.4.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf/economy-2.4.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/economy-2.4.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf/economy-2.4.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-0.0.4.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb/remote-config-0.0.4.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/remote-config",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-0.0.4.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb/remote-config-0.0.4.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config-1.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c/remote-config-1.0.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/remote-config-1.0",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c/remote-config-1.0.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config-1.1.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89/remote-config-1.1.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/remote-config-1.1.0",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89/remote-config-1.1.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config-1.1.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45/remote-config-1.1.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/remote-config-1.1.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45/remote-config-1.1.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/remote-config-1.1.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\remote-config-1.1.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b/remote-config-1.1.2.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/remote-config-1.1.2",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b/remote-config-1.1.2.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/vivox-0.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\vivox-0.1.6.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a/vivox-0.1.6.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/vivox-0.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/vivox-0.1.6.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a/vivox-0.1.6.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.0",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb/lobby-1.0.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/lobby-1.0",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.0.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb/lobby-1.0.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa/lobby-1.1.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/lobby-1.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa/lobby-1.1.0.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.1.1",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974/lobby-1.1.1.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/lobby-1.1.1",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.1.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974/lobby-1.1.1.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.1.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.1.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1/lobby-1.1.2.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/lobby-1.1.2",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.2.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1/lobby-1.1.2.tgz"
+          },
+          {
+            "section": "root",
+            "group": "dependencies",
+            "alias": "@unity-services/lobby-1.2",
+            "from": "file:Library\\PackageCache\\com.unity.services.cloudcode@4d38bd1f7a5b\\UnityServicesNpmLocal~\\lobby-1.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e/lobby-1.2.0.tgz"
+          },
+          {
+            "section": "package",
+            "alias": "@unity-services/lobby-1.2",
+            "from": "file:Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.2.0.tgz",
+            "to": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e/lobby-1.2.0.tgz"
+          }
+        ],
+        "proposedManifest": {
+          "name": "unity_flow_state",
+          "version": "1.0.0",
+          "description": "Unity_Flow_State",
+          "main": "index.js",
+          "scripts": {
+            "test": "echo \"Error: no test specified\" && exit 1"
+          },
+          "repository": {
+            "type": "git",
+            "url": "git+https://github.com/pjb24/Unity_Flow_State.git"
+          },
+          "keywords": [],
+          "author": "",
+          "license": "ISC",
+          "type": "commonjs",
+          "bugs": {
+            "url": "https://github.com/pjb24/Unity_Flow_State/issues"
+          },
+          "homepage": "https://github.com/pjb24/Unity_Flow_State#readme",
+          "dependencies": {
+            "axios": "^0.21.2",
+            "axios-0.21": "npm:axios@^0.21.2",
+            "lodash": "4.17.21",
+            "lodash-4.17": "npm:lodash@^4.17",
+            "@unity-services/cloud-save": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4/cloud-save-0.0.5.tgz",
+            "@unity-services/cloud-save-1.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7/cloud-save-1.0.1.tgz",
+            "@unity-services/cloud-save-1.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2/cloud-save-1.1.0.tgz",
+            "@unity-services/cloud-save-1.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d/cloud-save-1.2.0.tgz",
+            "@unity-services/cloud-save-1.2.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108/cloud-save-1.2.1.tgz",
+            "@unity-services/cloud-save-1.3": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21/cloud-save-1.3.0.tgz",
+            "@unity-services/cloud-save-1.4": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47/cloud-save-1.4.0.tgz",
+            "@unity-services/economy-2.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3/economy-2.0.2.tgz",
+            "@unity-services/economy-2.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba/economy-2.1.1.tgz",
+            "@unity-services/economy-2.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910/economy-2.2.0.tgz",
+            "@unity-services/economy-2.2.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5/economy-2.2.1.tgz",
+            "@unity-services/economy-2.3": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14/economy-2.3.0.tgz",
+            "@unity-services/economy-2.3.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab/economy-2.3.1.tgz",
+            "@unity-services/economy-2.3.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5/economy-2.3.2.tgz",
+            "@unity-services/economy-2.4": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6/economy-2.4.0.tgz",
+            "@unity-services/economy-2.4.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf/economy-2.4.1.tgz",
+            "@unity-services/remote-config": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb/remote-config-0.0.4.tgz",
+            "@unity-services/remote-config-1.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c/remote-config-1.0.1.tgz",
+            "@unity-services/remote-config-1.1.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89/remote-config-1.1.0.tgz",
+            "@unity-services/remote-config-1.1.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45/remote-config-1.1.1.tgz",
+            "@unity-services/remote-config-1.1.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b/remote-config-1.1.2.tgz",
+            "@unity-services/vivox-0.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a/vivox-0.1.6.tgz",
+            "@unity-services/lobby-1.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb/lobby-1.0.1.tgz",
+            "@unity-services/lobby-1.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa/lobby-1.1.0.tgz",
+            "@unity-services/lobby-1.1.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974/lobby-1.1.1.tgz",
+            "@unity-services/lobby-1.1.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1/lobby-1.1.2.tgz",
+            "@unity-services/lobby-1.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e/lobby-1.2.0.tgz"
+          },
+          "devDependencies": {
+            "@types/lodash": "^4.14.177",
+            "@types/lodash-4.17": "npm:@types/lodash@^4.14.177"
+          },
+          "ccaVersion": "2.10.4"
+        },
+        "originalAliasesVersionsIntegrityPreserved": true,
+        "requiresUserLockRegenerationBeforeApplying": true,
+        "installed": false
+      },
+      "auxiliary": {
+        "nuget": {
+          "targetFramework": "net9.0",
+          "packageReferences": [
+            {
+              "id": "Com.Unity.Services.CloudCode.Core",
+              "version": "0.0.7"
+            },
+            {
+              "id": "Com.Unity.Services.CloudCode.Apis",
+              "version": "0.0.27"
+            },
+            {
+              "id": "Jint",
+              "version": "4.16.4"
+            },
+            {
+              "id": "Newtonsoft.Json",
+              "version": "13.0.3"
+            }
+          ],
+          "resources": [
+            {
+              "include": "../../CloudCode/*.js",
+              "logicalName": "server/%(Filename)%(Extension)"
+            },
+            {
+              "include": "runtime.js",
+              "logicalName": "runtime.js"
+            }
+          ],
+          "embeddedSourcePaths": [
+            "UGS/CloudCode/account-provisioning-service.js",
+            "UGS/CloudCode/account-service.js",
+            "UGS/CloudCode/account-store.js",
+            "UGS/CloudCode/active-connection-policy.js",
+            "UGS/CloudCode/cancel-account-transfer.js",
+            "UGS/CloudCode/complete-account-transfer.js",
+            "UGS/CloudCode/environment-data-policy.js",
+            "UGS/CloudCode/execution-scope.js",
+            "UGS/CloudCode/get-account-personal-bests.js",
+            "UGS/CloudCode/get-account-transfer-status.js",
+            "UGS/CloudCode/get-public-player-number.js",
+            "UGS/CloudCode/json-value-policy.js",
+            "UGS/CloudCode/lazy-ledger-migration.js",
+            "UGS/CloudCode/leaderboard-owner-policy.js",
+            "UGS/CloudCode/leaderboard-query-policy.js",
+            "UGS/CloudCode/ledger-v2-migration.js",
+            "UGS/CloudCode/legacy-account-migration-policy.js",
+            "UGS/CloudCode/legacy-account-store.js",
+            "UGS/CloudCode/operational-safety-policy.js",
+            "UGS/CloudCode/public-number-display-policy.js",
+            "UGS/CloudCode/public-player-number-policy.js",
+            "UGS/CloudCode/query-records.js",
+            "UGS/CloudCode/receipt-journal.js",
+            "UGS/CloudCode/receipt-store.js",
+            "UGS/CloudCode/reissue-account-transfer.js",
+            "UGS/CloudCode/start-account-transfer.js",
+            "UGS/CloudCode/submission-retention-policy.js",
+            "UGS/CloudCode/submit-record-v2.js",
+            "UGS/CloudCode/submit-record.js",
+            "UGS/CloudCode/transfer-client-state-policy.js",
+            "UGS/CloudCode/transfer-completion-service.js",
+            "UGS/CloudCode/transfer-credential-policy.js",
+            "UGS/CloudCode/transfer-cryptography.js",
+            "UGS/CloudCode/transfer-lifecycle-service.js",
+            "UGS/CloudCode/transfer-operations-policy.js",
+            "UGS/CloudCode/transfer-resolution-policy.js",
+            "UGS/CloudCode/transfer-start-service.js",
+            "UGS/CloudCode/transfer-state.js",
+            "UGS/CloudCode/transfer-verification-service.js"
+          ],
+          "sourceBodiesNotInspected": true,
+          "resolvedGraph": {
+            "status": "local generated graph only; not a committed lock or fresh restore",
+            "packages": [
+              "Acornima/1.7.0",
+              "Com.Unity.Services.CloudCode.Apis/0.0.27",
+              "Com.Unity.Services.CloudCode.Core/0.0.7",
+              "Jint/4.16.4",
+              "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2",
+              "Microsoft.NETCore.Platforms/1.1.1",
+              "Microsoft.NETCore.Targets/1.1.3",
+              "Newtonsoft.Json/13.0.3",
+              "System.Private.Uri/4.3.2",
+              "System.Runtime/4.3.1",
+              "runtime.any.System.Runtime/4.3.0",
+              "runtime.native.System/4.3.0",
+              "runtime.unix.System.Private.Uri/4.3.0"
+            ],
+            "feeds": [
+              "<redacted-url>",
+              "https://api.nuget.org/v3/index.json"
+            ]
+          },
+          "lockStatus": "No committed packages.lock.json; exact graph/lock generation is user work in isolated environment"
+        },
+        "logSink": {
+          "name": "flow-state-safe-log-sink",
+          "directExternalDependencies": 0,
+          "containerBase": "node:22-alpine",
+          "immutableImageDigestVerified": false
+        }
+      },
+      "acquisition": {
+        "status": "local-input-present",
+        "remoteAcquisitionVerified": false
+      },
+      "inputs": [
+        {
+          "path": "ProjectSettings/ProjectVersion.txt",
+          "sha256": "9ef257cbec7e3aeeb46ec16caf6a237240475a5bf13bbb7f830bf3081c7c9696"
+        },
+        {
+          "path": "Packages/manifest.json",
+          "sha256": "47fb3dd6c1d57af7081549db75a4f761255a9247c5be8c3a937c71f461ec8f18"
+        },
+        {
+          "path": "Packages/packages-lock.json",
+          "sha256": "d06d939dcb9ca070f2fe476971b7e9bf6610d245ce402d5f55ebef835a4a4b73"
+        },
+        {
+          "path": "package.json",
+          "sha256": "af7aef3ed0a399a299641c1b2a899b619d154396a6bc45d37a4658f111e7f291"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "7f7611dcf4723de241a6d42daf7202e782033649aa1b053893beea7f8a7eec73"
+        },
+        {
+          "path": "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+          "sha256": "14323b3d1848731eec724a2d3cc0b59db0049019188f7fdcff23636210042763"
+        },
+        {
+          "path": "UGS/LogSink/package.json",
+          "sha256": "5b462a929bdb0f444f3549107501f4f26d91abccd545df20416a427e63c35cf8"
+        },
+        {
+          "path": "UGS/LogSink/Dockerfile",
+          "sha256": "327065fe1106bd128373c2c227183e622603ed83ff3ef2f4467714a37fa04d51"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.burst@973857688024/package.json",
+          "sha256": "2b83129a25e2043d489de32357e4dabcbcf6b18cb770bdb5bde6214eec0e599b"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.cinemachine@f3f96bcb59af/package.json",
+          "sha256": "1eba118969b1b25b7f75398ce82c996718c604adf6655040145344ef60d37552"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.collections@aea9d3bd5e19/package.json",
+          "sha256": "f2e265e507e7803f40a8f98d9fd582c74af01f059b2c9b42723bdb9ff082fe27"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.ext.nunit@d8c07649098d/package.json",
+          "sha256": "260aacf3355a3cb19174608b247d86501fe31b4679b9dc00dc4d01eb8b15ef59"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.ide.rider@1f60b3138684/package.json",
+          "sha256": "58be2f7a7194310e2e5d87d5b3f8ce2a0da545ba37856925abc413a6f62fff2b"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.ide.visualstudio@dc1ddd4f09b6/package.json",
+          "sha256": "e1303c40d96d6a341aec0456d6c6d4dd9adf590c98eefd734c893d5b773f4c3e"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.inputsystem@02433b2481ab/package.json",
+          "sha256": "3769fd75b9aee5fc7fe08af9fff2ffae817c32cad7e126272d723e3cdb6af80a"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.mathematics@19a9377c4ffa/package.json",
+          "sha256": "0b648adeed5de37436eb9aac3b36f9bfd4d55198f203b25d12d856c1bc3f16d6"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.accessibility/package.json",
+          "sha256": "8f4e1af72060ad7035cdd9689c64431597ff8c543af3d6e664648fcd7bd8061d"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.adaptiveperformance/package.json",
+          "sha256": "588ce2a334b6d65135d5334059919efa6fedaf6b5ce11d07a87099bd3d2b08f8"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.ai/package.json",
+          "sha256": "3164f729c35cab8919b462503de1af8957b93d30b8be3d7bc4020b1312f34b80"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.androidjni/package.json",
+          "sha256": "9bfac0cf176cbe7f88dcd26a086e8ee493f8371e944d254776e7ec8eb0875c08"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.animation/package.json",
+          "sha256": "b5a19f81a554d6c11aa25791ed7c5308507ccf4f3510e6d5f6179159678ea1f6"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.assetbundle/package.json",
+          "sha256": "4e5db4790a51fe0bf21396d3f6ce1d20532e01873a37a2bf0dccda702675f0f2"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.audio/package.json",
+          "sha256": "5a967e46cb1259d8a9d40e1890f669003d0f092a24a80f479af14c1cfbee0841"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.cloth/package.json",
+          "sha256": "c45dd41c10a7e169912dc0818a37ad3fb99e2a478865aaa4995d0d6addbab65d"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.director/package.json",
+          "sha256": "e862533f382231050b6be5ecc3e4692119e398bf2beb9cd582878c0ff5151c63"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.hierarchycore/package.json",
+          "sha256": "4569bb960af453888434660deaf8166f781543ce2b5df5def57df8cf40040ab5"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.imageconversion/package.json",
+          "sha256": "436abe06359efcf828e2d0e769e7eadef78e25b2a29dcf1674df62646ad70634"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.imgui/package.json",
+          "sha256": "9703f8b246fae1c2b2f2643fca9e58a48526c5c879c3aba9af21baac25f6c426"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.jsonserialize/package.json",
+          "sha256": "5720d2b33d0615f9d4bcec067e8f2dd2f5c338e7638f241fa3dc04120b3413ae"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.particlesystem/package.json",
+          "sha256": "4b7787b632c31a2f621cadcb4388b56b6f33c3801ec7044d9497e7fee0a297b0"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.physics/package.json",
+          "sha256": "e4cefcb8500f00e939d80ff99bee7086a79abb075d5a51cf1be050345ebcee37"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.physics2d/package.json",
+          "sha256": "13dbe8c092d727ace512731fcf102f7c71989d7e566994084a2a6255d809c0a6"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.screencapture/package.json",
+          "sha256": "e45e41f0a7df456749caa73228c014489cfdb138a5cb6918a9c7824aeda4cdd2"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.subsystems/package.json",
+          "sha256": "7fe587e4449d85c639d6541600b56e90f583e1a3e67f06d6dbdfb127c067052d"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.terrain/package.json",
+          "sha256": "b077317d040890af0e47bbda53ebead870136fc3834d384b9ca429e4cae2df89"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.terrainphysics/package.json",
+          "sha256": "19cb6c340fe59bec2eb3b5a6d65b5ee16b40a5298facb89da02d48be7f082f15"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.tilemap/package.json",
+          "sha256": "be0c2244ca504b99a1dd3e87f21f903f4b5cf5d8f6cb88978d3dcb5395f1cd67"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.ui/package.json",
+          "sha256": "5ee23fd81c1b0fc62a0d970b4e7b18157024f0972bc3b3104610fc6fa9dc8814"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.uielements/package.json",
+          "sha256": "2c975e342bf6ba0a1cfff34559ffae744677ad1db7867ed2a7bb58e64d40c8b8"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.umbra/package.json",
+          "sha256": "9abee73c940d677d7aee5e5c1275d084459056e618a4a0640dea86c0dc8723b1"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.unityanalytics/package.json",
+          "sha256": "4ae5a8c3137d6bbecf968018fa020b758a0366a034569b5732c75c92bb5db976"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.unitywebrequest/package.json",
+          "sha256": "d7455a18dd347af0cb4b35c431fb495d6fdd9c9f808a825b81afa77612644701"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.unitywebrequestassetbundle/package.json",
+          "sha256": "b30a85f99b6159f3a4020670e293d40802a7ea789342bd0b2ca23f50ba9569b6"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.unitywebrequestaudio/package.json",
+          "sha256": "9b8761fb4d470f95bcea00744cc0614a9874297db69dd25c57111179008b5f85"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.unitywebrequesttexture/package.json",
+          "sha256": "3782187b52564dec13c39e690623f2c9ab499939407c63467c619348fe3731e1"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.unitywebrequestwww/package.json",
+          "sha256": "6c2501da4cc1dd3f4166019b90962b1b3fa5b7895fa52a04d6bd798d470bc685"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.vectorgraphics/package.json",
+          "sha256": "e57d6e9fe9ff873d7b1b5a3f09282a8bd330cb2797ed43ac33c181131adc92b2"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.vehicles/package.json",
+          "sha256": "d22bda2ff2b2cf415f710e3c5356b57d15775e60feb0a04b015ca7db05995d2e"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.video/package.json",
+          "sha256": "8eba84cece85e832096d8a16ef69d023a659098c49f8f8605e2ae1bfe1e85913"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.modules.wind/package.json",
+          "sha256": "9bbabfbce26eb60853f13bc4aba0e7953521e961036a49d5ff8ff2317694e044"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/package.json",
+          "sha256": "36fad1b3680dfc0afd6c6a2a193959e7d4532dd15ddfc35016519d0cdf27cb25"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/package.json",
+          "sha256": "29c4661a6f9d6839813f2ead6a232c890aaf67eaf44faf8ea2da85e816368558"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.render-pipelines.core@ce614113b3ba/package.json",
+          "sha256": "04cebdf076779d12c3d755dc4b16d852ddc4a150cfedf000d4a8e3f3997cbee3"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d/package.json",
+          "sha256": "ba5082b6c32161b374389816ab771ed1339b22b61f889e50f2a65937180f816b"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/package.json",
+          "sha256": "c48bbf7ed72032532656a083a818c44b14fe31d3fe763f2dff6acbb4a2e3956d"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.searcher@d45a78918735/package.json",
+          "sha256": "a9bb2ac308fcaa563e9faa856e5d87728fe18ba1ddc76476e930703b9693451f"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.authentication@6613d5ec6ae8/package.json",
+          "sha256": "ae3cdffe518d4393fe4448cff77d0bd0d6cdc9d3d443e6a6e0f0e81990329336"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/package.json",
+          "sha256": "3b9027170a084ef22da2c6337f202031c7cbc030777d5c78a749c2bc4aa808f9"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.core@3464cb68d709/package.json",
+          "sha256": "e3fb33ea64f9f6a2f275a6667b763778bd70b3afacf1da9c392ca9aa46ff414e"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.deployment.api@9becf6da0f1a/package.json",
+          "sha256": "9b2833a782d31a901af75a971929d74b686222c8be8a4ca29e45ac4139b1e661"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.deployment@3b0f19f59670/package.json",
+          "sha256": "752574f3a192716fb5310e870a7c579a5058e0eb8432abe096105cad3728ed87"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.wire@9a73acde80cc/package.json",
+          "sha256": "c97b9ac858aa7693fc6f7aae36eed6de896acdfb30b9e7c5cc1334982853284b"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.settings-manager@0b8638c5ce86/package.json",
+          "sha256": "f40f8cfe928f47797a46c8463416d32a85655a75afc70ed7c801a2dbec281207"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.shadergraph@ea01319cfd98/package.json",
+          "sha256": "c3eaad777a2dc6b52768aae1fc397450ee682a5363d1af82af960e96f291ec18"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.splines@1cb7d86fc7ff/package.json",
+          "sha256": "a35fc803c75247ff1e7f663776dc48e5a1b0db905d0eb6568e7f254e592b1b7e"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.test-framework.performance@0840f58e4562/package.json",
+          "sha256": "d0a1e26a0cd08ea8160567d3e0f10b75a6e1a34c66ea2c1d9fbcdcee88d39e9d"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/package.json",
+          "sha256": "23a35e1a6ee4a90a3f225319058af3d4bcdb1be101317e00807f98e6598e0657"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.timeline@8cd8509afae5/package.json",
+          "sha256": "5454ac066b789dc0a11fc6ab0b12d723a73327bca664ded2ba230019e559530a"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/package.json",
+          "sha256": "e6ae8d5d04ab62beaa49ed3a08ce7def4c8e6467ffadd94420fa20f7d2a1b86e"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Package Resources/TMP Essential Resources.unitypackage",
+          "sha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-0.0.5.tgz",
+          "sha256": "40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.0.1.tgz",
+          "sha256": "ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.1.0.tgz",
+          "sha256": "709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.0.tgz",
+          "sha256": "3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.2.1.tgz",
+          "sha256": "695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.3.0.tgz",
+          "sha256": "a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/cloud-save-1.4.0.tgz",
+          "sha256": "2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.0.2.tgz",
+          "sha256": "59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.1.1.tgz",
+          "sha256": "8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.0.tgz",
+          "sha256": "cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.2.1.tgz",
+          "sha256": "b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.0.tgz",
+          "sha256": "dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.1.tgz",
+          "sha256": "b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.3.2.tgz",
+          "sha256": "0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.0.tgz",
+          "sha256": "7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/economy-2.4.1.tgz",
+          "sha256": "a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-0.0.4.tgz",
+          "sha256": "a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.0.1.tgz",
+          "sha256": "e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.0.tgz",
+          "sha256": "d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.1.tgz",
+          "sha256": "3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/remote-config-1.1.2.tgz",
+          "sha256": "ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/vivox-0.1.6.tgz",
+          "sha256": "9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.0.1.tgz",
+          "sha256": "e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.0.tgz",
+          "sha256": "1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.1.tgz",
+          "sha256": "7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.1.2.tgz",
+          "sha256": "d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1"
+        },
+        {
+          "path": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b/UnityServicesNpmLocal~/lobby-1.2.0.tgz",
+          "sha256": "f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e"
+        },
+        {
+          "path": "UGS/Modules/FlowStateVerification/runtime.js",
+          "sha256": "ee38fbd093a09f6a9b3215f52aa90fec9e818789a96bd06479c0ecfab7a6b030"
+        },
+        {
+          "path": "UGS/Modules/FlowStateVerification/obj/project.assets.json",
+          "sha256": "0fdb22fde4568de75a1c104c8603be4f2be6ae2bde07b6ab9b78ed0e2a46a25b"
+        }
+      ],
+      "indexUnchanged": true,
+      "installed": false,
+      "lockRegenerated": false,
+      "unityExecuted": false,
+      "rightsGranted": false,
+      "independentRestore": false
+    }
+  },
+  "archivePreparation": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-restore.cjs",
+      "--prepare-archives",
+      "AI/90_Tasks/Prototype_10/20261119_19_Phase2Step6RestoreSpec.json"
+    ],
+    "exitCode": 0,
+    "report": {
+      "prepared": true,
+      "created": 0,
+      "reused": 27,
+      "files": 27,
+      "archiveHashesMatch": true,
+      "ignoredUntracked": true,
+      "installed": false,
+      "lockRegenerated": false,
+      "independentRestore": false
+    }
+  },
+  "initialArchivePreparation": {
+    "created": 27,
+    "files": 27,
+    "sourceUnchanged": true,
+    "note": "Explicit first preparation completed before patch validation; final run verifies/reuses identical targets"
+  },
+  "patch": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_21_Phase2Step6NpmPathMigration.patch",
+    "sha256": "2d0e61461fa62066f2ee7a33a0fd01da554f4789d708623f7ec0c7ae2f95fd7a",
+    "readOnlyCheck": {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "AI/90_Tasks/Prototype_10/20261119_21_Phase2Step6NpmPathMigration.patch"
+      ],
+      "exitCode": 0
+    },
+    "applied": false,
+    "scope": "package.json path-only proposal; package-lock.json not written"
+  },
+  "resolvedDuringWork": {
+    "issue": "First whole-file proposal dropped final package.json line because existing file has no terminal newline",
+    "resolution": "Preserve CRLF and missing terminal newline with standard patch markers; git apply --check now passes; source declarations unchanged"
+  },
+  "tests": [
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-restore.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 30,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-ingress.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 28,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-audit.test.cjs",
+        "--policy",
+        "AI/90_Tasks/Prototype_10/20261119_03_Phase1Step8Policy.json"
+      ],
+      "exitCode": 0,
+      "passed": 55,
+      "failed": 0
+    }
+  ],
+  "sources": [
+    {
+      "path": "Tools/DependencyAudit/dependency-restore.cjs",
+      "sha256": "dddd1c917edf2a9411af85d5002487817deda391c7be03635831591a71a98691"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-restore.test.cjs",
+      "sha256": "36f5a82765845bb5f5fd1539dab2d079d32f1820f2775f708a395c19f3c58d9f"
+    }
+  ],
+  "limitations": {
+    "networkAndEntitlementVerified": false,
+    "registryNpmPackagesDownloaded": false,
+    "nugetRestoreExecuted": false,
+    "nugetGraphSource": "Existing local obj metadata only; not a committed lock or new restore",
+    "dockerImageDigestVerified": false,
+    "containerExecuted": false,
+    "manifestOrLockApplied": false,
+    "lockRegenerated": false,
+    "installed": false,
+    "unityExecuted": false,
+    "scenePrefabEdited": false,
+    "independentRestore": false,
+    "rightsGranted": false
+  },
+  "manualWork": {
+    "requiredNow": [],
+    "conditionalStep9": [
+      "If portable declarations must be applied, apply reviewed package.json patch in isolated checkout and have owner regenerate lock; compare actual result using --verify-migration before any install success claim"
+    ],
+    "phase3": [
+      "Reacquire exact provider versions using pinned Unity Editor/manifest/lock; prepare stable archives; reapply pinned TMP snapshot; perform actual Unity import/reference validation in separate environment"
+    ]
+  },
+  "completion": {
+    "step6Complete": true,
+    "phase2Complete": false,
+    "nextStep": 7
+  },
+  "integrations": {
+    "reason": "Add reserved Cloud Code technical baseline ID to existing ingress catalog; no adopted product fabricated",
+    "sources": [
+      {
+        "path": "Tools/DependencyAudit/dependency-ingress.cjs",
+        "sha256": "0554179d406a62e64cb1ceb6cb2a88b7f8b385f9a2b6a092feb5592528a2792a"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-ingress.test.cjs",
+        "sha256": "b2eeac4f754ba9966c283484d68f5aeed9eab9a8f734b0fc20f694488326fd72"
+      }
+    ]
+  }
+}

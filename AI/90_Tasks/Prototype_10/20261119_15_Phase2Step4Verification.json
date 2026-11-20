@@ -1,0 +1,453 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Step 4 final local preservation/temporary reapply and original workspace verification; no independent Unity restoration",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_12_Phase2Step3Verification.json",
+    "sha256": "5c001e67f19aecb89d1067ba79340fde347cb36f0710c712425331aa79b93ba1"
+  },
+  "spec": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json",
+    "sha256": "d5dc8dacce140271c6957f1541f89344f43c13416cd9340d3e8921784ea38d79"
+  },
+  "check": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_14_Phase2Step4Check.json",
+    "sha256": "1529157cb60a4d76d5274dcbb8a4ba20192b07a6eabd55d12b7a2eb1afec2a2c"
+  },
+  "bundle": {
+    "output": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+    "expected": {
+      "id": "tmp-baseline",
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "editorVersion": "6000.3.5f2",
+      "providerId": "com.unity.ugui",
+      "providerVersion": "2.0.0",
+      "archiveSha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431"
+    },
+    "manifestSchema": 2,
+    "payloadFiles": 83,
+    "metaFiles": 45,
+    "folderMeta": 8,
+    "payloadBytes": 4989600,
+    "verification": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "temporaryReapply": {
+      "reappliedToTemporary": true,
+      "files": 83,
+      "contentHashesGuidsImportAndNamesMatch": true,
+      "unityExecuted": false,
+      "independentRestore": false,
+      "folderMetaCount": 8,
+      "targetKind": "Isolated os.tmpdir child with flowstate-preservation-reapply- prefix; removed after containment check",
+      "temporaryTargetRemoved": true
+    },
+    "superseded": [
+      {
+        "output": "Ignore/DependencyPreservation/tmp-baseline/b186c4e72d21a125b32fc1c01c130c8d618f5b509d92b858ec48d8230bf67581",
+        "status": "superseded; lacks empty folder pairing/reapplication contract; retained locally, do not use as final restore input",
+        "manifestUnchanged": true
+      }
+    ]
+  },
+  "preservation": {
+    "baselineFiles": 1007,
+    "unchangedBaselineFiles": 999,
+    "cumulativeChangedDocuments": [
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "Tools/DependencyAudit/README.md"
+    ],
+    "changedSinceStep3": [
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "Tools/DependencyAudit/README.md",
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md"
+    ],
+    "unexpectedChanges": [],
+    "tmpAndArchiveFilesChecked": 83,
+    "allTmpAndArchiveHashesUnchanged": true,
+    "preservedPriorOutputs": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+        "sha256": "1ff675d47fb0a2c7c1803e780cbcbc51576851b9dd99b9eb75d9f84bfd6c199c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_07_Phase2Step1Audit.json",
+        "sha256": "7bde759d01d6f582f7ed76b2e7233a8c5b889c79703d1f91e7d2db08995c3ccc"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_08_Phase2Step1Verification.json",
+        "sha256": "5bdf6fabf73b77faaf4b2b72ad99d202f63b5ff3d0d1d999a6838ce13088a698"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_09_Phase2Step2Check.json",
+        "sha256": "03e6446a12bbcbfa67eaae10d3bb3b3f3eb8feb9bcb049b8bcdd5d9f39770de9"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_10_Phase2Step2Verification.json",
+        "sha256": "b60e383c3df52e17ba47049cc7de72f16e2070c22930e3b9e8e82bb126eb9bb4"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_11_Phase2Step3Check.json",
+        "sha256": "005d33c2c6f0c7ef682dc8818efbdab63273548198e9b9d9d55406b5ccc7b488"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_12_Phase2Step3Verification.json",
+        "sha256": "5c001e67f19aecb89d1067ba79340fde347cb36f0710c712425331aa79b93ba1"
+      }
+    ],
+    "headUnchanged": true,
+    "indexUnchanged": true,
+    "trackedPathsUnchanged": true,
+    "stagedChanges": 0,
+    "candidateCoverage": "Executable hash only; full candidate directory not traversed; no execution or new QA claim",
+    "secretOrActualSavesRead": false
+  },
+  "tests": [
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-preservation.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 20,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-adoption.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 36,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-registry.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 49,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-audit.test.cjs",
+        "--policy",
+        "AI/90_Tasks/Prototype_10/20261119_03_Phase1Step8Policy.json"
+      ],
+      "exitCode": 0,
+      "passed": 55,
+      "failed": 0
+    }
+  ],
+  "registry": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-registry.cjs",
+      "--check"
+    ],
+    "exitCode": 0,
+    "report": {
+      "schemaVersion": 1,
+      "registryValid": true,
+      "policyValid": true,
+      "recordCount": 0,
+      "boundaries": [],
+      "transitionCompared": false,
+      "gitIngressChecked": false,
+      "rightsGranted": false,
+      "independentRestore": false,
+      "limitations": [
+        "Metadata assertions are not license authentication or user identity verification",
+        "Git ingress enforcement is Step 5",
+        "Unity and independent restoration are not executed"
+      ],
+      "indexUnchanged": true,
+      "inputs": [
+        {
+          "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+          "sha256": "3331f9a2bcb908662fe69856e5af1229275ebba943c51d72b5c8b82ae15c5b71"
+        },
+        {
+          "path": "Tools/DependencyAudit/dependency-policy.json",
+          "sha256": "7609ee0b5b67cf0e81536b6ff7e203177465389fb0ad8674ab93ed32cf670de5"
+        }
+      ]
+    }
+  },
+  "inventory": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-audit.cjs",
+      "--check"
+    ],
+    "exitCode": 1,
+    "collectionComplete": true,
+    "summary": {
+      "actualFiles": 835,
+      "directories": 50,
+      "ignoredFiles": 85,
+      "packages": 61,
+      "packageEdges": 91,
+      "metaCount": 11816,
+      "serializedFiles": 56,
+      "referenceOccurrences": 1299,
+      "unresolvedOccurrences": 31,
+      "baselineHashes": 0
+    },
+    "diagnostics": [
+      {
+        "code": "ORPHAN_META",
+        "path": "Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/Samples~/15_TestCases_15.meta",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/DefaultVolumeProfile.asset -> 0fd9ee276a1023e439cf7a9c393195fa",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/DefaultVolumeProfile.asset -> 5a00a63fdd6bd2a45ab1f2d869305ffd",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/DefaultVolumeProfile.asset -> 60f3b30c03e6ba64d9a27dc9dba8f28d",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/DefaultVolumeProfile.asset -> 74955a4b0b4243bc87231e8b59ed9140",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 03cfc4915c15d504a9ed85ecc404e607",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 24ec0e140fb444a44ab96ee80844e18e",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 53a11f4ebaebf4049b3638ef78dc9664",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 57d7c4c16e2765b47a4d2069b311bffe",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 8f96cd657dc40064aa21efcc7e50a2e7",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> b9a23f869c4fd45f19c5ada54dd82176",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> e5c6678ed2aaa91408dd3df699057aae",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 0fd9ee276a1023e439cf7a9c393195fa",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 5a00a63fdd6bd2a45ab1f2d869305ffd",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 60f3b30c03e6ba64d9a27dc9dba8f28d",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 74955a4b0b4243bc87231e8b59ed9140",
+        "severity": "finding"
+      }
+    ],
+    "diagnosticsMatchStep1": true
+  },
+  "documents": {
+    "utf8Valid": true,
+    "newFilesWhitespaceValid": true,
+    "diffCheckExitCode": 0,
+    "localLinksChecked": 102,
+    "brokenLinks": [],
+    "checkboxes": {
+      "complete": 4,
+      "incomplete": 6
+    }
+  },
+  "files": [
+    {
+      "path": "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "sha256": "48deb373e326c73d2b18d6d642d24ed37e68c81ebb6b69f52423793fddd132a9"
+    },
+    {
+      "path": "Tools/DependencyAudit/README.md",
+      "sha256": "f9db066f312f483e483cb71f46f1beb94218400e58cb6069a25b3eb91785d6c6"
+    },
+    {
+      "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "sha256": "3331f9a2bcb908662fe69856e5af1229275ebba943c51d72b5c8b82ae15c5b71"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "16782465d6de3e7889cf7d4781116a7305165be11533c04c6e499822a8caafd7"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "c879712858201f7b971529929bd8d5c2cd64fda0a36bc4343128ab717fb794ef"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "6af19296e4978183ddaf3abebb77bc7cb1069bbe6b88dffb138c6ad30bae3ad8"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "sha256": "6555c553cf3d8b62e9dea8b29b2ce8ebe8d4429ce34afac9412436b22c5447e7"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-preservation.cjs",
+      "sha256": "e6c892566f23577afb110639646666b8d3100513126f189de41163ca6b8ae27f"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-preservation.test.cjs",
+      "sha256": "740432dd63ee9af687b41b5b20ee4106a8eb9acd484300f43135d3def77a999b"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json",
+      "sha256": "d5dc8dacce140271c6957f1541f89344f43c13416cd9340d3e8921784ea38d79"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_14_Phase2Step4Check.json",
+      "sha256": "1529157cb60a4d76d5274dcbb8a4ba20192b07a6eabd55d12b7a2eb1afec2a2c"
+    }
+  ],
+  "completion": {
+    "step4Complete": true,
+    "phase2Complete": false,
+    "nextStep": 5,
+    "currentUserManualWork": [],
+    "unityCompile": false,
+    "unityBuild": false,
+    "unityTestRunner": false,
+    "scenePrefabEdited": false,
+    "actualOriginalMovedOrDeleted": false,
+    "localIgnoredCopyCreated": true,
+    "temporaryByteReapplyVerified": true,
+    "dependencyInstalled": false,
+    "rightsGranted": false,
+    "independentRestore": false,
+    "gitIngressImplemented": false
+  }
+}

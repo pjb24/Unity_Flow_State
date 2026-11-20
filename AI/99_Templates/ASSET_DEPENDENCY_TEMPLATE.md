@@ -42,6 +42,23 @@
 | 날짜 | 대상 버전/경로 | 변경·결정 | 근거/관련 Task | 검증 종류·입력/실행자/결과 | 남은 의무 |
 | --- | --- | --- | --- | --- | --- |
 
+## 자동 검사 형식 계약 — Phase 2 Step 2
+
+실제 항목 본문은 관리 기록의 `## 항목` 아래 `## <asset_id>`로 추가한다. ID는 소문자 영문으로 시작하는 영문/숫자/밑줄/하이픈 3~64자이며 중복하지 않는다. 항목에는 위 필수 23필드 표, `### 경로별 경계 표`, `### 변경/검증 이력`을 순서대로 둔다. 표 안의 실제 개행·HTML br·임의 continuation은 금지하며 셀의 세로줄은 `\|`, 역슬래시는 `\\`로 escape한다. 필드 표의 빈 값·누락/중복 필드와 bare `미확인`/`해당 없음`은 오류다. 사유·필요 근거·다음 시점을 같은 셀에 적는다.
+
+- `evidence`: 확인한 배포물은 `sha256:<64자리 소문자 hex>`와 근거 위치를 적는다. 미확인이라면 사유/다음 시점을 적으며 성공 근거로 사용하지 않는다.
+- `import_path`: 경로별 표에 있는 모든 경로를 JSON 문자열 배열로 적고 전체를 백틱으로 감싼다. 모든 경로는 저장소 상대 `Assets/` 아래 정규 경로이며 상위/절대 경로·wildcard·중복/대소문자 충돌·상하위 범위 중복을 허용하지 않는다. 경계가 다른 범위는 겹치지 않는 구성요소 경로로 나눈다.
+- `status`: 백틱으로 감싼 한 줄 JSON이다. 최상위 키는 `adoption`, `rights`, `boundary`, `restore`, `decision`만 허용한다. 각 값은 `state`, `evidence` 두 문자열이다. 네 상태 축의 state는 Implementation Rule의 값 그대로 사용한다. `decision.state`는 `pending` 또는 `exclude-candidate`이며 후자는 실제 명시적 사용자 결정 근거가 필요하다. 다른 축을 자동 승인하지 않는다.
+- 경로별 표의 첫 셀은 정규 경로, 둘째 셀은 백틱 JSON `{"kind":"역할","evidence":"출처/변경 근거"}`다. kind는 `original`, `modified`, `derived`, `project`, `mixed`, `unknown`, `settings` 중 하나다. 셋째 셀은 현재 추적/ignore 근거이며 넷째 셀은 `preserve`, `pending`, `exclude-candidate`다.
+- 경로별 표의 다섯째 셀은 백틱 JSON `{"asset":"preserve 또는 reproduce","folder":"preserve 또는 reproduce","evidence":"자산/폴더 meta·Import 보존/재현 근거"}`다. 여섯째/일곱째 셀에도 조건·사용처/복원 근거 또는 사유가 있는 미확인을 적는다. Assets/Settings 자료의 역할은 settings/project로 제한한다.
+- 관리 기록의 목록 행은 `asset_id`, `product / version`, 네 상태 축의 state, `[asset_id](#asset_id)` 순서로 본문과 일치시킨다. 등록부/정책이 서로 누락된 경로는 오류다.
+
+기계 정책은 `Tools/DependencyAudit/dependency-policy.json`의 schemaVersion 1, unregisteredRoots `["Assets/ThirdParty"]`, entries 배열이다. 각 entry는 `asset_id`, `path`, `kind`, `action`, `meta`(asset/folder), `evidenceFields`만 가진다. ID/경로·역할/방향·meta는 해당 본문 경계 행과 일치해야 하며 evidenceFields에는 최소 evidence/meta_import/restore/owner_review를 연결한다. 제품·버전·license/권리 값은 정책에 복제하지 않는다. 현재 실제 제품이 없으므로 entries도 비워 둔다.
+
+확인 상태·권리/적용/복원 근거는 사람이 기록한 주장이다. 검사는 필수 근거와 모순을 확인하며 진위·법적 권한이나 실제 실행 성공을 인증하지 않는다. `--previous`로 이전 등록부를 명시하면 버전/source/license/hash 변경 시 기존 확인/결정을 새 입력에 자동 승계하지 않았는지도 검사한다. 과거 등록부를 제시하지 않은 검사는 현재 snapshot 검사로만 표시한다.
+
+Phase 2 Step 7에서 전환 재검토 대상은 조건/Attribution·복사/수정·목적/import_path/실제 사용처·참조·meta/Import·Git/복원/lifecycle 정보까지 확장했다. 업데이트/이동/제거 때도 같은 ID를 유지하고 이력·재복원/고지 의무를 남긴다. 제거 계획은 기존 항목 삭제로 작성하지 않으며 후보 폐기 상태와 실제 사용처 해소/검증 결과를 구분한다. 늦은 조건/설정/경로 변경은 lifecycle 범위 digest와 소유자 검토를 다시 준비한다. 실제 계획 작성·판정 문법은 Tools/DependencyAudit README, 영구 절차는 Implementation Rule을 따른다.
+
 ## 작성 완료 기준
 
 - 필수 필드가 있고 미확인/해당 없음에 이유가 있다. 미확인을 검증 완료로 바꾸지 않는다.

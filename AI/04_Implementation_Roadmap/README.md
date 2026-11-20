@@ -11,12 +11,12 @@ Implementation Roadmap 영역에 존재하는 문서의 역할과 책임을 정�
 ## Roadmap 9~14 확정 계획
 
 2026-11-11 사용자 요청으로 아래 여섯 Roadmap을 분리 유지하고 번호 순서대로 진행한다.
-Roadmap 9는 **Phase 1~4 전체 완료(2026-11-18)**다. Compile/1031·316 사용자 성공·16스크립트 exit 0과 최신 Windows-production Candidate02의 QA 후보/한계·복구 의무를 유지한다. Roadmap 10도 **Phase 1 완료(2026-11-19)**이며 [Phase 1 Task Step 10](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md)에 관리 경계/등록 체계와 검사 근거·제약을 연결했다. Roadmap 10 [Phase 2 Task](../90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md) 절차 문서를 작성했으며 다음은 Step 1 기준선 확정이다. 실제 도입/추적 제외·독립 복원과 Roadmap 10 전체 완료는 아니며 11~14도 미착수다.
+Roadmap 9는 **Phase 1~4 전체 완료(2026-11-18)**다. Compile/1031·316 사용자 성공·16스크립트 exit 0과 최신 Windows-production Candidate02의 QA 후보/한계·복구 의무를 유지한다. Roadmap 10도 **Phase 1 완료(2026-11-19)**이며 [Phase 1 Task Step 10](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md)에 관리 경계/등록 체계와 검사 근거·제약을 연결했다. Roadmap 10 [Phase 2 Task](../90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md) Step 1~10도 완료(2026-11-20)했다. 관리/보존·유입/누락/버전/lifecycle 절차·Node Test 261개/현재 검사와 세 조건 판정을 [Phase 3 인계](../90_Tasks/Prototype_10/20261120_02_Phase3Handoff.md)에 연결했다. [Phase 3 Task](../90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md) 작성도 완료했으며 다음은 Step 1 기준선/보호 범위 고정이다. 실제 Step 1~10은 미착수다. 실제 도입/추적 제외·독립 복원과 Roadmap 10 전체 완료는 아니며 11~14도 미착수다.
 
 | 순서 | Roadmap | 목표 | 상태 |
 |---|---|---|---|
 | 9 | [InfiniteMode 단일화와 Stage Mode 접근 제거](IMPLEMENTATION_ROADMAP_009.md) | Stage 접근 차단·Deprecated 소스 보존과 Infinite 계약 유지 | Phase 1~4 완료·QA 후보/한계 기록 |
-| 10 | [Thirdparty 애셋 관리와 프로젝트 복원 체계](IMPLEMENTATION_ROADMAP_010.md) | 외부 원본 비추적·의존성/참조 복원 | Phase 1 완료·Phase 2 문서 작성/Step 1 대기 |
+| 10 | [Thirdparty 애셋 관리와 프로젝트 복원 체계](IMPLEMENTATION_ROADMAP_010.md) | 외부 원본 비추적·의존성/참조 복원 | Phase 1~2 완료·Phase 3 Task 작성/실행 대기 |
 | 11 | [플레이어 피드백 강화](IMPLEMENTATION_ROADMAP_011.md) | 착지/획득/실패의 화면·사운드 결과 전달 | 계획 확정·대기 |
 | 12 | [캐릭터 그래픽과 동작 표현 강화](IMPLEMENTATION_ROADMAP_012.md) | 외형/동작의 가독성과 기존 판정 보존 | 계획 확정·대기 |
 | 13 | [맵 그래픽과 공간 가독성 강화](IMPLEMENTATION_ROADMAP_013.md) | 기존 Pattern 규칙을 유지한 공간 표현 개선 | 계획 확정·대기 |
@@ -24,7 +24,7 @@ Roadmap 9는 **Phase 1~4 전체 완료(2026-11-18)**다. Compile/1031·316 사�
 
 ### 공통 의존성과 경계
 
-- [Roadmap 9 Phase 3 Task](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)의 기록/Editor/UI 경계와 Compile/1031·316 근거를 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md) Step 1~10의 최신 후보/검증·사용자 보고에 연결해 Roadmap 9를 완료했다. 실제 원격/복구·로그 원문 한계는 해당 Task 10-3을 유지하며 Roadmap 10 Phase 1도 완료했으며 다음은 Phase 2 Task Step 1 기준선 확정이며 실제 실행은 미착수다.
+- [Roadmap 9 Phase 3 Task](../90_Tasks/Prototype_9/20261117_01_Phase3ManualSteps.md)의 기록/Editor/UI 경계와 Compile/1031·316 근거를 [Phase 4 Task](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md) Step 1~10의 최신 후보/검증·사용자 보고에 연결해 Roadmap 9를 완료했다. 실제 원격/복구·로그 원문 한계는 해당 Task 10-3을 유지하며 Roadmap 10 Phase 1~2도 완료했다. Phase 3 실행 Task도 작성했으며 다음은 해당 Step 1이다. 실제 추적 해제/독립 복원은 미착수다.
 
 - 2026-11-17 Pause Retry 확인창 추가 후 사용자 EditMode 919개/PlayMode 288개 전체 통과와 Windows-production Candidate02의 정상 플레이/UI 확인 보고를 받아 Phase 2 Task 9-3/Step 10을 완료했다. 사용자가 기존 Candidate02 보존 불필요를 명시해 같은 Build/ProductionQA/Candidate02에 덮어쓴 최신 빌드를 최종 후보로 기록한다. 이전 916/287 결과나 덮어쓰기 전 후보를 최신 검증으로 대신하지 않는다.
 

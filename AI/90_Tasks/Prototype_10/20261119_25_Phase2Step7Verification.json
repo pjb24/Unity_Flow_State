@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Step 7 final lifecycle/transition procedure and preservation verification; no actual update/removal/rollback",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_23_Phase2Step6Verification.json",
+    "sha256": "2657b21e3efc76a095434ef81c114ac9eabd4b0db36d1f686b3a1b533e76d43a"
+  },
+  "check": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_24_Phase2Step7Check.json",
+    "sha256": "7aab5a08230c38cd74c60b09f84febb88ce45aa523246578c09d2cb52aa86b51"
+  },
+  "preservation": {
+    "baselineFiles": 1007,
+    "unchangedBaselineFiles": 999,
+    "cumulativeChangedDocuments": [
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "Tools/DependencyAudit/README.md"
+    ],
+    "changedDocumentsSinceStep6": [
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "Tools/DependencyAudit/README.md",
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md"
+    ],
+    "allowedExistingCodeIntegration": [
+      "Tools/DependencyAudit/dependency-registry.cjs",
+      "Tools/DependencyAudit/dependency-registry.test.cjs"
+    ],
+    "previousRegistryCodeEvidence": [
+      {
+        "path": "Tools/DependencyAudit/dependency-registry.cjs",
+        "sha256": "d2e33578ae5ff63d644e10a5a53f014d4af3edef2a9e087bd597c59c5c64b98c"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-registry.test.cjs",
+        "sha256": "02f2e5d4abb57517895a8c759e9fc11b7d861826eca97b37dcfaf54d13ab2f52"
+      }
+    ],
+    "unexpectedChanges": [],
+    "previousMetadata": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_06_Phase2Step1Baseline.json",
+        "sha256": "1ff675d47fb0a2c7c1803e780cbcbc51576851b9dd99b9eb75d9f84bfd6c199c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_07_Phase2Step1Audit.json",
+        "sha256": "7bde759d01d6f582f7ed76b2e7233a8c5b889c79703d1f91e7d2db08995c3ccc"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_08_Phase2Step1Verification.json",
+        "sha256": "5bdf6fabf73b77faaf4b2b72ad99d202f63b5ff3d0d1d999a6838ce13088a698"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_09_Phase2Step2Check.json",
+        "sha256": "03e6446a12bbcbfa67eaae10d3bb3b3f3eb8feb9bcb049b8bcdd5d9f39770de9"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_10_Phase2Step2Verification.json",
+        "sha256": "b60e383c3df52e17ba47049cc7de72f16e2070c22930e3b9e8e82bb126eb9bb4"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_11_Phase2Step3Check.json",
+        "sha256": "005d33c2c6f0c7ef682dc8818efbdab63273548198e9b9d9d55406b5ccc7b488"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_12_Phase2Step3Verification.json",
+        "sha256": "5c001e67f19aecb89d1067ba79340fde347cb36f0710c712425331aa79b93ba1"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_13_Phase2Step4PreservationSpec.json",
+        "sha256": "d5dc8dacce140271c6957f1541f89344f43c13416cd9340d3e8921784ea38d79"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_14_Phase2Step4Check.json",
+        "sha256": "1529157cb60a4d76d5274dcbb8a4ba20192b07a6eabd55d12b7a2eb1afec2a2c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_15_Phase2Step4Verification.json",
+        "sha256": "dcf75fc1bbc65330b73abad5e0eb3b6db7805023a1d82dafbbbc4b86ebcfdc91"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_16_Phase2Step5KnownOrigins.json",
+        "sha256": "9dfd29fe43cd58e9a6f7f236fed045d7e7fbe6a0a5900f3b0c68dd2da4896a04"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_17_Phase2Step5Check.json",
+        "sha256": "c6103b69ff4e405c1bfa5e9a85bd8805d8c70a2b523b3611e781827b5720bbe8"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_18_Phase2Step5Verification.json",
+        "sha256": "5b8fd036d9f433a2bd71e527aa353f268a0ab31eacd989c0e40ab977705421d1"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_19_Phase2Step6RestoreSpec.json",
+        "sha256": "11e638789e8ec0f71b453d3ad75910db5588251af7ced6d84ceb022455f65d65"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_20_Phase2Step6Check.json",
+        "sha256": "aa18674e7bab6fbbf2e9c6861c0ae99a846b7475c46d5b312aed26e83ed87225"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_21_Phase2Step6NpmPathMigration.patch",
+        "sha256": "2d0e61461fa62066f2ee7a33a0fd01da554f4789d708623f7ec0c7ae2f95fd7a"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_22_Phase2Step6KnownOrigins.json",
+        "sha256": "2d364ea56e768c78a8b1dfe9fa29b15e5f37f2c8300938dd4e2797e60bfadd5c"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261119_23_Phase2Step6Verification.json",
+        "sha256": "2657b21e3efc76a095434ef81c114ac9eabd4b0db36d1f686b3a1b533e76d43a"
+      }
+    ],
+    "archiveTargetsUnchanged": 27,
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "declarationsAndLockUnchanged": true,
+    "gitignoreUnchanged": true,
+    "headUnchanged": true,
+    "indexUnchanged": true,
+    "trackedPathsUnchanged": true,
+    "stagedChanges": 0,
+    "candidateCoverage": "Executable hash only; full candidate directory not traversed; no execution or new QA claim"
+  },
+  "tests": [
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-lifecycle.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 42,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-registry.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 50,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-ingress.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 28,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-audit.test.cjs",
+        "--policy",
+        "AI/90_Tasks/Prototype_10/20261119_03_Phase1Step8Policy.json"
+      ],
+      "exitCode": 0,
+      "passed": 55,
+      "failed": 0
+    }
+  ],
+  "validation": {
+    "lifecycleExit": 0,
+    "actualRecords": 0,
+    "actualLifecycleRequests": 0,
+    "registryExit": 0,
+    "managedExit": 0,
+    "stagedExit": 0,
+    "knownOrigins": 110,
+    "restoreExit": 0,
+    "inventoryExit": 1,
+    "inventoryDiagnosticsMatchStep1": true,
+    "utf8Valid": true,
+    "sourceWhitespaceValid": true,
+    "diffCheckExitCode": 0,
+    "localLinksChecked": 123,
+    "brokenLinks": [],
+    "checkboxes": {
+      "complete": 7,
+      "incomplete": 3
+    }
+  },
+  "files": [
+    {
+      "path": "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "sha256": "cf9d0a299b11184e9086443a91d9d130c3e85c59b55b985c854f15b080a55315"
+    },
+    {
+      "path": "Tools/DependencyAudit/README.md",
+      "sha256": "3ff7ddfe667340d3db9eeed373e27962b241f0e3a288510ed913e2762393e47b"
+    },
+    {
+      "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "sha256": "bbf95f6f134fea8885fb442d1ce6a860af351296e4bcf7c221503a51e5d5f7f4"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "8ca9f6a02c2870a2300a9250ff1337bcfaf9db8949298fc4831356493cfde752"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "c1e20da8d95afb32f45ce90f1590ab263b8e5b07981908682896e6e70dddf666"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "f863f75a62fd4d31eb2239a122d7a09fbd3ab306021394d9e810776dc282d48e"
+    },
+    {
+      "path": "AI/99_Templates/ASSET_DEPENDENCY_TEMPLATE.md",
+      "sha256": "c14d578ce007e3bbfd552aca25082e76119107c916d59a440c8100e3da18e545"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md",
+      "sha256": "683b6e06bd7f8f48718a30e2d42e3f2a21df8db0ef8d40eb03e73cfdfc12bdb6"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-lifecycle.cjs",
+      "sha256": "7e225be3b506b9b1d53944a91caf05442011b8215159b43ad6313e092d7dd8b5"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-lifecycle.test.cjs",
+      "sha256": "bc7fa6c0e2652c7c9da48d17fdacfbc1afdf8cdab8806716f4a1b02a3284637a"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-registry.cjs",
+      "sha256": "a7b07fdd583f4a4c8b547a718099106e33ef1d09b59a14e5e03f76e98e2481cc"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-registry.test.cjs",
+      "sha256": "6a92084438beb7fa9e5a8cd7818912d0708b98c8e57d8607b63440523bb090ed"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261119_24_Phase2Step7Check.json",
+      "sha256": "7aab5a08230c38cd74c60b09f84febb88ce45aa523246578c09d2cb52aa86b51"
+    }
+  ],
+  "completion": {
+    "step7Complete": true,
+    "phase2Complete": false,
+    "nextStep": 8,
+    "currentUserManualWork": [],
+    "actualLifecycleApplied": false,
+    "filesDeleted": false,
+    "registryEntriesWritten": false,
+    "unityCompile": false,
+    "unityBuild": false,
+    "unityTestRunner": false,
+    "scenePrefabEdited": false,
+    "npmInstallOrCi": false,
+    "dotnetRestore": false,
+    "dockerOrService": false,
+    "rightsGranted": false,
+    "independentRestore": false
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "purpose": "Phase 3 execution Task authoring verification only",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_03_Phase2Step10Verification.json",
+    "sha256": "22b13f9c2eab78697ae75d905b3cdd482c4ab08113f3097bce9ab6f759f5fe6d"
+  },
+  "task": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+    "sha256": "b3fb9fc8bb183c354b8a844f53577bef9002e11c760f9de99757c047052433a4"
+  },
+  "allowedDocumentationChanges": [
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "beforeSha256": "d3b61d41a548022bbeb70a011882d8f8bd476a6acfb30c82f23cab6b691db125",
+      "afterSha256": "ab115b59dbafb57228e2cdb02a88832fa25837a6d1fb097bc374296531e8e0c8",
+      "reason": "Link new Phase 3 Task and next Step 1; execution pending"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "beforeSha256": "ad41f9ab9535b4acc1f953eb3939777cbf8c0f15fd02f36b2c89040ff350b81a",
+      "afterSha256": "87556c39e295b8d346d61dcbc670d7e905cb3e4522f94e612679c592631eabfc",
+      "reason": "Link new Phase 3 Task and next Step 1; execution pending"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "beforeSha256": "1724c5b368c5dcbeb2e9ac9fd78633f81d4c799faabf3e1a68f38e0b7757688b",
+      "afterSha256": "2f8ba62a5005fed43cb18fbdee0c4ffec0ceddf3d2d04143b24e05ba8aea2085",
+      "reason": "Link new Phase 3 Task and next Step 1; execution pending"
+    }
+  ],
+  "validation": {
+    "generalTaskSections": 13,
+    "steps": [
+      {
+        "number": 1,
+        "title": "Phase 3 시작 기준선과 원래 작업본 보호 범위를 고정한다"
+      },
+      {
+        "number": 2,
+        "title": "전달 제외 11개·필수 입력·별도 환경/저장 분리를 판정한다"
+      },
+      {
+        "number": 3,
+        "title": "안전 전달·후보 비교 도구를 최소 구현하고 Unit Test로 검증한다"
+      },
+      {
+        "number": 4,
+        "title": "검증된 안전 목록으로 별도 snapshot을 준비한다"
+      },
+      {
+        "number": 5,
+        "title": "고정 UPM·TMP 공급/변경본과 Import 설정을 준비한다"
+      },
+      {
+        "number": 6,
+        "title": "npm 이식 경로와 새 lock·NuGet 보조 의존성을 검증한다"
+      },
+      {
+        "number": 7,
+        "title": "직접·이름·동적 참조와 기존 진단의 실제 영향을 정적으로 판정한다"
+      },
+      {
+        "number": 8,
+        "title": "필요한 Unity Test·Editor/Build 결과만 사용자에게 연결한다"
+      },
+      {
+        "number": 9,
+        "title": "후보 Git/복원 전체성과 원래 자료 보존·원복 가능성을 최종 검증한다"
+      },
+      {
+        "number": 10,
+        "title": "Phase 3·Roadmap 10 완료를 판정하고 후속 도입에 인계한다"
+      }
+    ],
+    "stepCheckboxes": {
+      "complete": 0,
+      "pending": 10
+    },
+    "eachStepHasOutputAndCompletion": true,
+    "roadmapCriteriaMapped": true,
+    "staticAndUnitTestResponsibilitiesExplicit": true,
+    "currentAndProposedToolsDistinguished": true,
+    "ownerUnitySceneInstallationResponsibilitiesExplicit": true,
+    "existingCommandScripts": [
+      "Tools/DependencyAudit/dependency-audit.test.cjs",
+      "Tools/DependencyAudit/dependency-registry.test.cjs",
+      "Tools/DependencyAudit/dependency-adoption.test.cjs",
+      "Tools/DependencyAudit/dependency-preservation.test.cjs",
+      "Tools/DependencyAudit/dependency-ingress.test.cjs",
+      "Tools/DependencyAudit/dependency-restore.test.cjs",
+      "Tools/DependencyAudit/dependency-lifecycle.test.cjs",
+      "Tools/DependencyAudit/dependency-preservation.cjs",
+      "Tools/DependencyAudit/dependency-restore.cjs"
+    ],
+    "localMarkdownLinks": 82,
+    "utf8WhitespaceValid": true,
+    "gitDiffCheckExitCode": 0,
+    "verificationCorrection": "Replaced incorrect unique-command-script count assumption with path existence and required suite coverage checks; all checks pass"
+  },
+  "preservation": {
+    "phase2BaselineFilesChecked": 1046,
+    "unchanged": 1043,
+    "intentionallyChangedExistingDocuments": 3,
+    "productionAndToolsUnchanged": true,
+    "previousEvidenceUnchanged": true,
+    "phase2BaselineSelfHashPinned": true,
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "archiveTargetsUnchanged": 27,
+    "head": "5a9b34d583bb744209a4444f69cd051ae88523df",
+    "indexSha256": "cd4bf5c22225acd6108e9200f8cdd17914e6ac96ea300e5e4076292e092eb674",
+    "trackedPathsUnchanged": true,
+    "headIndexUnchanged": true,
+    "stagedChanges": 0,
+    "coverage": "Safe file hashes only; sensitive bodies and actual saves excluded; QA executable hash only"
+  },
+  "files": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "b3fb9fc8bb183c354b8a844f53577bef9002e11c760f9de99757c047052433a4"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "ab115b59dbafb57228e2cdb02a88832fa25837a6d1fb097bc374296531e8e0c8"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "87556c39e295b8d346d61dcbc670d7e905cb3e4522f94e612679c592631eabfc"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "2f8ba62a5005fed43cb18fbdee0c4ffec0ceddf3d2d04143b24e05ba8aea2085"
+    }
+  ],
+  "completion": {
+    "taskDocumentComplete": true,
+    "phase3StepsExecuted": 0,
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "nextStep": 1,
+    "manualWorkRequiredNow": false,
+    "unitTestsExecuted": false,
+    "reasonNoTestRun": "Task planning and three documentation pointers only; production/Test Tools unchanged; existing commands checked statically",
+    "candidateCreated": false,
+    "assetsApplied": false,
+    "packageInstalled": false,
+    "unityExecuted": false,
+    "buildExecuted": false,
+    "testRunnerExecuted": false,
+    "sceneOrPrefabEdited": false
+  }
+}

@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-19",
+  "purpose": "Step 3 permanent procedure and read-only adoption preflight; no actual adoption/copy or restoration",
+  "parentEvidence": {
+    "path": "AI/90_Tasks/Prototype_10/20261119_10_Phase2Step2Verification.json",
+    "sha256": "b60e383c3df52e17ba47049cc7de72f16e2070c22930e3b9e8e82bb126eb9bb4"
+  },
+  "tests": [
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-adoption.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 36,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-registry.test.cjs"
+      ],
+      "exitCode": 0,
+      "passed": 49,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "Tools/DependencyAudit/dependency-audit.test.cjs",
+        "--policy",
+        "AI/90_Tasks/Prototype_10/20261119_03_Phase1Step8Policy.json"
+      ],
+      "exitCode": 0,
+      "passed": 55,
+      "failed": 0
+    }
+  ],
+  "resolvedFailures": [
+    {
+      "test": "actual serialized source GUIDs are read and compared with declared selection",
+      "failure": "Expected undeclared-reference exception did not occur",
+      "cause": "Existing references(text, from, index) helper called with arguments in wrong order",
+      "fix": "Use actual source text as first argument; scan YAML/JSON and Importer; full new suite 36 passed"
+    }
+  ],
+  "registry": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-registry.cjs",
+      "--check"
+    ],
+    "exitCode": 0,
+    "report": {
+      "schemaVersion": 1,
+      "registryValid": true,
+      "policyValid": true,
+      "recordCount": 0,
+      "boundaries": [],
+      "transitionCompared": false,
+      "gitIngressChecked": false,
+      "rightsGranted": false,
+      "independentRestore": false,
+      "limitations": [
+        "Metadata assertions are not license authentication or user identity verification",
+        "Git ingress enforcement is Step 5",
+        "Unity and independent restoration are not executed"
+      ],
+      "indexUnchanged": true,
+      "inputs": [
+        {
+          "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+          "sha256": "92198836c26add687b70a586352ec5d9685597e8cf936488f477bf2f3f48cf1f"
+        },
+        {
+          "path": "Tools/DependencyAudit/dependency-policy.json",
+          "sha256": "7609ee0b5b67cf0e81536b6ff7e203177465389fb0ad8674ab93ed32cf670de5"
+        }
+      ]
+    }
+  },
+  "inventory": {
+    "command": [
+      "node",
+      "Tools/DependencyAudit/dependency-audit.cjs",
+      "--check"
+    ],
+    "exitCode": 1,
+    "collectionComplete": true,
+    "summary": {
+      "actualFiles": 833,
+      "directories": 50,
+      "ignoredFiles": 85,
+      "packages": 61,
+      "packageEdges": 91,
+      "metaCount": 11816,
+      "serializedFiles": 56,
+      "referenceOccurrences": 1299,
+      "unresolvedOccurrences": 31,
+      "baselineHashes": 0
+    },
+    "diagnostics": [
+      {
+        "code": "ORPHAN_META",
+        "path": "Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/Samples~/15_TestCases_15.meta",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/DefaultVolumeProfile.asset -> 0fd9ee276a1023e439cf7a9c393195fa",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/DefaultVolumeProfile.asset -> 5a00a63fdd6bd2a45ab1f2d869305ffd",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/DefaultVolumeProfile.asset -> 60f3b30c03e6ba64d9a27dc9dba8f28d",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/DefaultVolumeProfile.asset -> 74955a4b0b4243bc87231e8b59ed9140",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 03cfc4915c15d504a9ed85ecc404e607",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 24ec0e140fb444a44ab96ee80844e18e",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 53a11f4ebaebf4049b3638ef78dc9664",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 57d7c4c16e2765b47a4d2069b311bffe",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> 8f96cd657dc40064aa21efcc7e50a2e7",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> b9a23f869c4fd45f19c5ada54dd82176",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/Settings/PC_Renderer.asset -> e5c6678ed2aaa91408dd3df699057aae",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph -> dda5bcb0d1e9515498f6e4e038bbefe6",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 0fd9ee276a1023e439cf7a9c393195fa",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 5a00a63fdd6bd2a45ab1f2d869305ffd",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 60f3b30c03e6ba64d9a27dc9dba8f28d",
+        "severity": "finding"
+      },
+      {
+        "code": "REFERENCE_UNRESOLVED",
+        "path": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Volume/DefaultVolumeProfile.asset -> 74955a4b0b4243bc87231e8b59ed9140",
+        "severity": "finding"
+      }
+    ],
+    "diagnosticsMatchStep1": true,
+    "fullReportSha256": "c7e5244d129aac8b54f63395bf6b972bc668b5b8d951d91e9cfa60047787976a"
+  },
+  "sources": [
+    {
+      "path": "Tools/DependencyAudit/dependency-adoption.cjs",
+      "sha256": "11bc6261649fddedf996e0e5c602f4847e367300d321b616bea5b4332effd6bd"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-adoption.test.cjs",
+      "sha256": "1869fe880714ff39ea9b14d7d0efbde9fbb85ac7f9f5ddecc8711da24e8c3ab2"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-registry.cjs",
+      "sha256": "d2e33578ae5ff63d644e10a5a53f014d4af3edef2a9e087bd597c59c5c64b98c"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-registry.test.cjs",
+      "sha256": "02f2e5d4abb57517895a8c759e9fc11b7d861826eca97b37dcfaf54d13ab2f52"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-policy.json",
+      "sha256": "7609ee0b5b67cf0e81536b6ff7e203177465389fb0ad8674ab93ed32cf670de5"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-audit.cjs",
+      "sha256": "6cc8dc74f38a7a2a69f9245e23409c6541e8dad28fe02800e09734e99ee911ce"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-audit.test.cjs",
+      "sha256": "d751128c39c4730c23f484df413380a9facaf5f570baa0764c4384d64bbc068c"
+    }
+  ],
+  "scope": {
+    "allowedChangedDocuments": [
+      "AI/01_Rules/IMPLEMENTATION_RULE.md",
+      "Tools/DependencyAudit/README.md",
+      "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md"
+    ],
+    "newCode": [
+      "Tools/DependencyAudit/dependency-adoption.cjs",
+      "Tools/DependencyAudit/dependency-adoption.test.cjs"
+    ],
+    "realAssetRecords": 0,
+    "realPlanFilesCreated": 0,
+    "originalCopyExecuted": false,
+    "unityExecuted": false,
+    "scenePrefabEdited": false,
+    "dependencyInstalled": false
+  },
+  "git": {
+    "head": "5a9b34d583bb744209a4444f69cd051ae88523df",
+    "indexSha256": "cd4bf5c22225acd6108e9200f8cdd17914e6ac96ea300e5e4076292e092eb674",
+    "indexUnchanged": true,
+    "staged": []
+  },
+  "completion": {
+    "step3Complete": true,
+    "phase2Complete": false,
+    "nextStep": 4,
+    "currentUserManualWork": [],
+    "rightsGranted": false,
+    "independentRestore": false,
+    "gitIngressChecked": false
+  }
+}
