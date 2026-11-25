@@ -1,0 +1,1327 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Actual user Step 8 Stage A verification and immutable-package warning investigation",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_18_Phase3Step8PreparationVerification.json",
+    "sha256": "ada7799e653601782354f59ae23d7cb01377228b562eca3d16ff9dc6d1732bad"
+  },
+  "userReport": {
+    "compilationSuccess": true,
+    "unexpectedCompilationErrorsOrWarnings": false,
+    "editModePassed": 5,
+    "immutablePackageWarningReported": true
+  },
+  "preparationResult": {
+    "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step8Prepare_01.json",
+    "sha256": "a09311d6ee2ffda8ab76578f3388fa95c7fd2d16425057dd05b49c7187866515",
+    "data": {
+      "schemaVersion": 1,
+      "candidateRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+      "testWritten": true,
+      "metaWritten": true,
+      "preparationComplete": true,
+      "unityLaunched": false,
+      "testRunnerExecuted": false,
+      "failure": null
+    }
+  },
+  "reports": [
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step8ReadOnly_ActiveUrpAssets_LoadAndReportVolumeAndDebugReferences_639311666132128158_a5f450889b394a13a2c4acdac540d7ad.json",
+      "sha256": "b8cb9d206be9e93ad82f184d8d6a0e49b1068b6bbbf0fcb332a4e37b2b6b666c",
+      "data": {
+        "test": "ActiveUrpAssets_LoadAndReportVolumeAndDebugReferences",
+        "utc": "2026-11-25T01:23:32.0691266Z",
+        "project": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+        "editor": "6000.3.5f2",
+        "runnerOutcomeBeforeTearDown": "Passed",
+        "approvalGranted": false,
+        "observations": [
+          {
+            "path": "Assets/Settings/PC_RPAsset.asset",
+            "subject": "mainAsset",
+            "value": "PC_RPAsset; UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset; Assets/Settings/PC_RPAsset.asset; 4b83569d67af61e458304325a23e5dfd/11400000"
+          },
+          {
+            "path": "PC_RPAsset.rendererDataList",
+            "subject": "count",
+            "value": "1"
+          },
+          {
+            "path": "PC_RPAsset.rendererDataList[0]",
+            "subject": "m_RendererDataList.Array.data[0]",
+            "value": "PC_Renderer; UnityEngine.Rendering.Universal.UniversalRendererData; Assets/Settings/PC_Renderer.asset; f288ae1f4751b564a96ac7587541f7a2/11400000"
+          },
+          {
+            "path": "Assets/Settings/PC_Renderer.asset",
+            "subject": "mainAsset",
+            "value": "PC_Renderer; UnityEngine.Rendering.Universal.UniversalRendererData; Assets/Settings/PC_Renderer.asset; f288ae1f4751b564a96ac7587541f7a2/11400000"
+          },
+          {
+            "path": "PC_Renderer.features",
+            "subject": "count",
+            "value": "1"
+          },
+          {
+            "path": "PC_Renderer.features[0]",
+            "subject": "m_RendererFeatures.Array.data[0]",
+            "value": "ScreenSpaceAmbientOcclusion; UnityEngine.Rendering.Universal.ScreenSpaceAmbientOcclusion; Assets/Settings/PC_Renderer.asset; f288ae1f4751b564a96ac7587541f7a2/7833122117494664109"
+          },
+          {
+            "path": "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+            "subject": "mainAsset",
+            "value": "UniversalRenderPipelineGlobalSettings; UnityEngine.Rendering.Universal.UniversalRenderPipelineGlobalSettings; Assets/Settings/UniversalRenderPipelineGlobalSettings.asset; 18dc0cd2c080841dea60987a38ce93fa/11400000"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset",
+            "subject": "mainAsset",
+            "value": "DefaultVolumeProfile; UnityEngine.Rendering.VolumeProfile; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/11400000"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components",
+            "subject": "count",
+            "value": "19"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[0]",
+            "subject": "components.Array.data[0]",
+            "value": "LiftGammaGain; UnityEngine.Rendering.Universal.LiftGammaGain; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-9167874883656233139"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[1]",
+            "subject": "components.Array.data[1]",
+            "value": "ColorLookup; UnityEngine.Rendering.Universal.ColorLookup; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/1918650496244738858"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[2]",
+            "subject": "components.Array.data[2]",
+            "value": "ScreenSpaceLensFlare; UnityEngine.Rendering.Universal.ScreenSpaceLensFlare; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/853819529557874667"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[3]",
+            "subject": "components.Array.data[3]",
+            "value": "ShadowsMidtonesHighlights; UnityEngine.Rendering.Universal.ShadowsMidtonesHighlights; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/1052315754049611418"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[4]",
+            "subject": "components.Array.data[4]",
+            "value": "WhiteBalance; UnityEngine.Rendering.Universal.WhiteBalance; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-1170528603972255243"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[5]",
+            "subject": "components.Array.data[5]",
+            "value": "SplitToning; UnityEngine.Rendering.Universal.SplitToning; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-8270506406425502121"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[6]",
+            "subject": "components.Array.data[6]",
+            "value": "Tonemapping; UnityEngine.Rendering.Universal.Tonemapping; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-5520245016509672950"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[7]",
+            "subject": "components.Array.data[7]",
+            "value": "Vignette; UnityEngine.Rendering.Universal.Vignette; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/7173750748008157695"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[8]",
+            "subject": "components.Array.data[8]",
+            "value": "ColorCurves; UnityEngine.Rendering.Universal.ColorCurves; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/1666464333004379222"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[9]",
+            "subject": "components.Array.data[9]",
+            "value": "ChannelMixer; UnityEngine.Rendering.Universal.ChannelMixer; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/9001657382290151224"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[10]",
+            "subject": "components.Array.data[10]",
+            "value": "ColorAdjustments; UnityEngine.Rendering.Universal.ColorAdjustments; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-6335409530604852063"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[11]",
+            "subject": "components.Array.data[11]",
+            "value": "Bloom; UnityEngine.Rendering.Universal.Bloom; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-1216621516061285780"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[12]",
+            "subject": "components.Array.data[12]",
+            "value": "DepthOfField; UnityEngine.Rendering.Universal.DepthOfField; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/3959858460715838825"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[13]",
+            "subject": "components.Array.data[13]",
+            "value": "MotionBlur; UnityEngine.Rendering.Universal.MotionBlur; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-7743500325797982168"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[14]",
+            "subject": "components.Array.data[14]",
+            "value": "ChromaticAberration; UnityEngine.Rendering.Universal.ChromaticAberration; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/4644742534064026673"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[15]",
+            "subject": "components.Array.data[15]",
+            "value": "PaniniProjection; UnityEngine.Rendering.Universal.PaniniProjection; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-4463884970436517307"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[16]",
+            "subject": "components.Array.data[16]",
+            "value": "FilmGrain; UnityEngine.Rendering.Universal.FilmGrain; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-6288072647309666549"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[17]",
+            "subject": "components.Array.data[17]",
+            "value": "LensDistortion; UnityEngine.Rendering.Universal.LensDistortion; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/7518938298396184218"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset.components[18]",
+            "subject": "components.Array.data[18]",
+            "value": "ProbeVolumesOptions; UnityEngine.Rendering.ProbeVolumesOptions; Assets/Settings/DefaultVolumeProfile.asset; ab09877e2e707104187f6f83e2f62510/-1410297666881709256"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset",
+            "subject": "subassetCount",
+            "value": "29"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset",
+            "subject": "mainAsset",
+            "value": "DefaultVolumeProfile; UnityEngine.Rendering.VolumeProfile; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/11400000"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components",
+            "subject": "count",
+            "value": "19"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[0]",
+            "subject": "components.Array.data[0]",
+            "value": "LiftGammaGain; UnityEngine.Rendering.Universal.LiftGammaGain; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-9167874883656233139"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[1]",
+            "subject": "components.Array.data[1]",
+            "value": "ColorLookup; UnityEngine.Rendering.Universal.ColorLookup; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/1918650496244738858"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[2]",
+            "subject": "components.Array.data[2]",
+            "value": "ScreenSpaceLensFlare; UnityEngine.Rendering.Universal.ScreenSpaceLensFlare; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/853819529557874667"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[3]",
+            "subject": "components.Array.data[3]",
+            "value": "ShadowsMidtonesHighlights; UnityEngine.Rendering.Universal.ShadowsMidtonesHighlights; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/1052315754049611418"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[4]",
+            "subject": "components.Array.data[4]",
+            "value": "WhiteBalance; UnityEngine.Rendering.Universal.WhiteBalance; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-1170528603972255243"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[5]",
+            "subject": "components.Array.data[5]",
+            "value": "SplitToning; UnityEngine.Rendering.Universal.SplitToning; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-8270506406425502121"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[6]",
+            "subject": "components.Array.data[6]",
+            "value": "Tonemapping; UnityEngine.Rendering.Universal.Tonemapping; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-5520245016509672950"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[7]",
+            "subject": "components.Array.data[7]",
+            "value": "Vignette; UnityEngine.Rendering.Universal.Vignette; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/7173750748008157695"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[8]",
+            "subject": "components.Array.data[8]",
+            "value": "ColorCurves; UnityEngine.Rendering.Universal.ColorCurves; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/1666464333004379222"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[9]",
+            "subject": "components.Array.data[9]",
+            "value": "ChannelMixer; UnityEngine.Rendering.Universal.ChannelMixer; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/9001657382290151224"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[10]",
+            "subject": "components.Array.data[10]",
+            "value": "ColorAdjustments; UnityEngine.Rendering.Universal.ColorAdjustments; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-6335409530604852063"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[11]",
+            "subject": "components.Array.data[11]",
+            "value": "Bloom; UnityEngine.Rendering.Universal.Bloom; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-1216621516061285780"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[12]",
+            "subject": "components.Array.data[12]",
+            "value": "DepthOfField; UnityEngine.Rendering.Universal.DepthOfField; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/3959858460715838825"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[13]",
+            "subject": "components.Array.data[13]",
+            "value": "MotionBlur; UnityEngine.Rendering.Universal.MotionBlur; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-7743500325797982168"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[14]",
+            "subject": "components.Array.data[14]",
+            "value": "ChromaticAberration; UnityEngine.Rendering.Universal.ChromaticAberration; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/4644742534064026673"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[15]",
+            "subject": "components.Array.data[15]",
+            "value": "PaniniProjection; UnityEngine.Rendering.Universal.PaniniProjection; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-4463884970436517307"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[16]",
+            "subject": "components.Array.data[16]",
+            "value": "FilmGrain; UnityEngine.Rendering.Universal.FilmGrain; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-6288072647309666549"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[17]",
+            "subject": "components.Array.data[17]",
+            "value": "LensDistortion; UnityEngine.Rendering.Universal.LensDistortion; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/7518938298396184218"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset.components[18]",
+            "subject": "components.Array.data[18]",
+            "value": "ProbeVolumesOptions; UnityEngine.Rendering.ProbeVolumesOptions; Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset; eda47df5b85f4f249abf7abd73db2cb2/-1410297666881709256"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset",
+            "subject": "subassetCount",
+            "value": "29"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset",
+            "subject": "0fd9ee276a1023e439cf7a9c393195fa/11500000 at line 119",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset",
+            "subject": "5a00a63fdd6bd2a45ab1f2d869305ffd/11500000 at line 264",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset",
+            "subject": "60f3b30c03e6ba64d9a27dc9dba8f28d/11500000 at line 78",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/DefaultVolumeProfile.asset",
+            "subject": "74955a4b0b4243bc87231e8b59ed9140/11500000 at line 832",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/PC_Renderer.asset",
+            "subject": "03cfc4915c15d504a9ed85ecc404e607/4800000 at line 24",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/PC_Renderer.asset",
+            "subject": "24ec0e140fb444a44ab96ee80844e18e/2800000 at line 32",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/PC_Renderer.asset",
+            "subject": "53a11f4ebaebf4049b3638ef78dc9664/4800000 at line 26",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/PC_Renderer.asset",
+            "subject": "57d7c4c16e2765b47a4d2069b311bffe/-3555484719484374845 at line 30",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/PC_Renderer.asset",
+            "subject": "8f96cd657dc40064aa21efcc7e50a2e7/4800000 at line 28",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/PC_Renderer.asset",
+            "subject": "b9a23f869c4fd45f19c5ada54dd82176/7200000 at line 34",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/Settings/PC_Renderer.asset",
+            "subject": "e5c6678ed2aaa91408dd3df699057aae/4800000 at line 22",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset",
+            "subject": "0fd9ee276a1023e439cf7a9c393195fa/11500000 at line 119",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset",
+            "subject": "5a00a63fdd6bd2a45ab1f2d869305ffd/11500000 at line 264",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset",
+            "subject": "60f3b30c03e6ba64d9a27dc9dba8f28d/11500000 at line 78",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset",
+            "subject": "74955a4b0b4243bc87231e8b59ed9140/11500000 at line 833",
+            "value": "GUID has no AssetDatabase path"
+          }
+        ],
+        "assertionIssues": [],
+        "reviewRequired": [
+          "Assets/Settings/DefaultVolumeProfile.asset: compare imported component identities with raw YAML, including existing test/null-script entries. VolumeProfile.OnEnable removes null entries in memory; do not save it.",
+          "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset: compare imported component identities with raw YAML, including existing test/null-script entries. VolumeProfile.OnEnable removes null entries in memory; do not save it.",
+          "Assets/Settings/DefaultVolumeProfile.asset: 0fd9ee276a1023e439cf7a9c393195fa/11500000 at line 119 -> GUID has no AssetDatabase path",
+          "Assets/Settings/DefaultVolumeProfile.asset: 5a00a63fdd6bd2a45ab1f2d869305ffd/11500000 at line 264 -> GUID has no AssetDatabase path",
+          "Assets/Settings/DefaultVolumeProfile.asset: 60f3b30c03e6ba64d9a27dc9dba8f28d/11500000 at line 78 -> GUID has no AssetDatabase path",
+          "Assets/Settings/DefaultVolumeProfile.asset: 74955a4b0b4243bc87231e8b59ed9140/11500000 at line 832 -> GUID has no AssetDatabase path",
+          "Assets/Settings/PC_Renderer.asset: 03cfc4915c15d504a9ed85ecc404e607/4800000 at line 24 -> GUID has no AssetDatabase path",
+          "Assets/Settings/PC_Renderer.asset: 24ec0e140fb444a44ab96ee80844e18e/2800000 at line 32 -> GUID has no AssetDatabase path",
+          "Assets/Settings/PC_Renderer.asset: 53a11f4ebaebf4049b3638ef78dc9664/4800000 at line 26 -> GUID has no AssetDatabase path",
+          "Assets/Settings/PC_Renderer.asset: 57d7c4c16e2765b47a4d2069b311bffe/-3555484719484374845 at line 30 -> GUID has no AssetDatabase path",
+          "Assets/Settings/PC_Renderer.asset: 8f96cd657dc40064aa21efcc7e50a2e7/4800000 at line 28 -> GUID has no AssetDatabase path",
+          "Assets/Settings/PC_Renderer.asset: b9a23f869c4fd45f19c5ada54dd82176/7200000 at line 34 -> GUID has no AssetDatabase path",
+          "Assets/Settings/PC_Renderer.asset: e5c6678ed2aaa91408dd3df699057aae/4800000 at line 22 -> GUID has no AssetDatabase path",
+          "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset: 0fd9ee276a1023e439cf7a9c393195fa/11500000 at line 119 -> GUID has no AssetDatabase path",
+          "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset: 5a00a63fdd6bd2a45ab1f2d869305ffd/11500000 at line 264 -> GUID has no AssetDatabase path",
+          "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset: 60f3b30c03e6ba64d9a27dc9dba8f28d/11500000 at line 78 -> GUID has no AssetDatabase path",
+          "Packages/com.unity.render-pipelines.universal/Editor/Volume/DefaultVolumeProfile.asset: 74955a4b0b4243bc87231e8b59ed9140/11500000 at line 833 -> GUID has no AssetDatabase path"
+        ]
+      }
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step8ReadOnly_PrefabAssets_LoadAuthoringAndSerializedAnchorsWithoutInstantiation_639311666143499581_83f79d31cb3c4819be069ad9ee4bb04e.json",
+      "sha256": "b49b007cc51483911204ba928e339afe31bc27e2d5c168ab5fee05c7757e2a2e",
+      "data": {
+        "test": "PrefabAssets_LoadAuthoringAndSerializedAnchorsWithoutInstantiation",
+        "utc": "2026-11-25T01:23:33.2278656Z",
+        "project": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+        "editor": "6000.3.5f2",
+        "runnerOutcomeBeforeTearDown": "Passed",
+        "approvalGranted": false,
+        "observations": [
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab",
+            "subject": "mainAsset",
+            "value": "InfinitePattern_Flat; UnityEngine.GameObject; Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab; e685674ed517f4a45ac155f7eee73d45/914689536776555010"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab:_geometryRoot",
+            "subject": "_geometryRoot",
+            "value": "GeometryRoot; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab; e685674ed517f4a45ac155f7eee73d45/7200531896922858916"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab:_startAnchor",
+            "subject": "_startAnchor",
+            "value": "StartAnchor; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab; e685674ed517f4a45ac155f7eee73d45/4984963231293523029"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab:_endAnchor",
+            "subject": "_endAnchor",
+            "value": "EndAnchor; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab; e685674ed517f4a45ac155f7eee73d45/2015466411517137995"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab:_advanceBoundaryPoint",
+            "subject": "_advanceBoundaryPoint",
+            "value": "AdvanceBoundaryPoint; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab; e685674ed517f4a45ac155f7eee73d45/1717559990228385205"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab:_collectibleRoot",
+            "subject": "_collectibleRoot",
+            "value": "CollectibleRoot; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_Flat.prefab; e685674ed517f4a45ac155f7eee73d45/4650169393522549478"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab",
+            "subject": "mainAsset",
+            "value": "InfinitePattern_InternalGap; UnityEngine.GameObject; Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab; 473d600b4b1ba7c49b60b3ec578f3fbf/914689536776555010"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab:_geometryRoot",
+            "subject": "_geometryRoot",
+            "value": "GeometryRoot; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab; 473d600b4b1ba7c49b60b3ec578f3fbf/8404504021867957136"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab:_startAnchor",
+            "subject": "_startAnchor",
+            "value": "StartAnchor; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab; 473d600b4b1ba7c49b60b3ec578f3fbf/8945671353872250924"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab:_endAnchor",
+            "subject": "_endAnchor",
+            "value": "EndAnchor; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab; 473d600b4b1ba7c49b60b3ec578f3fbf/6977562877231262809"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab:_advanceBoundaryPoint",
+            "subject": "_advanceBoundaryPoint",
+            "value": "AdvanceBoundaryPoint; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab; 473d600b4b1ba7c49b60b3ec578f3fbf/3940461163319121572"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab:_collectibleRoot",
+            "subject": "_collectibleRoot",
+            "value": "CollectibleRoot; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_InternalGap.prefab; 473d600b4b1ba7c49b60b3ec578f3fbf/3723105696144273088"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab",
+            "subject": "mainAsset",
+            "value": "InfinitePattern_LegacySteps; UnityEngine.GameObject; Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab; 970ad099d310e064ea457e296547d688/914689536776555010"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab:_geometryRoot",
+            "subject": "_geometryRoot",
+            "value": "GeometryRoot; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab; 970ad099d310e064ea457e296547d688/3729450802203580661"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab:_startAnchor",
+            "subject": "_startAnchor",
+            "value": "StartAnchor; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab; 970ad099d310e064ea457e296547d688/1981490297120861447"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab:_endAnchor",
+            "subject": "_endAnchor",
+            "value": "EndAnchor; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab; 970ad099d310e064ea457e296547d688/1826208506195400013"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab:_advanceBoundaryPoint",
+            "subject": "_advanceBoundaryPoint",
+            "value": "AdvanceBoundaryPoint; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab; 970ad099d310e064ea457e296547d688/7694661576490972486"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab:_collectibleRoot",
+            "subject": "_collectibleRoot",
+            "value": "CollectibleRoot; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_LegacySteps.prefab; 970ad099d310e064ea457e296547d688/3136096315143801736"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab",
+            "subject": "mainAsset",
+            "value": "InfinitePattern_SingleRise; UnityEngine.GameObject; Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab; 33a8bbbce857ea144ae193ed5019446b/914689536776555010"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab:_geometryRoot",
+            "subject": "_geometryRoot",
+            "value": "GeometryRoot; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab; 33a8bbbce857ea144ae193ed5019446b/4405921236453772318"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab:_startAnchor",
+            "subject": "_startAnchor",
+            "value": "StartAnchor; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab; 33a8bbbce857ea144ae193ed5019446b/7754501909786225335"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab:_endAnchor",
+            "subject": "_endAnchor",
+            "value": "EndAnchor; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab; 33a8bbbce857ea144ae193ed5019446b/6576466886618330311"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab:_advanceBoundaryPoint",
+            "subject": "_advanceBoundaryPoint",
+            "value": "AdvanceBoundaryPoint; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab; 33a8bbbce857ea144ae193ed5019446b/7328863834158263726"
+          },
+          {
+            "path": "Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab:_collectibleRoot",
+            "subject": "_collectibleRoot",
+            "value": "CollectibleRoot; UnityEngine.Transform; Assets/Prefabs/InfinitePatterns/InfinitePattern_SingleRise.prefab; 33a8bbbce857ea144ae193ed5019446b/4911898443491793962"
+          }
+        ],
+        "assertionIssues": [],
+        "reviewRequired": [
+          "U5: no Scene was opened and no prefab was instantiated; actual isolated Scene/runtime/UI linkage is a separate follow-up."
+        ]
+      }
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step8ReadOnly_RequiredTypes_AreAvailableWithoutStartingSystems_639311666154542898_f8e8dc181708426fa71a32c6b53e3cd2.json",
+      "sha256": "a0fff90ad804810abe474debb852e54bb323e7f404150aa06e9edd8130e14faf",
+      "data": {
+        "test": "RequiredTypes_AreAvailableWithoutStartingSystems",
+        "utc": "2026-11-25T01:23:34.3589867Z",
+        "project": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+        "editor": "6000.3.5f2",
+        "runnerOutcomeBeforeTearDown": "Passed",
+        "approvalGranted": false,
+        "observations": [
+          {
+            "path": "assembly",
+            "subject": "UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset, Unity.RenderPipelines.Universal.Runtime",
+            "value": "UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "assembly",
+            "subject": "UnityEngine.Rendering.Universal.UniversalRendererData, Unity.RenderPipelines.Universal.Runtime",
+            "value": "UnityEngine.Rendering.Universal.UniversalRendererData, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "assembly",
+            "subject": "UnityEngine.Rendering.VolumeProfile, Unity.RenderPipelines.Core.Runtime",
+            "value": "UnityEngine.Rendering.VolumeProfile, Unity.RenderPipelines.Core.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "assembly",
+            "subject": "TMPro.TMP_FontAsset, Unity.TextMeshPro",
+            "value": "TMPro.TMP_FontAsset, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "assembly",
+            "subject": "TMPro.TMP_SpriteAsset, Unity.TextMeshPro",
+            "value": "TMPro.TMP_SpriteAsset, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "assembly",
+            "subject": "FlowState.Runtime.Features.InfinitePatternAuthoring, FlowState.Runtime.Features",
+            "value": "FlowState.Runtime.Features.InfinitePatternAuthoring, FlowState.Runtime.Features, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "assembly",
+            "subject": "FlowState.Runtime.Systems.GameSystem, Assembly-CSharp",
+            "value": "FlowState.Runtime.Systems.GameSystem, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "assembly",
+            "subject": "FlowState.Editor.OnlineRecordVerificationWindow, Assembly-CSharp-Editor",
+            "value": "FlowState.Editor.OnlineRecordVerificationWindow, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "assembly",
+            "subject": "UnityEditor.TestTools.TestRunner.Api.TestRunnerApi, UnityEditor.TestRunner",
+            "value": "UnityEditor.TestTools.TestRunner.Api.TestRunnerApi, UnityEditor.TestRunner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "path": "modules",
+            "subject": "native types",
+            "value": "UnityEngine.Collider; UnityEngine.Camera; UnityEngine.Font"
+          }
+        ],
+        "assertionIssues": [],
+        "reviewRequired": [
+          "U3: compare current Console/import status with the 37 static orphan records; type availability alone does not dismiss them."
+        ]
+      }
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step8ReadOnly_ShaderGraphs_ReportActualImporterAndCompilerMessages_639311666166146043_21acdc001afe4b5db5e2d371f39ff2ef.json",
+      "sha256": "ccd2983930b9390f76074e302441062e4cd4ca23b681d67ff68d29820df95359",
+      "data": {
+        "test": "ShaderGraphs_ReportActualImporterAndCompilerMessages",
+        "utc": "2026-11-25T01:23:35.4628558Z",
+        "project": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+        "editor": "6000.3.5f2",
+        "runnerOutcomeBeforeTearDown": "Passed",
+        "approvalGranted": false,
+        "observations": [
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+            "subject": "importer",
+            "value": "UnityEditor.ShaderGraph.ShaderGraphImporter"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+            "subject": "mainAsset",
+            "value": "TextMeshPro/SRP/TMP_SDF-HDRP LIT; UnityEngine.Shader; Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph; ca2ed216f98028c4dae6c5224a952b3c/-6465566751694194690"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+            "subject": "shaderSupported",
+            "value": "True"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+            "subject": "importer",
+            "value": "UnityEditor.ShaderGraph.ShaderGraphImporter"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+            "subject": "mainAsset",
+            "value": "TextMeshPro/SRP/TMP_SDF-HDRP UNLIT; UnityEngine.Shader; Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph; f63d574838ccfb44f84acc05fed0af48/-6465566751694194690"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+            "subject": "shaderSupported",
+            "value": "True"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+            "subject": "importer",
+            "value": "UnityEditor.ShaderGraph.ShaderGraphImporter"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+            "subject": "mainAsset",
+            "value": "TextMeshPro/SRP/TMP_SDF-URP Lit; UnityEngine.Shader; Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph; a3d800b099a06e0478fb790c5e79057a/-6465566751694194690"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+            "subject": "shaderSupported",
+            "value": "True"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+            "subject": "importer",
+            "value": "UnityEditor.ShaderGraph.ShaderGraphImporter"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+            "subject": "mainAsset",
+            "value": "TextMeshPro/SRP/TMP_SDF-URP Unlit; UnityEngine.Shader; Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph; 124c112a6e8f1a54e8b0870e881b56d8/-6465566751694194690"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+            "subject": "shaderSupported",
+            "value": "True"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 4990",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 5044",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9175",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9284",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 5034",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 5088",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9016",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9101",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 4961",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 5015",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9259",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9344",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 4907",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 4961",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 8903",
+            "value": "GUID has no AssetDatabase path"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+            "subject": "dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 8988",
+            "value": "GUID has no AssetDatabase path"
+          }
+        ],
+        "assertionIssues": [],
+        "reviewRequired": [
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 4990 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 5044 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9175 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9284 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 5034 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 5088 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9016 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9101 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 4961 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 5015 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9259 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 9344 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 4907 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 4961 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 8903 -> GUID has no AssetDatabase path",
+          "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph: dda5bcb0d1e9515498f6e4e038bbefe6/-2362172177983852347 at line 8988 -> GUID has no AssetDatabase path",
+          "U2: unsupported HDRP/unused graphs and the known texture references require an explicit scope decision; a green diagnostic test is not shader-health approval."
+        ]
+      }
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step8ReadOnly_TmpResources_LoadFontAtlasSpriteAndMaterialSubassets_639311666177467872_5a6167fc50ca4cd2b7125a047f03438c.json",
+      "sha256": "31890115d535afb6f925c35ad2e1b3748646cc4f03afcd831435ed24ce7c4c57",
+      "data": {
+        "test": "TmpResources_LoadFontAtlasSpriteAndMaterialSubassets",
+        "utc": "2026-11-25T01:23:36.6236374Z",
+        "project": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+        "editor": "6000.3.5f2",
+        "runnerOutcomeBeforeTearDown": "Passed",
+        "approvalGranted": false,
+        "observations": [
+          {
+            "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+            "subject": "mainAsset",
+            "value": "TMP Settings; TMPro.TMP_Settings; Assets/TextMesh Pro/Resources/TMP Settings.asset; 3f5b5dff67a942289a9defa416b206f3/11400000"
+          },
+          {
+            "path": "TMP.defaultFont",
+            "subject": "m_defaultFontAsset",
+            "value": "LiberationSans SDF; TMPro.TMP_FontAsset; Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset; 8f586378b4e144a9851e7b34d9b748ee/11400000"
+          },
+          {
+            "path": "TMP.defaultSprite",
+            "subject": "m_defaultSpriteAsset",
+            "value": "EmojiOne; TMPro.TMP_SpriteAsset; Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset; c41005c129ba4d66911b75229fd70b45/11400000"
+          },
+          {
+            "path": "TMP.defaultStyleSheet",
+            "subject": "m_defaultStyleSheet",
+            "value": "Default Style Sheet; TMPro.TMP_StyleSheet; Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset; f952c082cb03451daed3ee968ac6c63e/11400000"
+          },
+          {
+            "path": "TMP.fontAtlas",
+            "subject": "count",
+            "value": "1"
+          },
+          {
+            "path": "TMP.fontAtlas[0]",
+            "subject": "m_AtlasTextures.Array.data[0]",
+            "value": "LiberationSans SDF Atlas; UnityEngine.Texture2D; Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset; 8f586378b4e144a9851e7b34d9b748ee/28684132378477856"
+          },
+          {
+            "path": "TMP.fontMaterial",
+            "subject": "m_Material",
+            "value": "LiberationSans SDF Material; UnityEngine.Material; Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset; 8f586378b4e144a9851e7b34d9b748ee/2180264"
+          },
+          {
+            "path": "TMP.fontMaterial",
+            "subject": "shader",
+            "value": "TextMeshPro/Mobile/Distance Field"
+          },
+          {
+            "path": "TMP.spriteSheet",
+            "subject": "spriteSheet",
+            "value": "EmojiOne; UnityEngine.Texture2D; Assets/TextMesh Pro/Sprites/EmojiOne.png; dffef66376be4fa480fb02b19edbe903/2800000"
+          },
+          {
+            "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+            "subject": "mainAsset",
+            "value": "LiberationSans SDF - Fallback; TMPro.TMP_FontAsset; Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset; 2e498d1c8094910479dc3e1b768306a4/11400000"
+          },
+          {
+            "path": "TMP.fallbackSourceFont",
+            "subject": "m_SourceFontFile",
+            "value": "LiberationSans; UnityEngine.Font; Assets/TextMesh Pro/Fonts/LiberationSans.ttf; e3265ab4bf004d28a9537516768c1c75/12800000"
+          }
+        ],
+        "assertionIssues": [],
+        "reviewRequired": [
+          "U4: actual text/sprite appearance still needs the isolated visual check; this test never renders or populates dynamic font atlases."
+        ]
+      }
+    }
+  ],
+  "runnerEvidence": {
+    "finalPassCountSource": "User report",
+    "diagnosticReports": 5,
+    "preTearDownPassed": 5,
+    "assertionIssues": 0,
+    "xmlAvailable": false,
+    "limitation": "No saved Runner XML found; diagnostic pre-TearDown status is not represented as independently parsed final Runner status"
+  },
+  "warning": {
+    "header": "The following asset(s) located in immutable packages were unexpectedly altered.",
+    "reportedPaths": [
+      "Packages/com.unity.modules.accessibility/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.adaptiveperformance/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.ai/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.androidjni/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.animation/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.assetbundle/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.audio/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.cloth/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.director/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.hierarchycore/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.imageconversion/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.imgui/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.jsonserialize/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.particlesystem/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.physics/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.physics2d/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.screencapture/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.subsystems/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.terrain/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.terrainphysics/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.tilemap/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.ui/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.uielements/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.umbra/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.unityanalytics/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.unitywebrequest/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.unitywebrequestassetbundle/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.unitywebrequestaudio/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.unitywebrequesttexture/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.unitywebrequestwww/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.vectorgraphics/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.vehicles/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.video/package.ModuleCompilationTrigger",
+      "Packages/com.unity.modules.wind/package.ModuleCompilationTrigger",
+      "Packages/com.unity.render-pipelines.universal/Editor/Converter/converter_widget.uss",
+      "Packages/com.unity.shadergraph/Editor/Importers/_.sgsubgraphdb",
+      "Packages/com.unity.shadergraph/Editor/Resources/Styles/MaterialGraph.uss"
+    ],
+    "exactMatchWithStep7OrphanTargets": true,
+    "matchedCount": 37,
+    "builtInModules": 34,
+    "editorFiles": 3,
+    "beforeAfter": [
+      {
+        "assetPath": "Packages/com.unity.modules.accessibility/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.accessibility/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.adaptiveperformance/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.adaptiveperformance/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.ai/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.ai/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.androidjni/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.androidjni/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.animation/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.animation/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.assetbundle/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.assetbundle/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.audio/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.audio/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.cloth/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.cloth/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.director/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.director/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.hierarchycore/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.hierarchycore/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.imageconversion/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.imageconversion/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.imgui/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.imgui/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.jsonserialize/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.jsonserialize/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.particlesystem/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.particlesystem/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.physics/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.physics/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.physics2d/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.physics2d/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.screencapture/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.screencapture/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.subsystems/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.subsystems/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.terrain/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.terrain/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.terrainphysics/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.terrainphysics/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.tilemap/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.tilemap/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.ui/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.ui/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.uielements/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.uielements/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.umbra/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.umbra/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unityanalytics/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.unityanalytics/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequest/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.unitywebrequest/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequestassetbundle/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.unitywebrequestassetbundle/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequestaudio/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.unitywebrequestaudio/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequesttexture/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.unitywebrequesttexture/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequestwww/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.unitywebrequestwww/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.vectorgraphics/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.vectorgraphics/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.vehicles/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.vehicles/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.video/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.video/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.wind/package.ModuleCompilationTrigger",
+        "relativeFile": "Library/PackageCache/com.unity.modules.wind/package.ModuleCompilationTrigger",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.render-pipelines.universal/Editor/Converter/converter_widget.uss",
+        "relativeFile": "Library/PackageCache/com.unity.render-pipelines.universal@1e87cf1dccb8/Editor/Converter/converter_widget.uss",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.shadergraph/Editor/Importers/_.sgsubgraphdb",
+        "relativeFile": "Library/PackageCache/com.unity.shadergraph@ea01319cfd98/Editor/Importers/_.sgsubgraphdb",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.shadergraph/Editor/Resources/Styles/MaterialGraph.uss",
+        "relativeFile": "Library/PackageCache/com.unity.shadergraph@ea01319cfd98/Editor/Resources/Styles/MaterialGraph.uss",
+        "candidateBeforeExists": false,
+        "candidateAfterExists": false,
+        "originalSourceBytes": 0,
+        "metaStillMatchesSource": true,
+        "incomingSerializedReferences": 0
+      }
+    ],
+    "protectedCandidateFilesUnchanged": 1113,
+    "classification": "Pre-existing candidate absence of original zero-byte package files, not a newly observed write by the read-only checks",
+    "causalMechanismConfirmed": false,
+    "engineBugOrFalsePositiveClaimed": false,
+    "repairOrSuppressionPerformed": false,
+    "finalPackageIntegrityApproval": false,
+    "allowsBoundedIsolatedFollowupTests": true
+  },
+  "reviewDisposition": {
+    "types": "All 9 required reflected types available; no system instantiation",
+    "urp": "Active pipeline/renderer/feature and both profiles load; 19 non-null components each; main/feature local IDs resolve",
+    "volumeLegacy": "Raw components 21 each; existing Outline/Oasis entries reference unavailable scripts. Imported 19 is consistent with pinned VolumeProfile.OnEnable null removal. Raw bytes preserved; runtime/visual effect still pending",
+    "legacyProbeDebug": "Seven old references remain unresolved; declared in URP Runtime/Deprecated.cs, sole C# reference is obsolete declaration in inspected URP/Core scope; no automatic repair",
+    "shaderGraphs": "Four imported Shader main objects report supported True and no current compiler messages; 16 original texture references still lack an AssetDatabase path, no current project serialized incoming usage",
+    "tmp": "Default font/atlas/material/sprite sheet/fallback font resolve; visible rendering pending",
+    "prefabs": "Four prefab authoring objects/anchors load with no reported Missing Script; no runtime instance created",
+    "remaining": "Isolated Scene/UI/runtime test selection and visual check; immutable warning remains separately recorded, no overall restoration approval"
+  },
+  "nextPlayMode": {
+    "sources": [
+      {
+        "path": "Assets/Tests/PlayMode/InfinitePatternConnectionIntegrationTests.cs",
+        "sha256": "f3d5886b1a07cd7e0903dee68da71f124738d72a4c6b28da7df74ca2e4af3984"
+      },
+      {
+        "path": "Assets/Tests/PlayMode/ModeUISceneConfigurationTests.cs",
+        "sha256": "6cc35a4879760f343d153d4c5fd8e1a9cb46f70abdcb805c7a8e76cbcf362589"
+      },
+      {
+        "path": "Assets/Tests/PlayMode/PlayModeRecordIsolationTests.cs",
+        "sha256": "9b29e663010ef4e635b6e54899c0bd3b8cccbec756373b1d4d81e90e2f042168"
+      },
+      {
+        "path": "Assets/Scripts/Runtime/Systems/GameSystem.cs",
+        "sha256": "d95c4b7d8be01c808819f46faee058a77d8123b5353a0433b086906b195edf67"
+      },
+      {
+        "path": "Assets/Editor/OnlineRecordVerificationWindow.cs",
+        "sha256": "18bc53c2a8b006b550d1081c60d96fe5f8faf8e43e1f002c29a717704ddaf7d1"
+      }
+    ],
+    "methods": [
+      {
+        "fixture": "InfinitePatternConnectionIntegrationTests",
+        "method": "FrontBoundary_PhysicalTrigger_AdvancesOnlyOnce",
+        "line": 109,
+        "bodyHash": "aee2f9428adb4808a7815c62eebf4a50bb801664e9d7a0469004c9c549547378"
+      },
+      {
+        "fixture": "ModeUISceneConfigurationTests",
+        "method": "UIComponents_AreSerializedBeforeUseAndNeverAddedAtRuntime",
+        "line": 20,
+        "bodyHash": "8aa2bd99d7076019e809e8343aa58359de9f29fcd9921bf3656cc2e1b33f2dd2"
+      },
+      {
+        "fixture": "ModeUISceneConfigurationTests",
+        "method": "Phase4LeaderboardAndResultControls_AreWired",
+        "line": 474,
+        "bodyHash": "c5af1e643f7bff8bdbf4e1440bfae4edbab1b74b82ed5e50c677ef862a0c740d"
+      }
+    ],
+    "requiresEditorIsolationReservationBeforeEveryRun": true,
+    "requiresDomainAndSceneReload": true,
+    "setupFixtureUsesMemoryAndBypassesOnline": true,
+    "testsDoNotSaveScenesOrAssets": true,
+    "actualRunPending": true
+  },
+  "preservation": {
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0,
+    "candidateTestCodeMatchesPrepared": true
+  },
+  "execution": {
+    "aiRanUnityBuildTestRunnerInstallRestore": false,
+    "aiChangedSceneOrPrefab": false,
+    "aiWrotePackageFiles": false
+  },
+  "completion": {
+    "stageAUserExecutionConfirmed": true,
+    "stageBPending": true,
+    "visualPending": true,
+    "step8Complete": false,
+    "phase3Complete": false,
+    "independentRestore": false
+  }
+}

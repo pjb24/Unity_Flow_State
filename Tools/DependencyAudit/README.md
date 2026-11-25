@@ -1,6 +1,8 @@
 # Dependency audit
 
-Phase 2 관리/검사·보존/복원 절차와 최종 인계는 완료(2026-11-20)했다. [세 조건/현재 CLI 검사](../../AI/90_Tasks/Prototype_10/20261120_01_Phase2Step10Check.json)·[Phase 3 인계 계획](../../AI/90_Tasks/Prototype_10/20261120_02_Phase3Handoff.md)·[최종 검증/새 기준선](../../AI/90_Tasks/Prototype_10/20261120_03_Phase2Step10Verification.json)을 따른다. 실제 별도 환경의 경로 이식/새 lock/설치·Unity·독립 복원은 미실행이며 현재 사용자 수동 작업은 없다.
+처음 Third Party 파일을 관리하는 작업자는 [통합 가이드](../../THIRD_PARTY_GUIDE.md)에서 시작한다. 이 문서는 검사 명령/API와 검사 한계가 필요할 때 참조한다.
+
+Roadmap 10 Phase 1~3은 완료(2026-11-25)했다. [Phase 3 Task Step 10](../../AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md)·[실측 평가](../../AI/90_Tasks/Prototype_10/20261125_36_Phase3Step10Assessment.json)·[최종 인계](../../AI/90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md)에 별도 snapshot/UPM·TMP 재적용·실제 npm lock/ci/NuGet restore·사용자 Unity 결과와 원래 자료 보존을 연결했다. 현재 기술 기준선 복원 완료이며 후보 raw audit는 기존 GUID 31회로 exit 1/orphan 0개다. 원래 작업본 선언/lock은 그대로이며 기존 spec pin과 후보 이식 입력을 혼용하지 않는다. 제품별 권리/모든 Player/variant·원격 복구 완료는 아니다. 추가 수동 실행은 없으며 과거 스크립트는 새 환경의 입력/경로/출력 확인 없이 반복하지 않는다.
 
 외부 package 없이 Node 내장 모듈로 실행하는 Phase 1 읽기 전용 metadata 검사다. Unity/컴파일러/Test Runner·Player·서비스/원격·설치/복원을 실행하지 않는다. Git은 고정된 read 명령만 허용하고 optional lock·fsmonitor·external diff/textconv 실행을 차단한다. 검사 자체는 파일을 쓰지 않으며 JSON을 stdout으로 반환한다.
 
@@ -43,7 +45,7 @@ node Tools/DependencyAudit/dependency-lifecycle.test.cjs
 
 Step 8 실행 당시 7개 suite/261개 통과이며 건수를 다음 실행의 고정 성공 조건으로 쓰지 않는다. 실제 읽기 전용 7개 CLI의 정확한 명령/반복 출력·require/쓰기/네트워크 차단 감사와 Test별 source는 [검사 metadata](../../AI/90_Tasks/Prototype_10/20261119_26_Phase2Step8Check.json), 기존 입력/보존본/archive·HEAD/index 불변은 [최종 검증](../../AI/90_Tasks/Prototype_10/20261119_27_Phase2Step8Verification.json)에 연결한다. 보존본 create/임시 reapply·archive prepare는 기본 check와 분리된 명시적 쓰기이며 기본 검증 묶음에 포함하지 않는다.
 
-현재 inventory는 기존 미해결 참조 31회와 sample orphan으로 exit 1을 유지한다. 유입 gate/복원 입력/lifecycle check의 exit 0과 독립적으로 기록하며 진단을 지워 전체 성공으로 만들지 않는다. 실제 Scene/Prefab/Unity·설치·권리/독립 복원은 별도 증거가 필요하다. 현재 Step의 변경은 metadata/문서이므로 사용자 Unity 실행은 요청하지 않는다.
+Phase 2 당시 inventory는 기존 미해결 참조 31회와 sample orphan으로 exit 1이었다. 최신 후보는 Phase 3 최종 인계를 따르며 기존 31회/orphan 0개로 exit 1이다. 유입 gate/복원 입력/lifecycle check의 exit 0과 독립적으로 기록하며 진단을 지워 전체 성공으로 만들지 않는다. 실제 Scene/Prefab/Unity·설치·권리/독립 복원은 별도 증거가 필요하다. 현재 Step의 변경은 metadata/문서이므로 사용자 Unity 실행은 요청하지 않는다.
 
 ## 실제 등록부/경계 정책 검사 — Phase 2 Step 2
 
@@ -180,3 +182,25 @@ resourceIdentity는 path/before/after/planned/evidence이며 identity의 guid/im
 relocate는 moves의 from/to/sha256 쌍과 moveApplication evidence/table을 요구하고 같은 version/source/hash에서 meta/GUID·byte를 유지한다. 출발의 부재를 단독 파일 삭제와 혼동하지 않으며 실제 이동은 사용자 Editor 적용표에 남긴다. Scene/Prefab 변경 계획에는 sceneApplication evidence/table이 필요하다. rollback은 failureEvidence와 현재 baseline/attempt hash 대조를 요구하고 명시된 경로에만 restore-verified-preserved-bytes/already-baseline/retain-created-output-for-review 계획을 출력한다. 새 출력은 자동 삭제하지 않는다. 제거도 폐기 기록/의무를 보존하며 실제 삭제 옵션은 없다.
 
 exit 0은 현재 registry 확인 또는 선택한 요청의 검토 가능한 준비 계획, exit 1은 보존/보류 사유, exit 2는 잘못된 입력/정책/수집 실패다. 적용·삭제·원복·등록부 쓰기/Unity 실행을 수행하는 옵션은 없으며 require/evaluate는 부작용이 없다. 결과의 applied/filesDeleted/registryWritten/rightsGranted/independentRestore는 false다. 실제 적용 후 재검증/필요 사용자 Unity 결과 없이 상태를 완료로 갱신하지 않는다. 영구 담당/절차·중단/원복 기준은 Implementation Rule의 업데이트·경로 변경·제거·실패 원복을 따른다.
+
+## 안전 snapshot·허용 변경 비교 — Phase 3 Step 3
+
+`dependency-snapshot.cjs`는 기존 reader/Git·보존본 verify를 재사용하고 snapshot 전달/비교만 추가한다. 외부 npm 의존성은 없다. `require`와 `prepare`는 쓰기/설치/네트워크 없이 동작한다. 실제 원래 작업본/확정 후보에 대한 복사는 Step 4이며, Step 3에서는 임시 합성 fixture만 복사했다.
+
+```powershell
+node Tools/DependencyAudit/dependency-snapshot.test.cjs
+```
+
+읽기 전용 CLI는 `node Tools/DependencyAudit/dependency-snapshot.cjs --check <저장소 상대 manifest 경로>`다. 현재 manifest를 임의로 생성/실행하지 않고 Step 4에서 최종 목록을 고정한다. manifest는 `schemaVersion: 1`, `candidateRoot`(절대 경로), `files`(path/sha256), `requiredPaths`(빠지면 실패할 경로 목록), `directories`(추가 빈 폴더 목록), `includeSdkPin`(boolean)이다. 성공 exit 0은 읽기 전용 계획 해시/건수, 실패 exit 2는 진단 코드만 출력한다. `--root`, `--create`, install/apply/rollback CLI는 없다.
+
+API `prepare(sourceRoot, manifest)`는 경로/해시·필수 목록·source Git/빈 폴더/중복 GUID를 검사하고 `planSha256`을 반환한다. 기존 source/실제 원래 workspace와 같거나 상하위인 대상, 이미 있는 대상(빈 폴더 포함), link/junction, case/parent-file 충돌, cache/QA/Secret/실 production config·미승인 원본을 거절한다. 일반 소스의 읽기는 기존 reader를 사용한다. Step 2에서 검토한 소스 6개만 정확한 경로와 고정 hash로 예외 처리하며 기존 전역 sensitive guard는 그대로다. 소스가 바뀌면 검토/pin 갱신 전까지 차단한다.
+
+`privateInputs(sourceRoot)`는 과거 근거 자체의 고정 해시와 schema 2 보존본 verify를 대조해 npm tgz 27개와 보존본 manifest/payload 84개만 반환한다. 이 목록 밖의 Ignore/Library/유료 원본을 포함시키지 않는다. private payload의 중복 GUID는 Assets에 재적용한 것이 아니므로 프로젝트 GUID 중복과 구분한다. 실제 재적용/Unity Import 검증은 Step 5/7/8에 남긴다.
+
+명시적 API `create(sourceRoot, manifest, expectedPlanSha256)`만 복사한다. 먼저 계획을 재계산하고 검토 해시와 일치할 때 새 대상/부모를 생성하며 파일은 exclusive `wx`로 쓴다. source/Git와 target을 전후 검증하고 부분 실패 출력은 보존한다. 성공한 snapshot도 source 목록의 byte 보존이지 완전한 Unity 복원/참조 정상·권리 확인이 아니다. `includeSdkPin`은 후보에만 SDK 9.0.315/rollForward disable/allowPrerelease false의 고정 global.json을 생성한다. 원래 global.json·선언/lock·자산은 변경하지 않는다.
+
+`verify(plan)`는 계획 해시·target의 파일/폴더 전체 목록과 byte hash를 확인한다. snapshot 직후의 정확한 목록 검사이므로 Unity/새 Git 초기화·설치 후에는 그 출력까지 검토한 새 비교 입력을 준비한다. `compare(before, actual, changes)`는 명시한 before/after 해시(없음은 null) 외 추가/누락/변경을 보고한다. npm 경로 이식 의미 검증은 기존 restore.validateMigration, GUID/Importer·직접/이름 참조는 기존 audit/adoption/preservation을 함께 사용한다. 새 비교 함수 자체가 NuGet graph/Unity 타입/subasset 의미를 해석하지는 않는다. 실제 새 graph/feed/EmbeddedResource는 Step 6에서 파싱/검토한 결과와 해시에 연결한다.
+
+`rollbackPlan(before, attempt, current, verifiedBackupHashes)`는 검증된 보존본에서 관측한 해시 목록을 받아 원복 계획만 반환한다. backup mismatch·다른/늦은 변경은 차단하고 새 출력은 retain-new-output으로 남긴다. 함수가 backup payload 진위/사용자 승인을 인증하거나 실제 삭제/원복을 실행하지 않는다. `assessResults(required, results)`는 name/inputSha256에 결합한 executed/exitCode/unexpectedLogCount를 검사한다. 필수 결과 누락/다른 입력/nonzero/예상 밖 로그를 성공으로 바꾸지 않으며 payload/로그 원문은 받지 않는다.
+
+도구는 권한을 부여하지 않는다. 실제 대상·쓰기 권한·저장/계정 분리를 호출 전에 확정하고 Step 4 직전 다시 확인한다. link/내용/목록 변경은 전후 guard와 해시로 검출하지만 적대적 프로세스의 모든 filesystem race를 원자적으로 봉쇄하는 도구는 아니다. 실패하면 원래 작업본·부분 출력과 근거를 보존하고 다시 검토한다. Test의 재귀 정리는 확인한 OS 임시 mkdtemp fixture에만 적용하며 원래 workspace·확정 후보에는 적용하지 않는다.

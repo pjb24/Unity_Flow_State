@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 9 requested fixture failure/rollback proof, existing snapshot suite only",
+  "command": "node Tools/DependencyAudit/dependency-snapshot.test.cjs",
+  "exitCode": 0,
+  "summary": {
+    "suite": "DependencySnapshot",
+    "passed": 79,
+    "failed": 0,
+    "unityExecuted": false,
+    "realCandidateCreated": false,
+    "realIndexChanged": false
+  },
+  "tool": {
+    "path": "Tools/DependencyAudit/dependency-snapshot.cjs",
+    "sha256": "281135c15cfe0d14ba2c7f4d658573b0a1538f507ed2b8ac3c89ab339e69d74b"
+  },
+  "tests": {
+    "path": "Tools/DependencyAudit/dependency-snapshot.test.cjs",
+    "sha256": "2198dcd45f7ab08ca699378cf5e98471f0fd3c9a481c1e8b0135440b0c881603"
+  },
+  "scope": "Synthetic private temporary directories; no actual candidate restore, cache clearing, Unity or staging",
+  "contracts": [
+    "Exact known before/attempt/current/verified backup rollback plan",
+    "Late user changes stop rollback",
+    "Wrong backup rejected",
+    "New outputs retained rather than deleted",
+    "Injected copy/write failure leaves partial fixture and original intact",
+    "Undeclared missing/extra/change cannot pass",
+    "Required user output missing/nonzero/log drift cannot pass"
+  ],
+  "originalIndexBefore": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+  "originalIndexAfter": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+  "actualRollbackPerformed": false,
+  "unityExecuted": false
+}

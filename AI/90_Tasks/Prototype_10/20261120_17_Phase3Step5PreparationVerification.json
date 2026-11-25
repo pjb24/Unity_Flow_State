@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "capturedAtUTC": "2026-11-20T11:43:59.207Z",
+  "purpose": "Step 5 static preparation verification; mandatory user TMP reapplication and Editor package resolution not performed",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_15_Phase3Step5InputAudit.json",
+    "sha256": "6db492346ff31f05f968430a09c22aded8591a957d3c4d4177d9e51c59c4c9f8"
+  },
+  "reapplyPlan": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_16_Phase3Step5TmpReapplyPlan.json",
+    "sha256": "0e9e8325d2374d06abbc2c23d0cef88aea61436a1dbb6bd950b96f3d80cfd5f3"
+  },
+  "step4Final": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_14_Phase3Step4Verification.json",
+    "sha256": "e78961440798dd8c271d628a15e36a519d12046b1d2682dac91aef57be714681"
+  },
+  "substeps": [
+    {
+      "id": "5-1",
+      "staticPreparationComplete": true,
+      "actualCandidateUpmResolveComplete": false,
+      "status": "User Editor 6000.3.5f2 required; candidate Library/PackageCache absent",
+      "expectedGraph": {
+        "nodes": 61,
+        "edges": 91,
+        "registry": 20,
+        "builtin": 41
+      }
+    },
+    {
+      "id": "5-2",
+      "staticChecksComplete": true,
+      "sourceAndCandidatePreservationVerified": true,
+      "providerArchiveSha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431",
+      "actualFreshCandidateProviderArchiveVerified": false
+    },
+    {
+      "id": "5-3",
+      "reapplicationTableComplete": true,
+      "assets": 82,
+      "meta": 45,
+      "folderMeta": 8,
+      "existingCandidateMetas": 285,
+      "guidCollisions": 0,
+      "allTargetsAbsent": true,
+      "actualAssetApplicationComplete": false
+    },
+    {
+      "id": "5-4",
+      "userInstructionsPrepared": true,
+      "actualEditorLaunch": false,
+      "newChildProcessUpmCache": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\UPM_Step5_01",
+      "globalCacheOrUserConfigurationChanged": false,
+      "log": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step5Editor_01.log"
+    },
+    {
+      "id": "5-5",
+      "preparationPreservationVerified": true,
+      "requiredUserResultsReceived": false,
+      "step5Complete": false
+    }
+  ],
+  "preservation": {
+    "sourceGit": {
+      "head": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+      "indexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+      "trackedPathsNulSha256": "5a453022d2b0d87914a1aaa9337edb5a6a5f22b24cf5bb12dbe1910f9d4ea8fa",
+      "indexEntriesNulSha256": "675c1e897558bed4d94c477d5dea644abf0196114cc9aa235bc6d3bf9a1cc617"
+    },
+    "sourceTrackedPaths": 975,
+    "sourceStagedChanges": 0,
+    "sourceProtectedPaths": 1178,
+    "unchangedSourceProtectedPaths": 1174,
+    "allowedDocumentationChanges": [
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "beforeSha256": "884725c2ff11e32434675d5342b1379c4c65d92450ae3a7b36797c9cba5e7513",
+        "afterSha256": "ca377a94d8c959d99f5ec77afe7c9940f470916b117e400bffe0e5972d4e4c2e",
+        "reason": "Step 5 static preparation/user actions pending; no completion claim"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "beforeSha256": "e359f55a9ee7fd7236e2d0889d68d87f83d2e220217b77dbf20500cfb825fe6f",
+        "afterSha256": "9e501781566c089699977fa2e0920e2eca6a1b7d69d949db9ea427c251e1aeeb",
+        "reason": "Step 5 static preparation/user actions pending; no completion claim"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "beforeSha256": "0255d65062a6ec9a2d4d9c60cd30b8134bb394042bab3b3e4e71937e5ab6d228",
+        "afterSha256": "9bd6fd009ed4549de504af3eb8640b638fa9bfeef75d4e8abae4937dc1005f5a",
+        "reason": "Step 5 static preparation/user actions pending; no completion claim"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "beforeSha256": "5a9f272be2eebff890b5b84b4877eb228f1aeefc107d8a61e5c305181758d309",
+        "afterSha256": "c2cecb106eb3a12adc13d96243f3b7a57bae716940d0c922881be00ebc46747d",
+        "reason": "Step 5 static preparation/user actions pending; no completion claim"
+      }
+    ],
+    "unexpectedChanges": [],
+    "missingFiles": [],
+    "previousEvidenceAndToolsTestsUnchanged": true,
+    "productionAssetsSettingsScenePrefabDeclarationsLockUnchanged": true,
+    "candidateRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateIndexSha256": "9230f69f600165a937c0d068994ddf8ba216364f8ac42fec5edaadcca115fb16",
+    "candidateFiles": 1091,
+    "candidateDirectories": 109,
+    "candidateUnchanged": true,
+    "candidateWorktreeClean": true,
+    "candidateCacheAndTmpAssetsNotCreated": true,
+    "candidateFrozenDocumentationNotUpdated": true,
+    "sourceBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "candidateBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "folderMetaCount": 8,
+    "supersededBundleRechecked": true,
+    "npmArchivesUnchanged": 27,
+    "qaExecutableHashUnchanged": true,
+    "actualSaveOrSecretBodiesRead": false
+  },
+  "validation": {
+    "utf8JsonWhitespaceValid": true,
+    "localMarkdownLinksChecked": 103,
+    "stepsInOrder": true,
+    "stepCheckboxes": {
+      "complete": 4,
+      "pending": 6
+    },
+    "gitDiffCheckExitCode": 0,
+    "powershellUserBlock": {
+      "sha256": "e3cdee5905dde782150f442c7cc45554f071af01a8fb3147e12b6f6315eb3310",
+      "lines": 72,
+      "astParseErrors": 0,
+      "parseOnly": true,
+      "blockExecutedByAI": false,
+      "requiresPinnedPlanAndBundle": true,
+      "candidateHeadIndexAndCleanStatusGuard": true,
+      "rejectsLinksAndExistingTargets": true,
+      "fileCopyOverwrite": false,
+      "explicitTargetFileList": true,
+      "userEditorLaunchChildEnvironmentOnly": true,
+      "forbiddenBuildRunnerSceneResetDeleteCommands": false
+    },
+    "sourceNewPathsThisStep": [
+      "AI/90_Tasks/Prototype_10/20261120_15_Phase3Step5InputAudit.json",
+      "AI/90_Tasks/Prototype_10/20261120_16_Phase3Step5TmpReapplyPlan.json",
+      "AI/90_Tasks/Prototype_10/20261120_17_Phase3Step5PreparationVerification.json"
+    ],
+    "priorUntrackedArtifactsPreserved": [
+      "AI/90_Tasks/Prototype_10/20261120_06_Phase3Step1Baseline.json",
+      "AI/90_Tasks/Prototype_10/20261120_07_Phase3Step1Verification.json",
+      "AI/90_Tasks/Prototype_10/20261120_08_Phase3Step2InputAudit.json",
+      "AI/90_Tasks/Prototype_10/20261120_09_Phase3Step2Verification.json",
+      "AI/90_Tasks/Prototype_10/20261120_10_Phase3Step3Audit.json",
+      "AI/90_Tasks/Prototype_10/20261120_11_Phase3Step3Verification.json",
+      "AI/90_Tasks/Prototype_10/20261120_12_Phase3Step4TransferManifest.json",
+      "AI/90_Tasks/Prototype_10/20261120_13_Phase3Step4Check.json",
+      "AI/90_Tasks/Prototype_10/20261120_14_Phase3Step4Verification.json",
+      "Tools/DependencyAudit/dependency-snapshot.cjs",
+      "Tools/DependencyAudit/dependency-snapshot.test.cjs"
+    ],
+    "unitTestSuitesRerun": false,
+    "reasonNoSuiteRerun": "Read-only current input/hash/GUID/bundle/provider audit plus documentation/reapplication plan only. Existing implementation/tests unchanged; prior Step 3 340 tests remain pinned evidence. PowerShell was syntax/structure inspected without invoking copy or Editor."
+  },
+  "officialSources": [
+    {
+      "url": "https://docs.unity.com/en-us/engine/6000.3/manual/packages-list/package-manager-caches/upm-config-cache",
+      "verifiedDateKST": "2026-11-20",
+      "facts": [
+        "UPM_CACHE_ROOT overrides global cache root for the launched process",
+        "Environment override takes precedence over user configuration/preferences",
+        "Old cache content is retained; do not clean/copy it",
+        "UPM_NPM_CACHE_PATH is obsolete in Unity 6.3"
+      ],
+      "scope": "Prepare child-process environment only; no global user config/preferences changed or Editor launched"
+    }
+  ],
+  "files": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "c2cecb106eb3a12adc13d96243f3b7a57bae716940d0c922881be00ebc46747d"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "ca377a94d8c959d99f5ec77afe7c9940f470916b117e400bffe0e5972d4e4c2e"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "9e501781566c089699977fa2e0920e2eca6a1b7d69d949db9ea427c251e1aeeb"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "9bd6fd009ed4549de504af3eb8640b638fa9bfeef75d4e8abae4937dc1005f5a"
+    }
+  ],
+  "completion": {
+    "preparationComplete": true,
+    "step5Complete": false,
+    "userActionRequired": true,
+    "manualWorkRequiredNow": true,
+    "awaiting": "User runs Task 5-4 TMP apply + isolated-cache Editor resolve/import, then closes Editor and reports errors/warnings",
+    "nextStep": 5,
+    "step6Started": false,
+    "aiTmpAssetApplication": false,
+    "aiUnityExecuted": false,
+    "aiCompileExecuted": false,
+    "aiBuildExecuted": false,
+    "aiTestRunnerExecuted": false,
+    "aiSceneOrPrefabApplied": false,
+    "actualCandidateUpmResolved": false,
+    "actualCandidateTmpApplied": false,
+    "packageInstalled": false,
+    "lockRegenerated": false,
+    "rightsGranted": false,
+    "referenceHealthPass": false,
+    "independentRestore": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false
+  },
+  "postUserVerification": [
+    "Discover new candidate PackageCache packages by metadata ID/version, not the old suffix; compare UPM graph 61 nodes/91 edges and registry source",
+    "Compare actual ugui 2.0.0 TMP Essential Resources.unitypackage SHA-256 with fixed provider archive and preserved copy",
+    "Compare all 82 target bytes, 45 meta/GUID/Importer/platform contracts and 8 folder pairs/empty folders with this plan",
+    "Check Resources/Shader names and no GUID collisions; inspect actual original source/target differences without blanket allowlists",
+    "Recheck original source/HEAD/index, candidate clean tracked state/staged zero and TMP/archive ignore/nontracking; do not auto-delete new output",
+    "Unity subasset/fileID/rendering/reference validation remains Step 7/8; no Step 5 completion without real required inputs/results"
+  ],
+  "failureAndRollback": {
+    "onExistingTarget": "Stop before copying; inspect actual before/attempt/current, no overwrite or deletion",
+    "onCopyFailure": "Retain partial copied/new output and logs; do not retry whole overwrite/cleanup",
+    "onEditorMismatch": "Stop; retain provider/cache/log/manifest/lock/asset state and report exact error; do not upgrade versions or reset/clean",
+    "rollback": "No old TMP target existed. Preserve new outputs for review; no automatic source/candidate deletion or .meta regeneration"
+  },
+  "selfHashPolicy": "Next continuation must pin this preparation JSON before comparing real user-generated output; do not rewrite prior metadata to hide import/resolve drift."
+}

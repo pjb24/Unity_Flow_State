@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Successful base restore; missing Linux RID target prevents full NuGet graph pass",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_02_Phase3Step6NpmInterruptionVerification.json",
+    "sha256": "4249bf083933d094c511ddd162321b7ffc18d9d7aeb2affda8fcac51b3d858da"
+  },
+  "userResult": {
+    "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6NuGetResume_01.json",
+    "sha256": "f5bc790dca3626ede864d55f0ce5b2f581ab455d30c16e9300d8861463fefad3",
+    "data": {
+      "schemaVersion": 1,
+      "npmRepeated": false,
+      "npmOriginalExitCode": null,
+      "npmLockStaticallyValidated": true,
+      "nugetExecuted": true,
+      "nugetExitCode": 0,
+      "stageAComplete": true,
+      "npmCiExecuted": false,
+      "failureCategory": null
+    }
+  },
+  "baseRestore": {
+    "lockSha256": "bba7a38c8dde16cd9e9e56611c575eae2a4a36470df6e2224e4b232954089379",
+    "assetsSha256": "8985393d2cfa6d56efa803058751c2af231ed06e04762c23334a9a19404930d4",
+    "target": "net9.0",
+    "packages": [
+      "Acornima/1.7.0",
+      "Com.Unity.Services.CloudCode.Apis/0.0.27",
+      "Com.Unity.Services.CloudCode.Core/0.0.7",
+      "Jint/4.16.4",
+      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2",
+      "Microsoft.NETCore.Platforms/1.1.1",
+      "Microsoft.NETCore.Targets/1.1.3",
+      "Newtonsoft.Json/13.0.3",
+      "System.Private.Uri/4.3.2",
+      "System.Runtime/4.3.1"
+    ],
+    "directPackages": [
+      "Com.Unity.Services.CloudCode.Apis/0.0.27",
+      "Com.Unity.Services.CloudCode.Core/0.0.7",
+      "Jint/4.16.4",
+      "Newtonsoft.Json/13.0.3"
+    ],
+    "baseTargetIdenticalToOriginal": true,
+    "cacheMetadataContentHashesAndArchiveSidecarsVerified": 10,
+    "rawArchiveHashComparedTo": "nupkg.sha512, separately from NuGet contentHash",
+    "feeds": [
+      "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\",
+      "https://api.nuget.org/v3/index.json"
+    ],
+    "isolatedCacheVerified": true,
+    "configVerified": true,
+    "nugetDiagnosticEntries": 0,
+    "embeddedResourcesMatched": 40,
+    "consoleEncoding": "Mojibake retained; structured result/graph used for validation"
+  },
+  "npmMigration": {
+    "migrationMetadataValid": true,
+    "aliasVersionsIntegrityGraphPreserved": true,
+    "installed": false,
+    "independentRestore": false
+  },
+  "mismatch": {
+    "expectedTargets": [
+      "net9.0",
+      "net9.0/linux-x64"
+    ],
+    "actualTargets": [
+      "net9.0"
+    ],
+    "missingPackages": [
+      "runtime.any.System.Runtime/4.3.0",
+      "runtime.native.System/4.3.0",
+      "runtime.unix.System.Private.Uri/4.3.0"
+    ],
+    "originalSdk": "10.0.300",
+    "candidateSdk": "9.0.300",
+    "cause": "Previous prepared command omitted original linux-x64 target",
+    "baselineRepinned": false
+  },
+  "backups": [
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6BeforeLinux_01\\FlowStateVerification.csproj.nuget.dgspec.json",
+      "sha256": "aea2f2180da89f8e0028ad29cec9aabbe0b172e4f8414190b97eb9a77169e353"
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6BeforeLinux_01\\packages.lock.json",
+      "sha256": "bba7a38c8dde16cd9e9e56611c575eae2a4a36470df6e2224e4b232954089379"
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6BeforeLinux_01\\project.assets.json",
+      "sha256": "8985393d2cfa6d56efa803058751c2af231ed06e04762c23334a9a19404930d4"
+    }
+  ],
+  "continuation": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_04_Phase3Step6RestoreLinux.ps1",
+    "sha256": "4037e92d491a7a0e7ba4771eae770d8bec7769190e49f8369e5ba02a5c52bf7c",
+    "args": [
+      "restore",
+      "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+      "--use-lock-file",
+      "--packages",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetPackages_Step6_01",
+      "--configfile",
+      "C:\\Unity\\Unity_Flow_State\\AI\\90_Tasks\\Prototype_10\\20261120_23_Phase3Step6NuGet.config",
+      "--no-http-cache",
+      "--verbosity",
+      "minimal",
+      "--runtime",
+      "linux-x64"
+    ],
+    "sdk": "9.0.315",
+    "powerShellAstErrors": 0,
+    "nativeHandlerUnchangedFromTestedResume": true,
+    "uiLanguage": "en-US; process environment restored finally",
+    "officialReference": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-restore"
+  },
+  "preservation": {
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0
+  },
+  "execution": {
+    "restoreExecutedByAI": false,
+    "npmCiExecutedByAI": false,
+    "buildOrUnityExecutedByAI": false
+  },
+  "completion": {
+    "baseNugetRestoreSucceeded": true,
+    "fullNugetGraphVerified": false,
+    "npmCiDeferred": true,
+    "step6Complete": false
+  }
+}

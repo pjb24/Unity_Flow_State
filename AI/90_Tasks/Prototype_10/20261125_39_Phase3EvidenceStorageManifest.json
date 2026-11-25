@@ -1,0 +1,470 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Preserve exact evidence outside Git and prepare only 11 previously selected files for user unstaging; no index write",
+  "archiveRoot": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01",
+  "archiveIsLocalOnly": true,
+  "archiveMustBePreservedSeparately": true,
+  "canonicalGuide": "AI/90_Tasks/Prototype_10/20261125_40_Phase3EvidenceStorage.md",
+  "historicalPathContract": "Original paths in immutable JSON and historical commands identify original evidence. Resolve these 11 exact paths through this manifest; hashes refer to archived original bytes. Do not rewrite historical evidence as a fresh successful check.",
+  "files": [
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_09_Phase3Step7SourceInventory.json",
+      "kind": "raw-check-output",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_09_Phase3Step7SourceInventory.json",
+      "bytes": 730668,
+      "sha256": "b51caa7a0faeb11ccd6d057f3a4e8c5eb657cb7250e1ed66757bae205533f9d9",
+      "stagedBlobOid": "a69e0b005aa56f432d027ca8d672a0e743003603",
+      "stagedBytes": 730668,
+      "stagedSha256": "b51caa7a0faeb11ccd6d057f3a4e8c5eb657cb7250e1ed66757bae205533f9d9",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_09_Phase3Step7SourceInventory.json",
+      "summary": {
+        "collectionComplete": true,
+        "summary": {
+          "actualFiles": 843,
+          "directories": 50,
+          "ignoredFiles": 85,
+          "packages": 61,
+          "packageEdges": 91,
+          "metaCount": 11816,
+          "serializedFiles": 56,
+          "referenceOccurrences": 1299,
+          "unresolvedOccurrences": 31,
+          "baselineHashes": 0
+        },
+        "diagnosticCounts": {
+          "ORPHAN_META": 1,
+          "REFERENCE_UNRESOLVED": 31
+        }
+      },
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_10_Phase3Step7CandidateInventory.json",
+      "kind": "raw-check-output",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_10_Phase3Step7CandidateInventory.json",
+      "bytes": 733135,
+      "sha256": "6d1284f4ffa5eeca20b92625b067ebd9e0a17e0ed6ac77eaf95a3dfeba4ace4c",
+      "stagedBlobOid": "7b26c6b29a4894b72ad4d69fd760d74477335f58",
+      "stagedBytes": 733135,
+      "stagedSha256": "6d1284f4ffa5eeca20b92625b067ebd9e0a17e0ed6ac77eaf95a3dfeba4ace4c",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_10_Phase3Step7CandidateInventory.json",
+      "summary": {
+        "collectionComplete": true,
+        "summary": {
+          "actualFiles": 839,
+          "directories": 50,
+          "ignoredFiles": 82,
+          "packages": 61,
+          "packageEdges": 91,
+          "metaCount": 10039,
+          "serializedFiles": 56,
+          "referenceOccurrences": 1299,
+          "unresolvedOccurrences": 31,
+          "baselineHashes": 0
+        },
+        "diagnosticCounts": {
+          "ORPHAN_META": 37,
+          "REFERENCE_UNRESOLVED": 31
+        }
+      },
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_24_Phase3Step9CandidateGates.json",
+      "kind": "raw-check-output",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_24_Phase3Step9CandidateGates.json",
+      "bytes": 884139,
+      "sha256": "4ad0d293b8223e111f6d8f49a76c336071b7a714b6f2cbd40e2355e138e45407",
+      "stagedBlobOid": "155401b831e41db1b88049793e920ab3970f93fe",
+      "stagedBytes": 884139,
+      "stagedSha256": "4ad0d293b8223e111f6d8f49a76c336071b7a714b6f2cbd40e2355e138e45407",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_24_Phase3Step9CandidateGates.json",
+      "summary": {
+        "reports": [
+          {
+            "name": "registry",
+            "args": [
+              "--check",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 0
+          },
+          {
+            "name": "ingress",
+            "args": [
+              "--check-managed",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 2,
+            "diagnosticCounts": {
+              "INGRESS_EVIDENCE_REQUIRED": 1
+            }
+          },
+          {
+            "name": "ingress",
+            "args": [
+              "--check-staged",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 2,
+            "diagnosticCounts": {
+              "INGRESS_EVIDENCE_REQUIRED": 1
+            }
+          },
+          {
+            "name": "lifecycle",
+            "args": [
+              "--check",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 0
+          },
+          {
+            "name": "audit",
+            "args": [
+              "--check",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 1,
+            "collectionComplete": true,
+            "summary": {
+              "actualFiles": 841,
+              "directories": 50,
+              "ignoredFiles": 82,
+              "packages": 61,
+              "packageEdges": 91,
+              "metaCount": 10040,
+              "serializedFiles": 56,
+              "referenceOccurrences": 1299,
+              "unresolvedOccurrences": 31,
+              "baselineHashes": 0
+            },
+            "diagnosticCounts": {
+              "ORPHAN_META": 37,
+              "REFERENCE_UNRESOLVED": 31
+            }
+          }
+        ]
+      },
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_25_Phase3Step9IngressVerification.json",
+      "kind": "raw-check-output",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_25_Phase3Step9IngressVerification.json",
+      "bytes": 552791,
+      "sha256": "27cb94fcfca00b6dbc8cdd15f21c52e8faa28aa1ca3d9310ca0874b29c3157d6",
+      "stagedBlobOid": "97c1db6676eb8cc0136d31adb52c0082415bcc1a",
+      "stagedBytes": 552791,
+      "stagedSha256": "27cb94fcfca00b6dbc8cdd15f21c52e8faa28aa1ca3d9310ca0874b29c3157d6",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_25_Phase3Step9IngressVerification.json",
+      "summary": {
+        "reports": [
+          {
+            "exitCode": 0
+          },
+          {
+            "exitCode": 0
+          }
+        ]
+      },
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_33_Phase3Step9PostRepairGates.json",
+      "kind": "raw-check-output",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_33_Phase3Step9PostRepairGates.json",
+      "bytes": 1428063,
+      "sha256": "d3c97507fd4abe9a9796536aa0402894dd576fa39183ff706739d9c7c689945d",
+      "stagedBlobOid": "89bb0e3cd0ce8a745ddbfcad5eabc652c89e2f90",
+      "stagedBytes": 1428063,
+      "stagedSha256": "d3c97507fd4abe9a9796536aa0402894dd576fa39183ff706739d9c7c689945d",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_33_Phase3Step9PostRepairGates.json",
+      "summary": {
+        "reports": [
+          {
+            "name": "registry",
+            "args": [
+              "--check",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 0
+          },
+          {
+            "name": "ingress",
+            "args": [
+              "--check-managed",
+              "--evidence",
+              "AI/90_Tasks/Prototype_10/20261119_22_Phase2Step6KnownOrigins.json",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 0
+          },
+          {
+            "name": "ingress",
+            "args": [
+              "--check-staged",
+              "--evidence",
+              "AI/90_Tasks/Prototype_10/20261119_22_Phase2Step6KnownOrigins.json",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 0
+          },
+          {
+            "name": "lifecycle",
+            "args": [
+              "--check",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 0
+          },
+          {
+            "name": "audit",
+            "args": [
+              "--check",
+              "--root",
+              "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+            ],
+            "exitCode": 1,
+            "collectionComplete": true,
+            "summary": {
+              "actualFiles": 841,
+              "directories": 50,
+              "ignoredFiles": 82,
+              "packages": 61,
+              "packageEdges": 91,
+              "metaCount": 10040,
+              "serializedFiles": 56,
+              "referenceOccurrences": 1299,
+              "unresolvedOccurrences": 31,
+              "baselineHashes": 0
+            },
+            "diagnosticCounts": {
+              "REFERENCE_UNRESOLVED": 31
+            }
+          }
+        ]
+      },
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261120_25_Phase3Step6StageA.ps1",
+      "kind": "environment-bound-one-time-script",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261120_25_Phase3Step6StageA.ps1",
+      "bytes": 7229,
+      "sha256": "bb1bfb003df8e9648998540ca414adeba3c10b16140ff7db0561016503d9f4aa",
+      "stagedBlobOid": "b003041dc1238df950eb27c67ffe3788c31fd676",
+      "stagedBytes": 7229,
+      "stagedSha256": "bb1bfb003df8e9648998540ca414adeba3c10b16140ff7db0561016503d9f4aa",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261120_25_Phase3Step6StageA.ps1",
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_01_Phase3Step6ResumeNuGet.ps1",
+      "kind": "environment-bound-one-time-script",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_01_Phase3Step6ResumeNuGet.ps1",
+      "bytes": 5582,
+      "sha256": "dc199a42efceaa3aecbef3600618ad915e80bb97bd5327e66b97feb85712191f",
+      "stagedBlobOid": "0bcd2f3b7fc80352623ea77c0a628f89fbc0967f",
+      "stagedBytes": 5582,
+      "stagedSha256": "dc199a42efceaa3aecbef3600618ad915e80bb97bd5327e66b97feb85712191f",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_01_Phase3Step6ResumeNuGet.ps1",
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_04_Phase3Step6RestoreLinux.ps1",
+      "kind": "environment-bound-one-time-script",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_04_Phase3Step6RestoreLinux.ps1",
+      "bytes": 6173,
+      "sha256": "4037e92d491a7a0e7ba4771eae770d8bec7769190e49f8369e5ba02a5c52bf7c",
+      "stagedBlobOid": "10ea2460b45a4ff3ef859c440b2e32078fba3305",
+      "stagedBytes": 6173,
+      "stagedSha256": "4037e92d491a7a0e7ba4771eae770d8bec7769190e49f8369e5ba02a5c52bf7c",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_04_Phase3Step6RestoreLinux.ps1",
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_06_Phase3Step6NpmCi.ps1",
+      "kind": "environment-bound-one-time-script",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_06_Phase3Step6NpmCi.ps1",
+      "bytes": 4766,
+      "sha256": "bf9a7b46b7624091807016866611424e5c99778588b4cad7f3a08d2cbbb10960",
+      "stagedBlobOid": "2aa8429eba2404d58bfe298b705b60164e5d6f26",
+      "stagedBytes": 4766,
+      "stagedSha256": "bf9a7b46b7624091807016866611424e5c99778588b4cad7f3a08d2cbbb10960",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_06_Phase3Step6NpmCi.ps1",
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_16_Phase3Step8PrepareChecks.ps1",
+      "kind": "environment-bound-one-time-script",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_16_Phase3Step8PrepareChecks.ps1",
+      "bytes": 5130,
+      "sha256": "3145e2a2f2bc105b5cc9877703e46d9473264abc6363e43e81a9d08f38e5854c",
+      "stagedBlobOid": "176ac2a533b6fd9fc5e800bbf4b7e651ccbb0e05",
+      "stagedBytes": 5130,
+      "stagedSha256": "3145e2a2f2bc105b5cc9877703e46d9473264abc6363e43e81a9d08f38e5854c",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_16_Phase3Step8PrepareChecks.ps1",
+      "executionAllowed": false
+    },
+    {
+      "originalPath": "AI/90_Tasks/Prototype_10/20261125_30_Phase3Step9RestoreStockFiles.ps1",
+      "kind": "environment-bound-one-time-script",
+      "archivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_30_Phase3Step9RestoreStockFiles.ps1",
+      "bytes": 7366,
+      "sha256": "afd3a957f51e5f3504a2782a050a60ce15b56e209a81a427320575b608b5dc82",
+      "stagedBlobOid": "9e684fe09365d42824f9dfebf9af76390cc641fb",
+      "stagedBytes": 7366,
+      "stagedSha256": "afd3a957f51e5f3504a2782a050a60ce15b56e209a81a427320575b608b5dc82",
+      "stagedArchivePath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/files/20261125_30_Phase3Step9RestoreStockFiles.ps1",
+      "executionAllowed": false
+    }
+  ],
+  "documentationBefore": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "5856e7fc72448b139cebc28f52910905a7aff9f1676230bfc067592518d141a1",
+      "bytes": 108141,
+      "backupPath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/before/AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_12_Phase3Step7UnityHandoff.md",
+      "sha256": "94fe55d54451744e869c4367b332c4de4faa0ec64e9c251c7a74eb75e09a74f1",
+      "bytes": 11322,
+      "backupPath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/before/AI/90_Tasks/Prototype_10/20261125_12_Phase3Step7UnityHandoff.md"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_17_Phase3Step8UserChecks.md",
+      "sha256": "24970dbabdb147cc40e56a234e1515132add86e0db8371b966bd54ad704c8735",
+      "bytes": 9483,
+      "backupPath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/before/AI/90_Tasks/Prototype_10/20261125_17_Phase3Step8UserChecks.md"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_31_Phase3Step9StockFileRestoreUserSteps.md",
+      "sha256": "fb92b14a49b59c65e7cefd595d0644720bd462da8f47b2ef720031a60619a82a",
+      "bytes": 7197,
+      "backupPath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/before/AI/90_Tasks/Prototype_10/20261125_31_Phase3Step9StockFileRestoreUserSteps.md"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md",
+      "sha256": "64ad367f1429e267bace557d6c67ef37d6e2cd659ffacba85bc2f488c0c01ed0",
+      "bytes": 14274,
+      "backupPath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/before/AI/90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "48ed8087ee8035cf940711a6107cb4f9f7ad802ac444e601d627af9e13817e2e",
+      "bytes": 3245,
+      "backupPath": "Ignore/TaskEvidence/Prototype_10/20261125_Phase3StagingExclusion_01/before/.gitignore"
+    }
+  ],
+  "stagedSnapshotBefore": {
+    "files": 67,
+    "indexSha256": "2ea26a1e17ae8a2f2bdc0d6595c8f21dc01690fb359870903a96503d47b29625",
+    "entryListSha256": "75508f31b657faad3f6e2ee78a674923e95ffc0348bd8dff7ddd8d710a57f9a1",
+    "selectedCount": 11,
+    "selectedWorkingBytes": 4365042
+  },
+  "plannedChanges": {
+    "markdownFiles": [
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "AI/90_Tasks/Prototype_10/20261125_12_Phase3Step7UnityHandoff.md",
+      "AI/90_Tasks/Prototype_10/20261125_17_Phase3Step8UserChecks.md",
+      "AI/90_Tasks/Prototype_10/20261125_31_Phase3Step9StockFileRestoreUserSteps.md",
+      "AI/90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md"
+    ],
+    "gitignoreExactPaths": [
+      "AI/90_Tasks/Prototype_10/20261125_09_Phase3Step7SourceInventory.json",
+      "AI/90_Tasks/Prototype_10/20261125_10_Phase3Step7CandidateInventory.json",
+      "AI/90_Tasks/Prototype_10/20261125_24_Phase3Step9CandidateGates.json",
+      "AI/90_Tasks/Prototype_10/20261125_25_Phase3Step9IngressVerification.json",
+      "AI/90_Tasks/Prototype_10/20261125_33_Phase3Step9PostRepairGates.json",
+      "AI/90_Tasks/Prototype_10/20261120_25_Phase3Step6StageA.ps1",
+      "AI/90_Tasks/Prototype_10/20261125_01_Phase3Step6ResumeNuGet.ps1",
+      "AI/90_Tasks/Prototype_10/20261125_04_Phase3Step6RestoreLinux.ps1",
+      "AI/90_Tasks/Prototype_10/20261125_06_Phase3Step6NpmCi.ps1",
+      "AI/90_Tasks/Prototype_10/20261125_16_Phase3Step8PrepareChecks.ps1",
+      "AI/90_Tasks/Prototype_10/20261125_30_Phase3Step9RestoreStockFiles.ps1"
+    ],
+    "historicalJsonModified": false,
+    "originalSelectedFilesDeleted": false,
+    "gitIndexWillBeWritten": false
+  },
+  "status": "preparation complete; original files and index untouched; user unstage/restage pending",
+  "documentationAfter": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "d2542c88e47514a93fa599a59efd5936ef01401b3b60ad74e95953293513af69",
+      "bytes": 108638
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_12_Phase3Step7UnityHandoff.md",
+      "sha256": "f5399cbcfca7e49959e64785bda37920f560f06fbc3ddc7275f0fcde66e3f0bb",
+      "bytes": 11792
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_17_Phase3Step8UserChecks.md",
+      "sha256": "69fc77fd4aa30a2972ab2a636e42ca86489ee9124a8dc21c3020a46d81f16c06",
+      "bytes": 9937
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_31_Phase3Step9StockFileRestoreUserSteps.md",
+      "sha256": "0142e0cd98f13415c73d9e80bbbde4a708d37caad230942928fa8e47fb1ed4ad",
+      "bytes": 7644
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md",
+      "sha256": "a0ad94d0a2c40b608e308ee3aa48fb621eb130c8687d8c7bad5de0b88f2f9cef",
+      "bytes": 14651
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "be8cb4b3105f853619809c0f13ac87cbcb6a31f9e867d58c3141245d8e0ed1bc",
+      "bytes": 4201
+    }
+  ],
+  "guide": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_40_Phase3EvidenceStorage.md",
+    "sha256": "5e79128f10be2ef43130689987ed40f05b158f0a67bf8cac1f7adda291d38020"
+  },
+  "verification": {
+    "filesAndArchiveCopiesVerified": 11,
+    "bytesVerified": 4365042,
+    "stagedByteVariants": 0,
+    "originalSelectedFilesUnchanged": true,
+    "stagedSelectedBlobsUnchanged": true,
+    "existingJsonEvidenceUnchangedInGitDiff": true,
+    "documentationBeforeCopiesVerified": 6,
+    "markdownLinksChecked": 140,
+    "noDirectMarkdownLinksToExcludedFiles": true,
+    "exactIgnoreRulesAdded": 11,
+    "ignoreCheckedWithNoIndex": true,
+    "stillStagedSelectedFiles": 11,
+    "gitIndexSha256Before": "2ea26a1e17ae8a2f2bdc0d6595c8f21dc01690fb359870903a96503d47b29625",
+    "gitIndexSha256After": "2ea26a1e17ae8a2f2bdc0d6595c8f21dc01690fb359870903a96503d47b29625",
+    "indexUnchanged": true,
+    "gitDiffCheckExitCode": 0,
+    "sourceRegistryExitCode": 0,
+    "unstagedTrackedChanges": [
+      ".gitignore",
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "AI/90_Tasks/Prototype_10/20261125_12_Phase3Step7UnityHandoff.md",
+      "AI/90_Tasks/Prototype_10/20261125_17_Phase3Step8UserChecks.md",
+      "AI/90_Tasks/Prototype_10/20261125_31_Phase3Step9StockFileRestoreUserSteps.md",
+      "AI/90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md"
+    ],
+    "actuallyUnstaged": false,
+    "aiRanUnityBuildRunnerInstallRestore": false,
+    "productionScenePrefabOrToolsModified": false
+  }
+}

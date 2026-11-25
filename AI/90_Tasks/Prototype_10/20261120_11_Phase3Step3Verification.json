@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "capturedAtUTC": "2026-11-20T11:19:08.907Z",
+  "purpose": "Phase 3 Step 3 completion, actual tests and original workspace preservation",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_10_Phase3Step3Audit.json",
+    "sha256": "8cd5de0d7564b0e1318035307a90f8278a4cd0c7ed176e1a2d1babd86eb489f7"
+  },
+  "step2Final": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_09_Phase3Step2Verification.json",
+    "sha256": "5e22d954d5e276d12cba5e589660d8ff7c92db8004d2c59a0c1b64209a6cd972"
+  },
+  "step2InputAudit": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_08_Phase3Step2InputAudit.json",
+    "sha256": "57cd9db8577167ed231be6a9a7699717c09c8437eab0fa3d883eb53201a3e921"
+  },
+  "substeps": [
+    {
+      "id": "3-1",
+      "complete": true,
+      "sideEffectAuditModules": 8,
+      "readOnlyRequireWrites": 0,
+      "readOnlyRequireProcesses": 0
+    },
+    {
+      "id": "3-2",
+      "complete": true,
+      "newModules": 1,
+      "newTestSuites": 1,
+      "existingModulesAndGlobalSensitivePolicyUnchanged": true,
+      "explicitDigestBoundCopyAPI": true,
+      "actualCandidateCopied": false
+    },
+    {
+      "id": "3-3",
+      "complete": true,
+      "suites": 8,
+      "passed": 340,
+      "failed": 0,
+      "existingSuitesPassed": 261,
+      "newSnapshotTestsPassed": 79
+    },
+    {
+      "id": "3-4",
+      "complete": true,
+      "readOnlyProspectivePlan": {
+        "files": 1089,
+        "directories": 109,
+        "planSha256": "8281e55681babab08381974bf76718097e6cdde597702ae4ed054e761d6ab845",
+        "realCandidateCreated": false,
+        "scope": "Read-only prospective input check only; Step 4 must recompute after documentation/new metadata changes",
+        "actualAcquisition": false,
+        "actualCandidateCopy": false,
+        "requiresRecomputationForStep4": true,
+        "reason": "Task/README/pointers and new Step 3 metadata change after this observation; old prepared plan is not authorization for a later copy"
+      },
+      "staleAfterDocumentation": true,
+      "step4RecomputationMandatory": true
+    },
+    {
+      "id": "3-5",
+      "complete": true,
+      "originalFilesGitEvidenceAndArchivesPreserved": true
+    }
+  ],
+  "tests": [
+    {
+      "command": "node Tools/DependencyAudit/dependency-audit.test.cjs --policy AI/90_Tasks/Prototype_10/20261119_03_Phase1Step8Policy.json",
+      "exitCode": 0,
+      "report": {
+        "suite": "DependencyAudit",
+        "passed": 55,
+        "failed": 0,
+        "unityExecuted": false,
+        "realIndexChanged": false
+      }
+    },
+    {
+      "command": "node Tools/DependencyAudit/dependency-registry.test.cjs",
+      "exitCode": 0,
+      "report": {
+        "suite": "DependencyRegistry",
+        "passed": 50,
+        "failed": 0,
+        "unityExecuted": false
+      }
+    },
+    {
+      "command": "node Tools/DependencyAudit/dependency-adoption.test.cjs",
+      "exitCode": 0,
+      "report": {
+        "suite": "DependencyAdoption",
+        "passed": 36,
+        "failed": 0,
+        "unityExecuted": false,
+        "realIndexChanged": false
+      }
+    },
+    {
+      "command": "node Tools/DependencyAudit/dependency-preservation.test.cjs",
+      "exitCode": 0,
+      "report": {
+        "suite": "DependencyPreservation",
+        "passed": 20,
+        "failed": 0,
+        "unityExecuted": false,
+        "realIndexChanged": false
+      }
+    },
+    {
+      "command": "node Tools/DependencyAudit/dependency-ingress.test.cjs",
+      "exitCode": 0,
+      "report": {
+        "suite": "DependencyIngress",
+        "passed": 28,
+        "failed": 0,
+        "unityExecuted": false,
+        "realIndexChanged": false
+      }
+    },
+    {
+      "command": "node Tools/DependencyAudit/dependency-restore.test.cjs",
+      "exitCode": 0,
+      "report": {
+        "suite": "DependencyRestore",
+        "passed": 30,
+        "failed": 0,
+        "unityExecuted": false,
+        "realIndexChanged": false
+      }
+    },
+    {
+      "command": "node Tools/DependencyAudit/dependency-lifecycle.test.cjs",
+      "exitCode": 0,
+      "report": {
+        "suite": "DependencyLifecycle",
+        "passed": 42,
+        "failed": 0,
+        "unityExecuted": false,
+        "realIndexChanged": false
+      }
+    },
+    {
+      "command": "node Tools/DependencyAudit/dependency-snapshot.test.cjs",
+      "exitCode": 0,
+      "report": {
+        "suite": "DependencySnapshot",
+        "passed": 79,
+        "failed": 0,
+        "unityExecuted": false,
+        "realCandidateCreated": false,
+        "realIndexChanged": false
+      }
+    }
+  ],
+  "validation": {
+    "uniqueProtectedPaths": 1171,
+    "unchangedProtectedPaths": 1166,
+    "allowedExistingChanges": [
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "beforeSha256": "d89524f7058cd6c9c7100fe9d4258eef53a2115f88e5c508e507b681166d400d",
+        "afterSha256": "eb3850c94be8e3e63c5d923d1c8af420b8b5f605489ec9b6755ff48b169f27e6",
+        "reason": "Record completed Step 3 and next Step 4"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "beforeSha256": "f1807c7c2d4eb11d75be1af8bc16ba8c5239c949af8dfb33afa58221c98316c6",
+        "afterSha256": "c80553b5a6803acf12a2461b67a672336b693e7b72a4aa7d0fe958ba749883a6",
+        "reason": "Record completed Step 3 and next Step 4"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "beforeSha256": "694266204ee06c0bcc3f3ca1d047787b145d39073877a2ae10ec3ab053a5ad9a",
+        "afterSha256": "22f2ce0205c932a702e8ae944bc623acd3beb6163399f14a465ef04882838ed4",
+        "reason": "Record completed Step 3 and next Step 4"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "beforeSha256": "e3efacde25a7b208fe4670c0dbbdfa3dc73c2d3c6b232be61ee443e4d1cbd39d",
+        "afterSha256": "00dabc798d2f912c2efaffd7e9f746d69fca8f5217fa4f5080c915139db680d8",
+        "reason": "Record completed Step 3 and next Step 4"
+      },
+      {
+        "path": "Tools/DependencyAudit/README.md",
+        "beforeSha256": "16b7ebe461066420ef64568aa29a3262902c07d5be06466925ea38f51b1a68fd",
+        "afterSha256": "7b1fc860b20a702beef6d8207c68b129af80e25290f42bd788c7a724d159c132",
+        "reason": "Document snapshot API/schema/boundaries"
+      }
+    ],
+    "unexpectedChanges": [],
+    "missingFiles": [],
+    "utf8JsonAndWhitespaceValid": true,
+    "localMarkdownLinksChecked": 115,
+    "stepCheckboxes": {
+      "complete": 3,
+      "pending": 7
+    },
+    "stepsInOrder": true,
+    "gitDiffCheckExitCode": 0,
+    "existingModuleOrTestSourceChanges": [],
+    "newModuleAndTestPins": [
+      {
+        "path": "Tools/DependencyAudit/dependency-snapshot.cjs",
+        "sha256": "281135c15cfe0d14ba2c7f4d658573b0a1538f507ed2b8ac3c89ab339e69d74b"
+      },
+      {
+        "path": "Tools/DependencyAudit/dependency-snapshot.test.cjs",
+        "sha256": "2198dcd45f7ab08ca699378cf5e98471f0fd3c9a481c1e8b0135440b0c881603"
+      }
+    ],
+    "actualChangedTrackedPaths": [
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "Tools/DependencyAudit/README.md"
+    ],
+    "newPathsThisStep": [
+      "AI/90_Tasks/Prototype_10/20261120_10_Phase3Step3Audit.json",
+      "AI/90_Tasks/Prototype_10/20261120_11_Phase3Step3Verification.json",
+      "Tools/DependencyAudit/dependency-snapshot.cjs",
+      "Tools/DependencyAudit/dependency-snapshot.test.cjs"
+    ],
+    "previousUntrackedArtifactsPreserved": [
+      "AI/90_Tasks/Prototype_10/20261120_06_Phase3Step1Baseline.json",
+      "AI/90_Tasks/Prototype_10/20261120_07_Phase3Step1Verification.json",
+      "AI/90_Tasks/Prototype_10/20261120_08_Phase3Step2InputAudit.json",
+      "AI/90_Tasks/Prototype_10/20261120_09_Phase3Step2Verification.json"
+    ],
+    "orchestrationCorrections": [
+      "Initial PowerShell search used unsupported brace expansion; parsing failed before execution and explicit paths/globs were used instead",
+      "Temporary evidence collector initially resolved project requires relative to OS temp; changed requires to absolute project paths before any evidence write"
+    ]
+  },
+  "preservation": {
+    "git": {
+      "head": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+      "indexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+      "trackedPathsNulSha256": "5a453022d2b0d87914a1aaa9337edb5a6a5f22b24cf5bb12dbe1910f9d4ea8fa",
+      "indexEntriesNulSha256": "675c1e897558bed4d94c477d5dea644abf0196114cc9aa235bc6d3bf9a1cc617"
+    },
+    "trackedPaths": 975,
+    "stagedChanges": 0,
+    "sourceHeadIndexTrackingUnchanged": true,
+    "previousMetadataUnchanged": true,
+    "productionAssetsSettingsCSharpScenePrefabDeclarationsLockUnchanged": true,
+    "globalSensitiveGuardUnchanged": true,
+    "reviewedSixSourcesUnchanged": true,
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "folderMetaCount": 8,
+    "supersededBundleRetainedAndRechecked": true,
+    "npmArchivesUnchanged": 27,
+    "qaExecutableHashUnchanged": true,
+    "qaCoverage": "Executable hash only; full candidate directory not traversed; no execution or new QA claim",
+    "actualSecretOrUserSaveBodiesRead": false,
+    "actualCandidateRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+    "actualCandidateCreated": false,
+    "temporaryFixtureCopyOnly": true
+  },
+  "files": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "00dabc798d2f912c2efaffd7e9f746d69fca8f5217fa4f5080c915139db680d8"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "eb3850c94be8e3e63c5d923d1c8af420b8b5f605489ec9b6755ff48b169f27e6"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "c80553b5a6803acf12a2461b67a672336b693e7b72a4aa7d0fe958ba749883a6"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "22f2ce0205c932a702e8ae944bc623acd3beb6163399f14a465ef04882838ed4"
+    },
+    {
+      "path": "Tools/DependencyAudit/README.md",
+      "sha256": "7b1fc860b20a702beef6d8207c68b129af80e25290f42bd788c7a724d159c132"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-snapshot.cjs",
+      "sha256": "281135c15cfe0d14ba2c7f4d658573b0a1538f507ed2b8ac3c89ab339e69d74b"
+    },
+    {
+      "path": "Tools/DependencyAudit/dependency-snapshot.test.cjs",
+      "sha256": "2198dcd45f7ab08ca699378cf5e98471f0fd3c9a481c1e8b0135440b0c881603"
+    }
+  ],
+  "completion": {
+    "step3Complete": true,
+    "completedDateKST": "2026-11-20",
+    "nextStep": 4,
+    "manualWorkRequiredNow": false,
+    "unitTestsExecuted": true,
+    "unitTestsPassed": 340,
+    "unityExecuted": false,
+    "compileExecuted": false,
+    "buildExecuted": false,
+    "testRunnerExecuted": false,
+    "sceneOrPrefabEdited": false,
+    "actualCandidateCreated": false,
+    "actualCandidateCopied": false,
+    "packageInstalled": false,
+    "lockRegenerated": false,
+    "remoteExecuted": false,
+    "secretGenerated": false,
+    "referenceHealthPass": false,
+    "rightsGranted": false,
+    "independentRestore": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false
+  },
+  "handoff": {
+    "next": "Step 4: revalidate approved root/nonexistence/link/permissions and full current transfer/required list, bind the final manifest to a new plan digest before explicit create. Prepare candidate-only Git from reviewed safe inputs; never copy original .git/index/history or mutate original repository.",
+    "candidateRuntimeContract": {
+      "mode": "Editor isolated memory-only gameplay, no remote service/test account",
+      "persistentSave": "Disabled for selected Editor gameplay via existing isolation flag; reserved UserData path is NOT automatically honored by current code",
+      "authentication": "No runtime UGS authentication/profile is opened; no existing verification or production account/session reused",
+      "requiredBeforeUserEditorPlay": [
+        "Use this candidate root and Editor 6000.3.5f2; keep original project closed for this validation",
+        "Use normal Windows target without FLOW_STATE_PRODUCTION, do not activate Windows-production profile",
+        "Keep Reload Domain and Reload Scene enabled (current serialized options already both enabled)",
+        "Open Flow State/Online Record Verification and press Play pre-isolation reservation; confirm IsolationArmed=True and leave window open",
+        "Do not prepare A/B/Phase3New sessions or enable verification remote request toggle",
+        "Then user may press Play only when Step 5/7/8 prerequisites and tests are prepared; rearm after each stop/restart"
+      ],
+      "evidence": [
+        "Assets/Scripts/Runtime/Systems/GameSystem.cs:355-399 memory store and early return before gateways",
+        "Assets/Scripts/Runtime/Features/VerificationSessionConfiguration.cs EditorIsolationKey",
+        "Assets/Editor/OnlineRecordVerificationWindow.cs:90-109 ArmEditorIsolation and reload check; UI button at 442",
+        "ProjectSettings/EditorSettings.asset m_EnterPlayModeOptions=0",
+        "Assets/Scripts/Runtime/Features/OnlineRecordConfiguration.cs conditional production configuration"
+      ],
+      "editorInitialization": "No project InitializeOnLoad/AssetPostprocessor hooks found in Assets C# search; opening/import is not runtime verification; Hub/account use for package acquisition is separately owner-confirmed",
+      "player": "Do not launch a standalone Player in this scope. Current product/company persist path would overlap original; existing --fs-verification-session values are shared under original persistent root and not unique isolation. If Step 8 needs Player execution, first fix separate OS/user-data and auth scope with an exact supported mechanism; reserved path alone is insufficient.",
+      "build": "User only, if later justified in Step 8; output path reserved, no build or run performed",
+      "scene": "Read-only; existing Scene/Prefab untouched"
+    },
+    "limits": [
+      "Readonly prepare verifies selected required paths, not an inferred complete checkout; Step 4 must explicitly finalize full transfer list",
+      "Target verification is exact snapshot-time coverage; fresh Git/Unity/install outputs require reviewed updated inventories",
+      "Guard/hash checks detect path/content changes but do not promise atomic protection against every hostile filesystem race",
+      "Backup metadata/user outcome fields are reviewed evidence inputs, not authenticated user identity or actual backup payload attestation"
+    ],
+    "semanticValidation": "Keep existing metadata/graph/reference tests; parse and review actual new NuGet/npm/Unity results in Steps 5-8; byte-copy/diff/fixture success is not independent restoration."
+  },
+  "selfHashPolicy": "Next Step must externally pin this final JSON; no self hash embedded. Previous baseline/evidence remains immutable; allowed current document/source after hashes are recorded separately."
+}

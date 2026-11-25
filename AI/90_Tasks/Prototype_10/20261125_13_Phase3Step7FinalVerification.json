@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 7 static reference assessment complete; Unity semantic evidence deferred to Step 8",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_08_Phase3Step6FinalVerification.json",
+    "sha256": "2c7394ab38f0489ea47df362e8f5f8d378098bd4f6de56cd0f068257046e9c97"
+  },
+  "artifacts": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_09_Phase3Step7SourceInventory.json",
+      "sha256": "b51caa7a0faeb11ccd6d057f3a4e8c5eb657cb7250e1ed66757bae205533f9d9"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_10_Phase3Step7CandidateInventory.json",
+      "sha256": "6d1284f4ffa5eeca20b92625b067ebd9e0a17e0ed6ac77eaf95a3dfeba4ace4c"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_11_Phase3Step7ReferenceAssessment.json",
+      "sha256": "76c838f53bac2fc8931b8b85315e02669d58e01ac7aef2fb233b1d071213bb7e"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_12_Phase3Step7UnityHandoff.md",
+      "sha256": "94fe55d54451744e869c4367b332c4de4faa0ec64e9c251c7a74eb75e09a74f1"
+    }
+  ],
+  "substeps": [
+    {
+      "id": "7-1",
+      "complete": true,
+      "comparison": {
+        "commonAssetFilesIdentical": 632,
+        "approvedPrivateAssetOmissions": [
+          "Assets/Scripts/Runtime/Features/OnlineRecordProductionConfiguration.cs",
+          "Assets/Scripts/Runtime/Features/OnlineRecordProductionConfiguration.cs.meta"
+        ],
+        "changedAssetFiles": 0,
+        "sourceMetaCount": 11816,
+        "candidateMetaCount": 10039,
+        "commonPackageMetaIdentical": 9709,
+        "sourceOnlyPackageMeta": 1776,
+        "packageMetaDeltaCategories": {
+          "icon": 14,
+          "sample": 1760,
+          "documentation": 2
+        },
+        "referenceOccurrencesIdentical": 1299,
+        "unresolvedOccurrencesUnchanged": 31,
+        "newUnresolved": 0,
+        "referencedTargetPayloadsIdentical": 278,
+        "serializedClosureFiles": 56,
+        "guidDuplicateDiagnostics": 0,
+        "importerPlatformSettings": "Common entire meta byte-equal including serialized importer/platform configuration; imported object equivalence not asserted"
+      }
+    },
+    {
+      "id": "7-2",
+      "complete": true,
+      "rawUnresolvedOccurrencesMapped": 31,
+      "newUnresolved": 0,
+      "sourceSampleOrphan": 1,
+      "candidateSampleMetaAbsent": true
+    },
+    {
+      "id": "7-3",
+      "complete": true,
+      "newCandidateOrphans": 37,
+      "builtInModuleTriggers": 34,
+      "editorEmptyPlaceholders": 3,
+      "sourceTargetsAllZeroBytes": true,
+      "notSuppressed": true
+    },
+    {
+      "id": "7-4",
+      "complete": true,
+      "asmdefs": 4,
+      "resources": 9,
+      "dynamicAndBinaryItems": 14,
+      "nullScriptRecords": 10,
+      "simpleLocalFileIdUnmatched": 0,
+      "unitySemanticsUnverified": true
+    },
+    {
+      "id": "7-5",
+      "complete": true,
+      "unityHandoff": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U5"
+      ],
+      "sceneChangesProposed": 0,
+      "manualWorkNow": false
+    }
+  ],
+  "preservation": {
+    "step6DocumentPinsMatchedBeforeStep7": 4,
+    "sourceProtectedUnchanged": 1179,
+    "documentationBefore": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "9333aa3b6a20c2688e82ee021bd3b623b1a1b67a83f7871f40d826864f68a439"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "07086a502e01c6183e0af820885443c79612e53f313aa2eec380a27f66b5dae1"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "a9c46791ef6a25045bdd85b75d84572f44c671d554b2e18fe14c4f6ac51ecc8f"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "b59c8f529c29aca38287b97cf07b708e53e57cffaa34d8826213214a6f930036"
+      }
+    ],
+    "documentationAfter": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "ba996581c738c288b0c2e8af298c341984370471efa222b493ab454117db11d0"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "18a915a26c350827cb997399f41973757e5157b3fee7d526e680e0f00448c880"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "973eabf28dd4b65139ceac553ac335ed19f30674ea2630d7f78bf08f07d59874"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "c6ff03e5a830c3166870470a3e00866beb899e52b93dd6a1894b7916b15ead08"
+      }
+    ],
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0,
+    "step6CandidatePinsAnd27ArchivesUnchanged": true,
+    "installed57ManifestsAndUserLogsResultsUnchanged": true,
+    "sourcePrivateBodiesRead": false
+  },
+  "validation": {
+    "rawAuditExitCodes": {
+      "source": 1,
+      "candidate": 1
+    },
+    "collectionCompleteBoth": true,
+    "referenceHealthPass": false,
+    "relativeLinksChecked": 128,
+    "gitDiffCheckExitCode": 0,
+    "mainCompletedSteps": 7,
+    "mainPendingSteps": 3,
+    "unitTestsRunThisStep": false,
+    "reason": "No product/tool/policy/test code changed; prior Step 3 340 test evidence retained, not rerun"
+  },
+  "execution": {
+    "aiRanUnityBuildTestRunnerInstallRestore": false,
+    "aiChangedSceneOrPrefab": false,
+    "productCodeChanged": false
+  },
+  "completion": {
+    "step7Complete": true,
+    "nextStep": 8,
+    "step8Started": false,
+    "manualWorkRequiredNow": false,
+    "requiredUnityChecksPending": true,
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "independentRestore": false
+  }
+}

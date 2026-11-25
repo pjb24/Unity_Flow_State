@@ -1,0 +1,59 @@
+{
+  "name": "unity_flow_state",
+  "version": "1.0.0",
+  "description": "Unity_Flow_State",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pjb24/Unity_Flow_State.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/pjb24/Unity_Flow_State/issues"
+  },
+  "homepage": "https://github.com/pjb24/Unity_Flow_State#readme",
+  "dependencies": {
+    "axios": "^0.21.2",
+    "axios-0.21": "npm:axios@^0.21.2",
+    "lodash": "4.17.21",
+    "lodash-4.17": "npm:lodash@^4.17",
+    "@unity-services/cloud-save": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4/cloud-save-0.0.5.tgz",
+    "@unity-services/cloud-save-1.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7/cloud-save-1.0.1.tgz",
+    "@unity-services/cloud-save-1.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2/cloud-save-1.1.0.tgz",
+    "@unity-services/cloud-save-1.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d/cloud-save-1.2.0.tgz",
+    "@unity-services/cloud-save-1.2.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108/cloud-save-1.2.1.tgz",
+    "@unity-services/cloud-save-1.3": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21/cloud-save-1.3.0.tgz",
+    "@unity-services/cloud-save-1.4": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47/cloud-save-1.4.0.tgz",
+    "@unity-services/economy-2.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3/economy-2.0.2.tgz",
+    "@unity-services/economy-2.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba/economy-2.1.1.tgz",
+    "@unity-services/economy-2.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910/economy-2.2.0.tgz",
+    "@unity-services/economy-2.2.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5/economy-2.2.1.tgz",
+    "@unity-services/economy-2.3": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14/economy-2.3.0.tgz",
+    "@unity-services/economy-2.3.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab/economy-2.3.1.tgz",
+    "@unity-services/economy-2.3.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5/economy-2.3.2.tgz",
+    "@unity-services/economy-2.4": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6/economy-2.4.0.tgz",
+    "@unity-services/economy-2.4.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf/economy-2.4.1.tgz",
+    "@unity-services/remote-config": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb/remote-config-0.0.4.tgz",
+    "@unity-services/remote-config-1.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c/remote-config-1.0.1.tgz",
+    "@unity-services/remote-config-1.1.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89/remote-config-1.1.0.tgz",
+    "@unity-services/remote-config-1.1.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45/remote-config-1.1.1.tgz",
+    "@unity-services/remote-config-1.1.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b/remote-config-1.1.2.tgz",
+    "@unity-services/vivox-0.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a/vivox-0.1.6.tgz",
+    "@unity-services/lobby-1.0": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb/lobby-1.0.1.tgz",
+    "@unity-services/lobby-1.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa/lobby-1.1.0.tgz",
+    "@unity-services/lobby-1.1.1": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974/lobby-1.1.1.tgz",
+    "@unity-services/lobby-1.1.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1/lobby-1.1.2.tgz",
+    "@unity-services/lobby-1.2": "file:Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e/lobby-1.2.0.tgz"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.177",
+    "@types/lodash-4.17": "npm:@types/lodash@^4.14.177"
+  },
+  "ccaVersion": "2.10.4"
+}

@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "capturedAtUTC": "2026-11-20T11:01:07.368Z",
+  "purpose": "Phase 3 Step 2 completion and preservation verification; input and execution contract only",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_08_Phase3Step2InputAudit.json",
+    "sha256": "57cd9db8577167ed231be6a9a7699717c09c8437eab0fa3d883eb53201a3e921"
+  },
+  "step1Final": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_07_Phase3Step1Verification.json",
+    "sha256": "ebe23ad3e21e905df062f23ae19471768b7b1563f18291f1340d90b97cf05b32"
+  },
+  "step1Baseline": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_06_Phase3Step1Baseline.json",
+    "sha256": "dd9ccd2b56f3553500fa21f301b0affc591a8cc18ff41ffbcc3ee337b82df68f"
+  },
+  "substeps": [
+    {
+      "id": "2-1",
+      "complete": true,
+      "excludedPathsAssessed": 11,
+      "requiredServerSources": 2,
+      "requiredRegressionSources": 2,
+      "includeReviewedSourceOrDocument": 7,
+      "intentionallyExcludedNonessential": 4
+    },
+    {
+      "id": "2-2",
+      "complete": true,
+      "narrowPaths": 6,
+      "outsidePathsRejected": 5,
+      "globalSensitiveGuardUnchanged": true,
+      "jsSyntaxChecksWithoutExecution": 5,
+      "powershellAstParseErrors": 0,
+      "secretGeneratorExecuted": false,
+      "reviewedSourceHashesUnchanged": true
+    },
+    {
+      "id": "2-3",
+      "complete": true,
+      "readOnlyRestoreCheck": {
+        "command": [
+          "node",
+          "Tools/DependencyAudit/dependency-restore.cjs",
+          "--check",
+          "AI/90_Tasks/Prototype_10/20261119_19_Phase2Step6RestoreSpec.json"
+        ],
+        "executedThisStep": true,
+        "exitCode": 0,
+        "staticInputsValid": true,
+        "upm": {
+          "packages": 61,
+          "edges": 91,
+          "registry": 20,
+          "builtin": 41,
+          "metadataMatched": true
+        },
+        "providers": [
+          {
+            "id": "com.unity.ugui",
+            "version": "2.0.0",
+            "discoveredPath": "Library/PackageCache/com.unity.ugui@1890c14c96ff"
+          },
+          {
+            "id": "com.unity.services.cloudcode",
+            "version": "2.10.4",
+            "discoveredPath": "Library/PackageCache/com.unity.services.cloudcode@4d38bd1f7a5b"
+          }
+        ],
+        "declarationPins": [
+          {
+            "path": "ProjectSettings/ProjectVersion.txt",
+            "sha256": "9ef257cbec7e3aeeb46ec16caf6a237240475a5bf13bbb7f830bf3081c7c9696"
+          },
+          {
+            "path": "Packages/manifest.json",
+            "sha256": "47fb3dd6c1d57af7081549db75a4f761255a9247c5be8c3a937c71f461ec8f18"
+          },
+          {
+            "path": "Packages/packages-lock.json",
+            "sha256": "d06d939dcb9ca070f2fe476971b7e9bf6610d245ce402d5f55ebef835a4a4b73"
+          },
+          {
+            "path": "package.json",
+            "sha256": "af7aef3ed0a399a299641c1b2a899b619d154396a6bc45d37a4658f111e7f291"
+          },
+          {
+            "path": "package-lock.json",
+            "sha256": "7f7611dcf4723de241a6d42daf7202e782033649aa1b053893beea7f8a7eec73"
+          },
+          {
+            "path": "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+            "sha256": "14323b3d1848731eec724a2d3cc0b59db0049019188f7fdcff23636210042763"
+          },
+          {
+            "path": "UGS/LogSink/package.json",
+            "sha256": "5b462a929bdb0f444f3549107501f4f26d91abccd545df20416a427e63c35cf8"
+          },
+          {
+            "path": "UGS/LogSink/Dockerfile",
+            "sha256": "327065fe1106bd128373c2c227183e622603ed83ff3ef2f4467714a37fa04d51"
+          }
+        ],
+        "scope": "Read-only current-source provider/graph/archive validation; output summary retained. No fresh resolve/install/rights/independent restore result."
+      },
+      "toolchainSelected": true,
+      "ownerUsabilityAndAccessConfirmed": true,
+      "acquisitionExecuted": false,
+      "perPackageRedistributionRightsGranted": false
+    },
+    {
+      "id": "2-4",
+      "complete": true,
+      "ownerSelectedLocation": true,
+      "concreteEnvironment": {
+        "runRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01",
+        "candidateRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+        "logs": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs",
+        "outputs": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs",
+        "reservedPlayerBuild": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Player",
+        "reservedUserData": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\UserData",
+        "targetExists": false,
+        "targetCreated": false,
+        "ancestors": [
+          {
+            "path": "C:\\Users",
+            "exists": true,
+            "directory": true,
+            "link": false
+          },
+          {
+            "path": "C:\\Users\\Admin",
+            "exists": true,
+            "directory": true,
+            "link": false
+          },
+          {
+            "path": "C:\\Users\\Admin\\AppData",
+            "exists": true,
+            "directory": true,
+            "link": false
+          },
+          {
+            "path": "C:\\Users\\Admin\\AppData\\Local",
+            "exists": true,
+            "directory": true,
+            "link": false
+          },
+          {
+            "path": "C:\\Users\\Admin\\AppData\\Local\\Temp",
+            "exists": true,
+            "directory": true,
+            "link": false
+          },
+          {
+            "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01",
+            "exists": false
+          }
+        ],
+        "parentPermission": {
+          "temporaryDirectoryWritable": true,
+          "temporaryHelperFileWritten": true,
+          "temporaryHelperReadPolicySha256": "3e04d221c546a7fed96bc15465faca85a31b78bd9ddcce8d8bb6b3f4439b1798",
+          "sandboxPolicy": "Environment permits temporary directory writes; workspace-external temp sibling, no escalation required for this selected target",
+          "limitations": "Recheck paths/links/emptiness and effective write permission immediately before Step 4 exclusive creation; do not treat parent access as a reservation"
+        },
+        "runtime": {
+          "mode": "Editor isolated memory-only gameplay, no remote service/test account",
+          "persistentSave": "Disabled for selected Editor gameplay via existing isolation flag; reserved UserData path is NOT automatically honored by current code",
+          "authentication": "No runtime UGS authentication/profile is opened; no existing verification or production account/session reused",
+          "requiredBeforeUserEditorPlay": [
+            "Use this candidate root and Editor 6000.3.5f2; keep original project closed for this validation",
+            "Use normal Windows target without FLOW_STATE_PRODUCTION, do not activate Windows-production profile",
+            "Keep Reload Domain and Reload Scene enabled (current serialized options already both enabled)",
+            "Open Flow State/Online Record Verification and press Play pre-isolation reservation; confirm IsolationArmed=True and leave window open",
+            "Do not prepare A/B/Phase3New sessions or enable verification remote request toggle",
+            "Then user may press Play only when Step 5/7/8 prerequisites and tests are prepared; rearm after each stop/restart"
+          ],
+          "evidence": [
+            "Assets/Scripts/Runtime/Systems/GameSystem.cs:355-399 memory store and early return before gateways",
+            "Assets/Scripts/Runtime/Features/VerificationSessionConfiguration.cs EditorIsolationKey",
+            "Assets/Editor/OnlineRecordVerificationWindow.cs:90-109 ArmEditorIsolation and reload check; UI button at 442",
+            "ProjectSettings/EditorSettings.asset m_EnterPlayModeOptions=0",
+            "Assets/Scripts/Runtime/Features/OnlineRecordConfiguration.cs conditional production configuration"
+          ],
+          "editorInitialization": "No project InitializeOnLoad/AssetPostprocessor hooks found in Assets C# search; opening/import is not runtime verification; Hub/account use for package acquisition is separately owner-confirmed",
+          "player": "Do not launch a standalone Player in this scope. Current product/company persist path would overlap original; existing --fs-verification-session values are shared under original persistent root and not unique isolation. If Step 8 needs Player execution, first fix separate OS/user-data and auth scope with an exact supported mechanism; reserved path alone is insufficient.",
+          "build": "User only, if later justified in Step 8; output path reserved, no build or run performed",
+          "scene": "Read-only; existing Scene/Prefab untouched"
+        },
+        "retention": "Temporary parent may be cleaned by OS; keep hash/constraints in source Task; if target disappears revalidate and recreate only reviewed inputs, do not claim durable archive",
+        "noAutomaticScopeExpansion": [
+          "No production config/secret copying",
+          "No service calls, account creation, receipt snapshots or key generation",
+          "No Docker/image download/Module build/deploy or restoration of remote data"
+        ]
+      },
+      "temporaryWritePermissionChecked": true,
+      "existingRuntimeMemoryIsolationStaticallyConfirmed": true,
+      "actualRuntimeVerification": false
+    },
+    {
+      "id": "2-5",
+      "complete": true,
+      "originalAndEvidencePreserved": true,
+      "documentationAndLinksValid": true
+    }
+  ],
+  "preservation": {
+    "safeFilesCompared": 1169,
+    "unchangedSafeFiles": 1165,
+    "allowedDocumentationChanges": [
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "beforeSha256": "e95aa34594083d634be8a38f0e2bf4becc79c035a505ad675419c51a4f05ce53",
+        "afterSha256": "d89524f7058cd6c9c7100fe9d4258eef53a2115f88e5c508e507b681166d400d",
+        "reason": "Record completed Step 2 input/scope/user decisions and next Step 3; keep Step 1 metadata unchanged"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "beforeSha256": "c57248ac829d39a02ebc746c01751d92667f05192ef8209302ebaa20dbafd4c9",
+        "afterSha256": "f1807c7c2d4eb11d75be1af8bc16ba8c5239c949af8dfb33afa58221c98316c6",
+        "reason": "Record completed Step 2 input/scope/user decisions and next Step 3; keep Step 1 metadata unchanged"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "beforeSha256": "eebae526ea6edac2f5dacb28b2da08813d3040dd3787237bbee2a42c5857f406",
+        "afterSha256": "694266204ee06c0bcc3f3ca1d047787b145d39073877a2ae10ec3ab053a5ad9a",
+        "reason": "Record completed Step 2 input/scope/user decisions and next Step 3; keep Step 1 metadata unchanged"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "beforeSha256": "42ce4e596498c581007b521efb66a691b77764c3c805fb335fd49ccc2e73ce5a",
+        "afterSha256": "e3efacde25a7b208fe4670c0dbbdfa3dc73c2d3c6b232be61ee443e4d1cbd39d",
+        "reason": "Record completed Step 2 input/scope/user decisions and next Step 3; keep Step 1 metadata unchanged"
+      }
+    ],
+    "missingFiles": [],
+    "unexpectedChanges": [],
+    "priorMetadataUnchanged": true,
+    "reviewedAdditionalSourcesUnchanged": true,
+    "originalSourcePolicyTestsDeclarationsAndLockUnchanged": true,
+    "protectedGit": {
+      "head": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+      "indexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+      "trackedPathsNulSha256": "5a453022d2b0d87914a1aaa9337edb5a6a5f22b24cf5bb12dbe1910f9d4ea8fa",
+      "indexEntriesNulSha256": "675c1e897558bed4d94c477d5dea644abf0196114cc9aa235bc6d3bf9a1cc617",
+      "stagedNameStatusNulSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "headIndexTrackingStagedUnchanged": true,
+    "trackedPaths": 975,
+    "stagedChanges": 0,
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "folderMetaCount": 8,
+    "supersededBundleRechecked": true,
+    "npmArchivesUnchanged": 27,
+    "qaExecutableUnchanged": true,
+    "qaCoverage": "Executable hash only, no directory-wide verification, execution or new QA claim",
+    "actualSecretOrSaveBodiesRead": false,
+    "normalSourceBodiesPreviouslyNameBlockedReviewed": 6,
+    "candidateCreated": false
+  },
+  "validation": {
+    "utf8JsonValid": true,
+    "localMarkdownLinksChecked": 91,
+    "stepsInOrder": true,
+    "stepCheckboxes": {
+      "complete": 2,
+      "pending": 8
+    },
+    "gitDiffCheckExitCode": 0,
+    "scopeChangedTrackedPaths": [
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md"
+    ],
+    "scopeNewThisStep": [
+      "AI/90_Tasks/Prototype_10/20261120_08_Phase3Step2InputAudit.json",
+      "AI/90_Tasks/Prototype_10/20261120_09_Phase3Step2Verification.json"
+    ],
+    "previousUntrackedArtifactsPreserved": [
+      "AI/90_Tasks/Prototype_10/20261120_06_Phase3Step1Baseline.json",
+      "AI/90_Tasks/Prototype_10/20261120_07_Phase3Step1Verification.json"
+    ],
+    "unitTestSuitesRerun": false,
+    "reasonNoSuiteRerun": "Source/Test/tool code unchanged; performed narrow-reader assertions, JS/PS syntax checks and current read-only provider verification for this Step. Prior 261 suite tests not rerun.",
+    "networkCapabilityScope": "Narrow review marker fields inspect direct source patterns only; absence of direct network syntax does not mean SDK delegates cannot call services if executed. No reviewed module/generator or network operation was executed."
+  },
+  "files": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "e3efacde25a7b208fe4670c0dbbdfa3dc73c2d3c6b232be61ee443e4d1cbd39d"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "d89524f7058cd6c9c7100fe9d4258eef53a2115f88e5c508e507b681166d400d"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "f1807c7c2d4eb11d75be1af8bc16ba8c5239c949af8dfb33afa58221c98316c6"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "694266204ee06c0bcc3f3ca1d047787b145d39073877a2ae10ec3ab053a5ad9a"
+    }
+  ],
+  "completion": {
+    "step2Complete": true,
+    "completedDateKST": "2026-11-20",
+    "nextStep": 3,
+    "manualWorkRequiredNow": false,
+    "ownerQuestionsAnswered": 2,
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "independentRestore": false,
+    "referenceHealthPass": false,
+    "rightsGranted": false,
+    "unityExecuted": false,
+    "buildExecuted": false,
+    "testRunnerExecuted": false,
+    "sceneOrPrefabEdited": false,
+    "candidateCreated": false,
+    "sourceTransferred": false,
+    "packageInstalled": false,
+    "lockRegenerated": false,
+    "secretGenerated": false,
+    "actualServiceAccountCreated": false
+  },
+  "handoff": {
+    "step3": [
+      "Audit existing require/check side effects and reuse existing reader/path/Git/restore functions",
+      "Implement/test exact reviewed six-path/hash allowance rather than disabling global sensitive guard",
+      "Validate transfer/exclusive writes/candidate-only SDK global.json and allowed-diff/failure handling",
+      "Keep source/production config/Secret/user saves/QA and current HEAD/index unchanged"
+    ],
+    "step4": "Recheck candidate/temp path nonexistence, ancestry, links, permissions and complete updated transfer manifest including current uncommitted Step 1/2 artifacts before any exclusive write",
+    "step5to8": "User only: actual dependency acquisition, candidate install/lock and prepared Unity checks; follow memory-only Editor isolation. No automatic Player/production/service execution.",
+    "temporaryRetention": "Temporary parent may be cleaned by OS; keep hash/constraints in source Task; if target disappears revalidate and recreate only reviewed inputs, do not claim durable archive"
+  },
+  "selfHashPolicy": "Pin this final JSON externally at next Step; audit and Step 1 evidence are immutable. This report records current document after hashes separately from prior baselines."
+}

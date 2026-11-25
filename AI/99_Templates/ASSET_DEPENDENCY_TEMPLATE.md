@@ -1,5 +1,7 @@
 # 애셋·의존성 등록 형식
 
+처음 등록하는 경우 [Third Party 파일 관리 가이드](../../THIRD_PARTY_GUIDE.md)의 새 애셋 도입 순서를 먼저 읽는다. 아래는 실제 관리 기록에 복사할 전체 필드 형식이다.
+
 실제 항목은 [Project 관리 기록](../00_Project/ASSET_DEPENDENCIES.md)에만 작성한다. 이 문서는 빈 형식이며 가상 도입 제품을 넣지 않는다. 절차·상태 전환은 [구현 규칙](../01_Rules/IMPLEMENTATION_RULE.md)의 외부 애셋 관리 기준을 따른다.
 
 ## 항목 형식

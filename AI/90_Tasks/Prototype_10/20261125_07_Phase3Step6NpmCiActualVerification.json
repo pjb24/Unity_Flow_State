@@ -1,0 +1,550 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Actual user npm ci verification; Step 6 complete",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_05_Phase3Step6NuGetLinuxVerification.json",
+    "sha256": "0f7bb397b9606b3bedd39f43e961d8a58d705db8be58a9288aa38a75fd08aa30"
+  },
+  "userCi": {
+    "resultPath": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6NpmCi_01.json",
+    "resultSha256": "770e3beafdee52635c9d8be32da2ac394043f9fafcd2bab8735fc427ae7692d6",
+    "result": {
+      "schemaVersion": 1,
+      "npmCiExecuted": true,
+      "npmExitCode": 0,
+      "npmCiComplete": true,
+      "inputPinsPreserved": true,
+      "step6Complete": false,
+      "failureCategory": null
+    },
+    "logPath": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NpmCi_01.log",
+    "logSha256": "6a2c765c04e7c34e614cb948b5cb1d66863637784abb8c2f9036ea45432b71fb",
+    "logEncoding": "UTF-16LE BOM",
+    "log": "npm warn deprecated crypto-js@4.1.1: Active development of CryptoJS has been discontinued. This library is no longer maintained.\r\n\r\nadded 57 packages in 1s\r\n"
+  },
+  "npm": {
+    "migration": {
+      "migrationMetadataValid": true,
+      "aliasVersionsIntegrityGraphPreserved": true,
+      "installed": false,
+      "independentRestore": false
+    },
+    "installedPackages": 57,
+    "dependencyEdgesResolved": 65,
+    "hiddenLockExact": true,
+    "installedInventoryExact": true,
+    "installedNamesAliasesVersionsDependenciesMatch": true,
+    "cachedArchivesSriVerified": 57,
+    "packages": [
+      {
+        "path": "node_modules/@types/lodash",
+        "name": "@types/lodash",
+        "alias": "@types/lodash",
+        "version": "4.17.25",
+        "integrity": "sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ==",
+        "manifestSha256": "cf8bca120f8ddfea677ae74c80e4b92a70035f889a5721009c062d6baa5f9bbe"
+      },
+      {
+        "path": "node_modules/@types/lodash-4.17",
+        "name": "@types/lodash",
+        "alias": "@types/lodash-4.17",
+        "version": "4.17.25",
+        "integrity": "sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ==",
+        "manifestSha256": "cf8bca120f8ddfea677ae74c80e4b92a70035f889a5721009c062d6baa5f9bbe"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save",
+        "name": "@unity-services/cloud-save",
+        "alias": "@unity-services/cloud-save",
+        "version": "0.0.5",
+        "integrity": "sha512-/ZLiOKbv7PE01EADsGFEwgCOe/4d6F/bLHHbWJ8JfcIxFvRECX5TD5eqHsmK5sV3GbQzCFTcLyRddwxCQi6EFA==",
+        "manifestSha256": "0f1aa0d2da69ac3bb82c147b7033b98334ab91729e686922ce7752dc6b13e293"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.0",
+        "name": "@unity-services/cloud-save",
+        "alias": "@unity-services/cloud-save-1.0",
+        "version": "1.0.1",
+        "integrity": "sha512-/V7oEJ/mMDVckVo1PQE/gTCVGw31bX+h5O0wSFRpNsc1Mrsv9siW3709UP+cEactu3iAeRgc/On0BvVrJeAQ9w==",
+        "manifestSha256": "282dd3a9d0ee69ea60b73789d3df4f1afe511fc7f6af798e7d8b61f61da2aa66"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.1",
+        "name": "@unity-services/cloud-save",
+        "alias": "@unity-services/cloud-save-1.1",
+        "version": "1.1.0",
+        "integrity": "sha512-j7+/YQVO6d43dnhw8KkfjIEAkmauUU8cGCGK/XpRrU6DEb8KJ4t4IdBHf10VHn5X210n6WENLiwAJuzd7sRQVQ==",
+        "manifestSha256": "defa75cfaf38e739e04ebc2d34186801780afee7f404eda25fdc59b0a9b81647"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.2",
+        "name": "@unity-services/cloud-save",
+        "alias": "@unity-services/cloud-save-1.2",
+        "version": "1.2.0",
+        "integrity": "sha512-fP4pv4aGRJ0/9p9EHiyhy6SPT1E/cRP6R4nvNmC4okywc8QH2p9v9dl63FqVK5M8p7S45kW4+AuAPhv5SPedaQ==",
+        "manifestSha256": "19346114204dff891040655b925b1d605d4b853409ec8e3cdf31ef054312a356"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.2.1",
+        "name": "@unity-services/cloud-save",
+        "alias": "@unity-services/cloud-save-1.2.1",
+        "version": "1.2.1",
+        "integrity": "sha512-gvY5/C+TF0JB/8Ef+itEJeUFEFZdAluXy1x2f+QDs50uogPjlpRIGD9D7WlPK0CzUCnaeKuCc6I/3VEXhT0mog==",
+        "manifestSha256": "324f34b1fde78d6fc1c2ea2f2dd365126d662557497e0f2b344ee59bec15f877"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.3",
+        "name": "@unity-services/cloud-save",
+        "alias": "@unity-services/cloud-save-1.3",
+        "version": "1.3.0",
+        "integrity": "sha512-IaywDFaWiC8a6RDf7paU9CFSfsv0SxlNiflvCcm46N8KdJxV2ZNSurksW0DEBXzJFJHEjONn3IdfkII00rbjqQ==",
+        "manifestSha256": "bf0614a2d088d65b7f98f278fc1eb5437e66e61821b04c4493aa0ea1b37be8b8"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.3/node_modules/axios",
+        "name": "axios",
+        "alias": "axios",
+        "version": "0.27.2",
+        "integrity": "sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==",
+        "manifestSha256": "f96ab8c8904dca79a54cf23ff686bfc19b4fbdbce536dcc66c85138ded13bb70"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.4",
+        "name": "@unity-services/cloud-save",
+        "alias": "@unity-services/cloud-save-1.4",
+        "version": "1.4.0",
+        "integrity": "sha512-AKe5Dd85BGdZ2CTBL5Oe3edbjjKJMgDOSZLZX0PDDjuqUBWYjfOmm9qEp+Ccj9l4WC6OpGskoUihjGw/FiChZg==",
+        "manifestSha256": "e10c3d56b94cf80ce44024d9c12e3371f83cf670922045ae82fbb0c668dd1d24"
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.4/node_modules/axios",
+        "name": "axios",
+        "alias": "axios",
+        "version": "0.27.2",
+        "integrity": "sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==",
+        "manifestSha256": "f96ab8c8904dca79a54cf23ff686bfc19b4fbdbce536dcc66c85138ded13bb70"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.0",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.0",
+        "version": "2.0.2",
+        "integrity": "sha512-fe1qRDnT5ykfVABlZ4+0+9nd6uACMXVIJdglerkzrDY39zOM289QtXYdN7+cohslYK8lqIKajch+Xrwl2dS/2w==",
+        "manifestSha256": "8b3e3e1606015c09f5cb8e669ec65c2f03e162ac7e846324007bee0463b7467d"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.1",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.1",
+        "version": "2.1.1",
+        "integrity": "sha512-ueCrJ9fROgC6K7VApguFUlnp8sddBowdUXlbn1STip5QJ+6yo1LDOs5AuxfsxiGwB3Hs5R8HZ48vEXRCJWuc0A==",
+        "manifestSha256": "ff1f51251f82b8bb436c38977168c4c8ab7650a84cdc6ce9bf1edc4022a29298"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.2",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.2",
+        "version": "2.2.0",
+        "integrity": "sha512-pf6kiMrvEuwzsGBWqab+2tTSqybI3jAaDEMS4iwM9xm54UImpieHa5azjpoHp96iBK4mT0QWHCdXLceWKB5hhg==",
+        "manifestSha256": "df75715b38b72b04b8c6578140c7c9898acb61d192e984f143197ceccf8a3ce7"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.2.1",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.2.1",
+        "version": "2.2.1",
+        "integrity": "sha512-RmPiCLkJHIZS32RyKgZlMq1vEyD8ejyOjTEV8NtqmIPhqBLXniSNoWZyEBSNHx8ZRtTnSmhpGoCw6MqBicyt0w==",
+        "manifestSha256": "f8a767003fe69bdff48ad89ba4b1b651a9fb7478b47a25dee4a7c2ee2c655aaf"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.3",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.3",
+        "version": "2.3.0",
+        "integrity": "sha512-+z03B/srqhnWH/6HCsJOeRw8heqKMobdnuiQh5QVaqlYVPDighf/Ln/JDU9WrKigSgeTs1lhYHDSkJVef+nJ+g==",
+        "manifestSha256": "00f2df4fdcbd9f44fbdbcfce286882eb5fd75efaf2f56199ee71f82b6b88e6a0"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.3.1",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.3.1",
+        "version": "2.3.1",
+        "integrity": "sha512-Y7wDjS46Sg2D42/DBOC9Yhumek3v/qC8M5Od9v5q7yjD4yAzVYeK+CKZm7TK+7DqUaN4Pdix8n23eFsHtbKrzA==",
+        "manifestSha256": "55eabd88a11732d6128617322d4be96414445f8bc1d96060fe84ebc1d24e6988"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.3.2",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.3.2",
+        "version": "2.3.2",
+        "integrity": "sha512-mJvEfvrAdZbInjmav9VVcoO4NaGNc91yeWXIkQGqOcKP8HNDA/zli7IlrxV9glie2KSr6/ki7OlHA8HqvLQ3/A==",
+        "manifestSha256": "2eb3c3ea2fedd0f8182d028da059a90195b35e87af0424d8431fee58c9372b2b"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.4",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.4",
+        "version": "2.4.0",
+        "integrity": "sha512-sdQQnFsfx2QTELsj1NzHKlZ4cf1QGU/fwlsTt5PJv2ZcEd6JpE5C/mvY0EovIBY+xX51w7Rpz2LwywHrl9JBeQ==",
+        "manifestSha256": "135cdf6df4abe43b9bc1754146b6f6008a94e2d5e74d7f4f3de87c646580d4ec"
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.4.1",
+        "name": "@unity-services/economy",
+        "alias": "@unity-services/economy-2.4.1",
+        "version": "2.4.1",
+        "integrity": "sha512-PalvW4gbCQAieQ/hfJNXs6TOkQQ3gwFtZWV8ot9PvLDCpbCkuXph8QbbmlxC/Ia7YRgVjXAsGNIct51RecDmqw==",
+        "manifestSha256": "d0d600a81b8f9db0fd55b061d669142a2cba20cb8a65d87ace7c1858bcaa7c75"
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.0",
+        "name": "@unity-services/lobby",
+        "alias": "@unity-services/lobby-1.0",
+        "version": "1.0.1",
+        "integrity": "sha512-1pLZWJRDPUxwynrmPTglA0dCRVhw1AmaTMXBeIvz9ZWk/wLgLQhqcAuyEFhSFObbF9iJ3lut9XyyNNSGtbF2HQ==",
+        "manifestSha256": "c34aef2e2216602cf588d5726aba840497e986923a9adb81a50b971b51a5e998"
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.1",
+        "name": "@unity-services/lobby",
+        "alias": "@unity-services/lobby-1.1",
+        "version": "1.1.0",
+        "integrity": "sha512-dcA+VH0RucY206nhSaQLeunOmRsHJXmJjQKatIuFYfyFQouXX75K1SldU3eUuIzDoahvTz96pxwnI4Wm8HvMzQ==",
+        "manifestSha256": "2793e533474a3e4363ab874815f5ae88fd2881ab035b351bc33f6a5a30fb7651"
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.1.1",
+        "name": "@unity-services/lobby",
+        "alias": "@unity-services/lobby-1.1.1",
+        "version": "1.1.1",
+        "integrity": "sha512-z+mjk9ZaDP2TdswOkrcu4+szfWYtiqW8mLOBW+fUDWKRIQGL53htbL3RUPFJpD9fW2teFjNL9LHnvkaaud8BKg==",
+        "manifestSha256": "e8fa80094d55a8a5eb504f31633d3f427f5971ab387ef3ef4be75a934a49046e"
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.1.2",
+        "name": "@unity-services/lobby",
+        "alias": "@unity-services/lobby-1.1.2",
+        "version": "1.1.2",
+        "integrity": "sha512-4tsTvyJAHPOB+V8ZtJ6OVFK8d9414qHSqDJ/Hlusgf+7Wayg4ALhf4YEgsK3P6zmr0TfxKNOmuqVnXt8UvuX+Q==",
+        "manifestSha256": "2b8347053583fc54bf844e86079f31f440b3d4bd07ae8834cafdce245c5c1da5"
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.2",
+        "name": "@unity-services/lobby",
+        "alias": "@unity-services/lobby-1.2",
+        "version": "1.2.0",
+        "integrity": "sha512-FIFe02MKglh5/pm+7V7ZxkgCd8esFNHlmpGxEkxrUdZHhEMILsPpeyungg5K7GcIG6yOBOLlEpNnZY09NqSItA==",
+        "manifestSha256": "3d6af800a2d1ead0c9220f1a41584831b72bc1f37ccd0ac2a9ad94adeaa76847"
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config",
+        "name": "@unity-services/remote-config",
+        "alias": "@unity-services/remote-config",
+        "version": "0.0.4",
+        "integrity": "sha512-Q1vMA8rF7vqkHGJx97m2Kwszjq0OQXQsKGj87Ct1o9TWKlN61C91axSKCuKM8dxAs+DEXldd87AyzqWVTwJcrw==",
+        "manifestSha256": "82d11caac3a22c207405f461c378b227742cf06001e8e19f85b6eccdbbdd6f20"
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config-1.0",
+        "name": "@unity-services/remote-config",
+        "alias": "@unity-services/remote-config-1.0",
+        "version": "1.0.1",
+        "integrity": "sha512-dXeNTMRbhAuoOQO6YkdDb0cSPhenkepVJRkaFEbq3JVm/ojoO7hH2PqiXGJ9/Rw4p6nE29UZLgMU6LVRvM4oww==",
+        "manifestSha256": "82a906e5716d731b5a45abd9f93fd76fa95164ba6279aa60d3be5373e64ceade"
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config-1.1.0",
+        "name": "@unity-services/remote-config",
+        "alias": "@unity-services/remote-config-1.1.0",
+        "version": "1.1.0",
+        "integrity": "sha512-Z18RC7Np9PNLatED1ew2fV9UC9TCwrCxHTYMKI3MhMdD1jF9NZQG3pnIwdhK44IOwXeGJ5aunQgnBmp4bZlPTQ==",
+        "manifestSha256": "6b9aca179aa7ab10b425c92f978e52c19f9b5c4045113a5f40b84143b907a3b1"
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config-1.1.1",
+        "name": "@unity-services/remote-config",
+        "alias": "@unity-services/remote-config-1.1.1",
+        "version": "1.1.1",
+        "integrity": "sha512-TMA6FvX7RwNJER18U652Sz+QbrdpmbKFwiZa3fU+R9zeQmEFz/UOMuM7kUuumNIiCoRMRytAw1FOfB/dnYM4ig==",
+        "manifestSha256": "0cc7f81f98aaa2fb71e8c4b2720d736418e7d598c5e586be9ed8bc6a24ea2f51"
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config-1.1.2",
+        "name": "@unity-services/remote-config",
+        "alias": "@unity-services/remote-config-1.1.2",
+        "version": "1.1.2",
+        "integrity": "sha512-jF0J5glXjIkEKD03rOtT4DnlzLFJlbjbdT8eFs/sHk0pTY4+eftn5UTogOXkR4hxaw8cukOUuCgbr4e7nSsqVA==",
+        "manifestSha256": "4a2b94f13088ce713e657d8481aafa52159b1b8fbf5c8300141120934932db9a"
+      },
+      {
+        "path": "node_modules/@unity-services/vivox-0.1",
+        "name": "@unity-services/vivox",
+        "alias": "@unity-services/vivox-0.1",
+        "version": "0.1.6",
+        "integrity": "sha512-12FcPiwqtopBLxHzcK7FFhVKq8wlolr85xcnRnaldOzGH83eKvnmSopfKHLaLcFZ5QIs2yaC4kHEoRFYCgRnKA==",
+        "manifestSha256": "755b4195867c0dc71182f19177ca039a663a047edf8848f3e9fb007d00830e23"
+      },
+      {
+        "path": "node_modules/asynckit",
+        "name": "asynckit",
+        "alias": "asynckit",
+        "version": "0.4.0",
+        "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==",
+        "manifestSha256": "63eb9ff63be2e241ee6e80434d4641d6e9b5157d88bd3bbb692fcb2dfc8da4a9"
+      },
+      {
+        "path": "node_modules/axios",
+        "name": "axios",
+        "alias": "axios",
+        "version": "0.21.4",
+        "integrity": "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==",
+        "manifestSha256": "05c3ae578bbb075796736132371cd97e1edc4354ea057faa23c2cf4e359c6825"
+      },
+      {
+        "path": "node_modules/axios-0.21",
+        "name": "axios",
+        "alias": "axios-0.21",
+        "version": "0.21.4",
+        "integrity": "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==",
+        "manifestSha256": "05c3ae578bbb075796736132371cd97e1edc4354ea057faa23c2cf4e359c6825"
+      },
+      {
+        "path": "node_modules/call-bind-apply-helpers",
+        "name": "call-bind-apply-helpers",
+        "alias": "call-bind-apply-helpers",
+        "version": "1.0.2",
+        "integrity": "sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==",
+        "manifestSha256": "59639b628c6846f674857c6a613fd47e2e4d2a24036cdf0f7a62ac634f4c8a5f"
+      },
+      {
+        "path": "node_modules/combined-stream",
+        "name": "combined-stream",
+        "alias": "combined-stream",
+        "version": "1.0.8",
+        "integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==",
+        "manifestSha256": "761adece21443081ae818fe0e18864d7fa03f387075b89afa6cc5dd98356fafa"
+      },
+      {
+        "path": "node_modules/crypto-js",
+        "name": "crypto-js",
+        "alias": "crypto-js",
+        "version": "4.1.1",
+        "integrity": "sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==",
+        "manifestSha256": "6d39bc6ae898b85aba801a99ed4d6c79a6b5d9d3a56a1df9343f5d3d4e487072"
+      },
+      {
+        "path": "node_modules/delayed-stream",
+        "name": "delayed-stream",
+        "alias": "delayed-stream",
+        "version": "1.0.0",
+        "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==",
+        "manifestSha256": "4f5bd886efbd8feda6ac04db6ac1aa8b2e8dfc159503b0652667e1bc88efd4cb"
+      },
+      {
+        "path": "node_modules/dunder-proto",
+        "name": "dunder-proto",
+        "alias": "dunder-proto",
+        "version": "1.0.1",
+        "integrity": "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==",
+        "manifestSha256": "24df71008e4225c858f389dd2728b76cf66b752256d42a38ed7930aacae7fe2b"
+      },
+      {
+        "path": "node_modules/es-define-property",
+        "name": "es-define-property",
+        "alias": "es-define-property",
+        "version": "1.0.1",
+        "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==",
+        "manifestSha256": "3a2cb30dae30a96705dcd9aa2d5fb190cf8200f27badccfa5a81a4374e5708b4"
+      },
+      {
+        "path": "node_modules/es-errors",
+        "name": "es-errors",
+        "alias": "es-errors",
+        "version": "1.3.0",
+        "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==",
+        "manifestSha256": "1a0a0bcccc76b915cb64073317312840cf6363e9144b96f406d0059774dd5278"
+      },
+      {
+        "path": "node_modules/es-object-atoms",
+        "name": "es-object-atoms",
+        "alias": "es-object-atoms",
+        "version": "1.1.2",
+        "integrity": "sha512-HWcBoN6NileqtSydK2FqHbS/LoDd2pqrnQHLyJzBj4kOp/ky2MWMN694xOfkK8/SnUsW2DH7EfyVlydKCsm1Zw==",
+        "manifestSha256": "e4b7882975d10c68457945c883e1060d0b058af5b1216215c872263f42e12fc9"
+      },
+      {
+        "path": "node_modules/es-set-tostringtag",
+        "name": "es-set-tostringtag",
+        "alias": "es-set-tostringtag",
+        "version": "2.1.0",
+        "integrity": "sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==",
+        "manifestSha256": "c9506942c9ef472286aff079bb65b7f3edcaccbc7f59fac9f419787b570086e5"
+      },
+      {
+        "path": "node_modules/follow-redirects",
+        "name": "follow-redirects",
+        "alias": "follow-redirects",
+        "version": "1.16.1",
+        "integrity": "sha512-FNvFGzoMLWmE6Yj9spb/zjd7yiNCHiAW9/Tg9CXrQ8wuu32HtlJOwWO11OJafl5FfY3DxTdQ0vj42zU1kvv5jg==",
+        "manifestSha256": "3b63e57223c63eff7b1c9ecdcd6615af8c6fcbaa9d436e949f02acf2b6dbe588"
+      },
+      {
+        "path": "node_modules/form-data",
+        "name": "form-data",
+        "alias": "form-data",
+        "version": "4.0.6",
+        "integrity": "sha512-vKatAh4SlVfgbv+YtmhiRjhEMJsYpsG1Y2rMQtR+SVSbytsSD1YGzDIcrAJmdFec88u/+VoGmxnl+80gL1tRCQ==",
+        "manifestSha256": "d5222c863d975ddefb3ec2c012d3c3ab92f51ef8f3f5c3080dee02c79d217665"
+      },
+      {
+        "path": "node_modules/function-bind",
+        "name": "function-bind",
+        "alias": "function-bind",
+        "version": "1.1.2",
+        "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
+        "manifestSha256": "edb1c4faf4148e6e3d74ed8dbac1a1dc359a647ff4207aad4851396dc7a3559a"
+      },
+      {
+        "path": "node_modules/get-intrinsic",
+        "name": "get-intrinsic",
+        "alias": "get-intrinsic",
+        "version": "1.3.0",
+        "integrity": "sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==",
+        "manifestSha256": "45b14763baacc59b0fd7b39e3ad983d5d2aaf7f5ed682f2fce9edb469826c999"
+      },
+      {
+        "path": "node_modules/get-proto",
+        "name": "get-proto",
+        "alias": "get-proto",
+        "version": "1.0.1",
+        "integrity": "sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==",
+        "manifestSha256": "73839e012ac7134a632c9d9fc6bdb700ac9ab5553cce39eb789ba2b65663e734"
+      },
+      {
+        "path": "node_modules/gopd",
+        "name": "gopd",
+        "alias": "gopd",
+        "version": "1.2.0",
+        "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==",
+        "manifestSha256": "33ace32dc861f6da9d1fd9d0a44c66e8c6ff3b13358d070683c1c2978ff5f19f"
+      },
+      {
+        "path": "node_modules/has-symbols",
+        "name": "has-symbols",
+        "alias": "has-symbols",
+        "version": "1.1.0",
+        "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==",
+        "manifestSha256": "5190268c0e3308d7446d1f7c036238f329f786938453e6017cb90980b3612e7a"
+      },
+      {
+        "path": "node_modules/has-tostringtag",
+        "name": "has-tostringtag",
+        "alias": "has-tostringtag",
+        "version": "1.0.2",
+        "integrity": "sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==",
+        "manifestSha256": "30ab773c52021a6b800ea48f251abeeb1f6e378300f819204dfbb38d6e43f3ad"
+      },
+      {
+        "path": "node_modules/hasown",
+        "name": "hasown",
+        "alias": "hasown",
+        "version": "2.0.4",
+        "integrity": "sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==",
+        "manifestSha256": "40b750c55a8bacf2c5ac316f5299dd44d48acc101c189a00cd59d39376b5eb89"
+      },
+      {
+        "path": "node_modules/lodash",
+        "name": "lodash",
+        "alias": "lodash",
+        "version": "4.17.21",
+        "integrity": "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==",
+        "manifestSha256": "8e41b07c744a0de0d2c1c23ed41418ecb0849abb56395d28802e601b4730d7c2"
+      },
+      {
+        "path": "node_modules/lodash-4.17",
+        "name": "lodash",
+        "alias": "lodash-4.17",
+        "version": "4.18.1",
+        "integrity": "sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==",
+        "manifestSha256": "5ef0a453b679125b155af19e1477f93b577ea826a57e1545f77608d326966e6a"
+      },
+      {
+        "path": "node_modules/math-intrinsics",
+        "name": "math-intrinsics",
+        "alias": "math-intrinsics",
+        "version": "1.1.0",
+        "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==",
+        "manifestSha256": "39d74aa5a354153130706286dd60a2d8409ce0c8f66546eff2edcac0afff17e1"
+      },
+      {
+        "path": "node_modules/mime-db",
+        "name": "mime-db",
+        "alias": "mime-db",
+        "version": "1.52.0",
+        "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==",
+        "manifestSha256": "d03e37b915a050af548d543f4e45ff5de06ec767c19e745f18c431d9dc26b5bf"
+      },
+      {
+        "path": "node_modules/mime-types",
+        "name": "mime-types",
+        "alias": "mime-types",
+        "version": "2.1.35",
+        "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",
+        "manifestSha256": "5053cc10259c3913ab6b6c8f13170a619c0d1836c1d9081238329a559fafeb3a"
+      }
+    ],
+    "initialLockGenerationExitCode": null,
+    "ciExitCode": 0
+  },
+  "warning": {
+    "package": "crypto-js@4.1.1",
+    "message": "Active development of CryptoJS has been discontinued. This library is no longer maintained.",
+    "parent": "@unity-services/vivox-0.1",
+    "parentRequirement": "4.1.1",
+    "presentInOriginalLock": true,
+    "classification": "Existing pinned maintenance deprecation; no version/graph drift or installation failure",
+    "recordedNotSuppressed": true,
+    "versionChanged": false,
+    "blocksRestoration": false,
+    "securityAuditPerformed": false,
+    "securityOrRuntimeCorrectnessClaimed": false
+  },
+  "nuget": {
+    "full13PackageVerificationStillValid": true,
+    "lockAssetsCsprojSdkPinsUnchanged": true,
+    "parentEvidence": "AI/90_Tasks/Prototype_10/20261125_05_Phase3Step6NuGetLinuxVerification.json"
+  },
+  "preservation": {
+    "sourceProtectedUnchanged": 1179,
+    "documentationExceptions": [
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md"
+    ],
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0,
+    "archives27Unchanged": true
+  },
+  "execution": {
+    "npmCiExecutedByUser": true,
+    "aiRanInstallRestoreBuildUnityOrRunner": false,
+    "aiChangedSceneOrPrefab": false
+  },
+  "completion": {
+    "step6Complete": true,
+    "additionalManualWorkForStep6": false,
+    "nextStep": 7,
+    "step7Started": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "independentUnityRestoreClaimed": false
+  }
+}

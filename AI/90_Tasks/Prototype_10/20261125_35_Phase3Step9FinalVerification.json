@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 9 completed after exact user stock repair and current candidate/source/Git verification",
+  "actualEvidence": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_34_Phase3Step9ActualRepairVerification.json",
+    "sha256": "52544e82f30f3c03ceb961968d53e64c96dac4f3801270f970bf122e7f3211dd"
+  },
+  "postRepairGates": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_33_Phase3Step9PostRepairGates.json",
+    "sha256": "d3c97507fd4abe9a9796536aa0402894dd576fa39183ff706739d9c7c689945d",
+    "registryExit": 0,
+    "lifecycleExit": 0,
+    "managedIngressExit": 0,
+    "stagedIngressExit": 0,
+    "auditExit": 1,
+    "auditCollectionComplete": true,
+    "orphanMetasBefore": 37,
+    "orphanMetasAfter": 0,
+    "unresolvedGuidOccurrences": 31,
+    "newGuidUnresolved": 0,
+    "rawReferenceHealthPass": false
+  },
+  "substeps": [
+    {
+      "id": "9-1",
+      "complete": true,
+      "registryIngressAndLifecyclePass": true,
+      "actualCandidateRootInputsPinned": true,
+      "worktreeAndStagedPolicyLimitsDistinguished": true
+    },
+    {
+      "id": "9-2",
+      "complete": true,
+      "frozenProjectionMatches": true,
+      "projectedFiles": 1177,
+      "npmPackages": 57,
+      "installedPayloadFilesVerified": 4649,
+      "nugetPackages": 13,
+      "tmpPreservationVerified": true,
+      "knownGuidFindingsRetained": 31
+    },
+    {
+      "id": "9-3",
+      "complete": true,
+      "temporarySnapshotFixturePassed": 79,
+      "actualRollbackWritten": false,
+      "lateChangesOrWrongBackupRejected": true
+    },
+    {
+      "id": "9-4",
+      "complete": true,
+      "userStockCopies": 37,
+      "contentAndMetaAndPackageIdentityMatch": true,
+      "userPostRepairCompilationSuccess": true,
+      "userUnexpectedCompilationErrorWarning": false
+    },
+    {
+      "id": "9-5",
+      "complete": true,
+      "postAuditOrphanMetas": 0,
+      "candidateProtectedUnchanged": 1113,
+      "sourceProtectedUnchanged": 1179,
+      "independentRestoreApprovalDeferred": true
+    }
+  ],
+  "limits": [
+    "31 original legacy/non-current serialized GUID findings remain recorded and are not converted to raw reference-health PASS",
+    "Final license/rights and whole independent restoration decision belongs to Step 10",
+    "No new Player/build/all-platform/variant verification or independently parsed final Runner XML is claimed"
+  ],
+  "warningEvidence": "Stock gap closed and orphan diagnoses gone; no independently read full Editor log or separately stated recurring-package-warning count is invented",
+  "preservation": {
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateStagedChanges": 0,
+    "sceneAndPrefabFilesUnchanged": true,
+    "sourceAndCandidatePreservationVerified": true,
+    "documentationBefore": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "b1982df6c95e32b613236b4f45d3b2c02798132939c57020039fd597b661f09c"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "b86fc875d40048316de61fd44bee14e44568a768e5c55fede3f77f971c84d44d"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "5c3c133996f1bb443fec32c24e6b565ef4d2233b76d26b9f5edacc75b0cdbee0"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "12658d9733f68b6549d29240a6a1e4b4413271f029022bb354a35cf9e965c2e6"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261125_31_Phase3Step9StockFileRestoreUserSteps.md",
+        "sha256": "fb92b14a49b59c65e7cefd595d0644720bd462da8f47b2ef720031a60619a82a"
+      }
+    ],
+    "documentationAfter": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "cb5aed1b0f6c5fae76a6dfdd15422de96f5549a19f8c30d9cec63d3b7ff45f63"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "bcc716c8346573b4d66384cede19e4239ca117022ec1c8e199470f0b5138787a"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "19f13566d2af981e41a0bea8a55f225e5d0bf9cea05425ecf7d3ce2c61f8e827"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "0b6cd8cd02f832b6d7ac37d81464f3f203d27fa6338af6d80d56c28f9386ef89"
+      }
+    ]
+  },
+  "validation": {
+    "relativeLinksChecked": 146,
+    "gitDiffCheckExitCode": 0,
+    "mainCompletedSteps": 9,
+    "pendingMainSteps": 1,
+    "fixtureNotRerunWithoutNewChange": true
+  },
+  "execution": {
+    "repairAndUnityCompilationByUser": true,
+    "aiRanUnityBuildTestRunnerInstallRestore": false,
+    "aiChangedSceneOrPrefabOrPackageCache": false
+  },
+  "completion": {
+    "step9Complete": true,
+    "additionalManualWorkForStep9": false,
+    "nextStep": 10,
+    "step10Started": false,
+    "referenceHealthPass": false,
+    "rightsGranted": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "independentRestoreApproved": false
+  }
+}

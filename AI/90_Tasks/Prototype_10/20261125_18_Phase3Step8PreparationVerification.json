@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 8 static test/preparation audit; mandatory actual Editor/Runner results pending",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_13_Phase3Step7FinalVerification.json",
+    "sha256": "068114cbb7f9122560cac4c181c9f506e2fd04bf709d9a81d969b4286f254364"
+  },
+  "artifacts": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_14_Phase3Step8ReadOnlyChecks.cs",
+      "sha256": "6a99cb3177f3039675dd27ec9189f3839ed41186c14cb480127399f22ea75110"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_15_Phase3Step8ReadOnlyInput.json",
+      "sha256": "e991d38eb86f96cab9154c8980e2071f867c35d71721176efe795beeb857ea3b"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_16_Phase3Step8PrepareChecks.ps1",
+      "sha256": "3145e2a2f2bc105b5cc9877703e46d9473264abc6363e43e81a9d08f38e5854c"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_17_Phase3Step8UserChecks.md",
+      "sha256": "24970dbabdb147cc40e56a234e1515132add86e0db8371b966bd54ad704c8735"
+    }
+  ],
+  "stages": [
+    {
+      "id": "8-1",
+      "staticPreparationComplete": true,
+      "volumeProfileOnEnable": "Pinned SRP Core removes null components in memory; not permission to save/rewrite assets",
+      "sideEffectReviewComplete": true
+    },
+    {
+      "id": "8-2",
+      "staticPreparationComplete": true,
+      "userStageAExecuted": false,
+      "fixture": "FlowState.Tests.EditMode.Phase3RestoreReadOnlyTests",
+      "tests": [
+        "RequiredTypes_AreAvailableWithoutStartingSystems",
+        "ActiveUrpAssets_LoadAndReportVolumeAndDebugReferences",
+        "ShaderGraphs_ReportActualImporterAndCompilerMessages",
+        "TmpResources_LoadFontAtlasSpriteAndMaterialSubassets",
+        "PrefabAssets_LoadAuthoringAndSerializedAnchorsWithoutInstantiation"
+      ],
+      "candidateNewTarget": "Assets/Tests/EditMode/Phase3RestoreReadOnlyTests.cs",
+      "newMetaGuid": "26e8b3824416bab16e2eb8c05b02a30d",
+      "guidCollisionCheckedAgainst": 10039,
+      "newGuidCollision": false
+    },
+    {
+      "id": "8-3",
+      "complete": false,
+      "awaiting": "User compile status/Runner XML/5 diagnostic reports; reviewRequired never auto-approved"
+    },
+    {
+      "id": "8-4",
+      "scopePrepared": true,
+      "executeNow": false,
+      "proposedPlayModeMethods": [
+        "ModeUISceneConfigurationTests.UIComponents_AreSerializedBeforeUseAndNeverAddedAtRuntime",
+        "ModeUISceneConfigurationTests.Phase4LeaderboardAndResultControls_AreWired",
+        "InfinitePatternConnectionIntegrationTests.FrontBoundary_PhysicalTrigger_AdvancesOnlyOnce"
+      ],
+      "isolationAudited": "Namespace SetupFixture sets UseIsolatedRecordsForPlayModeTests; GameSystem.InitializeLocalState uses memory and returns before online coordinator construction",
+      "visualCheckPending": true,
+      "buildRequiredNow": false
+    },
+    {
+      "id": "8-5",
+      "preparationPreserved": true,
+      "actualCompletionPending": true
+    }
+  ],
+  "staticValidation": {
+    "powerShellAstErrors": 0,
+    "scriptExecuted": false,
+    "cSharpDelimiterCheck": true,
+    "cSharpCompilationPerformed": false,
+    "unityTestsExecuted": false,
+    "forbiddenMutationCalls": 0,
+    "existingFilePins": 1113,
+    "metadataWriteOnly": "New guarded Outputs/Step8ReadOnly_*.json via CreateNew; no asset/Scene/save/service/process write",
+    "inputGuards": "Named candidate/Editor/hash/no-links; before and after file pins",
+    "sceneOpenOrChangeOrPrefabInstantiation": false,
+    "assertionFailuresRetained": true,
+    "unityLogsNotSuppressed": true,
+    "reviewRequiredAndRunnerXmlSeparate": true,
+    "apiReferences": [
+      "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AssetDatabase.TryGetGUIDAndLocalFileIdentifier.html",
+      "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/ShaderUtil.GetShaderMessages.html"
+    ]
+  },
+  "preservation": {
+    "sourceProtectedUnchanged": 1179,
+    "sourceAssetsAndExistingTestsChanged": false,
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0,
+    "candidateStep6InputsArchivesAnd57ManifestsUnchanged": true,
+    "candidateTestFilesAndResultAbsent": [
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\Assets\\Tests\\EditMode\\Phase3RestoreReadOnlyTests.cs",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\Assets\\Tests\\EditMode\\Phase3RestoreReadOnlyTests.cs.meta",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step8Prepare_01.json"
+    ],
+    "step7BeforeDocumentation": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "ba996581c738c288b0c2e8af298c341984370471efa222b493ab454117db11d0"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "18a915a26c350827cb997399f41973757e5157b3fee7d526e680e0f00448c880"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "973eabf28dd4b65139ceac553ac335ed19f30674ea2630d7f78bf08f07d59874"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "c6ff03e5a830c3166870470a3e00866beb899e52b93dd6a1894b7916b15ead08"
+      }
+    ],
+    "step8AfterDocumentation": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "a3d84fb565d2fc5e6a22f3bbf00b9b7265f7ef5593158d004beca7200fc7a565"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "a224fe11ba7e4b3ec1b0d97bb968826dea6e83ecdb14379e0a92455b5fbf9c9b"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "04d57c69eb1677956206b1ed310e4ace979d75e95ee5e22af0af6753c8f1174c"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "ce226b362f88d37b109989e754493facbc8190415d4724f6c7a8ce028d4ae1d1"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261125_17_Phase3Step8UserChecks.md",
+        "sha256": "24970dbabdb147cc40e56a234e1515132add86e0db8371b966bd54ad704c8735"
+      }
+    ]
+  },
+  "validation": {
+    "relativeLinksChecked": 134,
+    "gitDiffCheckExitCode": 0,
+    "completedMainSteps": 7,
+    "pendingMainSteps": 3,
+    "priorNode340TestsNotRerun": "No production/tool/policy change; new Unity diagnostic code is statically audited, actual compile/Runner is user responsibility"
+  },
+  "execution": {
+    "aiRanUnityBuildTestRunnerInstallRestore": false,
+    "aiAppliedCandidateTestFiles": false,
+    "aiChangedSceneOrPrefab": false
+  },
+  "completion": {
+    "step8StaticPreparationComplete": true,
+    "step8Complete": false,
+    "userManualStageARequired": true,
+    "step9Started": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "independentRestore": false
+  }
+}

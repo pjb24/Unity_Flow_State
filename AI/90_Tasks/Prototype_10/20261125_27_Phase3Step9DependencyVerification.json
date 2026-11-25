@@ -1,0 +1,471 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 9 current actual installed payload/dependency and user evidence consolidation",
+  "npm": {
+    "packages": 57,
+    "payloadFilesMatched": 4649,
+    "dependencyDeclarations": 65,
+    "hiddenLockMatches": true,
+    "cacheArchiveSriVerified": 57,
+    "unsupportedArchiveEntries": [],
+    "packagesDetail": [
+      {
+        "path": "node_modules/@types/lodash",
+        "name": "@types/lodash",
+        "version": "4.17.25",
+        "payloadFilesMatched": 708,
+        "integrity": "sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ=="
+      },
+      {
+        "path": "node_modules/@types/lodash-4.17",
+        "name": "@types/lodash",
+        "version": "4.17.25",
+        "payloadFilesMatched": 708,
+        "integrity": "sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save",
+        "name": "@unity-services/cloud-save",
+        "version": "0.0.5",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-/ZLiOKbv7PE01EADsGFEwgCOe/4d6F/bLHHbWJ8JfcIxFvRECX5TD5eqHsmK5sV3GbQzCFTcLyRddwxCQi6EFA=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.0",
+        "name": "@unity-services/cloud-save",
+        "version": "1.0.1",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-/V7oEJ/mMDVckVo1PQE/gTCVGw31bX+h5O0wSFRpNsc1Mrsv9siW3709UP+cEactu3iAeRgc/On0BvVrJeAQ9w=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.1",
+        "name": "@unity-services/cloud-save",
+        "version": "1.1.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-j7+/YQVO6d43dnhw8KkfjIEAkmauUU8cGCGK/XpRrU6DEb8KJ4t4IdBHf10VHn5X210n6WENLiwAJuzd7sRQVQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.2",
+        "name": "@unity-services/cloud-save",
+        "version": "1.2.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-fP4pv4aGRJ0/9p9EHiyhy6SPT1E/cRP6R4nvNmC4okywc8QH2p9v9dl63FqVK5M8p7S45kW4+AuAPhv5SPedaQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.2.1",
+        "name": "@unity-services/cloud-save",
+        "version": "1.2.1",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-gvY5/C+TF0JB/8Ef+itEJeUFEFZdAluXy1x2f+QDs50uogPjlpRIGD9D7WlPK0CzUCnaeKuCc6I/3VEXhT0mog=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.3",
+        "name": "@unity-services/cloud-save",
+        "version": "1.3.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-IaywDFaWiC8a6RDf7paU9CFSfsv0SxlNiflvCcm46N8KdJxV2ZNSurksW0DEBXzJFJHEjONn3IdfkII00rbjqQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.3/node_modules/axios",
+        "name": "axios",
+        "version": "0.27.2",
+        "payloadFilesMatched": 52,
+        "integrity": "sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.4",
+        "name": "@unity-services/cloud-save",
+        "version": "1.4.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-AKe5Dd85BGdZ2CTBL5Oe3edbjjKJMgDOSZLZX0PDDjuqUBWYjfOmm9qEp+Ccj9l4WC6OpGskoUihjGw/FiChZg=="
+      },
+      {
+        "path": "node_modules/@unity-services/cloud-save-1.4/node_modules/axios",
+        "name": "axios",
+        "version": "0.27.2",
+        "payloadFilesMatched": 52,
+        "integrity": "sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.0",
+        "name": "@unity-services/economy",
+        "version": "2.0.2",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-fe1qRDnT5ykfVABlZ4+0+9nd6uACMXVIJdglerkzrDY39zOM289QtXYdN7+cohslYK8lqIKajch+Xrwl2dS/2w=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.1",
+        "name": "@unity-services/economy",
+        "version": "2.1.1",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-ueCrJ9fROgC6K7VApguFUlnp8sddBowdUXlbn1STip5QJ+6yo1LDOs5AuxfsxiGwB3Hs5R8HZ48vEXRCJWuc0A=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.2",
+        "name": "@unity-services/economy",
+        "version": "2.2.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-pf6kiMrvEuwzsGBWqab+2tTSqybI3jAaDEMS4iwM9xm54UImpieHa5azjpoHp96iBK4mT0QWHCdXLceWKB5hhg=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.2.1",
+        "name": "@unity-services/economy",
+        "version": "2.2.1",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-RmPiCLkJHIZS32RyKgZlMq1vEyD8ejyOjTEV8NtqmIPhqBLXniSNoWZyEBSNHx8ZRtTnSmhpGoCw6MqBicyt0w=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.3",
+        "name": "@unity-services/economy",
+        "version": "2.3.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-+z03B/srqhnWH/6HCsJOeRw8heqKMobdnuiQh5QVaqlYVPDighf/Ln/JDU9WrKigSgeTs1lhYHDSkJVef+nJ+g=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.3.1",
+        "name": "@unity-services/economy",
+        "version": "2.3.1",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-Y7wDjS46Sg2D42/DBOC9Yhumek3v/qC8M5Od9v5q7yjD4yAzVYeK+CKZm7TK+7DqUaN4Pdix8n23eFsHtbKrzA=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.3.2",
+        "name": "@unity-services/economy",
+        "version": "2.3.2",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-mJvEfvrAdZbInjmav9VVcoO4NaGNc91yeWXIkQGqOcKP8HNDA/zli7IlrxV9glie2KSr6/ki7OlHA8HqvLQ3/A=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.4",
+        "name": "@unity-services/economy",
+        "version": "2.4.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-sdQQnFsfx2QTELsj1NzHKlZ4cf1QGU/fwlsTt5PJv2ZcEd6JpE5C/mvY0EovIBY+xX51w7Rpz2LwywHrl9JBeQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/economy-2.4.1",
+        "name": "@unity-services/economy",
+        "version": "2.4.1",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-PalvW4gbCQAieQ/hfJNXs6TOkQQ3gwFtZWV8ot9PvLDCpbCkuXph8QbbmlxC/Ia7YRgVjXAsGNIct51RecDmqw=="
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.0",
+        "name": "@unity-services/lobby",
+        "version": "1.0.1",
+        "payloadFilesMatched": 23,
+        "integrity": "sha512-1pLZWJRDPUxwynrmPTglA0dCRVhw1AmaTMXBeIvz9ZWk/wLgLQhqcAuyEFhSFObbF9iJ3lut9XyyNNSGtbF2HQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.1",
+        "name": "@unity-services/lobby",
+        "version": "1.1.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-dcA+VH0RucY206nhSaQLeunOmRsHJXmJjQKatIuFYfyFQouXX75K1SldU3eUuIzDoahvTz96pxwnI4Wm8HvMzQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.1.1",
+        "name": "@unity-services/lobby",
+        "version": "1.1.1",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-z+mjk9ZaDP2TdswOkrcu4+szfWYtiqW8mLOBW+fUDWKRIQGL53htbL3RUPFJpD9fW2teFjNL9LHnvkaaud8BKg=="
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.1.2",
+        "name": "@unity-services/lobby",
+        "version": "1.1.2",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-4tsTvyJAHPOB+V8ZtJ6OVFK8d9414qHSqDJ/Hlusgf+7Wayg4ALhf4YEgsK3P6zmr0TfxKNOmuqVnXt8UvuX+Q=="
+      },
+      {
+        "path": "node_modules/@unity-services/lobby-1.2",
+        "name": "@unity-services/lobby",
+        "version": "1.2.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-FIFe02MKglh5/pm+7V7ZxkgCd8esFNHlmpGxEkxrUdZHhEMILsPpeyungg5K7GcIG6yOBOLlEpNnZY09NqSItA=="
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config",
+        "name": "@unity-services/remote-config",
+        "version": "0.0.4",
+        "payloadFilesMatched": 23,
+        "integrity": "sha512-Q1vMA8rF7vqkHGJx97m2Kwszjq0OQXQsKGj87Ct1o9TWKlN61C91axSKCuKM8dxAs+DEXldd87AyzqWVTwJcrw=="
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config-1.0",
+        "name": "@unity-services/remote-config",
+        "version": "1.0.1",
+        "payloadFilesMatched": 23,
+        "integrity": "sha512-dXeNTMRbhAuoOQO6YkdDb0cSPhenkepVJRkaFEbq3JVm/ojoO7hH2PqiXGJ9/Rw4p6nE29UZLgMU6LVRvM4oww=="
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config-1.1.0",
+        "name": "@unity-services/remote-config",
+        "version": "1.1.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-Z18RC7Np9PNLatED1ew2fV9UC9TCwrCxHTYMKI3MhMdD1jF9NZQG3pnIwdhK44IOwXeGJ5aunQgnBmp4bZlPTQ=="
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config-1.1.1",
+        "name": "@unity-services/remote-config",
+        "version": "1.1.1",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-TMA6FvX7RwNJER18U652Sz+QbrdpmbKFwiZa3fU+R9zeQmEFz/UOMuM7kUuumNIiCoRMRytAw1FOfB/dnYM4ig=="
+      },
+      {
+        "path": "node_modules/@unity-services/remote-config-1.1.2",
+        "name": "@unity-services/remote-config",
+        "version": "1.1.2",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-jF0J5glXjIkEKD03rOtT4DnlzLFJlbjbdT8eFs/sHk0pTY4+eftn5UTogOXkR4hxaw8cukOUuCgbr4e7nSsqVA=="
+      },
+      {
+        "path": "node_modules/@unity-services/vivox-0.1",
+        "name": "@unity-services/vivox",
+        "version": "0.1.6",
+        "payloadFilesMatched": 26,
+        "integrity": "sha512-12FcPiwqtopBLxHzcK7FFhVKq8wlolr85xcnRnaldOzGH83eKvnmSopfKHLaLcFZ5QIs2yaC4kHEoRFYCgRnKA=="
+      },
+      {
+        "path": "node_modules/asynckit",
+        "name": "asynckit",
+        "version": "0.4.0",
+        "payloadFilesMatched": 20,
+        "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="
+      },
+      {
+        "path": "node_modules/axios",
+        "name": "axios",
+        "version": "0.21.4",
+        "payloadFilesMatched": 44,
+        "integrity": "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg=="
+      },
+      {
+        "path": "node_modules/axios-0.21",
+        "name": "axios",
+        "version": "0.21.4",
+        "payloadFilesMatched": 44,
+        "integrity": "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg=="
+      },
+      {
+        "path": "node_modules/call-bind-apply-helpers",
+        "name": "call-bind-apply-helpers",
+        "version": "1.0.2",
+        "payloadFilesMatched": 21,
+        "integrity": "sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ=="
+      },
+      {
+        "path": "node_modules/combined-stream",
+        "name": "combined-stream",
+        "version": "1.0.8",
+        "payloadFilesMatched": 5,
+        "integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg=="
+      },
+      {
+        "path": "node_modules/crypto-js",
+        "name": "crypto-js",
+        "version": "4.1.1",
+        "payloadFilesMatched": 55,
+        "integrity": "sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw=="
+      },
+      {
+        "path": "node_modules/delayed-stream",
+        "name": "delayed-stream",
+        "version": "1.0.0",
+        "payloadFilesMatched": 6,
+        "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ=="
+      },
+      {
+        "path": "node_modules/dunder-proto",
+        "name": "dunder-proto",
+        "version": "1.0.1",
+        "payloadFilesMatched": 15,
+        "integrity": "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A=="
+      },
+      {
+        "path": "node_modules/es-define-property",
+        "name": "es-define-property",
+        "version": "1.0.1",
+        "payloadFilesMatched": 11,
+        "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g=="
+      },
+      {
+        "path": "node_modules/es-errors",
+        "name": "es-errors",
+        "version": "1.3.0",
+        "payloadFilesMatched": 22,
+        "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw=="
+      },
+      {
+        "path": "node_modules/es-object-atoms",
+        "name": "es-object-atoms",
+        "version": "1.1.2",
+        "payloadFilesMatched": 16,
+        "integrity": "sha512-HWcBoN6NileqtSydK2FqHbS/LoDd2pqrnQHLyJzBj4kOp/ky2MWMN694xOfkK8/SnUsW2DH7EfyVlydKCsm1Zw=="
+      },
+      {
+        "path": "node_modules/es-set-tostringtag",
+        "name": "es-set-tostringtag",
+        "version": "2.1.0",
+        "payloadFilesMatched": 10,
+        "integrity": "sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA=="
+      },
+      {
+        "path": "node_modules/follow-redirects",
+        "name": "follow-redirects",
+        "version": "1.16.1",
+        "payloadFilesMatched": 7,
+        "integrity": "sha512-FNvFGzoMLWmE6Yj9spb/zjd7yiNCHiAW9/Tg9CXrQ8wuu32HtlJOwWO11OJafl5FfY3DxTdQ0vj42zU1kvv5jg=="
+      },
+      {
+        "path": "node_modules/form-data",
+        "name": "form-data",
+        "version": "4.0.6",
+        "payloadFilesMatched": 8,
+        "integrity": "sha512-vKatAh4SlVfgbv+YtmhiRjhEMJsYpsG1Y2rMQtR+SVSbytsSD1YGzDIcrAJmdFec88u/+VoGmxnl+80gL1tRCQ=="
+      },
+      {
+        "path": "node_modules/function-bind",
+        "name": "function-bind",
+        "version": "1.1.2",
+        "payloadFilesMatched": 12,
+        "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA=="
+      },
+      {
+        "path": "node_modules/get-intrinsic",
+        "name": "get-intrinsic",
+        "version": "1.3.0",
+        "payloadFilesMatched": 9,
+        "integrity": "sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ=="
+      },
+      {
+        "path": "node_modules/get-proto",
+        "name": "get-proto",
+        "version": "1.0.1",
+        "payloadFilesMatched": 15,
+        "integrity": "sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g=="
+      },
+      {
+        "path": "node_modules/gopd",
+        "name": "gopd",
+        "version": "1.2.0",
+        "payloadFilesMatched": 12,
+        "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg=="
+      },
+      {
+        "path": "node_modules/has-symbols",
+        "name": "has-symbols",
+        "version": "1.1.0",
+        "payloadFilesMatched": 16,
+        "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ=="
+      },
+      {
+        "path": "node_modules/has-tostringtag",
+        "name": "has-tostringtag",
+        "version": "1.0.2",
+        "payloadFilesMatched": 16,
+        "integrity": "sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw=="
+      },
+      {
+        "path": "node_modules/hasown",
+        "name": "hasown",
+        "version": "2.0.4",
+        "payloadFilesMatched": 10,
+        "integrity": "sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A=="
+      },
+      {
+        "path": "node_modules/lodash",
+        "name": "lodash",
+        "version": "4.17.21",
+        "payloadFilesMatched": 1054,
+        "integrity": "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
+      },
+      {
+        "path": "node_modules/lodash-4.17",
+        "name": "lodash",
+        "version": "4.18.1",
+        "payloadFilesMatched": 1051,
+        "integrity": "sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q=="
+      },
+      {
+        "path": "node_modules/math-intrinsics",
+        "name": "math-intrinsics",
+        "version": "1.1.0",
+        "payloadFilesMatched": 38,
+        "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g=="
+      },
+      {
+        "path": "node_modules/mime-db",
+        "name": "mime-db",
+        "version": "1.52.0",
+        "payloadFilesMatched": 6,
+        "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg=="
+      },
+      {
+        "path": "node_modules/mime-types",
+        "name": "mime-types",
+        "version": "2.1.35",
+        "payloadFilesMatched": 5,
+        "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw=="
+      }
+    ],
+    "migration": {
+      "migrationMetadataValid": true,
+      "aliasVersionsIntegrityGraphPreserved": true,
+      "installed": false,
+      "independentRestore": false
+    }
+  },
+  "nuget": {
+    "targetFramework": "net9.0",
+    "runtime": "linux-x64",
+    "direct": 4,
+    "total": 13,
+    "cachePackagesVerified": 13,
+    "lockAndAssetsPinsUnchanged": true,
+    "targets": [
+      "net9.0",
+      "net9.0/linux-x64"
+    ],
+    "feeds": [
+      "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\",
+      "https://api.nuget.org/v3/index.json"
+    ]
+  },
+  "upm": {
+    "packages": 61,
+    "edges": 91,
+    "actualCandidateDeclaredGraphVerifiedInGate24": true
+  },
+  "archives": {
+    "localNpm27MatchPinned": true,
+    "tmpArchiveSha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431"
+  },
+  "userUnity": {
+    "stage8EvidencePath": "AI/90_Tasks/Prototype_10/20261125_23_Phase3Step8FinalVerification.json",
+    "stage8EvidenceSha256": "6a4e5afe5ae713ea579f2535017d49a79c7f3ad0707a4ac23105cbbc8cfbb32a",
+    "compilationReportedSuccess": true,
+    "editModeReportedPassed": 5,
+    "playModeReportedPassed": 3,
+    "visualReportedNormal": true,
+    "finalRunnerXmlUnavailable": true,
+    "actualDiagnosticReportsExist": true,
+    "broadBuildOrAllVariantsNotClaimed": true
+  },
+  "remaining": {
+    "rawReferenceFindings": 31,
+    "immutablePackageWarnings": 37,
+    "rightsNewlyGranted": false,
+    "referenceHealthPass": false,
+    "fullPackageCacheByteIdentity": false,
+    "independentRestoreApproved": false
+  },
+  "executedByAI": {
+    "install": false,
+    "restore": false,
+    "build": false,
+    "unity": false,
+    "testRunner": false
+  }
+}

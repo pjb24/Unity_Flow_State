@@ -1,6 +1,6 @@
 # Project Memory
 
-최종 정리: 2026-11-20
+최종 정리: 2026-11-25
 
 현재 작업에 필요한 상태·사용자 결정·핵심 계약·남은 의무를 유지한다. 상세 규칙은 Rule/Feature/System, 실행 과정과 검증 근거는 Task/Roadmap을 따른다.
 정리 전 이력은 [원문 보관본](../90_Tasks/20261117_02_ProjectMemoryCleanup.md)에 보존했다. 보관본의 과거 대기/다음 작업 문구를 현재 지시로 사용하지 않는다.
@@ -8,7 +8,7 @@
 ## 현재 진행 상태
 
 - **Prototype 9 / Roadmap 9 Phase 1~4 완료(2026-11-18).** [Phase 4 Task Step 10](../90_Tasks/Prototype_9/20261118_01_Phase4ManualSteps.md)의 완료 표에 Compile/1031·316 사용자 성공·16스크립트 exit 0과 최신 Windows-production Candidate02 빌드/Player 6항목 정상 보고를 연결했다. 최종 후보는 `Build/ProductionQA/Candidate02/Unity_Flow_State.exe`의 사용자 2026-11-18 15:55 KST 빌드다. 추가 코드/Test/Scene 수정·재실행 없이 사용자 한정 QA 전환 후보로 완료했으며 일반 공개/Steam 승인은 아니다. 최신 실제 원격 제출/조회·이전/복구·별도 Player 로그 원문 한계와 다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다. AI는 Unity/빌드/Player·원격을 실행하지 않았다.
-- **다음 작업:** [Prototype 10 Phase 3 Task](../90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md) Step 1 현재성/원래 작업본 보호 기준선을 고정한다. Phase 3 Task 작성은 완료(2026-11-20)했으며 Step 1~10 실제 실행은 미착수다. [인계](../90_Tasks/Prototype_10/20261120_02_Phase3Handoff.md)의 별도 환경·안전 전달/필수 입력·정적 검사/Unit Test·실제 복원/사용자 검증·최종 판정을 순서대로 진행한다. [Phase 2 Task](../90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md) Step 1~10과 Phase 2는 완료(2026-11-20)다. 관리/보존·유입/누락/버전/lifecycle·조건부 사용자 실행 절차와 Step 8 Node Test 261개·오늘 CLI 7개/세 조건 판정·보존/인계를 연결했다. 생산 자산/설정·C#·Scene/Prefab·선언/lock·HEAD/index는 보존했으며 실제 도입/제외·lifecycle 요청은 0개다. TMP schema 2의 83파일/폴더 meta 8개·정확한 tgz 27개/지문 110개를 유지한다. Phase 3에는 미커밋 Tools/문서와 최초 안전 hash 기준선 밖 추적 경로 11개의 필요성/안전한 제공 여부도 확인한다. 기존 URP/TMP graph 미해결 31회와 sample orphan의 inventory exit 1은 그대로이며 실제 관련 도입/복원 전 영향/필수 여부를 재검증한다. 실제 manifest/lock 경로 적용·새 lock/설치·취득 권리/계정·Unity 해석·독립 복원은 미검증이다. 현재 사용자 수동 작업은 없다. Phase 3/실제 독립 복원과 Roadmap 10 전체는 미완료이며 Roadmap 11~14 실제 원본 도입 전 전체 완료 및 다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다.
+- **Roadmap 10 Phase 1~3 완료(2026-11-25), 다음 순서는 Roadmap 11.** [Phase 3 Task Step 10](../90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md)·[최종 인계](../90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md)·[최종 검증](../90_Tasks/Prototype_10/20261125_38_Phase3Step10FinalVerification.json)에 실제 별도 후보의 UPM/TMP·npm 57개/NuGet 13개·필수 참조/사용자 Unity 결과와 비추적/자료 보존·제약의 세 조건을 연결했다. 현재 기술 기준선의 복원 완료이며 raw audit exit 1/기존 GUID 31회는 유지한다. stock 37개 사용자 복원 뒤 orphan meta는 0개다. 이번 갱신 문서 6개 외 원래 보호 파일 1,177개·후보 보호 입력 1,113개와 승인된 project 입력 1,177개를 재대조했다. 현재 신규 제품/추적 해제 요청은 0개이고 구매/제품별 권리/재배포·모든 Player/variant·원격/container 검증 승인은 아니다. 사용자 컴파일·EditMode 5개·PlayMode 3개/표시 보고와 pre-TearDown 진단 JSON을 구분하고 최종 Runner XML/전체 Editor 로그 미제공 한계를 보존한다. 추가 수동 실행 없이 완료했으며 AI는 Unity/빌드/Runner·Scene/Prefab·package/cache 쓰기를 수행하지 않았다. 후보는 Temp/FlowState_Phase3_20261120_01/Project의 frozen snapshot이며 원래 Task가 최신 지시다. 원래 선언/lock은 그대로이고 private 보존본/archive 없이는 Git만으로 재현되지 않는다. 실제 후속 도입은 최종 인계 점검표를 적용하며 다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다.
 - Phase 2 최신 사용자 검증은 **EditMode 919개 / PlayMode 288개 전체 통과**다. Windows-production으로 `Build/ProductionQA/Candidate02/`에 덮어쓴 최신 Player의 기존 기능·Pause Retry 확인·메뉴 복귀·UI/포커스/로그 정상 범위를 보고받았다. [최종 근거](../90_Tasks/Prototype_9/20261112_01_Phase2ManualSteps.md)
 - 이전 Candidate02 실물 보존은 사용자가 불필요하다고 결정했다. 같은 경로의 최신 빌드가 현재 기준선이다. 이 결과를 이후 Phase 3 변경의 통과로 승계하지 않는다. AI가 Runner/빌드/Player를 실행하거나 로그/XML을 직접 검증했다고 기록하지 않는다.
 
@@ -85,3 +85,17 @@
 | 운영 후보·승인 예외·차기 복구 시험 | [Prototype 8 Phase 5 Task](../90_Tasks/Prototype_8/20261021_01_Phase5ManualSteps.md) |
 | 프로젝트/아키텍처·문서 책임 | [Project 안내](README.md), [Project Overview](PROJECT_OVERVIEW.md), [Architecture](ARCHITECTURE.md) |
 | 정리 이전의 전체 기록 | [2026-11-17 Memory 정리 기록·원문](../90_Tasks/20261117_02_ProjectMemoryCleanup.md) |
+
+2026-11-25 Step 6 후속: 사용자 npm lock 생성 후 notice 처리 중단을 확인했고 실제 lock 정적 대조는 통과했다. NuGet 기본 복원 후 준비 명령의 runtime 지정 누락을 확인했고 사용자 Linux 보완 restore는 exit 0이었다. 기본/Linux target과 전체 13개 그래프·lock/cache·EmbeddedResource 40개 검증을 통과했다. SDK/spec pin을 유지했고 사용자 npm ci exit 0과 설치 57개/연결 65개·보존 대조를 완료했다. 기존 crypto-js 유지보수 경고는 기록하고 원래 lock 생성 exit null도 보존했다. Step 6 완료이며 추가 수동 작업은 없고 다음은 Step 7이다.
+
+2026-11-25 Step 7 완료: 원래/후보 파일·GUID/Importer·이름/동적/binary 경계를 대조했다. 기존 GUID 미해결 31회는 같고 새 orphan 37개는 원래 대응 빈 파일/동일 meta·직렬화 incoming 없음으로 구체화했으며 실제 Editor 영향은 보류했다. 인계 U1~U5의 Step 8 검증 전 참조 정상/전체 복원 성공으로 처리하지 않는다. 추가 수동 실행/Scene 변경은 없다.
+
+2026-11-25 Step 8 정적 준비 완료: 후보 전용 읽기 전용 EditMode 5개·고정 입력 1,113개·사용자 복사/실행 절차와 부작용 감사를 마련했다. 원래 Assets/기존 Test는 불변이고 실제 C# 컴파일/Unity Runner/진단 결과가 없으므로 Step 8은 미완료다. Stage A 사용자 결과 후 후속 PlayMode/표시 검증을 연결한다.
+
+2026-11-25 Step 8 Stage A 사용자 성공 확인: 실제 진단 5개와 고정 입력 1,113개 불변을 대조했고 37개 package 경고는 기존 orphan payload 부재와 같은 경로로 기록했다. XML은 미제공이며 사용자 최종 5개 통과 보고와 진단 pre-TearDown 상태를 구분했다. Stage B/C 격리 Test/표시 결과와 경고 최종 판정이 남아 Step 8은 미완료다.
+
+2026-11-25 Step 8 완료: 사용자 Stage B PlayMode 3개 통과와 Stage C 글자/material/EmojiOne 정상 결과를 받았고 고정 입력/Scene/원래 보호 자료 불변을 대조했다. 최종 XML은 미제공이며 기존 37개 경고를 해소/무해함으로 선언하지 않는다. 추가 수동 작업 없이 Step 9 전체 무결성/보존 검사로 인계한다.
+
+2026-11-25 Step 9 정적 검증 완료·실제 복원 대기: frozen/현재 파일·실제 설치 payload/Git/유입/보존본과 rollback fixture 79개를 검증했다. 37개 경고의 대응 파일이 고정 Editor 공식 공급본에는 있고 후보에는 없어 exact-source/meta/version 검증된 사용자 복원 스크립트를 준비했다. 실제 package 복원/경고 사후 대조 전 Step 9은 미완료다.
+
+2026-11-25 Step 9 완료: 사용자 공식 빈 파일 37개 복원과 후보 컴파일 성공 보고를 연결했고 byte/meta/원래 자료·Git·고정 입력 불변을 확인했다. orphan meta 진단은 0개이며 기존 GUID 31회는 유지한다. 추가 수동 작업은 없고 Step 10 최종 판정/인계가 남아 있다.

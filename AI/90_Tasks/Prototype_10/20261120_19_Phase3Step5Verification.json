@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "capturedAtUTC": "2026-11-20T12:19:29.573Z",
+  "purpose": "Step 5 final completion after user Editor/import report and actual UPM/TMP verification",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_18_Phase3Step5ActualCheck.json",
+    "sha256": "d82928481bdcfcab7bcc2f35c57ec80a2cc5729376d5f75bd8756e6ab145c969"
+  },
+  "preparationEvidence": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_17_Phase3Step5PreparationVerification.json",
+    "sha256": "074d3fa2b4d610b369d6b03a39b5d923cefb733fb99827b816dda87dcf046ba9"
+  },
+  "inputAudit": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_15_Phase3Step5InputAudit.json",
+    "sha256": "6db492346ff31f05f968430a09c22aded8591a957d3c4d4177d9e51c59c4c9f8"
+  },
+  "reapplyPlan": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_16_Phase3Step5TmpReapplyPlan.json",
+    "sha256": "0e9e8325d2374d06abbc2c23d0cef88aea61436a1dbb6bd950b96f3d80cfd5f3"
+  },
+  "userReport": {
+    "source": "User answered asynchronous execution result question",
+    "candidateEditorOpened": true,
+    "consoleErrorsAndWarningsReported": false,
+    "editorClosed": true,
+    "quotedAnswer": "열렸고 오류·경고 없이 종료함",
+    "aiExecutedEditor": false
+  },
+  "substeps": [
+    {
+      "id": "5-1",
+      "complete": true,
+      "actualUserEditorVersion": "6000.3.5f2",
+      "actualPackageNodes": 61,
+      "actualPackageEdges": 91,
+      "versionsSourcesDependenciesMatched": true
+    },
+    {
+      "id": "5-2",
+      "complete": true,
+      "actualResolvedProviderArchiveSha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431",
+      "matchesOriginalAndPreserved": true,
+      "sourceAndCandidateSchema2Verified": true
+    },
+    {
+      "id": "5-3",
+      "complete": true,
+      "userAppliedAssets": 82,
+      "metaFiles": 45,
+      "folderMetaPairs": 8,
+      "allMetaGuidsImporterPlatformBytesAndNamesMatched": true,
+      "allCandidateMeta": 330,
+      "duplicateGuids": 0
+    },
+    {
+      "id": "5-4",
+      "complete": true,
+      "userOpenedAndClosedCandidateEditor": true,
+      "userReportedConsoleErrorsOrWarnings": false,
+      "aiEditorOrAssetActions": false,
+      "repeatGuardFailureResolvedWithoutOverwrite": true
+    },
+    {
+      "id": "5-5",
+      "complete": true,
+      "sourcePreservationAndCurrentDocumentationVerified": true
+    }
+  ],
+  "preservation": {
+    "sourceGit": {
+      "head": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+      "indexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+      "trackedPathsNulSha256": "5a453022d2b0d87914a1aaa9337edb5a6a5f22b24cf5bb12dbe1910f9d4ea8fa",
+      "indexEntriesNulSha256": "675c1e897558bed4d94c477d5dea644abf0196114cc9aa235bc6d3bf9a1cc617"
+    },
+    "originalTrackedPaths": 975,
+    "originalStagedChanges": 0,
+    "sourceProtectedPaths": 1181,
+    "unchangedProtectedPaths": 1177,
+    "allowedDocumentationChanges": [
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "beforeSha256": "ca377a94d8c959d99f5ec77afe7c9940f470916b117e400bffe0e5972d4e4c2e",
+        "afterSha256": "72af801f7a40d86f1283e29dc578a813ecd33c930d8fc3b6b52baa76ffe22cfc",
+        "reason": "Link user successful Editor report and real output checks; Step 5 complete / Step 6 next"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "beforeSha256": "9e501781566c089699977fa2e0920e2eca6a1b7d69d949db9ea427c251e1aeeb",
+        "afterSha256": "3e62a2b7a91df871225cfff88d7a5af7be0567bf8f97c7c9400d4e49ccdf67a9",
+        "reason": "Link user successful Editor report and real output checks; Step 5 complete / Step 6 next"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "beforeSha256": "9bd6fd009ed4549de504af3eb8640b638fa9bfeef75d4e8abae4937dc1005f5a",
+        "afterSha256": "107b7097ace32121a8624c57f7f6bf31b345938b47285b4e1ef49fc33ec52d4c",
+        "reason": "Link user successful Editor report and real output checks; Step 5 complete / Step 6 next"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "beforeSha256": "c2cecb106eb3a12adc13d96243f3b7a57bae716940d0c922881be00ebc46747d",
+        "afterSha256": "6e26b43eb802053aea727778e557210b2a996bc18bbd541e7b94a915f432d45c",
+        "reason": "Link user successful Editor report and real output checks; Step 5 complete / Step 6 next"
+      }
+    ],
+    "unexpectedChanges": [],
+    "missingFiles": [],
+    "previousMetadataAndCodeTestsUnchanged": true,
+    "originalProductionAssetsScenePrefabDeclarationsLockUnchanged": true,
+    "candidateRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateIndexSha256": "aac70c3179d4379ff133748a9d4817167146fc489779898d48a1680d683587f7",
+    "candidateIndexHashAtActualCheck": "9230f69f600165a937c0d068994ddf8ba216364f8ac42fec5edaadcca115fb16",
+    "candidateIndexBytesChangedSinceActualCheck": true,
+    "candidateIndexEntriesNulSha256": "55f361d5f68a87548648d3f2ba00e2ce62e93b1fb0bd59fe25f487c81bae7805",
+    "candidateIndexModeOidPathsMatchHead": true,
+    "indexFlagsAllH": true,
+    "candidateIndexByteChangeCause": "Not established; byte change observed and retained separately. Exact file/blob/mode/path and HEAD comparisons pass, no staged/working content drift; original index remains strictly unchanged.",
+    "candidateTrackedPaths": 980,
+    "candidateTrackedWorktreeClean": true,
+    "candidateStagedChanges": 0,
+    "candidateWholeWorktreeClean": false,
+    "candidateUntrackedLocalOutputs": [
+      {
+        "sha256": "f24445f4481f74f7653a375e2f618e50d608b14fdacee794fcab51b8d447351c",
+        "keys": [
+          "version",
+          "components"
+        ],
+        "componentCount": 1,
+        "classification": "Candidate-only Unity/IDE generated optional local workload config; intentionally retained untracked, no source config copied, no stage/delete",
+        "newOutputExplicitlyAccepted": true
+      }
+    ],
+    "untrackedPathNames": [
+      ".vsconfig"
+    ],
+    "generatedVsconfigRetainedUntracked": true,
+    "frozenSnapshotFilesUnchanged": 1091,
+    "userTmpAddedAndVerified": 82,
+    "sourceBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "candidateBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "supersededBundleRetainedAndRechecked": true,
+    "npmArchivesPreserved": 27,
+    "qaExecutableHashUnchanged": true,
+    "actualSavesOrSecretBodiesRead": false
+  },
+  "upmSummary": {
+    "providers": 61,
+    "edges": 91,
+    "ugui": "2.0.0",
+    "cloudCode": "2.10.4",
+    "providerArchive": {
+      "path": "Library/PackageCache/com.unity.ugui@1890c14c96ff/Package Resources/TMP Essential Resources.unitypackage",
+      "sha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431",
+      "matchesPreservedProvider": true
+    },
+    "sourceDeclarationAndLockUnchanged": true,
+    "checkApiPassed": true,
+    "userResolvedAndImported": true,
+    "aiInstalled": false
+  },
+  "logEvidence": {
+    "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step5Editor_01.log",
+    "sha256": "6f74ec13b9af18c3ae63642944e1f65e7a0913c6ec34844a58f9242b801b873b",
+    "bytes": 1104858,
+    "engineVersions": [
+      "6000.3.5f2"
+    ],
+    "recognizedErrorPatternLineNumbers": [],
+    "fullLogBodyNotStored": true,
+    "userConsoleReportRemainsSeparateEvidence": true,
+    "cacheOverridePathExplicitlyPrintedInLog": false
+  },
+  "cacheEvidence": {
+    "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\UPM_Step5_01",
+    "wasAbsentInPreparation": true,
+    "nowExists": true,
+    "files": 156,
+    "bytes": 42618612,
+    "scope": "New dedicated cache contains package data after user action; log does not explicitly print the override path. Not a network transport or per-byte provenance attestation."
+  },
+  "validation": {
+    "utf8JsonWhitespaceValid": true,
+    "localMarkdownLinksChecked": 103,
+    "stepCheckboxes": {
+      "complete": 5,
+      "pending": 5
+    },
+    "stepsInOrder": true,
+    "gitDiffCheckExitCode": 0,
+    "unitTestSuitesRerun": false,
+    "previousNodeTestsPassed": 340,
+    "reasonNoSuiteRerun": "No code/policy/Test changes; performed actual provider/graph/byte/meta/Git checks with existing APIs and connected user Console report. No Unity Runner invoked.",
+    "sourceNewPathsThisContinuation": [
+      "AI/90_Tasks/Prototype_10/20261120_18_Phase3Step5ActualCheck.json",
+      "AI/90_Tasks/Prototype_10/20261120_19_Phase3Step5Verification.json"
+    ],
+    "oldPreparationMetadataNotOverwritten": true,
+    "orchestrationCorrection": "Initial temporary collector used relative require paths; corrected to absolute repository module paths before metadata/output changes."
+  },
+  "files": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "6e26b43eb802053aea727778e557210b2a996bc18bbd541e7b94a915f432d45c"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "72af801f7a40d86f1283e29dc578a813ecd33c930d8fc3b6b52baa76ffe22cfc"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "3e62a2b7a91df871225cfff88d7a5af7be0567bf8f97c7c9400d4e49ccdf67a9"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "107b7097ace32121a8624c57f7f6bf31b345938b47285b4e1ef49fc33ec52d4c"
+    }
+  ],
+  "completion": {
+    "step5Complete": true,
+    "completedDateKST": "2026-11-20",
+    "nextStep": 6,
+    "manualWorkRequiredNow": false,
+    "userTmpApplied": true,
+    "userUpmResolvedAndImported": true,
+    "userEditorClosedWithNoConsoleErrorsWarningsReported": true,
+    "aiUnityExecuted": false,
+    "aiCompileExecuted": false,
+    "aiBuildExecuted": false,
+    "aiTestRunnerExecuted": false,
+    "aiTmpAssetsApplied": false,
+    "sceneOrPrefabApplied": false,
+    "npmPathMigrationOrInstallExecuted": false,
+    "nugetRestoreExecuted": false,
+    "step6Started": false,
+    "rightsGranted": false,
+    "referenceHealthPass": false,
+    "independentRestore": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false
+  },
+  "handoff": {
+    "next": "Step 6: inspect actual archive/provider inputs and prepare exact npm path migration, real user lock/ci and NuGet restore/graph/feed/resource checks without changing original declarations/lock.",
+    "candidateFrozenDocumentation": "Candidate Task remains Step 3 snapshot; use current original Task for instructions and external Step 4/5 sidecar evidence.",
+    "knownRemainingReferenceLimits": "URP/TMP unresolved references/sample orphan remain for Step 7 required-impact classification and Step 8 minimal user Unity validation. Editor/import input preservation is not a rendering/subasset/runtime or full independent restoration certificate.",
+    "rerunFirstApplyBlock": false
+  },
+  "selfHashPolicy": "Next Step must pin this final JSON externally. Keep input/preparation/actual checks immutable; compare future candidate outputs against the real Step 5 state."
+}

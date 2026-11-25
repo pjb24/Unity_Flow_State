@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 8 Stage A actual result/warning review and bounded Stage B/C handoff",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_19_Phase3Step8StageAActualVerification.json",
+    "sha256": "f3e174b43f2736ea4de852acebc3e4649297cbaf5f685b6e4eca119c650bd54e"
+  },
+  "stageBGuide": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_20_Phase3Step8StageBUserChecks.md",
+    "sha256": "6fd2c31fa0b512f366383de6cef40849d44dec7c767b7622fbde2a5883608d2a"
+  },
+  "stageA": {
+    "userCompileSuccess": true,
+    "userFinalEditModePassed": 5,
+    "diagnosticPreTearDownPassed": 5,
+    "assertionIssues": 0,
+    "xmlUnavailableRecorded": true,
+    "protectedCandidateFilesUnchanged": 1113
+  },
+  "warning": {
+    "exactPreviousOrphanTargets": 37,
+    "currentMissingSameAsBefore": true,
+    "sourcePayloadsZeroBytes": true,
+    "newTestWriteNotEvidenced": true,
+    "mechanismUnconfirmed": true,
+    "notSuppressed": true,
+    "finalPackageIntegrityNotApproved": true
+  },
+  "stageB": {
+    "selectedExistingMethods": [
+      {
+        "fixture": "InfinitePatternConnectionIntegrationTests",
+        "method": "FrontBoundary_PhysicalTrigger_AdvancesOnlyOnce",
+        "line": 109,
+        "bodyHash": "aee2f9428adb4808a7815c62eebf4a50bb801664e9d7a0469004c9c549547378"
+      },
+      {
+        "fixture": "ModeUISceneConfigurationTests",
+        "method": "UIComponents_AreSerializedBeforeUseAndNeverAddedAtRuntime",
+        "line": 20,
+        "bodyHash": "8aa2bd99d7076019e809e8343aa58359de9f29fcd9921bf3656cc2e1b33f2dd2"
+      },
+      {
+        "fixture": "ModeUISceneConfigurationTests",
+        "method": "Phase4LeaderboardAndResultControls_AreWired",
+        "line": 474,
+        "bodyHash": "c5af1e643f7bff8bdbf4e1440bfae4edbab1b74b82ed5e50c677ef862a0c740d"
+      }
+    ],
+    "sourcePinsVerified": true,
+    "editorIsolationReservationRequiredBeforeEveryRun": true,
+    "memoryAndOnlineBypassReviewed": true,
+    "runByUserOnly": true,
+    "executedByAI": false,
+    "userResultsPending": true
+  },
+  "stageC": {
+    "afterStageBPassOnly": true,
+    "visualOnly": "menu/game/Pause text and materials plus existing EmojiOne Inspector preview",
+    "sceneSaved": false,
+    "actualResultsPending": true
+  },
+  "preservation": {
+    "originalProtectedFilesUnchanged": 1179,
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0,
+    "existingAssetsAndPackageDeclarationsUnchanged": true,
+    "preparationArtifactsAndActualReportsUnchanged": true,
+    "allowedDocumentationChanges": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "fb4d2c59f4d311e2d92926b9144e10945de88035c261569d4a80f3ac4063ecc8"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "ebd2c69bb1d7a85272fec78411ddd00d2a0c95e21d847457ac588d5683334fce"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "d83853e3ef0176007c89a567dfc5ed6557f478a87e9367d663cc890c438f2331"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "7b5af71a6dc34b23e9ab750935328debdafcabda3e5abcd266bab73236f6a5f4"
+      }
+    ]
+  },
+  "validation": {
+    "relativeLinks": 134,
+    "gitDiffCheckExitCode": 0,
+    "newCodeOrTestChanges": false,
+    "mainCompletedSteps": 7,
+    "pendingMainSteps": 3
+  },
+  "execution": {
+    "aiRanUnityBuildTestRunnerInstallRestore": false,
+    "aiChangedSceneOrPrefabOrPackageFiles": false
+  },
+  "completion": {
+    "step8Complete": false,
+    "awaiting": "User Stage B PlayMode 3 tests, then isolated Stage C visual results and final warning disposition",
+    "step9Started": false,
+    "phase3Complete": false,
+    "independentRestore": false
+  }
+}

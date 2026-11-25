@@ -38,6 +38,7 @@ ARCHITECTURE.md
 PROJECT_MEMORY.md
 
 ASSET_DEPENDENCIES.md
+
 ```
 
 ---
@@ -83,6 +84,8 @@ ASSET_DEPENDENCIES.md
 # 문서 확인 순서
 
 외부 애셋/의존성 작업에서는 [ASSET_DEPENDENCIES.md](ASSET_DEPENDENCIES.md)를 추가 확인한다. 현재 제품 기록·사용처/경계·상태를 관리하며 규칙은 Rules, 빈 형식은 Templates, 상세 이력은 Tasks에서 관리한다.
+
+처음 작업하는 사람은 [Third Party 파일 관리 가이드](../../THIRD_PARTY_GUIDE.md)를 먼저 읽는다. 가이드는 기존 규칙을 작업 순서로 설명하며 제품별 상태를 중복 기록하지 않는다. 파일 분류·폴더/기록 위치·도입·검사·복원·업데이트/제거를 한 문서에서 확인할 수 있다.
 
 새로운 작업을 시작하는 경우 아래 순서로 문서를 확인한다.
 

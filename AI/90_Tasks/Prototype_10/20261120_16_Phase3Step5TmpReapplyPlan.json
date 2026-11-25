@@ -1,0 +1,1529 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "purpose": "User-only exact TMP Assets reapplication and subsequent Editor import contract; not executed",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_15_Phase3Step5InputAudit.json",
+    "sha256": "6db492346ff31f05f968430a09c22aded8591a957d3c4d4177d9e51c59c4c9f8"
+  },
+  "candidateRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+  "bundleRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\Ignore\\DependencyPreservation\\tmp-baseline\\29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+  "bundleManifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+  "expectedCandidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+  "expectedCandidateIndexSha256": "9230f69f600165a937c0d068994ddf8ba216364f8ac42fec5edaadcca115fb16",
+  "assetsSourceDirectory": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\Ignore\\DependencyPreservation\\tmp-baseline\\29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c\\files\\Assets\\TextMesh Pro",
+  "assetsSourceRootMeta": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\Ignore\\DependencyPreservation\\tmp-baseline\\29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c\\files\\Assets\\TextMesh Pro.meta",
+  "destinationAssets": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\Assets",
+  "assetFileCount": 82,
+  "metaFileCount": 45,
+  "folderMetaCount": 8,
+  "directories": [
+    "Assets/TextMesh Pro",
+    "Assets/TextMesh Pro/Fonts",
+    "Assets/TextMesh Pro/Resources",
+    "Assets/TextMesh Pro/Resources/Fonts & Materials",
+    "Assets/TextMesh Pro/Resources/Sprite Assets",
+    "Assets/TextMesh Pro/Resources/Style Sheets",
+    "Assets/TextMesh Pro/Shaders",
+    "Assets/TextMesh Pro/Sprites"
+  ],
+  "mappings": [
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro.meta",
+      "target": "Assets/TextMesh Pro.meta",
+      "beforeSha256": null,
+      "afterSha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3",
+      "bytes": 172,
+      "guid": "f54d1bd14bd3ca042bd867b519fee8cc",
+      "folderMeta": true,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Fonts.meta",
+      "target": "Assets/TextMesh Pro/Fonts.meta",
+      "beforeSha256": null,
+      "afterSha256": "11e80153fa39b86efadb8917ecde12a0402fe0729f2c88f6f8d1999f3fb04748",
+      "bytes": 172,
+      "guid": "6ab70aee4d56447429c680537fbf93ed",
+      "folderMeta": true,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+      "target": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+      "beforeSha256": null,
+      "afterSha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48",
+      "bytes": 4469,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta",
+      "target": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta",
+      "beforeSha256": null,
+      "afterSha256": "5dbec32c014c17d94674af5f1494d49b42ba00edd50397f895f088c868ccbf86",
+      "bytes": 177,
+      "guid": "6e59c59b81ab47f9b6ec5781fa725d2c",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+      "target": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+      "beforeSha256": null,
+      "afterSha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49",
+      "bytes": 350200,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta",
+      "target": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta",
+      "beforeSha256": null,
+      "afterSha256": "e2e35a015703584fb119355fa02631764d111c3e112d32519801d46bd697b596",
+      "bytes": 414,
+      "guid": "e3265ab4bf004d28a9537516768c1c75",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources.meta",
+      "target": "Assets/TextMesh Pro/Resources.meta",
+      "beforeSha256": null,
+      "afterSha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805",
+      "bytes": 172,
+      "guid": "243e06394e614e5d99fab26083b707fa",
+      "folderMeta": true,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials.meta",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials.meta",
+      "beforeSha256": null,
+      "afterSha256": "8917470a9265beb1ef55a28c6a3718eb12ec8004554499998cc345056247995f",
+      "bytes": 191,
+      "guid": "731f1baa9d144a9897cb1d341c2092b8",
+      "folderMeta": true,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+      "beforeSha256": null,
+      "afterSha256": "b6b65c34e4907dd3006c2217fc8a4cef81b6da24df0a3de8e2288199eb6c5a9d",
+      "bytes": 2975,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "Fonts & Materials/LiberationSans SDF - Drop Shadow",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta",
+      "beforeSha256": null,
+      "afterSha256": "ef2eee63b288d47823da38109e3e8c879f4717a82dc662ac2d5e2460dacde698",
+      "bytes": 179,
+      "guid": "e73a58f6e2794ae7b1b7e50b7fb811b0",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+      "beforeSha256": null,
+      "afterSha256": "d63f8a5a5a7797fec144afab9ffb996c428cf9cdb4ae8f53cf434526c133c63b",
+      "bytes": 21139,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "Fonts & Materials/LiberationSans SDF - Fallback",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta",
+      "beforeSha256": null,
+      "afterSha256": "d6d86504040cf6e736767fda9bdef494afb06d5304384243e2dd703eba3a4a3d",
+      "bytes": 179,
+      "guid": "2e498d1c8094910479dc3e1b768306a4",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+      "beforeSha256": null,
+      "afterSha256": "25874340976d40e9f9e8abf731b7f32e5a478541dead9288140bd60c7a3287d9",
+      "bytes": 2889,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "Fonts & Materials/LiberationSans SDF - Outline",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta",
+      "beforeSha256": null,
+      "afterSha256": "a8cf0ee9888a163e892368b4660b9c62a7375e7f8afdb8ee02e5c91ca1cdb355",
+      "bytes": 179,
+      "guid": "79459efec17a4d00a321bdcc27bbc385",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+      "beforeSha256": null,
+      "afterSha256": "a44c806bbf6d3c87d080d14e6467859ce15c3e6744311f0fdfe2bcd3b69da2d7",
+      "bytes": 2264670,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "Fonts & Materials/LiberationSans SDF",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta",
+      "target": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta",
+      "beforeSha256": null,
+      "afterSha256": "37233890984555987cb585551bc885069f2849a9b0d1c2191af073b9376aa10f",
+      "bytes": 179,
+      "guid": "8f586378b4e144a9851e7b34d9b748ee",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+      "target": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+      "beforeSha256": null,
+      "afterSha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6",
+      "bytes": 269,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "LineBreaking Following Characters",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+      "target": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+      "beforeSha256": null,
+      "afterSha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490",
+      "bytes": 179,
+      "guid": "fade42e8bc714b018fac513c043d323b",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+      "target": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+      "beforeSha256": null,
+      "afterSha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c",
+      "bytes": 95,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "LineBreaking Leading Characters",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+      "target": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+      "beforeSha256": null,
+      "afterSha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4",
+      "bytes": 179,
+      "guid": "d82c1b31c7e74239bff1220585707d2b",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Sprite Assets.meta",
+      "target": "Assets/TextMesh Pro/Resources/Sprite Assets.meta",
+      "beforeSha256": null,
+      "afterSha256": "5605affac803b81f876f35577f075c9b7e5ea73cf812fdfcc74277bf0f40140e",
+      "bytes": 191,
+      "guid": "512a49d95c0c4332bdd98131869c23c9",
+      "folderMeta": true,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+      "target": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+      "beforeSha256": null,
+      "afterSha256": "155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54",
+      "bytes": 13441,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "Sprite Assets/EmojiOne",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta",
+      "target": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta",
+      "beforeSha256": null,
+      "afterSha256": "097525b164260b0fb34b4e0c73b3187c693f4dfe2991f475b5b416dbf07dfbbc",
+      "bytes": 179,
+      "guid": "c41005c129ba4d66911b75229fd70b45",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Style Sheets.meta",
+      "target": "Assets/TextMesh Pro/Resources/Style Sheets.meta",
+      "beforeSha256": null,
+      "afterSha256": "1fdf0423552f46284fb97894f36adcd34d32e595aaf5c7cf1ce38a2349faaf89",
+      "bytes": 191,
+      "guid": "4aecb92fff08436c8303b10eab8da368",
+      "folderMeta": true,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+      "target": "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+      "beforeSha256": null,
+      "afterSha256": "93e073cdb91b7e3d2fa31e2dd13626d7b9d2f327904ba8c3c2b97a3eecfbabac",
+      "bytes": 5539,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "Style Sheets/Default Style Sheet",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta",
+      "target": "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta",
+      "beforeSha256": null,
+      "afterSha256": "b832663ca09ec7af8c8e816fd91a718b2af6c21ab4f126fa818871ad53bce763",
+      "bytes": 181,
+      "guid": "f952c082cb03451daed3ee968ac6c63e",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "target": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "beforeSha256": null,
+      "afterSha256": "7be438062cdc296835a1258b68bcbeb8e9fdc4b01ea27c05a24a1074260f7424",
+      "bytes": 1852,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": "TMP Settings",
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+      "target": "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+      "beforeSha256": null,
+      "afterSha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45",
+      "bytes": 179,
+      "guid": "3f5b5dff67a942289a9defa416b206f3",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders.meta",
+      "target": "Assets/TextMesh Pro/Shaders.meta",
+      "beforeSha256": null,
+      "afterSha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30",
+      "bytes": 172,
+      "guid": "e9f693669af91aa45ad615fc681ed29f",
+      "folderMeta": true,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl",
+      "target": "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl",
+      "beforeSha256": null,
+      "afterSha256": "88cf0f62e4000b71750c059d0886b19504cd1cf10f39bb61ddc11b77a882d417",
+      "bytes": 6021,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl.meta",
+      "target": "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl.meta",
+      "beforeSha256": null,
+      "afterSha256": "e1d0c5347b3c55930759f5bc0985e11611a4b2ff22eef24523eb108687bd1642",
+      "bytes": 230,
+      "guid": "96de908384869cd409c75efa351d5edf",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader",
+      "beforeSha256": null,
+      "afterSha256": "42892a52f22bdde6d482cf2da5f35e4b813063fc6fe42189eee5562080079494",
+      "bytes": 3836,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Bitmap Custom Atlas"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "91be1d5618a7da33c878e20cf2be3e13b897d4976c70bde0cda7a67dbd502cd2",
+      "bytes": 204,
+      "guid": "48bb5f55d8670e349b6e614913f9d910",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader",
+      "beforeSha256": null,
+      "afterSha256": "b50afc7edc8a710f8b4159149b2391e7238b5e4076cc0ea2119090ed29e13b4a",
+      "bytes": 4071,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Mobile/Bitmap"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "7430f3e97ae1b46f34e1ca75508705bb7b944307c41dc568ea728011f327086d",
+      "bytes": 204,
+      "guid": "1e3b057af24249748ff873be7fafee47",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader",
+      "beforeSha256": null,
+      "afterSha256": "1d32f34c71276c1321aa0540a2410e15808743a38b2026923045a4dec4a79b58",
+      "bytes": 3839,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Bitmap"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "3d462e6f8ba57f45dc5e6000020db066c36ed5a1a24f74f749727812373c2325",
+      "bytes": 204,
+      "guid": "128e987d567d4e2c824d754223b3f3b0",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader",
+      "beforeSha256": null,
+      "afterSha256": "a0d318756cba0f95a7052c387e629d0add3e9a4125c8333f1d1ed591af5f17cb",
+      "bytes": 11054,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Distance Field Overlay"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "fb8fc84b612e19c169cdf3596195b416e68d227a8987a0eaa90d8c137fb69797",
+      "bytes": 204,
+      "guid": "dd89cf5b9246416f84610a006f916af7",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader",
+      "beforeSha256": null,
+      "afterSha256": "2a991951b00b0c052363a1025f655450054325437b3d13c2623a987c8ec77c30",
+      "bytes": 12438,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Distance Field SSD"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "bea74d576f181a8bb04b8cf02eedd0136540325ecb2824928a3aa52c75adcb13",
+      "bytes": 204,
+      "guid": "14eb328de4b8eb245bb7cea29e4ac00b",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+      "beforeSha256": null,
+      "afterSha256": "bf68062f68b38b588abd1c354f64e905f824d9a2c47f92ebdd70a32989eb2097",
+      "bytes": 287427,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph.meta",
+      "beforeSha256": null,
+      "afterSha256": "d1b70558e8b974d918e13c010db6d375fef815ba530bc2421ab031aa3a784ee8",
+      "bytes": 285,
+      "guid": "ca2ed216f98028c4dae6c5224a952b3c",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+      "beforeSha256": null,
+      "afterSha256": "8a969c2d775079cce4e1c45d5eb6d3964b27d44dc884178363050c74fd5e9742",
+      "bytes": 279909,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph.meta",
+      "beforeSha256": null,
+      "afterSha256": "8cd498ce8f6ed2e7c0560d605eb912455cd6fdaf09a4d545d9743f63b3426bd0",
+      "bytes": 285,
+      "guid": "f63d574838ccfb44f84acc05fed0af48",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader",
+      "beforeSha256": null,
+      "afterSha256": "41cff58473557bf760d03513a8c098f43a24e4eeb4c8ccd7d828c045a338a9ed",
+      "bytes": 8273,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Mobile/Distance Field - Masking"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "3744d078f9a8b6d3c5d9bca51e43f9223544fcafaf9396e121f49ea84a0609d3",
+      "bytes": 204,
+      "guid": "bc1ede39bf3643ee8e493720e4259791",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader",
+      "beforeSha256": null,
+      "afterSha256": "fb286386d0592ce6d63eb736f180b4b0f638ec538b0855aa54767a438ebd1173",
+      "bytes": 8081,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Mobile/Distance Field Overlay"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "1eeca1536c7506f79d4d877b866a5fb88db8f402634e091b6d78aa9d21c9d18b",
+      "bytes": 204,
+      "guid": "a02a7d8c237544f1962732b55a9aebf1",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader",
+      "beforeSha256": null,
+      "afterSha256": "8b30c140f6af9134392fe6ecf4c0676db73f873489ac52adfb47bbd288cb51b8",
+      "bytes": 3064,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Mobile/Distance Field SSD"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "e3412891b9306b017e60cba4ae4f6d258ee8b161d986dcde9cefb3d60345514d",
+      "bytes": 204,
+      "guid": "c8d12adcee749c344b8117cf7c7eb912",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader",
+      "beforeSha256": null,
+      "afterSha256": "4bc2db64befbd0e37e23539f21096ad2fcd9d61b36d2174d208a7d831a0883f7",
+      "bytes": 11795,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Mobile/Distance Field - 2 Pass"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "65ecbce6f1621f2d7ddc5e6004dda5e55e1f58ec6e01178f3691e1e81e01de55",
+      "bytes": 204,
+      "guid": "0178fcb869bafef4690d177d31d17db8",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+      "beforeSha256": null,
+      "afterSha256": "44c39aabc7e88e7e1feffc1880df754f4adf86b62e9512aa89e9d2d65171aff4",
+      "bytes": 8074,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Mobile/Distance Field"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d",
+      "bytes": 204,
+      "guid": "fe393ace9b354375a9cb14cdbbc28be4",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader",
+      "beforeSha256": null,
+      "afterSha256": "f9fae5906dd37d89298338953294459975de58a5421e68dd9e82a79794b95509",
+      "bytes": 3523,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Mobile/Distance Field (Surface)"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "95aa060f371ee503a22c0a0b018e029c0328bd82b9317feaa784432b0a787343",
+      "bytes": 204,
+      "guid": "85187c2149c549c5b33f0cdb02836b17",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader",
+      "beforeSha256": null,
+      "afterSha256": "5dadb68b56429547918b392626e9af8fd5173936d20bb43cfca58dfa00947257",
+      "bytes": 4353,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Distance Field (Surface)"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "42439f5ac7491998f562e8ede73d64c3512953eb99fb1b49e833f5d9999a7660",
+      "bytes": 204,
+      "guid": "f7ada0af4f174f0694ca6a487b8f543d",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+      "beforeSha256": null,
+      "afterSha256": "e0148ce8e5904232a4e711376a45b7af2a007fb9690c5a69c1cb4952a696cdbf",
+      "bytes": 283866,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph.meta",
+      "beforeSha256": null,
+      "afterSha256": "4c36abf5f2611c9d2cb04e7da8c30e42077503a17cb218020e171b6d3ff664f7",
+      "bytes": 285,
+      "guid": "a3d800b099a06e0478fb790c5e79057a",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+      "beforeSha256": null,
+      "afterSha256": "dc15b6819ad87a4b34ed888ae2c274624efc0ada902d1a9e7752d87922414dcc",
+      "bytes": 277012,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph.meta",
+      "beforeSha256": null,
+      "afterSha256": "f1ef815e2672fd770f47ee424c64f7ecdbdc642b7475828c29db032586aa10b6",
+      "bytes": 285,
+      "guid": "124c112a6e8f1a54e8b0870e881b56d8",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+      "beforeSha256": null,
+      "afterSha256": "10efe6d4728474a09970b857faf37913793e168dc13dbd4d7316b54b37615d97",
+      "bytes": 11027,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Distance Field"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6",
+      "bytes": 204,
+      "guid": "68e6db2ebdc24f95958faec2be5558d6",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+      "beforeSha256": null,
+      "afterSha256": "af669bb9ae136c8099f8e0a94a6933fd2f1e1fb0a6842129939a319fab4b8dbb",
+      "bytes": 3446,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [
+        "TextMeshPro/Sprite"
+      ],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta",
+      "beforeSha256": null,
+      "afterSha256": "9609584c5249687f3765f0018a93dfd6445c7e35d5aee4e87556f111c8852819",
+      "bytes": 204,
+      "guid": "cf81c85f95fe47e1a27f6ae460cf182c",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMPro.cginc",
+      "target": "Assets/TextMesh Pro/Shaders/TMPro.cginc",
+      "beforeSha256": null,
+      "afterSha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e",
+      "bytes": 2277,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+      "beforeSha256": null,
+      "afterSha256": "a9cf9d5431b809e36b8ffff4377b5ebda7d386a36d48838cd134bc09f3caec6c",
+      "bytes": 215,
+      "guid": "407bc68d299748449bbf7f48ee690f8d",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc",
+      "target": "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc",
+      "beforeSha256": null,
+      "afterSha256": "d9d43ddd9810476162f21b42477d9ce2cdc4e6cc7571d354c3253aafc6673ead",
+      "bytes": 5453,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta",
+      "beforeSha256": null,
+      "afterSha256": "2e16fa15ef884a60a402d8b696f8b09e5315cbb468ba223d256030c7fe2b0667",
+      "bytes": 204,
+      "guid": "c334973cef89a9840b0b0c507e0377ab",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+      "target": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+      "beforeSha256": null,
+      "afterSha256": "66db1f03e8d7a413eba79bcb6602fdb2de710b586f34a6f2584ed6f68f028e90",
+      "bytes": 2707,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+      "beforeSha256": null,
+      "afterSha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5",
+      "bytes": 204,
+      "guid": "3997e2241185407d80309a82f9148466",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc",
+      "target": "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc",
+      "beforeSha256": null,
+      "afterSha256": "244b442520282a66363d121c8d2aeeb30bb1e72cbbadbf41ce68d9100322ade5",
+      "bytes": 3515,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta",
+      "target": "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta",
+      "beforeSha256": null,
+      "afterSha256": "247746f3a4e39dd24d1ad99e4fae03ae8976586307948b2846529a876dcb0a63",
+      "bytes": 204,
+      "guid": "d930090c0cd643c7b55f19a38538c162",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Sprites.meta",
+      "target": "Assets/TextMesh Pro/Sprites.meta",
+      "beforeSha256": null,
+      "afterSha256": "41e002b97ba2235689fba502d1ee4419f50ea0095cd3632cdc50bc90ca8a94de",
+      "bytes": 172,
+      "guid": "d0603b6d5186471b96c778c3949c7ce2",
+      "folderMeta": true,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+      "target": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+      "beforeSha256": null,
+      "afterSha256": "4b65f8960e4f4c5c8b35fd139e369265e9bb45667fc16461b2ba01188d464d93",
+      "bytes": 185,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta",
+      "target": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta",
+      "beforeSha256": null,
+      "afterSha256": "9fffc8ac513116b8ac394d86d81ca9ac4ec52ee92c63c114d355808384ea16fc",
+      "bytes": 158,
+      "guid": "381dcb09d5029d14897e55f98031fca5",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Sprites/EmojiOne.json",
+      "target": "Assets/TextMesh Pro/Sprites/EmojiOne.json",
+      "beforeSha256": null,
+      "afterSha256": "b85c4b3001b6ba82d175f4cd5dab83da467bbc2527d3d447b66919d2d20c4faf",
+      "bytes": 3966,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Sprites/EmojiOne.json.meta",
+      "target": "Assets/TextMesh Pro/Sprites/EmojiOne.json.meta",
+      "beforeSha256": null,
+      "afterSha256": "ac2c551b5bc7f7d636d54ded634dfc3493e249567283b2efc06d1299f9360061",
+      "bytes": 177,
+      "guid": "8f05276190cf498a8153f6cbe761d4e6",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Sprites/EmojiOne.png",
+      "target": "Assets/TextMesh Pro/Sprites/EmojiOne.png",
+      "beforeSha256": null,
+      "afterSha256": "a87b965a701de3dc31d7401e542b1fc946587f912c51d7a26e46ade9f098bd1a",
+      "bytes": 112319,
+      "guid": null,
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact payload bytes and serialized fileID/name data; Unity interpretation pending"
+    },
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Assets/TextMesh Pro/Sprites/EmojiOne.png.meta",
+      "target": "Assets/TextMesh Pro/Sprites/EmojiOne.png.meta",
+      "beforeSha256": null,
+      "afterSha256": "eb63c0321658b980b138ce5f675d44689b8c7144df43976931e132e7706d1e1a",
+      "bytes": 9784,
+      "guid": "dffef66376be4fa480fb02b19edbe903",
+      "folderMeta": false,
+      "resourcesName": null,
+      "shaderNames": [],
+      "importerAndPlatformContract": "Preserve exact .meta bytes; no GUID/Importer/platform edits"
+    }
+  ],
+  "retainWithoutReapplication": [
+    {
+      "source": "Ignore/DependencyPreservation/tmp-baseline/29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c/files/Library/PackageCache/com.unity.ugui@1890c14c96ff/Package Resources/TMP Essential Resources.unitypackage",
+      "sha256": "58564ec64cef8a8cea3d0b8ffb5e6fecf4176d544a2f6a29a2b43a0a33256431",
+      "reason": "Keep provider unitypackage in Ignore only; never copy this nested Library path into candidate Library or treat it as freshly resolved provider"
+    }
+  ],
+  "allowedCandidateChanges": {
+    "newFiles": [
+      {
+        "path": "Assets/TextMesh Pro.meta",
+        "beforeSha256": null,
+        "afterSha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts.meta",
+        "beforeSha256": null,
+        "afterSha256": "11e80153fa39b86efadb8917ecde12a0402fe0729f2c88f6f8d1999f3fb04748"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+        "beforeSha256": null,
+        "afterSha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta",
+        "beforeSha256": null,
+        "afterSha256": "5dbec32c014c17d94674af5f1494d49b42ba00edd50397f895f088c868ccbf86"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+        "beforeSha256": null,
+        "afterSha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta",
+        "beforeSha256": null,
+        "afterSha256": "e2e35a015703584fb119355fa02631764d111c3e112d32519801d46bd697b596"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources.meta",
+        "beforeSha256": null,
+        "afterSha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials.meta",
+        "beforeSha256": null,
+        "afterSha256": "8917470a9265beb1ef55a28c6a3718eb12ec8004554499998cc345056247995f"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+        "beforeSha256": null,
+        "afterSha256": "b6b65c34e4907dd3006c2217fc8a4cef81b6da24df0a3de8e2288199eb6c5a9d"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta",
+        "beforeSha256": null,
+        "afterSha256": "ef2eee63b288d47823da38109e3e8c879f4717a82dc662ac2d5e2460dacde698"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+        "beforeSha256": null,
+        "afterSha256": "d63f8a5a5a7797fec144afab9ffb996c428cf9cdb4ae8f53cf434526c133c63b"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta",
+        "beforeSha256": null,
+        "afterSha256": "d6d86504040cf6e736767fda9bdef494afb06d5304384243e2dd703eba3a4a3d"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+        "beforeSha256": null,
+        "afterSha256": "25874340976d40e9f9e8abf731b7f32e5a478541dead9288140bd60c7a3287d9"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta",
+        "beforeSha256": null,
+        "afterSha256": "a8cf0ee9888a163e892368b4660b9c62a7375e7f8afdb8ee02e5c91ca1cdb355"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+        "beforeSha256": null,
+        "afterSha256": "a44c806bbf6d3c87d080d14e6467859ce15c3e6744311f0fdfe2bcd3b69da2d7"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta",
+        "beforeSha256": null,
+        "afterSha256": "37233890984555987cb585551bc885069f2849a9b0d1c2191af073b9376aa10f"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+        "beforeSha256": null,
+        "afterSha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+        "beforeSha256": null,
+        "afterSha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+        "beforeSha256": null,
+        "afterSha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+        "beforeSha256": null,
+        "afterSha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Sprite Assets.meta",
+        "beforeSha256": null,
+        "afterSha256": "5605affac803b81f876f35577f075c9b7e5ea73cf812fdfcc74277bf0f40140e"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+        "beforeSha256": null,
+        "afterSha256": "155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta",
+        "beforeSha256": null,
+        "afterSha256": "097525b164260b0fb34b4e0c73b3187c693f4dfe2991f475b5b416dbf07dfbbc"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Style Sheets.meta",
+        "beforeSha256": null,
+        "afterSha256": "1fdf0423552f46284fb97894f36adcd34d32e595aaf5c7cf1ce38a2349faaf89"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+        "beforeSha256": null,
+        "afterSha256": "93e073cdb91b7e3d2fa31e2dd13626d7b9d2f327904ba8c3c2b97a3eecfbabac"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta",
+        "beforeSha256": null,
+        "afterSha256": "b832663ca09ec7af8c8e816fd91a718b2af6c21ab4f126fa818871ad53bce763"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+        "beforeSha256": null,
+        "afterSha256": "7be438062cdc296835a1258b68bcbeb8e9fdc4b01ea27c05a24a1074260f7424"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+        "beforeSha256": null,
+        "afterSha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders.meta",
+        "beforeSha256": null,
+        "afterSha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl",
+        "beforeSha256": null,
+        "afterSha256": "88cf0f62e4000b71750c059d0886b19504cd1cf10f39bb61ddc11b77a882d417"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl.meta",
+        "beforeSha256": null,
+        "afterSha256": "e1d0c5347b3c55930759f5bc0985e11611a4b2ff22eef24523eb108687bd1642"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader",
+        "beforeSha256": null,
+        "afterSha256": "42892a52f22bdde6d482cf2da5f35e4b813063fc6fe42189eee5562080079494"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "91be1d5618a7da33c878e20cf2be3e13b897d4976c70bde0cda7a67dbd502cd2"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader",
+        "beforeSha256": null,
+        "afterSha256": "b50afc7edc8a710f8b4159149b2391e7238b5e4076cc0ea2119090ed29e13b4a"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "7430f3e97ae1b46f34e1ca75508705bb7b944307c41dc568ea728011f327086d"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader",
+        "beforeSha256": null,
+        "afterSha256": "1d32f34c71276c1321aa0540a2410e15808743a38b2026923045a4dec4a79b58"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "3d462e6f8ba57f45dc5e6000020db066c36ed5a1a24f74f749727812373c2325"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader",
+        "beforeSha256": null,
+        "afterSha256": "a0d318756cba0f95a7052c387e629d0add3e9a4125c8333f1d1ed591af5f17cb"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "fb8fc84b612e19c169cdf3596195b416e68d227a8987a0eaa90d8c137fb69797"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader",
+        "beforeSha256": null,
+        "afterSha256": "2a991951b00b0c052363a1025f655450054325437b3d13c2623a987c8ec77c30"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "bea74d576f181a8bb04b8cf02eedd0136540325ecb2824928a3aa52c75adcb13"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph",
+        "beforeSha256": null,
+        "afterSha256": "bf68062f68b38b588abd1c354f64e905f824d9a2c47f92ebdd70a32989eb2097"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP LIT.shadergraph.meta",
+        "beforeSha256": null,
+        "afterSha256": "d1b70558e8b974d918e13c010db6d375fef815ba530bc2421ab031aa3a784ee8"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph",
+        "beforeSha256": null,
+        "afterSha256": "8a969c2d775079cce4e1c45d5eb6d3964b27d44dc884178363050c74fd5e9742"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-HDRP UNLIT.shadergraph.meta",
+        "beforeSha256": null,
+        "afterSha256": "8cd498ce8f6ed2e7c0560d605eb912455cd6fdaf09a4d545d9743f63b3426bd0"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader",
+        "beforeSha256": null,
+        "afterSha256": "41cff58473557bf760d03513a8c098f43a24e4eeb4c8ccd7d828c045a338a9ed"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "3744d078f9a8b6d3c5d9bca51e43f9223544fcafaf9396e121f49ea84a0609d3"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader",
+        "beforeSha256": null,
+        "afterSha256": "fb286386d0592ce6d63eb736f180b4b0f638ec538b0855aa54767a438ebd1173"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "1eeca1536c7506f79d4d877b866a5fb88db8f402634e091b6d78aa9d21c9d18b"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader",
+        "beforeSha256": null,
+        "afterSha256": "8b30c140f6af9134392fe6ecf4c0676db73f873489ac52adfb47bbd288cb51b8"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "e3412891b9306b017e60cba4ae4f6d258ee8b161d986dcde9cefb3d60345514d"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader",
+        "beforeSha256": null,
+        "afterSha256": "4bc2db64befbd0e37e23539f21096ad2fcd9d61b36d2174d208a7d831a0883f7"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "65ecbce6f1621f2d7ddc5e6004dda5e55e1f58ec6e01178f3691e1e81e01de55"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+        "beforeSha256": null,
+        "afterSha256": "44c39aabc7e88e7e1feffc1880df754f4adf86b62e9512aa89e9d2d65171aff4"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader",
+        "beforeSha256": null,
+        "afterSha256": "f9fae5906dd37d89298338953294459975de58a5421e68dd9e82a79794b95509"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "95aa060f371ee503a22c0a0b018e029c0328bd82b9317feaa784432b0a787343"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader",
+        "beforeSha256": null,
+        "afterSha256": "5dadb68b56429547918b392626e9af8fd5173936d20bb43cfca58dfa00947257"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "42439f5ac7491998f562e8ede73d64c3512953eb99fb1b49e833f5d9999a7660"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph",
+        "beforeSha256": null,
+        "afterSha256": "e0148ce8e5904232a4e711376a45b7af2a007fb9690c5a69c1cb4952a696cdbf"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Lit.shadergraph.meta",
+        "beforeSha256": null,
+        "afterSha256": "4c36abf5f2611c9d2cb04e7da8c30e42077503a17cb218020e171b6d3ff664f7"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph",
+        "beforeSha256": null,
+        "afterSha256": "dc15b6819ad87a4b34ed888ae2c274624efc0ada902d1a9e7752d87922414dcc"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-URP Unlit.shadergraph.meta",
+        "beforeSha256": null,
+        "afterSha256": "f1ef815e2672fd770f47ee424c64f7ecdbdc642b7475828c29db032586aa10b6"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+        "beforeSha256": null,
+        "afterSha256": "10efe6d4728474a09970b857faf37913793e168dc13dbd4d7316b54b37615d97"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+        "beforeSha256": null,
+        "afterSha256": "af669bb9ae136c8099f8e0a94a6933fd2f1e1fb0a6842129939a319fab4b8dbb"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta",
+        "beforeSha256": null,
+        "afterSha256": "9609584c5249687f3765f0018a93dfd6445c7e35d5aee4e87556f111c8852819"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc",
+        "beforeSha256": null,
+        "afterSha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+        "beforeSha256": null,
+        "afterSha256": "a9cf9d5431b809e36b8ffff4377b5ebda7d386a36d48838cd134bc09f3caec6c"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc",
+        "beforeSha256": null,
+        "afterSha256": "d9d43ddd9810476162f21b42477d9ce2cdc4e6cc7571d354c3253aafc6673ead"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta",
+        "beforeSha256": null,
+        "afterSha256": "2e16fa15ef884a60a402d8b696f8b09e5315cbb468ba223d256030c7fe2b0667"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+        "beforeSha256": null,
+        "afterSha256": "66db1f03e8d7a413eba79bcb6602fdb2de710b586f34a6f2584ed6f68f028e90"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+        "beforeSha256": null,
+        "afterSha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc",
+        "beforeSha256": null,
+        "afterSha256": "244b442520282a66363d121c8d2aeeb30bb1e72cbbadbf41ce68d9100322ade5"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta",
+        "beforeSha256": null,
+        "afterSha256": "247746f3a4e39dd24d1ad99e4fae03ae8976586307948b2846529a876dcb0a63"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites.meta",
+        "beforeSha256": null,
+        "afterSha256": "41e002b97ba2235689fba502d1ee4419f50ea0095cd3632cdc50bc90ca8a94de"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+        "beforeSha256": null,
+        "afterSha256": "4b65f8960e4f4c5c8b35fd139e369265e9bb45667fc16461b2ba01188d464d93"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta",
+        "beforeSha256": null,
+        "afterSha256": "9fffc8ac513116b8ac394d86d81ca9ac4ec52ee92c63c114d355808384ea16fc"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne.json",
+        "beforeSha256": null,
+        "afterSha256": "b85c4b3001b6ba82d175f4cd5dab83da467bbc2527d3d447b66919d2d20c4faf"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne.json.meta",
+        "beforeSha256": null,
+        "afterSha256": "ac2c551b5bc7f7d636d54ded634dfc3493e249567283b2efc06d1299f9360061"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne.png",
+        "beforeSha256": null,
+        "afterSha256": "a87b965a701de3dc31d7401e542b1fc946587f912c51d7a26e46ade9f098bd1a"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Sprites/EmojiOne.png.meta",
+        "beforeSha256": null,
+        "afterSha256": "eb63c0321658b980b138ce5f675d44689b8c7144df43976931e132e7706d1e1a"
+      }
+    ],
+    "newDirectories": [
+      "Assets/TextMesh Pro",
+      "Assets/TextMesh Pro/Fonts",
+      "Assets/TextMesh Pro/Resources",
+      "Assets/TextMesh Pro/Resources/Fonts & Materials",
+      "Assets/TextMesh Pro/Resources/Sprite Assets",
+      "Assets/TextMesh Pro/Resources/Style Sheets",
+      "Assets/TextMesh Pro/Shaders",
+      "Assets/TextMesh Pro/Sprites"
+    ],
+    "trackedFilesModified": [],
+    "generatedByUserEditor": [
+      "Library/**",
+      "Temp/**",
+      "Logs/**",
+      "obj/**",
+      "UserSettings/**",
+      "Unity-generated project/solution files"
+    ],
+    "externalFreshUpmCache": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\UPM_Step5_01",
+    "dedicatedEditorLog": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step5Editor_01.log",
+    "manifestOrLockChange": "Do not manually modify; any Editor resolve drift must be reviewed, not auto-accepted",
+    "stagingOrCommit": false,
+    "sourceWorkspaceMutation": false
+  },
+  "editorLaunch": {
+    "executable": "C:/Program Files/Unity/Hub/Editor/6000.3.5f2/Editor/Unity.exe",
+    "args": [
+      "-projectPath",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+      "-logFile",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step5Editor_01.log"
+    ],
+    "childEnvironment": {
+      "UPM_CACHE_ROOT": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\UPM_Step5_01"
+    },
+    "removeChildEnvironment": [
+      "UPM_NPM_CACHE_PATH",
+      "UPM_CACHE_PATH",
+      "UPM_ENABLE_GIT_LFS_CACHE",
+      "UPM_GIT_LFS_CACHE_PATH"
+    ],
+    "doNotSetGlobally": true,
+    "hubAndEditorMustBeClosedBeforeLaunch": true,
+    "playBuildOrRunner": false
+  },
+  "postUserStaticChecks": [
+    "Discover new candidate PackageCache packages by metadata ID/version, not the old suffix; compare UPM graph 61 nodes/91 edges and registry source",
+    "Compare actual ugui 2.0.0 TMP Essential Resources.unitypackage SHA-256 with fixed provider archive and preserved copy",
+    "Compare all 82 target bytes, 45 meta/GUID/Importer/platform contracts and 8 folder pairs/empty folders with this plan",
+    "Check Resources/Shader names and no GUID collisions; inspect actual original source/target differences without blanket allowlists",
+    "Recheck original source/HEAD/index, candidate clean tracked state/staged zero and TMP/archive ignore/nontracking; do not auto-delete new output",
+    "Unity subasset/fileID/rendering/reference validation remains Step 7/8; no Step 5 completion without real required inputs/results"
+  ],
+  "failureAndRollback": {
+    "onExistingTarget": "Stop before copying; inspect actual before/attempt/current, no overwrite or deletion",
+    "onCopyFailure": "Retain partial copied/new output and logs; do not retry whole overwrite/cleanup",
+    "onEditorMismatch": "Stop; retain provider/cache/log/manifest/lock/asset state and report exact error; do not upgrade versions or reset/clean",
+    "rollback": "No old TMP target existed. Preserve new outputs for review; no automatic source/candidate deletion or .meta regeneration"
+  },
+  "completion": {
+    "planReady": true,
+    "executed": false,
+    "step5Complete": false
+  }
+}

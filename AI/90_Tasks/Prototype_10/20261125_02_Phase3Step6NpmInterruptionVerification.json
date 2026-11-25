@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "capturedAtUTC": "2026-11-24T23:18:38.820Z",
+  "purpose": "User npm notice interruption; validate actual generated lock and prepare NuGet-only continuation",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_24_Phase3Step6PreparationVerification.json",
+    "sha256": "c5786b2c9832a2c6674586718ed3e4a76ece9115288b8c8400fcf271b98cb2c3"
+  },
+  "restorePlan": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_21_Phase3Step6RestorePlan.json",
+    "sha256": "3a571a6fb6e010a2280f85edb1a4520ab49c11f9af8eec5e7cd3acb765e336f5"
+  },
+  "observed": {
+    "userReported": "up to date in 2s then npm notice NativeCommandError at Stage A line 71",
+    "priorResult": {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6StageAResult.json",
+      "sha256": "f8f21a7e199e78f4310162a244ab6c1bdd462fdf5ec44599c895fa3d3d4786af",
+      "data": {
+        "schemaVersion": 1,
+        "npmExecuted": true,
+        "npmExitCode": null,
+        "nugetExecuted": false,
+        "nugetExitCode": null,
+        "stageAComplete": false,
+        "failureCategory": "NotSpecified",
+        "npmCiExecuted": false
+      }
+    },
+    "npmLog": {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NpmLock_01.log",
+      "sha256": "8376a98c5b2dc9d18f00c6abe95be6d3aa812de783d14e7188e27b1a9a83acbf",
+      "completeNoticeRetained": false
+    },
+    "npmExitCodeKnown": false,
+    "nugetExecuted": false
+  },
+  "actualNpm": {
+    "migration": {
+      "migrationMetadataValid": true,
+      "aliasVersionsIntegrityGraphPreserved": true,
+      "installed": false,
+      "independentRestore": false
+    },
+    "pins": [
+      {
+        "path": "package.json",
+        "sha256": "cf28825ab638ab3caf701acb95cb5d6a5334db6f05d13b5e67583e571621fec0"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "0e8f4e31da9ceabf4129193bc83676435f820556c8234d80ed1c268c8c360b0a"
+      },
+      {
+        "path": "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+        "sha256": "14323b3d1848731eec724a2d3cc0b59db0049019188f7fdcff23636210042763"
+      }
+    ],
+    "verifiedCandidateArchives": 27,
+    "pathOperations": 81,
+    "installationSuccessClaimed": false
+  },
+  "preservation": {
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "protectedSourceUnchanged": 1179,
+    "documentationExceptions": [
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md"
+    ],
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0,
+    "absentOutputs": [
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NuGetRestore_01.log",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetPackages_Step6_01",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetHttp_Step6_01",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\DotnetHome_Step6_01",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\node_modules",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\UGS\\Modules\\FlowStateVerification\\obj",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\UGS\\Modules\\FlowStateVerification\\packages.lock.json"
+    ],
+    "previousResultLogAndCacheRetained": true
+  },
+  "continuation": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_01_Phase3Step6ResumeNuGet.ps1",
+    "sha256": "dc199a42efceaa3aecbef3600618ad915e80bb97bd5327e66b97feb85712191f",
+    "npmRepeated": false,
+    "manifestReapplied": false,
+    "outputLog": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NuGetResume_01.log",
+    "outputResult": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6NuGetResume_01.json",
+    "nativeStderrRetained": true,
+    "nativeExitRequiredZero": true,
+    "preflightPinsAndGitGuards": true,
+    "powerShellParseErrors": 0,
+    "syntheticNativeTests": [
+      {
+        "stderr": true,
+        "stdout": true,
+        "expectedExit": 0,
+        "observedExit": 0
+      },
+      {
+        "stderr": true,
+        "stdout": true,
+        "expectedExit": 7,
+        "observedExit": 7
+      }
+    ],
+    "parentErrorActionStopPreserved": true
+  },
+  "execution": {
+    "aiRanResume": false,
+    "aiRanPackageInstallOrRestore": false,
+    "aiRanUnityBuildOrRunner": false
+  },
+  "completion": {
+    "npmLockMetadataVerified": true,
+    "nugetActualPending": true,
+    "npmCiPending": true,
+    "step6Complete": false
+  }
+}

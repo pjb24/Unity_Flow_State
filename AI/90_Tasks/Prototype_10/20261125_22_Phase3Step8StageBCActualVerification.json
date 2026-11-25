@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 8 actual Stage B/C user report and post-execution preservation; bounded Unity verification complete",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_21_Phase3Step8ContinuationVerification.json",
+    "sha256": "6667f73decc537b30c40095e9c4c2fe793a1fb3d6636b1da12fe0bdd0acff9ac"
+  },
+  "userReport": {
+    "stageB": {
+      "requestedMethods": [
+        {
+          "fixture": "InfinitePatternConnectionIntegrationTests",
+          "method": "FrontBoundary_PhysicalTrigger_AdvancesOnlyOnce",
+          "line": 109,
+          "bodyHash": "aee2f9428adb4808a7815c62eebf4a50bb801664e9d7a0469004c9c549547378"
+        },
+        {
+          "fixture": "ModeUISceneConfigurationTests",
+          "method": "UIComponents_AreSerializedBeforeUseAndNeverAddedAtRuntime",
+          "line": 20,
+          "bodyHash": "8aa2bd99d7076019e809e8343aa58359de9f29fcd9921bf3656cc2e1b33f2dd2"
+        },
+        {
+          "fixture": "ModeUISceneConfigurationTests",
+          "method": "Phase4LeaderboardAndResultControls_AreWired",
+          "line": 474,
+          "bodyHash": "c5af1e643f7bff8bdbf4e1440bfae4edbab1b74b82ed5e50c677ef862a0c740d"
+        }
+      ],
+      "passed": 3,
+      "evidenceSource": "User reports requested Stage B 3 tests passed",
+      "runnerXmlAvailable": false,
+      "xmlFiles": [],
+      "independentlyParsedFinalRunnerXml": false
+    },
+    "stageC": {
+      "menuTextNormal": true,
+      "gameTextNormal": true,
+      "pauseTextNormal": true,
+      "materialsNormal": true,
+      "emojiOnePreviewNormal": true,
+      "evidenceSource": "User visual report; no AI scene/Player execution or screenshot inspection"
+    },
+    "additionalWarningsInStageBOrC": "Not explicitly reported; not interpreted as resolved/absent"
+  },
+  "stageA": {
+    "userCompileSuccess": true,
+    "userEditModePassed": 5,
+    "diagnosticJsonPassedBeforeTearDown": 5,
+    "assertionIssues": 0,
+    "actualEvidence": {
+      "path": "AI/90_Tasks/Prototype_10/20261125_19_Phase3Step8StageAActualVerification.json",
+      "sha256": "f3e174b43f2736ea4de852acebc3e4649297cbaf5f685b6e4eca119c650bd54e"
+    }
+  },
+  "postExecution": {
+    "protectedCandidateFilesUnchanged": 1113,
+    "selectedTestsAndIsolationSourcePinsUnchanged": true,
+    "sceneAndPrefabFilesUnchanged": true,
+    "step6InputPinsAnd27ArchivesUnchanged": true,
+    "installed57NpmManifestsUnchanged": true,
+    "sourceProtectedUnchanged": 1179,
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0
+  },
+  "warningDisposition": {
+    "paths": [
+      {
+        "assetPath": "Packages/com.unity.modules.accessibility/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.adaptiveperformance/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.ai/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.androidjni/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.animation/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.assetbundle/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.audio/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.cloth/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.director/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.hierarchycore/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.imageconversion/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.imgui/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.jsonserialize/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.particlesystem/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.physics/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.physics2d/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.screencapture/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.subsystems/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.terrain/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.terrainphysics/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.tilemap/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.ui/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.uielements/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.umbra/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unityanalytics/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequest/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequestassetbundle/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequestaudio/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequesttexture/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.unitywebrequestwww/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.vectorgraphics/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.vehicles/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.video/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.modules.wind/package.ModuleCompilationTrigger",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.render-pipelines.universal/Editor/Converter/converter_widget.uss",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.shadergraph/Editor/Importers/_.sgsubgraphdb",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      },
+      {
+        "assetPath": "Packages/com.unity.shadergraph/Editor/Resources/Styles/MaterialGraph.uss",
+        "candidateStillAbsent": true,
+        "sourceBytes": 0
+      }
+    ],
+    "count": 37,
+    "stillSamePreExistingMissingZeroByteTargets": true,
+    "warningRecurrenceOrClearanceNotClaimed": true,
+    "rootCauseUnconfirmed": true,
+    "notSuppressedOrRepaired": true,
+    "step8Decision": "Bounded compile/asset-load/requested runtime and visible rendering checks completed with reported passes; no restoration drift in protected files",
+    "step9Obligation": "Retain immutable-package warning and missing-zero-byte cache records in complete candidate/package/reference health assessment; do not infer final package integrity or independent restore approval",
+    "finalPackageIntegrityApproved": false,
+    "referenceHealthPass": false
+  },
+  "execution": {
+    "aiRanUnityBuildTestRunnerInstallRestore": false,
+    "aiChangedSceneOrPrefab": false,
+    "aiWrotePackageOrCacheFiles": false
+  },
+  "completion": {
+    "step8Complete": true,
+    "basis": "Required user Stage A/B/C results received and pinned candidate/source preservation confirmed; broad integrity approval remains Step 9/10",
+    "additionalManualWorkForStep8": false,
+    "nextStep": 9,
+    "step9Started": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "independentRestore": false
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "capturedAtUTC": "2026-11-20T10:45:02.630Z",
+  "purpose": "Phase 3 Step 1 completion and original workspace preservation verification",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_06_Phase3Step1Baseline.json",
+    "sha256": "dd9ccd2b56f3553500fa21f301b0affc591a8cc18ff41ffbcc3ee337b82df68f"
+  },
+  "phase2FinalEvidence": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_03_Phase2Step10Verification.json",
+    "sha256": "22b13f9c2eab78697ae75d905b3cdd482c4ab08113f3097bce9ab6f759f5fe6d"
+  },
+  "taskAuthoringEvidence": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_05_Phase3TaskVerification.json",
+    "sha256": "edd09554b5450bec0f9f495f62baabf4b5711e234d216c893ee76f27c217d3d7"
+  },
+  "substeps": [
+    {
+      "id": "1-1",
+      "complete": true,
+      "pinsChecked": 46,
+      "phase2FinalSelfHashPinned": true
+    },
+    {
+      "id": "1-2",
+      "complete": true,
+      "historicalFilesCompared": 1046,
+      "unchanged": 1043,
+      "authoredDocumentationChanges": 3,
+      "missing": 0,
+      "unexpected": 0,
+      "gitTransitionRecorded": true
+    },
+    {
+      "id": "1-3",
+      "complete": true,
+      "protectionContract": {
+        "protected": [
+          "Assets/** including all C#/Scene/Prefab/TMP/asset and folder meta",
+          "Packages/**",
+          "ProjectSettings/**",
+          "UGS/** and root package.json/package-lock.json",
+          "Tools/DependencyAudit/** and existing policy/tests",
+          "Pinned prior Task metadata and Phase 2 handoff",
+          "TMP current and superseded preservation bundles and provider archive; npm archives",
+          "QA Candidate02 executable; full QA data preserved without collection",
+          "Actual user saves, credentials, .env and Secret bodies: do not read/copy/change",
+          "Current HEAD/index/tracked/staged/ignore state captured at Step start"
+        ],
+        "allowedThisStep": [
+          "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+          "AI/00_Project/PROJECT_MEMORY.md",
+          "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+          "AI/04_Implementation_Roadmap/README.md",
+          "AI/90_Tasks/Prototype_10/20261120_06_Phase3Step1Baseline.json",
+          "AI/90_Tasks/Prototype_10/20261120_07_Phase3Step1Verification.json"
+        ],
+        "futureAuxiliaryToolChanges": "Only named, minimal changes after Step 2/3 review; no dependency tool changes authorized by this baseline alone",
+        "candidateRoot": null,
+        "candidateCreated": false,
+        "requiredStep2": [
+          "Assess necessity/safe supply of 11 excluded tracked inputs",
+          "Fix concrete separate root, permission, output and user-data/account/service isolation",
+          "Confirm actual mandatory acquisition/toolchain inputs; no automatic rights or success inheritance"
+        ],
+        "stopOn": "Missing/mismatched required hashes or evidence, unexplained Git or protected file changes, links/read failures; preserve user changes and partial evidence; do not reset/clean or rewrite history"
+      },
+      "sourceAndPolicyUnchanged": true,
+      "sensitiveBodiesRead": false,
+      "userSavesRead": false
+    },
+    {
+      "id": "1-4",
+      "complete": true,
+      "postDocumentationPreservationVerified": true
+    }
+  ],
+  "preservation": {
+    "uniqueSafeFilesCompared": 1160,
+    "unchangedSafeFiles": 1156,
+    "allowedDocumentationChanges": [
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "beforeSha256": "ab115b59dbafb57228e2cdb02a88832fa25837a6d1fb097bc374296531e8e0c8",
+        "afterSha256": "e95aa34594083d634be8a38f0e2bf4becc79c035a505ad675419c51a4f05ce53",
+        "reason": "Record completed Step 1 and next Step 2; preserve historical evidence and distinguish current Git state"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "beforeSha256": "87556c39e295b8d346d61dcbc670d7e905cb3e4522f94e612679c592631eabfc",
+        "afterSha256": "c57248ac829d39a02ebc746c01751d92667f05192ef8209302ebaa20dbafd4c9",
+        "reason": "Record completed Step 1 and next Step 2; preserve historical evidence and distinguish current Git state"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "beforeSha256": "2f8ba62a5005fed43cb18fbdee0c4ffec0ceddf3d2d04143b24e05ba8aea2085",
+        "afterSha256": "eebae526ea6edac2f5dacb28b2da08813d3040dd3787237bbee2a42c5857f406",
+        "reason": "Record completed Step 1 and next Step 2; preserve historical evidence and distinguish current Git state"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "beforeSha256": "b3fb9fc8bb183c354b8a844f53577bef9002e11c760f9de99757c047052433a4",
+        "afterSha256": "42ce4e596498c581007b521efb66a691b77764c3c805fb335fd49ccc2e73ce5a",
+        "reason": "Record completed Step 1 and next Step 2; preserve historical evidence and distinguish current Git state"
+      }
+    ],
+    "unexpectedChanges": [],
+    "missingFiles": [],
+    "phase2EvidenceAndPreviousMetadataUnchanged": true,
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false,
+      "folderMetaCount": 8,
+      "payloadHashesUnchanged": true
+    },
+    "supersededSchema1RetainedAndRechecked": true,
+    "npmArchivesChecked": 27,
+    "npmArchivesUnchanged": true,
+    "providerArchiveUnchanged": true,
+    "qaExecutableUnchanged": true,
+    "qaCoverage": "Executable hash only, no directory-wide verification, execution or new QA claim",
+    "ignoreRulesUnchanged": true,
+    "gitStartAndEndEqual": true,
+    "git": {
+      "head": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+      "indexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+      "trackedPathsNulSha256": "5a453022d2b0d87914a1aaa9337edb5a6a5f22b24cf5bb12dbe1910f9d4ea8fa",
+      "headPathsNulSha256": "5a453022d2b0d87914a1aaa9337edb5a6a5f22b24cf5bb12dbe1910f9d4ea8fa",
+      "indexEntriesNulSha256": "675c1e897558bed4d94c477d5dea644abf0196114cc9aa235bc6d3bf9a1cc617",
+      "stagedNameStatusNulSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "trackedPaths": 975,
+    "stagedChanges": 0,
+    "gitHistoricalTransition": "Existing intervening Phase 2/Phase 3 planning commit; all added paths covered by pinned safe artifacts, all modified paths covered by Phase 2 documentation scope; excluded tracked entries unchanged by Git tree identity. Recorded before this Step, not an AI commit or original HEAD/index preservation against the historical snapshot."
+  },
+  "validation": {
+    "utf8Valid": true,
+    "jsonValid": true,
+    "trailingWhitespaceValid": true,
+    "localMarkdownLinksChecked": 86,
+    "stepCheckboxes": {
+      "complete": 1,
+      "pending": 9
+    },
+    "stepsInOrder": true,
+    "gitDiffCheckExitCode": 0,
+    "gitLineEndingNotice": "Git emitted LF-to-CRLF conversion notices for documentation; no diff --check errors, no Git conversion/config change performed",
+    "actualChangedTrackedPaths": [
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md"
+    ],
+    "newMetadataPaths": [
+      "AI/90_Tasks/Prototype_10/20261120_06_Phase3Step1Baseline.json",
+      "AI/90_Tasks/Prototype_10/20261120_07_Phase3Step1Verification.json"
+    ],
+    "sourceAndTestChanges": [],
+    "orchestrationCorrection": "An initial Korean document replacement piped through PowerShell used the default output encoding and stopped at its first exact-match assertion before any document write. Retried with explicit UTF-8; final document UTF-8/content validation passed."
+  },
+  "files": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "42ce4e596498c581007b521efb66a691b77764c3c805fb335fd49ccc2e73ce5a"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "e95aa34594083d634be8a38f0e2bf4becc79c035a505ad675419c51a4f05ce53"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "c57248ac829d39a02ebc746c01751d92667f05192ef8209302ebaa20dbafd4c9"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "eebae526ea6edac2f5dacb28b2da08813d3040dd3787237bbee2a42c5857f406"
+    }
+  ],
+  "completion": {
+    "step1Complete": true,
+    "completedDateKST": "2026-11-20",
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "nextStep": 2,
+    "manualWorkRequiredNow": false,
+    "unitTestsExecuted": false,
+    "reasonNoTestRun": "Only read-only hash/Git/bundle verification and documentation/metadata updates; source and Test tools unchanged. Prior 261 tests remain historical evidence only.",
+    "unityExecuted": false,
+    "buildExecuted": false,
+    "testRunnerExecuted": false,
+    "sceneOrPrefabEdited": false,
+    "packageInstalled": false,
+    "lockRegenerated": false,
+    "candidateCreated": false,
+    "rightsGranted": false,
+    "referenceHealthPass": false,
+    "independentRestore": false,
+    "remainingStep2": [
+      "Assess necessity/safe supply of 11 excluded tracked inputs",
+      "Fix concrete separate root, permission, output and user-data/account/service isolation",
+      "Confirm actual mandatory acquisition/toolchain inputs; no automatic rights or success inheritance"
+    ]
+  },
+  "selfHashPolicy": "This final file does not embed its own hash; next Step must pin its SHA-256. Start baseline is immutable and records pre-Step documentation hashes; this report names the allowed after hashes."
+}

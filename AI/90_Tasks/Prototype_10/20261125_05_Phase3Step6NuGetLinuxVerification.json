@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Verify user Linux restore; prepare Stage B npm ci",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_03_Phase3Step6NuGetBaseVerification.json",
+    "sha256": "a0eadb85e949986f990eca2067c575d640a14d544646694d6f851d7f82c32fe0"
+  },
+  "restorePlan": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_21_Phase3Step6RestorePlan.json",
+    "sha256": "3a571a6fb6e010a2280f85edb1a4520ab49c11f9af8eec5e7cd3acb765e336f5"
+  },
+  "userResult": {
+    "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6NuGetLinux_01.json",
+    "sha256": "1a4620b6a2744a7dcb5765cd02e9b3c58684367d24c8e7ffe383f542daa4d2d5",
+    "data": {
+      "schemaVersion": 1,
+      "npmRepeated": false,
+      "npmOriginalExitCode": null,
+      "npmLockStaticallyValidated": true,
+      "runtime": "linux-x64",
+      "nugetExecuted": true,
+      "nugetExitCode": 0,
+      "stageAComplete": true,
+      "npmCiExecuted": false,
+      "failureCategory": null
+    }
+  },
+  "nuget": {
+    "targetFramework": "net9.0",
+    "runtime": "linux-x64",
+    "sdk": "9.0.315",
+    "packages": [
+      "Acornima/1.7.0",
+      "Com.Unity.Services.CloudCode.Apis/0.0.27",
+      "Com.Unity.Services.CloudCode.Core/0.0.7",
+      "Jint/4.16.4",
+      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2",
+      "Microsoft.NETCore.Platforms/1.1.1",
+      "Microsoft.NETCore.Targets/1.1.3",
+      "Newtonsoft.Json/13.0.3",
+      "System.Private.Uri/4.3.2",
+      "System.Runtime/4.3.1",
+      "runtime.any.System.Runtime/4.3.0",
+      "runtime.native.System/4.3.0",
+      "runtime.unix.System.Private.Uri/4.3.0"
+    ],
+    "direct": 4,
+    "total": 13,
+    "baseTargetIdenticalToOriginal": true,
+    "linuxTargetIdenticalToOriginal": true,
+    "lockBasePlusRuntimeOverlayVerified": true,
+    "lockVersionsAndContentHashesMatch": true,
+    "cacheMetadataAndRawArchiveSidecarsVerified": 13,
+    "feeds": [
+      "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\",
+      "https://api.nuget.org/v3/index.json"
+    ],
+    "configOnlyReviewed": true,
+    "isolatedPackagesPath": true,
+    "diagnosticEntries": 0,
+    "embeddedResourceFilesMatched": 40
+  },
+  "npmMigration": {
+    "migrationMetadataValid": true,
+    "aliasVersionsIntegrityGraphPreserved": true,
+    "installed": false,
+    "independentRestore": false
+  },
+  "candidatePins": [
+    {
+      "path": "package.json",
+      "sha256": "cf28825ab638ab3caf701acb95cb5d6a5334db6f05d13b5e67583e571621fec0"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "0e8f4e31da9ceabf4129193bc83676435f820556c8234d80ed1c268c8c360b0a"
+    },
+    {
+      "path": "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+      "sha256": "14323b3d1848731eec724a2d3cc0b59db0049019188f7fdcff23636210042763"
+    },
+    {
+      "path": "UGS/Modules/FlowStateVerification/packages.lock.json",
+      "sha256": "b53b35ac720fed79fa1fad1cbd89e71a80e002359e5105e7215d1f58b4ca88d7"
+    },
+    {
+      "path": "UGS/Modules/FlowStateVerification/obj/project.assets.json",
+      "sha256": "d14cf6e116bd85b321aa1da2e60dc8178fe4f32751fb951aa159bf690fac5bc3"
+    },
+    {
+      "path": "global.json",
+      "sha256": "09b0406fbcf1039fbc8c0a1336f0397f53ed603955c6a4ed333db11cd3dba5f7"
+    }
+  ],
+  "candidateArchives": [
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4/cloud-save-0.0.5.tgz",
+      "sha256": "40adcde30460331e7c5cd1c59e9444a4209adc86e0d0e36a3f96e4ee6c064ba4"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7/cloud-save-1.0.1.tgz",
+      "sha256": "ff0df1cfb4bebae248893706e86ae94133c7231ae2fe65e3a7fe7e7b74dcfcd7"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2/cloud-save-1.1.0.tgz",
+      "sha256": "709ce3b0b7ce3a870c89affc62bd222aa897f3706e7e215eee9e50e8c82f54e2"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d/cloud-save-1.2.0.tgz",
+      "sha256": "3fb9850d49f5ebe89890291a9ef6abe06c22424778e261bed9c21426b7c3746d"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108/cloud-save-1.2.1.tgz",
+      "sha256": "695df3a4a44fe6c40dcb032eafd9d60c9925b41d99183d697f75ab2f2419a108"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21/cloud-save-1.3.0.tgz",
+      "sha256": "a5415c27963cd98428f548e613baf478bd4cea8658c1ce32accc1496552aee21"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47/cloud-save-1.4.0.tgz",
+      "sha256": "2a5d0dd293a0faba2ab371f5575695eca437abe50a7bb511f49c4c4cab431a47"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3/economy-2.0.2.tgz",
+      "sha256": "59044e8cd412ca038c3a56e7995ad6f3bbc3ff13dc72606eefa02e393a11f4d3"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba/economy-2.1.1.tgz",
+      "sha256": "8a03e6c77962d70ef84a332dd72077a7118c79fdfaf072d26932a707d97a95ba"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910/economy-2.2.0.tgz",
+      "sha256": "cc8f9128b30ae7fb80b15884633899c290fdc6437f7005eeaaca9ab74e6d7910"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5/economy-2.2.1.tgz",
+      "sha256": "b39f2e8445a8d7ad07108182898a5dd89a0e22c6ac83db02af9b763e33d2d8f5"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14/economy-2.3.0.tgz",
+      "sha256": "dfc2de6b9cd0572149d9aa64b0033e5b2e1af64e80afad2135328c3b4bcd4d14"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab/economy-2.3.1.tgz",
+      "sha256": "b7b3b818dceff4b94e14799e5cd6fc7af7ad061f4ad24bb12029b66117c025ab"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5/economy-2.3.2.tgz",
+      "sha256": "0f37d79155f1941ba06e1ff2ef44682df1a651cf87113908ec6b7cdec20d0bb5"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6/economy-2.4.0.tgz",
+      "sha256": "7d8937e1535022091e2a7fab4924a895db45523db17d20c0b76df2615e76a1c6"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf/economy-2.4.1.tgz",
+      "sha256": "a232afbf1686438ee056bc449984a2c5e2ea733102f46f0fb1f23aad25ac6baf"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb/remote-config-0.0.4.tgz",
+      "sha256": "a051cc3fb598ba886cd25a72a867d22f7ec0929e832069f16e5f05faf079adeb"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c/remote-config-1.0.1.tgz",
+      "sha256": "e1fec925d229faa69cac808674622e71465a2841c829351d5a49ca6b7dcb9c8c"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89/remote-config-1.1.0.tgz",
+      "sha256": "d1750b0a111f0232534c84b1d5963b35d3e809725ab2c83ed4e2e80f4de3fe89"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45/remote-config-1.1.1.tgz",
+      "sha256": "3e49c9fb582a0018689bc82c85743470b299745a0e7af2f95220bcf553342d45"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b/remote-config-1.1.2.tgz",
+      "sha256": "ea80fbae3b85eea74e4d330729a5eaef7ee6d91cb1923581be187d3bd5eca68b"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a/vivox-0.1.6.tgz",
+      "sha256": "9ee6020456534c17e88178a408c7fbd475dfa4f1017b07e9ada8438e080ef79a"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb/lobby-1.0.1.tgz",
+      "sha256": "e3299795a70d0fbb3ba519e4abc439442ecfcac4f8671d553899bc0c1232decb"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa/lobby-1.1.0.tgz",
+      "sha256": "1c7afff18f5623953b79cca58f4ac85c8bf16d3d2baea3e3f8a2219d842dd6aa"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974/lobby-1.1.1.tgz",
+      "sha256": "7f6889100eae0facd13fcfa0b7cdd10e727ef93da02fe6806df85472b7231974"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1/lobby-1.1.2.tgz",
+      "sha256": "d3e712f25f0324b2048d4d6fddcbd35995e3a4b15e845387fab5e4581c9b51b1"
+    },
+    {
+      "path": "Ignore/DependencyArchives/npm/com.unity.services.cloudcode/2.10.4/f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e/lobby-1.2.0.tgz",
+      "sha256": "f8268723bc4230e304ab188f744e27307e3b0c48ad04d627ebf954f8714fb34e"
+    }
+  ],
+  "preservation": {
+    "sourceProtectedFilesUnchanged": 1179,
+    "documentationExceptions": [
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md"
+    ],
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateTrackedChanges": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "candidateStagedChanges": 0,
+    "absentOutputs": [
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\node_modules",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\.npmrc",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NpmCi_01.log",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6NpmCi_01.json"
+    ]
+  },
+  "stageB": {
+    "ready": true,
+    "executed": false,
+    "args": [
+      "ci",
+      "--ignore-scripts",
+      "--no-audit",
+      "--no-fund",
+      "--cache",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\Npm_Step6_01",
+      "--userconfig",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6User.npmrc",
+      "--globalconfig",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6Global.npmrc"
+    ],
+    "afterUserRun": "Verify exit/warnings, installed graph and original/candidate preservation before Step 6 completion"
+  },
+  "execution": {
+    "aiInstallRestoreOrBuild": false,
+    "aiUnityOrRunner": false,
+    "aiSceneOrPrefabChange": false
+  },
+  "completion": {
+    "nugetVerified": true,
+    "npmCiPending": true,
+    "step6Complete": false
+  }
+}

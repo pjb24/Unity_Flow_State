@@ -1,0 +1,59 @@
+{
+    "schemaVersion":  1,
+    "capturedAtUTC":  "2026-11-20T13:07:17.3089452Z",
+    "purpose":  "Ownership guard fix after user Stage A preflight failure; no package installation performed by AI",
+    "parent":  {
+                   "sha256":  "c5786b2c9832a2c6674586718ed3e4a76ece9115288b8c8400fcf271b98cb2c3",
+                   "path":  "AI\\90_Tasks\\Prototype_10\\20261120_24_Phase3Step6PreparationVerification.json"
+               },
+    "restorePlan":  {
+                        "sha256":  "3a571a6fb6e010a2280f85edb1a4520ab49c11f9af8eec5e7cd3acb765e336f5",
+                        "path":  "AI\\90_Tasks\\Prototype_10\\20261120_21_Phase3Step6RestorePlan.json"
+                    },
+    "userReportedFailure":  {
+                                "stoppedBeforePackageWrites":  true,
+                                "misleadingFollowup":  "Candidate HEAD changed",
+                                "cause":  "Candidate owned by CodexSandboxOffline; user executed as Admin; Git refused HEAD read"
+                            },
+    "correction":  {
+                       "scopedSafeDirectoryCommands":  3,
+                       "task":  "AI\\90_Tasks\\Prototype_10\\20261120_04_Phase3ManualSteps.md",
+                       "sha256":  "bb1bfb003df8e9648998540ca414adeba3c10b16140ff7db0561016503d9f4aa",
+                       "script":  "AI\\90_Tasks\\Prototype_10\\20261120_25_Phase3Step6StageA.ps1",
+                       "ownershipOrAclChanged":  false,
+                       "gitReadFailureSeparatedFromHeadMismatch":  true,
+                       "globalGitConfigurationChanged":  false,
+                       "taskSha256":  "4817cdd75d7bf9bcbdce4a818ca516f12e0536f9b8f00f2656c109aab4466b1b"
+                   },
+    "validation":  {
+                       "gitDiffCheckExit":  0,
+                       "sourceHead":  "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+                       "candidatePackageSha256":  "af7aef3ed0a399a299641c1b2a899b619d154396a6bc45d37a4658f111e7f291",
+                       "candidateHead":  "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+                       "candidateTrackedDiffExit":  0,
+                       "candidateLockSha256":  "7f7611dcf4723de241a6d42daf7202e782033649aa1b053893beea7f8a7eec73",
+                       "scriptMatchesTask":  true,
+                       "absentOutputPaths":  [
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\Npm_Step6_01",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetPackages_Step6_01",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetHttp_Step6_01",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\DotnetHome_Step6_01",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NpmLock_01.log",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NuGetRestore_01.log",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6StageAResult.json",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\node_modules",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\UGS\\Modules\\FlowStateVerification\\obj",
+                                                 "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project\\UGS\\Modules\\FlowStateVerification\\packages.lock.json"
+                                             ],
+                       "sourceIndexSha256":  "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+                       "candidateStagedDiffExit":  0,
+                       "powerShellParseErrors":  0
+                   },
+    "execution":  {
+                      "step6Complete":  false,
+                      "packageInstallationExecutedByAI":  false,
+                      "nextAction":  "User runs corrected Stage A script and reports result; AI validates real lock before npm ci",
+                      "unityBuildOrTestRunnerExecuted":  false,
+                      "fullStageAScriptExecutedByAI":  false
+                  }
+}

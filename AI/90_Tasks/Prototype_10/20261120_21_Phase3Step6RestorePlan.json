@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "purpose": "User Stage A manifest-only apply, real npm lock generation and independent NuGet restore; stop before npm ci for AI validation",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_20_Phase3Step6InputAudit.json",
+    "sha256": "fab8f5abbd29733a146058871cc4477525aff3fe7b8fd88d4b9d003f17eae007"
+  },
+  "candidateRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+  "runRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01",
+  "expectedHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+  "beforePackageSha256": "af7aef3ed0a399a299641c1b2a899b619d154396a6bc45d37a4658f111e7f291",
+  "beforeLockSha256": "7f7611dcf4723de241a6d42daf7202e782033649aa1b053893beea7f8a7eec73",
+  "beforeCsprojSha256": "14323b3d1848731eec724a2d3cc0b59db0049019188f7fdcff23636210042763",
+  "proposedPackage": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_22_Phase3Step6ProposedPackage.json",
+    "sha256": "cf28825ab638ab3caf701acb95cb5d6a5334db6f05d13b5e67583e571621fec0"
+  },
+  "nugetConfig": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_23_Phase3Step6NuGet.config",
+    "sha256": "dec2dad29b4f6fc8f2605e50a1f9f53ae9645aafc2fa379e1412083d96ee2b79"
+  },
+  "cache": {
+    "npm": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\Npm_Step6_01",
+    "nugetPackages": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetPackages_Step6_01",
+    "nugetHttp": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetHttp_Step6_01",
+    "dotnetHome": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\DotnetHome_Step6_01"
+  },
+  "npmUserConfig": {
+    "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6User.npmrc",
+    "sha256": "f88856d7fd2a35498ed5889e220204a89470868dad426fef972025d86ac130a7"
+  },
+  "npmGlobalConfig": {
+    "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6Global.npmrc",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "backups": [
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6Before\\package.json",
+      "sha256": "af7aef3ed0a399a299641c1b2a899b619d154396a6bc45d37a4658f111e7f291"
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6Before\\package-lock.json",
+      "sha256": "7f7611dcf4723de241a6d42daf7202e782033649aa1b053893beea7f8a7eec73"
+    }
+  ],
+  "toolchain": {
+    "node": "v24.21.0",
+    "npm": "11.19.0 (npm.cmd)",
+    "dotnetSdk": "9.0.315",
+    "helpOnlyCommands": [
+      "npm.cmd install --help",
+      "dotnet restore --help"
+    ],
+    "packageManagerExecution": false,
+    "dotnetHelpCorrection": "Initial SDK 9 help attempted first-use sentinel under user .dotnet and was denied. Retried help only with isolated temp CLI home, certificate/PATH/telemetry/workload updates disabled; no restore/build executed.",
+    "dotnetOptionsVerified": [
+      "--packages",
+      "--configfile",
+      "--no-http-cache",
+      "--use-lock-file",
+      "--verbosity"
+    ],
+    "officialEnvironmentReference": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables"
+  },
+  "npmStageAArgs": [
+    "install",
+    "--package-lock-only",
+    "--ignore-scripts",
+    "--no-audit",
+    "--no-fund",
+    "--cache",
+    "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\Npm_Step6_01",
+    "--userconfig",
+    "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6User.npmrc",
+    "--globalconfig",
+    "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6Global.npmrc"
+  ],
+  "nugetStageAArgs": [
+    "restore",
+    "UGS/Modules/FlowStateVerification/FlowStateVerification.csproj",
+    "--use-lock-file",
+    "--packages",
+    "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetPackages_Step6_01",
+    "--configfile",
+    "C:\\Unity\\Unity_Flow_State\\AI\\90_Tasks\\Prototype_10\\20261120_23_Phase3Step6NuGet.config",
+    "--no-http-cache",
+    "--verbosity",
+    "minimal"
+  ],
+  "dotnetChildEnvironment": {
+    "DOTNET_CLI_HOME": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\DotnetHome_Step6_01",
+    "NUGET_HTTP_CACHE_PATH": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetHttp_Step6_01",
+    "DOTNET_GENERATE_ASPNET_CERTIFICATE": "false",
+    "DOTNET_ADD_GLOBAL_TOOLS_TO_PATH": "false",
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "true",
+    "DOTNET_CLI_WORKLOAD_UPDATE_NOTIFY_DISABLE": "true",
+    "DOTNET_NOLOGO": "true"
+  },
+  "logs": {
+    "npm": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NpmLock_01.log",
+    "nuget": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step6NuGetRestore_01.log",
+    "result": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6StageAResult.json"
+  },
+  "allowedCandidateChanges": {
+    "tracked": [
+      "package.json",
+      "package-lock.json"
+    ],
+    "newLock": "UGS/Modules/FlowStateVerification/packages.lock.json",
+    "generatedNuget": "UGS/Modules/FlowStateVerification/obj/**",
+    "newNpmNodeModules": "Only after AI verifies actual Stage A lock, not Stage A",
+    "externalCache": [
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\Npm_Step6_01",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetPackages_Step6_01",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\NuGetHttp_Step6_01",
+      "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Caches\\DotnetHome_Step6_01"
+    ],
+    "scenePrefabSettingsAndUnityUpmDeclarations": false,
+    "stagingOrCommit": false
+  },
+  "stageB": {
+    "runNow": false,
+    "condition": "AI validates real Stage A lock via validateMigration and inspects generated NuGet lock/graph/feed/resources first",
+    "userCommand": "npm.cmd ci --ignore-scripts --no-audit --no-fund with same isolated cache/user/global configs"
+  },
+  "failureContract": {
+    "nonzero": "Stop; retain actual manifest/lock/partial obj/cache/logs and send command/exit/error. No blanket reset/clean/delete/version replacement.",
+    "warnings": "Report unexpected warnings even with exit 0; no automatic pass or suppression.",
+    "retry": "Do not rerun the complete block if target package.json, caches, lock/obj or logs already changed; ask AI to compare before/attempt/current.",
+    "rollback": "AI prepares exact restoration from verified Step6Before inputs only if current hashes still match named attempt; no automatic rollback"
+  },
+  "completion": {
+    "planReady": true,
+    "userStageAExecuted": false,
+    "stageBExecuted": false,
+    "step6Complete": false
+  }
+}

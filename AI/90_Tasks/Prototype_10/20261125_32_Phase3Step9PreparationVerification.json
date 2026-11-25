@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 9 static/rollback completion with exact official package stock restoration pending; no false whole-restore PASS",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_23_Phase3Step8FinalVerification.json",
+    "sha256": "6a4e5afe5ae713ea579f2535017d49a79c7f3ad0707a4ac23105cbbc8cfbb32a"
+  },
+  "artifacts": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_24_Phase3Step9CandidateGates.json",
+      "sha256": "4ad0d293b8223e111f6d8f49a76c336071b7a714b6f2cbd40e2355e138e45407"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_25_Phase3Step9IngressVerification.json",
+      "sha256": "27cb94fcfca00b6dbc8cdd15f21c52e8faa28aa1ca3d9310ca0874b29c3157d6"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_26_Phase3Step9FidelityAndRollbackInputs.json",
+      "sha256": "bae714d441b7896105dd3261da8286bafe87c89293b314adc23a6243933f8c54"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_27_Phase3Step9DependencyVerification.json",
+      "sha256": "8e1db00453e1947f194508ce8f816901ffc9f850e25886f322176473a1a79f7b"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_28_Phase3Step9RollbackFixtureVerification.json",
+      "sha256": "090d6852aec9e2f9efd5913a4ec0c18eb4643b9cfd58d6c390579c5252be5ea1"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_29_Phase3Step9StockFileRestorePlan.json",
+      "sha256": "d9397c176df2604b49adddc87aa78f8a8cf48b9d9d4e8d15eaf8e8a40c919afa"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_30_Phase3Step9RestoreStockFiles.ps1",
+      "sha256": "afd3a957f51e5f3504a2782a050a60ce15b56e209a81a427320575b608b5dc82"
+    },
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261125_31_Phase3Step9StockFileRestoreUserSteps.md",
+      "sha256": "fb92b14a49b59c65e7cefd595d0644720bd462da8f47b2ef720031a60619a82a"
+    }
+  ],
+  "effectiveGates": {
+    "registry": 0,
+    "lifecycle": 0,
+    "managedIngress": 0,
+    "stagedIngress": 0,
+    "worktreeKnownOriginBlocked": false,
+    "candidateAudit": 1,
+    "candidateAuditCollectionComplete": true,
+    "rawReferenceOccurrences": 1299,
+    "unresolvedReferences": 31,
+    "orphanMetas": 37,
+    "initialMissingEvidenceExit2RetainedAndCorrected": true,
+    "stagedAlternatePolicySimulation": false
+  },
+  "fidelity": {
+    "beforeFiles": 1091,
+    "currentProjectedFiles": 1177,
+    "approvedChanges": 88,
+    "exactCompareMatches": true,
+    "privateIgnoredUntracked": 111,
+    "frozenDirectoriesRetained": 109,
+    "headIndexModeOidPathsSame": 980,
+    "indexFlagsAllH": true,
+    "remotes": 0,
+    "sourceAndCandidateTmpBundleVerified": true
+  },
+  "dependencyVerification": {
+    "npmPackages": 57,
+    "installedPayloadFilesMatched": 4649,
+    "dependencyEdges": 65,
+    "nugetPackages": 13,
+    "localArchive27Unchanged": true,
+    "userUnityResultsPreserved": true,
+    "runnerXmlUnavailableRecorded": true
+  },
+  "rollback": {
+    "existingSnapshotFixturePassed": 79,
+    "actualNpmBeforeAttemptCurrentBackupPlanVerified": true,
+    "writesPerformed": false,
+    "newPartialOutputsRetained": true,
+    "lateChangesAndWrongBackupRejected": true
+  },
+  "stockGap": {
+    "officialEditor": "6000.3.5f2",
+    "exactVersionMetaAndHashVerified": 37,
+    "sourceAllZeroBytes": true,
+    "currentTargetsMissing": 37,
+    "crossAccountReadOnlyMissingCount": 37,
+    "actualRestorationRequired": true,
+    "warningCauseStillNotProven": true,
+    "syntheticCacheCreation": false,
+    "oldLibraryCopy": false,
+    "packageVersionChange": false
+  },
+  "userPreparation": {
+    "script": "AI/90_Tasks/Prototype_10/20261125_30_Phase3Step9RestoreStockFiles.ps1",
+    "scriptSha256": "afd3a957f51e5f3504a2782a050a60ce15b56e209a81a427320575b608b5dc82",
+    "plan": "AI/90_Tasks/Prototype_10/20261125_29_Phase3Step9StockFileRestorePlan.json",
+    "planSha256": "d9397c176df2604b49adddc87aa78f8a8cf48b9d9d4e8d15eaf8e8a40c919afa",
+    "powerShellAstErrors": 0,
+    "readOnlyPreflightReviewed": true,
+    "overwrite": false,
+    "scope": "Only 37 named missing exact-stock files inside candidate Library/PackageCache; all current metas/project assets remain pinned",
+    "executedByAI": false,
+    "editorOnlyFollowupRequired": true,
+    "additionalUnityTestsOrBuildRequiredNow": false
+  },
+  "preservation": {
+    "sourceProtectedUnchanged": 1179,
+    "qaExecutableUnchanged": true,
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateStagedChanges": 0,
+    "step6InputsAndStage8ReportsUnchanged": true,
+    "documentationBefore": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "aea6652d33b31034dabef377f7f588543c291c9233057da1bcfaf389e59052a0"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "b240c1f636f222e3fa3171b3d65a87cc1a147306c546261440487d54265d227e"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "8e6084c27ec974cfea43cc97917434871801fc7295c0a00377163b63a3403100"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "b868a855786df79cb5fc7cbbdb99e9e4cb2c00cca52539344d1a0a97307dcb04"
+      }
+    ],
+    "documentationAfter": [
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "sha256": "b1982df6c95e32b613236b4f45d3b2c02798132939c57020039fd597b661f09c"
+      },
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "sha256": "b86fc875d40048316de61fd44bee14e44568a768e5c55fede3f77f971c84d44d"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "sha256": "5c3c133996f1bb443fec32c24e6b565ef4d2233b76d26b9f5edacc75b0cdbee0"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "sha256": "12658d9733f68b6549d29240a6a1e4b4413271f029022bb354a35cf9e965c2e6"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261125_31_Phase3Step9StockFileRestoreUserSteps.md",
+        "sha256": "fb92b14a49b59c65e7cefd595d0644720bd462da8f47b2ef720031a60619a82a"
+      }
+    ],
+    "originalSaveOrSecretBodiesRead": false
+  },
+  "validation": {
+    "relativeLinksChecked": 152,
+    "gitDiffCheckExitCode": 0,
+    "mainCompletedSteps": 8,
+    "pendingMainSteps": 2
+  },
+  "execution": {
+    "aiRanUnityBuildTestRunnerInstallRestore": false,
+    "aiChangedSceneOrPrefabOrActualPackageCache": false
+  },
+  "completion": {
+    "step9StaticChecksComplete": true,
+    "step9Complete": false,
+    "manualExactStockRestoreAndEditorReportRequired": true,
+    "step10Started": false,
+    "referenceHealthPass": false,
+    "rightsGranted": false,
+    "independentRestore": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false
+  }
+}

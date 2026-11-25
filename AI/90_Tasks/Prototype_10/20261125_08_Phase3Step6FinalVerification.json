@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Step 6 completion after user npm ci and complete NuGet verification",
+  "actualVerification": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_07_Phase3Step6NpmCiActualVerification.json",
+    "sha256": "398c39450f1ae6856a769a456b12efbfecdc4dad7d6cfac546d98adb31599944"
+  },
+  "nugetVerification": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_05_Phase3Step6NuGetLinuxVerification.json",
+    "sha256": "0f7bb397b9606b3bedd39f43e961d8a58d705db8be58a9288aa38a75fd08aa30"
+  },
+  "userExecutionScript": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_06_Phase3Step6NpmCi.ps1",
+    "sha256": "bf9a7b46b7624091807016866611424e5c99778588b4cad7f3a08d2cbbb10960"
+  },
+  "substeps": [
+    {
+      "id": "6-1",
+      "complete": true,
+      "archives": 27
+    },
+    {
+      "id": "6-2",
+      "complete": true,
+      "pathOnlyManifestAppliedByUser": true
+    },
+    {
+      "id": "6-3",
+      "complete": true,
+      "actualGeneratedLockMigrationVerified": true,
+      "originalExitCode": null
+    },
+    {
+      "id": "6-4",
+      "complete": true,
+      "userCiExitCode": 0,
+      "installedPackages": 57,
+      "resolvedEdges": 65,
+      "hiddenLockAndInventoryExact": true,
+      "cachedArchiveSriVerified": 57
+    },
+    {
+      "id": "6-5",
+      "complete": true,
+      "userNugetExitCode": 0,
+      "direct": 4,
+      "total": 13,
+      "baseAndLinuxTargetsIdentical": true,
+      "embeddedResourceFiles": 40
+    },
+    {
+      "id": "6-6",
+      "complete": true,
+      "originalAndCandidatePreservationVerified": true,
+      "knownMaintenanceWarningRecorded": true
+    }
+  ],
+  "warning": {
+    "package": "crypto-js@4.1.1",
+    "message": "Active development of CryptoJS has been discontinued. This library is no longer maintained.",
+    "parent": "@unity-services/vivox-0.1",
+    "parentRequirement": "4.1.1",
+    "presentInOriginalLock": true,
+    "classification": "Existing pinned maintenance deprecation; no version/graph drift or installation failure",
+    "recordedNotSuppressed": true,
+    "versionChanged": false,
+    "blocksRestoration": false,
+    "securityAuditPerformed": false,
+    "securityOrRuntimeCorrectnessClaimed": false
+  },
+  "documents": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "9333aa3b6a20c2688e82ee021bd3b623b1a1b67a83f7871f40d826864f68a439"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "07086a502e01c6183e0af820885443c79612e53f313aa2eec380a27f66b5dae1"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "a9c46791ef6a25045bdd85b75d84572f44c671d554b2e18fe14c4f6ac51ecc8f"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "b59c8f529c29aca38287b97cf07b708e53e57cffaa34d8826213214a6f930036"
+    }
+  ],
+  "validation": {
+    "completedMainSteps": 6,
+    "pendingMainSteps": 4,
+    "relativeLinksChecked": 117,
+    "gitDiffCheckExitCode": 0,
+    "sourceProtectedFilesUnchanged": 1179,
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidatePinsAndArchivesUnchanged": true,
+    "tests": "No product code/policy/test changes; Step 3 prior 340 tests retained, not rerun"
+  },
+  "execution": {
+    "userCiAndRestoreCompleted": true,
+    "aiInstallRestoreBuildUnityOrRunner": false,
+    "aiSceneOrPrefabChange": false
+  },
+  "completion": {
+    "step6Complete": true,
+    "additionalManualWork": false,
+    "nextStep": 7,
+    "step7Started": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false,
+    "referenceHealthOrSecurityOrIndependentUnityRestoreClaimed": false
+  }
+}

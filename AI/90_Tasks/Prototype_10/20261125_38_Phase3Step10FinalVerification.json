@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-25",
+  "purpose": "Final Step 10 documentation and preservation verification; current technical baseline scope only",
+  "assessment": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_36_Phase3Step10Assessment.json",
+    "sha256": "0d8c32db8ac5a68d7ddd1f3c913eae4eb10ba03bcd713c1a252454ee6c6b5a30"
+  },
+  "handoff": {
+    "path": "AI/90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md",
+    "sha256": "64ad367f1429e267bace557d6c67ef37d6e2cd659ffacba85bc2f488c0c01ed0"
+  },
+  "documentationBefore": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "cb5aed1b0f6c5fae76a6dfdd15422de96f5549a19f8c30d9cec63d3b7ff45f63"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "bcc716c8346573b4d66384cede19e4239ca117022ec1c8e199470f0b5138787a"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "19f13566d2af981e41a0bea8a55f225e5d0bf9cea05425ecf7d3ce2c61f8e827"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "0b6cd8cd02f832b6d7ac37d81464f3f203d27fa6338af6d80d56c28f9386ef89"
+    },
+    {
+      "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "sha256": "48cc69637c50db5cd673d74514686acdae5719570b8464e0cf2ded9556b9a852"
+    },
+    {
+      "path": "Tools/DependencyAudit/README.md",
+      "sha256": "7b1fc860b20a702beef6d8207c68b129af80e25290f42bd788c7a724d159c132"
+    }
+  ],
+  "documentationAfter": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "5856e7fc72448b139cebc28f52910905a7aff9f1676230bfc067592518d141a1"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "32e8e961b2df72dfe6febbcd0a7b41e9aaa012941eb0e21b93d8c6101b19cf62"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "5943d8d3cea5fc56889d8007be98cb7942d2887d8e452c0086022bacb2e600fd"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "cc7e1cc00b60d726d8cbec29ed6323d339280bfae7bf8f75edfdcd9242dc64d7"
+    },
+    {
+      "path": "AI/00_Project/ASSET_DEPENDENCIES.md",
+      "sha256": "948bd1d89c08ee3dc77696b8aba5bdaeda62dfaef154f17bf39e279c24d2c0d2"
+    },
+    {
+      "path": "Tools/DependencyAudit/README.md",
+      "sha256": "9d7e9fdb18faef823bae848b962bfd959d52c96293d02b4da15374ca1b20312d"
+    }
+  ],
+  "priorEvidence": {
+    "unchangedFiles": 60,
+    "intentionallyUpdatedPriorDocumentPaths": [
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md"
+    ],
+    "actualUnityDiagnosticReportsUnchanged": 5,
+    "finalRunnerXmlIndependentlyParsed": false
+  },
+  "preservation": {
+    "sourceProtectedUnchanged": 1177,
+    "candidateProtectedUnchanged": 1113,
+    "sourceHead": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+    "sourceIndexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateIndexEntriesSha256": "55f361d5f68a87548648d3f2ba00e2ce62e93b1fb0bd59fe25f487c81bae7805",
+    "candidateStagedChanges": 0,
+    "sceneAndPrefabFilesUnchanged": true,
+    "originalProductionDependenciesQaPrivateInputsAndToolsUnchanged": true
+  },
+  "validation": {
+    "taskRequiredSections": 13,
+    "mainSteps": 10,
+    "completedMainSteps": 10,
+    "pendingMainSteps": 0,
+    "relativeLinksChecked": 190,
+    "brokenLinks": [],
+    "utf8NoReplacementCharacters": true,
+    "gitDiffCheckExitCode": 0,
+    "updatedSourceRegistryExitCode": 0,
+    "updatedSourceLifecycleExitCode": 0,
+    "candidateGateResults": [
+      {
+        "name": "registry",
+        "args": [
+          "--check",
+          "--root",
+          "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "ingress",
+        "args": [
+          "--check-managed",
+          "--evidence",
+          "AI/90_Tasks/Prototype_10/20261119_22_Phase2Step6KnownOrigins.json",
+          "--root",
+          "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "ingress",
+        "args": [
+          "--check-staged",
+          "--evidence",
+          "AI/90_Tasks/Prototype_10/20261119_22_Phase2Step6KnownOrigins.json",
+          "--root",
+          "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "lifecycle",
+        "args": [
+          "--check",
+          "--root",
+          "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "audit",
+        "args": [
+          "--check",
+          "--root",
+          "C:/Users/Admin/AppData/Local/Temp/FlowState_Phase3_20261120_01/Project"
+        ],
+        "exitCode": 1
+      }
+    ],
+    "candidateAuditCollectionComplete": true,
+    "rawUnresolvedGuidOccurrences": 31,
+    "rawOrphanMetas": 0,
+    "noNewTestsNeededForDocumentationOnlyChange": true,
+    "previousTestPassesNotClaimedAsNewRuns": true
+  },
+  "conditionDecision": [
+    {
+      "id": 1,
+      "met": true
+    },
+    {
+      "id": 2,
+      "met": true
+    },
+    {
+      "id": 3,
+      "met": true
+    }
+  ],
+  "completion": {
+    "step10Complete": true,
+    "phase3Complete": true,
+    "roadmap10Complete": true,
+    "independentRestoreApprovedForCurrentTechnicalBaseline": true,
+    "scope": {
+      "kind": "existing technical baseline independent reconstruction and current Editor use",
+      "snapshotNotRemoteClone": true,
+      "cleanGitCheckoutAloneInsufficient": true,
+      "newThirdPartyProducts": 0,
+      "fullOriginalCacheCopied": false,
+      "newPlayerBuild": false,
+      "remoteModuleOrContainerRun": false
+    },
+    "rawReferenceHealthPass": false,
+    "rightsNewlyGranted": false,
+    "additionalManualWork": false,
+    "nextRoadmap": 11,
+    "nextRoadmapStarted": false,
+    "nextActualModuleUpdateRequiresRecoveryTest": true
+  },
+  "limits": [
+    "Raw audit remains exit 1 with 31 original unresolved occurrences; no GUIDs repaired or suppressed",
+    "No new rights/license/distribution/purchase approval, all-platform/variant/Player or container/remote-module certification",
+    "Actual user test pass reports accepted; diagnostic JSON is pre-TearDown, not final Runner XML",
+    "Original package declarations/old restore spec preserved; migrated candidate inputs are separate",
+    "Temporary candidate/cache/offline preservation must remain available; Git checkout alone is insufficient",
+    "Next actual Module update still requires recovery test under Roadmap 9 obligations"
+  ],
+  "execution": {
+    "aiRanUnityBuildTestRunnerInstallRestore": false,
+    "aiChangedScenePrefabProductionInputsOrCaches": false,
+    "originalGitIndexModified": false,
+    "documentationAndEvidenceOnly": true
+  }
+}

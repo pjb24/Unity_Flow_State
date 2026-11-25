@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "capturedAtUTC": "2026-11-20T11:30:49.525Z",
+  "purpose": "Step 4 final completion, frozen candidate/Git integrity and original workspace preservation",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_13_Phase3Step4Check.json",
+    "sha256": "8b861c6558cab8b87737ab480d91fd1be5c8117735e846b6adc715dd540cbd39"
+  },
+  "manifest": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_12_Phase3Step4TransferManifest.json",
+    "sha256": "e36498d5028f2f5b45dfa71c4f40860425901c0efa00bc8eed7a3739b6dba1f7"
+  },
+  "step3Final": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_11_Phase3Step3Verification.json",
+    "sha256": "2be504a483dcb8bc38f94e39d293d762dca773b7887983cf1bb0a7130dc6c41e"
+  },
+  "substeps": [
+    {
+      "id": "4-1",
+      "complete": true,
+      "projectInputs": 979,
+      "privateInputs": 111,
+      "generatedSdk": 1,
+      "totalCandidateFiles": 1091,
+      "candidateDirectories": 109,
+      "sourceTrackedAndUntrackedCoverageAccountedFor": true,
+      "excludedOptionalTrackedPaths": [
+        ".vscode/settings.json",
+        ".vsconfig",
+        "UGS/LogSink/.env.example",
+        "UGS/LogSink/CLOUD_RUN_SECRET_AND_IAM.md"
+      ],
+      "permissionAndAncestryRechecked": true
+    },
+    {
+      "id": "4-2",
+      "complete": true,
+      "exclusiveSnapshotCopied": true,
+      "allByteHashesAndFoldersVerified": true,
+      "originalCachesGitAndSecretsNotCopied": true,
+      "initialFailureResolvedAndRetained": {
+        "initialFailurePhase": "candidate-git-init ignore check before staging",
+        "initialGitExitCode": 128,
+        "reason": "--literal-pathspecs is unsupported by check-ignore; now restricted to add only",
+        "copyRetainedAndFullyReverified": true,
+        "sourceUnchanged": true,
+        "automaticCleanup": false,
+        "sourceOrCandidateReset": false
+      }
+    },
+    {
+      "id": "4-3",
+      "complete": true,
+      "independentCandidateGit": true,
+      "trackedFiles": 980,
+      "ignoredUntrackedFiles": 111,
+      "stagedChanges": 0,
+      "rootCommits": 1,
+      "remotes": 0,
+      "managedAndStagedIngressPassed": true,
+      "unbornHeadFailureNotTreatedAsSuccess": true
+    },
+    {
+      "id": "4-4",
+      "complete": true,
+      "frozenCandidateCutoff": {
+        "cutoff": "Current Step 3 completion documents/tools/evidence through 20261120_11, observed at this manifest capture",
+        "thisManifestExcludedFromOwnFileList": true,
+        "sidecarDestination": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step4TransferManifest.json",
+        "reason": "Avoid a self-referential manifest hash; all Step 4 execution/final evidence and subsequent source-document updates are external sidecars, not silent mutations of the frozen candidate snapshot",
+        "step4ExecutionAndFinalEvidenceSourcePaths": [
+          "AI/90_Tasks/Prototype_10/20261120_13_Phase3Step4Check.json",
+          "AI/90_Tasks/Prototype_10/20261120_14_Phase3Step4Verification.json"
+        ],
+        "laterSourceDocumentationChangesComparedSeparately": true
+      },
+      "currentSourceDocumentationDifferences": [
+        {
+          "path": "AI/00_Project/PROJECT_MEMORY.md",
+          "beforeSha256": "eb3850c94be8e3e63c5d923d1c8af420b8b5f605489ec9b6755ff48b169f27e6",
+          "afterSha256": "884725c2ff11e32434675d5342b1379c4c65d92450ae3a7b36797c9cba5e7513",
+          "reason": "Source-only Step 4 completion/next Step 5; candidate remains frozen at pre-copy document cutoff",
+          "candidateSha256": "eb3850c94be8e3e63c5d923d1c8af420b8b5f605489ec9b6755ff48b169f27e6",
+          "currentSourceSha256": "884725c2ff11e32434675d5342b1379c4c65d92450ae3a7b36797c9cba5e7513"
+        },
+        {
+          "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+          "beforeSha256": "c80553b5a6803acf12a2461b67a672336b693e7b72a4aa7d0fe958ba749883a6",
+          "afterSha256": "e359f55a9ee7fd7236e2d0889d68d87f83d2e220217b77dbf20500cfb825fe6f",
+          "reason": "Source-only Step 4 completion/next Step 5; candidate remains frozen at pre-copy document cutoff",
+          "candidateSha256": "c80553b5a6803acf12a2461b67a672336b693e7b72a4aa7d0fe958ba749883a6",
+          "currentSourceSha256": "e359f55a9ee7fd7236e2d0889d68d87f83d2e220217b77dbf20500cfb825fe6f"
+        },
+        {
+          "path": "AI/04_Implementation_Roadmap/README.md",
+          "beforeSha256": "22f2ce0205c932a702e8ae944bc623acd3beb6163399f14a465ef04882838ed4",
+          "afterSha256": "0255d65062a6ec9a2d4d9c60cd30b8134bb394042bab3b3e4e71937e5ab6d228",
+          "reason": "Source-only Step 4 completion/next Step 5; candidate remains frozen at pre-copy document cutoff",
+          "candidateSha256": "22f2ce0205c932a702e8ae944bc623acd3beb6163399f14a465ef04882838ed4",
+          "currentSourceSha256": "0255d65062a6ec9a2d4d9c60cd30b8134bb394042bab3b3e4e71937e5ab6d228"
+        },
+        {
+          "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+          "beforeSha256": "00dabc798d2f912c2efaffd7e9f746d69fca8f5217fa4f5080c915139db680d8",
+          "afterSha256": "5a9f272be2eebff890b5b84b4877eb228f1aeefc107d8a61e5c305181758d309",
+          "reason": "Source-only Step 4 completion/next Step 5; candidate remains frozen at pre-copy document cutoff",
+          "candidateSha256": "00dabc798d2f912c2efaffd7e9f746d69fca8f5217fa4f5080c915139db680d8",
+          "currentSourceSha256": "5a9f272be2eebff890b5b84b4877eb228f1aeefc107d8a61e5c305181758d309"
+        }
+      ],
+      "step4EvidenceStoredExternally": true
+    },
+    {
+      "id": "4-5",
+      "complete": true,
+      "sourceProtectedFiles": 1175,
+      "unchangedProtectedFiles": 1171,
+      "intendedSourceDocumentationChanges": 4,
+      "originalHeadIndexUnchanged": true
+    }
+  ],
+  "candidate": {
+    "root": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+    "runRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01",
+    "files": 1091,
+    "directories": 109,
+    "preparedPlanSha256": "e328c3663589f94f59663ccc88fc3c34af206905ba1251f7af9eeb7ae5d8e0ea",
+    "head": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "indexSha256": "9230f69f600165a937c0d068994ddf8ba216364f8ac42fec5edaadcca115fb16",
+    "trackedPaths": 980,
+    "stagedChanges": 0,
+    "worktreeClean": true,
+    "commitCount": 1,
+    "rootCommitHasNoParent": true,
+    "remoteNames": [],
+    "trackedBlobHashesVerifiedInCheck": true,
+    "privateInputsIgnoredUntracked": 111,
+    "allSnapshotBytesStillMatch": true,
+    "onlyGitExcludedFromFileCoverage": true,
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "sdkPin": {
+      "sdk": {
+        "version": "9.0.315",
+        "rollForward": "disable",
+        "allowPrerelease": false
+      }
+    },
+    "rootLibraryExists": false,
+    "rootNodeModulesExists": false,
+    "rootObjExists": false,
+    "tmpAssetsReapplied": false,
+    "noOriginalGitOrIndexCopied": true
+  },
+  "checks": [
+    {
+      "name": "registry",
+      "script": "dependency-registry.cjs",
+      "args": [
+        "--check",
+        "--root",
+        "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "managed ingress",
+      "script": "dependency-ingress.cjs",
+      "args": [
+        "--check-managed",
+        "--root",
+        "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+        "--evidence",
+        "AI/90_Tasks/Prototype_10/20261119_22_Phase2Step6KnownOrigins.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "staged ingress",
+      "script": "dependency-ingress.cjs",
+      "args": [
+        "--check-staged",
+        "--root",
+        "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+        "--evidence",
+        "AI/90_Tasks/Prototype_10/20261119_22_Phase2Step6KnownOrigins.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "lifecycle",
+      "script": "dependency-lifecycle.cjs",
+      "args": [
+        "--check",
+        "--root",
+        "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "sourcePreservation": {
+    "git": {
+      "head": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+      "indexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+      "trackedPathsNulSha256": "5a453022d2b0d87914a1aaa9337edb5a6a5f22b24cf5bb12dbe1910f9d4ea8fa",
+      "indexEntriesNulSha256": "675c1e897558bed4d94c477d5dea644abf0196114cc9aa235bc6d3bf9a1cc617"
+    },
+    "trackedPaths": 975,
+    "stagedChanges": 0,
+    "sourceHeadIndexTrackingUnchanged": true,
+    "protectedPaths": 1175,
+    "unchangedProtectedPaths": 1171,
+    "allowedDocumentationChanges": [
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "beforeSha256": "eb3850c94be8e3e63c5d923d1c8af420b8b5f605489ec9b6755ff48b169f27e6",
+        "afterSha256": "884725c2ff11e32434675d5342b1379c4c65d92450ae3a7b36797c9cba5e7513",
+        "reason": "Source-only Step 4 completion/next Step 5; candidate remains frozen at pre-copy document cutoff"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "beforeSha256": "c80553b5a6803acf12a2461b67a672336b693e7b72a4aa7d0fe958ba749883a6",
+        "afterSha256": "e359f55a9ee7fd7236e2d0889d68d87f83d2e220217b77dbf20500cfb825fe6f",
+        "reason": "Source-only Step 4 completion/next Step 5; candidate remains frozen at pre-copy document cutoff"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "beforeSha256": "22f2ce0205c932a702e8ae944bc623acd3beb6163399f14a465ef04882838ed4",
+        "afterSha256": "0255d65062a6ec9a2d4d9c60cd30b8134bb394042bab3b3e4e71937e5ab6d228",
+        "reason": "Source-only Step 4 completion/next Step 5; candidate remains frozen at pre-copy document cutoff"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "beforeSha256": "00dabc798d2f912c2efaffd7e9f746d69fca8f5217fa4f5080c915139db680d8",
+        "afterSha256": "5a9f272be2eebff890b5b84b4877eb228f1aeefc107d8a61e5c305181758d309",
+        "reason": "Source-only Step 4 completion/next Step 5; candidate remains frozen at pre-copy document cutoff"
+      }
+    ],
+    "unexpectedChanges": [],
+    "missingFiles": [],
+    "priorMetadataAndToolsTestsUnchanged": true,
+    "productionAssetsSettingsCSharpScenePrefabDeclarationsLockUnchanged": true,
+    "tmpBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "folderMetaCount": 8,
+    "supersededBundleRetainedAndRechecked": true,
+    "npmArchivesUnchanged": 27,
+    "qaExecutableHashUnchanged": true,
+    "qaCoverage": "Executable hash only; full candidate directory not traversed; no execution or new QA claim",
+    "actualSaveOrSecretBodiesRead": false,
+    "originalGitStagingCommitResetConfigOrCleanPerformed": false
+  },
+  "validation": {
+    "utf8JsonAndWhitespaceValid": true,
+    "localMarkdownLinksChecked": 106,
+    "stepsInOrder": true,
+    "stepCheckboxes": {
+      "complete": 4,
+      "pending": 6
+    },
+    "gitDiffCheckExitCode": 0,
+    "sourceChangedTrackedPaths": [
+      "AI/00_Project/PROJECT_MEMORY.md",
+      "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "AI/04_Implementation_Roadmap/README.md",
+      "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "Tools/DependencyAudit/README.md"
+    ],
+    "newSourcePathsThisStep": [
+      "AI/90_Tasks/Prototype_10/20261120_12_Phase3Step4TransferManifest.json",
+      "AI/90_Tasks/Prototype_10/20261120_13_Phase3Step4Check.json",
+      "AI/90_Tasks/Prototype_10/20261120_14_Phase3Step4Verification.json"
+    ],
+    "previousUntrackedArtifactsPreserved": [
+      "AI/90_Tasks/Prototype_10/20261120_06_Phase3Step1Baseline.json",
+      "AI/90_Tasks/Prototype_10/20261120_07_Phase3Step1Verification.json",
+      "AI/90_Tasks/Prototype_10/20261120_08_Phase3Step2InputAudit.json",
+      "AI/90_Tasks/Prototype_10/20261120_09_Phase3Step2Verification.json",
+      "AI/90_Tasks/Prototype_10/20261120_10_Phase3Step3Audit.json",
+      "AI/90_Tasks/Prototype_10/20261120_11_Phase3Step3Verification.json",
+      "Tools/DependencyAudit/dependency-snapshot.cjs",
+      "Tools/DependencyAudit/dependency-snapshot.test.cjs"
+    ],
+    "unitTestsRerun": false,
+    "unchangedCodeTestEvidence": {
+      "path": "AI/90_Tasks/Prototype_10/20261120_10_Phase3Step3Audit.json",
+      "sha256": "8cd5de0d7564b0e1318035307a90f8278a4cd0c7ed176e1a2d1babd86eb489f7"
+    },
+    "previousNodeTestsPassed": 340,
+    "reasonNoSuiteRerun": "Validated snapshot API and existing check CLIs used unchanged. No code/policy/test change; performed actual copy, source/target/Git/ignore/blob/bundle comparisons instead of repeating unchanged suites."
+  },
+  "externalSidecars": [
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step4TransferManifest.json",
+      "sha256": "e36498d5028f2f5b45dfa71c4f40860425901c0efa00bc8eed7a3739b6dba1f7"
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step4PreparedPlan.json",
+      "sha256": "7db3f4e329f9216087d3f24959a20173bd545693bbdef6c44ffb7281ca571df4"
+    },
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step4Check.json",
+      "sha256": "8b861c6558cab8b87737ab480d91fd1be5c8117735e846b6adc715dd540cbd39"
+    }
+  ],
+  "retainedFailureLogs": [
+    {
+      "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Logs\\Step4Failure-1795173905193.json",
+      "sha256": "57bb39dfa934bd70e0a90d10a20f2bb43f91401143801f8b0e68bd566aee3d64",
+      "report": {
+        "phase": "candidate-git-init",
+        "code": "ERR_ASSERTION",
+        "partialOutputsRetained": true,
+        "automaticCleanup": false
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "5a9f272be2eebff890b5b84b4877eb228f1aeefc107d8a61e5c305181758d309"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "884725c2ff11e32434675d5342b1379c4c65d92450ae3a7b36797c9cba5e7513"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "e359f55a9ee7fd7236e2d0889d68d87f83d2e220217b77dbf20500cfb825fe6f"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "0255d65062a6ec9a2d4d9c60cd30b8134bb394042bab3b3e4e71937e5ab6d228"
+    }
+  ],
+  "completion": {
+    "step4Complete": true,
+    "completedDateKST": "2026-11-20",
+    "nextStep": 5,
+    "manualWorkRequiredNow": false,
+    "actualCandidateCreated": true,
+    "actualCandidateCopied": true,
+    "candidateLocalGitInitializedAndCommitted": true,
+    "originalRepositoryCommitted": false,
+    "unityExecuted": false,
+    "compileExecuted": false,
+    "buildExecuted": false,
+    "testRunnerExecuted": false,
+    "sceneOrPrefabApplied": false,
+    "packageInstalled": false,
+    "lockRegenerated": false,
+    "remoteExecuted": false,
+    "secretGenerated": false,
+    "referenceHealthPass": false,
+    "rightsGranted": false,
+    "independentRestore": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false
+  },
+  "handoff": {
+    "next": "Step 5: prepare the fixed Editor/UPM and TMP provider/modified assets/Import plan using this exact candidate baseline. Fresh provider resolution and TMP Assets reapplication remain unexecuted.",
+    "candidateRuntimeContract": {
+      "mode": "Editor isolated memory-only gameplay, no remote service/test account",
+      "persistentSave": "Disabled for selected Editor gameplay via existing isolation flag; reserved UserData path is NOT automatically honored by current code",
+      "authentication": "No runtime UGS authentication/profile is opened; no existing verification or production account/session reused",
+      "requiredBeforeUserEditorPlay": [
+        "Use this candidate root and Editor 6000.3.5f2; keep original project closed for this validation",
+        "Use normal Windows target without FLOW_STATE_PRODUCTION, do not activate Windows-production profile",
+        "Keep Reload Domain and Reload Scene enabled (current serialized options already both enabled)",
+        "Open Flow State/Online Record Verification and press Play pre-isolation reservation; confirm IsolationArmed=True and leave window open",
+        "Do not prepare A/B/Phase3New sessions or enable verification remote request toggle",
+        "Then user may press Play only when Step 5/7/8 prerequisites and tests are prepared; rearm after each stop/restart"
+      ],
+      "evidence": [
+        "Assets/Scripts/Runtime/Systems/GameSystem.cs:355-399 memory store and early return before gateways",
+        "Assets/Scripts/Runtime/Features/VerificationSessionConfiguration.cs EditorIsolationKey",
+        "Assets/Editor/OnlineRecordVerificationWindow.cs:90-109 ArmEditorIsolation and reload check; UI button at 442",
+        "ProjectSettings/EditorSettings.asset m_EnterPlayModeOptions=0",
+        "Assets/Scripts/Runtime/Features/OnlineRecordConfiguration.cs conditional production configuration"
+      ],
+      "editorInitialization": "No project InitializeOnLoad/AssetPostprocessor hooks found in Assets C# search; opening/import is not runtime verification; Hub/account use for package acquisition is separately owner-confirmed",
+      "player": "Do not launch a standalone Player in this scope. Current product/company persist path would overlap original; existing --fs-verification-session values are shared under original persistent root and not unique isolation. If Step 8 needs Player execution, first fix separate OS/user-data and auth scope with an exact supported mechanism; reserved path alone is insufficient.",
+      "build": "User only, if later justified in Step 8; output path reserved, no build or run performed",
+      "scene": "Read-only; existing Scene/Prefab untouched"
+    },
+    "authoritativeInstructions": "Current Task in original workspace; candidate Task documents intentionally remain the frozen Step 3 completion snapshot",
+    "frozenFileInventory": {
+      "path": "AI/90_Tasks/Prototype_10/20261120_13_Phase3Step4Check.json",
+      "sha256": "8b861c6558cab8b87737ab480d91fd1be5c8117735e846b6adc715dd540cbd39"
+    },
+    "originalBaseline": {
+      "path": "AI/90_Tasks/Prototype_10/20261120_12_Phase3Step4TransferManifest.json",
+      "sha256": "e36498d5028f2f5b45dfa71c4f40860425901c0efa00bc8eed7a3739b6dba1f7"
+    },
+    "actualCandidateStateMustBeRecheckedBeforeFurtherWrites": true,
+    "sourceManifestAndLockRemainUnchanged": true,
+    "userEditorActions": "No manual work required for Step 4. Prepare exact user instructions/required inputs and isolation before any later Editor/package acquisition/build/Runner/Scene application.",
+    "temporaryRetention": "Temporary parent may be cleaned by OS; keep hash/constraints in source Task; if target disappears revalidate and recreate only reviewed inputs, do not claim durable archive"
+  },
+  "selfHashPolicy": "Next Step must externally pin this final JSON. This file is mirrored outside Project in Outputs/Step4Verification.json; the frozen candidate commit/file manifest is not mutated to include its own final proof."
+}

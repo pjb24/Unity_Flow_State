@@ -14,8 +14,8 @@ Roadmap 10 — Thirdparty 애셋 관리와 프로젝트 복원 체계.
 
 2026-11-18 사용자 확정: 현재 사용 중인 Third Party 애셋은 없으며, 앞으로 사용할 애셋의 관리 방안을 마련하는 것이 목표다. 기존 UPM/TMP 등은 기술적 기준선으로 구분한다. Phase 1에서 등록 형식·단일 기록 위치와 원본/프로젝트 소유 경계, Phase 2에서 도입·복사/수정·Git 관리·업데이트/제거·복원 절차, Phase 3에서 복원 검증·후속 도입 인계를 마련한다. 관리 기록에는 제품/버전·출처·라이선스/사용 조건·복사/수정 내역·사용 목적/게임 내 적용 위치·참조·복원 정보를 포함한다. 실제 도입 전 항목은 미등록 상태로 두며 현재 제외 대상이 없더라도 향후 관리 방안은 필수 산출물이다.
 
-계획 확정일: 2026-11-11. **Phase 1 완료(2026-11-19)**다. [Phase 1 Task](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md) Step 1~10에서 조사/보존 경계·영구 기록/갱신 기준·Node 검사/정책 검증과 Phase 2/3 인계를 완료했다. 현재 실제 도입/제외 후보는 0개다. [Phase 2 Task](../90_Tasks/Prototype_10/20261119_05_Phase2ManualSteps.md) Step 1~10과 Phase 2를 완료(2026-11-20)했다. 현재성/세 완료 조건과 별도 환경·고정 입력·보존/성공/중단의 Phase 3 인계를 연결했으며 Phase 3 실제 실행은 미착수다.
-선행: [Roadmap 9](IMPLEMENTATION_ROADMAP_009.md)는 2026-11-18 완료했다. Phase 4 Task의 QA 후보/미검증 한계·실제 Module 복구 의무를 인계받는다. Phase 1의 보존/관리 경계 준비를 완료했으며 실제 추적 제외·독립 복원은 미착수다.
+계획 확정일: 2026-11-11. **Phase 1~3·Roadmap 10 완료(2026-11-25)**다. Phase 1(2026-11-19) 관리 경계·등록/검사, Phase 2(2026-11-20) 도입/보존·Git/업데이트/제거/원복 절차에 이어 [Phase 3 Task Step 10](../90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md)에서 현재 기술 기준선의 실제 별도 복원·사용자 Unity 결과·보존과 세 완료 조건을 판정했다. [최종 인계](../90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md)의 고정 입력·기존 31회 진단·범위/한계를 유지한다. 전체 자산 참조 건강이나 신규 제품 권리/배포·모든 Player/variant 검증 완료는 아니다.
+선행: [Roadmap 9](IMPLEMENTATION_ROADMAP_009.md)는 2026-11-18 완료했다. QA 후보/미검증 원격 한계·다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다. 현재 신규 Third Party 도입/실제 원본 추적 해제 요청은 0개이며 원래 자료/이력은 보존한다.
 공통 순서·승인/검증 경계는 [로드맵 안내](README.md)를 따른다.
 
 ## 범위 밖
@@ -44,7 +44,7 @@ Thirdparty 구매/계약 체결의 자동 승인, 원본 삭제, Git 과거 이�
 
 ### 상태
 
-완료(2026-11-19) — [Phase 1 Task Step 10](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md)에 세 완료 조건의 근거와 실제 적용/복원 의무를 연결했다. 현재 도입 애셋은 없고 불명확한 자료는 보존하며, 관리 기록/형식·Node 도구와 정책 포함 Unit Test 55개 근거를 마련했다. 최신 inventory exit 1의 기존 finding은 보존 범위 비차단·실제 적용/복원 전 검증 대상으로 구분했으며 참조 정상/권리·독립 복원 PASS가 아니다. Phase 2도 완료(2026-11-20)했으며 다음은 Phase 3 인계 기준선/별도 환경·필수 입력 확인과 실행 Task 준비다.
+완료(2026-11-19) — [Phase 1 Task Step 10](../90_Tasks/Prototype_10/20261118_02_Phase1ManualSteps.md)에 세 완료 조건의 근거와 실제 적용/복원 의무를 연결했다. 현재 도입 애셋은 없고 불명확한 자료는 보존하며, 관리 기록/형식·Node 도구와 정책 포함 Unit Test 55개 근거를 마련했다. 최신 inventory exit 1의 기존 finding은 보존 범위 비차단·실제 적용/복원 전 검증 대상으로 구분했으며 참조 정상/권리·독립 복원 PASS가 아니다. Phase 2도 완료(2026-11-20)했다. Phase 3 Step 1~10과 Roadmap 10도 완료(2026-11-25)했다. 현재 기술 기준선의 범위/한계는 Phase 3 최종 인계를 따른다.
 
 ## Phase 2. 형상 관리 제외와 도입·복원 절차
 
@@ -88,17 +88,17 @@ Thirdparty 구매/계약 체결의 자동 승인, 원본 삭제, Git 과거 이�
 
 ### 상태
 
-대기 — Phase 2의 [인계 계획](../90_Tasks/Prototype_10/20261120_02_Phase3Handoff.md)을 받아 [Phase 3 Task](../90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md)를 작성했다(2026-11-20). 기준선/필수 입력·별도 환경·정적/Unit Test·실제 복원/참조/사용자 검증·최종 판정을 Step 1~10으로 정리했으며 실제 실행/독립 복원은 미착수다.
+완료(2026-11-25) — [Phase 3 Task Step 10](../90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md)에서 실제 UPM/TMP·npm/NuGet·필수 참조/사용자 Unity 검증과 비추적/자체 자료 보존·제약 기록의 세 조건을 충족했다. [최종 인계](../90_Tasks/Prototype_10/20261125_37_Phase3RestoreAndAdoptionHandoff.md)와 [최종 검증](../90_Tasks/Prototype_10/20261125_38_Phase3Step10FinalVerification.json)을 따른다. 현재 기술 기준선의 복원 완료이며 raw audit exit 1/기존 31회 GUID 진단, 제품별 권리·모든 Player/variant·원격/container 미검증 한계는 유지한다. 추가 수동 실행은 없다.
 
 # 현재 개발 진행 상태
 
 ## 진행 중인 작업
 
-Phase 1~2 완료(Phase 2: 2026-11-20). Phase 3 실제 독립 복원은 대기하며 Roadmap 10 전체는 미완료다.
+Roadmap 10 Phase 1~3 완료(2026-11-25). 현재 추가 구현/사용자 실행 대기는 없다.
 
 ## 다음 작업
 
-[Phase 3 Task](../90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md) Step 1의 현재성·원래 작업본 보호 기준선 고정부터 진행한다. 이후 Step 2~10에서 필수 입력/별도 환경·단위/정적 검사와 실제 복원/사용자 결과·완료 판정을 수행한다. 미커밋 Tools/문서와 기준선 밖 추적 경로 11개의 필요성/안전한 취급도 확인한다. 현재 사용자 수동 작업은 없다. 실행 절차 작성은 실제 제외/복원 성공이나 원본 삭제·이력 재작성·구매/공개 승인이 아니다.
+[Roadmap 11](IMPLEMENTATION_ROADMAP_011.md)이 다음 순서다. 실제 제품 도입 시 Phase 3 최종 인계의 등록·조건/취득·원본 비추적·필수 import·확장/사용처·Git/참조·업데이트/제거/원복·별도 복원 점검표를 적용한다. 기존 31회 진단 자료를 필수로 사용하면 재검증하며 다음 실제 Module 업데이트 전 복구 시험 의무를 유지한다. 이번 완료는 후속 기능/구매/배포·원본 삭제/이력 재작성 승인이 아니다.
 
 ## 보류된 작업
 
@@ -107,7 +107,7 @@ Pattern 연결·난이도·위험 보상 개선은 Roadmap 9~14 범위 밖으로
 
 ## 완료된 단계
 
-Phase 1 원본·프로젝트 소유 자료 경계/관리 기록·검사 체계 준비 완료(2026-11-19). Phase 2 형상 관리 제외 검사·도입/보존/재도입/lifecycle 절차와 최종 인계도 완료(2026-11-20)했다. Phase 3·Roadmap 10 전체는 미완료다.
+Phase 1 원본·프로젝트 소유 자료 경계/관리 기록·검사 체계 준비 완료(2026-11-19). Phase 2 형상 관리 제외 검사·도입/보존/재도입/lifecycle 절차와 최종 인계도 완료(2026-11-20)했다. Phase 3의 현재 기술 기준선 복원과 Roadmap 10도 완료(2026-11-25)했다.
 
 # 구현 우선순위
 
@@ -135,3 +135,23 @@ Thirdparty 원본 애셋을 Git 형상 관리에서 제외하면서 의존성과
 - 현재 기능의 사실과 향후 변경 계획을 구분하고 구현 방법/작업 이력을 로드맵에 중복 기록하지 않는다.
 - 의존성/보류 범위와 계획 확정·실제 완료의 차이가 명시되어 있다.
 
+
+## 이전 Step 기록
+
+아래는 각 Step 당시 상태이며 현재 판정은 위 완료 상태와 최종 인계를 따른다.
+
+2026-11-25 Step 6 후속: 실제 npm lock 정적 대조와 사용자 NuGet Linux 보완 복원(exit 0)을 확인했다. 기본/Linux target과 전체 13개 그래프·lock/cache/resource 검증을 통과했다. 사용자 npm ci exit 0과 57개/연결 65개·보존 검증 및 기존 crypto-js 경고 판정까지 완료했다. Step 6과 Step 7 정적 판정을 완료했으며 다음은 Step 8이다.
+
+2026-11-25 Step 7 완료: 공통 자산/참조/Importer·이름/동적/binary 경계와 기존 31회 미해결·새 후보 orphan 37개의 영향을 정적으로 판정하고 구체적인 Unity 확인 U1~U5를 Task에 인계했다. 추가 수동 작업/Scene 변경 제안은 없으며, Step 8 실제 결과 전 참조 건강/Phase 3/독립 Unity 복원 성공은 미확인이다.
+
+2026-11-25 Step 8: 정적 검사/부작용 감사와 후보 전용 EditMode 5개 및 고정 입력·사용자 Stage A 절차 준비를 마쳤다. 원래 제품/Assets는 불변이며 실제 사용자 컴파일/Runner/표시 결과가 없어 Step 8은 미완료다. AI는 Unity/빌드/Runner·후보 Test 적용·Scene 작업을 실행하지 않았다.
+
+2026-11-25 Step 8 후속: 사용자 컴파일/EditMode 5개 성공과 실제 JSON·고정 입력 불변을 확인했다. 37개 immutable package 경고는 기존 orphan 대응 파일의 부재와 같으며 최종 무결성 판정은 보류했다. Task의 새 Stage B/C 안내로 기존 PlayMode 3개·통과 후 표시 확인을 수행한다. 원래 자료/Git을 보존했고 AI는 Unity/Runner/빌드/Scene 조작을 하지 않는다. Step 8은 미완료다.
+
+2026-11-25 Step 8 완료: 실제 요청한 사용자 Unity/표시 결과와 고정 입력/Scene/원래 자료 보존을 연결했다. 최종 Runner XML 미제공 한계와 기존 37개 package 경고/31회 GUID 진단은 후속 전체 무결성 판정에 유지한다. 현재 추가 수동 실행은 없고 Step 9~10·Roadmap 10 전체는 미완료다.
+
+2026-11-25 Step 9: 정책/유입·snapshot/설치 payload·보존/fixture 검증은 통과했지만 공식 package 빈 파일 37개 부재가 남아 미완료다. 버전/meta/byte를 고정한 사용자 복원/Editor 확인만 요청하며 빌드/Play/Runner/Scene 적용은 추가하지 않는다. 원래 자료와 이전 결과는 보존했다.
+
+2026-11-25 Step 9 완료: 공식 37개 파일/meta 동일성과 사용자 컴파일 보고·사후 gate/보존을 확인했고 orphan meta 진단은 37→0이다. 기존 31회 GUID 진단과 XML/build 등 한계는 유지하며 추가 실행 없이 Step 10 최종 판정/인계로 넘긴다. Phase 3/Roadmap 10 전체는 아직 완료 처리하지 않았다.
+
+2026-11-25 Step 10 완료: 현재 기술 기준선의 필수 참조 복원·비추적/보존·제약 기록 세 조건을 실제 증거로 판정하고 Phase 3·Roadmap 10을 완료했다. raw audit exit 1/기존 31회와 권리/Player/variant·원격 한계는 유지한다. 후속 실제 도입은 최종 인계 점검표를 적용하며 추가 수동 작업은 없다.

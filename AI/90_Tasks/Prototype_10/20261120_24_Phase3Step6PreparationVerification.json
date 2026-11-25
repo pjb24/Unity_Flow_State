@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "dateKST": "2026-11-20",
+  "capturedAtUTC": "2026-11-20T12:35:51.736Z",
+  "purpose": "Step 6 static preparation and original/candidate preservation verification; user Stage A/B not executed",
+  "parent": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_20_Phase3Step6InputAudit.json",
+    "sha256": "fab8f5abbd29733a146058871cc4477525aff3fe7b8fd88d4b9d003f17eae007"
+  },
+  "restorePlan": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_21_Phase3Step6RestorePlan.json",
+    "sha256": "3a571a6fb6e010a2280f85edb1a4520ab49c11f9af8eec5e7cd3acb765e336f5"
+  },
+  "proposedPackage": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_22_Phase3Step6ProposedPackage.json",
+    "sha256": "cf28825ab638ab3caf701acb95cb5d6a5334db6f05d13b5e67583e571621fec0"
+  },
+  "nugetConfig": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_23_Phase3Step6NuGet.config",
+    "sha256": "dec2dad29b4f6fc8f2605e50a1f9f53ae9645aafc2fa379e1412083d96ee2b79"
+  },
+  "step5Final": {
+    "path": "AI/90_Tasks/Prototype_10/20261120_19_Phase3Step5Verification.json",
+    "sha256": "d2cb69dabca504fadcf3a51088bfe15e6d08e6dcd593466b98fdebe5b71e79c0"
+  },
+  "substeps": [
+    {
+      "id": "6-1",
+      "staticComplete": true,
+      "exactArchives": 27,
+      "metadataAliasVersionIntegrityDependenciesVerified": true,
+      "actualNewInstallation": false
+    },
+    {
+      "id": "6-2",
+      "staticComplete": true,
+      "patchCheckExitCode": 0,
+      "pathOnlyManifestOperations": 27,
+      "expectedLockPathOperations": 54,
+      "backupsVerified": true,
+      "candidateManifestApplied": false
+    },
+    {
+      "id": "6-3",
+      "status": "Await actual user-generated lock; no manually edited lock treated as result",
+      "actualMigrationVerified": false
+    },
+    {
+      "id": "6-4",
+      "status": "Stage B npm ci deferred until AI validates actual Stage A lock",
+      "npmCiExecuted": false
+    },
+    {
+      "id": "6-5",
+      "staticComplete": true,
+      "directNugetPackages": 4,
+      "priorResolvedGraph": 13,
+      "feeds": 2,
+      "embeddedResourceDeclarations": 2,
+      "actualEmbeddedSourceFiles": 40,
+      "customSourceOrAncestorExecTargetsImports": false,
+      "userNewRestoreExecuted": false
+    },
+    {
+      "id": "6-6",
+      "preparationVerified": true,
+      "actualResultsPending": true,
+      "step6Complete": false
+    }
+  ],
+  "preservation": {
+    "sourceGit": {
+      "head": "4e1d63b8a3c3efb1faa87927560d846199411a6e",
+      "indexSha256": "b41f7c034e56d7d2b3997d6982c551caac15baba613a460dd6eba727affba054",
+      "trackedPathsNulSha256": "5a453022d2b0d87914a1aaa9337edb5a6a5f22b24cf5bb12dbe1910f9d4ea8fa",
+      "indexEntriesNulSha256": "675c1e897558bed4d94c477d5dea644abf0196114cc9aa235bc6d3bf9a1cc617"
+    },
+    "originalTrackedPaths": 975,
+    "originalStagedChanges": 0,
+    "protectedSourcePaths": 1183,
+    "unchangedProtectedSourcePaths": 1179,
+    "allowedDocumentationChanges": [
+      {
+        "path": "AI/00_Project/PROJECT_MEMORY.md",
+        "beforeSha256": "72af801f7a40d86f1283e29dc578a813ecd33c930d8fc3b6b52baa76ffe22cfc",
+        "afterSha256": "5853943072c72200290c57385dac56a7556515d7b8d47a11f00c3449d5081114",
+        "reason": "Step 6 static input/restore plan ready, user Stage A pending; not completed"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+        "beforeSha256": "3e62a2b7a91df871225cfff88d7a5af7be0567bf8f97c7c9400d4e49ccdf67a9",
+        "afterSha256": "23ce851e273f378a30b1747753644a20e4cacbe3c9f552e4682192e7876768f3",
+        "reason": "Step 6 static input/restore plan ready, user Stage A pending; not completed"
+      },
+      {
+        "path": "AI/04_Implementation_Roadmap/README.md",
+        "beforeSha256": "107b7097ace32121a8624c57f7f6bf31b345938b47285b4e1ef49fc33ec52d4c",
+        "afterSha256": "5568221bbce09b0c3abf8d5fd5c44249bb7f005a95242e65ce5914e6d9f8319b",
+        "reason": "Step 6 static input/restore plan ready, user Stage A pending; not completed"
+      },
+      {
+        "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+        "beforeSha256": "6e26b43eb802053aea727778e557210b2a996bc18bbd541e7b94a915f432d45c",
+        "afterSha256": "d1ce5a0079ddaddf01959ca5fec2f2c35bd2f1d987621be42cde1dd1b8e22e70",
+        "reason": "Step 6 static input/restore plan ready, user Stage A pending; not completed"
+      }
+    ],
+    "unexpectedChanges": [],
+    "missingFiles": [],
+    "oldEvidenceAndCodeTestsUnchanged": true,
+    "originalAssetsScenePrefabDeclarationsLockQaUnchanged": true,
+    "candidateRoot": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Project",
+    "candidateHead": "4d0d61924e50b7b0f8517ffd8deecc7af2d1b523",
+    "candidateIndexEntriesUnchanged": true,
+    "candidateIndexByteAtStart": "aac70c3179d4379ff133748a9d4817167146fc489779898d48a1680d683587f7",
+    "candidateIndexByteNow": "aac70c3179d4379ff133748a9d4817167146fc489779898d48a1680d683587f7",
+    "candidateTrackedChanges": [],
+    "candidateStagedChanges": [],
+    "candidateUntrackedLocalFiles": [
+      ".vsconfig"
+    ],
+    "frozenCandidateFilesUnchanged": 1091,
+    "userTmpFilesUnchanged": 82,
+    "candidatePackageAndLockStillOriginal": true,
+    "candidateNoNewNodeModulesObjOrLock": true,
+    "sourceBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "candidateBundle": {
+      "verified": true,
+      "files": 83,
+      "manifestSha256": "29efef842bcf96ba6475752e4e14fae61508b6c84b3c9a2e0595c2c59867cc5c",
+      "storageIgnoredUntracked": true,
+      "independentRestore": false,
+      "rightsGranted": false
+    },
+    "supersededBundleRechecked": true,
+    "npmArchivesUnchanged": 27,
+    "actualSaveOrSecretBodiesRead": false,
+    "preparedBackups": [
+      {
+        "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6Before\\package.json",
+        "sha256": "af7aef3ed0a399a299641c1b2a899b619d154396a6bc45d37a4658f111e7f291"
+      },
+      {
+        "path": "C:\\Users\\Admin\\AppData\\Local\\Temp\\FlowState_Phase3_20261120_01\\Outputs\\Step6Before\\package-lock.json",
+        "sha256": "7f7611dcf4723de241a6d42daf7202e782033649aa1b053893beea7f8a7eec73"
+      }
+    ]
+  },
+  "validation": {
+    "utf8JsonWhitespaceValid": true,
+    "localMarkdownLinksChecked": 110,
+    "stepCheckboxes": {
+      "complete": 5,
+      "pending": 5
+    },
+    "stepsInOrder": true,
+    "gitDiffCheckExitCode": 0,
+    "powershellStageA": {
+      "sha256": "ce2f6027e1aa29faf5fb0e52b7e83a54f2d6ddcc305de726ea0b36edbead4dfc",
+      "lines": 90,
+      "astParseErrors": 0,
+      "parsedNotInvoked": true,
+      "planInputAndBackupDigestGuards": true,
+      "beforeWriteAndBeforeRestoreLateChangeGuards": true,
+      "rejectsLinksAndExistingRestoreOutputs": true,
+      "exactCandidateManifestOnlyWrite": true,
+      "realLockGeneratedByUserNpmOnly": true,
+      "noCiBeforeAiValidation": true,
+      "processEnvironmentRestoredInFinally": true,
+      "nonzeroStopsAndPartialOutputsRetained": true,
+      "logsAndStructuredResultPlanned": true
+    },
+    "nugetXml": {
+      "parsed": true,
+      "packageSources": 2,
+      "clearNodes": 1,
+      "noCredentialsStored": true
+    },
+    "ancestorBuildCustomizationFiles": [],
+    "helpOptionsVerifiedLocally": true,
+    "dotnetHelpInitializerConfinedToSeparateTemporaryHomeAfterInitialDeniedUserSentinel": true,
+    "configValidationCorrection": "PowerShell empty <clear/> node evaluates as empty text; changed validator to XML node-count XPath without changing the valid config",
+    "unitTestSuitesRerun": false,
+    "previousNodeTestsPassed": 340,
+    "reasonNoSuiteRerun": "No implementation/policy/tests changed; inspected real archive/provider/package/feed/resource inputs, path-only proposed bytes, XML and PowerShell AST; only version/help commands, not package installation/restore."
+  },
+  "officialSources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables",
+      "purpose": "DOTNET_CLI_HOME and first-use certificate/PATH/telemetry/workload environment controls",
+      "checkedDateKST": "2026-11-20"
+    }
+  ],
+  "files": [
+    {
+      "path": "AI/90_Tasks/Prototype_10/20261120_04_Phase3ManualSteps.md",
+      "sha256": "d1ce5a0079ddaddf01959ca5fec2f2c35bd2f1d987621be42cde1dd1b8e22e70"
+    },
+    {
+      "path": "AI/00_Project/PROJECT_MEMORY.md",
+      "sha256": "5853943072c72200290c57385dac56a7556515d7b8d47a11f00c3449d5081114"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/IMPLEMENTATION_ROADMAP_010.md",
+      "sha256": "23ce851e273f378a30b1747753644a20e4cacbe3c9f552e4682192e7876768f3"
+    },
+    {
+      "path": "AI/04_Implementation_Roadmap/README.md",
+      "sha256": "5568221bbce09b0c3abf8d5fd5c44249bb7f005a95242e65ce5914e6d9f8319b"
+    }
+  ],
+  "sourceNewPathsThisStep": [
+    "AI/90_Tasks/Prototype_10/20261120_20_Phase3Step6InputAudit.json",
+    "AI/90_Tasks/Prototype_10/20261120_21_Phase3Step6RestorePlan.json",
+    "AI/90_Tasks/Prototype_10/20261120_22_Phase3Step6ProposedPackage.json",
+    "AI/90_Tasks/Prototype_10/20261120_23_Phase3Step6NuGet.config",
+    "AI/90_Tasks/Prototype_10/20261120_24_Phase3Step6PreparationVerification.json"
+  ],
+  "completion": {
+    "staticPreparationComplete": true,
+    "step6Complete": false,
+    "manualWorkRequiredNow": true,
+    "awaiting": "User Stage A manifest apply, npm package-lock-only and NuGet restore; then AI actual lock/graph validation and later Stage B ci",
+    "nextStep": 6,
+    "step7Started": false,
+    "candidateManifestAppliedByAI": false,
+    "npmLockGenerated": false,
+    "npmCiExecuted": false,
+    "nugetRestored": false,
+    "aiInstallRestoreBuildOrUnityExecuted": false,
+    "aiBuildExecuted": false,
+    "aiTestRunnerExecuted": false,
+    "aiSceneOrPrefabApplied": false,
+    "rightsGranted": false,
+    "referenceHealthPass": false,
+    "independentRestore": false,
+    "phase3Complete": false,
+    "roadmap10Complete": false
+  },
+  "postUserChecks": [
+    "Inspect Stage6StageAResult/logs and exit/error/warning evidence; missing execution is not pass",
+    "Validate actual candidate manifest/lock against original source and approved proposal via validateMigration; do not repin unexpected graph/metadata changes",
+    "Parse actual NuGet packages.lock.json/project.assets.json for net9.0 direct 4/prior graph 13, source feeds and exact EmbeddedResource declarations/files",
+    "Check isolated cache/packages/obj and original/candidate before/attempt/current source/Git boundaries; retain partial outputs and .vsconfig",
+    "Only after successful actual lock validation, prepare user npm ci with same pinned toolchain/config/cache. No Unity/Module build/remote execution."
+  ],
+  "failureAndRollback": {
+    "nonzero": "Stop; retain actual manifest/lock/partial obj/cache/logs and send command/exit/error. No blanket reset/clean/delete/version replacement.",
+    "warnings": "Report unexpected warnings even with exit 0; no automatic pass or suppression.",
+    "retry": "Do not rerun the complete block if target package.json, caches, lock/obj or logs already changed; ask AI to compare before/attempt/current.",
+    "rollback": "AI prepares exact restoration from verified Step6Before inputs only if current hashes still match named attempt; no automatic rollback"
+  },
+  "selfHashPolicy": "Pin this preparation JSON externally before reading user output; keep old baselines immutable and add actual execution evidence separately."
+}
